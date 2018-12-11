@@ -50,16 +50,22 @@ namespace BuddyApp.RemoteControl
 
             StartCoroutine(ActivateDisplay());
 
+            Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("receivingcall"));
+
+            //RemoteControlData.Instance.CallViewAnim = mCustomCapAnim;
+
             Buddy.GUI.Toaster.Display<CustomToast>().With(mCustomCapsuleToast,
             () => {
                 // On Display
                 // Launch the display animation of the custom toast
                 mCustomCapAnim.SetTrigger("Select");
-                RemoteControlData.Instance.CustomToastIsBusy = true;
+                //RemoteControlData.Instance.CustomToastIsBusy = true;
             }, () => {
                 // On Hide
                 Debug.Log("----- ON HIDE ----");
+                Buddy.GUI.Header.HideTitle();
                 //StartCoroutine(CloseReceivCall());
+                mCustomCapAnim.SetTrigger("Unselect");
             });
         }
 

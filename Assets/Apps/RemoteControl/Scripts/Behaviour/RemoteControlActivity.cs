@@ -28,12 +28,25 @@ namespace BuddyApp.RemoteControl
         {
             Debug.LogError("------------- INSIDE ON QUIT ----------------");
             Debug.Log("----- TOASTER HIDE ----");
+            //RemoteControlData.Instance.TakeCallAnim.SetTrigger("Unselect");
+            //RemoteControlData.Instance.CallViewAnim.SetTrigger("Close_WCall");
             Buddy.GUI.Toaster.Hide();
             Debug.LogError("----- INST:" + RemoteControlData.Instance);
-//            StartCoroutine(CloseApp());
+            // tmp
+            StartCoroutine(CloseApp());
         }
 
+        // tmp
         public IEnumerator CloseApp()
+        {
+            Debug.Log("----- WAITING FOR QUIT ... -----");
+            yield return new WaitUntil(() => Buddy.GUI.Toaster.IsBusy);
+            Debug.Log("----- TOASTER NOT BUSY -----");
+            yield return new WaitForSeconds(0.250F);
+            Debug.Log("----- TOASTER NOT BUSY -----");
+        }
+
+        public IEnumerator CloseApp2()
         {
             Debug.LogError("------------- INSIDE CLOSE APP CO ROUTINE ----------------");
             yield return new WaitUntil(() => {
