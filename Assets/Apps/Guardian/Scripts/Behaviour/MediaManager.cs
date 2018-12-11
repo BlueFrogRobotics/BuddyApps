@@ -76,7 +76,9 @@ namespace BuddyApp.Guardian
         // Update is called once per frame
         void Update()
         {
-            Debug.Log("state mail: "+mState);
+
+            Debug.Log("volume speaker: " + Buddy.Actuators.Speakers.Volume);
+            //Debug.Log("state mail: "+mState);
             switch(mState)
             {
                 case State.DEFAULT:
@@ -111,7 +113,7 @@ namespace BuddyApp.Guardian
         {
             if (mState == State.DEFAULT)
             {
-                Debug.Log("save mail");
+                //Debug.Log("save mail");
                 mMail = iMail;
                 mState = State.ASKED;
                 mTime = 0.0f;

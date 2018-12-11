@@ -29,7 +29,7 @@ namespace BuddyApp.ExperienceCenter
 			IsWaiting = true;
 			if (ExperienceCenterData.Instance.EnableBML) {
 				Debug.Log ("[EXCENTER] Start Waiting BML"); 
-				//StartCoroutine (Waiting ());
+				StartCoroutine (Waiting ());
 			}
 		}
 
@@ -70,21 +70,21 @@ namespace BuddyApp.ExperienceCenter
 			} while (Buddy.Vocal.IsSpeaking);
 		}
 
-		//private IEnumerator Waiting ()
-		//{
-		//	do {
-		//		// Wait for a random few seconds before starting
-		//		yield return new WaitForSeconds ((1 + (float)mRnd.NextDouble ()) * WAIT_TIMEOUT);
-		//		// Launch BML and wait until it ends
-		//		bool status = mBMLManager.LaunchRandom ("Idle");
-		//		Debug.LogFormat ("[EXCENTER] Launch a random BML : {0}", status);
-		//		if (status)
-		//			yield return new WaitUntil (() => mBMLManager.DonePlaying);
-		//		else {
-		//			Debug.LogError ("[EXCENTER] Could not launch idle BML");
-		//			yield return new WaitForSeconds (1.0f);
-		//		}
-		//	} while (IsWaiting);
-		//}
-	}
+        private IEnumerator Waiting()
+        {
+            do {
+                // Wait for a random few seconds before starting
+                yield return new WaitForSeconds((1 + (float)mRnd.NextDouble()) * WAIT_TIMEOUT);
+                // Launch BML and wait until it ends
+                bool status = Buddy.Behaviour.Interpreter.Run("idle1.xml");//mBMLManager.LaunchRandom("Idle");
+                Debug.LogFormat("[EXCENTER] Launch a random BML : {0}", status);
+                if (status)
+                    yield return new WaitUntil(() => !Buddy.Behaviour.Interpreter.IsBusy);
+                else {
+                    Debug.LogError("[EXCENTER] Could not launch idle BML");
+                    yield return new WaitForSeconds(1.0f);
+                }
+            } while (IsWaiting);
+        }
+    }
 }

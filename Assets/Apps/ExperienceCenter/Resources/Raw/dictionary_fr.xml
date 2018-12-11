@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<LanguageThesaurus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<LanguageThesaurus xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <Entries>
         <DictionaryEntry>
             <Key>welcomebienvenue</Key>
-            <BaseValue>Bienvenue dans l’experience center Somfy</BaseValue>
+            <BaseValue>Bienvenue dans l’experience centeur Somfy</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -118,6 +118,7 @@
                 <string>dégourdir les jambes</string>
                 <string>dégourdir tes jambes</string>
                 <string>dégourdir vos jambes</string>
+                <string>as-tu envie de te dégourdir les jambes</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string>Oh oui, merci </string>
@@ -176,7 +177,7 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>iotassez</Key>
-            <BaseValue>Allez Allez, [200] assez parler</BaseValue>
+            <BaseValue>Aller Aller, [200] assez parler</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -257,7 +258,7 @@
             <RandomValues>
                 <string>Je sais moccupé de toi, [200] je ne sais pas faire à manger mais je peux tédé à gérer ta maison.</string>
                 <string>Je peux danser, [200] surveiller la maison, [200] aider les personnes fragiles, [200] appeler tes zamis</string>
-                <string>Je sais ouvrir et fermer la maison. [200] Je sais ouvrir et fermer les stores. [200] Je sais allumer et éteindre la lumière.</string>
+                <string>Je sai ouvrir et fermer la maison. [200] Je sai ouvrir et fermer les stores. [200] Je sai allumer et éteindre la lumière.</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -272,12 +273,14 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>questionlangage</Key>
+            <Key>questionlaguage</Key>
             <BaseValue />
             <ClosePhoneticValues>
                 <string>langue</string>
                 <string>tu parles</string>
                 <string>parles-tu</string>
+                <string>combien de langues</string>
+                <string>quelle langue</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string>Pour l'instant, Français et Anglais. [200] Mais bientôt de nouvelles langues.</string>
@@ -340,7 +343,7 @@
             <Key>byecome</Key>
             <BaseValue />
             <ClosePhoneticValues>
-            	<string>viens par ici</string>
+                <string>viens par ici</string>
                 <string>viens ici</string>
                 <string>dans mes bras</string>
             </ClosePhoneticValues>

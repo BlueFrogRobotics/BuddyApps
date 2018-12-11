@@ -23,7 +23,6 @@ namespace BuddyApp.Guardian
             mDetectionManager = (DetectionManager)Objects[0];
         }
 
-
         private void OnClickParameters()
         {
             Animator.Play("Parameters");
@@ -97,7 +96,7 @@ namespace BuddyApp.Guardian
 
 		private void OnSuccessUnlockScreen()
 		{
-			Buddy.Actuators.Speakers.Volume = mDetectionManager.Volume;
+			Buddy.Actuators.Speakers.Volume = mDetectionManager.Volume / 100F;
 			mDetectionManager.CurrentTimer = 0F;
             mDetectionManager.Countdown = 0F;
 

@@ -70,7 +70,7 @@ namespace BuddyApp.Guardian
             if (mDetectionManager.CurrentTimer > 10f && !mDetectionManager.IsPasswordCorrect && mAlarm && GuardianData.Instance.AlarmActivated) 
             {
 				mDetectionManager.Volume = (int)(Buddy.Actuators.Speakers.Volume*100F); 
-				Buddy.Actuators.Speakers.Volume = 0.70F;
+				Buddy.Actuators.Speakers.Volume = 0.90F;
                 mDetectionManager.Countdown += Time.deltaTime;
                 mAlarm = false;
                 mDetectionManager.IsAlarmWorking = true;
@@ -86,7 +86,7 @@ namespace BuddyApp.Guardian
                 mDetectionManager.IsAlarmWorking = false;
                 if (GuardianData.Instance.AlarmActivated)
                 {
-                    Buddy.Actuators.Speakers.Volume = (float)(mDetectionManager.Volume / 100F);
+                    Buddy.Actuators.Speakers.Volume = ((float)mDetectionManager.Volume / 100F);
                     Buddy.Actuators.Speakers.Media.Repeat = false;
                     Buddy.Actuators.Speakers.Media.Stop();
                 }

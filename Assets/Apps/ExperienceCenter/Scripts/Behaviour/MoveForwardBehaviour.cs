@@ -59,7 +59,8 @@ namespace BuddyApp.ExperienceCenter
 			yield return new WaitUntil (() => (mCollisionDetector.enableToMove && /*BYOS.Instance.Interaction.SpeechToText.HasFinished */!Buddy.Vocal.IsListening) || mTimeOut);
 
 			if (!mTimeOut) {
-                Buddy.Actuators.Wheels.SetVelocities (lSpeed, 0);
+                //Buddy.Actuators.Wheels.SetVelocities(lSpeed, 0);
+                Buddy.Navigation.Run<DisplacementStrategy>().Move(5, 0.4F);
 
 				Debug.LogFormat ("[EXCENTER]  Speed = {0}, Distance to travel = {1}", Buddy.Actuators.Wheels.Speed, mDistance);
 

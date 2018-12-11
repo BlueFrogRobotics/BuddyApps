@@ -58,20 +58,17 @@ namespace BuddyApp.Guardian
         void Start()
         {
             Interpolation = false;
-            mTemperature = new float[WIDTH * HEIGHT];  
-
-            for(int i=0; i< colors.Count; i++)
+            mTemperature = new float[WIDTH * HEIGHT];
+            for (int i=0; i< colors.Count; i++)
             {
                 mZones.Add(new ColorZone(maxTemps[i], colors[i]));
             }
-
             for (int i = 0; i < WIDTH * HEIGHT; i++)
             {
                 mTemperature[i] = 0.0f;
             }
 
             mTexture = new Texture2D(WIDTH, HEIGHT);
-
         }
 
         // Update is called once per frame

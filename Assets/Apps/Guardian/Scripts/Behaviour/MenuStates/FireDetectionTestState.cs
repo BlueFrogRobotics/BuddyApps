@@ -45,6 +45,7 @@ namespace BuddyApp.Guardian
             if (mTimer > 0.5F)
             {
                 mTimer = 0.0F;
+                //TestPrintTemperature(50.0F);
                 Debug.Log("temp max: " + mFireDetection.GetHottestTemp());
             }
         }
@@ -76,6 +77,7 @@ namespace BuddyApp.Guardian
 
         private void OnNewFrame(ThermalCameraFrame iFrame)
         {
+            Debug.Log("new thermal frame");
             float[] lThermicValues = new float[8 * 8];
 
             iFrame.Mat.get(0, 0, lThermicValues);

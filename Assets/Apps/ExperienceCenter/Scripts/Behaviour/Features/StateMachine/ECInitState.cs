@@ -37,7 +37,7 @@ namespace BuddyApp.ExperienceCenter
                 ExperienceCenterData.Instance.VoiceTrigger = true;
                 ExperienceCenterData.Instance.EnableBML = true;
                 ExperienceCenterData.Instance.CollisionDebug = false;
-                ExperienceCenterData.Instance.DanceDuration = 30.0f;
+                ExperienceCenterData.Instance.DanceDuration = 15.0f;
                 FirstRun = false;
             }
 

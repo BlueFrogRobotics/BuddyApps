@@ -15,7 +15,7 @@ namespace BuddyApp.ExperienceCenter
             Debug.Log("[EXCENTER] on state ECIOTState");
             mBehaviour = GameObject.Find ("AIBehaviour").GetComponent<IOTBehaviour> ();
             //BYOS.Instance.Interaction.SphinxTrigger.StopRecognition();
-            Buddy.Vocal.EnableTrigger = false;
+            Buddy.Vocal.EnableTrigger = true;
             Buddy.Vocal.StopListening();
             mBehaviour.InitBehaviour ();
 		}

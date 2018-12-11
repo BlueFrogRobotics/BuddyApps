@@ -262,6 +262,8 @@ namespace BuddyApp.Shared
                             Buddy.GUI.Toaster.Hide();
                         });
                         lBox.SetLabel(Buddy.Resources.GetString(items[i].key));
+                        lBox.LeftButton.Hide();
+                        lBox.SetCenteredLabel(true);
                     }
                 });
             } else {
@@ -278,6 +280,8 @@ namespace BuddyApp.Shared
                             Buddy.GUI.Toaster.Hide();
                         });
                         lBox.SetLabel(Buddy.Resources.GetString(items[i].key));
+                        lBox.LeftButton.Hide();
+                        lBox.SetCenteredLabel(true);
                     }
                 });
             }

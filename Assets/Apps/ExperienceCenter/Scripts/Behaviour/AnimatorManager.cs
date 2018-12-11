@@ -107,6 +107,7 @@ namespace BuddyApp.ExperienceCenter
             //mSpeechToText.OnErrorEnum.Add(AvoidLock);
             //BYOS.Instance.Interaction.VocalManager.EnableDefaultErrorHandling = false;
             //BYOS.Instance.Interaction.VocalManager.OnError = AvoidLock;
+            Buddy.Vocal.OnTrigger.Add(OnTrigger);
             Buddy.Vocal.OnListeningStatus.Add(AvoidLock);
             Buddy.Behaviour.Face.OnTouchMouth.Add(MouthClicked);
 
@@ -446,6 +447,13 @@ namespace BuddyApp.ExperienceCenter
         }
 
         public void MouthClicked()
+        {
+            string currentTrigger = GetTriggerString();
+            if (currentTrigger == "Idle" || currentTrigger == "ByeBye" || currentTrigger == "MoveForward")
+                ExperienceCenterData.Instance.RunTrigger = true;
+        }
+
+        public void OnTrigger(int iLevel)
         {
             string currentTrigger = GetTriggerString();
             if (currentTrigger == "Idle" || currentTrigger == "ByeBye" || currentTrigger == "MoveForward")

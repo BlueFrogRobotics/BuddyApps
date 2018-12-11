@@ -15,25 +15,33 @@ namespace BuddyApp.BuddyLab
             {
                 TVerticalListBox lBox1 = iBuilder.CreateBox();
                 lBox1.SetLabel(Buddy.Resources.GetString("menusimple"));
+                lBox1.LeftButton.Hide();
+                lBox1.SetCenteredLabel(true);
                 lBox1.OnClick.Add(() => {
                     Trigger("MakeProject");
                     Buddy.GUI.Toaster.Hide();
                 });
                 TVerticalListBox lBox2 = iBuilder.CreateBox();
                 lBox2.SetLabel(Buddy.Resources.GetString("menuopen"));
+                lBox2.LeftButton.Hide();
+                lBox2.SetCenteredLabel(true);
                 lBox2.OnClick.Add(() => {
                     Trigger("StartOpen");
                     Buddy.GUI.Toaster.Hide();
                 });
-                TVerticalListBox lBox3 = iBuilder.CreateBox();
-                lBox3.SetLabel(Buddy.Resources.GetString("menututo"));
-                lBox3.OnClick.Add(() => {
-                    Trigger("StartTuto");
-                    Buddy.GUI.Toaster.Hide();
-                });
+                //TVerticalListBox lBox3 = iBuilder.CreateBox();
+                //lBox3.LeftButton.Hide();
+                //lBox3.SetLabel(Buddy.Resources.GetString("menututo"));
+                //lBox3.OnClick.Add(() => {
+                //    Trigger("StartTuto");
+                //    Buddy.GUI.Toaster.Hide();
+                //});
             }
                 
             );
+
+            Buddy.Vocal.OnEndListening.Add(OnListening);
+            Buddy.Vocal.Listen(SpeechRecognitionMode.GRAMMAR_ONLY);
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -45,6 +53,28 @@ namespace BuddyApp.BuddyLab
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            Buddy.Vocal.OnEndListening.Remove(OnListening);
+        }
+
+        private void OnListening(SpeechInput iSpeech)
+        {
+            if (!string.IsNullOrEmpty(iSpeech.Rule)){
+                if (iSpeech.Rule.Contains("menusimple")) {
+                    Trigger("MakeProject");
+                    Buddy.GUI.Toaster.Hide();
+                } else if (iSpeech.Rule.Contains("menuopen")) {
+                    Trigger("StartOpen");
+                    Buddy.GUI.Toaster.Hide();
+                } else {
+                    Buddy.Vocal.Listen(SpeechRecognitionMode.GRAMMAR_ONLY);
+                }//else if (iSpeech.Rule.Contains("menututo")) {
+                 //    Trigger("StartTuto");
+                 //    Buddy.GUI.Toaster.Hide();
+                 //} 
+            } 
+            else {
+                Buddy.Vocal.Listen(SpeechRecognitionMode.GRAMMAR_ONLY);
+            }
 
         }
     }

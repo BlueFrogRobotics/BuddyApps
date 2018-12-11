@@ -46,7 +46,7 @@ namespace BuddyApp.ExperienceCenter
             //mSpeechToText.OnErrorEnum.Clear();
             //mSpeechToText.OnErrorEnum.Add(ErrorCallback);
             //mVocalManager.EnableTrigger = ExperienceCenterData.Instance.VoiceTrigger;
-            Buddy.Vocal.EnableTrigger = false;
+            Buddy.Vocal.EnableTrigger = true;
             //mVocalManager.EnableDefaultErrorHandling = false;
 
             // VOCON
@@ -79,7 +79,7 @@ namespace BuddyApp.ExperienceCenter
                 "questionshy",
                 "questionability",
                 "questiondance",
-                "questionlangage",
+                "questionlaguage",
                 "questionvibe",
                 "questionpresence",
                 "questionpresentation"
@@ -112,6 +112,8 @@ namespace BuddyApp.ExperienceCenter
                 mAttitudeBehaviour.IsWaiting = false;
                 //BYOS.Instance.Interaction.BMLManager.StopAllBehaviors();
                 //BYOS.Instance.Interaction.BMLManager.LaunchByName("Reset01");
+                Buddy.Behaviour.Interpreter.Stop();
+                Buddy.Behaviour.Interpreter.Run("reset.xml");
                 mIdleBehaviour.headPoseInit = true;
             }
         }
@@ -197,7 +199,7 @@ namespace BuddyApp.ExperienceCenter
 
         private IEnumerator EnableSpeechToText()
         {
-            Buddy.Vocal.EnableTrigger = false;
+            Buddy.Vocal.EnableTrigger = true;
             //mSphinxTrigger.StopRecognition();
             mStartSTTCoroutine = false;
             mRestartSTT = true;
@@ -243,6 +245,7 @@ namespace BuddyApp.ExperienceCenter
             yield return new WaitForSeconds(1.0f);
             Debug.Log("dans fin enable");
             mStartSTTCoroutine = true;
+            //Buddy.Vocal.EnableTrigger = true;
             //mSphinxTrigger.LaunchRecognition();
             //mVocalManager.EnableTrigger = true;
         }

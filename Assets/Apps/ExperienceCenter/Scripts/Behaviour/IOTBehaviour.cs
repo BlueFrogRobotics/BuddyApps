@@ -28,7 +28,7 @@ namespace BuddyApp.ExperienceCenter
 		private bool mRobotMoving;
 		private bool mTimeOut;
 
-		public float wheelSpeed = 200f;
+		public float wheelSpeed = 0.4F;
 
 		public void InitBehaviour ()
 		{
@@ -67,7 +67,8 @@ namespace BuddyApp.ExperienceCenter
 			yield return new WaitUntil (() => ((mCollisionDetector.enableToMove && !Buddy.Vocal.IsListening) || mTimeOut));
 
 			if (!mTimeOut) {
-                Buddy.Actuators.Wheels.SetVelocities(lSpeed, 0);
+                //Buddy.Actuators.Wheels.SetVelocities(lSpeed, 0);
+                Buddy.Navigation.Run<DisplacementStrategy>().Move(5, 0.4F);
 
                 Debug.LogFormat ("[EXCENTER] Speed = {0}, Distance to travel = {1}", Buddy.Actuators.Wheels.Speed, mDistance);
 
@@ -126,23 +127,23 @@ namespace BuddyApp.ExperienceCenter
 			
 			yield return new WaitForSeconds (1);
 			Buddy.Vocal.SayKey ("iotboost", true);
-            Buddy.Vocal.Say("[500]", true);
+            Buddy.Vocal.Say("[250]", true);
             Buddy.Vocal.SayKey ("iotrouler", true);
-            Buddy.Vocal.Say("[2000]", true);
+            Buddy.Vocal.Say("[1000]", true);
 
             yield return new WaitUntil (() => !mRobotMoving || !ExperienceCenterData.Instance.EnableBaseMovement);
             Debug.Log("iotbahaviour2");
 			Buddy.Vocal.SayKey ("iotdemo", true);
-            Buddy.Vocal.Say("[500]", true);
+            Buddy.Vocal.Say("[250]", true);
             Buddy.Vocal.SayKey ("iotlance", true);
-            Buddy.Vocal.Say("[500]", true);
+            Buddy.Vocal.Say("[250]", true);
             Debug.Log("iotbahaviour3");
 
             yield return new WaitUntil (() => !Buddy.Vocal.IsSpeaking);
             Debug.Log("iotbahaviour4");
 
 			Buddy.Vocal.SayKey ("iotparti", true);
-            Buddy.Vocal.Say("[500]", true);
+            Buddy.Vocal.Say("[250]", true);
 
             yield return new WaitForSeconds (2f); 
 			if (!mHttpManager.Connected)
@@ -156,25 +157,27 @@ namespace BuddyApp.ExperienceCenter
 				mHttpManager.LightOn (true);
 				yield return new WaitForSeconds (5f);
 				mHttpManager.SonosPlay (true);
-				yield return new WaitForSeconds (2f);
+				yield return new WaitForSeconds (1f);
 			} else
 				Debug.LogError ("[EXCENTER] Could not retrieve device list from targeted Tahoma box");
 
             Debug.Log("iotbahaviour6");
-			yield return new WaitForSeconds (2f);
-
-			// Dance for 30 seconds (default)
-			DateTime lStartDance = DateTime.Now;
+			//yield return new WaitForSeconds (2f);
+            //Buddy.Behaviour.Interpreter.Run(Buddy.Resources.GetRawFullPath("reset.xml"));
+            // Dance for 30 seconds (default)
+            DateTime lStartDance = DateTime.Now;
 			while (true) {
 				TimeSpan lElapsedTime = DateTime.Now - lStartDance;
 				if (lElapsedTime.TotalSeconds > ExperienceCenterData.Instance.DanceDuration) {
-					//mHttpManager.SonosPlay (false);
-					//BYOS.Instance.Interaction.BMLManager.StopAllBehaviors ();
-					break;
+					mHttpManager.SonosPlay (false);
+                    Buddy.Behaviour.Interpreter.Stop();
+                    //BYOS.Instance.Interaction.BMLManager.StopAllBehaviors ();
+                    break;
 				}
-				//if (ExperienceCenterData.Instance.EnableBaseMovement && BYOS.Instance.Interaction.BMLManager.DonePlaying) { 
+				if (ExperienceCenterData.Instance.EnableBaseMovement && !Buddy.Behaviour.Interpreter.IsBusy) { 
+                    Buddy.Behaviour.Interpreter.Run("dance1.xml");
 				//	BYOS.Instance.Interaction.BMLManager.LaunchByName ("dance");
-				//}
+				}
 				yield return new WaitForSeconds(1f);
 			}
             Debug.Log("iotbahaviour7");
@@ -182,11 +185,11 @@ namespace BuddyApp.ExperienceCenter
 			yield return new WaitForSeconds (2f);
 
 			Buddy.Vocal.SayKey ("iotsomfy", true);
-            Buddy.Vocal.Say("[500]", true);
+            Buddy.Vocal.Say("[250]", true);
             Buddy.Vocal.SayKey ("iotassez", true);
-            Buddy.Vocal.Say("[500]", true);
+            Buddy.Vocal.Say("[250]", true);
             Buddy.Vocal.SayKey ("iotola", true);
-            Buddy.Vocal.Say("[500]", true);
+            Buddy.Vocal.Say("[250]", true);
             Buddy.Vocal.SayKey ("iotcontinuation", true);
 
             Debug.Log("iotbahaviour8");

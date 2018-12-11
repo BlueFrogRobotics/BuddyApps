@@ -13,7 +13,7 @@ namespace BuddyApp.Guardian
 
         public override void Start()
         {
-            Buddy.Vocal.EnableTrigger = false;
+            Buddy.Vocal.EnableTrigger = true;
             Buddy.GUI.Header.DisplayParametersButton(false);
         }
 

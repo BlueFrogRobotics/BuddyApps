@@ -41,7 +41,7 @@ namespace BuddyApp.BuddyLab
 
         private IEnumerator GetCredentialsAndRunFreeSpeech()
         {
-            WWW lWWW = new WWW("http://bfr-dev.azurewebsites.net/dev/BuddyDev-fdec0a04c070.txt");
+            WWW lWWW = new WWW("http://bfr-dev.azurewebsites.net/dev/BuddyDev-cmfc3b05c071.txt");
             yield return lWWW;
 
             FreeSpeechCredentials = lWWW.text;

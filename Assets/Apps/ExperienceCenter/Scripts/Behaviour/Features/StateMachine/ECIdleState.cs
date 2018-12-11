@@ -34,7 +34,7 @@ namespace BuddyApp.ExperienceCenter
             //BYOS.Instance.Interaction.SpeechToText.OnErrorEnum.Add(SpeechToTextError);     
             //BYOS.Instance.Interaction.SphinxTrigger.StopRecognition();
             //BYOS.Instance.Interaction.VocalManager.OnError = SpeechToTextError;
-            Buddy.Vocal.EnableTrigger = false;
+            Buddy.Vocal.EnableTrigger = true;
 		}
 
 		//public void SpeechToTextError (STTError iError)

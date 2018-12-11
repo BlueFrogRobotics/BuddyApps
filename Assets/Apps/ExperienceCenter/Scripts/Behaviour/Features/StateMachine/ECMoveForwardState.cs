@@ -20,7 +20,7 @@ namespace BuddyApp.ExperienceCenter
             mAnimatorManager = GameObject.Find("AIBehaviour").GetComponent<AnimatorManager>();
             mBehaviour = GameObject.Find("AIBehaviour").GetComponent<MoveForwardBehaviour>();
             //BYOS.Instance.Interaction.SphinxTrigger.StopRecognition();
-            Buddy.Vocal.EnableTrigger = false;
+            Buddy.Vocal.EnableTrigger = true;
             Buddy.Vocal.StopListening();
             mBehaviour.InitBehaviour();
             mAddReco = false;
@@ -35,7 +35,7 @@ namespace BuddyApp.ExperienceCenter
                 //if (ExperienceCenterData.Instance.VoiceTrigger)
                 //   BYOS.Instance.Interaction.SphinxTrigger.LaunchRecognition();
                 //Buddy.Vocal.EnableTrigger = ExperienceCenterData.Instance.VoiceTrigger;
-                Buddy.Vocal.EnableTrigger = false;
+                Buddy.Vocal.EnableTrigger = true;
                 //BYOS.Instance.Interaction.SpeechToText.OnBestRecognition.Clear();
                 //BYOS.Instance.Interaction.SpeechToText.OnBestRecognition.Add(SpeechToTextCallback);
                 //BYOS.Instance.Interaction.SpeechToText.OnErrorEnum.Clear();
