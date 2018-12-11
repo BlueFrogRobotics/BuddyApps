@@ -55,6 +55,11 @@ namespace BuddyApp.RemoteControl
         private bool mIncomingCallHandled;
         private bool mCallStoped;
 
+        // CallView in custom toast
+        [SerializeField]
+        private GameObject mCallView;
+        private Animator mCallViewAnim;
+
         public void backToLobby()
         {
             if (mWebRtc.ConnectionState == Webrtc.CONNECTION.CONNECTING)
@@ -73,13 +78,22 @@ namespace BuddyApp.RemoteControl
 
             mIncomingCallHandled = false;
             mCallStoped = false;
+
+            // CallView in custom toast
+            if (mCallView) {
+                mCallViewAnim = mCallView.GetComponent<Animator>();
+                //RemoteControlData.Instance.CallViewAnim = mCallViewAnim;
+            }
+            if (!mCallView || !mCallAnimator)
+                Debug.LogError("CallView gameobject or animator is null.");
         }
 
         // Display the UI that manage the call & active the WebRTC object.
         public void LaunchCall()
         {
             // Display the custom prefab to manage the call
-            mCallAnimator.SetTrigger("Open_WCall");
+            //mCallAnimator.SetTrigger("Open_WCall");
+
             mWebRtc.gameObject.SetActive(true);
             // Launch the hide animation of the prefab toast inside the custom toast
             // Redondant with code inside OnHide callback of customToast
@@ -87,6 +101,18 @@ namespace BuddyApp.RemoteControl
             RemoteControlData.Instance.CustomToastIsBusy = false;
             // Hide the custom toast
             Buddy.GUI.Toaster.Hide();
+
+            // CallView in custom toast
+            Buddy.GUI.Toaster.Display<CustomToast>().With(mCallView,
+            () => {
+                // On Display
+                // Launch the display animation of the custom toast
+                mCallViewAnim.SetTrigger("Open_WCall");
+            }, () => {
+                // On Hide
+                Debug.Log("----- ON HIDE RHB----");
+                //mCallViewAnim.SetTrigger("Close_WCall");
+            });
         }
 
         // Button stop the call, during the call.
@@ -96,7 +122,9 @@ namespace BuddyApp.RemoteControl
                 return;
 
             mCallStoped = true;
-            StartCoroutine(CloseApp());
+
+            //StartCoroutine(CloseApp());
+            AAppActivity.QuitApp();
         }
 
         // Hide call object, (Feedback window, buddy face window, ...)
@@ -142,7 +170,9 @@ namespace BuddyApp.RemoteControl
             Debug.Log("RejectCallWithButton");
             Buddy.Actuators.Speakers.Effects.Play(SoundSample.BEEP_1);
             Buddy.Behaviour.SetMood(Mood.NEUTRAL);
-            StartCoroutine(CloseAppOnReceivCall());
+            //Buddy.GUI.Toaster.Hide();
+            //StartCoroutine(CloseAppOnReceivCall());
+            AAppActivity.QuitApp();
         }
 
         public void LaunchCallWithoutWindow()
@@ -172,7 +202,7 @@ namespace BuddyApp.RemoteControl
                     if (mUserCalling)
                         mUserCalling.text = lReceiver;
                 }
-                Buddy.Vocal.Say(lTextToSay + "[50]" + Buddy.Resources.GetString("incomingcall"));
+                Buddy.Vocal.Say(Buddy.Resources.GetString("incomingcall"));
             }
             yield return null;
         }

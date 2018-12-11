@@ -1,4 +1,5 @@
 using BlueQuark;
+using UnityEngine;
 
 namespace BuddyApp.RemoteControl
 {
@@ -13,6 +14,11 @@ namespace BuddyApp.RemoteControl
         public bool IsWizardOfOz { get; set; }
 
         public bool CustomToastIsBusy { get; set; }
+
+        //public Animator TakeCallAnim { get; set; }
+
+        //public Animator CallViewAnim { get; set; }
+
         /*
          * Data singleton access
          */
