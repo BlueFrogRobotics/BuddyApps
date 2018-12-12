@@ -13,18 +13,27 @@ namespace BuddyApp.Reminder
      */
     public sealed class GetMessageState : AStateMachineBehaviour
     {
+        private enum MessageStatus
+        {
+            E_FIRST_LISTENING,
+            E_SECOND_LISTENING,
+            E_UI_DISPLAY
+        }
+
+        private MessageStatus mMsgStatus = MessageStatus.E_FIRST_LISTENING;
+
         private const int TRY_NUMBER = 2;
-        private const float QUIT_TIMEOUT = 20;
+        private const float QUIT_TIMEOUT = 20000;
         private const float FREESPEECH_TIMER = 15F;
         private const int RECOGNITION_SENSIBILITY = 5000;
         private const string CREDENTIAL_DEFAULT_URL = "http://bfr-dev.azurewebsites.net/dev/BuddyDev-cmfc3b05c071.txt";
 
-        private string mRecordedMessage;
-        private int mListen;
         private float mTimer;
-        private bool mQuit;
-        private SpeechInputParameters mRecognitionParam;
         private string mFreeSpeechCredentials;
+
+        private bool mBIgnoreOnEndListening;
+        private bool mBTouched;
+        TTextBox mRecordedMsg;
 
         // TMP - Debug
         public void DebugColor(string msg, string color)
@@ -67,103 +76,59 @@ namespace BuddyApp.Reminder
             mFreeSpeechCredentials = lWWW.text;
 
             // Setting for freespeech
-            SpeechInputParameters lFreeSpeechParam = new SpeechInputParameters();
-            lFreeSpeechParam.RecognitionMode = SpeechRecognitionMode.FREESPEECH_ONLY;
-            lFreeSpeechParam.Credentials = mFreeSpeechCredentials;
-
+            SpeechInputParameters lFreeSpeechParam = new SpeechInputParameters
+            {
+                RecognitionMode = SpeechRecognitionMode.FREESPEECH_ONLY,
+                Credentials = mFreeSpeechCredentials
+            };
+            
+            Buddy.Vocal.OnEndListening.Clear();
             Buddy.Vocal.SayAndListen(new SpeechOutput(Buddy.Resources.GetString("record")),
                 null,
                 FreeSpeechResult,
                 null,
                 lFreeSpeechParam);
+
             StartCoroutine(FreeSpeechLifeTime(FREESPEECH_TIMER));
+
             DebugColor("FREESPEECH", "blue");
         }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            mListen = 0;
+            ReminderDateManager.GetInstance().AppState = ReminderDateManager.E_REMINDER_STATE.E_MESSAGE_CHOICE;
+            
             mTimer = -1;
-            mQuit = false;
-            mRecordedMessage = null;
+            mBIgnoreOnEndListening = false;
+            mRecordedMsg = null;
 
             // Setting of Vocon param
-            mRecognitionParam = new SpeechInputParameters();
-            mRecognitionParam.RecognitionThreshold = RECOGNITION_SENSIBILITY;
-            mRecognitionParam.Grammars = new string[] { "reminder", "common" };
+            Buddy.Vocal.DefaultInputParameters.Grammars = new string[] { "reminder", "common" };
+            Buddy.Vocal.OnEndListening.Clear();
+
+            // When touching the screen
+            Buddy.GUI.Screen.OnTouch.Clear();
+            Buddy.GUI.Screen.OnTouch.Add((iInput) => { mBTouched = true; Buddy.Vocal.StopListening(); });
 
             // Setting of Header
             Buddy.GUI.Header.DisplayParametersButton(false);
             Font lHeaderFont = Buddy.Resources.Get<Font>("os_awesome");
             lHeaderFont.material.color = new Color(0, 0, 0);
             Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont);
-
-            // Call freespeech
-            StartCoroutine(GetCredentialsAndRunFreeSpeech());
-        }
-
-        private void FreeSpeechResult(SpeechInput iSpeechInput)
-        {
-            // Stop Coroutine if the vocal has stop because of end of users's speech
-            StopAllCoroutines();
-            if (mQuit)
-                return;
-
-            DebugColor("FreeSpeech Msg SPEECH.ToString: " + iSpeechInput.ToString(), "blue");
-            DebugColor("FreeSpeech Msg SPEECH.Utterance: " + iSpeechInput.Utterance, "blue");
-            mListen++;
-
-            if (!string.IsNullOrEmpty(iSpeechInput.Utterance))
+            
+            if (MessageStatus.E_UI_DISPLAY == mMsgStatus) // If was already displayed
             {
-                mRecordedMessage = iSpeechInput.Utterance;
+                Buddy.Vocal.OnEndListening.Clear();
+                Buddy.Vocal.OnEndListening.Add(VoconResult);
+                Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("hereisthemsg") + "[200]" + Buddy.Resources.GetString("validateormodify"));
+
                 DisplayMessageEntry();
-                return;
             }
-
-            if (mListen < TRY_NUMBER)
+            else // First call freespeech
             {
-                // Call freespeech
-                DebugColor("FREESPEECH", "blue");
-                Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("srynotunderstand"),
-                    null,
-                    FreeSpeechResult,
-                    null,
-                    SpeechRecognitionMode.FREESPEECH_ONLY);
-                StartCoroutine(FreeSpeechLifeTime(FREESPEECH_TIMER));
+                StartCoroutine(GetCredentialsAndRunFreeSpeech());
             }
-            else
-                DisplayMessageEntry();
-        }
-
-        private void VoconResult(SpeechInput iSpeechInput)
-        {
-            if (iSpeechInput.IsInterrupted || mQuit)
-                return;
-
-            DebugColor("Vocon Validate/Modif SPEECH.ToString: " + iSpeechInput.ToString(), "blue");
-            DebugColor("Vocon Validate/Modif SPEECH.Utterance: " + iSpeechInput.Utterance, "blue");
-            DebugColor("Vocon Validate/Modif SPEECH RULE: " + iSpeechInput.Rule + " --- " + Utils.GetRealStartRule(iSpeechInput.Rule), "blue");
-
-            if (Utils.GetRealStartRule(iSpeechInput.Rule) == "quit")
-                QuitReminder();
-
-            // Reset timer if the user say something
-            if (!string.IsNullOrEmpty(iSpeechInput.Utterance))
-                mTimer = 0;
-
-            if (Utils.GetRealStartRule(iSpeechInput.Rule) == "yes")
-            {
-                // If the message is empty, warn the user
-                if (string.IsNullOrEmpty(mRecordedMessage))
-                    Buddy.Vocal.SayAndListen(new SpeechOutput(Buddy.Resources.GetString("sryemptymsg")), null, VoconResult, null, mRecognitionParam);
-                else
-                    ValidateMessage();
-            }
-            else if (Utils.GetRealStartRule(iSpeechInput.Rule) == "modify")
-                ModifyMessage();
-            else if (mTimer < QUIT_TIMEOUT)
-                Buddy.Vocal.SayAndListen(new SpeechOutput(Buddy.Resources.GetString("srynotunderstand")), null, VoconResult, null, mRecognitionParam);
         }
 
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -184,72 +149,192 @@ namespace BuddyApp.Reminder
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
-            StopAllCoroutines();
-            Buddy.Vocal.Stop();
+            Buddy.Vocal.OnEndListening.Clear();
             Buddy.Vocal.StopAndClear();
+            StopAllCoroutines();
+
+            mRecordedMsg = null;
+            mMsgStatus = MessageStatus.E_UI_DISPLAY;
+        }
+
+        private void FreeSpeechResult(SpeechInput iSpeechInput)
+        {
+            // Stop Coroutine if the vocal has stop because of end of users's speech
+            StopAllCoroutines();
+
+            DebugColor("FreeSpeech Msg SPEECH.ToString: " + iSpeechInput.ToString(), "blue");
+            DebugColor("FreeSpeech Msg SPEECH.Utterance: " + iSpeechInput.Utterance, "blue");
+
+            if (mBIgnoreOnEndListening)
+            {
+                Buddy.Vocal.OnEndListening.Clear();
+                Buddy.Vocal.StopAndClear();
+                return;
+            }
+
+            if (mBTouched)
+            {
+                mBTouched = false;
+                Buddy.Vocal.OnEndListening.Clear();
+                Buddy.Vocal.OnEndListening.Add(VoconResult);
+
+                DisplayMessageEntry();
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(iSpeechInput.Utterance))
+            {
+                ReminderDateManager.GetInstance().ReminderMsg = iSpeechInput.Utterance;
+
+                Buddy.Vocal.OnEndListening.Clear();
+                Buddy.Vocal.OnEndListening.Add(VoconResult);
+
+                Buddy.Vocal.StopAndClear();
+                Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("hereisthemsg") + "[200]" + Buddy.Resources.GetString("validateormodify"));
+
+                DisplayMessageEntry();
+                return;
+            }
+
+            if (MessageStatus.E_FIRST_LISTENING == mMsgStatus)
+            {
+                mMsgStatus = MessageStatus.E_SECOND_LISTENING;
+
+                // Call freespeech
+                DebugColor("FREESPEECH", "blue");
+                Buddy.Vocal.OnEndListening.Clear();
+                Buddy.Vocal.SayAndListen(Buddy.Resources.GetString(ReminderDateManager.STR_SORRY),
+                    null,
+                    FreeSpeechResult,
+                    null,
+                    SpeechRecognitionMode.FREESPEECH_ONLY);
+                StartCoroutine(FreeSpeechLifeTime(FREESPEECH_TIMER));
+            }
+            else if (MessageStatus.E_SECOND_LISTENING == mMsgStatus)
+            {
+                mMsgStatus = MessageStatus.E_UI_DISPLAY;
+
+                // Launch Vocon - Validation/or/Modify
+                Buddy.Vocal.OnEndListening.Clear();
+                Buddy.Vocal.OnEndListening.Add(VoconResult);
+
+                Buddy.Vocal.StopAndClear();
+                Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("hereisthemsg") + "[200]" + Buddy.Resources.GetString("validateormodify"));
+
+                DisplayMessageEntry();
+            }
+        }
+
+        private void VoconResult(SpeechInput iSpeechInput)
+        {
+            if (iSpeechInput.IsInterrupted || -1 == iSpeechInput.Confidence)
+            {
+                Debug.LogError("Listening was interrupted!!");
+                return;
+            }
+
+            DebugColor("Vocon Validate/Modif SPEECH.ToString: " + iSpeechInput.ToString(), "blue");
+            DebugColor("Vocon Validate/Modif SPEECH.Utterance: " + iSpeechInput.Utterance, "blue");
+            DebugColor("Vocon Validate/Modif SPEECH RULE: " + iSpeechInput.Rule + " --- " + Utils.GetRealStartRule(iSpeechInput.Rule), "blue");
+
+            if (Utils.GetRealStartRule(iSpeechInput.Rule) == ReminderDateManager.STR_QUIT)
+                QuitReminder();
+
+            // Reset timer if the user say something
+            if (!string.IsNullOrEmpty(iSpeechInput.Utterance))
+                mTimer = 0;
+
+            if (Utils.GetRealStartRule(iSpeechInput.Rule) == "yes")
+            {
+                // If the message is empty, warn the user
+                if (string.IsNullOrEmpty(ReminderDateManager.GetInstance().ReminderMsg))
+                {
+                    Buddy.Vocal.OnEndListening.Clear();
+                    Buddy.Vocal.OnEndListening.Add(VoconResult);
+                    Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("sryemptymsg"));
+                }
+                else
+                {
+                    ValidateMessage();
+                }
+            }
+            else if (Utils.GetRealStartRule(iSpeechInput.Rule) == "modify")
+            {
+                ModifyMessage();
+            }
+            else if (mTimer < QUIT_TIMEOUT)
+            {
+                Buddy.Vocal.OnEndListening.Clear();
+                Buddy.Vocal.OnEndListening.Add(VoconResult);
+                Buddy.Vocal.SayAndListen(ReminderDateManager.STR_SORRY);
+                Debug.LogError("TRUCMUCHe");
+            }
         }
 
         private void QuitReminder()
         {
-            DebugColor("QUITTING GET MSG", "red");
-            mQuit = true;
-            Buddy.GUI.Header.HideTitle();
-            Buddy.GUI.Toaster.Hide();
-            Buddy.GUI.Footer.Hide();
-            StopAllCoroutines();
-            Buddy.Vocal.StopAndClear();
-            Buddy.Vocal.SayKey("bye", (iOutput) => { QuitApp(); });
+            mBIgnoreOnEndListening = true;
+            Trigger("ExitReminder");
         }
 
         private void DisplayMessageEntry()
         {
+            mMsgStatus = MessageStatus.E_UI_DISPLAY;
+
             DebugColor("DISPLAY  MESSAGE", "blue");
-            // Launch Vocon - Validation/or/Modify
-            Buddy.Vocal.SayAndListen(new SpeechOutput(Buddy.Resources.GetString("hereisthemsg") + "[200]" + Buddy.Resources.GetString("validateormodify")),
-                null,
-                VoconResult,
-                null,
-                mRecognitionParam);
-
-            //  Display of the title
-            Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("message"));
-
-            // Create the top left button
-            FButton lViewModeButton = Buddy.GUI.Footer.CreateOnLeft<FButton>();
-            lViewModeButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_arrow_left"));
-            lViewModeButton.OnClick.Add(() =>
+            
+            if (null == mRecordedMsg)
             {
-                DebugColor("MSG BACK TO HOUR", "blue");
-                ReminderData.Instance.AppState--;
-                Trigger("HourChoiceState");
-            });
+                //  Display of the title
+                Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("message"));
 
+                // Create the top left button
+                FButton lViewModeButton = Buddy.GUI.Footer.CreateOnLeft<FButton>();
+                lViewModeButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_arrow_left"));
+                lViewModeButton.OnClick.Add(() =>
+                {
+                    DebugColor("MSG BACK TO HOUR", "blue");
+                    mBIgnoreOnEndListening = true;
+                    Trigger("HourChoiceState");
+                });
 
-            // Create Step view to the button
-            FDotNavigation lSteps = Buddy.GUI.Footer.CreateOnMiddle<FDotNavigation>();
-            lSteps.Dots = ReminderData.Instance.AppStepNumbers;
-            lSteps.Select(ReminderData.Instance.AppState);
-            lSteps.SetLabel(Buddy.Resources.GetString("steps"));
+                // Create Step view to the button
+                FDotNavigation lSteps = Buddy.GUI.Footer.CreateOnMiddle<FDotNavigation>();
+                lSteps.Dots = Enum.GetValues(typeof(ReminderDateManager.E_REMINDER_STATE)).Length;
+                lSteps.Select((int)ReminderDateManager.GetInstance().AppState);
+                lSteps.SetLabel(Buddy.Resources.GetString("steps"));
 
-            // TMP - waiting for caroussel
-            Buddy.GUI.Toaster.Display<ParameterToast>().With((iOnBuild) =>
+                // TMP - waiting for caroussel
+                Buddy.GUI.Toaster.Display<ParameterToast>().With((iOnBuild) =>
+                {
+                    mRecordedMsg = iOnBuild.CreateWidget<TTextBox>();
+                    if (string.IsNullOrEmpty(ReminderDateManager.GetInstance().ReminderMsg))
+                        mRecordedMsg.SetPlaceHolder(Buddy.Resources.GetString("enteryourmsg"));
+                    else
+                        mRecordedMsg.SetText(ReminderDateManager.GetInstance().ReminderMsg);
+                    mRecordedMsg.OnChangeValue.Add((iText) => { ReminderDateManager.GetInstance().ReminderMsg = iText; mTimer = 0; Buddy.Vocal.StopListening(); });
+                },
+                () => ModifyMessage(),
+                Buddy.Resources.GetString("modify"),
+                () =>
+                {
+                    if (!string.IsNullOrEmpty(ReminderDateManager.GetInstance().ReminderMsg))
+                        ValidateMessage();
+                },
+                Buddy.Resources.GetString("validate"));
+                StartCoroutine(QuittingTimeout());
+            }
+            else
             {
-                TTextBox lRecordMsg = iOnBuild.CreateWidget<TTextBox>();
-                if (string.IsNullOrEmpty(mRecordedMessage))
-                    lRecordMsg.SetPlaceHolder(Buddy.Resources.GetString("enteryourmsg"));
+                if (string.IsNullOrEmpty(ReminderDateManager.GetInstance().ReminderMsg))
+                {
+                    mRecordedMsg.SetPlaceHolder(Buddy.Resources.GetString("enteryourmsg"));
+                }
                 else
-                    lRecordMsg.SetText(mRecordedMessage);
-                lRecordMsg.OnChangeValue.Add((iText) => { mRecordedMessage = iText; mTimer = 0; Buddy.Vocal.StopListening(); });
-            },
-            () => ModifyMessage(),
-            Buddy.Resources.GetString("modify"),
-            () =>
-            {
-                if (!string.IsNullOrEmpty(mRecordedMessage))
-                    ValidateMessage();
-            },
-            Buddy.Resources.GetString("validate"));
-            StartCoroutine(QuittingTimeout());
+                {
+                    mRecordedMsg.SetText(ReminderDateManager.GetInstance().ReminderMsg);
+                }
+            }
         }
 
         private void ModifyMessage()
@@ -257,16 +342,18 @@ namespace BuddyApp.Reminder
             StopAllCoroutines();
             Buddy.Vocal.StopAndClear();
 
-            mRecordedMessage = null;
-            mListen = 0;
+            ReminderDateManager.GetInstance().ReminderMsg = null;
             mTimer = -1;
 
+            /*
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
+            */
 
             // Call freespeech
             DebugColor("FREESPEECH", "blue");
+            Buddy.Vocal.OnEndListening.Clear();
             Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("record"),
                 null,
                 FreeSpeechResult,
@@ -280,42 +367,17 @@ namespace BuddyApp.Reminder
             StopAllCoroutines();
             Buddy.Vocal.StopAndClear();
 
-            DebugColor("REMINDER SAVED:" + mRecordedMessage, "green");
-            DebugColor("REMINDER SAVED:" + ReminderData.Instance.ReminderDate.ToShortDateString() + " at " + ReminderData.Instance.ReminderDate.ToLongTimeString(), "green");
+            DebugColor("REMINDER SAVED:" + ReminderDateManager.GetInstance().ReminderMsg, "green");
+            DebugColor("REMINDER SAVED:" + ReminderDateManager.GetInstance().ReminderDate.ToShortDateString() + " at " + ReminderDateManager.GetInstance().ReminderDate.ToLongTimeString(), "green");
 
             // Save the reminder
-            PlannedEventReminder mReminderEvent = new PlannedEventReminder(mRecordedMessage, ReminderData.Instance.ReminderDate, true);
+            PlannedEventReminder mReminderEvent = new PlannedEventReminder(ReminderDateManager.GetInstance().ReminderMsg, ReminderDateManager.GetInstance().ReminderDate, true);
             Buddy.Platform.Calendar.Add(mReminderEvent);
 
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
             Buddy.Vocal.SayKey("reminderok", (iOutput) => { QuitApp(); });
-        }
-
-        //  TMP - waiting for bug fix in utils
-        private bool ContainsOneOf(string iSpeech, string iKey)
-        {
-            string[] iListSpeech = Buddy.Resources.GetPhoneticStrings(iKey);
-            iSpeech = iSpeech.ToLower();
-            for (int i = 0; i < iListSpeech.Length; ++i)
-            {
-                string[] words = iListSpeech[i].Split(' ');
-                if (words.Length < 2)
-                {
-                    words = iSpeech.Split(' ');
-                    foreach (string word in words)
-                    {
-                        if (word == iListSpeech[i].ToLower())
-                        {
-                            return true;
-                        }
-                    }
-                }
-                else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower()))
-                    return true;
-            }
-            return false;
         }
     }
 }
