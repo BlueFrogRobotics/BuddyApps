@@ -17,7 +17,7 @@ namespace BuddyApp.Tutorial
 
     public sealed class IntroductionState : AStateMachineBehaviour
     {
-        private const int NUMBER_OF_RANDOM = 5;
+        private const int NUMBER_OF_RANDOM = 10;
         private Step mStep;
         private bool mIsFirstSentenceDone;
         private bool mIsSecondSentenceDone;
@@ -27,17 +27,19 @@ namespace BuddyApp.Tutorial
         private int mNumberOfRandom;
         private BehaviourAlgorithm mBehaviourAlgorithm;
 
-        private UnityEngine.UI.Button kikoo;
+        private bool mSequenceLaunched;
+
+        private bool mStartRandom;
 
 		public override void Start()
 		{
 			mStep = Step.FIRST_STEP;
 		}
-
-		//private int mRandom;
+        
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            mStartRandom = false;
             mNumberOfRandom = 0;
             mTimer = 0F;
             mIsFirstSentenceDone = false;
@@ -45,6 +47,7 @@ namespace BuddyApp.Tutorial
             mValue =  Enum.GetValues(typeof(Mood));
             mRandom = new Random();
 
+            //Sequence of instructions which can be run after when we want.
             mBehaviourAlgorithm = new BehaviourAlgorithm();
             mBehaviourAlgorithm.Instructions.Add(new SetMoodBehaviourInstruction() {
                 Mood = Mood.HAPPY,
@@ -70,39 +73,41 @@ namespace BuddyApp.Tutorial
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
 
-            //mTimer += Time.deltaTime;
-            if(mStep == Step.FIRST_STEP)
+            if(!mSequenceLaunched && !Buddy.Vocal.IsBusy)
             {
-                Buddy.Vocal.SayKey("introstatehello", true);
-                mStep = Step.SECOND_STEP;
+                Buddy.Vocal.SayKey("introstatehello", iInput => OnSecondAction());
             }
-            else if(mStep == Step.SECOND_STEP && !Buddy.Vocal.IsBusy /*&& mTimer > 2F*/)
+            if(mStartRandom)
             {
                 mNumberOfRandom++;
-                //mTimer = 0F;
-                if (!mIsFirstSentenceDone)
-                {
-                    Buddy.Vocal.SayKey("introstatesecondstep");
-                    mIsFirstSentenceDone = true;
-                }
                 Buddy.Behaviour.SetMood((Mood)mValue.GetValue(mRandom.Next(mValue.Length)));
                 if (mNumberOfRandom > NUMBER_OF_RANDOM)
-                    mStep = Step.LAST_STEP;
-            }
-            else if(mStep == Step.LAST_STEP && !Buddy.Vocal.IsBusy)
-            {
-                if(!mIsSecondSentenceDone)
-                {
-                    Buddy.Vocal.SayKey("introstatethirdstep");
-                    mIsSecondSentenceDone = true;
-                }
-                Buddy.Behaviour.Interpreter.Run(mBehaviourAlgorithm, OnEndBehaviourAlgorithm);
+                    mStartRandom = false;
             }
         }
         
         private void OnEndBehaviourAlgorithm()
         {
             Trigger("MenuTrigger");
+        }
+
+        private void OnSecondAction()
+        {
+            mSequenceLaunched = true;
+            Buddy.Vocal.SayKey("introstatesecondstep", iInput => OnThirdAction());
+        }
+
+        private void OnThirdAction()
+        {
+            if(mNumberOfRandom > NUMBER_OF_RANDOM)
+            {
+                Buddy.Vocal.SayKey("introstatethirdstep", iInput => OnLastAction());
+            }
+        }
+
+        private void OnLastAction()
+        {
+            Buddy.Behaviour.Interpreter.Run(mBehaviourAlgorithm, OnEndBehaviourAlgorithm);
         }
     }
 }
