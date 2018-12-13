@@ -313,33 +313,33 @@ namespace BuddyApp.Diagnostic
             if (BT_TOF.isOn == true)
             {
                 //TOF SENSOR FORE HEAD
-                TOF_Error_00.text = "" + mForeHeadTOFSensor.Error;
-                TOF_Text_00.text = mForeHeadTOFSensor.Value + "m";
+                TOF_Error_00.text = mForeHeadTOFSensor.Error + "";
+                TOF_Text_00.text = (mForeHeadTOFSensor.Value/1000) + "m";
                 if (mForeHeadTOFSensor.Error == 0) { TOF_OK_00.color = BuddyBlue; }
                 if (mForeHeadTOFSensor.Error != 0) { TOF_OK_00.color = Red; }
                 //TOF SENSOR CHIN
-                TOF_Error_01.text = "" + mChinTOFSensor.Error;
-                TOF_Text_01.text = mChinTOFSensor.Value + "m";
+                TOF_Error_01.text = mChinTOFSensor.Error + "";
+                TOF_Text_01.text = (mChinTOFSensor.Value/1000) + "m";
                 if (mChinTOFSensor.Error == 0) { TOF_OK_01.color = BuddyBlue; }
                 if (mChinTOFSensor.Error != 0) { TOF_OK_01.color = Red; }
                 //TOF SENSOR FRONT RIGHT
-                TOF_Error_02.text = "" + mFrontRightTOFSensor.Error;
-                TOF_Text_02.text = mFrontRightTOFSensor.Value + "m";
+                TOF_Error_02.text = mFrontRightTOFSensor.Error + "";
+                TOF_Text_02.text = (mFrontRightTOFSensor.Value/1000) + "m";
                 if (mFrontRightTOFSensor.Error == 0) { TOF_OK_02.color = BuddyBlue; }
                 if (mFrontRightTOFSensor.Error != 0) { TOF_OK_02.color = Red; }
                 //TOF SENSOR FRONT MIDDLE
-                TOF_Error_03.text = "" + mFrontMiddleTOFSensor.Error;
-                TOF_Text_03.text = mFrontMiddleTOFSensor.Value + "m";
+                TOF_Error_03.text = mFrontMiddleTOFSensor.Error + "";
+                TOF_Text_03.text = (mFrontMiddleTOFSensor.Value/1000) + "m";
                 if (mFrontMiddleTOFSensor.Error == 0) { TOF_OK_03.color = BuddyBlue; }
                 if (mFrontMiddleTOFSensor.Error != 0) { TOF_OK_03.color = Red; }
                 //TOF SENSOR FRONT LEFT
-                TOF_Error_04.text = "" + mFrontLeftTOFSensor.Error;
-                TOF_Text_04.text = mFrontLeftTOFSensor.Value + "m";
+                TOF_Error_04.text = mFrontLeftTOFSensor.Error + "";
+                TOF_Text_04.text = (mFrontLeftTOFSensor.Value/1000) + "m";
                 if (mFrontLeftTOFSensor.Error == 0) { TOF_OK_04.color = BuddyBlue; }
                 if (mFrontLeftTOFSensor.Error != 0) { TOF_OK_04.color = Red; }
                 //TOF SENSOR BACK
-                TOF_Error_05.text = "" + mBackTOFSensor.Error;
-                TOF_Text_05.text = mBackTOFSensor.Value + "m";
+                TOF_Error_05.text = mBackTOFSensor.Error + "";
+                TOF_Text_05.text = (mBackTOFSensor.Value/1000) + "m";
                 if (mBackTOFSensor.Error == 0) { TOF_OK_05.color = BuddyBlue; }
                 if (mBackTOFSensor.Error != 0) { TOF_OK_05.color = Red; }
             }
@@ -348,18 +348,18 @@ namespace BuddyApp.Diagnostic
                 //IR RECEPTEUR
                 IR_Text_00.text = "#" + mBackIRSensor.Value;
                 IR_OK_00.color = BuddyBlue;
-                //IR_Error_00.text = "" + mBackIRSensor.Error;
+                //IR_Error_00.text = mBackIRSensor.Error + "";
             }
             if (BT_US.isOn == true)
             {
                 //US RECEPTEUR RIGHT
-                US_Text_00.text = mRightUSSensor.Value + "m";
+                US_Text_00.text = (mRightUSSensor.Value/1000) + "m";
                 US_OK_00.color = BuddyBlue;
-                US_Error_00.text = "" + mRightUSSensor.Error;
+                US_Error_00.text = mRightUSSensor.Error + "";
                 //US RECEPTEUR LEFT
-                US_Text_01.text = mLeftUSSensor.Value + "m";
+                US_Text_01.text = (mLeftUSSensor.Value/1000) + "m";
                 US_OK_01.color = BuddyBlue;
-                US_Error_01.text = "" + mLeftUSSensor.Error;
+                US_Error_01.text = mLeftUSSensor.Error + "";
             }
             if (BT_CARESS.isOn == true)
             {
@@ -367,21 +367,21 @@ namespace BuddyApp.Diagnostic
                 CARESS_Text_00.text = "" + mTouchSensor.RightHead.Value;
                 if (mTouchSensor.RightHead.Value == true) { CARESS_Text_00.color = BuddyBlue; }
                 if (mTouchSensor.RightHead.Value == false) { CARESS_Text_00.color = Red; }
-                CARESS_Error_00.text = "" + mTouchSensor.RightHead.Error;
+                CARESS_Error_00.text = mTouchSensor.RightHead.Error + "" ;
                 if (mTouchSensor.RightHead.Error == 0) { CARESS_OK_00.color = BuddyBlue; }
                 if (mTouchSensor.RightHead.Error != 0) { CARESS_OK_00.color = Red; }
                 //CARESS BACK
                 CARESS_Text_01.text = "" + mTouchSensor.BackHead.Value;
                 if (mTouchSensor.BackHead.Value == true) { CARESS_Text_01.color = BuddyBlue; }
                 if (mTouchSensor.BackHead.Value == false) { CARESS_Text_01.color = Red; }
-                CARESS_Error_01.text = "" + mTouchSensor.BackHead.Error;
+                CARESS_Error_01.text =mTouchSensor.BackHead.Error + "";
                 if (mTouchSensor.BackHead.Error == 0) { CARESS_OK_01.color = BuddyBlue; }
                 if (mTouchSensor.BackHead.Error != 0) { CARESS_OK_01.color = Red; }
                 //CARESS LEFT
                 CARESS_Text_02.text = "" + mTouchSensor.LeftHead.Value;
                 if(mTouchSensor.LeftHead.Value == true) { CARESS_Text_02.color = BuddyBlue; }
                 if (mTouchSensor.LeftHead.Value == false) { CARESS_Text_02.color = Red; }
-                CARESS_Error_02.text = "" + mTouchSensor.LeftHead.Error;
+                CARESS_Error_02.text = mTouchSensor.LeftHead.Error + "";
                 if (mTouchSensor.LeftHead.Error == 0) { CARESS_OK_02.color = BuddyBlue; }
                 if (mTouchSensor.LeftHead.Error != 0) { CARESS_OK_02.color = Red; }
             }
@@ -391,71 +391,71 @@ namespace BuddyApp.Diagnostic
                 PINCH_Text_02.text = "" + mTouchSensor.Heart.Value;
                 if (mTouchSensor.Heart.Error == 0) { PINCH_OK_02.color = BuddyBlue; }
                 if (mTouchSensor.Heart.Error != 0) { PINCH_OK_02.color = Red; }
-                PINCH_Error_02.text = "" + mTouchSensor.Heart.Error;
+                PINCH_Error_02.text = mTouchSensor.Heart.Error + "";
                 //PINCH LEFT
                 PINCH_Text_01.text = "" + mTouchSensor.LeftShoulder.Value;
                 if (mTouchSensor.LeftShoulder.Error == 0) { PINCH_OK_01.color = BuddyBlue; }
                 if (mTouchSensor.LeftShoulder.Error != 0) { PINCH_OK_01.color = Red; }
-                PINCH_Error_01.text = "" + mTouchSensor.LeftShoulder.Error;
+                PINCH_Error_01.text = mTouchSensor.LeftShoulder.Error + "";
                 //PINCH RIGHT
                 PINCH_Text_00.text = "" + mTouchSensor.RightShoulder.Value;
                 if (mTouchSensor.RightShoulder.Error == 0) { PINCH_OK_00.color = BuddyBlue; }
                 if (mTouchSensor.RightShoulder.Error != 0) { PINCH_OK_00.color = Red; }
-                PINCH_Error_00.text = "" + mTouchSensor.RightShoulder.Error;
+                PINCH_Error_00.text = mTouchSensor.RightShoulder.Error + "";
             }
             if (BT_CLIFF.isOn == true)
             {
                 // 00 Cliff Front Free Wheel
-                CLIFF_Text_00.text = mCliff_00.Value + "cm";
-                CLIFF_Error_00.text = "" + mCliff_00.Error;
+                CLIFF_Text_00.text = (mCliff_00.Value/10) + "cm";
+                CLIFF_Error_00.text = mCliff_00.Error + "";
                 if (mCliff_00.Error == 0) { CLIFF_OK_00.color = BuddyBlue; }
                 if (mCliff_00.Error != 0) { CLIFF_OK_00.color = Red; }
                 //if (mCliff_00.OnVoid == 0) { CLIFF_Icon_00.color = BuddyBlue; }
                 //if (mCliff_00.OnVoid == 1) { CLIFF_Icon_00.color = Red; }
 
                 // 01 Cliff Front Right Wheel
-                CLIFF_Text_01.text = mCliff_01.Value + "cm";
-                CLIFF_Error_01.text = "" + mCliff_01.Error;
+                CLIFF_Text_01.text = (mCliff_01.Value/10) + "cm";
+                CLIFF_Error_01.text = mCliff_01.Error + "";
                 if (mCliff_01.Error == 0) { CLIFF_OK_01.color = BuddyBlue; }
                 if (mCliff_01.Error != 0) { CLIFF_OK_01.color = Red; }
                 //if (mCliff_01.OnVoid == 0) { CLIFF_Icon_01.color = BuddyBlue; }
                 //if (mCliff_01.OnVoid == 1) { CLIFF_Icon_01.color = Red; }
 
                 // 02 Cliff Front Right Wheel
-                CLIFF_Text_02.text = mCliff_02.Value + "cm";
-                CLIFF_Error_02.text = "" + mCliff_02.Error;
+                CLIFF_Text_02.text = (mCliff_02.Value/10) + "cm";
+                CLIFF_Error_02.text = mCliff_02.Error + "";
                 if (mCliff_02.Error == 0) { CLIFF_OK_02.color = BuddyBlue; }
                 if (mCliff_02.Error != 0) { CLIFF_OK_02.color = Red; }
                 //if (mCliff_00.OnVoid == 0) { CLIFF_Icon_02.color = BuddyBlue; }
                 //if (mCliff_00.OnVoid == 1) { CLIFF_Icon_02.color = Red; }
 
                 // 03 Cliff Front Free Wheel
-                CLIFF_Text_03.text = mCliff_03.Value + "cm";
-                CLIFF_Error_03.text = "" + mCliff_03.Error;
+                CLIFF_Text_03.text = (mCliff_03.Value/10) + "cm";
+                CLIFF_Error_03.text = mCliff_03.Error + "";
                 if (mCliff_03.Error == 0) { CLIFF_OK_03.color = BuddyBlue; }
                 if (mCliff_03.Error != 0) { CLIFF_OK_03.color = Red; }
                 //if (mCliff_03.OnVoid == 0) { CLIFF_Icon_03.color = BuddyBlue; }
                 //if (mCliff_03.OnVoid == 1) { CLIFF_Icon_03.color = Red; }
 
                 // 04 Cliff Front Left Wheel
-                CLIFF_Text_04.text = mCliff_04.Value + "cm";
-                CLIFF_Error_04.text = "" + mCliff_04.Error;
+                CLIFF_Text_04.text = (mCliff_04.Value/10) + "cm";
+                CLIFF_Error_04.text = mCliff_04.Error + "";
                 if (mCliff_04.Error == 0) { CLIFF_OK_04.color = BuddyBlue; }
                 if (mCliff_04.Error != 0) { CLIFF_OK_04.color = Red; }
                 //if (mCliff_04.OnVoid == 0) { CLIFF_Icon_04.color = BuddyBlue; }
                 //if (mCliff_04.OnVoid == 1) { CLIFF_Icon_04.color = Red; }
 
                 // 05 Cliff Back Left Wheel
-                CLIFF_Text_05.text = mCliff_05.Value + "cm";
-                CLIFF_Error_05.text = "" + mCliff_05.Error;
+                CLIFF_Text_05.text = (mCliff_05.Value/10) + "cm";
+                CLIFF_Error_05.text = mCliff_05.Error + "";
                 if (mCliff_05.Error == 0) { CLIFF_OK_05.color = BuddyBlue; }
                 if (mCliff_05.Error != 0) { CLIFF_OK_05.color = Red; }
                 //if (mCliff_05.OnVoid == 0) { CLIFF_Icon_05.color = BuddyBlue; }
                 //if (mCliff_05.OnVoid == 1) { CLIFF_Icon_05.color = Red; }
 
                 // 06 Cliff Back Left Free Wheel
-                CLIFF_Text_06.text = mCliff_06.Value + "cm";
-                CLIFF_Error_06.text = "" + mCliff_06.Error;
+                CLIFF_Text_06.text = (mCliff_06.Value/10) + "cm";
+                CLIFF_Error_06.text = mCliff_06.Error + "";
                 if (mCliff_06.Error == 0) { CLIFF_OK_06.color = BuddyBlue; }
                 if (mCliff_06.Error != 0) { CLIFF_OK_06.color = Red; }
                 //if (mCliff_06.OnVoid == 0) { CLIFF_Icon_06.color = BuddyBlue; }
@@ -472,7 +472,7 @@ namespace BuddyApp.Diagnostic
 
                 if (mIMU.Error == 0) { IMU_OK_00.color = BuddyBlue; }
                 if (mIMU.Error != 0) { IMU_OK_00.color = Red; }
-                IMU_Error_00.text = "" + mIMU.Error;
+                IMU_Error_00.text = mIMU.Error + "";
             }
         }
 

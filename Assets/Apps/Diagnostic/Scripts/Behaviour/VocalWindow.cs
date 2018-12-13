@@ -77,7 +77,8 @@ namespace BuddyApp.Diagnostic
         public void Update()
         {
             LocalizationText.text = Buddy.Sensors.Microphones.SoundLocalization + " °";
-            LocalizationRad.rectTransform.Rotate(0, 0, Buddy.Sensors.Microphones.SoundLocalization - lprevious); 
+            LocalizationRad.rectTransform.Rotate(0, 0, Buddy.Sensors.Microphones.SoundLocalization - lprevious);
+            lprevious = Buddy.Sensors.Microphones.SoundLocalization;
             AmbiantSoundLevelText.text = Buddy.Sensors.Microphones.AmbiantSound + " db";
             AmbiantSoundLevelSlider.value = Buddy.Sensors.Microphones.AmbiantSound;
 
@@ -253,7 +254,7 @@ namespace BuddyApp.Diagnostic
             {
                 PlayRecordButton.interactable = false;
                 RecordButton.GetComponentsInChildren<Text>()[0].text = "STOP RECORDING";
-                RecordButton.GetComponentsInChildren<Image>()[0].sprite = mStop;
+                RecordButton.GetComponentsInChildren<Image>()[1].sprite = mStop;
 
                 // Save first AudioClip and callback when new sound detected.
                 mListAudio.Clear();
@@ -265,7 +266,7 @@ namespace BuddyApp.Diagnostic
             {
                 PlayRecordButton.interactable = true;
                 RecordButton.GetComponentsInChildren<Text>()[0].text = "START RECORDING";
-                RecordButton.GetComponentsInChildren<Image>()[0].sprite = mRecord;
+                RecordButton.GetComponentsInChildren<Image>()[1].sprite = mRecord;
                 if (null != mAudioClip)
                     mListAudio.Enqueue(mAudioClip);
                 
@@ -279,7 +280,7 @@ namespace BuddyApp.Diagnostic
             {
                 RecordButton.interactable = true;
                 PlayRecordButton.GetComponentsInChildren<Text>()[0].text = "PLAY";
-                PlayRecordButton.GetComponentsInChildren<Image>()[0].sprite = mPlay;
+                PlayRecordButton.GetComponentsInChildren<Image>()[1].sprite = mPlay;
                 ReplayAudioSource.Stop();
                 
                 mBIsPlaying = false;
@@ -288,7 +289,7 @@ namespace BuddyApp.Diagnostic
             {
                 RecordButton.interactable = false;
                 PlayRecordButton.GetComponentsInChildren<Text>()[0].text = "STOP";
-                PlayRecordButton.GetComponentsInChildren<Image>()[0].sprite = mStop;
+                PlayRecordButton.GetComponentsInChildren<Image>()[1].sprite = mStop;
                 mBIsPlaying = true;
             }
         }

@@ -2335,7 +2335,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0, g: 0.8313726, b: 0.8196079, a: 1}
@@ -2744,7 +2744,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 000
+  m_Text: 100
 --- !u!114 &114398803263809962
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3118,7 +3118,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 100
   m_WholeNumbers: 1
-  m_Value: 0
+  m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -4637,7 +4637,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 000
+  m_Text: 100
 --- !u!114 &114902499831875334
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4899,6 +4899,7 @@ MonoBehaviour:
   sliderUpSlope: {fileID: 114198434536308310}
   sliderDownSlope: {fileID: 114202217624216860}
   rawImage: {fileID: 114180580007488822}
+  mFlash: {fileID: 114252953677558540}
 --- !u!114 &114977341724045572
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5023,7 +5024,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 100
   m_WholeNumbers: 1
-  m_Value: 0
+  m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

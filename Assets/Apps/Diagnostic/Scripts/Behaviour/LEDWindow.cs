@@ -70,7 +70,12 @@ namespace BuddyApp.Diagnostic
         [SerializeField]
         private RawImage rawImage;
 
+        [SerializeField]
+        private Button mFlash;
+
         private bool mStatus = false;
+        private Sprite mStop = Buddy.Resources.Get<Sprite>("os_icon_stop");
+        private Sprite mPlay = Buddy.Resources.Get<Sprite>("os_icon_play");
 
         public void OnEnable()
         {
@@ -243,11 +248,15 @@ namespace BuddyApp.Diagnostic
             {
                 Buddy.Actuators.LEDs.Flash = true;
                 mStatus = true;
+                mFlash.GetComponentsInChildren<Text>()[0].text = "TURN OFF FLASH";
+                mFlash.GetComponentsInChildren<Image>()[1].sprite = mStop;
             }
             else
             {
                 Buddy.Actuators.LEDs.Flash = false;
                 mStatus = false;
+                mFlash.GetComponentsInChildren<Text>()[0].text = "TURN ON FLASH";
+                mFlash.GetComponentsInChildren<Image>()[1].sprite = mPlay;
             }
         }
 

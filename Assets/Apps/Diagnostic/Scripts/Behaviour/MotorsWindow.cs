@@ -150,28 +150,28 @@ namespace BuddyApp.Diagnostic
             noHingeAngleGetter.text = mNoHinge.Angle + " °";
             if(mNoHinge.Angle >= 0) {
                 noHingeAngleGetterFeedbackL.fillAmount = 0;
-                noHingeAngleGetterFeedbackL.fillAmount = mNoHinge.Angle / 180;
+                noHingeAngleGetterFeedbackL.fillAmount = (mNoHinge.Angle / 90.00f) * 0.25f;
                 noHingeAngleGetterFeedbackR.fillAmount = 0;
             }
             if (mNoHinge.Angle <= 0)
             {
                 noHingeAngleGetterFeedbackL.fillAmount = 0;
                 noHingeAngleGetterFeedbackR.fillAmount = 0;
-                noHingeAngleGetterFeedbackR.fillAmount = mNoHinge.Angle / 180;
+                noHingeAngleGetterFeedbackR.fillAmount = (mNoHinge.Angle / 90.00f) * 0.25f;
             }
             // Draw Head Yes Angle Feedback
             yesHingeAngleGetter.text = mYesHinge.Angle + " °";
             if (mYesHinge.Angle >= 0)
             {
                 yesHingeAngleGetterFeedbackT.fillAmount = 0;
-                yesHingeAngleGetterFeedbackT.fillAmount = mYesHinge.Angle / 140;
+                yesHingeAngleGetterFeedbackT.fillAmount = (mYesHinge.Angle / 80.00f) * 0.25f;
                 yesHingeAngleGetterFeedbackB.fillAmount = 0;
             }
             if (mNoHinge.Angle <= 0)
             {
                 yesHingeAngleGetterFeedbackT.fillAmount = 0;
                 yesHingeAngleGetterFeedbackB.fillAmount = 0;
-                yesHingeAngleGetterFeedbackB.fillAmount = mYesHinge.Angle / 140;
+                yesHingeAngleGetterFeedbackB.fillAmount = (mYesHinge.Angle / 60.00f) * 0.15f;
             }
 
             linearVelocity.text = Math.Round(linearVelocitySetter.value, 2) + " M/s";
@@ -231,8 +231,9 @@ namespace BuddyApp.Diagnostic
             //mWheels.TurnAngle(anglePosSetter.value,
             //                (leftSpeedSetter.value + rightSpeedSetter.value) / 2,
             //                toleranceSetter.value);
-            Debug.Log("NOT IMPLEMENTED YET");
+            Debug.Log("NOT IMPLEMENTED YET" + anglePosSetter.value + " / " + AngularVelocityWheelsSetter.value );
             Buddy.Navigation.Run<DisplacementStrategy>().Rotate(anglePosSetter.value, AngularVelocityWheelsSetter.value);
+       
         }
 
         public void GoTo()
