@@ -58,6 +58,13 @@ namespace BuddyApp.HumanCounter
             mAnimator.SetTrigger("ObservationSettings");
         }
 
+        public void HeadReset()
+        {
+            DebugColor("RESET POSITION", "green");
+            HumanCounterData.Instance.HeadPosition = 0F;
+            HeadYesSetPosition(HumanCounterData.Instance.HeadPosition);
+        }
+
         // TMP
         public void DebugColor(string msg, string color)
         {
