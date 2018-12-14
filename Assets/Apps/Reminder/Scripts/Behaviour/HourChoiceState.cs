@@ -153,7 +153,11 @@ namespace BuddyApp.Reminder
 
             // Launch hour extraction with success
             if (!string.IsNullOrEmpty(iSpeechInput.Utterance)
-                && SharedLanguageManager<ReminderLanguage>.GetInstance().GetLanguage().ExtractHourFromSpeech(iSpeechInput.Rule, iSpeechInput.Utterance))
+                && SharedLanguageManager<ReminderLanguage>.GetInstance().GetLanguage().ExtractHourFromSpeech(
+                                        Utils.GetRealStartRule(iSpeechInput.Rule),
+                                        iSpeechInput.Utterance))
+                                        //iSpeechInput.Utterance.Substring(0, iSpeechInput.Utterance.IndexOf(":")),
+                                        //iSpeechInput.Utterance.Substring(iSpeechInput.Utterance.IndexOf(":") + 1)))
             {
                 Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("eared") + ReminderDateManager.GetInstance().ReminderDate.ToShortTimeString());
                 StartCoroutine(TitleLifeTime(TITLE_TIMER));
