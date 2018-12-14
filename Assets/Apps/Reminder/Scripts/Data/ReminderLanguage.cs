@@ -292,12 +292,45 @@ namespace BuddyApp.Reminder
 
         virtual public void SetHour(int iHour, int iMinute)
         {
+            if (iMinute < 0)
+            {
+                iHour -= 1;
+                iMinute = 60 + iMinute;
+            }
+
+            if (iHour < 0)
+            {
+                iHour += 24;
+            }
+
             ReminderDateManager.GetInstance().ReminderDate = new DateTime(
                 ReminderDateManager.GetInstance().ReminderDate.Year,
                 ReminderDateManager.GetInstance().ReminderDate.Month,
                 ReminderDateManager.GetInstance().ReminderDate.Day,
                 iHour,
                 iMinute,
+                0);
+        }
+
+        virtual public void SetDate(DateTime iDate)
+        {
+            ReminderDateManager.GetInstance().ReminderDate = new DateTime(
+                iDate.Year,
+                iDate.Month,
+                iDate.Day,
+                ReminderDateManager.GetInstance().ReminderDate.Hour,
+                ReminderDateManager.GetInstance().ReminderDate.Minute,
+                0);
+        }
+
+        virtual public void SetDate(int iYear, int iMonth, int iDay)
+        {
+            ReminderDateManager.GetInstance().ReminderDate = new DateTime(
+                iYear,
+                iMonth,
+                iDay,
+                ReminderDateManager.GetInstance().ReminderDate.Hour,
+                ReminderDateManager.GetInstance().ReminderDate.Minute,
                 0);
         }
 
