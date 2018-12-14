@@ -159,7 +159,8 @@ namespace BuddyApp.Reminder
                 case "atamhoursandminutes":
                     lStrMinutes = iSpeechUtterance.Replace("à", "")
                                                     .Replace("heures", "")
-                                                    .Replace("heure", "");
+                                                    .Replace("heure", "")
+                                                    .Replace("du matin", "");
 
                     SetHour(StringToInt(lStrSplits[0]), MinutesToInt(lStrMinutes.Substring(lStrMinutes.LastIndexOf(lStrSplits[1]))));
                     return true;
@@ -171,6 +172,7 @@ namespace BuddyApp.Reminder
                                                     .Replace("de l'après-midi", "")
                                                     .Replace("du soir", "");
                     
+                    SetHour(StringToInt(lStrSplits[0]) + 12, 0);
                     return true;
 
                 case "atpmhoursandminutes":
@@ -296,10 +298,8 @@ namespace BuddyApp.Reminder
             DateTime lTmpDate;
             string lStrYear = iSpeechUtterance.Trim(' ').Substring(iSpeechUtterance.LastIndexOf(" "));
             string[] lNextDate = iSpeechUtterance.Trim(' ').Split(' ');
-
+			
             // Store day to control existence before changing
-            Debug.LogError("test1:" + lStrYear);
-
             int lIDay = StringToInt(lNextDate[lNextDate.Length - 3]);
             int lIMonth = (int)Enum.Parse(typeof(EMonths), lNextDate[lNextDate.Length - 2]);
             int lIYear = int.Parse(lStrYear);
@@ -414,11 +414,6 @@ namespace BuddyApp.Reminder
                     return int.Parse(iStringInput.Trim());
             }
         }
-
-
-
-
-
 
         public override bool ExtractHourFromSpeech(string iSpeech)
         {
