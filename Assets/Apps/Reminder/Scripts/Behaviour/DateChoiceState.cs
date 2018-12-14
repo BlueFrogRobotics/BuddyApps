@@ -144,13 +144,17 @@ namespace BuddyApp.Reminder
                 }
                 return;
             }
-
+            
             if (Utils.GetRealStartRule(iSpeechInput.Rule) == ReminderDateManager.STR_QUIT)
                 QuitReminder();
 
             //  Launch Extraction date - The ReminderDate's hour is saved and restore after the extraction
             if (!string.IsNullOrEmpty(iSpeechInput.Utterance)
-                && SharedLanguageManager<ReminderLanguage>.GetInstance().GetLanguage().ExtractDateFromSpeech(iSpeechInput.Rule, iSpeechInput.Utterance))
+                && SharedLanguageManager<ReminderLanguage>.GetInstance().GetLanguage().ExtractDateFromSpeech(
+                            Utils.GetRealStartRule(iSpeechInput.Rule).Trim(' '),
+                            iSpeechInput.Utterance.Trim(' ')))
+                            //iSpeechInput.Utterance.Substring(0, iSpeechInput.Utterance.IndexOf(":")),
+                            //iSpeechInput.Utterance.Substring(iSpeechInput.Utterance.IndexOf(":") + 1)))
             {
                 /*
                 TimeSpan lHourmem = new TimeSpan(ReminderDateManager.GetInstance().ReminderDate.Hour,
@@ -190,17 +194,6 @@ namespace BuddyApp.Reminder
         private void QuitReminder()
         {
             Trigger("ExitReminder");
-        }
-
-        /*
-         *  Return true if iDate is equal to the default date time.
-         *  The default date time is set to 0001, 01, 01 in InitReminder
-         */
-        private bool DateIsDefault(DateTime iDate)
-        {
-            if (DateTime.Compare(iDate, new DateTime(0001, 01, 01)) == 0)
-                return true;
-            return false;
         }
 
         /*

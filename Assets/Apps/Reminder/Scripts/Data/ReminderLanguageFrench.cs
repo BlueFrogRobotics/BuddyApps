@@ -43,15 +43,15 @@ namespace BuddyApp.Reminder
             switch (iSpeechRule)
             {
                 case "today":
-                    ReminderDateManager.GetInstance().ReminderDate = DateTime.Today.Date;
+                    SetDate(DateTime.Today.Date);
                     return true;
 
                 case "tomorrow":
-                    ReminderDateManager.GetInstance().ReminderDate = DateTime.Today.AddDays(1D).Date;
+                    SetDate(DateTime.Today.AddDays(1D).Date);
                     return true;
 
                 case "dayaftertomorrow":
-                    ReminderDateManager.GetInstance().ReminderDate = DateTime.Today.AddDays(2D).Date;
+                    SetDate(DateTime.Today.AddDays(2D).Date);
                     return true;
 
                 case "nextdayofweek":
@@ -59,15 +59,15 @@ namespace BuddyApp.Reminder
                     return true;
 
                 case "nextweek":
-                    ReminderDateManager.GetInstance().ReminderDate = DateTime.Today.AddDays(7D).Date;
+                    SetDate(DateTime.Today.AddDays(7D).Date);
                     return true;
 
                 case "nextmonth":
-                    ReminderDateManager.GetInstance().ReminderDate = DateTime.Today.AddMonths(1).Date;
+                    SetDate(DateTime.Today.AddMonths(1).Date);
                     return true;
 
                 case "nextyear":
-                    ReminderDateManager.GetInstance().ReminderDate = DateTime.Today.AddYears(1).Date;
+                    SetDate(DateTime.Today.AddYears(1).Date);
                     return true;
 
                 case "nextday":
@@ -108,11 +108,11 @@ namespace BuddyApp.Reminder
                                                 .Replace("midi ", "")
                                                 .Replace("minuit ", "")
                                                 .Replace("dans ", "")
-                                                .Replace("heures", "")
-                                                .Replace("heure", "")
+                                                .Replace(" heures", "")
+                                                .Replace(" heure", "")
                                                 .Replace("minutes", "")
                                                 .Replace("minute", "")
-                                                .Split(' ');
+                                                .Trim(' ').Split(' ');
             
             switch (iSpeechRule)
             {
@@ -146,8 +146,8 @@ namespace BuddyApp.Reminder
                     
                 case "athoursandminutes":
                     lStrMinutes = iSpeechUtterance.Replace("à", "")
-                                                    .Replace("heure", "")
-                                                    .Replace("heures", "");
+                                                    .Replace("heures", "")
+                                                    .Replace("heure", "");
 
                     SetHour(StringToInt(lStrSplits[0]), MinutesToInt(lStrMinutes.Substring(lStrMinutes.LastIndexOf(lStrSplits[1]))));
                     return true;
@@ -158,8 +158,8 @@ namespace BuddyApp.Reminder
 
                 case "atamhoursandminutes":
                     lStrMinutes = iSpeechUtterance.Replace("à", "")
-                                                    .Replace("heure", "")
                                                     .Replace("heures", "")
+                                                    .Replace("heure", "")
                                                     .Replace("du matin", "");
 
                     SetHour(StringToInt(lStrSplits[0]), MinutesToInt(lStrMinutes.Substring(lStrMinutes.LastIndexOf(lStrSplits[1]))));
@@ -167,34 +167,45 @@ namespace BuddyApp.Reminder
                     
                 case "atpmhours":
                     lStrMinutes = iSpeechUtterance.Replace("à ", "")
-                                                    .Replace("heure ", "")
                                                     .Replace("heures ", "")
-                                                    .Replace(" de l'après-midi", "")
-                                                    .Replace(" du soir", "");
+                                                    .Replace("heure ", "")
+                                                    .Replace("de l'après-midi", "")
+                                                    .Replace("du soir", "");
                     
-                    SetHour(StringToInt(lStrSplits[0] + 12), MinutesToInt(lStrMinutes.Substring(lStrMinutes.LastIndexOf(lStrSplits[1]))));
+                    SetHour(StringToInt(lStrSplits[0]) + 12, 0);
                     return true;
 
                 case "atpmhoursandminutes":
                     lStrMinutes = iSpeechUtterance.Replace("à ", "")
-                                                    .Replace("heure ", "")
-                                                    .Replace("heures ", "")
+                                                    .Replace(" heures", "")
+                                                    .Replace(" heure", "")
                                                     .Replace(" de l'après-midi", "")
                                                     .Replace(" du soir", "");
-
+                    
                     SetHour(StringToInt(lStrSplits[0]) + 12, MinutesToInt(lStrMinutes.Substring(lStrMinutes.LastIndexOf(lStrSplits[1]))));
                     return true;
 
                 case "inhours":
-                    ReminderDateManager.GetInstance().ReminderDate = DateTime.Today.AddHours(StringToInt(lStrSplits[0]));
+                    SetDate(DateTime.Today);
+                    SetHour(DateTime.Now.Hour, DateTime.Now.Minute);
+                    ReminderDateManager.GetInstance().ReminderDate = ReminderDateManager.GetInstance().ReminderDate.AddHours(StringToInt(lStrSplits[0]));
                     return true;
 
                 case "inminutes":
-                    ReminderDateManager.GetInstance().ReminderDate = DateTime.Today.AddMinutes(StringToInt(lStrSplits[0]));
+                    SetDate(DateTime.Today);
+                    SetHour(DateTime.Now.Hour, DateTime.Now.Minute);
+                    ReminderDateManager.GetInstance().ReminderDate = ReminderDateManager.GetInstance().ReminderDate.AddMinutes(StringToInt(lStrSplits[0]));
                     return true;
 
                 case "inhoursandminutes":
-                    ReminderDateManager.GetInstance().ReminderDate = DateTime.Today.AddHours(StringToInt(lStrSplits[0]))
+                    lStrMinutes = iSpeechUtterance.Replace("dans ", "")
+                                                    .Replace(" heures", "")
+                                                    .Replace(" heure", "");
+
+                    SetDate(DateTime.Today);
+                    SetHour(DateTime.Now.Hour, DateTime.Now.Minute);
+
+                    ReminderDateManager.GetInstance().ReminderDate = ReminderDateManager.GetInstance().ReminderDate.AddHours(StringToInt(lStrSplits[0]))
                                                                                 .AddMinutes(MinutesToInt(lStrMinutes.Substring(lStrMinutes.LastIndexOf(lStrSplits[1]))));
                     return true;
 
@@ -206,23 +217,22 @@ namespace BuddyApp.Reminder
         private void SetNextDayOfWeek(string iSpeechUtterance)
         {
             // Extract day of week
-            string lStrDayOfWeek = iSpeechUtterance.Split(' ')[0];
+            string lStrDayOfWeek = iSpeechUtterance.Trim(' ').Split(' ')[0];
 
-            int lIDaysToAdd = (7 + (int)Enum.Parse(typeof(DayOfWeek), lStrDayOfWeek) - (int)DateTime.Today.DayOfWeek) % 7;
+            int lIDaysToAdd = (7 + (int)Enum.Parse(typeof(EDayOfWeek), lStrDayOfWeek) - (int)DateTime.Today.DayOfWeek) % 7 + 1;
 
             if (0 == lIDaysToAdd) // Same day of the week
             {
                 lIDaysToAdd += 7;
             }
 
-            ReminderDateManager.GetInstance().ReminderDate = DateTime.Today.AddDays(lIDaysToAdd);
+            SetDate(DateTime.Today.AddDays(lIDaysToAdd));
         }
 
         private void SetNextDay(string iSpeechUtterance)
         {
             // Get the word for the targeted day and remove useless characters.
-            string lStrDay = iSpeechUtterance.Split(' ')[1].Replace("-", "");
-            
+            string lStrDay = iSpeechUtterance.Trim(' ').Split(' ')[iSpeechUtterance.Trim(' ').Split(' ').Length - 1].Replace("-", "");
             int lDayNumber = StringToInt(lStrDay);
 
             // Initialize date to today
@@ -230,84 +240,88 @@ namespace BuddyApp.Reminder
 
             // Skip current month if targeted day in past
             if (lDayNumber <= lDate.Day)
-                lDate.AddMonths(1);
+            {
+                lDate = lDate.AddMonths(1);
+            }
 
             // Find a month with enough days
             while (DateTime.DaysInMonth(lDate.Year, lDate.Month) < lDayNumber)
-                lDate.AddMonths(1);
+            {
+                lDate = lDate.AddMonths(1);
+            }
 
             // Set the date to the targeted day
-            lDate.AddDays(lDayNumber - lDate.Day);
-            ReminderDateManager.GetInstance().ReminderDate = lDate.Date;
+            lDate = lDate.AddDays(lDayNumber - lDate.Day);
+            SetDate(lDate);
         }
 
         private bool SetNextDate(string iSpeechUtterance)
         {
             // Get the word for the targeted day and remove useless characters.
-            string[] lNextDate = iSpeechUtterance.Split(' ');
+            string[] lNextDate = iSpeechUtterance.Trim(' ').Split(' ');
 
             string lStrMonth = lNextDate[lNextDate.Length - 1];
             string lStrDay = lNextDate[lNextDate.Length - 2];
+
+            // Store day to control existence before changing
+            int lIDay = StringToInt(lStrDay);
+            int lIMonth = 0;
             
             // Set month
             EMonths lMonthResult;
             if (Enum.TryParse<EMonths>(lStrMonth, true, out lMonthResult))
             {
-                ReminderDateManager.GetInstance().ReminderDate.AddMonths((int)lMonthResult - ReminderDateManager.GetInstance().ReminderDate.Month);
+                lIMonth = (int)lMonthResult;
             }
             
-            // Check if day exist in month
-            int lIDay = StringToInt(lStrDay);
-            if (DateTime.DaysInMonth(ReminderDateManager.GetInstance().ReminderDate.Year, ReminderDateManager.GetInstance().ReminderDate.Month) < lIDay)
+            DateTime lTmpDate = DateTime.Today;
+            lTmpDate = lTmpDate.AddMonths(lIMonth - lTmpDate.Month).AddDays(lIDay - lTmpDate.Day);
+
+            if (lTmpDate.CompareTo(DateTime.Today) <= 0)
             {
-                return false;
+                lTmpDate = lTmpDate.AddYears(1);
             }
 
-            ReminderDateManager.GetInstance().ReminderDate =
-                ReminderDateManager.GetInstance().ReminderDate.AddDays(lIDay - ReminderDateManager.GetInstance().ReminderDate.Day);
+            if (lTmpDate.Day == lIDay
+                && lTmpDate.Month == lIMonth)
+            {
+                SetDate(lTmpDate);
+                return true;
+            }
 
-            return true;
+            Debug.LogError("Incorrect date!!!");
+            return false;
         }
 
         private bool SetFullDate(string iSpeechUtterance)
         {
-            string lStrDate = iSpeechUtterance.Substring(0, iSpeechUtterance.LastIndexOf(" "));
-            string lStrYear = iSpeechUtterance.Substring(iSpeechUtterance.LastIndexOf(" "));
+            DateTime lTmpDate;
+            string lStrYear = iSpeechUtterance.Trim(' ').Substring(iSpeechUtterance.LastIndexOf(" "));
+            string[] lNextDate = iSpeechUtterance.Trim(' ').Split(' ');
 
-            // Analyse year
-            int lITargetYear = int.Parse(lStrYear);
-            ReminderDateManager.GetInstance().ReminderDate.AddYears(lITargetYear - ReminderDateManager.GetInstance().ReminderDate.Year);
+            // Store day to control existence before changing
+            Debug.LogError("test1:" + lStrYear);
 
-            // Month
-            int lMonth;
-            string[] lNextDate = iSpeechUtterance.Split(' ');
-            if (int.TryParse(lNextDate[lNextDate.Length - 2], out lMonth))
+            int lIDay = StringToInt(lNextDate[lNextDate.Length - 3]);
+            int lIMonth = (int)Enum.Parse(typeof(EMonths), lNextDate[lNextDate.Length - 2]);
+            int lIYear = int.Parse(lStrYear);
+
+            try
             {
-                ReminderDateManager.GetInstance().ReminderDate.AddMonths(lMonth - ReminderDateManager.GetInstance().ReminderDate.Month);
-
-                int lDay;
-                if (int.TryParse(lNextDate[lNextDate.Length - 3], out lDay))
-                {
-                    // Check if day exist in month
-                    if (DateTime.DaysInMonth(ReminderDateManager.GetInstance().ReminderDate.Year, ReminderDateManager.GetInstance().ReminderDate.Month) < lDay)
-                    {
-                        return false;
-                    }
-
-                    ReminderDateManager.GetInstance().ReminderDate =
-                        ReminderDateManager.GetInstance().ReminderDate.AddDays(lDay - ReminderDateManager.GetInstance().ReminderDate.Day);
-                }
-                else
-                {
-                    return false;
-                }
+                lTmpDate = new DateTime(lIYear, lIMonth, lIDay);
             }
-
-            // Set date
-            if (!SetNextDate(lStrDate))
+            catch
             {
                 return false;
             }
+
+            if (lTmpDate.Year != lIYear || lTmpDate.Month != lIMonth || lTmpDate.Day != lIDay)
+            {
+                Debug.LogError("Date does not exist!!!");
+                return false;
+            }
+
+            SetDate(lTmpDate.Year, lTmpDate.Month, lTmpDate.Day);
 
             return true;
         }
@@ -315,34 +329,34 @@ namespace BuddyApp.Reminder
         private void SetInDays(string iSpeechUtterance)
         {
             // Get the index from the speech
-            int lIDay = StringToInt(iSpeechUtterance.Split(' ')[1]);
-            ReminderDateManager.GetInstance().ReminderDate = DateTime.Today.AddDays(lIDay);
+            int lIDay = StringToInt(iSpeechUtterance.Trim(' ').Split(' ')[1]);
+            SetDate(DateTime.Today.AddDays(lIDay));
         }
 
         private void SetInWeeks(string iSpeechUtterance)
         {
             // Get the index from the speech
-            int lIWeeks = StringToInt(iSpeechUtterance.Split(' ')[1]);
-            ReminderDateManager.GetInstance().ReminderDate = DateTime.Today.AddDays(7 * lIWeeks);
+            int lIWeeks = StringToInt(iSpeechUtterance.Trim(' ').Split(' ')[1]);
+            SetDate(DateTime.Today.AddDays(7 * lIWeeks));
         }
 
         private void SetInMonths(string iSpeechUtterance)
         {
             // Get the index from the speech
-            int lIMonths = StringToInt(iSpeechUtterance.Split(' ')[1]);
-            ReminderDateManager.GetInstance().ReminderDate = DateTime.Today.AddMonths(lIMonths);
+            int lIMonths = StringToInt(iSpeechUtterance.Trim(' ').Split(' ')[1]);
+            SetDate(DateTime.Today.AddMonths(lIMonths));
         }
 
         private void SetInYears(string iSpeechUtterance)
         {
             // Get the index from the speech
-            int lIYears = StringToInt(iSpeechUtterance.Split(' ')[1]);
-            ReminderDateManager.GetInstance().ReminderDate = DateTime.Today.AddYears(lIYears);
+            int lIYears = StringToInt(iSpeechUtterance.Trim(' ').Split(' ')[1]);
+            SetDate(DateTime.Today.AddYears(lIYears));
         }
 
         private int MinutesToInt(string iStrMinutes)
         {
-            string[] lStrMinutes = iStrMinutes.Split(' ');
+            string[] lStrMinutes = iStrMinutes.Trim(' ').Split(' ');
 
             // Quarter
             if (lStrMinutes[lStrMinutes.Length - 1].Equals("quart"))
@@ -366,7 +380,7 @@ namespace BuddyApp.Reminder
             // Minus minutes
             if (lStrMinutes[0].Equals("moins"))
             {
-                return StringToInt(lStrMinutes[1]);
+                return -StringToInt(lStrMinutes[1]);
             }
 
             // And minutes
@@ -399,7 +413,7 @@ namespace BuddyApp.Reminder
                     return 51;
 
                 default:
-                    return int.Parse(iStringInput);
+                    return int.Parse(iStringInput.Trim());
             }
         }
 
