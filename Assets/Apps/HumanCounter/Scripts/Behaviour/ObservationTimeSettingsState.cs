@@ -42,10 +42,10 @@ namespace BuddyApp.HumanCounter
             Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont); 
             Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("timertitle"));
 
-            // Create the top left button to go back to Head settings
-            FButton lBackButton = Buddy.GUI.Footer.CreateOnLeft<FButton>();
-            lBackButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_arrow_left"));
-            lBackButton.OnClick.Add(() => { Trigger("BackToHeadSettings"); });
+            //// Create the top left button to go back to Head settings
+            //FButton lBackButton = Buddy.GUI.Footer.CreateOnLeft<FButton>();
+            //lBackButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_arrow_left"));
+            //lBackButton.OnClick.Add(() => { Trigger("BackToHeadSettings"); });
 
             // Default observation time
             HumanCounterData.Instance.ObservationTime = DEFAULT_OBSERVATION_TIME;
@@ -101,11 +101,11 @@ namespace BuddyApp.HumanCounter
                 });
             },
             // Click left.
-            () => { /* Back to next settings when available. */ },
+            () => { Trigger("BackToHeadSettings"); },
             // Left label
             Buddy.Resources.GetString("cancel"),
             // Click right.
-            () => { Trigger("ObservationView"); }
+            () => { Trigger("ObservationView"); Debug.Log("CLICK NEXT"); }
             // Right Label.
             , Buddy.Resources.GetString("next"));
         }
@@ -116,18 +116,22 @@ namespace BuddyApp.HumanCounter
             {
                 // Human detect button 
                 TVerticalListBox lBoxFirst = iOnBuilder.CreateBox();
+                lBoxFirst.LeftButton.Hide();
                 lBoxFirst.OnClick.Add(() => { HumanCounterData.Instance.DetectionOption = DetectionOption.HUMAN_DETECT; UpdateOptionDetectText(); Buddy.GUI.Dialoger.Hide(); });
                 lBoxFirst.SetLabel(Buddy.Resources.GetString("humandetect"));
+                lBoxFirst.SetCenteredLabel(true);
 
-                // Face detect button
-                TVerticalListBox lBoxSecond = iOnBuilder.CreateBox();
-                lBoxSecond.OnClick.Add(() => { HumanCounterData.Instance.DetectionOption = DetectionOption.FACE_DETECT; UpdateOptionDetectText(); Buddy.GUI.Dialoger.Hide(); });
-                lBoxSecond.SetLabel(Buddy.Resources.GetString("facedetect"));
+                //// Face detect button
+                //TVerticalListBox lBoxSecond = iOnBuilder.CreateBox();
+                //lBoxSecond.OnClick.Add(() => { HumanCounterData.Instance.DetectionOption = DetectionOption.FACE_DETECT; UpdateOptionDetectText(); Buddy.GUI.Dialoger.Hide(); });
+                //lBoxSecond.SetLabel(Buddy.Resources.GetString("facedetect"));
                 
                 // Skeleton detect button
                 TVerticalListBox lBoxThird = iOnBuilder.CreateBox();
+                lBoxThird.LeftButton.Hide();
                 lBoxThird.OnClick.Add(() => { HumanCounterData.Instance.DetectionOption = DetectionOption.SKELETON_DETECT; UpdateOptionDetectText(); Buddy.GUI.Dialoger.Hide(); });
                 lBoxThird.SetLabel(Buddy.Resources.GetString("skeletondetect"));
+                lBoxThird.SetCenteredLabel(true);
 
             });
         }
