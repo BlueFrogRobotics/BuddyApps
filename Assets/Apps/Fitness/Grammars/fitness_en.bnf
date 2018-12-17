@@ -1,0 +1,8 @@
+#BNF+EMV2.1;
+!grammar fitness_en;
+!start <armex>;
+!start <legex>;
+!start <menuresume>;
+<armex>: [launch [the]] (exercise | training) of the arms;
+<legex>: [Launch [the]] (exercise | training) of the legs;
+<menuresume>: resume [exercise];

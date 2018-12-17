@@ -11,11 +11,9 @@ namespace BuddyApp.Fitness
 		private readonly string STR_NEXT_COMMAND = "next";
 		private readonly string STR_PREVIOUS_COMMAND = "previous";
 
-		private readonly float F_MAX_TIME_LISTENING = 10.0F;
-		private float mFTimeListening;
 		private SlideSet mSlider;
 		private int mCurrentIndex;
-		private float mSliderTime;
+		private bool mSpeechInterrupted;
 
 
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -23,105 +21,46 @@ namespace BuddyApp.Fitness
 		{
 			ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "On State Enter...");
 
-			mFTimeListening = F_MAX_TIME_LISTENING;
 
-			// New listening events
-			//Buddy.Vocal.OnEndListening.Add(OnEndListening);
-			//Buddy.GUI.Screen.OnTouch.Add(OnStopListening);
-			Buddy.Vocal.OnEndSpeaking.Add(OnEndSpeaking);
-
-			mSliderTime = -3.0F;
 			mCurrentIndex = 0;
+			mSpeechInterrupted = false;
 			Buddy.Vocal.SayKey("tuto");
 			Buddy.Vocal.Say("[400]");
-			Buddy.Vocal.SayKey(FitnessData.Instance.Exercise + "a");
-
-
+			Buddy.Vocal.SayKey(FitnessData.Instance.Exercise + "a", OnEndSpeaking);
+			
 			mSlider = Buddy.GUI.Toaster.DisplaySlide();
-
-
+			
 			while (mSlider.Count != 0) {
 				Debug.LogError("tuto RemovingSlide!");
 				mSlider.RemoveSlide(0);
 			}
 
 			/// Initializing slider with image sorted
-
 			mSlider.AddFirstDisplayedSlide<PictureToast>().With(Buddy.Resources.Get<Sprite>(FitnessData.Instance.Exercise + "a"));
 			mSlider.AddSlide<PictureToast>().With(Buddy.Resources.Get<Sprite>(FitnessData.Instance.Exercise + "b"));
 			mSlider.AddSlide<PictureToast>().With(Buddy.Resources.Get<Sprite>(FitnessData.Instance.Exercise + "c"));
 
 		}
 
-		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-		override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-		{
-
-			mSliderTime += Time.deltaTime;
-
-			// Go to next slide after 6 seconds
-			if (mSliderTime > 5F)
-				NextSlide();
-
-			if (Buddy.Vocal.IsListening) {
-				mFTimeListening -= Time.deltaTime;
-			}
-		}
 
 		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 		override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 			ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.STOPPING, "On State Exit...");
-			//Buddy.Vocal.OnEndListening.Clear();
-			Buddy.GUI.Screen.OnTouch.Remove(OnStopListening);
-			Buddy.Vocal.OnEndSpeaking.Clear();
+			Buddy.GUI.Screen.OnTouch.Remove(OnTouch);
 			Buddy.GUI.Toaster.Hide();
 		}
 
 		private void OnEndSpeaking(SpeechOutput iSpeechOutput)
 		{
-			// We listen if timeout is not reached yet
-			///if (0.0F <= mFTimeListening)
-				//Buddy.Vocal.Listen();
-		}
 
-		private void OnEndListening(SpeechInput iSpeechInput)
-		{
-			ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "RULE : " + iSpeechInput.Rule);
-			ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "UTTERANCE : " + iSpeechInput.Utterance);
-			ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "CONFIDENCE : " + iSpeechInput.Confidence);
+			//if(iSpeechOutput.IsInterrupted)
 
-			if (iSpeechInput.IsInterrupted || -1 == iSpeechInput.Confidence) // Error during recognition or forced StopListening
-			{
-				// Do nothing
-				return;
-			}
-
-			if (Utils.GetRealStartRule(iSpeechInput.Rule).EndsWith(STR_QUIT_COMMAND)) {
-				QuitApp();
-				return;
-			}
-
-			if (Utils.GetRealStartRule(iSpeechInput.Rule).EndsWith(STR_NEXT_COMMAND)) {
+			// If speech interrupted, don't go next slide
+			if (mSpeechInterrupted)
+				mSpeechInterrupted = false;
+			else
 				NextSlide();
-				return;
-			}
-
-			if (Utils.GetRealStartRule(iSpeechInput.Rule).EndsWith(STR_PREVIOUS_COMMAND)
-				// Not first index
-				&& mSlider.CurrentIndex > 0) {
-
-				// Previous Photo
-				mCurrentIndex--;
-				mSlider.GoPrevious();
-				mSliderTime = 0.0F;
-				Buddy.Vocal.SayKey(FitnessData.Instance.Exercise + (char)(97 + mCurrentIndex));
-				return;
-			}
-
-			//if (0.0F <= mFTimeListening) {
-				//Buddy.Vocal.Listen();
-			//}
 		}
 
 		private void NextSlide()
@@ -133,22 +72,22 @@ namespace BuddyApp.Fitness
 				// Next Photo
 				mCurrentIndex++;
 				mSlider.GoNext();
-				mSliderTime = 0.0F;
 				Buddy.Vocal.SayKey(FitnessData.Instance.Exercise + (char)(97 + mCurrentIndex));
 			}
 		}
 
-		private void OnStopListening(Touch[] iTouch)
+		private void OnTouch(Touch[] iTouch)
 		{
 			// If user changed slide with tactile
+			mSpeechInterrupted = true;
+			Buddy.Vocal.StopSpeaking();
+
 			if (mCurrentIndex != mSlider.CurrentIndex) {
 				mCurrentIndex = mSlider.CurrentIndex;
 				// Explain current slider
-				mSliderTime = 0.0F;
-				Buddy.Vocal.SayKey(FitnessData.Instance.Exercise + (char)(97 + mCurrentIndex));
+				Buddy.Vocal.SayKey(FitnessData.Instance.Exercise + (char)(97 + mCurrentIndex), OnEndSpeaking);
 			}
 
-			mFTimeListening = -1.0F;
 		}
 	}
 }

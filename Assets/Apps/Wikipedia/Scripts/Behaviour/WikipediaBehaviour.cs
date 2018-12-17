@@ -16,10 +16,8 @@ namespace BuddyApp.Wikipedia
 	/* A basic monobehaviour as "AI" behaviour for your app */
 	public class WikipediaBehaviour : MonoBehaviour
 	{
-		/*
-         * Data of the application. Save on disc when app is quitted
-         */
-		private WikipediaData mAppData;
+
+		// Credentials for google freespeech
 		private string mGoogleCredentials;
 
 		/// <summary>
@@ -29,6 +27,8 @@ namespace BuddyApp.Wikipedia
 		/// <returns></returns>
 		public IEnumerator Start()
 		{
+			// We get the credentials for google freespeech before
+			// listening.
 			yield return StartCoroutine(RetrieveCredentialsAsync());
 			Debug.Log("Say and listen");
 			SayAndListen("ilisten");
@@ -51,7 +51,6 @@ namespace BuddyApp.Wikipedia
 				SayAndListen("ilisten");
 				return;
 			} else {
-
 				string lDefinition = "";
 				lDefinition = ExtractDefinition(iSpeechInput.Utterance);
 				if (string.IsNullOrEmpty(lDefinition)) {
@@ -86,6 +85,7 @@ namespace BuddyApp.Wikipedia
 		/******************************************************************/
 
 
+		/******************** Hand made simple NLP ************************/
 		/// <summary>
 		/// This function gets the definition to look for
 		/// </summary>
@@ -94,33 +94,39 @@ namespace BuddyApp.Wikipedia
 		private string ExtractDefinition(string iUtterance)
 		{
 			Debug.Log("ExtractDefinition");
-			if (Utils.ContainsOneOf(iUtterance, "definitionof")) {
-				//We search for the location of the definition request
-				string lToBeSearched = "";
-				for (int i = 0; i < Buddy.Resources.GetPhoneticStrings("definitionof").Length; ++i) {
-					lToBeSearched = Buddy.Resources.GetPhoneticStrings("definitionof")[i];
-					int lIndex = iUtterance.IndexOf(lToBeSearched);
 
-					if (lIndex != -1) {
-						return iUtterance.Substring(lIndex + lToBeSearched.Length);
-					}
+			if (Utils.ContainsOneOf(iUtterance, "definitionof"))
+				return GetWordsAfter(iUtterance, "definitionof");
+
+			else if (Utils.ContainsOneOf(iUtterance, "whois"))
+				return GetWordsAfter(iUtterance, "whois");
+
+			return "";
+		}
+
+
+		/// <summary>
+		/// Extract words after key words iKeyWords
+		/// </summary>
+		/// <param name="iUtterance"> (Speech) sentence from the user </param>
+		/// <param name="iKeyWords"> Key words from which we will extract next words </param>
+		/// <returns></returns>
+		private string GetWordsAfter(string iUtterance, string iKeyWords)
+		{
+			string lToBeSearched = "";
+			for (int i = 0; i < Buddy.Resources.GetPhoneticStrings(iKeyWords).Length; ++i) {
+				lToBeSearched = Buddy.Resources.GetPhoneticStrings(iKeyWords)[i];
+				int lIndex = iUtterance.IndexOf(lToBeSearched);
+
+				if (lIndex != -1) {
+					return iUtterance.Substring(lIndex + lToBeSearched.Length);
 				}
-			} else if (Utils.ContainsOneOf(iUtterance, "whois")) {
-				Debug.Log("who is");
-				//We search for the location of the definition request
-				string lToBeSearched = "";
-				for (int i = 0; i < Buddy.Resources.GetPhoneticStrings("whois").Length; ++i) {
-					lToBeSearched = Buddy.Resources.GetPhoneticStrings("whois")[i];
-					int lIndex = iUtterance.IndexOf(lToBeSearched);
-
-					if (lIndex != -1) {
-						return iUtterance.Substring(lIndex + lToBeSearched.Length);
-					}
-				}
-
 			}
 			return "";
 		}
+
+
+		/********************************************************************************/
 
 		/// <summary>
 		/// This function collects the answer from wikipedia, 
@@ -226,7 +232,7 @@ namespace BuddyApp.Wikipedia
 		/// <returns></returns>
 		private IEnumerator RetrieveCredentialsAsync()
 		{
-			using (WWW lQuery = new WWW("http://bfr-dev.azurewebsites.net/dev/BuddyDev-fdec0a04c070.txt")) {
+			using (WWW lQuery = new WWW("http://bfr-dev.azurewebsites.net/dev/BuddyDev-mplqc5fk128f1.txt")) {
 				yield return lQuery;
 				mGoogleCredentials = lQuery.text;
 			}

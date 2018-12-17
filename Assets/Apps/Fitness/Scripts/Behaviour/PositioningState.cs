@@ -10,36 +10,30 @@ namespace BuddyApp.Fitness
 {
 	public sealed class PositionningState : AStateMachineBehaviour
 	{
-		// Coefficient to adjust all skeleton point, on the image.
-		private float COEFF_X;
-		private float COEFF_Y;
+		// Coefficient to adjust all skeleton point to the RGB image.
+		private const float COEFF_X = 1.7F;
+		private const float COEFF_Y = 2.45F;
 
 		private const float SKELETON_DETECT_TIME = 5F;
-
 		private const int MAX_SKELETON_DETECT = 1;
 
 		// List of Skeleton detect
 		private List<SkeletonJoint[]> mSkeletonList;
+
+		// Time of skeleton detection
 		private float mDetectTimeStamp;
 
 		// Variable to avoid multiple display
 		private bool mDisplayed;
+
 		// This texture will be filled with the camera data
 		private Texture2D mCamView;
 
 		override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 
-			// TODO: Buddy gives instruction
-
-			COEFF_X = 1.7F;
-			COEFF_Y = 2.45F;
-
-
 			mDisplayed = false;
-
 			mDetectTimeStamp = -1;
-
 			mSkeletonList = new List<SkeletonJoint[]>();
 
 			// Skeleton detection doesn't open the camera by default
@@ -48,22 +42,26 @@ namespace BuddyApp.Fitness
 
 			// Initialize texture.
 			mCamView = new Texture2D(Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height);
+
 			// Setting of the callback to use camera data
 			Buddy.Sensors.RGBCamera.OnNewFrame.Add((iInput) => OnFrameCaptured(iInput));
 
 			// Hide the default parameter button.
 			Buddy.GUI.Header.DisplayParametersButton(false);
+
 			// Set Title with a custom font
 			Font lHeaderFont = Buddy.Resources.Get<Font>("os_awesome");
 			lHeaderFont.material.color = Color.black;
 			Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont);
 			Buddy.GUI.Header.DisplayLightTitle("position");
+
+			// Give instructions
 			Buddy.Vocal.SayKey("position");
 		}
 
 		override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			// If the observation time is reach, go to the settings states.
+			// If the observation time is reach, go to the training state.
 			if (mDetectTimeStamp != -1 && (Time.time - mDetectTimeStamp) >= SKELETON_DETECT_TIME) {
 				if (!Buddy.Behaviour.IsBusy)
 					Trigger("TRAINING");

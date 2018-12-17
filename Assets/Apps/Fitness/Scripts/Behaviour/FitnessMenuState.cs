@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using BlueQuark;
+using System;
 
 namespace BuddyApp.Fitness
 {
@@ -27,6 +28,46 @@ namespace BuddyApp.Fitness
 				mButtonContent.Add("menuresume");
 				mButtonContent.Add("menuquit");
 			}
+
+			Buddy.Vocal.SayKeyAndListen("menutitle", null, new string[] { "common", "fitness" }, OnEndListenning, null, SpeechRecognitionMode.GRAMMAR_ONLY);
+		}
+
+		private void OnEndListenning(SpeechInput iSpeechInput)
+		{
+			if (!iSpeechInput.IsInterrupted)
+				if (string.IsNullOrEmpty(iSpeechInput.Rule))
+					Buddy.Vocal.Listen(new string[] { "common", "fitness" }, OnEndListenning, SpeechRecognitionMode.GRAMMAR_ONLY);
+				else {
+					string lRule = Utils.GetRealStartRule(iSpeechInput.Rule);
+
+					// User asked to quit (from common grammar)
+					if (lRule == "quit")
+						Buddy.Vocal.Say("bye", OnEndSpeaking);
+
+					// User asked to resume (from fitness grammar)
+					else if (lRule == "menuresume") {
+						if (string.IsNullOrEmpty(FitnessData.Instance.Exercise))
+							FitnessData.Instance.Exercise = "armex";
+						Trigger("POSITIONING");
+
+						// User asked an exercise (from fitness grammar)
+					} else if (lRule == "legex" || lRule == "armex") {
+						FitnessData.Instance.Exercise = lRule;
+						Trigger("TUTORIAL");
+
+						// User asked an other rule (from common grammar)
+					} else {
+						// Wrong rule, listen again!
+						Buddy.Vocal.Listen(new string[] { "common", "fitness" }, OnEndListenning, SpeechRecognitionMode.GRAMMAR_ONLY);
+					}
+
+				}
+		}
+
+		private void OnEndSpeaking(SpeechOutput iSpeech)
+		{
+			// Call when the user asked to quit
+			QuitApp();
 		}
 
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -56,13 +97,21 @@ namespace BuddyApp.Fitness
 					// We create an event OnClick to be triggered when the user click on the box
 					lBox.OnClick.Add(() => {
 						Debug.Log("Click " + lButtonContent);
+
+						// User clicked so no need to listen anymore
+						Buddy.Vocal.StopListening();
+
+						// User clicked on quit
 						if (lButtonContent == "menuquit")
-							QuitApp();
+							Buddy.Vocal.Say("bye", OnEndSpeaking);
+
+						// User clicked on resume
 						else if (lButtonContent == "menuresume") {
 							if (string.IsNullOrEmpty(FitnessData.Instance.Exercise))
 								FitnessData.Instance.Exercise = "armex";
-
 							Trigger("POSITIONING");
+
+						// user clicked on one of the exercise
 						} else {
 							FitnessData.Instance.Exercise = lButtonContent;
 							Trigger("TUTORIAL");
@@ -77,12 +126,13 @@ namespace BuddyApp.Fitness
 				}
 			});
 		}
-		
+
 		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
 			// When we exit the state, we need to remove the title and the toast:
 			Buddy.GUI.Header.HideTitle();
+			Buddy.Vocal.StopListening();
 			Buddy.GUI.Toaster.Hide();
 		}
 	}

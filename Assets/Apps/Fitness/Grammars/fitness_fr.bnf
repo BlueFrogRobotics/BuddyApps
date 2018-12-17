@@ -1,0 +1,8 @@
+#BNF+EMV2.1;
+!grammar fitness_en;
+!start <armex>;
+!start <legex>;
+!start <menuresume>;
+<armex>: [lance l'] (exercice | entrainement) des bras;
+<legex>: [lance l'] (exercice | entrainement) des jambes;
+<menuresume>: (reprendre| reprise) [de l'][exercise];
