@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BlueQuark;
 using OpenCVUnity;
-using UnityEngine.UI;
 
 namespace BuddyApp.Fitness
 {
@@ -88,16 +86,19 @@ namespace BuddyApp.Fitness
 		// On each frame captured by the camera this function is called, with the matrix of pixel.
 		private void OnFrameCaptured(RGBCameraFrame iInput)
 		{
-			// Always clone the input matrix, this avoid to working with the original matrix, when the C++ part wants to modify it.
+			// Always clone the input matrix, this avoid to work with the original matrix, 
+			// when the C++ part wants to modify it.
 			Mat lMatSrc = iInput.Mat.clone();
 
 			// Drawing each links between skeleton joints.
 			DrawSkeletonLinks(lMatSrc);
 
-			// Flip to avoid mirror effect.
+			// Flip to get mirror effect.
 			Core.flip(lMatSrc, lMatSrc, 1);
+
 			// Use matrice format, to scale the texture.
 			mCamView = Utils.ScaleTexture2DFromMat(lMatSrc, mCamView);
+
 			// Use matrice to fill the texture.
 			Utils.MatToTexture2D(lMatSrc, mCamView);
 		}
@@ -106,6 +107,7 @@ namespace BuddyApp.Fitness
 		private void DrawSkeletonLinks(Mat iMat)
 		{
 			int lSkeletonCount = 0;
+
 			if (Buddy.Sensors.RGBCamera.IsOpen) {
 				// We browse the skeleton list
 				foreach (var lSkeleton in mSkeletonList) {
@@ -129,16 +131,18 @@ namespace BuddyApp.Fitness
 						// The pow operation purpose, is to increase the influence of the depth
 
 						Point lCenter = new Point(iMat.cols() / 2, iMat.rows() / 2);
+
 						// Calcul the local position of the joint
 						Point lLocal = new Point(lJoint.WorldPosition.x / lJoint.WorldPosition.z, lJoint.WorldPosition.y / lJoint.WorldPosition.z);
+
 						// Conversion of the local position, in the img
 						lLocal.x *= COEFF_X * iMat.cols() / 2;
 						lLocal.y *= COEFF_Y * iMat.rows() / 2;
-						Imgproc.circle(iMat, lCenter - lLocal, (int)(10 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)), new Scalar(100, 0, 0), (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
-
+						Imgproc.circle(iMat, lCenter - lLocal, (int)(10 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)),
+							new Scalar(100, 0, 0), (int)(8 / Math.Pow(lJoint.WorldPosition.z / 1000F + 0.1, 2)));
 					}
 
-
+					// Draw joints
 					#region JOINTS_LINKED
 					if (lNameToJoint.ContainsKey(SkeletonJointType.HEAD) && lNameToJoint.ContainsKey(SkeletonJointType.SHOULDER_SPINE))
 						DrawLine(iMat, lNameToJoint[SkeletonJointType.HEAD], lNameToJoint[SkeletonJointType.SHOULDER_SPINE]);
@@ -210,13 +214,19 @@ namespace BuddyApp.Fitness
 			}
 		}
 
+		/// <summary>
+		/// Draw line between 2 points
+		/// </summary>
+		/// <param name="iMat"></param>
+		/// <param name="iSkeletonJoint1"></param>
+		/// <param name="iSkeletonJoint2"></param>
 		private void DrawLine(Mat iMat, SkeletonJoint iSkeletonJoint1, SkeletonJoint iSkeletonJoint2)
 		{
-
 			Point lCenter = new Point(iMat.cols() / 2, iMat.rows() / 2);
 			// Calcul the local position of the joint
 			Point lLocal1 = new Point(iSkeletonJoint1.WorldPosition.x / iSkeletonJoint1.WorldPosition.z, iSkeletonJoint1.WorldPosition.y / iSkeletonJoint1.WorldPosition.z);
 			Point lLocal2 = new Point(iSkeletonJoint2.WorldPosition.x / iSkeletonJoint2.WorldPosition.z, iSkeletonJoint2.WorldPosition.y / iSkeletonJoint2.WorldPosition.z);
+
 			// Conversion of the local position, in the img
 			lLocal1.x *= COEFF_X * iMat.cols() / 2;
 			lLocal1.y *= COEFF_Y * iMat.rows() / 2;
@@ -224,28 +234,31 @@ namespace BuddyApp.Fitness
 			lLocal2.x *= COEFF_X * iMat.cols() / 2;
 			lLocal2.y *= COEFF_Y * iMat.rows() / 2;
 
-			Imgproc.line(iMat, lCenter - lLocal1, lCenter - lLocal2, new Scalar(100, 0, 0), (int)(8 / Math.Pow(iSkeletonJoint1.WorldPosition.z / 1000F + 0.1, 2)).Clamp(0.5, 32));
+			Imgproc.line(iMat, lCenter - lLocal1, lCenter - lLocal2, new Scalar(100, 0, 0),
+				(int)(8 / Math.Pow(iSkeletonJoint1.WorldPosition.z / 1000F + 0.1, 2)).Clamp(0.5, 32));
 		}
 
 
-		/*
-		*   On a skeleton detection this function is called.
-		*/
+		/// <summary>
+		/// On skeleton detection, this function is called
+		/// </summary>
+		/// <param name="iSkeleton"></param>
+		/// <returns></returns>
 		private bool OnSkeletonDetectPos(SkeletonEntity[] iSkeleton)
 		{
 			if (mDetectTimeStamp == -1F) {
+
 				// TODO, say that Buddy detect skeleton
 				Buddy.Behaviour.Face.PlayEvent(FacialEvent.WHISTLE);
 				mDetectTimeStamp = Time.time;
 			}
 
-
+			// Update skeleton list
 			mSkeletonList.Clear();
 
 			// We add each skeleton to a list, to display them later in OnNewFrame
-			foreach (SkeletonEntity lSkeleton in iSkeleton) {
+			foreach (SkeletonEntity lSkeleton in iSkeleton)
 				mSkeletonList.Add(lSkeleton.Joints);
-			}
 
 			return true;
 		}

@@ -24,8 +24,7 @@ namespace BuddyApp.Fitness
 			mQuit = false;
 
 			Buddy.Perception.SkeletonDetector.OnDetect.AddP(OnSkeletonDetect);
-
-			Buddy.GUI.Screen.OnTouch.Add(OnStopListening);
+			Buddy.GUI.Screen.OnTouch.Add(OnTouch);
 
 			mSlider = Buddy.GUI.Toaster.DisplaySlide();
 
@@ -34,7 +33,9 @@ namespace BuddyApp.Fitness
 				mSlider.RemoveSlide(0);
 			}
 
+			// Give instruction for 1st exercise
 			Buddy.Vocal.SayKey(FitnessData.Instance.Exercise + "a");
+
 			/// Initializing slider with image sorted
 			mSlider.AddFirstDisplayedSlide<PictureToast>().With(Buddy.Resources.Get<Sprite>(FitnessData.Instance.Exercise + "a"));
 			mSlider.AddSlide<PictureToast>().With(Buddy.Resources.Get<Sprite>(FitnessData.Instance.Exercise + "b"));
@@ -43,11 +44,11 @@ namespace BuddyApp.Fitness
 		}
 
 
-		/*
-		 *   On a skeleton detection this function is called.
-		 *   mSkeletonDetectEnable: Enable or disable the code when WINDOWS is true.
-		 *   Because the removeP function is in WIP on windows, we juste disable the code, for now.
-		 */
+		/// <summary>
+		///  On a skeleton detection this function is called.
+		/// </summary>
+		/// <param name="iSkeleton"></param>
+		/// <returns></returns>
 		private bool OnSkeletonDetect(SkeletonEntity[] iSkeleton)
 		{
 			// We add each skeleton to a list, to display them later in OnNewFrame
@@ -86,7 +87,7 @@ namespace BuddyApp.Fitness
 							if (lNameToJoint[SkeletonJointType.LEFT_WRIST].WorldPosition.y - lNameToJoint[SkeletonJointType.LEFT_ELBOW].WorldPosition.y > 200F)
 								return true;
 
-						// if right arm same height as elbow +- 4cm
+						// if right arm same height as elbow +- 9cm
 					} else if (Math.Abs(lNameToJoint[SkeletonJointType.RIGHT_ELBOW].WorldPosition.y - lNameToJoint[SkeletonJointType.RIGHT_WRIST].WorldPosition.y) < 90F) {
 						// if left arm above elbow
 
@@ -98,7 +99,7 @@ namespace BuddyApp.Fitness
 				}
 				return false;
 			} else {
-				// TODO
+				// TODO legex
 				return true;
 			}
 		}
@@ -108,7 +109,7 @@ namespace BuddyApp.Fitness
 		override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 			mSliderTime += Time.deltaTime;
-			// Cheer the guy from time to time?
+			// TODO Cheer the guy from time to time?
 
 		}
 
@@ -116,25 +117,13 @@ namespace BuddyApp.Fitness
 		override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 			ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.STOPPING, "On State Exit...");
-			Buddy.GUI.Screen.OnTouch.Remove(OnStopListening);
+
+			Buddy.GUI.Screen.OnTouch.Remove(OnTouch);
 			Buddy.Perception.SkeletonDetector.OnDetect.Clear();
-		}
-
-		private void OnEndListening(SpeechInput iSpeechInput)
-		{
-			ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "RULE : " + iSpeechInput.Rule);
-			ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "UTTERANCE : " + iSpeechInput.Utterance);
-			ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "CONFIDENCE : " + iSpeechInput.Confidence);
-
-			// Recognize current position
-
-			Buddy.Vocal.SayKey(FitnessData.Instance.Exercise + (char)(97 + mSlider.CurrentIndex));
-
 		}
 
 		private void NextSlide()
 		{
-			Debug.Log("NextSlide!!!");
 			// Last photo
 			if(!mQuit)
 			if (mSlider.CurrentIndex + 1 == mSlider.Count) {
@@ -147,7 +136,6 @@ namespace BuddyApp.Fitness
 
 			} else {
 				// Next Photo
-				Debug.Log("NextPhoto!!!");
 				mCurrentIndex++;
 				Debug.Log("NextPhoto!!! " + FitnessData.Instance.Exercise + (char)(97 + mCurrentIndex));
 				mSlider.GoNext();
@@ -157,12 +145,17 @@ namespace BuddyApp.Fitness
 		}
 
 
-		private void OnStopListening(Touch[] iTouch)
+		private void OnTouch(Touch[] iTouch)
 		{
 			// If user tries to change slide with tactile
+
+			// Stop speaking
+			Buddy.Vocal.StopSpeaking();
+
 			if (mCurrentIndex != mSlider.CurrentIndex) {
+				// Go Back to current slide to force the user to do the exercise!
 				mSlider.GoTo(mCurrentIndex);
-				// Explain current slider
+				// Explain current slide
 				mSliderTime = 0.0F;
 				Buddy.Behaviour.Face.PlayEvent(FacialEvent.WHAT);
 				Buddy.Vocal.SayKey(FitnessData.Instance.Exercise + (char)(97 + mCurrentIndex));
