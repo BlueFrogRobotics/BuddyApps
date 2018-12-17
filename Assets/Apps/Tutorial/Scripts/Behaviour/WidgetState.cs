@@ -150,8 +150,9 @@ namespace BuddyApp.Tutorial
 		{
 			// we display the next toast
 			Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
-				// A button
-				iBuilder.CreateWidget<TButton>().SetLabel("ButtonLabel");
+                Buddy.Vocal.SayKey("widgetstateparametertoast");
+                // A button
+                iBuilder.CreateWidget<TButton>().SetLabel("ButtonLabel");
 				// A slider
 				iBuilder.CreateWidget<TSlider>().OnSlide.Add((iVal) => { Debug.Log(iVal); });
 				// A boolean toggle
@@ -176,7 +177,7 @@ namespace BuddyApp.Tutorial
 			 // next button callback
 			 () => {
 				 Debug.Log("Click next");
-				 Buddy.Vocal.SayKey("widgetstateparametertoast");
+				 
 				 Buddy.GUI.Toaster.Hide();
 				 Trigger("MenuTrigger");
 			 },

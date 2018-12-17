@@ -84,6 +84,10 @@ namespace BuddyApp.Tutorial
 		/// <param name="iInput">User speech input</param>
 		private void OnEndListen(SpeechInput iInput)
 		{
+            // If we clicked on the button yes we stopListen and it calls OnEndListen and iInput.IsInterrupted 
+            // return true if we call Buddy.Vocal.StopListening()
+            if (iInput.IsInterrupted)
+                return;
 			// We collect the human answer in Buddy.Vocal.LastHeardInput.Utterance and check if it
 			// is one of the expected sentences in the dico
 			if (Utils.ContainsOneOf(Buddy.Vocal.LastHeardInput.Utterance, "yes")) {
