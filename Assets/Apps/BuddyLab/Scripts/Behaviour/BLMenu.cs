@@ -8,6 +8,8 @@ namespace BuddyApp.BuddyLab
 {
     public sealed class BLMenu : AStateMachineBehaviour
     {
+        private bool mIsListening = false;
+
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
@@ -41,41 +43,49 @@ namespace BuddyApp.BuddyLab
             );
 
             Buddy.Vocal.OnEndListening.Add(OnListening);
-            Buddy.Vocal.Listen(SpeechRecognitionMode.GRAMMAR_ONLY);
+            Buddy.Vocal.Listen("buddylab", SpeechRecognitionMode.GRAMMAR_ONLY);
+            mIsListening = false;
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-
+            if(!mIsListening) {
+                mIsListening = true;
+                Buddy.Vocal.Listen("buddylab", SpeechRecognitionMode.GRAMMAR_ONLY);
+            }
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            Buddy.Vocal.Stop();
             Buddy.Vocal.OnEndListening.Remove(OnListening);
         }
 
         private void OnListening(SpeechInput iSpeech)
         {
-            if (!string.IsNullOrEmpty(iSpeech.Rule)){
+            Debug.Log("[LAB] speech: " + iSpeech.Utterance + " confidence: " + iSpeech.Confidence);
+            if (!string.IsNullOrEmpty(iSpeech.Rule) && iSpeech.Confidence>5000) {
                 if (iSpeech.Rule.Contains("menusimple")) {
                     Trigger("MakeProject");
                     Buddy.GUI.Toaster.Hide();
                 } else if (iSpeech.Rule.Contains("menuopen")) {
                     Trigger("StartOpen");
                     Buddy.GUI.Toaster.Hide();
-                } else {
-                    Buddy.Vocal.Listen(SpeechRecognitionMode.GRAMMAR_ONLY);
-                }//else if (iSpeech.Rule.Contains("menututo")) {
+                } 
+                //else {
+                //    Buddy.Vocal.Listen("buddylab", SpeechRecognitionMode.GRAMMAR_ONLY);
+                //}
+                //else if (iSpeech.Rule.Contains("menututo")) {
                  //    Trigger("StartTuto");
                  //    Buddy.GUI.Toaster.Hide();
                  //} 
             } 
-            else {
-                Buddy.Vocal.Listen(SpeechRecognitionMode.GRAMMAR_ONLY);
-            }
-
+            //else {
+            //    Buddy.Vocal.Listen(SpeechRecognitionMode.GRAMMAR_ONLY);
+            //}
+            mIsListening = false;
         }
     }
 }

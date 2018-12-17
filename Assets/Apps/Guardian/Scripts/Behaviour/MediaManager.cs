@@ -76,7 +76,9 @@ namespace BuddyApp.Guardian
         // Update is called once per frame
         void Update()
         {
-
+            if (!GuardianData.Instance.MovementDetection && !mCam.IsOpen) {
+                mCam.Open(RGBCameraMode.COLOR_320x240_30FPS_RGB);
+            }
             Debug.Log("volume speaker: " + Buddy.Actuators.Speakers.Volume);
             //Debug.Log("state mail: "+mState);
             switch(mState)

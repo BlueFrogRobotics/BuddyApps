@@ -25,7 +25,8 @@ namespace BuddyApp.Guardian
 
         private void OnClickParameters()
         {
-            Animator.Play("Parameters");
+            //Animator.Play("Parameters");
+            Animator.SetTrigger("Cancel");
             Buddy.GUI.Header.DisplayParametersButton(false);
         }
 

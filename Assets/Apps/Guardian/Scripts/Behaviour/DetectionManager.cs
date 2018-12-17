@@ -111,11 +111,13 @@ namespace BuddyApp.Guardian
 		/// </summary>
 		public void LinkDetectorsEvents()
 		{
-            MotionDetectorParameter lMotionParam = new MotionDetectorParameter(); 
-            lMotionParam.SensibilityThreshold = GuardianData.Instance.MovementDetectionThreshold * MAX_MOVEMENT_THRESHOLD / 100.0F;
-            lMotionParam.RegionOfInterest = new OpenCVUnity.Rect(0, 0, 320, 240);
+            if(GuardianData.Instance.MovementDetection) {
+                MotionDetectorParameter lMotionParam = new MotionDetectorParameter();
+                lMotionParam.SensibilityThreshold = GuardianData.Instance.MovementDetectionThreshold * MAX_MOVEMENT_THRESHOLD / 100.0F;
+                lMotionParam.RegionOfInterest = new OpenCVUnity.Rect(0, 0, 320, 240);
+                mMotionDetection.OnDetect.AddP(OnMovementDetected, lMotionParam);
+            }
             HasLinkedDetector = true;
-            mMotionDetection.OnDetect.AddP(OnMovementDetected, lMotionParam);
             mNoiseDetection.OnDetect.AddP(OnSoundDetected, 0.0F);
             Buddy.Sensors.ThermalCamera.OnNewFrame.Add((iInput) => OnNewFrame(iInput));
             ///TODO: subscribe to kidnapping detector
@@ -127,8 +129,9 @@ namespace BuddyApp.Guardian
 		public void UnlinkDetectorsEvents()
 		{
             HasLinkedDetector = false;
+            if (GuardianData.Instance.MovementDetection)
+                mMotionDetection.OnDetect.RemoveP(OnMovementDetected);
             mNoiseDetection.OnDetect.RemoveP(OnSoundDetected);
-            mMotionDetection.OnDetect.RemoveP(OnMovementDetected);
             Buddy.Sensors.ThermalCamera.OnNewFrame.Remove((iInput) => OnNewFrame(iInput));
             ///TODO: unsubscribe to kidnapping detector
         }

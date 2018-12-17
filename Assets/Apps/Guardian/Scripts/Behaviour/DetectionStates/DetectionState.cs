@@ -23,6 +23,10 @@ namespace BuddyApp.Guardian
 
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
+            
+            GuardianData.Instance.MobileDetection = false;//Todo: remove this lign when patrol mode work
+            GuardianData.Instance.ScanDetection = false;//Todo: remove this lign when scan mode work
+
             mDetectionManager.IsDetectingMovement = GuardianData.Instance.MovementDetection;
             mDetectionManager.IsDetectingSound = GuardianData.Instance.SoundDetection;
             mDetectionManager.IsDetectingFire = GuardianData.Instance.FireDetection;

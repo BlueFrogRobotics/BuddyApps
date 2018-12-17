@@ -11,8 +11,6 @@ namespace BuddyApp.Guardian
     {
         private bool mHasSwitchState = false;
 
-        private GameObject mVerticalBox;
-
         private RecipientsData mContacts;
 
         private FButton mLeftButton;
@@ -24,7 +22,6 @@ namespace BuddyApp.Guardian
         public override void Start()
         {
             mHasSwitchState = false;
-            mVerticalBox = GetGameObject(5);
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

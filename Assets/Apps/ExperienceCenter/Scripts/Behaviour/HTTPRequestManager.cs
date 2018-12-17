@@ -143,9 +143,12 @@ namespace BuddyApp.ExperienceCenter
 				}
 			};
 
-			string apiEntry = String.Format ("setup/devices/{0}/states", WWW.EscapeURL (jBuilder.GetDeviceURL (IOTLabels ["light"])));
-			Debug.LogFormat ("[EXCENTER] Sending GET request on apiEntry : {0}", apiEntry);
-			StartCoroutine (Get (apiEntry, onLightStatus));
+            //if (jBuilder.GetDeviceURL(IOTLabels["light"]) != null) {
+                string apiEntry = String.Format("setup/devices/{0}/states", WWW.EscapeURL(jBuilder.GetDeviceURL(IOTLabels["light"])));
+                Debug.LogFormat("[EXCENTER] Sending GET request on apiEntry : {0}", apiEntry);
+                StartCoroutine(Get(apiEntry, onLightStatus));
+            //} else
+            //    Debug.Log("[EXCENTER] light url is null");
 		}
 
 		private void StoreStatus ()
@@ -164,10 +167,13 @@ namespace BuddyApp.ExperienceCenter
 				}
 			};
 
-			string apiEntry = String.Format ("setup/devices/{0}/states", WWW.EscapeURL (jBuilder.GetDeviceURL (IOTLabels ["store"])));
-			Debug.LogFormat ("[EXCENTER] Sending GET request on apiEntry : {0}", apiEntry);
-			StartCoroutine (Get (apiEntry, onStoreStatus));
-		}
+            //if (jBuilder.GetDeviceURL(IOTLabels["store"]) != null) {
+                string apiEntry = String.Format("setup/devices/{0}/states", WWW.EscapeURL(jBuilder.GetDeviceURL(IOTLabels["store"])));
+                Debug.LogFormat("[EXCENTER] Sending GET request on apiEntry : {0}", apiEntry);
+                StartCoroutine(Get(apiEntry, onStoreStatus));
+            //} else
+            //    Debug.Log("[EXCENTER] store url is null");
+        }
 
 		private void SonosStatus ()
 		{
@@ -342,7 +348,10 @@ namespace BuddyApp.ExperienceCenter
 			if (request.isNetworkError)
 				Debug.LogErrorFormat ("[EXCENTER] Failed {0} request : {1}", apiEntry, request.error);
 			else {
-				JSONArray response = (JSONArray)JSON.Parse (request.downloadHandler.text);
+                Debug.Log("avant cast");
+                JSONArray response = (JSONArray)JSON.Parse (request.downloadHandler.text);
+                //response.Add(JSON.Parse(request.downloadHandler.text));
+                Debug.Log("apres cast");
 				if (onResponse != null)
 					onResponse (response, request.responseCode);
 			}

@@ -50,12 +50,13 @@ namespace BuddyApp.Guardian
 
             // Send notification to mybuddyapp
             //WebRTCListener.SendNotification(mAlert.GetMail().Subject, mAlert.GetMail().Body);
-            
-            string lMailAddress = mContacts.Recipients[GuardianData.Instance.ContactId].Mail;
-            if (!string.IsNullOrEmpty(lMailAddress) && GuardianData.Instance.SendMail)
-                SendMail(lMailAddress);
 
+            if (mContacts.Recipients.Count > 0) {
+                string lMailAddress = mContacts.Recipients[GuardianData.Instance.ContactId].Mail;
+                if (!string.IsNullOrEmpty(lMailAddress) && GuardianData.Instance.SendMail)
+                    SendMail(lMailAddress);
             mDetectionManager.AddLog(mAlert.GetLog());
+            }
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)

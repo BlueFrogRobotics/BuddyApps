@@ -425,6 +425,10 @@ namespace BuddyApp.BuddyLab
             }
             lItem.GetComponent<AGraphicElement>().SetInstruction(iStructure);
             lItem.GetComponent<DraggableItem>().OnlyDroppable = false;
+            ItemsContainer lItemContainer = lItem.GetComponentInChildren<ItemsContainer>();
+            if (lItemContainer != null) {
+                lItemContainer.DragOnly = false;
+            }
             lItem.transform.SetParent(mRootLine, false);
             return lItem;
         }

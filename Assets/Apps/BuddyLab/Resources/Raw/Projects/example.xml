@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BehaviourAlgorithm xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <Instructions>
+        <ABehaviourInstruction xsi:type="SetMoodBehaviourInstruction">
+            <IsBlocking>
+                <Value>true</Value>
+            </IsBlocking>
+            <IsRequired>
+                <Value>false</Value>
+            </IsRequired>
+            <Delay>
+                <Value>0</Value>
+            </Delay>
+            <Mood>
+                <Value>NEUTRAL</Value>
+            </Mood>
+            <Duration>
+                <Value>1.5</Value>
+            </Duration>
+        </ABehaviourInstruction>
+        <ABehaviourInstruction xsi:type="PlaySoundBehaviourInstruction">
+            <IsBlocking>
+                <Value>true</Value>
+            </IsBlocking>
+            <IsRequired>
+                <Value>false</Value>
+            </IsRequired>
+            <Delay>
+                <Value>0</Value>
+            </Delay>
+            <FileName />
+            <SoundSample>
+                <Value>LAUGH_1</Value>
+            </SoundSample>
+        </ABehaviourInstruction>
+        <ABehaviourInstruction xsi:type="SetMoodBehaviourInstruction">
+            <IsBlocking>
+                <Value>true</Value>
+            </IsBlocking>
+            <IsRequired>
+                <Value>false</Value>
+            </IsRequired>
+            <Delay>
+                <Value>0</Value>
+            </Delay>
+            <Mood>
+                <Value>SAD</Value>
+            </Mood>
+            <Duration>
+                <Value>1.5</Value>
+            </Duration>
+        </ABehaviourInstruction>
+        <ABehaviourInstruction xsi:type="FaceInteractionInputBehaviourInstruction">
+            <IsBlocking>
+                <Value>true</Value>
+            </IsBlocking>
+            <IsRequired>
+                <Value>false</Value>
+            </IsRequired>
+            <AnyPart>
+                <Value>false</Value>
+            </AnyPart>
+            <ConditionalParts>
+                <Value>
+                    <FacialPart>RIGHT_EYE</FacialPart>
+                </Value>
+            </ConditionalParts>
+        </ABehaviourInstruction>
+        <ABehaviourInstruction xsi:type="SetMoodBehaviourInstruction">
+            <IsBlocking>
+                <Value>true</Value>
+            </IsBlocking>
+            <IsRequired>
+                <Value>false</Value>
+            </IsRequired>
+            <Delay>
+                <Value>0</Value>
+            </Delay>
+            <Mood>
+                <Value>ANGRY</Value>
+            </Mood>
+            <Duration>
+                <Value>1.5</Value>
+            </Duration>
+        </ABehaviourInstruction>
+        <ABehaviourInstruction xsi:type="AprilTagInputBehaviourInstruction">
+            <IsBlocking>
+                <Value>true</Value>
+            </IsBlocking>
+            <IsRequired>
+                <Value>false</Value>
+            </IsRequired>
+            <AnyContent>
+                <Value>false</Value>
+            </AnyContent>
+            <ConditionalContents>
+                <Value>
+                    <int>1</int>
+                </Value>
+            </ConditionalContents>
+        </ABehaviourInstruction>
+        <ABehaviourInstruction xsi:type="SetMoodBehaviourInstruction">
+            <IsBlocking>
+                <Value>true</Value>
+            </IsBlocking>
+            <IsRequired>
+                <Value>false</Value>
+            </IsRequired>
+            <Delay>
+                <Value>0</Value>
+            </Delay>
+            <Mood>
+                <Value>SURPRISED</Value>
+            </Mood>
+            <Duration>
+                <Value>1.5</Value>
+            </Duration>
+        </ABehaviourInstruction>
+        <ABehaviourInstruction xsi:type="SetMoodBehaviourInstruction">
+            <IsBlocking>
+                <Value>true</Value>
+            </IsBlocking>
+            <IsRequired>
+                <Value>false</Value>
+            </IsRequired>
+            <Delay>
+                <Value>0</Value>
+            </Delay>
+            <Mood>
+                <Value>HAPPY</Value>
+            </Mood>
+            <Duration>
+                <Value>1.5</Value>
+            </Duration>
+        </ABehaviourInstruction>
+    </Instructions>
+</BehaviourAlgorithm>

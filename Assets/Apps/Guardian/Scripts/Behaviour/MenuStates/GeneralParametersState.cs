@@ -1,4 +1,5 @@
 ﻿using BlueQuark;
+
 using UnityEngine;
 
 namespace BuddyApp.Guardian
@@ -10,8 +11,8 @@ namespace BuddyApp.Guardian
     {
         private bool mHasSwitchState = false;
 
-        private TToggle mToggleMobileGuard;
-        private TToggle mToggleMobileHead;
+        //private TToggle mToggleMobileGuard;
+        //private TToggle mToggleMobileHead;
         private TToggle mToggleAlarm;
         private TToggle mToggleMailNotif;
         private TButton mButtonRecipient;
@@ -32,13 +33,13 @@ namespace BuddyApp.Guardian
             
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
             {
-                mToggleMobileGuard = iBuilder.CreateWidget<TToggle>();
-                mToggleMobileGuard.SetLabel(Buddy.Resources.GetString("mobile"));
-                mToggleMobileGuard.ToggleValue = GuardianData.Instance.MobileDetection;
+                //mToggleMobileGuard = iBuilder.CreateWidget<TToggle>();
+                //mToggleMobileGuard.SetLabel(Buddy.Resources.GetString("mobile"));
+                //mToggleMobileGuard.ToggleValue = GuardianData.Instance.MobileDetection;
 
-                mToggleMobileHead = iBuilder.CreateWidget<TToggle>();
-                mToggleMobileHead.SetLabel(Buddy.Resources.GetString("scan"));
-                mToggleMobileHead.ToggleValue = GuardianData.Instance.ScanDetection;
+                //mToggleMobileHead = iBuilder.CreateWidget<TToggle>();
+                //mToggleMobileHead.SetLabel(Buddy.Resources.GetString("scan"));
+                //mToggleMobileHead.ToggleValue = GuardianData.Instance.ScanDetection;
 
                 mToggleAlarm = iBuilder.CreateWidget<TToggle>();
                 mToggleAlarm.SetLabel(Buddy.Resources.GetString("alarm"));
@@ -79,8 +80,8 @@ namespace BuddyApp.Guardian
 
         private void SaveValues()
         {
-            GuardianData.Instance.MobileDetection = mToggleMobileGuard.ToggleValue;
-            GuardianData.Instance.ScanDetection = mToggleMobileHead.ToggleValue;
+            GuardianData.Instance.MobileDetection = false;// mToggleMobileGuard.ToggleValue;
+            GuardianData.Instance.ScanDetection = false;// mToggleMobileHead.ToggleValue;
             GuardianData.Instance.SendMail = mToggleMailNotif.ToggleValue;
             GuardianData.Instance.AlarmActivated = mToggleAlarm.ToggleValue;
         }

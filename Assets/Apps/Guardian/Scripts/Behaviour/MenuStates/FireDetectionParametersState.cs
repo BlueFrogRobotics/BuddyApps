@@ -36,7 +36,7 @@ namespace BuddyApp.Guardian
 
                 mButtonTestSensibility = iBuilder.CreateWidget<TButton>();
                 mButtonTestSensibility.SetLabel(Buddy.Resources.GetString("viewheatdetection"));
-                mButtonTestSensibility.SetIcon(Buddy.Resources.Get<Sprite>("os_circle_button"));
+                mButtonTestSensibility.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_cog"));
                 mButtonTestSensibility.SetActive(mToggleFireDetection.ToggleValue);
                 mButtonTestSensibility.OnClick.Add(() => { Trigger("Test"); Buddy.GUI.Toaster.Hide(); });
             },

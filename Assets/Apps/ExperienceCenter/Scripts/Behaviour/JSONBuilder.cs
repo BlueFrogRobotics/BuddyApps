@@ -15,54 +15,58 @@ namespace BuddyApp.ExperienceCenter {
 			mURLDevices = new Dictionary<string,string>();
 		}
 
-		public void AddDeviceURL(string name, string deviceURL)
+		public void AddDeviceURL(string iName, string iDeviceURL)
 		{
-            Debug.Log("[JSON] add device " + name + " with url " + deviceURL);
-			mURLDevices.Add(name,deviceURL);
+            Debug.Log("[JSON] add device " + iName + " with url " + iDeviceURL);
+            //if(!string.IsNullOrEmpty(iName) && !string.IsNullOrEmpty(iDeviceURL))
+			    mURLDevices.Add(iName,iDeviceURL);
 		}
 
-        public string GetDeviceURL(string key)
+        public string GetDeviceURL(string iKey)
         {
-            Debug.Log("[JSON] get device url: " + key);
-            return mURLDevices[key];
+            Debug.Log("[JSON] get device url: " + iKey);
+            //if (mURLDevices.ContainsKey(iKey))
+                return mURLDevices[iKey];
+            //else
+            //    return null;
         }
 
-		public JSONObject CreateAction(string deviceName, string commandName, List<string> parameters)
+		public JSONObject CreateAction(string iDeviceName, string iCommandName, List<string> iParameters)
 		{
-			JSONObject json = new JSONObject();
-            Debug.Log("[JSON] create action with device name " + deviceName + " and command " + commandName);
+			JSONObject lJson = new JSONObject();
+            Debug.Log("[JSON] create action with device name " + iDeviceName + " and command " + iCommandName);
 			// Fill first fields with empty data
-			json.Add("label", deviceName + "_" + commandName);
-			json.Add("metadata", "");
-			json.Add("shortcut", false);
-			json.Add("notificationTypeMask", 1);
-			json.Add("notificationCondition", "ALWAYS");
-			json.Add("notificationText", commandName + parameters.ToString());
-			json.Add("notificationTitle", deviceName);
-			json.Add("targetEmailAddresses", new JSONArray());
-			json.Add("targetPhoneNumbers", new JSONArray());
-			json.Add("targetPushSubscriptions", new JSONArray());
+			lJson.Add("label", iDeviceName + "_" + iCommandName);
+			lJson.Add("metadata", "");
+			lJson.Add("shortcut", false);
+			lJson.Add("notificationTypeMask", 1);
+			lJson.Add("notificationCondition", "ALWAYS");
+			lJson.Add("notificationText", iCommandName + iParameters.ToString());
+			lJson.Add("notificationTitle", iDeviceName);
+			lJson.Add("targetEmailAddresses", new JSONArray());
+			lJson.Add("targetPhoneNumbers", new JSONArray());
+			lJson.Add("targetPushSubscriptions", new JSONArray());
 
-			JSONArray actions = new JSONArray();
-			JSONObject action = new JSONObject();
-			JSONArray commands = new JSONArray();
-			JSONObject command = new JSONObject();
+			JSONArray lActions = new JSONArray();
+			JSONObject lAction = new JSONObject();
+			JSONArray lCommands = new JSONArray();
+			JSONObject lCommand = new JSONObject();
 
-			JSONArray jParameters = new JSONArray();
-			foreach (string param in parameters)
-				jParameters.Add(param);
+			JSONArray lJsonParameters = new JSONArray();
+			foreach (string param in iParameters)
+				lJsonParameters.Add(param);
 
-			action.Add("deviceURL", mURLDevices[deviceName]);
-			command.Add("type", 1);
-			command.Add("name", commandName);
-			command.Add("parameters", jParameters);
-			commands.Add(command);
-			action.Add("commands", commands);
-			actions.Add(action);
+			lAction.Add("deviceURL", mURLDevices[iDeviceName]);
+			lCommand.Add("type", 1);
+			lCommand.Add("name", iCommandName);
+			lCommand.Add("parameters", lJsonParameters);
+			lCommands.Add(lCommand);
+			lAction.Add("commands", lCommands);
+			lActions.Add(lAction);
 
-			json.Add("actions", actions);
+			lJson.Add("actions", lActions);
 
-			return json;
+			return lJson;
 		}
 	}
 }

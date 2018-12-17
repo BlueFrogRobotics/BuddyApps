@@ -53,11 +53,14 @@ namespace BuddyApp.BuddyLab
             if (iItem != null) {
                 iItem.ParentToReturnTo = this.transform;
                 if (iItem.OnlyDroppable) {
-                        GameObject lItem = Instantiate(iItem.gameObject);
-                        lItem.transform.SetParent(this.transform);
-                        lItem.GetComponent<DraggableItem>().OnlyDroppable = false;
-                        lItem.transform.SetSiblingIndex(iIndex);
-
+                    GameObject lItem = Instantiate(iItem.gameObject);
+                    lItem.transform.SetParent(this.transform);
+                    lItem.GetComponent<DraggableItem>().OnlyDroppable = false;
+                    lItem.transform.SetSiblingIndex(iIndex);
+                    ItemsContainer lItemContainer = lItem.GetComponentInChildren<ItemsContainer>();
+                    if(lItemContainer!=null) {
+                        lItemContainer.DragOnly = false;
+                    }
                 }
 
             }
