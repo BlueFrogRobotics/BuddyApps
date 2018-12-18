@@ -48,15 +48,10 @@
         </member>
         <member name="M:BlueQuark.Internal.AComponent.Initialize(System.Object,System.Object[])">
             <summary>
-            Must be called once after ConstructorCtor. Allows to set parameters.
+            Must be called once after Constructor. Allows to set parameters.
             </summary>
             <param name="iArg">Any argument</param>
             <param name="iArgs">Any argument</param>
-        </member>
-        <member name="M:BlueQuark.Internal.AComponent.PostInitialize">
-            <summary>
-            Must be called once after Initialize.
-            </summary>
         </member>
         <member name="M:BlueQuark.Internal.AComponent.Loop">
             <summary>
@@ -300,9 +295,6 @@
             </summary>
         </member>
         <member name="T:BlueQuark.Internal.AHeadHinge`2">
-            <summary>
-            Hinge component of the robot neck. 
-            </summary>
             <summary>
             Hinge component of the robot neck. 
             </summary>
@@ -551,17 +543,6 @@
             Sets the dot as selected or not.
             </summary>
             <param name="iVal">The value of the selection.</param>
-        </member>
-        <member name="T:BlueQuark.Internal.CommandHistory`1">
-            <summary>
-            Records a fixed number of recent commands. Default size is 6.
-            </summary>
-            <typeparam name="T"></typeparam>
-        </member>
-        <member name="P:BlueQuark.Internal.CommandHistory`1.Size">
-            <summary>
-            Number of commands
-            </summary>
         </member>
         <member name="T:BlueQuark.Internal.Velocity">
             <summary>
@@ -873,6 +854,16 @@
         <member name="T:BlueQuark.Internal.Wall">
             <summary>
             Detection results of walls
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.ObstacleAvoidance">
+            <summary>
+            To be merged into the ObstacleDetector
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.ObstacleAvoidance.Finalize">
+            <summary>
+            kaka
             </summary>
         </member>
         <member name="M:BlueQuark.Internal.ObstacleAvoidance.#ctor">
@@ -4135,11 +4126,11 @@
             <param name="iOnEndRecognition"></param>
             <param name="iPath"></param>
         </member>
-        <member name="M:BlueQuark.Internal.GoogleSpeech.SetAPICredentialAndStart(System.String)">
+        <member name="M:BlueQuark.Internal.GoogleSpeech.SetAPICredentialsAndStart(System.String)">
             <summary>
-            Set the credential api string
+            Set the credentials API, can be a filepath or filecontent
             </summary>
-            <param name="iCredential"></param>
+            <param name="iCredentials"></param>
         </member>
         <member name="T:BlueQuark.Internal.VocalTrigger">
             <summary>
@@ -4396,10 +4387,6 @@
             Text to speech allows you to make Buddy talks an input System.String.
             The Windows version uses SAPI, the Android version uses Google API.
             So, available methods have not the same behaviour on difference devices.
-            </summary>
-            <summary>
-            Text to speech allows to make Buddy talks an input System.String.
-            Available methods have not the same behaviour on difference devices.
             </summary>
         </member>
         <member name="P:BlueQuark.Internal.TextToSpeech.IsBusy">
@@ -6879,6 +6866,17 @@
             </summary>
             <returns>Index of the dot to select.</returns>
         </member>
+        <member name="T:BlueQuark.CommandHistory`1">
+            <summary>
+            Records a fixed number of recent commands. Default size is 6.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:BlueQuark.CommandHistory`1.MaxSize">
+            <summary>
+            Number of commands
+            </summary>
+        </member>
         <member name="T:BlueQuark.TrackingMovingType">
             <summary>
             Robot's mobility options during tracking
@@ -7200,7 +7198,7 @@
         </member>
         <member name="P:BlueQuark.SkeletonJoint.WorldPosition">
             <summary>
-            Represents the world position of the skeleton joint.
+            Represents the world position of the skeleton joint. In millimeters.
             </summary>
         </member>
         <member name="P:BlueQuark.SkeletonJoint.Orientation">
@@ -7266,7 +7264,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="P:BlueQuark.SkeletonEntity.GetHumanEntity">
+        <member name="P:BlueQuark.SkeletonEntity.Human">
             <summary>
             Gets the human entity.
             </summary>
@@ -7279,6 +7277,11 @@
         <member name="P:BlueQuark.SkeletonEntity.Confidence">
             <summary>
             Confidence of the detection, from 0 to 1. Depend on the number of joints and distance.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.HumanDetectorParameter">
+            <summary>
+            Parameters for HumanDetector: which sensor to use. If using VISION, can further configure YOLOParameters.
             </summary>
         </member>
         <member name="P:BlueQuark.HumanDetectorParameter.SensorMode">
@@ -10639,6 +10642,11 @@
             Game category.
             </summary>
         </member>
+        <member name="F:BlueQuark.AppCategory.HEALTH">
+            <summary>
+            Health category.
+            </summary>
+        </member>
         <member name="F:BlueQuark.AppCategory.MULTIMEDIA">
             <summary>
             Multimedia category.
@@ -10661,7 +10669,7 @@
         </member>
         <member name="T:BlueQuark.AppVersionReleaseStatus">
             <summary>
-            Represents a version of the app.
+            Represents a version state of the app.
             </summary>
         </member>
         <member name="F:BlueQuark.AppVersionReleaseStatus.NONE">
@@ -12828,7 +12836,15 @@
             <param name="iThresholdTemp"></param>
             <returns>True if the instance is hotter than the given temperature.</returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:BlueQuark.ThermalDetector.CheckHumanPresence(System.Single)" -->
+        <member name="M:BlueQuark.ThermalDetector.CheckHumanPresence(System.Single@,System.Single)">
+            <summary>
+            Tells if a human is present by comparing average temperatures over regions .
+            Works from 0.5m to 2.5m approximately.
+            </summary>
+            <param name="oTempDiff">The difference of average temperature between hottest and coldest regions.</param>
+            <param name="iThresholdDiff">When difference of average temperature of hottest and coldest regions is greater than this value, return true.</param>
+            <returns>Yes if human present</returns>
+        </member>
         <member name="F:BlueQuark.BodyPart.FACE">
             <summary>
             Face.
@@ -12861,27 +12877,27 @@
         </member>
         <member name="P:BlueQuark.HumanEntity.BoundingBox">
             <summary>
-            Available when in SensorMode.VISION.
+            Available when in SensorMode.VISION. Null if not available.
             </summary>
         </member>
         <member name="P:BlueQuark.HumanEntity.Center">
             <summary>
-            Available when in SensorMode.VISION.
+            Available when in SensorMode.VISION. Null is not avaiable.
             </summary>
         </member>
         <member name="P:BlueQuark.HumanEntity.Distance">
             <summary>
-            Distance to human in meters. Available in SensorMode.SKELETON.
+            Distance to human in meters. Available in SensorMode.SKELETON. -1 if not available.
             </summary>
         </member>
         <member name="P:BlueQuark.HumanEntity.Confidence">
             <summary>
-            Confidence of this entity. From 0 to 1.
+            Confidence of this entity. From 0 to 1. -1 if not available.
             </summary>
         </member>
         <member name="P:BlueQuark.HumanEntity.Skeleton">
             <summary>
-            Associated skeleton. Available in SensorMode.SKELETON.
+            Associated skeleton. Available in SensorMode.SKELETON. Null is not available.
             </summary>
         </member>
         <member name="T:BlueQuark.HorizontalMotion">
@@ -15681,6 +15697,12 @@
             PI.
             </summary>
         </member>
+        <member name="P:BlueQuark.Utils.JCodecProgression">
+            <summary>
+            Percent of a Jcodec process.
+            </summary>
+            <seealso cref="M:BlueQuark.Utils.CreateJCodecVideoFromPictures(System.String,System.Int32,System.Collections.Generic.List{System.Byte[]},System.Action{System.Boolean,System.String})"/>
+        </member>
         <member name="M:BlueQuark.Utils.GetNearestColor(UnityEngine.Color32)">
             <summary>
             Gets the nearest color.
@@ -15751,6 +15773,13 @@
             <returns>The remaped depth to rgb.</returns>
         </member>
         <member name="M:BlueQuark.Utils.LoadTexture(System.Byte[])">
+            <summary>
+            Loads a byte array to a Texture2D.
+            </summary>
+            <param name="iData">The data of a picture.</param>
+            <returns>The texture2D.</returns>
+        </member>
+        <member name="M:BlueQuark.Utils.LoadTexture(System.Byte[],System.Int32,System.Int32)">
             <summary>
             Loads a byte array to a Texture2D.
             </summary>
@@ -15970,7 +15999,7 @@
             <summary>
             Converts a structure into bytes array with marshaling.
             </summary>
-            <typeparam name="T">Type of the structure;</typeparam>
+            <typeparam name="T">Type of the structure.</typeparam>
             <param name="iStructure">The structure to convert.</param>
             <param name="iLength">The size of the structure. Must be specified for a complex structure.</param>
             <returns>The data representation of the structure.</returns>
@@ -16296,17 +16325,17 @@
         </member>
         <member name="M:BlueQuark.Utils.Position(UnityEngine.Vector3)">
             <summary>
-            Angle in degree.
+            Position (x,y) of the vector. 
             </summary>
             <param name="iVec">The vector.</param>
-            <returns>The angle of the vector.</returns>
+            <returns>x,y components of the vector</returns>
         </member>
         <member name="M:BlueQuark.Utils.Norm(UnityEngine.Vector2)">
             <summary>
-            Normalizes a vector.
+            L2 norm of the vector.
             </summary>
-            <param name="iVec">The vector to normalize.</param>
-            <returns>The float of the normalized vector.</returns>
+            <param name="iVec">The vector.</param>
+            <returns>The vector's L2 norm.</returns>
         </member>
         <member name="M:BlueQuark.Utils.Average(System.Collections.Generic.List{OpenCVUnity.Point})">
             <summary>
@@ -16951,6 +16980,61 @@
             </summary>
             <param name="iAngle">The angle to format.</param>
             <returns>The formated angle.</returns>
+        </member>
+        <member name="M:BlueQuark.Utils.DLog(System.Object)">
+            <summary>
+            Temporary Debug Log. Comment to hide.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Utils.DWarning(System.Object)">
+            <summary>
+            Temporary Debug Log Warning. Comment to hide.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Utils.DError(System.Object)">
+            <summary>
+            Temporary Debug Log Error. Comment to hide.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Utils.CreateJCodecVideoFromPictures(System.String,System.Int32,System.Collections.Generic.List{System.Byte[]},System.Action{System.Boolean,System.String})">
+            <summary>
+            Creates a video with given pictures. Uses the (android) JCodec library.
+            Only one process can be started at time.
+            The given pictures must all have the same size. The total size given to JCodec doesn't must exceed 115MB.
+            Note : JCodec automaticaly resize the pictures to 640x480.
+            </summary>
+            <param name="iFPS">The fps.</param>
+            <param name="iFilePath">The path where is stored the video.</param>
+            <param name="iPictures">The list of pictures to assemble.</param>
+            <param name="iOnFinish">Callback called on end. First param : True if the process succeed ; Second param : The path of the video.</param>
+            <returns>
+            Returns false 
+            -if the java module is not connected.
+            -if the parameters are bad.
+            -if the pictures don't have the same size
+            -if the JCodec library is already processing.
+            -if the total size given to JCodec exceed 115MB.
+            Returns true if the JCodec starts processing.
+            </returns>
+            <seealso cref="M:BlueQuark.Utils.AbortJCodecProcessing"/>
+            <seealso cref="M:BlueQuark.Utils.IsJCodecProcessing"/>
+            <seealso cref="P:BlueQuark.Utils.JCodecProgression"/>
+        </member>
+        <member name="M:BlueQuark.Utils.AbortJCodecProcessing">
+            <summary>
+            Sends an interrupt signal to the current JCodec process.
+            It can take a while. Ensure that IsJCodecProcessing returns false before calling CreateJCodecVideoFromPictures().
+            </summary>
+            <seealso cref="M:BlueQuark.Utils.CreateJCodecVideoFromPictures(System.String,System.Int32,System.Collections.Generic.List{System.Byte[]},System.Action{System.Boolean,System.String})"/>
+            <seealso cref="M:BlueQuark.Utils.IsJCodecProcessing"/>
+        </member>
+        <member name="M:BlueQuark.Utils.IsJCodecProcessing">
+            <summary>
+            Asks to JCodec library if there is already something processing.
+            </summary>
+            <returns>True if something is processing.</returns>
+            <seealso cref="M:BlueQuark.Utils.CreateJCodecVideoFromPictures(System.String,System.Int32,System.Collections.Generic.List{System.Byte[]},System.Action{System.Boolean,System.String})"/>
+            <seealso cref="M:BlueQuark.Utils.AbortJCodecProcessing"/>
         </member>
         <member name="T:BlueQuark.SpeechInputParameters">
             <summary>
