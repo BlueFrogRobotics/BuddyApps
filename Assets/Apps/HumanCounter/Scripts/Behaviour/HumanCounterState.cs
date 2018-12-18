@@ -129,7 +129,7 @@ namespace BuddyApp.HumanCounter
                 if ((Buddy.Perception.SkeletonDetector.OnDetect.Count == 0 || !WINDOWS))
                 {
                     // Skeleton detection doesn't open the camera by default
-                    Buddy.Sensors.RGBCamera.Open(RGBCameraMode.COLOR_320x240_30FPS_RGB);
+                    Buddy.Sensors.RGBCamera.Open(RGBCameraMode.COLOR_320X240_30FPS_RGB);
                     Buddy.Perception.SkeletonDetector.OnDetect.AddP(OnSkeletonDetect);
 
                 }

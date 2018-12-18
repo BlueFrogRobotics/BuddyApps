@@ -77,7 +77,7 @@ namespace BuddyApp.Guardian
         void Update()
         {
             if (!GuardianData.Instance.MovementDetection && !mCam.IsOpen) {
-                mCam.Open(RGBCameraMode.COLOR_320x240_30FPS_RGB);
+                mCam.Open(RGBCameraMode.COLOR_320X240_30FPS_RGB);
             }
             Debug.Log("volume speaker: " + Buddy.Actuators.Speakers.Volume);
             //Debug.Log("state mail: "+mState);

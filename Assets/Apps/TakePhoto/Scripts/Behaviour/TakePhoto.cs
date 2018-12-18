@@ -88,7 +88,7 @@ namespace BuddyApp.TakePhoto
             Buddy.Sensors.RGBCamera.OnNewFrame.Add((iInput) => OnFrameCaptured(iInput));
             if (!Buddy.Sensors.RGBCamera.IsOpen)
             {
-                Buddy.Sensors.RGBCamera.Open(RGBCameraMode.COLOR_640x480_30FPS_RGB);
+                Buddy.Sensors.RGBCamera.Open(RGBCameraMode.COLOR_640X480_30FPS_RGB);
                 
             }
 

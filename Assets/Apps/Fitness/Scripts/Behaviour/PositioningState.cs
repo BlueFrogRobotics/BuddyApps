@@ -35,7 +35,7 @@ namespace BuddyApp.Fitness
 			mSkeletonList = new List<SkeletonJoint[]>();
 
 			// Skeleton detection doesn't open the camera by default
-			Buddy.Sensors.RGBCamera.Open(RGBCameraMode.COLOR_320x240_30FPS_RGB);
+			Buddy.Sensors.RGBCamera.Open(RGBCameraMode.COLOR_320X240_30FPS_RGB);
 			Buddy.Perception.SkeletonDetector.OnDetect.AddP(OnSkeletonDetectPos);
 
 			// Initialize texture.

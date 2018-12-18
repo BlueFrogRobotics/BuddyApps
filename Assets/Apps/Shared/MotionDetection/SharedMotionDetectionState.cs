@@ -141,7 +141,7 @@ namespace BuddyApp.Shared
                     Debug.Log("You didn't create a integer named QuantityMovement in animator's parameter, do it and change its value with animator.SetInteger(\"QuantityMovement\", your value);");
             }
 
-            mCam.Open(RGBCameraMode.COLOR_320x240_30FPS_RGB);
+            mCam.Open(RGBCameraMode.COLOR_320X240_30FPS_RGB);
             mCam.OnNewFrame.Add((iFrame) =>
             {
                 mMat = iFrame.Mat.clone();
