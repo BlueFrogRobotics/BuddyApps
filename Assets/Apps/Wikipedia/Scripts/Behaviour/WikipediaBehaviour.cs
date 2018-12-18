@@ -190,7 +190,7 @@ namespace BuddyApp.Wikipedia
 						Debug.Log("lRes: " + lRes);
 
 						// Say the answere and listen again
-						Buddy.Vocal.SayAndListen(lRes, null, OnEndListening, OnListeningStatus, SpeechRecognitionMode.FREESPEECH_ONLY);
+						//Buddy.Vocal.SayAndListen(lRes, null, OnEndListening, OnListeningStatus, SpeechRecognitionMode.FREESPEECH_ONLY);
 
 						SayAndListen(lRes, false);
 					}

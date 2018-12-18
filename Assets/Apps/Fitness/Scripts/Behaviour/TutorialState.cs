@@ -72,17 +72,16 @@ namespace BuddyApp.Fitness
 				// Next Photo
 				mCurrentIndex++;
 				mSlider.GoNext();
-				Buddy.Vocal.SayKey(FitnessData.Instance.Exercise + (char)(97 + mCurrentIndex));
+				Buddy.Vocal.SayKey(FitnessData.Instance.Exercise + (char)(97 + mCurrentIndex), OnEndSpeaking);
 			}
 		}
 
 		private void OnTouch(Touch[] iTouch)
 		{
 			// If user changed slide with tactile
-			mSpeechInterrupted = true;
-			Buddy.Vocal.StopSpeaking();
-
 			if (mCurrentIndex != mSlider.CurrentIndex) {
+				mSpeechInterrupted = true;
+				Buddy.Vocal.StopSpeaking();
 				mCurrentIndex = mSlider.CurrentIndex;
 				// Explain current slider
 				Buddy.Vocal.SayKey(FitnessData.Instance.Exercise + (char)(97 + mCurrentIndex), OnEndSpeaking);

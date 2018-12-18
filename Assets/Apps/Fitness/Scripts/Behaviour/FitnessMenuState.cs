@@ -34,6 +34,9 @@ namespace BuddyApp.Fitness
 
 		private void OnEndListenning(SpeechInput iSpeechInput)
 		{
+
+			Debug.Log("OnEndListenning " + iSpeechInput.Rule);
+
 			if (!iSpeechInput.IsInterrupted)
 				if (string.IsNullOrEmpty(iSpeechInput.Rule))
 					Buddy.Vocal.Listen(new string[] { "common", "fitness" }, OnEndListenning, SpeechRecognitionMode.GRAMMAR_ONLY);
