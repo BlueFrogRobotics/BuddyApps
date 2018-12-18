@@ -5,9 +5,7 @@ using UnityEngine;
 using System.Threading;
 using System.Globalization;
 using System.Collections.Generic;
-
-
-
+using System;
 
 namespace BuddyApp.BuddyLab
 { 
@@ -49,6 +47,8 @@ namespace BuddyApp.BuddyLab
         private LinkedList<BehaviourAlgorithm> mStackUndoBli;
         private Stack<BehaviourAlgorithm> mStackRedoBli;
 
+        private bool mIsUndoing = false;
+
 
 
         void Start()
@@ -84,7 +84,13 @@ namespace BuddyApp.BuddyLab
             mDirectoryPath = Buddy.Resources.GetRawFullPath("Projects" + "/" + iFileName);
             Debug.Log("le full path: " + mDirectoryPath);
             BehaviourAlgorithm.Instructions.Clear();
-            BehaviourAlgorithm lAlgo = Utils.UnserializeXML<BehaviourAlgorithm>(mDirectoryPath);
+            BehaviourAlgorithm lAlgo = null;
+            try {
+                lAlgo = Utils.UnserializeXML<BehaviourAlgorithm>(mDirectoryPath);
+            }
+            catch(Exception e) {
+                Debug.Log("probleme: " + e.ToString());
+            }
             if (lAlgo != null)
             {
                 BehaviourAlgorithm = lAlgo;
@@ -119,7 +125,11 @@ namespace BuddyApp.BuddyLab
                     BehaviourAlgorithm.Instructions.Add(child.GetComponent<AGraphicElement>().GetInstruction(true));
             }
             Utils.SerializeXML<BehaviourAlgorithm>(BehaviourAlgorithm, iPath);
-            mStackUndoBli.AddLast(BehaviourAlgorithm);
+            BehaviourAlgorithm lBehaviour = new BehaviourAlgorithm();
+            //lBehaviour.Instructions = new List<ABehaviourInstruction>(BehaviourAlgorithm.Instructions);
+            lBehaviour = Utils.UnserializeXML<BehaviourAlgorithm>(iPath);
+            mStackUndoBli.AddLast(lBehaviour);
+            Debug.Log("nb d istructions: " + mStackUndoBli.Last.Value.Instructions.Count);
                 if (mStackUndoBli.Count > 10)
                     mStackUndoBli.RemoveFirst();
         }
@@ -136,14 +146,23 @@ namespace BuddyApp.BuddyLab
 
         public void Undo()
         {
+            Debug.Log("undo");
+            foreach(BehaviourAlgorithm behaviour in mStackUndoBli) {
+                Debug.Log("count du behaviour: " + behaviour.Instructions.Count);
+            }
             if (mStackUndoBli.Count > 1)
             {
+                Debug.Log("undo count: "+ mStackUndoBli.Count);
+                mIsUndoing = true;
                 mStackRedoBli.Push(mStackUndoBli.Last.Value);
-                mStackUndoBli.RemoveLast();
+                //if(mStackUndoBli.Count>1)
+                    mStackUndoBli.RemoveLast();
                 mNbModifs--;
                 CleanSequence();
                 BehaviourAlgorithm lList = mStackUndoBli.Last.Value;
+                Debug.Log("count list: " + lList.Instructions.Count);
                 ShowAlgo(lList);
+                //SaveSequence();
             }
         }
 
@@ -159,14 +178,26 @@ namespace BuddyApp.BuddyLab
             }
         }
 
+        public void ResetModif()
+        {
+            mStackUndoBli.Clear();
+            mStackRedoBli.Clear();
+        }
+
         /// <summary>
         /// Called everytime a modification occurs
         /// </summary>
         private void SaveModification()
         {
+            Debug.Log("save modif");
+            //if (!mIsUndoing) {
+                Debug.Log("dans if save modif");
                 SaveSequence();
                 mNbModifs++;
                 mStackRedoBli.Clear();
+            //}
+            //else
+            //    mIsUndoing = false;
         }
     }
 }

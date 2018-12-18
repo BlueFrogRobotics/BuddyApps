@@ -65,6 +65,7 @@ namespace BuddyApp.BuddyLab
         {
             mUIManager.CloseWindows();
             mItemControl.SaveSequence();
+            mItemControl.ResetModif();
             Trigger("StartOpen");
         }
 
@@ -72,6 +73,7 @@ namespace BuddyApp.BuddyLab
         {
             mUIManager.CloseWindows();
             mItemControl.SaveSequence();
+            mItemControl.ResetModif();
             Trigger("ProjectToMenu");
         }
 
