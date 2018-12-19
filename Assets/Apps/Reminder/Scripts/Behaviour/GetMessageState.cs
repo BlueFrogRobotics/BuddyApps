@@ -118,7 +118,6 @@ namespace BuddyApp.Reminder
                 Buddy.Vocal.OnEndListening.Clear();
                 Buddy.Vocal.OnEndListening.Add(VoconResult);
                 Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
-				
                 Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("hereisthemsg") + "[200]" + Buddy.Resources.GetString("validateormodify"));
 
                 DisplayMessageEntry();
@@ -175,7 +174,6 @@ namespace BuddyApp.Reminder
                 mBTouched = false;
                 Buddy.Vocal.OnEndListening.Clear();
                 Buddy.Vocal.OnEndListening.Add(VoconResult);
-				
                 DisplayMessageEntry();
                 return;
             }
@@ -204,7 +202,6 @@ namespace BuddyApp.Reminder
                 Buddy.Vocal.OnEndListening.Add(FreeSpeechResult);
                 Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.FREESPEECH_ONLY;
                 Buddy.Vocal.SayKeyAndListen(ReminderDateManager.STR_SORRY);
-				
                 StartCoroutine(FreeSpeechLifeTime(FREESPEECH_TIMER));
             }
             else if (MessageStatus.E_SECOND_LISTENING == mMsgStatus)
@@ -216,9 +213,7 @@ namespace BuddyApp.Reminder
                 Buddy.Vocal.OnEndListening.Add(VoconResult);
 
                 Buddy.Vocal.StopAndClear();
-				
                 Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
-				
                 Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("hereisthemsg") + "[200]" + Buddy.Resources.GetString("validateormodify"));
 
                 DisplayMessageEntry();
@@ -254,7 +249,6 @@ namespace BuddyApp.Reminder
                     Buddy.Vocal.OnEndListening.Clear();
                     Buddy.Vocal.OnEndListening.Add(VoconResult);
                     Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
-					
                     Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("sryemptymsg"));
                 }
                 else
@@ -270,7 +264,6 @@ namespace BuddyApp.Reminder
             {
                 Buddy.Vocal.OnEndListening.Clear();
                 Buddy.Vocal.OnEndListening.Add(VoconResult);
-				
                 Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
                 Buddy.Vocal.SayAndListen(ReminderDateManager.STR_SORRY);
             }
@@ -355,7 +348,6 @@ namespace BuddyApp.Reminder
             Buddy.Vocal.OnEndListening.Add(FreeSpeechResult);
             Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.FREESPEECH_ONLY;
             Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("record"));
-			
             StartCoroutine(FreeSpeechLifeTime(FREESPEECH_TIMER));
         }
 

@@ -70,6 +70,8 @@ namespace BuddyApp.Reminder
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            DebugColor("State Enter Date", "blue");
+
             ReminderDateManager.GetInstance().AppState = ReminderDateManager.E_REMINDER_STATE.E_DATE_CHOICE;
 
             mDateModify = DateModify.DAY;
@@ -108,6 +110,7 @@ namespace BuddyApp.Reminder
             {
                 Buddy.Vocal.SayKeyAndListen(ReminderDateManager.STR_WHEN);
             }
+            DebugColor("Finish State Enter Date", "blue");
         }
 
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
