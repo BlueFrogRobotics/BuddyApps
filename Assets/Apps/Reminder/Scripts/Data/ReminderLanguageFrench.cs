@@ -159,8 +159,7 @@ namespace BuddyApp.Reminder
                 case "atamhoursandminutes":
                     lStrMinutes = iSpeechUtterance.Replace("à", "")
                                                     .Replace("heures", "")
-                                                    .Replace("heure", "")
-                                                    .Replace("du matin", "");
+                                                    .Replace("heure", "");
 
                     SetHour(StringToInt(lStrSplits[0]), MinutesToInt(lStrMinutes.Substring(lStrMinutes.LastIndexOf(lStrSplits[1]))));
                     return true;
@@ -172,7 +171,6 @@ namespace BuddyApp.Reminder
                                                     .Replace("de l'après-midi", "")
                                                     .Replace("du soir", "");
                     
-                    SetHour(StringToInt(lStrSplits[0]) + 12, 0);
                     return true;
 
                 case "atpmhoursandminutes":

@@ -459,7 +459,6 @@ namespace BuddyApp.Reminder
 
         private int GetMinutesFromPreString(string iStrMinutes)
         {
-            Debug.LogError("test: " + iStrMinutes);
             string[] lStrSplits = iStrMinutes.Replace("a ", "").Trim(' ').Split(' ');
             
             // Quarter
