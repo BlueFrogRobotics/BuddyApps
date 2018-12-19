@@ -112,62 +112,62 @@ namespace BuddyApp.Diagnostic
 
         //CLIFF SENSORS
         [SerializeField]
-        private Text CLIFF_Text_00;
+        private Text CLIFF_Text_FrontFreeWheel;
         [SerializeField]
-        private Image CLIFF_OK_00;
+        private Image CLIFF_OK_FrontFreeWheel;
         [SerializeField]
-        private Text CLIFF_Error_00;
+        private Text CLIFF_Error_FrontFreeWheel;
         [SerializeField]
-        private Image CLIFF_Icon_00;
+        private Image CLIFF_Icon_FrontFreeWheel;
         [SerializeField]
-        private Text CLIFF_Text_01;
+        private Text CLIFF_Text_FrontRightWheel;
         [SerializeField]
-        private Image CLIFF_OK_01;
+        private Image CLIFF_OK_FrontRightWheel;
         [SerializeField]
-        private Text CLIFF_Error_01;
+        private Text CLIFF_Error_FrontRightWheel;
         [SerializeField]
-        private Image CLIFF_Icon_01;
+        private Image CLIFF_Icon_FrontRightWheel;
         [SerializeField]
-        private Text CLIFF_Text_02;
+        private Text CLIFF_Text_BackRightWheel;
         [SerializeField]
-        private Image CLIFF_OK_02;
+        private Image CLIFF_OK_BackRightWheel;
         [SerializeField]
-        private Text CLIFF_Error_02;
+        private Text CLIFF_Error_BackRightWheel;
         [SerializeField]
-        private Image CLIFF_Icon_02;
+        private Image CLIFF_Icon_BackRightWheel;
         [SerializeField]
-        private Text CLIFF_Text_03;
+        private Text CLIFF_Text_BackRightFreeWheel;
         [SerializeField]
-        private Image CLIFF_OK_03;
+        private Image CLIFF_OK_BackRightFreeWheel;
         [SerializeField]
-        private Text CLIFF_Error_03;
+        private Text CLIFF_Error_BackRightFreeWheel;
         [SerializeField]
-        private Image CLIFF_Icon_03;
+        private Image CLIFF_Icon_BackRightFreeWheel;
         [SerializeField]
-        private Text CLIFF_Text_04;
+        private Text CLIFF_Text_FrontLeftWheel;
         [SerializeField]
-        private Image CLIFF_OK_04;
+        private Image CLIFF_OK_FrontLeftWheel;
         [SerializeField]
-        private Text CLIFF_Error_04;
+        private Text CLIFF_Error_FrontLeftWheel;
         [SerializeField]
-        private Image CLIFF_Icon_04;
+        private Image CLIFF_Icon_FrontLeftWheel;
         [SerializeField]
-        private Text CLIFF_Text_05;
+        private Text CLIFF_Text_BackLeftWheel;
         [SerializeField]
-        private Image CLIFF_OK_05;
+        private Image CLIFF_OK_BackLeftWheel;
         [SerializeField]
-        private Text CLIFF_Error_05;
+        private Text CLIFF_Error_BackLeftWheel;
         [SerializeField]
-        private Image CLIFF_Icon_05;
+        private Image CLIFF_Icon_BackLeftWheel;
         [SerializeField]
-        private Text CLIFF_Text_06;
+        private Text CLIFF_Text_BackLeftFreeWheel;
         [SerializeField]
-        private Image CLIFF_OK_06;
+        private Image CLIFF_OK_BackLeftFreeWheel;
         [SerializeField]
-        private Text CLIFF_Error_06;
+        private Text CLIFF_Error_BackLeftFreeWheel;
         [SerializeField]
-        private Image CLIFF_Icon_06;   
-
+        private Image CLIFF_Icon_BackLeftFreeWheel;
+        
         //IMU
         [SerializeField]
         private Text Gyro_X;
@@ -236,13 +236,14 @@ namespace BuddyApp.Diagnostic
         private TimeOfFlightSensor mFrontLeftTOFSensor;
         private TimeOfFlightSensor mBackTOFSensor;   
         private InfraredSensor mBackIRSensor;
-        private CliffSensor mCliff_00;
-        private CliffSensor mCliff_01;
-        private CliffSensor mCliff_02;
-        private CliffSensor mCliff_03;
-        private CliffSensor mCliff_04;
-        private CliffSensor mCliff_05;
-        private CliffSensor mCliff_06;
+        private CliffSensor mCliff_FrontFreeWheel;
+        private CliffSensor mCliff_FrontRightWheel;
+        private CliffSensor mCliff_BackRightWheel;
+        private CliffSensor mCliff_BackRightFreeWheel;
+        private CliffSensor mCliff_FrontLeftWheel;
+        private CliffSensor mCliff_BackLeftWheel;
+        private CliffSensor mCliff_BackLeftFreeWheel;
+
         private IMU mIMU;
         private TouchSensors mTouchSensor;
 
@@ -295,13 +296,13 @@ namespace BuddyApp.Diagnostic
             // IR
             mBackIRSensor = Buddy.Sensors.InfraredSensor;
             // CLIFF
-            mCliff_00 = Buddy.Sensors.CliffSensors.FrontFreeWheel;
-            mCliff_01 = Buddy.Sensors.CliffSensors.FrontRightWheel;
-            mCliff_02 = Buddy.Sensors.CliffSensors.BackRightWheel;
-            mCliff_03 = Buddy.Sensors.CliffSensors.BackRightFreeWheel;
-            mCliff_04 = Buddy.Sensors.CliffSensors.FrontLeftWheel;
-            mCliff_05 = Buddy.Sensors.CliffSensors.BackLeftWheel;
-            mCliff_06 = Buddy.Sensors.CliffSensors.BackLeftFreeWheel;
+            mCliff_FrontFreeWheel = Buddy.Sensors.CliffSensors.FrontFreeWheel;
+            mCliff_FrontRightWheel = Buddy.Sensors.CliffSensors.FrontRightWheel;
+            mCliff_BackRightWheel = Buddy.Sensors.CliffSensors.BackRightWheel;
+            mCliff_BackRightFreeWheel = Buddy.Sensors.CliffSensors.BackRightFreeWheel;
+            mCliff_FrontLeftWheel = Buddy.Sensors.CliffSensors.FrontLeftWheel;
+            mCliff_BackLeftWheel = Buddy.Sensors.CliffSensors.BackLeftWheel;
+            mCliff_BackLeftFreeWheel = Buddy.Sensors.CliffSensors.BackLeftFreeWheel;
             // IMU
             mIMU = Buddy.Sensors.IMU;
             //TouchSensor
@@ -406,58 +407,58 @@ namespace BuddyApp.Diagnostic
             if (BT_CLIFF.isOn == true)
             {
                 // 00 Cliff Front Free Wheel
-                CLIFF_Text_00.text = (mCliff_00.Value/10) + "cm";
-                CLIFF_Error_00.text = mCliff_00.Error + "";
-                if (mCliff_00.Error == 0) { CLIFF_OK_00.color = BuddyBlue; }
-                if (mCliff_00.Error != 0) { CLIFF_OK_00.color = Red; }
+                CLIFF_Text_FrontFreeWheel.text = (mCliff_FrontFreeWheel.Value/10) + "cm";
+                CLIFF_Error_FrontFreeWheel.text = mCliff_FrontFreeWheel.Error + "";
+                if (mCliff_FrontFreeWheel.Error == 0) { CLIFF_OK_FrontFreeWheel.color = BuddyBlue; }
+                if (mCliff_FrontFreeWheel.Error != 0) { CLIFF_OK_FrontFreeWheel.color = Red; }
                 //if (mCliff_00.OnVoid == 0) { CLIFF_Icon_00.color = BuddyBlue; }
                 //if (mCliff_00.OnVoid == 1) { CLIFF_Icon_00.color = Red; }
 
                 // 01 Cliff Front Right Wheel
-                CLIFF_Text_01.text = (mCliff_01.Value/10) + "cm";
-                CLIFF_Error_01.text = mCliff_01.Error + "";
-                if (mCliff_01.Error == 0) { CLIFF_OK_01.color = BuddyBlue; }
-                if (mCliff_01.Error != 0) { CLIFF_OK_01.color = Red; }
+                CLIFF_Text_FrontRightWheel.text = (mCliff_FrontRightWheel.Value/10) + "cm";
+                CLIFF_Error_FrontRightWheel.text = mCliff_FrontRightWheel.Error + "";
+                if (mCliff_FrontRightWheel.Error == 0) { CLIFF_OK_FrontRightWheel.color = BuddyBlue; }
+                if (mCliff_FrontRightWheel.Error != 0) { CLIFF_OK_FrontRightWheel.color = Red; }
                 //if (mCliff_01.OnVoid == 0) { CLIFF_Icon_01.color = BuddyBlue; }
                 //if (mCliff_01.OnVoid == 1) { CLIFF_Icon_01.color = Red; }
 
-                // 02 Cliff Front Right Wheel
-                CLIFF_Text_02.text = (mCliff_02.Value/10) + "cm";
-                CLIFF_Error_02.text = mCliff_02.Error + "";
-                if (mCliff_02.Error == 0) { CLIFF_OK_02.color = BuddyBlue; }
-                if (mCliff_02.Error != 0) { CLIFF_OK_02.color = Red; }
+                // 02 Cliff Back Right Wheel
+                CLIFF_Text_BackRightWheel.text = (mCliff_BackRightWheel.Value/10) + "cm";
+                CLIFF_Error_BackRightWheel.text = mCliff_BackRightWheel.Error + "";
+                if (mCliff_BackRightWheel.Error == 0) { CLIFF_OK_BackRightWheel.color = BuddyBlue; }
+                if (mCliff_BackRightWheel.Error != 0) { CLIFF_OK_BackRightWheel.color = Red; }
                 //if (mCliff_00.OnVoid == 0) { CLIFF_Icon_02.color = BuddyBlue; }
                 //if (mCliff_00.OnVoid == 1) { CLIFF_Icon_02.color = Red; }
 
-                // 03 Cliff Front Free Wheel
-                CLIFF_Text_03.text = (mCliff_03.Value/10) + "cm";
-                CLIFF_Error_03.text = mCliff_03.Error + "";
-                if (mCliff_03.Error == 0) { CLIFF_OK_03.color = BuddyBlue; }
-                if (mCliff_03.Error != 0) { CLIFF_OK_03.color = Red; }
+                // 03 Cliff Back Right free Wheel
+                CLIFF_Text_BackRightFreeWheel.text = (mCliff_BackRightFreeWheel.Value/10) + "cm";
+                CLIFF_Error_BackRightFreeWheel.text = mCliff_BackRightFreeWheel.Error + "";
+                if (mCliff_BackRightFreeWheel.Error == 0) { CLIFF_OK_BackRightFreeWheel.color = BuddyBlue; }
+                if (mCliff_BackRightFreeWheel.Error != 0) { CLIFF_OK_BackRightFreeWheel.color = Red; }
                 //if (mCliff_03.OnVoid == 0) { CLIFF_Icon_03.color = BuddyBlue; }
                 //if (mCliff_03.OnVoid == 1) { CLIFF_Icon_03.color = Red; }
 
                 // 04 Cliff Front Left Wheel
-                CLIFF_Text_04.text = (mCliff_04.Value/10) + "cm";
-                CLIFF_Error_04.text = mCliff_04.Error + "";
-                if (mCliff_04.Error == 0) { CLIFF_OK_04.color = BuddyBlue; }
-                if (mCliff_04.Error != 0) { CLIFF_OK_04.color = Red; }
+                CLIFF_Text_FrontLeftWheel.text = (mCliff_FrontLeftWheel.Value/10) + "cm";
+                CLIFF_Error_FrontLeftWheel.text = mCliff_FrontLeftWheel.Error + "";
+                if (mCliff_FrontLeftWheel.Error == 0) { CLIFF_OK_FrontLeftWheel.color = BuddyBlue; }
+                if (mCliff_FrontLeftWheel.Error != 0) { CLIFF_OK_FrontLeftWheel.color = Red; }
                 //if (mCliff_04.OnVoid == 0) { CLIFF_Icon_04.color = BuddyBlue; }
                 //if (mCliff_04.OnVoid == 1) { CLIFF_Icon_04.color = Red; }
 
                 // 05 Cliff Back Left Wheel
-                CLIFF_Text_05.text = (mCliff_05.Value/10) + "cm";
-                CLIFF_Error_05.text = mCliff_05.Error + "";
-                if (mCliff_05.Error == 0) { CLIFF_OK_05.color = BuddyBlue; }
-                if (mCliff_05.Error != 0) { CLIFF_OK_05.color = Red; }
+                CLIFF_Text_BackLeftWheel.text = (mCliff_BackLeftWheel.Value/10) + "cm";
+                CLIFF_Error_BackLeftWheel.text = mCliff_BackLeftWheel.Error + "";
+                if (mCliff_BackLeftWheel.Error == 0) { CLIFF_OK_BackLeftWheel.color = BuddyBlue; }
+                if (mCliff_BackLeftWheel.Error != 0) { CLIFF_OK_BackLeftWheel.color = Red; }
                 //if (mCliff_05.OnVoid == 0) { CLIFF_Icon_05.color = BuddyBlue; }
                 //if (mCliff_05.OnVoid == 1) { CLIFF_Icon_05.color = Red; }
 
                 // 06 Cliff Back Left Free Wheel
-                CLIFF_Text_06.text = (mCliff_06.Value/10) + "cm";
-                CLIFF_Error_06.text = mCliff_06.Error + "";
-                if (mCliff_06.Error == 0) { CLIFF_OK_06.color = BuddyBlue; }
-                if (mCliff_06.Error != 0) { CLIFF_OK_06.color = Red; }
+                CLIFF_Text_BackLeftFreeWheel.text = (mCliff_BackLeftFreeWheel.Value/10) + "cm";
+                CLIFF_Error_BackLeftFreeWheel.text = mCliff_BackLeftFreeWheel.Error + "";
+                if (mCliff_BackLeftFreeWheel.Error == 0) { CLIFF_OK_BackLeftFreeWheel.color = BuddyBlue; }
+                if (mCliff_BackLeftFreeWheel.Error != 0) { CLIFF_OK_BackLeftFreeWheel.color = Red; }
                 //if (mCliff_06.OnVoid == 0) { CLIFF_Icon_06.color = BuddyBlue; }
                 //if (mCliff_06.OnVoid == 1) { CLIFF_Icon_06.color = Red; }
             }
