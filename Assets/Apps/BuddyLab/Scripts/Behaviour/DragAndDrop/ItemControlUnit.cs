@@ -16,6 +16,9 @@ namespace BuddyApp.BuddyLab
     public sealed class ItemControlUnit : MonoBehaviour
     {
 
+        public delegate void Modification();
+        public static event Modification OnModification;
+
         public BehaviourAlgorithm BehaviourAlgorithm { get; set; }
         public int Index { set { mIndex = value; } }
 
@@ -57,11 +60,12 @@ namespace BuddyApp.BuddyLab
             mIndex = 0;
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-us");
             mArrayItems = new List<GameObject>();
-            sequenceContainer.OnModification += SaveModification;
-            trashZoneContainer.OnModification += SaveModification;
+            //sequenceContainer.OnModification += SaveModification;
+            //trashZoneContainer.OnModification += SaveModification;
             mStackUndoBli = new LinkedList<BehaviourAlgorithm>();
             mStackRedoBli = new Stack<BehaviourAlgorithm>();
             BehaviourAlgorithm = new BehaviourAlgorithm();
+            OnModification += SaveModification;
         }
 
         public void ShowAlgo(string iFileName)
@@ -164,6 +168,17 @@ namespace BuddyApp.BuddyLab
                 ShowAlgo(lList);
                 //SaveSequence();
             }
+            else if(mStackUndoBli.Count == 1) {
+                Debug.Log("undo count: " + mStackUndoBli.Count);
+                mIsUndoing = true;
+                mStackRedoBli.Push(mStackUndoBli.Last.Value);
+                mNbModifs--;
+                CleanSequence();
+                BehaviourAlgorithm lList = mStackUndoBli.Last.Value;
+                Debug.Log("count list: " + lList.Instructions.Count);
+                ShowAlgo(lList);
+                mStackUndoBli.RemoveLast();
+            }
         }
 
         public void Redo()
@@ -182,6 +197,11 @@ namespace BuddyApp.BuddyLab
         {
             mStackUndoBli.Clear();
             mStackRedoBli.Clear();
+        }
+
+        public static void EndModif()
+        {
+            OnModification();
         }
 
         /// <summary>

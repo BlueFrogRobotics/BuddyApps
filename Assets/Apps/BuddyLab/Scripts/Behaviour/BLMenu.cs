@@ -9,6 +9,7 @@ namespace BuddyApp.BuddyLab
     public sealed class BLMenu : AStateMachineBehaviour
     {
         private bool mIsListening = false;
+        private int mTimeOut;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -41,7 +42,7 @@ namespace BuddyApp.BuddyLab
             }
                 
             );
-
+            mTimeOut = 0;
             Buddy.Vocal.OnEndListening.Add(OnListening);
             Buddy.Vocal.Listen("buddylab", SpeechRecognitionMode.GRAMMAR_ONLY);
             mIsListening = false;
@@ -50,9 +51,12 @@ namespace BuddyApp.BuddyLab
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if(!mIsListening) {
+            if(!mIsListening && mTimeOut<4) {
                 mIsListening = true;
                 Buddy.Vocal.Listen("buddylab", SpeechRecognitionMode.GRAMMAR_ONLY);
+            }
+            else if(mTimeOut>=4) {
+                QuitApp();
             }
         }
 
@@ -65,6 +69,7 @@ namespace BuddyApp.BuddyLab
 
         private void OnListening(SpeechInput iSpeech)
         {
+            mTimeOut++;
             Debug.Log("[LAB] speech: " + iSpeech.Utterance + " confidence: " + iSpeech.Confidence);
             if (!string.IsNullOrEmpty(iSpeech.Rule) && iSpeech.Confidence>5000) {
                 if (iSpeech.Rule.Contains("menusimple")) {

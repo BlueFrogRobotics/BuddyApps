@@ -22,6 +22,8 @@ namespace BuddyApp.BuddyLab
         private Transform mListButton;
         private Button mTrashButton;
 
+        private FButton mBackButton;
+
         private BuddyLabBehaviour mBLBehaviour;
 
         private float mTimer;
@@ -82,6 +84,14 @@ namespace BuddyApp.BuddyLab
                 }
             }
 
+            //mBackButton = Buddy.GUI.Footer.CreateOnLeft<FButton>();
+
+            //mBackButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_arrow_left"));
+
+            //mBackButton.SetBackgroundColor(Color.white);
+            //mBackButton.SetIconColor(Color.black);
+            //mBackButton.OnClick.Add(() => { GetGameObject(2).GetComponent<Animator>().SetTrigger("close"); Trigger("ProjectToMenu"); });
+
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -107,7 +117,7 @@ namespace BuddyApp.BuddyLab
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            
+            //Buddy.GUI.Footer.Remove(mBackButton);
         }
 
         private void DeleteProject()
@@ -131,7 +141,6 @@ namespace BuddyApp.BuddyLab
             Trigger("Scene");
 
         }
-
 
     }
 }

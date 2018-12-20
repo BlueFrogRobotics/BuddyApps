@@ -13,8 +13,8 @@ namespace BuddyApp.BuddyLab
         /// </summary>
         public bool DragOnly=false;
 
-        public delegate void Modification();
-        public event Modification OnModification;
+        //public delegate void Modification();
+        //public event Modification OnModification;
 
         public void OnPointerEnter(PointerEventData iEventData)
         {
@@ -69,8 +69,13 @@ namespace BuddyApp.BuddyLab
 
         public void EndDrag()
         {
-            if (OnModification != null)
-                OnModification();
+            ItemControlUnit.EndModif();
+            Debug.Log("end drag");
+            //if (OnModification != null)
+            //    OnModification();
+            //else if(GetComponentInParent<ItemsContainer>()!=null) {
+            //    GetComponentInParent<ItemsContainer>().EndDrag();
+            //}
         }
 
     }
