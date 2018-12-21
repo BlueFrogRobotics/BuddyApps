@@ -91,10 +91,9 @@ namespace BuddyApp.Guardian
             }
         }
 
-        private void OnThermalDetected(ObjectEntity[] iObject)
+        private void OnThermalDetected(ThermalEntity iThermalEntity)
         {
-            if (iObject.Length > 0)
-                Buddy.Actuators.Speakers.Media.Play(SoundSample.BEEP_1);
+            Buddy.Actuators.Speakers.Media.Play(SoundSample.BEEP_1);
         }
 
         /// <summary>
