@@ -55,7 +55,7 @@ namespace BuddyApp.BuddyLab
                 mIsListening = true;
                 Buddy.Vocal.Listen("buddylab", SpeechRecognitionMode.GRAMMAR_ONLY);
             }
-            else if(mTimeOut>=4) {
+            else if(mTimeOut>=8) {
                 QuitApp();
             }
         }

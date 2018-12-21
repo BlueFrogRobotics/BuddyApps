@@ -125,9 +125,9 @@ namespace BuddyApp.BuddyLab
         {
             int lIndex = 0;
             string lKey = iStructure.Key.Value;
-            Debug.Log("chips");
+            //Debug.Log("chips");
             string lUtterance = iStructure.Key.Value;
-            Debug.Log("chips 2");
+            //Debug.Log("chips 2");
             if (!string.IsNullOrEmpty(lKey)/*iStructure.Key != null && iStructure.Key != ""*/)
             {
                 Debug.Log("machin *" + iStructure.Key.Value + "*");

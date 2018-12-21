@@ -68,6 +68,11 @@ namespace BuddyApp.BuddyLab
             OnModification += SaveModification;
         }
 
+        private void OnDisable()
+        {
+            OnModification -= SaveModification;
+        }
+
         public void ShowAlgo(string iFileName)
         {
             FillBehaviourAlgorithm(iFileName);
@@ -122,27 +127,17 @@ namespace BuddyApp.BuddyLab
 
         public void SaveAlgorithm(string iPath)
         {
-            Debug.Log("save on " + iPath);
             BehaviourAlgorithm.Instructions.Clear();
-            Debug.Log("save 1");
-            int i = 0;
             foreach (Transform child in panel.transform)
             {
-                Debug.Log("child: " + i);
-                i++;
                 if (child != null && child.GetComponent<AGraphicElement>() != null)
                     BehaviourAlgorithm.Instructions.Add(child.GetComponent<AGraphicElement>().GetInstruction(true));
             }
-            Debug.Log("save 2");
             Utils.SerializeXML<BehaviourAlgorithm>(BehaviourAlgorithm, iPath);
-            Debug.Log("save 3");
             BehaviourAlgorithm lBehaviour = new BehaviourAlgorithm();
             //lBehaviour.Instructions = new List<ABehaviourInstruction>(BehaviourAlgorithm.Instructions);
-            Debug.Log("save 4");
             lBehaviour = Utils.UnserializeXML<BehaviourAlgorithm>(iPath);
-            Debug.Log("save 5");
             mStackUndoBli.AddLast(lBehaviour);
-            Debug.Log("nb d istructions: " + mStackUndoBli.Last.Value.Instructions.Count);
                 if (mStackUndoBli.Count > 10)
                     mStackUndoBli.RemoveFirst();
         }
@@ -184,7 +179,6 @@ namespace BuddyApp.BuddyLab
                 mNbModifs--;
                 CleanSequence();
                 BehaviourAlgorithm lList = mStackUndoBli.Last.Value;
-                Debug.Log("count list: " + lList.Instructions.Count);
                 ShowAlgo(lList);
                 mStackUndoBli.RemoveLast();
             }

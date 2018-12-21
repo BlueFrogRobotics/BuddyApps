@@ -43,7 +43,6 @@ namespace BuddyApp.BuddyLab
         {
             WWW lWWW = new WWW("http://bfr-dev.azurewebsites.net/dev/BuddyDev-cmfc3b05c071.txt");
             yield return lWWW;
-
             FreeSpeechCredentials = lWWW.text;
         }
 
