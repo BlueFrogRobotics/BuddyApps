@@ -90,6 +90,30 @@ namespace BuddyApp.BuddyLab
                 case SoundSample.SURPRISED_1:
                     lIndex = 31;
                     break;
+                case SoundSample.LAUGH_2:
+                    lIndex = 36;
+                    break;
+                case SoundSample.LAUGH_3:
+                    lIndex = 32;
+                    break;
+                case SoundSample.LAUGH_4:
+                    lIndex = 33;
+                    break;
+                case SoundSample.SURPRISED_6:
+                    lIndex = 34;
+                    break;
+                case SoundSample.YAWN:
+                    lIndex = 38;
+                    break;
+                case SoundSample.FOCUS_2:
+                    lIndex = 40;
+                    break;
+                case SoundSample.SURPRISED_5:
+                    lIndex = 42;
+                    break;
+                case SoundSample.SURPRISED_4:
+                    lIndex = 44;
+                    break;
                 default:
                     lIndex = 28;
                     break;
