@@ -129,12 +129,12 @@ namespace BuddyApp.Diagnostic
             distanceSetter.maxValue = 10F;
 
             yesHingeAngleSetter.wholeNumbers = true;
-            yesHingeAngleSetter.minValue = -60F;
-            yesHingeAngleSetter.maxValue = 30F;
+            yesHingeAngleSetter.minValue = -50F;
+            yesHingeAngleSetter.maxValue = 37F;
 
             noHingeAngleSetter.wholeNumbers = true;
-            noHingeAngleSetter.minValue = -90F;
-            noHingeAngleSetter.maxValue = 90F;
+            noHingeAngleSetter.minValue = -100F;
+            noHingeAngleSetter.maxValue = 100F;
 
             hingeSpeedSetter.wholeNumbers = true;
             hingeSpeedSetter.minValue = 0F;
@@ -200,7 +200,7 @@ namespace BuddyApp.Diagnostic
             //mWheels.SetVelocities(linearVelocitySetter.value, angularVelocitySetter.value);
             double mDistance = Math.Round(distanceSetter.value, 4);
             double mLinearVelocity = Math.Round(linearVelocitySetter.value, 4);
-            Buddy.Navigation.Run<DisplacementStrategy>().Move((float)mDistance, (float)mLinearVelocity);
+            Buddy.Navigation.Run<DisplacementStrategy>().Move((float)mDistance, (float)mLinearVelocity, ObstacleAvoidanceType.NONE);
 
         }
 
@@ -214,7 +214,7 @@ namespace BuddyApp.Diagnostic
             //mNavigation.Run<DisplacementStrategy>().Move(distanceSetter.value, speedDisplacementStrategySetter.value);
             double mDistance = Math.Round(distanceSetter.value, 4);
             double mLinearVelocity = Math.Round(linearVelocitySetter.value, 4);
-            Buddy.Navigation.Run<DisplacementStrategy>().Move((float)mDistance, (float)mLinearVelocity);
+            Buddy.Navigation.Run<DisplacementStrategy>().Move((float)mDistance, (float)mLinearVelocity, ObstacleAvoidanceType.NONE);
         }
 
         public void TurnAbsolute()
