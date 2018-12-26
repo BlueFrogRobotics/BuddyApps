@@ -69,8 +69,11 @@ namespace BuddyApp.TakePhoto
 			mTimer = 0;
 			mSpeechId = 0;
 
-            //Creation of the texture/sprite of the overlay.
-            string lRandomSpriteName = mOverlaysNames[UnityEngine.Random.Range(0, mOverlaysNames.Count - 1)];
+			// Just for security
+			Buddy.Vocal.StopAndClear();
+
+			//Creation of the texture/sprite of the overlay.
+			string lRandomSpriteName = mOverlaysNames[UnityEngine.Random.Range(0, mOverlaysNames.Count - 1)];
             Texture2D spriteTexture = new Texture2D(1, 1);
             spriteTexture.hideFlags = HideFlags.HideAndDontSave;
             spriteTexture.LoadImage(File.ReadAllBytes(Buddy.Resources.GetSpritesFullPath(lRandomSpriteName + ".png") ));
@@ -251,7 +254,7 @@ namespace BuddyApp.TakePhoto
         private void OnButtonShare()
 		{
 			Buddy.Actuators.Speakers.Media.Play(SoundSample.BEEP_1);
-            Buddy.Vocal.StopListening();
+            Buddy.Vocal.StopAndClear();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
             Trigger("Tweet");
@@ -260,7 +263,7 @@ namespace BuddyApp.TakePhoto
 		private void OnButtonRedo()
 		{
 			Buddy.Actuators.Speakers.Media.Play(SoundSample.BEEP_1);
-            Buddy.Vocal.StopListening();
+            Buddy.Vocal.StopAndClear();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
             Trigger("RedoPhoto");

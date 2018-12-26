@@ -63,7 +63,7 @@ namespace BuddyApp.BuddyLab
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Buddy.Vocal.Stop();
+            Buddy.Vocal.StopAndClear();
             Buddy.Vocal.OnEndListening.Remove(OnListening);
         }
 
