@@ -42,8 +42,12 @@ namespace BuddyApp.Reminder
         public override void OnQuit()
         {
             ExtLog.I(ExtLogModule.APP, typeof(ReminderActivity), LogStatus.START, LogInfo.STOPPING, "On quit...");
+            
+            Buddy.Vocal.DefaultInputParameters = null;
+            Buddy.Vocal.OnEndListening.Clear();
 
             Buddy.Vocal.StopAndClear();
+            Buddy.GUI.Screen.OnTouch.Clear();
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
