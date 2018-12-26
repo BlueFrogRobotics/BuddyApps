@@ -65,7 +65,7 @@ namespace BuddyApp.Gallery
         {
             Buddy.GUI.Dialoger.Display<ParameterToast>().With(
                 (iBuilder) => {
-                    iBuilder.CreateWidget<TText>().SetLabel(Buddy.Resources.GetRandomString(STR_ASK_FOR_VALIDATION));
+                    iBuilder.CreateWidget<TText>().SetLabel(Buddy.Resources.GetString(STR_ASK_FOR_VALIDATION));
                 },
                 RemoveCanceled, Buddy.Resources.GetString(STR_CANCEL),
                 RemoveConfirmed, Buddy.Resources.GetString(STR_CONFIRM)
