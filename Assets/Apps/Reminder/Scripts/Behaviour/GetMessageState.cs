@@ -53,7 +53,6 @@ namespace BuddyApp.Reminder
         {
             yield return new WaitUntil(() => !Buddy.Vocal.IsListening);
             yield return new WaitForSeconds(iFreeSpeechTimer);
-            DebugColor("STOP LISTENNING", "red");
             Buddy.Vocal.StopListening();
         }
 
@@ -65,7 +64,6 @@ namespace BuddyApp.Reminder
                 yield return null;
                 mTimer += Time.deltaTime;
             }
-            DebugColor("TIMEOUT", "red");
             QuitReminder();
         }
 
@@ -73,7 +71,7 @@ namespace BuddyApp.Reminder
         {
             WWW lWWW = new WWW(CREDENTIAL_DEFAULT_URL);
             yield return lWWW;
-
+            
             mFreeSpeechCredentials = lWWW.text;
 
             // Setting for freespeech
@@ -82,11 +80,9 @@ namespace BuddyApp.Reminder
 
             Buddy.Vocal.OnEndListening.Clear();
             Buddy.Vocal.OnEndListening.Add(FreeSpeechResult);
-            Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("record"));
+            Buddy.Vocal.SayKeyAndListen("record");
 
             StartCoroutine(FreeSpeechLifeTime(FREESPEECH_TIMER));
-
-            DebugColor("FREESPEECH", "blue");
         }
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -112,7 +108,7 @@ namespace BuddyApp.Reminder
             Font lHeaderFont = Buddy.Resources.Get<Font>("os_awesome");
             lHeaderFont.material.color = new Color(0, 0, 0);
             Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont);
-            
+
             if (MessageStatus.E_UI_DISPLAY == mMsgStatus) // If was already displayed
             {
                 Buddy.Vocal.OnEndListening.Clear();
@@ -249,7 +245,7 @@ namespace BuddyApp.Reminder
                     Buddy.Vocal.OnEndListening.Clear();
                     Buddy.Vocal.OnEndListening.Add(VoconResult);
                     Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
-                    Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("sryemptymsg"));
+                    Buddy.Vocal.SayKeyAndListen("sryemptymsg");
                 }
                 else
                 {
@@ -265,7 +261,7 @@ namespace BuddyApp.Reminder
                 Buddy.Vocal.OnEndListening.Clear();
                 Buddy.Vocal.OnEndListening.Add(VoconResult);
                 Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
-                Buddy.Vocal.SayAndListen(ReminderDateManager.STR_SORRY);
+                Buddy.Vocal.SayKeyAndListen(ReminderDateManager.STR_SORRY);
             }
         }
 
@@ -347,7 +343,7 @@ namespace BuddyApp.Reminder
             Buddy.Vocal.OnEndListening.Clear();
             Buddy.Vocal.OnEndListening.Add(FreeSpeechResult);
             Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.FREESPEECH_ONLY;
-            Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("record"));
+            Buddy.Vocal.SayKeyAndListen("record");
             StartCoroutine(FreeSpeechLifeTime(FREESPEECH_TIMER));
         }
 
