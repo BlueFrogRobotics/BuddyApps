@@ -189,42 +189,43 @@ namespace BuddyApp.Diagnostic
 
         //PINCH 
         [SerializeField]
-        private Text PINCH_Text_00;
+        private Text PINCH_Text_HEART;
         [SerializeField]
-        private Image PINCH_OK_00;
+        private Image PINCH_OK_HEART;
         [SerializeField]
-        private Text PINCH_Error_00;
+        private Text PINCH_Error_HEART;
         [SerializeField]
-        private Text PINCH_Text_01;
+        private Text PINCH_Text_RIGHT;
         [SerializeField]
-        private Image PINCH_OK_01;
+        private Image PINCH_OK_RIGHT;
         [SerializeField]
-        private Text PINCH_Error_01;
+        private Text PINCH_Error_RIGHT;
         [SerializeField]
-        private Text PINCH_Text_02;
+        private Text PINCH_Text_LEFT;
         [SerializeField]
-        private Image PINCH_OK_02;
+        private Image PINCH_OK_LEFT;
         [SerializeField]
-        private Text PINCH_Error_02;
+        private Text PINCH_Error_LEFT;
+
         //CARESS
         [SerializeField]
-        private Text CARESS_Text_00;
+        private Text CARESS_Text_LEFT;
         [SerializeField]
-        private Image CARESS_OK_00;
+        private Image CARESS_OK_LEFT;
         [SerializeField]
-        private Text CARESS_Error_00;
+        private Text CARESS_Error_LEFT;
         [SerializeField]
-        private Text CARESS_Text_01;
+        private Text CARESS_Text_BACK;
         [SerializeField]
-        private Image CARESS_OK_01;
+        private Image CARESS_OK_BACK;
         [SerializeField]
-        private Text CARESS_Error_01;
+        private Text CARESS_Error_BACK;
         [SerializeField]
-        private Text CARESS_Text_02;
+        private Text CARESS_Text_RIGHT;
         [SerializeField]
-        private Image CARESS_OK_02;
+        private Image CARESS_OK_RIGHT;
         [SerializeField]
-        private Text CARESS_Error_02;
+        private Text CARESS_Error_RIGHT;
 
         //Retrive All Sensors
         private UltrasonicSensor mLeftUSSensor;
@@ -365,44 +366,54 @@ namespace BuddyApp.Diagnostic
             if (BT_CARESS.isOn == true)
             {
                 //CARESS RIGHT
-                CARESS_Text_00.text = "" + mTouchSensor.RightHead.Value;
-                if (mTouchSensor.RightHead.Value == true) { CARESS_Text_00.color = BuddyBlue; }
-                if (mTouchSensor.RightHead.Value == false) { CARESS_Text_00.color = Red; }
-                CARESS_Error_00.text = mTouchSensor.RightHead.Error + "" ;
-                if (mTouchSensor.RightHead.Error == 0) { CARESS_OK_00.color = BuddyBlue; }
-                if (mTouchSensor.RightHead.Error != 0) { CARESS_OK_00.color = Red; }
+                CARESS_Text_RIGHT.text = "" + mTouchSensor.RightHead.Value;
+                if (mTouchSensor.RightHead.Value == true) { CARESS_Text_RIGHT.color = BuddyBlue; }
+                if (mTouchSensor.RightHead.Value == false) { CARESS_Text_RIGHT.color = Red; }
+                CARESS_Error_RIGHT.text = mTouchSensor.RightHead.Error + "" ;
+                if (mTouchSensor.RightHead.Error == 0) { CARESS_OK_RIGHT.color = BuddyBlue; }
+                if (mTouchSensor.RightHead.Error != 0) { CARESS_OK_RIGHT.color = Red; }
+
                 //CARESS BACK
-                CARESS_Text_01.text = "" + mTouchSensor.BackHead.Value;
-                if (mTouchSensor.BackHead.Value == true) { CARESS_Text_01.color = BuddyBlue; }
-                if (mTouchSensor.BackHead.Value == false) { CARESS_Text_01.color = Red; }
-                CARESS_Error_01.text =mTouchSensor.BackHead.Error + "";
-                if (mTouchSensor.BackHead.Error == 0) { CARESS_OK_01.color = BuddyBlue; }
-                if (mTouchSensor.BackHead.Error != 0) { CARESS_OK_01.color = Red; }
+                CARESS_Text_BACK.text = "" + mTouchSensor.BackHead.Value;
+                if (mTouchSensor.BackHead.Value == true) { CARESS_Text_BACK.color = BuddyBlue; }
+                if (mTouchSensor.BackHead.Value == false) { CARESS_Text_BACK.color = Red; }
+                CARESS_Error_BACK.text =mTouchSensor.BackHead.Error + "";
+                if (mTouchSensor.BackHead.Error == 0) { CARESS_OK_BACK.color = BuddyBlue; }
+                if (mTouchSensor.BackHead.Error != 0) { CARESS_OK_BACK.color = Red; }
+
                 //CARESS LEFT
-                CARESS_Text_02.text = "" + mTouchSensor.LeftHead.Value;
-                if(mTouchSensor.LeftHead.Value == true) { CARESS_Text_02.color = BuddyBlue; }
-                if (mTouchSensor.LeftHead.Value == false) { CARESS_Text_02.color = Red; }
-                CARESS_Error_02.text = mTouchSensor.LeftHead.Error + "";
-                if (mTouchSensor.LeftHead.Error == 0) { CARESS_OK_02.color = BuddyBlue; }
-                if (mTouchSensor.LeftHead.Error != 0) { CARESS_OK_02.color = Red; }
+                CARESS_Text_LEFT.text = "" + mTouchSensor.LeftHead.Value;
+                if(mTouchSensor.LeftHead.Value == true) { CARESS_Text_LEFT.color = BuddyBlue; }
+                if (mTouchSensor.LeftHead.Value == false) { CARESS_Text_LEFT.color = Red; }
+                CARESS_Error_LEFT.text = mTouchSensor.LeftHead.Error + "";
+                if (mTouchSensor.LeftHead.Error == 0) { CARESS_OK_LEFT.color = BuddyBlue; }
+                if (mTouchSensor.LeftHead.Error != 0) { CARESS_OK_LEFT.color = Red; }
             }
             if (BT_PINCH.isOn == true)
             {
                 //PINCH HEART
-                PINCH_Text_02.text = "" + mTouchSensor.Heart.Value;
-                if (mTouchSensor.Heart.Error == 0) { PINCH_OK_02.color = BuddyBlue; }
-                if (mTouchSensor.Heart.Error != 0) { PINCH_OK_02.color = Red; }
-                PINCH_Error_02.text = mTouchSensor.Heart.Error + "";
+                PINCH_Text_HEART.text = "" + mTouchSensor.Heart.Value;
+                if (mTouchSensor.Heart.Value == true) { PINCH_Text_HEART.color = BuddyBlue; }
+                if (mTouchSensor.Heart.Value == false) { PINCH_Text_HEART.color = Red; }
+                if (mTouchSensor.Heart.Error == 0) { PINCH_OK_HEART.color = BuddyBlue; }
+                if (mTouchSensor.Heart.Error != 0) { PINCH_OK_HEART.color = Red; }
+                PINCH_Error_HEART.text = mTouchSensor.Heart.Error + "";
+
                 //PINCH LEFT
-                PINCH_Text_01.text = "" + mTouchSensor.LeftShoulder.Value;
-                if (mTouchSensor.LeftShoulder.Error == 0) { PINCH_OK_01.color = BuddyBlue; }
-                if (mTouchSensor.LeftShoulder.Error != 0) { PINCH_OK_01.color = Red; }
-                PINCH_Error_01.text = mTouchSensor.LeftShoulder.Error + "";
+                PINCH_Text_LEFT.text = "" + mTouchSensor.LeftShoulder.Value;
+                if (mTouchSensor.LeftShoulder.Value == true) { PINCH_Text_LEFT.color = BuddyBlue; }
+                if (mTouchSensor.LeftShoulder.Value == false) { PINCH_Text_LEFT.color = Red; }
+                if (mTouchSensor.LeftShoulder.Error == 0) { PINCH_OK_LEFT.color = BuddyBlue; }
+                if (mTouchSensor.LeftShoulder.Error != 0) { PINCH_OK_LEFT.color = Red; }
+                PINCH_Error_LEFT.text = mTouchSensor.LeftShoulder.Error + "";
+
                 //PINCH RIGHT
-                PINCH_Text_00.text = "" + mTouchSensor.RightShoulder.Value;
-                if (mTouchSensor.RightShoulder.Error == 0) { PINCH_OK_00.color = BuddyBlue; }
-                if (mTouchSensor.RightShoulder.Error != 0) { PINCH_OK_00.color = Red; }
-                PINCH_Error_00.text = mTouchSensor.RightShoulder.Error + "";
+                PINCH_Text_RIGHT.text = "" + mTouchSensor.RightShoulder.Value;
+                if (mTouchSensor.RightShoulder.Value == true) { PINCH_Text_RIGHT.color = BuddyBlue; }
+                if (mTouchSensor.RightShoulder.Value == false) { PINCH_Text_RIGHT.color = Red; }
+                if (mTouchSensor.RightShoulder.Error == 0) { PINCH_OK_RIGHT.color = BuddyBlue; }
+                if (mTouchSensor.RightShoulder.Error != 0) { PINCH_OK_RIGHT.color = Red; }
+                PINCH_Error_RIGHT.text = mTouchSensor.RightShoulder.Error + "";
             }
             if (BT_CLIFF.isOn == true)
             {
