@@ -92,7 +92,7 @@ namespace BuddyApp.Reminder
             Buddy.GUI.Screen.OnTouch.Add((iInput) => { Buddy.Vocal.StopListening(); });
 
             // Setting of Vocon param
-            Buddy.Vocal.DefaultInputParameters.Grammars = new string[] { "reminder_hour", "common" };
+            Buddy.Vocal.DefaultInputParameters.Grammars = new string[] { "hour", "reminder_hour", "common" };
             Buddy.Vocal.OnEndListening.Clear();
             Buddy.Vocal.OnEndListening.Add(OnEndListening);
 
@@ -152,13 +152,17 @@ namespace BuddyApp.Reminder
             }
 
             // Launch hour extraction with success
+            DateTime lDate = ReminderDateManager.GetInstance().ReminderDate;
             if (!string.IsNullOrEmpty(iSpeechInput.Utterance)
-                && SharedLanguageManager<ReminderLanguage>.GetInstance().GetLanguage().ExtractHourFromSpeech(
+                && ReminderLanguageManager.GetInstance().GetHourLanguage().ExtractHourFromSpeech(
                                         Utils.GetRealStartRule(iSpeechInput.Rule),
-                                        iSpeechInput.Utterance))
+                                        iSpeechInput.Utterance,
+                                        ref lDate))
                                         //iSpeechInput.Utterance.Substring(0, iSpeechInput.Utterance.IndexOf(":")),
                                         //iSpeechInput.Utterance.Substring(iSpeechInput.Utterance.IndexOf(":") + 1)))
             {
+                ReminderDateManager.GetInstance().ReminderDate = lDate;
+
                 Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("eared") + ReminderDateManager.GetInstance().ReminderDate.ToShortTimeString());
                 StartCoroutine(TitleLifeTime(TITLE_TIMER));
                 GoToNextState();
