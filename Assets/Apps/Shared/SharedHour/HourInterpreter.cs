@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace BuddyApp.Shared
 {
@@ -52,6 +53,11 @@ namespace BuddyApp.Shared
                 iHour,
                 iMinute,
                 0);
+        }
+
+        virtual public string HourToString(DateTime iDate)
+        {
+            return "";
         }
     }
 }

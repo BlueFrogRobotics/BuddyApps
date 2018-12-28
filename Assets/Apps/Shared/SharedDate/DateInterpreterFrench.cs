@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace BuddyApp.Shared
 {
@@ -266,7 +267,7 @@ namespace BuddyApp.Shared
         
         public override string DateToString(DateTime iDate)
         {
-            return iDate.ToString("dd/MM/yyyy");
+            return iDate.ToString("d", CultureInfo.CreateSpecificCulture("fr-FR"));
         }
     }
 }
