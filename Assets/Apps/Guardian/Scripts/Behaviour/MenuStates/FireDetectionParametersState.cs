@@ -12,6 +12,7 @@ namespace BuddyApp.Guardian
     public sealed class FireDetectionParametersState : AStateMachineBehaviour
     {
         private bool mHasSwitchState = false;
+        private bool mIsTesting = false;
 
         private TToggle mToggleFireDetection;
         private TButton mButtonTestSensibility;
@@ -24,6 +25,9 @@ namespace BuddyApp.Guardian
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            // If was displaying FireDetectionState => Toggle true. Else, take FireDetection value.
+            bool lBIsToggleChecked = mIsTesting || GuardianData.Instance.FireDetection;
+            mIsTesting = false;
 
             Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("heatdetection")); 
 
@@ -31,20 +35,18 @@ namespace BuddyApp.Guardian
             {
                 mToggleFireDetection = iBuilder.CreateWidget<TToggle>();
                 mToggleFireDetection.SetLabel(Buddy.Resources.GetString("activation"));
-                mToggleFireDetection.ToggleValue = GuardianData.Instance.FireDetection;
+                mToggleFireDetection.ToggleValue = lBIsToggleChecked;
                 mToggleFireDetection.OnToggle.Add(OnToggleParam);
 
                 mButtonTestSensibility = iBuilder.CreateWidget<TButton>();
                 mButtonTestSensibility.SetLabel(Buddy.Resources.GetString("viewheatdetection"));
                 mButtonTestSensibility.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_cog"));
                 mButtonTestSensibility.SetActive(mToggleFireDetection.ToggleValue);
-                mButtonTestSensibility.OnClick.Add(() => { Trigger("Test"); Buddy.GUI.Toaster.Hide(); });
+                mButtonTestSensibility.OnClick.Add(() => { Trigger("Test"); mIsTesting = true; Buddy.GUI.Toaster.Hide(); });
             },
             () => { Trigger("Parameter"); Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.GetString("cancel"),
             () => { SaveParam(); Trigger("Parameter"); Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.GetString("save")
             );
-
-
         }
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
