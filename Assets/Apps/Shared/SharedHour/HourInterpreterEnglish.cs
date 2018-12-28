@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace BuddyApp.Shared
 {
@@ -211,6 +212,11 @@ namespace BuddyApp.Shared
 
             // Minutes
             return int.Parse(lStrSplits[0]);
+        }
+
+        public override string HourToString(DateTime iDate)
+        {
+            return iDate.ToString("t", CultureInfo.CreateSpecificCulture("en-US"));
         }
     }
 }

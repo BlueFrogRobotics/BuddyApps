@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace BuddyApp.Shared
 {
@@ -184,6 +185,11 @@ namespace BuddyApp.Shared
                 default:
                     return int.Parse(iStringInput.Trim());
             }
+        }
+
+        public override string HourToString(DateTime iDate)
+        {
+            return iDate.ToString("t", CultureInfo.CreateSpecificCulture("fr-FR"));
         }
     }
 }
