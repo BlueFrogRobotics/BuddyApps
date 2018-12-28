@@ -95,7 +95,7 @@ namespace BuddyApp.Reminder
             Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont);
             
             // Setting of Vocon param
-            Buddy.Vocal.DefaultInputParameters.Grammars = new string[] { "reminder_date", "common" };
+            Buddy.Vocal.DefaultInputParameters.Grammars = new string[] { "date", "reminder_date", "common" };
             Buddy.Vocal.OnEndListening.Clear();
             Buddy.Vocal.OnEndListening.Add(OnEndListening);
             
@@ -152,21 +152,23 @@ namespace BuddyApp.Reminder
                 QuitReminder();
 
             //  Launch Extraction date - The ReminderDate's hour is saved and restore after the extraction
+            DateTime lDate = ReminderDateManager.GetInstance().ReminderDate;
             if (!string.IsNullOrEmpty(iSpeechInput.Utterance)
-                && SharedLanguageManager<ReminderLanguage>.GetInstance().GetLanguage().ExtractDateFromSpeech(
+                && ReminderLanguageManager.GetInstance().GetDateLanguage().ExtractDateFromSpeech(
                             Utils.GetRealStartRule(iSpeechInput.Rule).Trim(' '),
-                            iSpeechInput.Utterance.Trim(' ')))
+                            iSpeechInput.Utterance.Trim(' '),
+                            ref lDate))
                             //iSpeechInput.Utterance.Substring(0, iSpeechInput.Utterance.IndexOf(":")),
                             //iSpeechInput.Utterance.Substring(iSpeechInput.Utterance.IndexOf(":") + 1)))
             {
-                /*
-                TimeSpan lHourmem = new TimeSpan(ReminderDateManager.GetInstance().ReminderDate.Hour,
-                                                        ReminderDateManager.GetInstance().ReminderDate.Minute,
-                                                        ReminderDateManager.GetInstance().ReminderDate.Second);
+                //TimeSpan lHourmem = new TimeSpan(ReminderDateManager.GetInstance().ReminderDate.Hour,
+                //                                        ReminderDateManager.GetInstance().ReminderDate.Minute,
+                //                                        ReminderDateManager.GetInstance().ReminderDate.Second); // Check if still useful
+                ReminderDateManager.GetInstance().ReminderDate = lDate; // lDate.Date + lHourmem;
 
-                ReminderDateManager.GetInstance().ReminderDate = ReminderDateManager.GetInstance().ReminderDate.Date + lHourmem;
-                */
-                Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("eared") + SharedLanguageManager<ReminderLanguage>.GetInstance().GetLanguage().DateToString());
+                Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("eared") +
+                    ReminderLanguageManager.GetInstance().GetDateLanguage().DateToString(ReminderDateManager.GetInstance().ReminderDate));
+                
                 StartCoroutine(TitleLifeTime(TITLE_TIMER));
                 GoToNextState();
                 return;
@@ -234,7 +236,8 @@ namespace BuddyApp.Reminder
 
                 // Creating of a text to display the choosen date in UI.
                 mDateText = iOnBuild.CreateWidget<TText>();
-                mDateText.SetLabel(Buddy.Resources.GetString("datesetto") + SharedLanguageManager<ReminderLanguage>.GetInstance().GetLanguage().DateToString());
+                mDateText.SetLabel(Buddy.Resources.GetString("datesetto") +
+                    ReminderLanguageManager.GetInstance().GetDateLanguage().DateToString(ReminderDateManager.GetInstance().ReminderDate));
 
                 // Decrement Button
                 TButton lDec = iOnBuild.CreateWidget<TButton>();
@@ -288,8 +291,9 @@ namespace BuddyApp.Reminder
                 ReminderDateManager.GetInstance().ReminderDate = ReminderDateManager.GetInstance().ReminderDate.AddMonths(iIncrement);
             else if (mDateModify == DateModify.YEAR)
                 ReminderDateManager.GetInstance().ReminderDate = ReminderDateManager.GetInstance().ReminderDate.AddYears(iIncrement);
-
-            mDateText.SetLabel(Buddy.Resources.GetString("datesetto") + SharedLanguageManager<ReminderLanguage>.GetInstance().GetLanguage().DateToString());
+            
+            mDateText.SetLabel(Buddy.Resources.GetString("datesetto") +
+                ReminderLanguageManager.GetInstance().GetDateLanguage().DateToString(ReminderDateManager.GetInstance().ReminderDate));
         }
 
         /*

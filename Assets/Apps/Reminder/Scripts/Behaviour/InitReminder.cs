@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BlueQuark;
+using BuddyApp.Shared;
 
 namespace BuddyApp.Reminder
 {
@@ -28,13 +29,21 @@ namespace BuddyApp.Reminder
                 RecognitionThreshold = RECOGNITION_SENSIBILITY
             };
 
-            // Define reminder languages
-            Dictionary<ISO6391Code, ReminderLanguage> lDictionary = new Dictionary<ISO6391Code, ReminderLanguage>
+            // Define reminder date languages
+            Dictionary<ISO6391Code, DateInterpreter> lDictionaryDate = new Dictionary<ISO6391Code, DateInterpreter>
                 {
-                    { ISO6391Code.EN, new ReminderLanguageEnglish() },
-                    { ISO6391Code.FR, new ReminderLanguageFrench() }
+                    { ISO6391Code.EN, new DateInterpreterEnglish() },
+                    { ISO6391Code.FR, new DateInterpreterFrench() }
                 };
-            SharedLanguageManager<ReminderLanguage>.GetInstance().Initialize(lDictionary);
+
+            // Define reminder hour languages
+            Dictionary<ISO6391Code, HourInterpreter> lDictionaryHour = new Dictionary<ISO6391Code, HourInterpreter>
+                {
+                    { ISO6391Code.EN, new HourInterpreterEnglish() },
+                    { ISO6391Code.FR, new HourInterpreterFrench() }
+                };
+
+            ReminderLanguageManager.GetInstance().Initialize(lDictionaryDate, lDictionaryHour);
             
             Debug.Log("----- REMINDER WILL START -----");
             Trigger("StartReminder");
