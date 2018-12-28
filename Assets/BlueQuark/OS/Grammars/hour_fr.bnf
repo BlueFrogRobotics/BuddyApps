@@ -1,0 +1,35 @@
+#BNF+EMV2.0;
+!grammar hour_fr;
+!start <atnoon>;
+!start <atnoonandminutes>;
+!start <atmidnight>;
+!start <atmidnightandminutes>;
+!start <athours>;
+!start <athoursandminutes>;
+!start <atamhours>;
+!start <atamhoursandminutes>;
+!start <atpmhours>;
+!start <atpmhoursandminutes>;
+!start <inhours>;
+!start <inminutes>;
+!start <inhoursandminutes>;
+
+<atnoon> : [à] midi;
+<atnoonandminutes> : [à] midi <andminutes>;
+<atmidnight> : [à] minuit;
+<atmidnightandminutes> : [à] minuit <andminutes>;
+<athours> : [à] <hours> heure[s];
+<athoursandminutes> : [à] <hours> heure[s] <andminutes>;
+<atamhours> : [à] <morninghours> heure[s] du matin;
+<atamhoursandminutes> : [à] <morninghours> heure[s] [<andminutes>] du matin;
+<atpmhours> : [à] <morninghours> heure[s] (de l'après-midi | du soir);
+<atpmhoursandminutes> : [à] <morninghours> heure[s] [<andminutes>] (de l'après-midi | du soir);
+<inhours> : dans <hours> heure[s];
+<inminutes> : dans <minutes> minute[s];
+<inhoursandminutes> : <inhours> <andminutes>;
+
+<morninghours> : une | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
+<hours> : <morninghours> | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | vingt-et-une | 22 | 23;
+<firstthirtyminutes> : 1 | une | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | vingt-et-une | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29;
+<minutes> : <firstthirtyminutes> | 30 | 31 | trente-et-une | 32 | 33 | 34 | 35 | 36 | 37 | 38 | 39 | 40 | 41 | quarante-et-une | 42 | 43 | 44 | 45 | 46 | 47 | 48 | 49 | 50 | 51 | cinquante-et-une | 52 | 53 | 54 | 55 | 56 | 57 | 58 | 59;
+<andminutes> : [et] <minutes> [minute[s]] | moins <firstthirtyminutes> [minute[s]] | et demi | (et | moins le) quart;
