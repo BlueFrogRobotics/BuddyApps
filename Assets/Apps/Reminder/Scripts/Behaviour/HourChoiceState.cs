@@ -226,7 +226,7 @@ namespace BuddyApp.Reminder
 
                 // Creating of a text to display the choosen hour in UI.
                 mHourText = iOnBuild.CreateWidget<TText>();
-                mHourText.SetLabel(Buddy.Resources.GetString("hoursetto") + ReminderDateManager.GetInstance().ReminderDate.ToShortTimeString());
+                mHourText.SetLabel(Buddy.Resources.GetString("hoursetto") + ReminderLanguageManager.GetInstance().GetHourLanguage().HourToString(ReminderDateManager.GetInstance().ReminderDate));
 
                 // Decrement Button
                 TButton lDec = iOnBuild.CreateWidget<TButton>();
@@ -289,7 +289,7 @@ namespace BuddyApp.Reminder
             else
                 ReminderDateManager.GetInstance().ReminderDate = ReminderDateManager.GetInstance().ReminderDate.Add(new TimeSpan(0, iIncrement, 0));
             ReminderDateManager.GetInstance().ReminderDate = ReminderDateManager.GetInstance().ReminderDate.Subtract(new TimeSpan(0, 0, ReminderDateManager.GetInstance().ReminderDate.Second));
-            mHourText.SetLabel(Buddy.Resources.GetString("hoursetto") + ReminderDateManager.GetInstance().ReminderDate.ToString(@"hh\:mm"));
+            mHourText.SetLabel(Buddy.Resources.GetString("hoursetto") + ReminderLanguageManager.GetInstance().GetHourLanguage().HourToString(ReminderDateManager.GetInstance().ReminderDate));
         }
 
         /*
