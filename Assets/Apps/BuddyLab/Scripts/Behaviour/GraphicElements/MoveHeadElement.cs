@@ -37,11 +37,13 @@ namespace BuddyApp.BuddyLab
             {
                 lMoveHeadInstruction.YesAngle = angle;
                 lMoveHeadInstruction.YesSpeed = speed;
+                lMoveHeadInstruction.NoAngle = 0F;
             }
             else
             {
                 lMoveHeadInstruction.NoAngle = angle;
                 lMoveHeadInstruction.NoSpeed = speed;
+                lMoveHeadInstruction.YesAngle = 0F;
             }
 
 

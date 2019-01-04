@@ -81,7 +81,7 @@ namespace BuddyApp.BuddyLab
         private void StopAlgo()
         {
             Buddy.Behaviour.Interpreter.Stop();
-            Buddy.Actuators.Head.Yes.SetPosition(0);
+            Buddy.Actuators.Head.Yes.SetPosition(20);
             Buddy.Actuators.Head.No.SetPosition(0);
             CloseFooter();
             GetGameObject(6).GetComponent<Animator>().SetTrigger("open");
@@ -97,9 +97,9 @@ namespace BuddyApp.BuddyLab
         private void ResetPosition()
         {
             Buddy.Actuators.Head.Yes.Locked = false;
-            Buddy.Actuators.Head.Yes.SetPosition(0F, 100F);
+            Buddy.Actuators.Head.Yes.SetPosition(20F, 50F);
             Buddy.Actuators.Head.No.Locked = false;
-            Buddy.Actuators.Head.No.SetPosition(0F, 100F);
+            Buddy.Actuators.Head.No.SetPosition(0F, 50F);
         }
 
         private void ChangeItemHighlight(int iNum)

@@ -226,7 +226,9 @@ namespace BuddyApp.Somfy
             ParseText(SomfyData.Instance.VocalRequest);
             while (Buddy.Vocal.IsSpeaking)
                 yield return null;
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(2.5f);
+            while (Buddy.Vocal.IsSpeaking)
+                yield return null;
             QuitApp();
         }
 

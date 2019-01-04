@@ -136,7 +136,7 @@ namespace BuddyApp.Somfy
         {
             if (mStore != null && mStore.HasFinishedCommand())
             {
-                Buddy.Vocal.Say("Ok");
+                Buddy.Vocal.Say("OK");
                 Buddy.Vocal.SayKey("openstore");
                 mStore.Command(3);
             }
@@ -146,7 +146,7 @@ namespace BuddyApp.Somfy
         {
             if (mStore != null && mStore.HasFinishedCommand())
             {
-                Buddy.Vocal.Say("Ok");
+                Buddy.Vocal.Say("OK");
                 Buddy.Vocal.SayKey("closestore");
                 mStore.Command(2);
             }
@@ -156,7 +156,7 @@ namespace BuddyApp.Somfy
         {
             if (mPlug != null && mPlug.HasFinishedCommand())
             {
-                Buddy.Vocal.Say("Ok");
+                Buddy.Vocal.Say("OK");
                 Buddy.Vocal.SayKey("on");
                 mPlug.OnOff(true);
             }
@@ -166,7 +166,7 @@ namespace BuddyApp.Somfy
         {
             if (mPlug != null && mPlug.HasFinishedCommand())
             {
-                Buddy.Vocal.Say("Ok");
+                Buddy.Vocal.Say("OK");
                 Buddy.Vocal.SayKey("off");
                 mPlug.OnOff(false);
             }
@@ -176,7 +176,7 @@ namespace BuddyApp.Somfy
         {
             if (mPlug2 != null && mPlug2.HasFinishedCommand())
             {
-                Buddy.Vocal.Say("Ok");
+                Buddy.Vocal.Say("OK");
                 Buddy.Vocal.SayKey("on");
                 mPlug2.OnOff(true);
             }
@@ -186,7 +186,7 @@ namespace BuddyApp.Somfy
         {
             if (mPlug2 != null && mPlug2.HasFinishedCommand())
             {
-                Buddy.Vocal.Say("Ok");
+                Buddy.Vocal.Say("OK");
                 Buddy.Vocal.SayKey("off");
                 mPlug2.OnOff(false);
             }
@@ -200,7 +200,7 @@ namespace BuddyApp.Somfy
 
         IEnumerator SwitchOnAllPlugsCoroutine()
         {
-            Buddy.Vocal.Say("Ok");
+            Buddy.Vocal.Say("OK");
             Buddy.Vocal.SayKey("onalllights");
             if (mPlug2 != null && mPlug2.HasFinishedCommand())
             {
@@ -224,7 +224,7 @@ namespace BuddyApp.Somfy
 
         IEnumerator SwitchOffAllPlugsCoroutine()
         {
-            Buddy.Vocal.Say("Ok");
+            Buddy.Vocal.Say("OK");
             Buddy.Vocal.SayKey("offalllights");
             if (mPlug2 != null && mPlug2.HasFinishedCommand())
             {
@@ -242,7 +242,7 @@ namespace BuddyApp.Somfy
             Debug.Log("switch plug");
             if (mPlug2 != null && mPlug2.HasFinishedCommand())
             {
-                Buddy.Vocal.Say("Ok");
+                Buddy.Vocal.Say("OK");
                 if (iVal)
                     Buddy.Vocal.SayKey("on");
                 else
@@ -274,7 +274,7 @@ namespace BuddyApp.Somfy
         {
             if (mThermostat != null && mThermostat.HasFinishedCommand())
             {
-                Buddy.Vocal.Say("Ok, " + string.Format(Buddy.Resources.GetString("settemperature"), iTemp));
+                Buddy.Vocal.Say("OK, " + string.Format(Buddy.Resources.GetString("settemperature"), iTemp));
                 //Debug.Log(string.Format(Buddy.Resources.GetString("settemperature"), iTemp));
                 mThermostat.Command(4, iTemp);
             }

@@ -72,7 +72,8 @@ namespace BuddyApp.BuddyLab
             //GetComponent<ABLItem>().Parameter = "" + lNumParameter;
             GetComponent<IEditableParameter>().SetEditableParameter("" + lNumParameter);
             //GetComponent<LoopElement>().NumLoop = (int)lNumParameter;
-            
+            Debug.Log("on validation");
+            ItemControlUnit.EndModif();
             parameterWindow.HideWindow();
             parameterWindow.ValidateButton.onClick.RemoveListener(OnValidation);
         }

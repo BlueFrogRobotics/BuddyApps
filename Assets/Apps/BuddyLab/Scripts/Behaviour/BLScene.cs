@@ -94,6 +94,7 @@ namespace BuddyApp.BuddyLab
             mItemControl.CleanSequence();
             yield return null;
             mItemControl.ShowAlgo(mBLBehaviour.NameOpenProject + ".xml");
+            mItemControl.SaveSequence();
             mUIManager.OpenBottomUI();
             mUIManager.OpenLineProgram();
             mUIManager.OpenTrashArea();

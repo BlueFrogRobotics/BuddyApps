@@ -86,6 +86,7 @@ namespace BuddyApp.BuddyLab
             Debug.Log("show algo");
             OpenProjectVisitor lVisitor = new OpenProjectVisitor(itemManager, panel.transform);
             lVisitor.Visit(iBehaviourAlgorithm);
+            //mStackUndoBli.AddLast(iBehaviourAlgorithm);
         }
 
         public void FillBehaviourAlgorithm(string iFileName)
@@ -156,7 +157,7 @@ namespace BuddyApp.BuddyLab
         {
             Debug.Log("undo");
             foreach(BehaviourAlgorithm behaviour in mStackUndoBli) {
-                Debug.Log("count du behaviour: " + behaviour.Instructions.Count);
+                //Debug.Log("count du behaviour: " + behaviour.Instructions.Count);
             }
             if (mStackUndoBli.Count > 1)
             {
@@ -204,7 +205,8 @@ namespace BuddyApp.BuddyLab
 
         public static void EndModif()
         {
-            OnModification();
+            if(OnModification!=null)
+                OnModification();
         }
 
         /// <summary>
@@ -212,9 +214,9 @@ namespace BuddyApp.BuddyLab
         /// </summary>
         private void SaveModification()
         {
-            Debug.Log("save modif");
+            Debug.Log("save la modif");
             //if (!mIsUndoing) {
-                Debug.Log("dans if save modif");
+                //Debug.Log("dans if save modif");
                 SaveSequence();
                 mNbModifs++;
                 mStackRedoBli.Clear();

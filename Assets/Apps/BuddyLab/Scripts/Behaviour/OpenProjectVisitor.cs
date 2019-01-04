@@ -237,7 +237,7 @@ namespace BuddyApp.BuddyLab
             ShadeColor lColor = Utils.GetNearestColor(iStructure.ConditionalColors.Value[0]);
             switch (lColor)
             {
-                case ShadeColor.BLUE:
+                case ShadeColor.BROWN:
                     lIndex = 29;
                     break;
                 case ShadeColor.GREEN:
@@ -261,7 +261,7 @@ namespace BuddyApp.BuddyLab
                 case ShadeColor.CYAN:
                     lIndex = 15;
                     break;
-                case ShadeColor.GREY:
+                case ShadeColor.BLACK:
                     lIndex = 31;
                     break;
                 default:

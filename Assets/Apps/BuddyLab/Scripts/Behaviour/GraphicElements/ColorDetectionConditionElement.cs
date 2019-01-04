@@ -24,6 +24,7 @@ namespace BuddyApp.BuddyLab
             ColorInputBehaviourInstruction lColorInputInstruction = (ColorInputBehaviourInstruction)mInstruction;
             lColorInputInstruction.ConditionalColors = new Color32[1];
             lColorInputInstruction.ConditionalColors.Value[0] = color;
+            Debug.Log("shade color: "+ Utils.GetNearestColor(color));
         }
     }
 }
