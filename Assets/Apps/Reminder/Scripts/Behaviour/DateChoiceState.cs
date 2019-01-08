@@ -158,13 +158,8 @@ namespace BuddyApp.Reminder
                             Utils.GetRealStartRule(iSpeechInput.Rule).Trim(' '),
                             iSpeechInput.Utterance.Trim(' '),
                             ref lDate))
-                            //iSpeechInput.Utterance.Substring(0, iSpeechInput.Utterance.IndexOf(":")),
-                            //iSpeechInput.Utterance.Substring(iSpeechInput.Utterance.IndexOf(":") + 1)))
             {
-                //TimeSpan lHourmem = new TimeSpan(ReminderDateManager.GetInstance().ReminderDate.Hour,
-                //                                        ReminderDateManager.GetInstance().ReminderDate.Minute,
-                //                                        ReminderDateManager.GetInstance().ReminderDate.Second); // Check if still useful
-                ReminderDateManager.GetInstance().ReminderDate = lDate; // lDate.Date + lHourmem;
+                ReminderDateManager.GetInstance().ReminderDate = lDate;
 
                 Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("eared") +
                     ReminderLanguageManager.GetInstance().GetDateLanguage().DateToString(ReminderDateManager.GetInstance().ReminderDate));
@@ -180,7 +175,6 @@ namespace BuddyApp.Reminder
             switch (mDateStatus)
             {
                 case DateStatus.E_FIRST_LISTENING:
-                    //Buddy.Vocal.SayKeyAndListen("when");
                     Buddy.Vocal.SayAndListen(Buddy.Resources.GetString(ReminderDateManager.STR_SORRY));
                     mDateStatus = DateStatus.E_SECOND_LISTENING;
                     break;
@@ -225,9 +219,6 @@ namespace BuddyApp.Reminder
             // TMP - waiting for caroussel
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iOnBuild) =>
             {
-                //  Set the starting point of the carousel
-                //ReminderDateManager.GetInstance().ReminderDate = iCarouselStartDate;
-
                 // Increment Button
                 TButton lInc = iOnBuild.CreateWidget<TButton>();
                 lInc.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_plus"));
