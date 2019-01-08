@@ -158,8 +158,6 @@ namespace BuddyApp.Reminder
                                         Utils.GetRealStartRule(iSpeechInput.Rule),
                                         iSpeechInput.Utterance,
                                         ref lDate))
-                                        //iSpeechInput.Utterance.Substring(0, iSpeechInput.Utterance.IndexOf(":")),
-                                        //iSpeechInput.Utterance.Substring(iSpeechInput.Utterance.IndexOf(":") + 1)))
             {
                 ReminderDateManager.GetInstance().ReminderDate = lDate;
 
@@ -172,7 +170,6 @@ namespace BuddyApp.Reminder
             // Hour extraction failed - Relaunch listenning until we make less than 2 listenning
             // Listenning count is reached - So display UI & launch the last listenning
             // Misunderstood & User didn't click on validate - We request to quit
-
             switch (mHourStatus)
             {
                 case HourStatus.E_FIRST_LISTENING:
