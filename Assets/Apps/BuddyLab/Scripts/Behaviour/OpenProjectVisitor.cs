@@ -38,13 +38,13 @@ namespace BuddyApp.BuddyLab
         public void Visit(MoveHeadBehaviourInstruction iStructure)
         {
             int lIndex = 0;
-            if (iStructure.YesAngle.Value > 0)
+            if (iStructure.YesAngle.Value > 0 && iStructure.YesSpeed.Value > 0)
                 lIndex = 10;
-            else if (iStructure.YesAngle.Value < 0)
+            else if (iStructure.YesAngle.Value < 0 && iStructure.YesSpeed.Value > 0)
                 lIndex = 8;
-            else if (iStructure.NoAngle.Value > 0)
+            else if (iStructure.NoAngle.Value > 0 && iStructure.NoSpeed.Value > 0)
                 lIndex = 14;
-            else if (iStructure.NoAngle.Value < 0)
+            else if (iStructure.NoAngle.Value < 0 && iStructure.NoSpeed.Value > 0)
                 lIndex = 12;
             else
                 lIndex = 10;

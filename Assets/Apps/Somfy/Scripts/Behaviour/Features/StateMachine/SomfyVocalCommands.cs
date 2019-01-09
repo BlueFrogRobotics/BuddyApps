@@ -126,11 +126,11 @@ namespace BuddyApp.Somfy
             {
                 mSomfyBehaviour.CloseStore();
             }
-            else if (Buddy.Resources.ContainsPhonetic(iText, "playmusic"))
+            else if (Buddy.Resources.ContainsPhonetic(iText, "playmusic") && Buddy.Resources.ContainsPhonetic(iText, "song"))
             {
                 mSomfyBehaviour.PlayMusic();
             }
-            else if (Buddy.Resources.ContainsPhonetic(iText, "stopmusic"))
+            else if (Buddy.Resources.ContainsPhonetic(iText, "stopmusic") && Buddy.Resources.ContainsPhonetic(iText, "song"))
             {
                 mSomfyBehaviour.StopMusic();
             }
