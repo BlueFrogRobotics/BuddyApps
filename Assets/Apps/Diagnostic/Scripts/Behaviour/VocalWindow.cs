@@ -182,7 +182,7 @@ namespace BuddyApp.Diagnostic
             GimmickPlayButton.onClick.RemoveAllListeners();
 
             // Speech to text
-            SpeechToTextGrammarButton.onClick.RemoveAllListeners();
+            SpeechToTextGrammarButton.onClick.RemoveAllListeners(); 
             SpeechToTextFreeSpeechButton.onClick.RemoveAllListeners();
 
             // Trigger

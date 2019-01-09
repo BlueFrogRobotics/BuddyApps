@@ -27,7 +27,7 @@ namespace BuddyApp.Shared
         [SerializeField]
         private bool BipSound;
         [SerializeField]
-        private SoundSample FxSound;
+        private SoundSample FxSound = SoundSample.BEEP_1;
         [Header("Display Movement Parameters : ")]
         [SerializeField]
         private bool DisplayMovement;
@@ -69,9 +69,9 @@ namespace BuddyApp.Shared
         [SerializeField]
         private Mood MoodTypeWhenNotDetected;
         [SerializeField]
-        private SoundSample SoundWhenNotDetected;
+        private SoundSample SoundWhenNotDetected = SoundSample.BEEP_1;
 
-        private bool mIsDisplay; 
+        private bool mIsDisplay;
         private RGBCamera mCam;
         private Mat mMatDetection;
         private MotionDetector mMotion;
@@ -101,7 +101,7 @@ namespace BuddyApp.Shared
         public override void Start()
         {
             mMotion = Buddy.Perception.MotionDetector;
-            mCam = Buddy.Sensors.RGBCamera; 
+            mCam = Buddy.Sensors.RGBCamera;
         }
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -124,17 +124,15 @@ namespace BuddyApp.Shared
             mSoundPlayedWhenDetected = false;
             mDetectionCount = 0;
             mMotionDetectorParameter = new MotionDetectorParameter();
-            
-            if (WantChangingTimer)
-            {
+
+            if (WantChangingTimer) {
                 if (iAnimator.GetFloat("Timer") != 0F)
                     Timer = iAnimator.GetFloat("Timer");
                 else
                     Debug.Log("You didn't create a float named Timer in animtor's parameter, do it and change its value with  animator.SetFloat(\"Timer\", your value);");
             }
-                
-            if (WantChangingQuantity)
-            {
+
+            if (WantChangingQuantity) {
                 if (iAnimator.GetFloat("QuantityMovement") != 0F)
                     QuantityMovement = iAnimator.GetInteger("QuantityMovement");
                 else
@@ -142,21 +140,16 @@ namespace BuddyApp.Shared
             }
 
             mCam.Open(RGBCameraMode.COLOR_320X240_30FPS_RGB);
-            mCam.OnNewFrame.Add((iFrame) =>
-            {
+            mCam.OnNewFrame.Add((iFrame) => {
                 mMat = iFrame.Mat.clone();
                 mIsInit = true;
             });
-            if (!AreaToDetect)
-            {
-                mMotion.OnDetect.AddP(OnMovementDetected, new MotionDetectorParameter()
-                {
+            if (!AreaToDetect) {
+                mMotion.OnDetect.AddP(OnMovementDetected, new MotionDetectorParameter() {
                     RegionOfInterest = new OpenCVUnity.Rect(0, 0, Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height),
                     SensibilityThreshold = 2.5F
                 });
-            }
-            else
-            {
+            } else {
                 mRect = new OpenCVUnity.Rect(new Point((int)(320 / 3), 0), new Point((int)(Buddy.Sensors.RGBCamera.Width * 2 / 3), Buddy.Sensors.RGBCamera.Height));
                 mMotionDetectorParameter.SensibilityThreshold = 2.5F;
                 mMotionDetectorParameter.RegionOfInterest = mRect;
@@ -175,37 +168,29 @@ namespace BuddyApp.Shared
             if (!mIsInit)
                 return;
 
-            if (mCam.IsOpen && VideoDisplay && !mIsDisplay)
-            {
+            if (mCam.IsOpen && VideoDisplay && !mIsDisplay) {
                 mTimer = 0F;
                 mIsDisplay = true;
                 mMatCopy = mMat.clone();
                 if (!WantToFlip)
                     Core.flip(mMatCopy, mMatCopy, 1);
                 mTexture = Utils.ScaleTexture2DFromMat(mMatCopy, mTexture);
-                Utils.MatToTexture2D(mMatCopy , mTexture);
+                Utils.MatToTexture2D(mMatCopy, mTexture);
                 mMotionDetectionSprite = Sprite.Create(mTexture, new UnityEngine.Rect(0, 0, mTexture.width, mTexture.height), new Vector2(0.5f, 0.5f));
-                if (mTexture == null)
-                {
+                if (mTexture == null) {
                     mIsDisplay = false;
-                }
-                else
-                {
+                } else {
                     Buddy.GUI.Toaster.Display<VideoStreamToast>().With(mTexture);
                 }
             }
-            if (VideoDisplay && mIsDisplay && mTimer > 0.1F)
-            {
-                if (mMatDetectionCopy == null && !AreaToDetect)
-                {
+            if (VideoDisplay && mIsDisplay && mTimer > 0.1F) {
+                if (mMatDetectionCopy == null && !AreaToDetect) {
                     mMatCopy = mMat.clone();
                     if (!WantToFlip)
                         Core.flip(mMatCopy, mMatCopy, 1);
                     mTextureRefresh = Utils.MatToTexture2D(mMatCopy);
                     mTexture.SetPixels(mTextureRefresh.GetPixels());
-                }
-                else if (mMatDetectionCopy == null && AreaToDetect)
-                {
+                } else if (mMatDetectionCopy == null && AreaToDetect) {
                     mMatCopy = mMat.clone();
                     if (!WantToFlip)
                         Core.flip(mMatCopy, mMatCopy, 1);
@@ -214,49 +199,37 @@ namespace BuddyApp.Shared
                     mTexture.SetPixels(mTextureRefresh.GetPixels());
                 }
 
-                if (mMatDetectionCopy != null && AreaToDetect)
-                {
+                if (mMatDetectionCopy != null && AreaToDetect) {
                     mTextureRefresh = Utils.MatToTexture2D(mMatDetectionCopy);
                     mTexture.SetPixels(mTextureRefresh.GetPixels());
                     mMatDetection = null;
-                }
-                else if (mMatDetectionCopy != null && !AreaToDetect)
-                {
+                } else if (mMatDetectionCopy != null && !AreaToDetect) {
                     mTextureRefresh = Utils.MatToTexture2D(mMatDetectionCopy);
                     mTexture.SetPixels(mTextureRefresh.GetPixels());
                     mMatDetection = null;
                 }
                 mTexture.Apply();
                 mTimer = 0F;
-            } 
+            }
 
-            if ((mDetectionCount > QuantityMovement /*|| (mDetectionCountTest / 15F) > QuantityMovement*/) && !mExitTwo)
-            {
+            if ((mDetectionCount > QuantityMovement /*|| (mDetectionCountTest / 15F) > QuantityMovement*/) && !mExitTwo) {
                 mExitOne = true;
-                if (Buddy.Behaviour.Mood != MoodTypeWhenDetected)
-                {
+                if (Buddy.Behaviour.Mood != MoodTypeWhenDetected) {
                     Buddy.Behaviour.SetMood(MoodTypeWhenDetected);
                 }
-                if (LookForUser)
-                {
-                    if (!mReposeDone)
-                    {
+                if (LookForUser) {
+                    if (!mReposeDone) {
                         RePosition();
                     }
-                    if (mReposeDone)
-                    {
-                        if (SoundWhenDetected != SoundSample.NONE && !mSoundPlayedWhenDetected)
-                        {
+                    if (mReposeDone) {
+                        if (!mSoundPlayedWhenDetected) {
                             mSoundPlayedWhenDetected = true;
                             Buddy.Actuators.Speakers.Media.Play(SoundWhenDetected);
                         }
                         Trigger(TriggerWhenDetected);
                     }
-                }
-                else
-                {
-                    if (SoundWhenDetected != SoundSample.NONE && !mSoundPlayedWhenDetected)
-                    {
+                } else {
+                    if (!mSoundPlayedWhenDetected) {
                         mSoundPlayedWhenDetected = true;
                         Buddy.Actuators.Speakers.Media.Play(SoundWhenDetected);
                     }
@@ -264,24 +237,20 @@ namespace BuddyApp.Shared
                 }
             }
 
-            if (mDurationDetection > Timer && mDetectionCount <= QuantityMovement && !mExitOne)
-            {
+            if (mDurationDetection > Timer && mDetectionCount <= QuantityMovement && !mExitOne) {
                 mExitTwo = true;
 
-                if (Buddy.Behaviour.Mood != MoodTypeWhenNotDetected)
-                {
+                if (Buddy.Behaviour.Mood != MoodTypeWhenNotDetected) {
                     Buddy.Behaviour.SetMood(MoodTypeWhenNotDetected);
                 }
-                if (SoundWhenNotDetected != SoundSample.NONE && !mSoundPlayedWhenDetected)
-                {
+                if (!mSoundPlayedWhenDetected) {
                     mSoundPlayedWhenDetected = true;
                     Buddy.Actuators.Speakers.Media.Play(SoundWhenNotDetected);
 
                 }
                 if (!string.IsNullOrEmpty(TriggerWhenNotDetected))
                     Trigger(TriggerWhenNotDetected);
-                else
-                {
+                else {
                     mMotion.OnDetect.RemoveP(OnMovementDetected);
                 }
             }
@@ -289,10 +258,8 @@ namespace BuddyApp.Shared
 
         public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if(!string.IsNullOrEmpty(NameOfPictureSaved))
-            {
-                if (!File.Exists(Buddy.Resources.GetRawFullPath(NameOfPictureSaved)))
-                {
+            if (!string.IsNullOrEmpty(NameOfPictureSaved)) {
+                if (!File.Exists(Buddy.Resources.GetRawFullPath(NameOfPictureSaved))) {
                     ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.NOT_FOUND, "NO PICTURE");
                 }
             }
@@ -300,12 +267,12 @@ namespace BuddyApp.Shared
                 Buddy.GUI.Toaster.Hide();
             mMotion.OnDetect.RemoveP(OnMovementDetected);
             mCam.Close();
-            if (!string.IsNullOrEmpty(TriggerWhenDetected)) 
+            if (!string.IsNullOrEmpty(TriggerWhenDetected))
                 ResetTrigger(TriggerWhenDetected);
             if (!string.IsNullOrEmpty(TriggerWhenNotDetected))
                 ResetTrigger(TriggerWhenNotDetected);
             mReposeDone = false;
-        } 
+        }
 
         private bool OnMovementDetected(MotionEntity[] iMotions)
         {
@@ -315,30 +282,22 @@ namespace BuddyApp.Shared
             if (!WantToFlip)
                 Core.flip(mMatDetectionCopy, mMatDetectionCopy, 1);
 
-            if (OnlyOneDetection)
-            {
-                if (WantToSavePicture && mDetectionCount > QuantityBeforeSavingPicture)
-                {
-                    if (!string.IsNullOrEmpty(NameOfPictureSaved))
-                    {
-                        if (ImageWithMovementDisplayed)
-                        {
-                            foreach (MotionEntity lEntity in iMotions)
-                            {
+            if (OnlyOneDetection) {
+                if (WantToSavePicture && mDetectionCount > QuantityBeforeSavingPicture) {
+                    if (!string.IsNullOrEmpty(NameOfPictureSaved)) {
+                        if (ImageWithMovementDisplayed) {
+                            foreach (MotionEntity lEntity in iMotions) {
                                 Imgproc.circle(mMatDetection, Utils.Center(lEntity.RectInFrame), 3, new Scalar(ColorOfDisplay), 3);
                                 Core.flip(mMatDetection, mMatDetectionCopy, 1);
                             }
                             Utils.MatToTexture2D(mMatDetectionCopy, Utils.ScaleTexture2DFromMat(mMatDetectionCopy, lTexture));
                             File.WriteAllBytes(Buddy.Resources.GetRawFullPath(NameOfPictureSaved), lTexture.EncodeToJPG());
-                        }
-                        else
-                        {
+                        } else {
                             Core.flip(mMatDetection, mMatDetection, 1);
                             Utils.MatToTexture2D(mMatDetection, Utils.ScaleTexture2DFromMat(mMatDetection, lTexture));
                             File.WriteAllBytes(Buddy.Resources.GetRawFullPath(NameOfPictureSaved), lTexture.EncodeToJPG());
                         }
-                    }
-                    else
+                    } else
                         ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.NULL_VALUE, "The name of the picture is empty.");
                 }
                 if (!string.IsNullOrEmpty(TriggerWhenDetected) && mDetectionCount > QuantityBeforeSavingPicture && File.Exists(Buddy.Resources.GetRawFullPath(NameOfPictureSaved)))
@@ -347,43 +306,29 @@ namespace BuddyApp.Shared
                     ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.NULL_VALUE, "Your trigger when detected is empty");
                 mDetectionCount++;
             }
-            if (iMotions.Length > 5)
-            {
-                if (BipSound)
-                {
-                    if (FxSound == SoundSample.NONE)
-                    {
-                        FxSound = SoundSample.BEEP_1;
-                    }
-                    if(!Buddy.Actuators.Speakers.IsBusy)
+            if (iMotions.Length > 5) {
+                if (BipSound) {
+                    if (!Buddy.Actuators.Speakers.IsBusy)
                         Buddy.Actuators.Speakers.Media.Play(FxSound);
                 }
-                
-                if (LookForUser)
-                {
-                    foreach (MotionEntity lEntity in iMotions)
-                    {
+
+                if (LookForUser) {
+                    foreach (MotionEntity lEntity in iMotions) {
                         mPositionX += lEntity.RectInFrame.x;
                         mPositionY += lEntity.RectInFrame.y;
                         mDetectionCountTest++;
                     }
                 }
-                foreach (MotionEntity lEntity in iMotions)
-                {
-                    if (AreaToDetect)
-                    {
+                foreach (MotionEntity lEntity in iMotions) {
+                    if (AreaToDetect) {
                         Imgproc.rectangle(mMatDetectionCopy, new Point((int)(mMatDetectionCopy.width() / 3), 0), new Point((int)(mMatDetectionCopy.width() * 2 / 3), mMatDetectionCopy.height()), new Scalar(ColorOfDisplay), 3);
                     }
 
-                    if (DisplayMovement && VideoDisplay)
-                    {
-                        if (!WantToFlip)
-                        {
+                    if (DisplayMovement && VideoDisplay) {
+                        if (!WantToFlip) {
                             Imgproc.circle(mMatDetection, Utils.Center(lEntity.RectInFrame), 3, new Scalar(ColorOfDisplay), 3);
                             Core.flip(mMatDetection, mMatDetectionCopy, 1);
-                        }
-                        else
-                        {
+                        } else {
                             Imgproc.circle(mMatDetection, Utils.Center(lEntity.RectInFrame), 3, new Scalar(ColorOfDisplay), 3);
                             mMatDetection.copyTo(mMatDetectionCopy);
                         }

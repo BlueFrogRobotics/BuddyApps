@@ -21,7 +21,7 @@ namespace BuddyApp.Shared
         [SerializeField]
         private bool IsSoundForButton;
         [SerializeField]
-        private SoundSample FxSound;
+        private SoundSample FxSound = SoundSample.BEEP_1;
         //[SerializeField]
         //private float Timeout;
         [SerializeField]
@@ -343,8 +343,6 @@ namespace BuddyApp.Shared
         {
             Buddy.GUI.Toaster.Hide();
             if (IsSoundForButton && !mSoundPlayed) {
-                if (FxSound == SoundSample.NONE)
-                    FxSound = SoundSample.BEEP_1;
                 Buddy.Actuators.Speakers.Media.Play(FxSound);
                 mSoundPlayed = true;
             }

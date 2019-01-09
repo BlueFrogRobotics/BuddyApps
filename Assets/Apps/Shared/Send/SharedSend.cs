@@ -18,7 +18,7 @@ namespace BuddyApp.Shared
         public Publish WhereToPublish { get; set; }
         public string Token { get; set; }
         public string TokenSecret { get; set; }
-        public string ConsumerKey { get; set; }
+        public string ConsumerKey { get; set; } 
         public string ConsumerSecret { get; set; }
         public bool UseKey { get; set; }
         public string TwitterText { get; set; }

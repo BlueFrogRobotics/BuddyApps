@@ -3,19 +3,24 @@
     <MajorVersion>0</MajorVersion>
     <MinorVersion>5</MinorVersion>
     <BuildVersion>5</BuildVersion>
-    <RevisionVersion>20</RevisionVersion>
+    <RevisionVersion>64</RevisionVersion>
     <InputLanguage>EN</InputLanguage>
     <OutputLanguage>EN</OutputLanguage>
     <GUILanguage>EN</GUILanguage>
-    <EnableLoadDefaultApp>true</EnableLoadDefaultApp>
+    <SupportedLanguages>
+        <ISO6391Code>EN</ISO6391Code>
+        <ISO6391Code>FR</ISO6391Code>
+    </SupportedLanguages>
+    <EnableLoadDefaultApp>false</EnableLoadDefaultApp>
     <EnableLoadApps>true</EnableLoadApps>
-    <DefaultAppID>v160111229851-0</DefaultAppID>
+    <DefaultAppID />
     <RemoteAppID>p183871934241</RemoteAppID>
     <CallAppID>p183871934241</CallAppID>
-    <DefaultAppScenePath>Assets/Apps/Reminder/Scenes/v160111229851-0.unity</DefaultAppScenePath>
+    <DefaultAppScenePath />
     <EnableLogs>false</EnableLogs>
     <EnableLogInfo>false</EnableLogInfo>
     <EnableLogWarnings>false</EnableLogWarnings>
     <EnableLogErrors>false</EnableLogErrors>
+    <EnableCompanion>false</EnableCompanion>
     <BuiltInApps />
 </OSSettings>

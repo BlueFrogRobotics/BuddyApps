@@ -884,6 +884,15 @@ AnimationClip:
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      - serializedVersion: 3
+        time: 2.5
+        value: {x: 0, y: 0, z: 5}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -5482,6 +5491,24 @@ AnimationClip:
         weightedMode: 0
         inWeight: 0
         outWeight: 0
+      - serializedVersion: 3
+        time: 1.5
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 2.5
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -5510,6 +5537,28 @@ AnimationClip:
       value: {fileID: 21300092, guid: 47d14b4b225586f48bfc024f4a8bd77f, type: 3}
     attribute: m_Sprite
     path: Empty_Mouth/Tongue
+    classID: 114
+    script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  - curve:
+    - time: 0
+      value: {fileID: 21300024, guid: e0c074063cecb574d87d4d6a333920c3, type: 3}
+    - time: 1.5
+      value: {fileID: 21300024, guid: e0c074063cecb574d87d4d6a333920c3, type: 3}
+    - time: 2.5
+      value: {fileID: 21300024, guid: e0c074063cecb574d87d4d6a333920c3, type: 3}
+    attribute: m_Sprite
+    path: Empty_Full_Eye_L/Full_Eye_L/Empty_Eye_Lied_L/Eye_Lied_L
+    classID: 114
+    script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  - curve:
+    - time: 0
+      value: {fileID: 21300024, guid: e0c074063cecb574d87d4d6a333920c3, type: 3}
+    - time: 1.5
+      value: {fileID: 21300024, guid: e0c074063cecb574d87d4d6a333920c3, type: 3}
+    - time: 2.5
+      value: {fileID: 21300024, guid: e0c074063cecb574d87d4d6a333920c3, type: 3}
+    attribute: m_Sprite
+    path: Empty_Full_Eye_R/Full_Eye_R/Empty_Eye_Lied_R/Eye_Lied_R
     classID: 114
     script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_SampleRate: 60
@@ -5766,6 +5815,20 @@ AnimationClip:
       isPPtrCurve: 1
     - serializedVersion: 2
       path: 4262108499
+      attribute: 2015549526
+      script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+      typeID: 114
+      customType: 0
+      isPPtrCurve: 1
+    - serializedVersion: 2
+      path: 2797687512
+      attribute: 2015549526
+      script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+      typeID: 114
+      customType: 0
+      isPPtrCurve: 1
+    - serializedVersion: 2
+      path: 3682544246
       attribute: 2015549526
       script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
       typeID: 114
@@ -6597,6 +6660,12 @@ AnimationClip:
     - {fileID: 21300092, guid: 47d14b4b225586f48bfc024f4a8bd77f, type: 3}
     - {fileID: 21300092, guid: 47d14b4b225586f48bfc024f4a8bd77f, type: 3}
     - {fileID: 21300092, guid: 47d14b4b225586f48bfc024f4a8bd77f, type: 3}
+    - {fileID: 21300024, guid: e0c074063cecb574d87d4d6a333920c3, type: 3}
+    - {fileID: 21300024, guid: e0c074063cecb574d87d4d6a333920c3, type: 3}
+    - {fileID: 21300024, guid: e0c074063cecb574d87d4d6a333920c3, type: 3}
+    - {fileID: 21300024, guid: e0c074063cecb574d87d4d6a333920c3, type: 3}
+    - {fileID: 21300024, guid: e0c074063cecb574d87d4d6a333920c3, type: 3}
+    - {fileID: 21300024, guid: e0c074063cecb574d87d4d6a333920c3, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
@@ -13993,6 +14062,15 @@ AnimationClip:
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 2.5
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -14014,6 +14092,15 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1.5
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 2.5
         value: 0
         inSlope: 0
         outSlope: 0
@@ -14049,6 +14136,15 @@ AnimationClip:
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 2.5
+        value: 5
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -14061,6 +14157,24 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1.5
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 2.5
         value: 1
         inSlope: Infinity
         outSlope: Infinity
@@ -14743,7 +14857,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Empty_Full_Eye_R/Full_Eye_R/Empty_Eye_R/Empty_Eye_BG_R/Eye_BG_R
+    path: Empty_Full_Eye_R/Full_Eye_R/Empty_Pupil_R/Empty_Under_Pupil_R/Under_Pupil_R
     classID: 224
     script: {fileID: 0}
   - curve:
@@ -14753,7 +14867,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Empty_Full_Eye_R/Full_Eye_R/Empty_Eye_R/Empty_Eye_BG_R/Eye_BG_R
+    path: Empty_Full_Eye_R/Full_Eye_R/Empty_Pupil_R/Empty_Under_Pupil_R/Under_Pupil_R
     classID: 224
     script: {fileID: 0}
   - curve:
@@ -14763,7 +14877,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Empty_Full_Eye_R/Full_Eye_R/Empty_Eye_R/Empty_Eye_BG_R/Eye_BG_R
+    path: Empty_Full_Eye_R/Full_Eye_R/Empty_Pupil_R/Empty_Under_Pupil_R/Under_Pupil_R
     classID: 224
     script: {fileID: 0}
   - curve:
@@ -14833,7 +14947,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Empty_Full_Eye_R/Full_Eye_R/Empty_Pupil_R/Empty_Under_Pupil_R/Under_Pupil_R
+    path: Empty_Full_Eye_R/Full_Eye_R/Empty_Eye_R/Empty_Eye_BG_R/Eye_BG_R
     classID: 224
     script: {fileID: 0}
   - curve:
@@ -14843,7 +14957,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Empty_Full_Eye_R/Full_Eye_R/Empty_Pupil_R/Empty_Under_Pupil_R/Under_Pupil_R
+    path: Empty_Full_Eye_R/Full_Eye_R/Empty_Eye_R/Empty_Eye_BG_R/Eye_BG_R
     classID: 224
     script: {fileID: 0}
   - curve:
@@ -14853,7 +14967,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Empty_Full_Eye_R/Full_Eye_R/Empty_Pupil_R/Empty_Under_Pupil_R/Under_Pupil_R
+    path: Empty_Full_Eye_R/Full_Eye_R/Empty_Eye_R/Empty_Eye_BG_R/Eye_BG_R
     classID: 224
     script: {fileID: 0}
   m_HasGenericRootTransform: 0
