@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<LanguageThesaurus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<LanguageThesaurus xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <Entries>
         <DictionaryEntry>
             <Key>menusimple</Key>
@@ -142,6 +142,26 @@
         <DictionaryEntry>
             <Key>blmenu</Key>
             <BaseValue>My Buddy Lab</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>projectexist</Key>
+            <BaseValue>The project name already exists!</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>nameempty</Key>
+            <BaseValue>The project name can't be empty</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>

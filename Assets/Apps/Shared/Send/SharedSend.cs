@@ -5,7 +5,7 @@ using BlueQuark;
 
 namespace BuddyApp.Shared
 {
-    public enum Publish : int
+    public enum PublishShared : int
     {
         TWITTER,
         MAIL,
@@ -13,9 +13,9 @@ namespace BuddyApp.Shared
     };
 
     //[SerializeField]
-    public sealed class XMLData
+    public sealed class XMLDataShared
     {
-        public Publish WhereToPublish { get; set; }
+        public PublishShared WhereToPublish { get; set; }
         public string Token { get; set; }
         public string TokenSecret { get; set; }
         public string ConsumerKey { get; set; } 

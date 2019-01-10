@@ -41,10 +41,11 @@ namespace BuddyApp.BuddyLab
 			mYesNoButton = GetGameObject(5).transform.GetChild(0).gameObject;
 			mInputField = mYesNoButton.transform.GetChild(1).GetComponent<InputField>();
 			mInputField.GetComponentsInChildren<Text>()[0].text = Buddy.Resources.GetString("projectname");//placeholder
+            
 
-			//mPlaceholder = GetGameObject(9);
-			//mPlaceholder.GetComponent<InputField>().text = "";
-		}
+            //mPlaceholder = GetGameObject(9);
+            //mPlaceholder.GetComponent<InputField>().text = "";
+        }
 
 		// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
 		public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -64,7 +65,8 @@ namespace BuddyApp.BuddyLab
 		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 		public override void OnStateExit(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
 		{
-			mInputField.onEndEdit.RemoveListener(FillStringWithInputField);
+            GetGameObject(12).SetActive(false);
+            mInputField.onEndEdit.RemoveListener(FillStringWithInputField);
 			mYesNoButton.transform.GetChild(0).GetComponent<Button>().onClick.RemoveListener(Cancel);
 			mYesNoButton.transform.GetChild(2).GetComponent<Button>().onClick.RemoveListener(Validate);
 		}
@@ -73,11 +75,17 @@ namespace BuddyApp.BuddyLab
 		{
 			//verifier que le nom rentré n'existe pas deja et que taille > 0
 			if (mBLBehaviour.NameOpenProject.Length == 0) {
-				mBLBehaviour.NameOpenProject = "";
-				return;
+                GetGameObject(12).GetComponent<Text>().text = Buddy.Resources.GetString("nameempty");
+                GetGameObject(12).SetActive(true);
+                mBLBehaviour.NameOpenProject = ""; 
+
+                return;
 			} else if (CheckIfNameAlreadyExist(mBLBehaviour.NameOpenProject)) {
-				mBLBehaviour.NameOpenProject = "";
-			} else {
+                GetGameObject(12).GetComponent<Text>().text = Buddy.Resources.GetString("projectexist");
+                GetGameObject(12).SetActive(true);
+                mBLBehaviour.NameOpenProject = ""; 
+
+            } else {
 
 				using (var file = File.Create(Buddy.Resources.GetRawFullPath("Projects", Context.APP) + "/" + mBLBehaviour.NameOpenProject + ".xml")) {
 
