@@ -1,0 +1,32 @@
+#BNF+EMV2.0;
+!grammar recurrence_en;
+!import <duration_en#duration_years>;
+!import <duration_en#duration_months>;
+!import <duration_en#duration_weeks>;
+!import <duration_en#duration_days>;
+!import <duration_en#duration_hours>;
+!import <duration_en#duration_minutes>;
+!import <duration_en#duration_hoursandminutes>;
+
+!start <every_years>;
+!start <every_months>;
+!start <every_weeks>;
+!start <every_days>;
+!start <every_hours>;
+!start <every_minutes>;
+!start <every_hoursandminutes>;
+!start <every_daysofweeks>;
+!start <just_once>;
+
+<every_years> : [every] (year[s] | <duration_en#duration_years>);
+<every_months> : [every] (month[s] | <duration_en#duration_months>);
+<every_weeks> : [every] (week[s] | <duration_en#duration_weeks>);
+<every_days> : [every] (day[s] | <duration_en#duration_days>);
+<every_hours> : [every] (hour[s] | <duration_en#duration_hours>);
+<every_minutes> : [every] (minute[s] | <duration_en#duration_minutes>);
+<every_hoursandminutes> : [every] (<duration_en#duration_hoursandminutes>);
+
+<every_daysofweeks> : [every ](<dayofweek>) [!repeat([and] <dayofweek>, 1, 6)];
+<dayofweek> : (Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday);
+
+<just_once> : just once | (never | don't | do not | i don't want this (reminder | alarm) to) repeat | no | none;

@@ -1,0 +1,25 @@
+#BNF+EMV2.0;
+!grammar timespan_fr;
+!import <duration_fr#duration_years>;
+!import <duration_fr#duration_months>;
+!import <duration_fr#duration_weeks>;
+!import <duration_fr#duration_days>;
+!import <duration_fr#duration_hours>;
+!import <duration_fr#duration_minutes>;
+!import <duration_fr#duration_hoursandminutes>;
+
+!start <in_years>;
+!start <in_months>;
+!start <in_weeks>;
+!start <in_days>;
+!start <in_hours>;
+!start <in_minutes>;
+!start <in_hoursandminutes>;
+
+<in_years> : dans <duration_fr#duration_years>;
+<in_months> : dans <duration_fr#duration_months>;
+<in_weeks> : dans <duration_fr#duration_weeks>;
+<in_days> : dans <duration_fr#duration_days>;
+<in_hours> : dans <duration_fr#duration_hours>;
+<in_minutes> : dans <duration_fr#duration_minutes>;
+<in_hoursandminutes> : dans <duration_fr#duration_hoursandminutes>;
