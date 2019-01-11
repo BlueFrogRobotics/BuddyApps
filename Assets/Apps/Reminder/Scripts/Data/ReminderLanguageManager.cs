@@ -14,6 +14,7 @@ namespace BuddyApp.Reminder
     {
         SharedLanguageManager<DateInterpreter> mDateLanguage;
         SharedLanguageManager<HourInterpreter> mHourLanguage;
+        SharedLanguageManager<RecurrenceInterpreter> mRecurrenceLanguage;
 
         // Singleton design pattern
         private static readonly ReminderLanguageManager mInstance = new ReminderLanguageManager();
@@ -34,10 +35,13 @@ namespace BuddyApp.Reminder
             return mInstance;
         }
         
-        public void Initialize (Dictionary<ISO6391Code, DateInterpreter> iDictionaryDate, Dictionary<ISO6391Code, HourInterpreter> iDictionaryHour)
+        public void Initialize (Dictionary<ISO6391Code, DateInterpreter> iDictionaryDate,
+                                Dictionary<ISO6391Code, HourInterpreter> iDictionaryHour,
+                                Dictionary<ISO6391Code, RecurrenceInterpreter> iDictionaryRecurrence)
         {
             mDateLanguage = new SharedLanguageManager<DateInterpreter>(iDictionaryDate);
             mHourLanguage = new SharedLanguageManager<HourInterpreter>(iDictionaryHour);
+            mRecurrenceLanguage = new SharedLanguageManager<RecurrenceInterpreter>(iDictionaryRecurrence);
         }
 
         public DateInterpreter GetDateLanguage()
@@ -50,9 +54,16 @@ namespace BuddyApp.Reminder
             return mHourLanguage.GetLanguage();
         }
 
+        public RecurrenceInterpreter GetRecurrenceLanguage()
+        {
+            return mRecurrenceLanguage.GetLanguage();
+        }
+
         public bool SetLanguage(ISO6391Code iInput)
         {
-            return (mDateLanguage.SetLanguage(iInput) & mHourLanguage.SetLanguage(iInput));
+            return (mDateLanguage.SetLanguage(iInput)
+                    & mHourLanguage.SetLanguage(iInput)
+                    & mRecurrenceLanguage.SetLanguage(iInput));
         }
 
         public bool SetDateLanguage(ISO6391Code iInput)
@@ -63,6 +74,11 @@ namespace BuddyApp.Reminder
         public bool SetHourLanguage(ISO6391Code iInput)
         {
             return mHourLanguage.SetLanguage(iInput);
+        }
+
+        public bool SetRecurrenceLanguage(ISO6391Code iInput)
+        {
+            return mRecurrenceLanguage.SetLanguage(iInput);
         }
     }
 }

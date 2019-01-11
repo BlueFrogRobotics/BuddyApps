@@ -15,7 +15,8 @@ namespace BuddyApp.Reminder
         {
             E_DATE_CHOICE = 0,
             E_HOUR_CHOICE = 1,
-            E_MESSAGE_CHOICE = 2
+            E_RECURRENCE_CHOICE = 2,
+            E_MESSAGE_CHOICE = 3
         }
         
         public const string STR_BYE = "bye";
@@ -30,6 +31,8 @@ namespace BuddyApp.Reminder
         public E_REMINDER_STATE AppState { get; set; }
         public DateTime ReminderDate { get; set; }
         public string ReminderMsg { get; set; }
+        public RepetitionTime RepetitionTime = RepetitionTime.ONCE;
+        public List<DayOfWeek> RepetitionDays = new List<DayOfWeek>();
 
         // Singleton design pattern
         private static readonly ReminderDateManager mInstance = new ReminderDateManager();
