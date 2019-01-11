@@ -43,7 +43,14 @@ namespace BuddyApp.Reminder
                     { ISO6391Code.FR, new HourInterpreterFrench() }
                 };
 
-            ReminderLanguageManager.GetInstance().Initialize(lDictionaryDate, lDictionaryHour);
+            // Define reminder recurrence languages
+            Dictionary<ISO6391Code, RecurrenceInterpreter> lDictionaryRecurrence = new Dictionary<ISO6391Code, RecurrenceInterpreter>
+                {
+                    { ISO6391Code.EN, new RecurrenceInterpreterEnglish() },
+                    { ISO6391Code.FR, new RecurrenceInterpreterFrench() }
+                };
+
+            ReminderLanguageManager.GetInstance().Initialize(lDictionaryDate, lDictionaryHour, lDictionaryRecurrence);
             
             Debug.Log("----- REMINDER WILL START -----");
             Trigger("StartReminder");

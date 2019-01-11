@@ -95,7 +95,7 @@ namespace BuddyApp.Reminder
             Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont);
             
             // Setting of Vocon param
-            Buddy.Vocal.DefaultInputParameters.Grammars = new string[] { "date", "reminder_date", "common" };
+            Buddy.Vocal.DefaultInputParameters.Grammars = new string[] { "date", "timespan", "common" };
             Buddy.Vocal.OnEndListening.Clear();
             Buddy.Vocal.OnEndListening.Add(OnEndListening);
             
@@ -110,6 +110,7 @@ namespace BuddyApp.Reminder
             {
                 Buddy.Vocal.SayKeyAndListen(ReminderDateManager.STR_WHEN);
             }
+
             DebugColor("Finish State Enter Date", "blue");
         }
 

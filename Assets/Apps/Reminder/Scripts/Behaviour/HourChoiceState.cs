@@ -92,7 +92,7 @@ namespace BuddyApp.Reminder
             Buddy.GUI.Screen.OnTouch.Add((iInput) => { Buddy.Vocal.StopListening(); });
 
             // Setting of Vocon param
-            Buddy.Vocal.DefaultInputParameters.Grammars = new string[] { "hour", "reminder_hour", "common" };
+            Buddy.Vocal.DefaultInputParameters.Grammars = new string[] { "hour", "common" };
             Buddy.Vocal.OnEndListening.Clear();
             Buddy.Vocal.OnEndListening.Add(OnEndListening);
 
@@ -271,7 +271,7 @@ namespace BuddyApp.Reminder
             }
             DebugColor("HOUR IS: " + ReminderDateManager.GetInstance().ReminderDate.ToLongTimeString(), "green");
             
-            Trigger("GetMessageState");
+            Trigger("RecurrenceChoiceState");
         }
 
         /*

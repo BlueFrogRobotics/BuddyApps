@@ -289,7 +289,7 @@ namespace BuddyApp.Reminder
                 {
                     DebugColor("MSG BACK TO HOUR", "blue");
                     mBIgnoreOnEndListening = true;
-                    Trigger("HourChoiceState");
+                    Trigger("RecurrenceChoiceState");
                 });
 
                 // Create Step view to the button
