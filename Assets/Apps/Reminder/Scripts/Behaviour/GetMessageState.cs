@@ -356,7 +356,8 @@ namespace BuddyApp.Reminder
             DebugColor("REMINDER SAVED:" + ReminderDateManager.GetInstance().ReminderDate.ToShortDateString() + " at " + ReminderDateManager.GetInstance().ReminderDate.ToLongTimeString(), "green");
 
             // Save the reminder
-            PlannedEventReminder mReminderEvent = new PlannedEventReminder(ReminderDateManager.GetInstance().ReminderMsg, ReminderDateManager.GetInstance().ReminderDate, true);
+            PlannedEventReminder mReminderEvent = new PlannedEventReminder(ReminderDateManager.GetInstance().ReminderMsg, ReminderDateManager.GetInstance().ReminderDate, true,
+                "", CalendarEventType.APPOINTMENT, null, ReminderDateManager.GetInstance().RepetitionTime, ReminderDateManager.GetInstance().RepetitionDays, ReminderState.NEW);
             Buddy.Platform.Calendar.Add(mReminderEvent);
 
             Buddy.GUI.Header.HideTitle();
