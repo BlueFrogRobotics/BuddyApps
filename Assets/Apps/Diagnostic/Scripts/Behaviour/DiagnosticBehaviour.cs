@@ -79,11 +79,9 @@ namespace BuddyApp.Diagnostic
                 ledBT, motorsBT, faceBT,
                 camerasBT, thermalBT, sensorsBT, connexionBT
             };
-
-            mCurrentWindow = WindowType.FACE;
-            //SetWindow((int)WindowType.VOCAL);
-            SetWindow((int)WindowType.MOTORS);
-            motorsBT.color = BuddyBlue;         
+            
+            mCurrentWindow = WindowType.CAMERAS;
+            SetWindow(0);      
         }
 
 		public void SetWindow(int iIndex)

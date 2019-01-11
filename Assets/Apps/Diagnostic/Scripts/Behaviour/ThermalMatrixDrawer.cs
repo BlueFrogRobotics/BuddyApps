@@ -31,6 +31,8 @@ namespace BuddyApp.Diagnostic
         private float[] mThermalSensorDataArray;
         private ThermalCamera mThermalCamera;
 
+        private bool mIsFanActivated;
+
         private void Start()
         {
             mThermalCamera = Buddy.Sensors.ThermalCamera;
@@ -39,6 +41,12 @@ namespace BuddyApp.Diagnostic
             mNbPixel = mThermalCamera.Width * mThermalCamera.Height;
             mThermalSensorDataArray = new float[mNbPixel];
             mTimeRefresh = 0F;
+
+            mIsFanActivated = false;
+            Buddy.Actuators.Fan.Stop();
+            mToggleFan.onClick.AddListener(delegate {
+                OnFanButtonClick();
+            });
         }
 
         private void Update()
@@ -69,6 +77,22 @@ namespace BuddyApp.Diagnostic
                 AmbiantTemperature.text = mThermalCamera.AmbiantTemperature + " °";
                 mTimeRefresh = 0F;
             }
+        }
+
+        private void OnFanButtonClick ()
+        {
+            if (mIsFanActivated)
+            {
+                Buddy.Actuators.Fan.Stop();
+                mToggleFan.GetComponentsInChildren<Text>()[0].text = "START FAN";
+            }
+            else
+            {
+                Buddy.Actuators.Fan.Start();
+                mToggleFan.GetComponentsInChildren<Text>()[0].text = "STOP FAN";
+            }
+
+            mIsFanActivated = !mIsFanActivated;
         }
     }
 }
