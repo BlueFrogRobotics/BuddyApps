@@ -196,6 +196,7 @@ namespace BuddyApp.Reminder
                 TButton lMontly = iOnBuild.CreateWidget<TButton>();
                 TButton lAnnual = iOnBuild.CreateWidget<TButton>();
 
+                // Labels
                 lOnce.SetLabel(Buddy.Resources.GetString("once"));
                 lDayly.SetLabel(Buddy.Resources.GetString("dayly"));
                 lWeekly.SetLabel(Buddy.Resources.GetString("weekly"));
@@ -203,6 +204,7 @@ namespace BuddyApp.Reminder
                 lMontly.SetLabel(Buddy.Resources.GetString("monthly"));
                 lAnnual.SetLabel(Buddy.Resources.GetString("annual"));
 
+                // Actions
                 lOnce.OnClick.Add(() => { ReminderDateManager.GetInstance().RepetitionTime = RepetitionTime.ONCE; });
                 lDayly.OnClick.Add(() => { ReminderDateManager.GetInstance().RepetitionTime = RepetitionTime.DAYLY; });
                 lWeekly.OnClick.Add(() => { ReminderDateManager.GetInstance().RepetitionTime = RepetitionTime.WEEKLY; });
