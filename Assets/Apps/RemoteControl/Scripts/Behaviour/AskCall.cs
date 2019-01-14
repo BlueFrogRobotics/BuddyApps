@@ -16,11 +16,14 @@ namespace BuddyApp.RemoteControl
 {
     public class AskCall : AStateMachineBehaviour
     {
-        private bool mListening;
-        private string mSpeechReco;
+        private const int RECOGNITION_SENSIBILITY = 5000;
+        private const int REPEAT_CALL = 5;
 
-        private bool mQuit;
-        private bool mHasInitializedRemote;
+        [SerializeField]
+        private AudioClip mMusicCall;
+
+        private IEnumerator mRepeatNotification = null;
+        private bool mAcceptCallVocally =  false;
 
         private RemoteControlBehaviour mRemoteControlBehaviour;
 
@@ -38,18 +41,21 @@ namespace BuddyApp.RemoteControl
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Debug.Log("Ask new request");
-            mListening = false;
-            mSpeechReco = "";
+            // Setting of Vocon param
+            Buddy.Vocal.DefaultInputParameters = new SpeechInputParameters()
+            {
+                RecognitionThreshold = RECOGNITION_SENSIBILITY
+            };
+            Buddy.Vocal.DefaultInputParameters.Grammars = new string[] { "common" };
+            Buddy.Vocal.OnEndListening.Clear();
+            Buddy.Vocal.OnEndListening.Add(OnSpeechReco);
 
-            mQuit = false;
-            mHasInitializedRemote = false;
-
+            // Start Call coroutine & Notification repeater
             StartCoroutine(ActivateDisplay());
+            mRepeatNotification = RepeatNotification(0);
+            StartCoroutine(mRepeatNotification);
 
             Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("receivingcall"));
-
-            //RemoteControlData.Instance.CallViewAnim = mCustomCapAnim;
 
             Buddy.GUI.Toaster.Display<CustomToast>().With(mCustomCapsuleToast,
             () => {
@@ -62,94 +68,77 @@ namespace BuddyApp.RemoteControl
             });
         }
 
-        // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-        public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-            if (Buddy.Vocal.IsSpeaking || mListening || !mHasInitializedRemote)
-                return;
-            else if (mQuit) {
-                Debug.Log("------------- STOP CALL ----------------");
-                mRemoteControlBehaviour.StopCall();
-                Debug.Log("------------- AFTER STOP CALL ----------------");
-            }
-
-            if (string.IsNullOrEmpty(mSpeechReco)) {
-                Debug.Log("------------- LAUNCH RECO ----------------");
-                //Buddy.Vocal.Listen("common", OnSpeechReco);
-                mListening = true;
-                Buddy.Behaviour.SetMood(Mood.LISTENING);
-                return;
-            }
-            // On accept call reco
-            if (ContainsOneOf(mSpeechReco, Buddy.Resources.GetPhoneticStrings("yes"))) {
-                Debug.Log("------------- RECO: yes ----------------");
-                AcceptCall();
-            }
-            // On reject call reco
-            else if (ContainsOneOf(mSpeechReco, Buddy.Resources.GetPhoneticStrings("no"))) {
-                Debug.Log("------------- RECO: no ----------------");
-                RejectCall();
-            }
-        }
-
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Buddy.Behaviour.SetMood(Mood.NEUTRAL);
-            mSpeechReco = "";
-            mListening = false;
+            Buddy.Vocal.OnEndListening.Clear();
+            Buddy.Vocal.StopAndClear();
+            StopCoroutine(mRepeatNotification);
+        }
+
+        // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
+        public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            if (mAcceptCallVocally)
+            {
+                mRemoteControlBehaviour.LaunchCall();
+                mAcceptCallVocally = false;
+            }
         }
 
         private void OnSpeechReco(SpeechInput iSpeechInput)
         {
-            Debug.Log("----- iSpeechInput: " + iSpeechInput.Utterance);
+            if (iSpeechInput.Confidence == -1)
+                return;
+
             Buddy.Behaviour.SetMood(Mood.NEUTRAL);
 
-            mSpeechReco = iSpeechInput.Utterance;
-
             if (Utils.GetRealStartRule(iSpeechInput.Rule) == "yes")
-                Debug.Log("--------- YES RULE ---------");
-            if (Utils.GetRealStartRule(iSpeechInput.Rule) == "no")
-                Debug.Log("--------- NO RULE ---------");
-            mListening = false;
+                AcceptCall();
+            else if (Utils.GetRealStartRule(iSpeechInput.Rule) == "no")
+                RejectCall();
         }
 
         private void RejectCall()
         {
             Debug.Log("RejectCall");
             Buddy.Behaviour.SetMood(Mood.NEUTRAL);
-            mQuit = true;
+            mRemoteControlBehaviour.StopCall();
         }
 
         private void AcceptCall()
         {
             Debug.Log("AcceptCall");
             Buddy.Behaviour.SetMood(Mood.NEUTRAL);
-            mRemoteControlBehaviour.LaunchCall();
+            mAcceptCallVocally = true;
+        }
+
+        private IEnumerator RepeatNotification(int repeated)
+        {
+            yield return new WaitUntil(() => !Buddy.Actuators.Speakers.Media.IsBusy);
+
+            if (mRemoteControlBehaviour.mCallIsInProgress || RemoteControlData.Instance.DiscreteMode) {
+                Buddy.Vocal.StopAndClear();
+                Buddy.Actuators.Speakers.Media.Stop();
+                StopCoroutine(mRepeatNotification);
+            }
+
+            yield return new WaitForSeconds(1.5F);
+
+            if (repeated <= REPEAT_CALL) {
+                Buddy.Vocal.StopAndClear();
+                Buddy.Actuators.Speakers.Media.Play(mMusicCall);
+                Buddy.Vocal.SayKeyAndListen("incomingcall");
+                mRepeatNotification = RepeatNotification(repeated + 1);
+                StartCoroutine(mRepeatNotification);
+            }
+            else
+                mRemoteControlBehaviour.StopCall();
         }
 
         private IEnumerator ActivateDisplay()
         {
             yield return mRemoteControlBehaviour.Call();
-            mHasInitializedRemote = true;
         }
-
-        private bool ContainsOneOf(string iSpeech, string[] iListSpeech)
-        {
-            iSpeech = iSpeech.ToLower();
-            for (int i = 0; i < iListSpeech.Length; ++i) {
-                string[] words = iListSpeech[i].Split(' ');
-                if (words.Length < 2) {
-                    words = iSpeech.Split(' ');
-                    foreach (string word in words) {
-                        if (word == iListSpeech[i].ToLower()) {
-                            return true;
-                        }
-                    }
-                } else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower()))
-                    return true;
-            }
-            return false;
-        }
-
     }
 }
