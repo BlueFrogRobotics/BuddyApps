@@ -46,6 +46,8 @@ namespace BuddyApp.RemoteControl
         [SerializeField]
         private AudioClip mMusicCall;
 
+        public bool mCallIsInProgress;
+
         private bool mIncomingCallHandled;
         private bool mCallStoped;
 
@@ -69,6 +71,7 @@ namespace BuddyApp.RemoteControl
             //// il faut lire la liste des users, l'enregistrer après acceptation de l'appel, si changement des autorisations
             //// Faire une fonction qui confirme et check tout au lieu des trigger toussa toussa
 
+            mCallIsInProgress = false;
             mIncomingCallHandled = false;
             mCallStoped = false;
 
@@ -82,7 +85,9 @@ namespace BuddyApp.RemoteControl
         // Display the UI that manage the call & active the WebRTC object.
         public void LaunchCall()
         {
-
+            Buddy.Vocal.StopAndClear();
+            //Buddy.Actuators.Speakers.Media.Stop();
+            mCallIsInProgress = true;
             mWebRtc.gameObject.SetActive(true);
             Buddy.GUI.Toaster.Hide();
 
@@ -101,6 +106,7 @@ namespace BuddyApp.RemoteControl
                 return;
 
             mCallStoped = true;
+            StopAllCoroutines();
             AAppActivity.QuitApp();
         }
 
@@ -139,7 +145,6 @@ namespace BuddyApp.RemoteControl
         public IEnumerator Call()
         {
             if (!RemoteControlData.Instance.DiscreteMode) {
-                Buddy.Actuators.Speakers.Media.Play(mMusicCall);
                 yield return new WaitForSeconds(1.5F);
                 string lReceiver = "";
                 UserAccount[] lUsers = Buddy.Platform.Users.GetUsers();
@@ -160,7 +165,6 @@ namespace BuddyApp.RemoteControl
                         mUserCalling.text = lReceiver;
                     Debug.Log("---------------- lRECEIVER NOT NULL OR EMPTY ---------------");
                 }
-                Buddy.Vocal.Say(Buddy.Resources.GetString("incomingcall"));
             }
             yield return null;
         }
