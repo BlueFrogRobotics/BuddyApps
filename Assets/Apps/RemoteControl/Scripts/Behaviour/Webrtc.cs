@@ -146,7 +146,6 @@ namespace BuddyApp.RemoteControl
 
                 }
             }
-            Debug.Log("ENABLE WEBRTC end");
         }
 
         /// <summary>
@@ -180,7 +179,9 @@ namespace BuddyApp.RemoteControl
             Debug.Log("Starting webRTC");
             using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc")) {
                 cls.CallStatic("StartWebrtc");
-                cls.CallStatic("setSoundActive", false);
+                // Micro Disable for now in WOZ to avoid Larsen Effect
+                if (RemoteControlData.Instance.IsWizardOfOz)
+                    cls.CallStatic("setSoundActive", false);
             }
         }
 

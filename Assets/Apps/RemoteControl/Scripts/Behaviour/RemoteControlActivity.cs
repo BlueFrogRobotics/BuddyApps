@@ -16,7 +16,6 @@ namespace BuddyApp.RemoteControl
 
         public override void OnLoading(object[] iArgs)
         {
-            return;
             if (iArgs != null && iArgs.Length > 0)
                 if ((int)iArgs[0] == 1)
                     RemoteControlData.Instance.IsWizardOfOz = true;
@@ -26,8 +25,6 @@ namespace BuddyApp.RemoteControl
 
         public override void OnQuit()
         {
-            Debug.Log("------------- INSIDE ON QUIT ----------------");
-            Debug.Log("----- TOASTER HIDE ----");
             Buddy.GUI.Toaster.Hide();
         }
     }
