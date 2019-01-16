@@ -32,7 +32,7 @@ namespace BuddyApp.Shared
                 mAnimator.enabled = true;
 
                 ASharedSMB[] lStates = mAnimator.GetBehaviours<ASharedSMB>();
-
+                Debug.Log("LENGTH LSTATE : " + lStates.Length + " name : " + lStates.ToString());
                 foreach (ASharedSMB lState in lStates) {
 
                     lState.Animator = mAnimator;

@@ -35,7 +35,7 @@ namespace BuddyApp.Shared
         {
             for(int i = 0; i < iString.Length; ++i)
             {
-                if (char.IsWhiteSpace(iString[i]))
+                if (Char.IsWhiteSpace(iString[i]))
                     return true;
             }
             return false;
@@ -43,11 +43,7 @@ namespace BuddyApp.Shared
 
         public static bool ContainsSpecialChar(string iString)
         {
-            for (int i = 0; i < iString.Length; ++i)
-            {
-                if (iString.Any(item => !Char.IsLetterOrDigit(iString[i]))) return true;
-            }
-            return false;
+           return iString.Any(item => !Char.IsLetterOrDigit(item) && !Char.IsWhiteSpace(item));
         }
 
 
