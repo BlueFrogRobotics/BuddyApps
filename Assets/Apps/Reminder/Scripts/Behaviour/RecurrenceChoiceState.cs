@@ -77,7 +77,7 @@ namespace BuddyApp.Reminder
             if (RecurrenceStatus.E_UI_DISPLAY == mRecurrenceStatus)
             {
                 Buddy.Vocal.StopAndClear();
-                Buddy.Vocal.SayAndListen(Buddy.Resources.GetString(ReminderDateManager.STR_WHEN));
+                Buddy.Vocal.SayAndListen(Buddy.Resources.GetString(ReminderDateManager.STR_RECC));
                 DisplayRecurrenceEntry();
             }
             else
@@ -127,7 +127,10 @@ namespace BuddyApp.Reminder
                 QuitReminder();
                 return;
             }
-            
+
+            DebugColor("SPEECH RULE: " + iSpeechInput.Utterance, "blue");
+            DebugColor("SPEECH RULE: " + Utils.GetRealStartRule(iSpeechInput.Rule), "blue");
+
             RepetitionTime lRepetitionTime = RepetitionTime.ONCE;
             List<DayOfWeek> lRepetitionDays = new List<DayOfWeek>();
             if (!string.IsNullOrEmpty(iSpeechInput.Utterance)
@@ -137,11 +140,12 @@ namespace BuddyApp.Reminder
                                         ref lRepetitionTime,
                                         ref lRepetitionDays))
             {
+                DebugColor("EXTRACT: RecTime: " + lRepetitionTime + " RecDay: " + lRepetitionDays, "blue");
 
                 ReminderDateManager.GetInstance().RepetitionTime = lRepetitionTime;
                 ReminderDateManager.GetInstance().RepetitionDays = lRepetitionDays;
-                
-                Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("eared") + ReminderDateManager.GetInstance().ReminderDate.ToShortTimeString());
+
+                Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("eared") + Buddy.Resources.GetString(ReminderDateManager.GetInstance().RepetitionTime.ToString().Replace("_", "").ToLower()));
                 StartCoroutine(TitleLifeTime(TITLE_TIMER));
                 GoToNextState();
                 return;
@@ -195,6 +199,13 @@ namespace BuddyApp.Reminder
                 TButton lTwoWeeks = iOnBuild.CreateWidget<TButton>();
                 TButton lMontly = iOnBuild.CreateWidget<TButton>();
                 TButton lAnnual = iOnBuild.CreateWidget<TButton>();
+
+                lOnce.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_agenda_check"));
+                lDayly.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_agenda_check"));
+                lWeekly.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_agenda_check"));
+                lTwoWeeks.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_agenda_check"));
+                lMontly.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_agenda_check"));
+                lAnnual.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_agenda_check"));
 
                 // Labels
                 lOnce.SetLabel(Buddy.Resources.GetString("once"));

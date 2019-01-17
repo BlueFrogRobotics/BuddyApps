@@ -24,6 +24,7 @@ namespace BuddyApp.Reminder
         public const string STR_SORRY = "srynotunderstand";
         public const string STR_WHEN = "when";
         public const string STR_WHOURS = "whours";
+        public const string STR_RECC = "howoften";
         public const string STR_STEPS = "steps";
         public const string STR_SETUPDATE = "setupdate";
         public const string STR_REMINDER_OK = "reminderok";
