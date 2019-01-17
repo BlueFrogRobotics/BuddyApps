@@ -31,36 +31,38 @@ namespace BuddyApp.Shared
                                                 .Replace(" heure", "")
                                                 .Replace(" minutes", "")
                                                 .Replace(" minute", "")
-                                                .Trim(' ').Split(' ');
-            
+                                                .Trim(' ').Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
             switch (iSpeechRule)
             {
                 case "every_years":
-                    if (null == lStrSplits)
+                    if (lStrSplits.Length == 0)
                     {
                         oRepetitionTime = RepetitionTime.ANNUAL;
                         return true;
                     }
                     else
                     {
+                        Debug.Log("<color=red>----" + iSpeechRule + " Whith numbers, Not yet implemented. ----</color>");
                         // Not yet lStrSplits[0] == number between 2 reminders.
                         return false;
                     }
 
                 case "every_months":
-                    if (null == lStrSplits)
+                    if (lStrSplits.Length == 0)
                     {
                         oRepetitionTime = RepetitionTime.MONTHLY;
                         return true;
                     }
                     else
                     {
+                        Debug.Log("<color=red>----" + iSpeechRule + " With numbers, Not yet implemented. ----</color>");
                         // Not yet lStrSplits[0] == number between 2 reminders.
                         return false;
                     }
 
                 case "every_weeks":
-                    if (null == lStrSplits)
+                    if (lStrSplits.Length == 0)
                     {
                         oRepetitionTime = RepetitionTime.WEEKLY;
                         return true;
@@ -72,37 +74,41 @@ namespace BuddyApp.Shared
                             oRepetitionTime = RepetitionTime.EVERY_TWO_WEEKS;
                             return true;
                         }
-
+                        Debug.Log("<color=red>----" + iSpeechRule + " With numbers other than 2, Not yet implemented. ----</color>");
                         // Not yet lStrSplits[0] == number between 2 reminders.
                         return false;
                     }
 
                 case "every_days":
-
-                    if (null == lStrSplits)
+                    if (lStrSplits.Length == 0)
                     {
                         oRepetitionTime = RepetitionTime.DAYLY;
                         return true;
                     }
                     else
                     {
+                        Debug.Log("<color=red>----" + iSpeechRule + " With numbers, Not yet implemented. ----</color>");
                         // Not yet lStrSplits[0] == number between 2 reminders.
                         return false;
                     }
 
                 case "every_hours":
                     // Not yet
+                    Debug.Log("<color=red>----" + iSpeechRule + " Not yet implemented. ----</color>");
                     return false;
 
                 case "every_minutes":
                     // Not yet
+                    Debug.Log("<color=red>----" + iSpeechRule + " Not yet implemented. ----</color>");
                     return false;
 
                 case "every_hoursandminutes":
                     // Not yet
+                    Debug.Log("<color=red>----" + iSpeechRule + " Not yet implemented. ----</color>");
                     return false;
 
                 case "every_daysofweeks":
+                    Debug.Log("<color=red>----" + iSpeechRule + " Not yet implemented. ----</color>");
                     return false;
 
                 case "just_once":
