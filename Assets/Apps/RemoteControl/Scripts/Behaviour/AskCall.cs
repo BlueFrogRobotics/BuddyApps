@@ -22,7 +22,7 @@ namespace BuddyApp.RemoteControl
         [SerializeField]
         private AudioClip mMusicCall;
 
-        private IEnumerator mRepeatNotification = null;
+        private IEnumerator mRepeatNotification;
         private bool mAcceptCallVocally =  false;
 
         private RemoteControlBehaviour mRemoteControlBehaviour;
@@ -46,7 +46,6 @@ namespace BuddyApp.RemoteControl
             {
                 RecognitionThreshold = RECOGNITION_SENSIBILITY
             };
-            Buddy.Vocal.DefaultInputParameters.Grammars = new string[] { "common" };
             Buddy.Vocal.OnEndListening.Clear();
             Buddy.Vocal.OnEndListening.Add(OnSpeechReco);
 
@@ -113,25 +112,39 @@ namespace BuddyApp.RemoteControl
             mAcceptCallVocally = true;
         }
 
-        private IEnumerator RepeatNotification(int repeated)
+        /*
+         *  This function launches a notification (Music + Vocal request) and repeats this several times.
+         *  When a notification is launched:
+         *  The music call is launched
+         *  We warn user, with speech "incomingcall" and then we listen the user's answer. (yes/no)
+         *  When the music ends, the process restarts
+         */
+        private IEnumerator RepeatNotification(int iRepeated)
         {
+            // Coroutine is suspended until the music is playing.
             yield return new WaitUntil(() => !Buddy.Actuators.Speakers.Media.IsBusy);
 
+            // If the call was launched or discrete mode selected, stop the coroutine
             if (mRemoteControlBehaviour.mCallIsInProgress || RemoteControlData.Instance.DiscreteMode) {
                 Buddy.Vocal.StopAndClear();
                 Buddy.Actuators.Speakers.Media.Stop();
+                // Stop the last coroutine launch
                 StopCoroutine(mRepeatNotification);
             }
 
+            // Wait 1.5 second before restart the notification
             yield return new WaitForSeconds(1.5F);
 
-            if (repeated <= REPEAT_CALL) {
+            // If actual number of repeat is less than REPEAT_CALL, relaunch notification and the actual coroutine ends.
+            if (iRepeated <= REPEAT_CALL) {
                 Buddy.Vocal.StopAndClear();
                 Buddy.Actuators.Speakers.Media.Play(mMusicCall);
                 Buddy.Vocal.SayKeyAndListen("incomingcall");
-                mRepeatNotification = RepeatNotification(repeated + 1);
+                // Store the new coroutine that will be launch
+                mRepeatNotification = RepeatNotification(iRepeated + 1);
                 StartCoroutine(mRepeatNotification);
             }
+            // If the number max of repeats is reached, the app is closed.
             else
                 mRemoteControlBehaviour.StopCall();
         }
