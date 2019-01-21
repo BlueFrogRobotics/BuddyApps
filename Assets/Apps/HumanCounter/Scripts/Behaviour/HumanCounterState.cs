@@ -235,6 +235,7 @@ namespace BuddyApp.HumanCounter
             mHumanDetectEnable = false;
             mFaceDetectEnable = false;
             mSkeletonDetectEnable = false;
+            Buddy.Sensors.RGBCamera.Close();
             // The removeP function is in work in progress - set WINDOWS to false to run on android.
             if (!WINDOWS)
             {

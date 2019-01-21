@@ -42,20 +42,12 @@ namespace BuddyApp.HumanCounter
         {
             // Hide the default parameter button.
             Buddy.GUI.Header.DisplayParametersButton(false);
-
-            // Set Title with a custom font
-            Font lHeaderFont = Buddy.Resources.Get<Font>("os_awesome");
-            lHeaderFont.material.color = Color.black;
-            Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont);
-            Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("headsettingstitle"));
-
             // Initialize texture.
             mCamView = new Texture2D(Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height);
             // Set the RGB Camera
             Buddy.Sensors.RGBCamera.Open(RGBCameraMode.COLOR_320X240_30FPS_RGB);
             // The matrix is send to OnNewFrame.
             Buddy.Sensors.RGBCamera.OnNewFrame.Add((iInput) => OnFrameCaptured(iInput));
-
             // Show Ui prefab as soon as possible
             StartCoroutine(DisplayCustomUi());
         }
