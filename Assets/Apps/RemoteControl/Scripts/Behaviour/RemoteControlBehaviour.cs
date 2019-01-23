@@ -82,11 +82,10 @@ namespace BuddyApp.RemoteControl
             }
         }
 
-        // Display the UI that manage the call & active the WebRTC object.
+        // RemoteControl mode, Display the UI that manage the call & active the WebRTC object.
         public void LaunchCall()
         {
             Buddy.Vocal.StopAndClear();
-            //Buddy.Actuators.Speakers.Media.Stop();
             mCallIsInProgress = true;
             mWebRtc.gameObject.SetActive(true);
             Buddy.GUI.Toaster.Hide();
@@ -95,8 +94,17 @@ namespace BuddyApp.RemoteControl
             Buddy.GUI.Toaster.Display<CustomToast>().With(mCallView,
             () => {
                 // On Display, Launch the display animation of the custom toast
-                mCallView.GetComponent<Animator>().SetTrigger("Open_WCall");
+                if (RemoteControlData.Instance.RemoteMode == RemoteControlData.AvailableRemoteMode.REMOTE_CONTROL)
+                    mCallView.GetComponent<Animator>().SetTrigger("Open_WCall");
+                else if (RemoteControlData.Instance.RemoteMode == RemoteControlData.AvailableRemoteMode.TAKE_CONTROL)
+                    mCallView.GetComponent<Animator>().SetTrigger("Open_WCall");
             }, null);
+        }
+
+        // Wizard Of Oz mode, Just active the WebRTC object.
+        public void LaunchCallWithoutWindow()
+        {
+            mWebRtc.gameObject.SetActive(true);
         }
 
         // Button stop the call, during the call.
@@ -137,11 +145,6 @@ namespace BuddyApp.RemoteControl
             AAppActivity.QuitApp();
         }
 
-        public void LaunchCallWithoutWindow()
-        {
-            mWebRtc.gameObject.SetActive(true);
-        }
-
         public IEnumerator Call()
         {
             if (!RemoteControlData.Instance.DiscreteMode) {
@@ -158,12 +161,10 @@ namespace BuddyApp.RemoteControl
                     lTextToSay = lTextToSay.Replace("[user]", WebRTCListener.RemoteID);
                     if (mUserCalling)
                         mUserCalling.text = WebRTCListener.RemoteID;
-                    Debug.Log("---------------- lRECEIVER NULL OR EMPTY --------------- REMOTEID: " + WebRTCListener.RemoteID);
                 } else {
                     lTextToSay = lTextToSay.Replace("[user]", lReceiver);
                     if (mUserCalling)
                         mUserCalling.text = lReceiver;
-                    Debug.Log("---------------- lRECEIVER NOT NULL OR EMPTY ---------------");
                 }
             }
             yield return null;
