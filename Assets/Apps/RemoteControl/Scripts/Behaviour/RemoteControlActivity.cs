@@ -17,10 +17,20 @@ namespace BuddyApp.RemoteControl
         public override void OnLoading(object[] iArgs)
         {
             if (iArgs != null && iArgs.Length > 0)
-                if ((int)iArgs[0] == 1)
-                    RemoteControlData.Instance.IsWizardOfOz = true;
-                else
-                    RemoteControlData.Instance.IsWizardOfOz = false;
+            {
+                switch ((int)iArgs[0])
+                {
+                    case 0:
+                        RemoteControlData.Instance.RemoteMode = RemoteControlData.AvailableRemoteMode.REMOTE_CONTROL;
+                        break;
+                    case 1:
+                        RemoteControlData.Instance.RemoteMode = RemoteControlData.AvailableRemoteMode.WOZ;
+                        break;
+                    case 2:
+                        RemoteControlData.Instance.RemoteMode = RemoteControlData.AvailableRemoteMode.TAKE_CONTROL;
+                        break;
+                }
+            }
         }
 
         public override void OnQuit()

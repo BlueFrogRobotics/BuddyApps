@@ -180,7 +180,7 @@ namespace BuddyApp.RemoteControl
             using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc")) {
                 cls.CallStatic("StartWebrtc");
                 // Micro Disable for now in WOZ to avoid Larsen Effect
-                if (RemoteControlData.Instance.IsWizardOfOz)
+                if (RemoteControlData.Instance.RemoteMode == RemoteControlData.AvailableRemoteMode.WOZ || RemoteControlData.Instance.RemoteMode == RemoteControlData.AvailableRemoteMode.TAKE_CONTROL)
                     cls.CallStatic("setSoundActive", false);
             }
         }
