@@ -50,9 +50,13 @@ namespace BuddyApp.BuddyLab
 
         private void PlaySequence()
         {
+            Debug.Log("play1");
             mUIManager.CloseWindows();
+            Debug.Log("play2");
             mItemControl.SaveSequence();
+            Debug.Log("play3");
             mItemControl.FillBehaviourAlgorithm(mBLBehaviour.NameOpenProject + ".xml");
+            Debug.Log("play4");
             Trigger("Play");
         }
 

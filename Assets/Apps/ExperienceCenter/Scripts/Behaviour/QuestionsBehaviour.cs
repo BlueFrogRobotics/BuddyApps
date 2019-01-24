@@ -134,7 +134,8 @@ namespace BuddyApp.ExperienceCenter
                         {
                             if (ExperienceCenterData.Instance.EnableHeadMovement)
                                 mAttitudeBehaviour.MoveHeadWhileSpeaking(-10, 10);
-                            Buddy.Vocal.SayKey(lElement, true);
+                            if(lElement!="idlesee")
+                                Buddy.Vocal.SayKey(lElement, true);
                             lClauseFound = true;
                             lKey = lElement;
                             break;

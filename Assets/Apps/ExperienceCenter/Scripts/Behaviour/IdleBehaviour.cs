@@ -38,9 +38,13 @@ namespace BuddyApp.ExperienceCenter
 
 		private IEnumerator InitHeadPosition ()
 		{
+            Buddy.Behaviour.Interpreter.StopAndClear();
+            yield return new WaitForSeconds(1.0F);
             Buddy.Behaviour.Interpreter.Run("reset.xml");
             //BYOS.Instance.Interaction.BMLManager.LaunchByName ("Reset01");
+            Debug.Log("INIT HEAD!!!!!!!!!!!!!");
             yield return new WaitUntil (() => !Buddy.Behaviour.Interpreter.IsBusy);
+            Debug.Log("FINI INIT HEAD!!!!!!!!!!!!!");
             yield return null;
 			headPoseInit = true;
 		}

@@ -10,7 +10,7 @@ namespace BuddyApp.ExperienceCenter
 {
 	public class MoveForwardBehaviour : MonoBehaviour
 	{
-		private const float DISTANCE_THRESHOLD = 0.05f;
+		private const float DISTANCE_THRESHOLD = 0.05F;
 
 		private AnimatorManager mAnimatorManager;
 		private CollisionDetector mCollisionDetector;
@@ -58,38 +58,45 @@ namespace BuddyApp.ExperienceCenter
 			Debug.LogWarningFormat ("[EXCENTER]  Check condition : EnableMove = {0},  RecognitionFinished = {1}, TimeOut = {2}", mCollisionDetector.enableToMove, !Buddy.Vocal.IsListening /*BYOS.Instance.Interaction.VocalManager.RecognitionFinished*/, mTimeOut);
 			yield return new WaitUntil (() => (mCollisionDetector.enableToMove && /*BYOS.Instance.Interaction.SpeechToText.HasFinished */!Buddy.Vocal.IsListening) || mTimeOut);
 
-			if (!mTimeOut) {
-                //Buddy.Actuators.Wheels.SetVelocities(lSpeed, 0);
-                Buddy.Navigation.Run<DisplacementStrategy>().Move(5, 0.4F);
+            Buddy.Navigation.Run<DisplacementStrategy>().Move(ExperienceCenterData.Instance.TableDistance, 0.4F, ObstacleAvoidanceType.STOP);
+            yield return new WaitUntil(() => Buddy.Navigation.IsBusy);
+            behaviourEnd = true;
+            mCollisionDetector.StopBehaviour();
 
-				Debug.LogFormat ("[EXCENTER]  Speed = {0}, Distance to travel = {1}", Buddy.Actuators.Wheels.Speed, mDistance);
+            //if (!mTimeOut) {
+            //    //Buddy.Actuators.Wheels.SetVelocities(0.4F, 0);
+            //    Buddy.Navigation.Run<DisplacementStrategy>().Move(mDistance, 0.4F, ObstacleAvoidanceType.STOP);
 
-				yield return new WaitUntil (() => mCollisionDetector.CheckDistance (mDistance, mRobotPose, DISTANCE_THRESHOLD)
-				|| !mCollisionDetector.enableToMove
-				|| mTimeOut);
-			}
-			Debug.LogFormat ("[EXCENTER]  Check condition : Distance = {0}, Obstacle ={1}, TimeOut ={2}", mCollisionDetector.CheckDistance (mDistance, mRobotPose, DISTANCE_THRESHOLD), !mCollisionDetector.enableToMove, mTimeOut);
-			Debug.LogFormat ("[EXCENTER]  Distance left to travel : {0}", mDistance - CollisionDetector.Distance (Buddy.Actuators.Wheels.Odometry, mRobotPose));
-			Buddy.Actuators.Wheels.Stop();
+            //    Debug.LogFormat("[EXCENTER]  Speed = {0}, Distance to travel = {1}", Buddy.Actuators.Wheels.Speed, mDistance);
 
-			if (!mCollisionDetector.CheckDistance (mDistance, mRobotPose, DISTANCE_THRESHOLD) && !mTimeOut) {
-				Debug.Log ("[EXCENTER]  Restart MoveForward Coroutine");
-				StartCoroutine (MoveForward (wheelSpeed));
-			} else {
-				//Debug.Log ("New MoveForward Coroutine");
-				//mRobotPose = Buddy.Actuators.Wheels.Odometry;
-				//mDistance = ExperienceCenterData.Instance.TableDistance;  
-				//StartCoroutine (MoveForward (wheelSpeed));
-				if (!mTimeOut)
-					Debug.Log ("[EXCENTER]  End MoveForward Coroutine");
-				else
-					Debug.Log ("[EXCENTER]  End MoveForward Coroutine: (Time-out)");
-				behaviourEnd = true;
-				mCollisionDetector.StopBehaviour ();
-			}
-		}
+            //    yield return new WaitUntil(() => mCollisionDetector.CheckDistance(mDistance, mRobotPose, DISTANCE_THRESHOLD)
+            //   || !mCollisionDetector.enableToMove
+            //   || mTimeOut);
+            //}
+            //Debug.LogFormat("[EXCENTER]  Check condition : Distance = {0}, Obstacle ={1}, TimeOut ={2}", mCollisionDetector.CheckDistance(mDistance, mRobotPose, DISTANCE_THRESHOLD), !mCollisionDetector.enableToMove, mTimeOut);
+            //Debug.LogFormat("[EXCENTER]  Distance left to travel : {0}", mDistance - CollisionDetector.Distance(Buddy.Actuators.Wheels.Odometry, mRobotPose));
+            ////Buddy.Navigation.Stop();
+            ////Buddy.Actuators.Wheels.Stop();
 
-		private IEnumerator MoveTimeOut ()
+            //if (!mCollisionDetector.CheckDistance(mDistance, mRobotPose, DISTANCE_THRESHOLD) && !mTimeOut) {
+            //    Debug.Log("[EXCENTER]  Restart MoveForward Coroutine");
+            //    StartCoroutine(MoveForward(wheelSpeed));
+            //} else {
+            //    //Debug.Log ("New MoveForward Coroutine");
+            //    //mRobotPose = Buddy.Actuators.Wheels.Odometry;
+            //    //mDistance = ExperienceCenterData.Instance.TableDistance;  
+            //    //StartCoroutine (MoveForward (wheelSpeed));
+            //    if (!mTimeOut)
+            //        Debug.Log("[EXCENTER]  End MoveForward Coroutine");
+            //    else
+            //        Debug.Log("[EXCENTER]  End MoveForward Coroutine: (Time-out)");
+            //    behaviourEnd = true;
+            //    Buddy.Navigation.Stop();
+            //    mCollisionDetector.StopBehaviour();
+            //}
+        }
+
+        private IEnumerator MoveTimeOut ()
 		{
 			yield return new WaitUntil (() => !mTimeOut);
 			Vector3 robotPose = Buddy.Actuators.Wheels.Odometry;

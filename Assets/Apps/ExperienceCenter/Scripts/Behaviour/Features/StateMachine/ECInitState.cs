@@ -46,7 +46,7 @@ namespace BuddyApp.ExperienceCenter
 
             Buddy.Behaviour.Mood = Mood.NEUTRAL;
 
-            Buddy.GUI.Header.DisplayParametersButton(false);
+            Buddy.GUI.Header.DisplayParametersButton(true);
         }
     }
 }

@@ -70,7 +70,7 @@ namespace BuddyApp.BuddyLab
         public void HideWindow()
         {
             Debug.Log("on hide window");
-            ItemControlUnit.EndModif();
+            //ItemControlUnit.EndModif();
             mAnimator.SetTrigger("close");
             backgroundBlack.GetComponent<Animator>().SetTrigger("close");
 

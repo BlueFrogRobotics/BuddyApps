@@ -179,7 +179,7 @@ namespace BuddyApp.ExperienceCenter
 
 		public bool CheckDistance (float distance, Vector3 robotPose, float distanceThreshold)
 		{
-			return distance - CollisionDetector.Distance (Buddy.Actuators.Wheels.Odometry, robotPose) <= distanceThreshold;
+			return Mathf.Abs(distance - CollisionDetector.Distance (Buddy.Actuators.Wheels.Odometry, robotPose)) <= distanceThreshold;
 		}
 
 		void Update ()

@@ -70,6 +70,7 @@ namespace BuddyApp.BuddyLab
 
         public void DisplayAlgo()
         {
+            Debug.Log("display algo");
             placeholderLine.GetComponent<Animator>().SetTrigger("open");
             displayDropLine.transform.parent = placeholderLine.transform;
             displayDropLine.GetComponent<RectTransform>().localPosition = new Vector3(-400, 80, 0);

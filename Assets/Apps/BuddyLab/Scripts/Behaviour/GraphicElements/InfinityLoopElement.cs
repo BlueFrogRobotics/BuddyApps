@@ -42,7 +42,8 @@ namespace BuddyApp.BuddyLab
                 mInstruction = new InfinitLoopBehaviourInstruction();
             InfinitLoopBehaviourInstruction lInfinityLoopInstruction = (InfinitLoopBehaviourInstruction)mInstruction;
 
-            if (lInfinityLoopInstruction.SubInstructions.Count != container.transform.childCount) {
+            //if (lInfinityLoopInstruction.SubInstructions.Count != container.transform.childCount) 
+            {
                 lInfinityLoopInstruction.SubInstructions.Clear();
                 foreach (Transform item in container.transform) {
                     if (item != null && item.GetComponent<AGraphicElement>() != null)

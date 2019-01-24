@@ -75,6 +75,7 @@ namespace BuddyApp.BuddyLab
 
         public void ShowAlgo(string iFileName)
         {
+            Debug.Log("show algo 1");
             FillBehaviourAlgorithm(iFileName);
 
             OpenProjectVisitor lVisitor = new OpenProjectVisitor(itemManager, panel.transform);
@@ -83,7 +84,7 @@ namespace BuddyApp.BuddyLab
 
         public void ShowAlgo(BehaviourAlgorithm iBehaviourAlgorithm)
         {
-            Debug.Log("show algo");
+            Debug.Log("show algo 2");
             OpenProjectVisitor lVisitor = new OpenProjectVisitor(itemManager, panel.transform);
             lVisitor.Visit(iBehaviourAlgorithm);
             //mStackUndoBli.AddLast(iBehaviourAlgorithm);

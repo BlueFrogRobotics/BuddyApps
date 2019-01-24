@@ -29,6 +29,7 @@ namespace BuddyApp.BuddyLab
 
         protected override void SetParameter()
         {
+            Debug.Log("set param move head: "+angle);
             if (mInstruction == null)
                 mInstruction = new MoveHeadBehaviourInstruction();
             MoveHeadBehaviourInstruction lMoveHeadInstruction = (MoveHeadBehaviourInstruction)mInstruction;
@@ -61,11 +62,13 @@ namespace BuddyApp.BuddyLab
 
         public void SetEditableParameter(string iParameter)
         {
+            Debug.Log("set editable head");
             float.TryParse(iParameter, out angle);
         }
 
         protected override void SetInternalParameters()
         {
+            Debug.Log("set internal parameter head");
             MoveHeadBehaviourInstruction lMoveHeadInstruction = (MoveHeadBehaviourInstruction)mInstruction;
             float lValue = 0.0F;
             switch (axe)

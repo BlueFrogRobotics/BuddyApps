@@ -143,6 +143,7 @@ namespace BuddyApp.ExperienceCenter
 				}
 			};
 
+
             //if (jBuilder.GetDeviceURL(IOTLabels["light"]) != null) {
                 string apiEntry = String.Format("setup/devices/{0}/states", WWW.EscapeURL(jBuilder.GetDeviceURL(IOTLabels["light"])));
                 Debug.LogFormat("[EXCENTER] Sending GET request on apiEntry : {0}", apiEntry);

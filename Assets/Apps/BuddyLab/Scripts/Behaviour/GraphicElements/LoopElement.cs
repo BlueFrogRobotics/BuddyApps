@@ -45,19 +45,25 @@ namespace BuddyApp.BuddyLab
 
         protected override void SetParameter()
         {
+            Debug.Log("set param loop");
             if (mInstruction == null)
                 mInstruction = new ForLoopBehaviourInstruction();
             ForLoopBehaviourInstruction lForLoopInstruction = (ForLoopBehaviourInstruction)mInstruction;
             lForLoopInstruction.Iterations = NumLoop;
             textIteration.text = "" + NumLoop;
             //Debug.Log("setloop: "+NumLoop);
-            if (lForLoopInstruction.SubInstructions.Count != container.transform.childCount)
+            //if (true/*lForLoopInstruction.SubInstructions.Count != container.transform.childCount*/)
             {
                 lForLoopInstruction.SubInstructions.Clear();
+                Debug.Log("dans le if de set param");
+                Debug.Log("container name: " + container.name);
+                Debug.Log("nb child in container: "+container.transform.childCount);
                 foreach (Transform item in container.transform)
                 {
-                    if (item != null && item.GetComponent<AGraphicElement>() != null)
+                        Debug.Log("item dans loop");
+                    if (item != null && item.GetComponent<AGraphicElement>() != null) {
                         lForLoopInstruction.SubInstructions.Add(item.GetComponent<AGraphicElement>().GetInstruction(true));
+                    }
                 }
             }
 
