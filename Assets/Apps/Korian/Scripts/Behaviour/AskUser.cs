@@ -30,6 +30,10 @@ namespace BuddyApp.Korian
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+            if (Buddy.Actuators.Wheels.IsBusy)
+                Buddy.Actuators.Wheels.Stop();
+            if (Buddy.Navigation.IsBusy)
+                Buddy.Navigation.Stop();
 
             mNumberListen = 0;
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
@@ -39,7 +43,7 @@ namespace BuddyApp.Korian
                     ExtLog.I(ExtLogModule.APP, typeof(AskUser), LogStatus.INFO, LogInfo.RUNNING, "Click no");
                     Buddy.GUI.Toaster.Hide();
                     Buddy.Vocal.StopListening();
-                    Buddy.Vocal.Say("REGLE DE LEHPAD " + Buddy.Resources.GetRandomString("gobacktosleep"));
+                    Buddy.Vocal.Say("REGLE DE LEHPAD " + Buddy.Resources.GetRandomString("gobacktosleep"), (iOnEndSpeech)=> { mTimer = 0F; });
                     mUserSaidNo = true;
                 },
                 "no"
@@ -67,7 +71,7 @@ namespace BuddyApp.Korian
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mTimer += Time.deltaTime;
-            if(!Buddy.Vocal.IsSpeaking && mUserSaidNo && mTimer > mTimeGiveUp)
+            if(!Buddy.Vocal.IsSpeaking && mUserSaidNo && mTimer > (mTimeGiveUp * 1.5F))
             {
                 Trigger("Scan"); 
             }
@@ -87,18 +91,18 @@ namespace BuddyApp.Korian
         {
             if (iInput.IsInterrupted)
                 return;
-            if (Utils.ContainsOneOf(Buddy.Vocal.LastHeardInput.Utterance, "yes"))
+            if (Utils.GetRealStartRule(iInput.Rule) == "yes")
             {
                 Buddy.GUI.Toaster.Hide();
                 Buddy.Vocal.StopListening();
-                Buddy.Vocal.Say(Buddy.Resources.GetRandomString("helpiscoming"), iInputlol => { OnEndSpeaking(iInputlol); });
                 KorianData.Instance.Mail = KorianData.MailType.MAILA;
+                Buddy.Vocal.Say(Buddy.Resources.GetRandomString("helpiscoming"), iInputlol => { OnEndSpeaking(iInputlol); });
             }
-            else if (Utils.ContainsOneOf(Buddy.Vocal.LastHeardInput.Utterance, "no"))
+            else if (Utils.GetRealStartRule(iInput.Rule) == "no")
             {
                 Buddy.GUI.Toaster.Hide();
                 Buddy.Vocal.StopListening();
-                Buddy.Vocal.Say("REGLE DE LEHPAD " + Buddy.Resources.GetRandomString("gobacktosleep"));
+                Buddy.Vocal.Say("VOICI LES REGLE DE LEHPAD [200] " + Buddy.Resources.GetRandomString("gobacktosleep"));
                 mUserSaidNo = true;
             }
             else
