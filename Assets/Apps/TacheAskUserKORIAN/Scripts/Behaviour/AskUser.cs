@@ -18,6 +18,7 @@ namespace BuddyApp.TacheAskUserKORIAN
 
         public override void Start()
         {
+            TacheAskUserKORIANData.Instance.Mail = TacheAskUserKORIANData.MailType.NONE;
             mTimeGiveUp = 3;
             mTimer = 0F;
             mUserSaidNo = false;
@@ -32,7 +33,7 @@ namespace BuddyApp.TacheAskUserKORIAN
 
             mNumberListen = 0;
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
-                iBuilder.CreateWidget<TText>().SetLabel(Buddy.Resources.GetRandomString("doyouneedhelp"));//iBuilder.CreateWidget<TText>().SetLabel(Buddy.Resources.GetRandomString("doyouneedhelp"));
+                iBuilder.CreateWidget<TText>().SetLabel(Buddy.Resources.GetRandomString("doyouneedhelp"));
             },
                 () => {
                     ExtLog.I(ExtLogModule.APP, typeof(AskUser), LogStatus.INFO, LogInfo.RUNNING, "Click no");
@@ -76,14 +77,14 @@ namespace BuddyApp.TacheAskUserKORIAN
         {
             mUserSaidNo = false;
         }
-
-        private void OnEndSending(bool iSuccess)
-        {
-            if (iSuccess)
-                Debug.Log("SUCCESS");
-            else
-                Debug.Log("FAIL");
-        }
+         
+        //private void OnEndSending(bool iSuccess)
+        //{
+        //    if (iSuccess)
+        //        Debug.Log("SUCCESS");
+        //    else
+        //        Debug.Log("FAIL");
+        //}
 
         /// <summary>
         /// This function is called when an answer is received from the user
@@ -97,8 +98,8 @@ namespace BuddyApp.TacheAskUserKORIAN
             {
                 Buddy.GUI.Toaster.Hide();
                 Buddy.Vocal.StopListening();
-                QuitApp();
-
+                Buddy.Vocal.Say(Buddy.Resources.GetRandomString("helpiscoming"), iInputlol => { OnEndSpeaking(iInputlol); });
+                TacheAskUserKORIANData.Instance.Mail = TacheAskUserKORIANData.MailType.MAILA;
             }
             else if (Utils.ContainsOneOf(Buddy.Vocal.LastHeardInput.Utterance, "no"))
             {
@@ -119,20 +120,27 @@ namespace BuddyApp.TacheAskUserKORIAN
                 else
                 {
                     Buddy.GUI.Toaster.Hide();
-                    SendMail("mailB");
+                    TacheAskUserKORIANData.Instance.Mail = TacheAskUserKORIANData.MailType.MAILB;
+                    Trigger("SIGNALEMENT");
+                    //SendMail("mailB");
                 }
             }
         }
 
-        private void SendMail(string iMessage)
-        {
-            EMail lMail = new EMail();
-            lMail.Addresses.Clear();
-            lMail.Addresses.Add("mc@bluefrogrobotics.com");//ADRESSE KORIAN
-            lMail.Subject = /*string.IsNullOrEmpty(mXMLData.SubjectMail) ? Buddy.Resources.GetRandomString(STR_MAIL_SUBJECT) : mXMLData.SubjectMail;*/ "SUBJECT MAIL";
-            lMail.Body = /*string.IsNullOrEmpty(mXMLData.BodyMail) ? Buddy.Resources.GetRandomString(STR_MAIL_TEXT) : mXMLData.BodyMail;*/ "BODY MAIL";
+        //private void SendMail(string iMessage)
+        //{
+        //    EMail lMail = new EMail();
+        //    lMail.Addresses.Clear();
+        //    lMail.Addresses.Add("mc@bluefrogrobotics.com");//ADRESSE KORIAN
+        //    lMail.Subject = /*string.IsNullOrEmpty(mXMLData.SubjectMail) ? Buddy.Resources.GetRandomString(STR_MAIL_SUBJECT) : mXMLData.SubjectMail;*/ "SUBJECT MAIL";
+        //    lMail.Body = /*string.IsNullOrEmpty(mXMLData.BodyMail) ? Buddy.Resources.GetRandomString(STR_MAIL_TEXT) : mXMLData.BodyMail;*/ "BODY MAIL";
 
-            Buddy.WebServices.EMailSender.Send("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL, lMail, OnEndSending);
+        //    Buddy.WebServices.EMailSender.Send("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL, lMail, OnEndSending);
+        //}
+
+        private void OnEndSpeaking(SpeechOutput iOutput)
+        {
+            Trigger("SIGNALEMENT");
         }
     }
 }

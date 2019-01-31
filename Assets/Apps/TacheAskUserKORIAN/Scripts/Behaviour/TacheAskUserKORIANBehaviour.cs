@@ -17,6 +17,8 @@ namespace BuddyApp.TacheAskUserKORIAN
          */
         private TacheAskUserKORIANData mAppData;
 
+
+
         void Start()
         {
 			/*

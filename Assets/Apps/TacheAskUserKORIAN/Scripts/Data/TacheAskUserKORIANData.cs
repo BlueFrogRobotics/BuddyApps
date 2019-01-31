@@ -10,6 +10,14 @@ namespace BuddyApp.TacheAskUserKORIAN
          */
         public int MyValue { get; set; }
 
+        public  enum MailType
+        {
+            NONE,
+            MAILA,
+            MAILB
+        }
+        
+        public MailType Mail { get;  set;  }
         /*
          * Data singleton access
          */
