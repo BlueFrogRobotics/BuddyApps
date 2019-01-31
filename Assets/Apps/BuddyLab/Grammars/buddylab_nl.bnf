@@ -1,0 +1,9 @@
+#BNF+EMV2.1;
+!grammar buddylab_nl;
+!start <menusimple>;
+!start <menuopen>;
+!start <menututo>;
+<menusimple> : eenvoudig [project];
+<menuopen> : open [een] project;
+<menututo> : [launch] tutorial;
+

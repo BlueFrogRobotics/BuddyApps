@@ -48,7 +48,8 @@ namespace BuddyApp.BuddyLab
                 lMoveHeadInstruction.YesAngle = float.MinValue;
                 lMoveHeadInstruction.YesSpeed = 0F;
             }
-
+            lMoveHeadInstruction.IsBlocking = true;
+            lMoveHeadInstruction.Delay = 0.5F;
 
         }
 

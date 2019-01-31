@@ -50,7 +50,8 @@ namespace BuddyApp.BuddyLab
                 mInstruction = new ForLoopBehaviourInstruction();
             ForLoopBehaviourInstruction lForLoopInstruction = (ForLoopBehaviourInstruction)mInstruction;
             lForLoopInstruction.Iterations = NumLoop;
-            textIteration.text = "" + NumLoop;
+            textIteration.text = "" + NumLoop; 
+
             //Debug.Log("setloop: "+NumLoop);
             //if (true/*lForLoopInstruction.SubInstructions.Count != container.transform.childCount*/)
             {

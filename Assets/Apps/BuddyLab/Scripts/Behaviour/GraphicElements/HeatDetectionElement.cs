@@ -12,6 +12,7 @@ namespace BuddyApp.BuddyLab
         {
             if (mInstruction == null)
                 mInstruction = new ThermalInputBehaviourInstruction();
+            ThermalInputBehaviourInstruction lHeatInstruction = (ThermalInputBehaviourInstruction)mInstruction;
         }
     }
 }

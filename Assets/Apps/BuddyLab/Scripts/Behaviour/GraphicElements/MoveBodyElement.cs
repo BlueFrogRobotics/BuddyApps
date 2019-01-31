@@ -38,6 +38,7 @@ namespace BuddyApp.BuddyLab
             lMoveBodyInstruction.Distance = distance;
             lMoveBodyInstruction.Angle = angle;
             lMoveBodyInstruction.Speed = speed;
+            
         }
 
         public string GetEditableParameter()

@@ -25,8 +25,12 @@ namespace BuddyApp.BuddyLab
             //Debug.Log("speech 1");
             lListenInstruction.Credentials = buddyLabBehaviour.FreeSpeechCredentials;
             //Debug.Log("speech 2");
-            lListenInstruction.ConditionalUtterances = new string[1];
-            lListenInstruction.ConditionalUtterances.Value[0] = utterance;
+            lListenInstruction.ConditionalUtterances = new string[2];
+            lListenInstruction.ConditionalUtterances.Value[0] = utterance.ToLower();
+            if (!string.IsNullOrEmpty(utterance))
+                lListenInstruction.ConditionalUtterances.Value[1] = utterance[0].ToString().ToUpper() + utterance.Substring(1);
+            else
+                lListenInstruction.ConditionalUtterances.Value[1] = utterance;
         }
 
         protected override void SetInternalParameters()
