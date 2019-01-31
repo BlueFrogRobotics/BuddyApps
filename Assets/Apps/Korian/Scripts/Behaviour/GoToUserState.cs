@@ -15,48 +15,32 @@ namespace BuddyApp.Korian
         private const float DIRECTION_THRESHOLD = 0.2F;
         private const float ANGULAR_SPEED = 80F;
         private const float LINEAR_SPEED = 0.3F;
+        private const int MEASURE_NUMBER = 2;
+
+        private const int TIME_USER_LOST = 3;
+        private const int TIME_GIVEUP = 3;
+        private const int ROT_SEARCH_USER = 40;
 
         private double mLastDirection;
+        private bool mIsSearching;
+        private float mObstacleCount;
+        private int mMeasure;
 
-        //private double mAngle;
-
-        //private List<OpenCVUnity.Rect> mDetectedBox;
-
-        private Point mDetectedCenter;
-
-        // This texture will be filled with the camera data
-        private Texture2D mCamView;
         private float mTimeHumanDetected;
-        private int mObstacleCount;
+        private float mTimeHumanLost;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Buddy.Perception.HumanDetector.OnDetect.Add(OnHumanDetect,
-                new HumanDetectorParameter {
-                    SensorMode = SensorMode.VISION,
-                    //YOLO = new YOLOParameter {
-                    //    UseThermal = false,
-                    //    DetectFallenHuman = false,
-                    //    //DownSample = 10
-                    //}
-                }
-                );
+                new HumanDetectorParameter { SensorMode = SensorMode.VISION });
 
+            mMeasure = 0;
             mTimeHumanDetected = Time.time;
-
+            mTimeHumanLost = -1;
+            mIsSearching = false;
             mObstacleCount = 0;
-            //no start
-            //mAngle = 0;
             mLastDirection = 10F;
-            // --- TMP Cam view to debug ---
-            //mDetectedBox = new List<OpenCVUnity.Rect> { };
-            mDetectedCenter = new Point();
-            //// Initialize texture.
-            //mCamView = new Texture2D(Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height);
-            //// Setting of the callback to use camera data
-            //Buddy.Sensors.RGBCamera.OnNewFrame.Add((iInput) => OnFrameCaptured(iInput));
-            //Buddy.GUI.Toaster.Display<VideoStreamToast>().With(mCamView);
 
             Buddy.Actuators.Head.Yes.SetPosition(2);
 
@@ -68,7 +52,8 @@ namespace BuddyApp.Korian
             float lAngularVelocity;
 
             // If the direction changes enough, update the robot direction
-            if (Math.Abs(mLastDirection - iDirection) > DIRECTION_OFFSET_LIMIT) {
+            if (Math.Abs(mLastDirection - iDirection) > DIRECTION_OFFSET_LIMIT)
+            {
                 mLastDirection = iDirection;
                 lAngularVelocity = -iDirection * ANGULAR_SPEED;
                 // If the direction is included in the middle range, stop to rotate.
@@ -78,49 +63,60 @@ namespace BuddyApp.Korian
             }
         }
 
-
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            if (Time.time - mTimeHumanDetected > 2.5F && Buddy.Behaviour.Mood != Mood.THINKING && !Buddy.Behaviour.IsBusy) {
+            if (mTimeHumanLost > 0 && (Time.time - mTimeHumanLost) > TIME_GIVEUP)
+                Trigger("Scan");
+            else if (Time.time - mTimeHumanDetected > TIME_USER_LOST && Buddy.Behaviour.Mood != Mood.THINKING && !Buddy.Behaviour.IsBusy)
+            {
                 Buddy.Vocal.StopAndClear();
-                Buddy.Vocal.Say("où es-tu?", false);
+                Buddy.Vocal.Say(Buddy.Resources.GetString("userlost"), false);
                 Buddy.Behaviour.SetMood(Mood.THINKING, false);
-                //Buddy.Actuators.Speakers.Effects.Play(SoundSample.BEEP_2);
-                Buddy.Navigation.Stop();
+                Buddy.Actuators.Wheels.Stop();
                 mLastDirection = 10F;
+                Buddy.Navigation.Run<DisplacementStrategy>().Rotate(-ROT_SEARCH_USER, 60, () =>
+                // OnEndMove 
+                {
+                    Buddy.Navigation.Run<DisplacementStrategy>().Rotate(ROT_SEARCH_USER * 2, 60, () => { mTimeHumanLost = Time.time; });
+                });
             }
 
+            // Add the average of sensor that found an obstacle
             mObstacleCount += UserInFrontScore();
-            if (mObstacleCount > 4 && mLastDirection < 9F) {
-                Buddy.Navigation.Stop();
-                mLastDirection = 10F;
-                Buddy.Vocal.StopAndClear();
-                Buddy.Vocal.Say("Salut toi!", false);
+
+            // When mMeasurNumber is reach, a new average is compute to reduce false positive
+            if (mMeasure == MEASURE_NUMBER)
+            {
+                // Finally if an obstacle is detected by several sensor, during several frame, we stop.
+                if ((mObstacleCount / MEASURE_NUMBER) > 0.4F && mLastDirection < 9F)
+                    Trigger("Evaluation");
                 mObstacleCount = 0;
+                mMeasure = 0;
             }
         }
 
-        private int UserInFrontScore()
+        // Average of Sensor - (Value ​​were chosen empirically)
+        private float UserInFrontScore()
         {
-           int lScore = 0;
-            if (Buddy.Sensors.UltrasonicSensors.Left.Value < 500)
+            int lScore = 0;
+            mMeasure++;
+            if (Buddy.Sensors.UltrasonicSensors.Left.Value < 700)
                 lScore++;
-            if (Buddy.Sensors.UltrasonicSensors.Left.Value < 500)
-                lScore++;
-            if (Buddy.Sensors.TimeOfFlightSensors.Front.Value < 500)
-                lScore++;
-            if(Buddy.Sensors.TimeOfFlightSensors.Right.Value < 500)
-                lScore++;
-            if (Buddy.Sensors.TimeOfFlightSensors.Left.Value < 500)
-                lScore++;
-            if (Buddy.Sensors.TimeOfFlightSensors.Forehead.Value < 500)
-                lScore++;
-            if (Buddy.Sensors.TimeOfFlightSensors.Chin.Value < 500)
+            if (Buddy.Sensors.UltrasonicSensors.Right.Value < 700)
                 lScore++;
 
-            if (lScore == 0)
-                lScore = -1;
-            return lScore;
+            if (Buddy.Sensors.TimeOfFlightSensors.Front.Value < 700)
+                lScore++;
+            if (Buddy.Sensors.TimeOfFlightSensors.Right.Value < 600)
+                lScore++;
+            if (Buddy.Sensors.TimeOfFlightSensors.Left.Value < 600)
+                lScore++;
+
+            if (Buddy.Sensors.TimeOfFlightSensors.Forehead.Value < 850)
+                lScore++;
+            if (Buddy.Sensors.TimeOfFlightSensors.Chin.Value < 700)
+                lScore++;
+            return ((float)lScore / 7F);
         }
 
 
@@ -128,28 +124,11 @@ namespace BuddyApp.Korian
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Buddy.Perception.HumanDetector.OnDetect.Remove(OnHumanDetect);
-            //mDetectedBox.Clear();
+            if (Buddy.Actuators.Wheels.IsBusy)
+                Buddy.Actuators.Wheels.Stop();
             if (Buddy.Navigation.IsBusy)
                 Buddy.Navigation.Stop();
         }
-
-
-        // On each frame captured by the camera this function is called, with the matrix of pixel.
-        //private void OnFrameCaptured(RGBCameraFrame iInput)
-        //{
-        //    // Always clone the input matrix, this avoid to working with the original matrix, when the C++ part wants to modify it.
-        //    Mat lMatSrc = iInput.Mat.clone();
-
-
-        //    Imgproc.circle(lMatSrc, mDetectedCenter, 5, new Scalar(new Color(255, 0, 0)), 10);
-
-        //    // Flip to avoid mirror effect.
-        //    Core.flip(lMatSrc, lMatSrc, 1);
-        //    // Use matrice format, to scale the texture.
-        //    mCamView = Utils.ScaleTexture2DFromMat(lMatSrc, mCamView);
-        //    // Use matrice to fill the texture.
-        //    Utils.MatToTexture2D(lMatSrc, mCamView);
-        //}
 
         /*
         *   On a human detection this function is called.
@@ -158,32 +137,29 @@ namespace BuddyApp.Korian
         */
         private void OnHumanDetect(HumanEntity[] iHumans)
         {
-            if (Buddy.Behaviour.Mood != Mood.HAPPY && !Buddy.Behaviour.IsBusy) {
+            if (Buddy.Behaviour.Mood != Mood.HAPPY && !Buddy.Behaviour.IsBusy)
+            {
                 Buddy.Behaviour.SetMood(Mood.HAPPY, false);
                 Buddy.Vocal.StopAndClear();
+                mTimeHumanLost = -1;
+                if (Buddy.Navigation.IsBusy)
+                    Buddy.Navigation.Stop();
                 Buddy.Vocal.Say("je te vois", false);
             }
 
-            Debug.Log("On Human detect pre biggest human");
             mTimeHumanDetected = Time.time;
 
+            // The target is the biggest human detect. (The closest one)
             double lMaxArea = iHumans.Max(h => h.BoundingBox.area());
-            HumanEntity lBiggestHuman = iHumans.First(h => h.BoundingBox.area() == lMaxArea); // get biggest box
+            // Get biggest box
+            HumanEntity lBiggestHuman = iHumans.First(h => h.BoundingBox.area() == lMaxArea);
 
             double lHorizontalRatio;
-
-            Debug.Log("On Human detect post biggest human");
-
-            mDetectedCenter.x = lBiggestHuman.Center.x;
-            mDetectedCenter.y = lBiggestHuman.Center.y;
-
-            Debug.Log("On Human detect pre camera");
-            lHorizontalRatio = lBiggestHuman.Center.x / Buddy.Sensors.RGBCamera.Width; // 0 to 1 value
+            // Value between 0 & 1, that represent target's position, (abscissa) were 0.5 is the center on the image.
+            lHorizontalRatio = lBiggestHuman.Center.x / Buddy.Sensors.RGBCamera.Width;
+            // Now the value is between -0.5 & 0.5
             MoveToward((float)lHorizontalRatio - 0.5F);
-            Debug.Log("On Human detect post camera");
         }
-
-
     }
 }
 
