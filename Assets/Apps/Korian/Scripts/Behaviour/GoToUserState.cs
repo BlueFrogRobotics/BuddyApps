@@ -45,6 +45,7 @@ namespace BuddyApp.Korian
             Buddy.Actuators.Head.Yes.SetPosition(2);
 
             MoveToward(0F);
+
         }
 
         private void MoveToward(float iDirection)
@@ -87,8 +88,9 @@ namespace BuddyApp.Korian
             // When mMeasurNumber is reach, a new average is compute to reduce false positive
             if (mMeasure == MEASURE_NUMBER)
             {
+                Debug.LogWarning("Obstacle:" + mObstacleCount / (float)MEASURE_NUMBER);
                 // Finally if an obstacle is detected by several sensor, during several frame, we stop.
-                if ((mObstacleCount / MEASURE_NUMBER) > 0.4F && mLastDirection < 9F)
+                if ((mObstacleCount / (float)MEASURE_NUMBER) > 0.4F && mLastDirection < 9F)
                     Trigger("Evaluation");
                 mObstacleCount = 0;
                 mMeasure = 0;
@@ -124,8 +126,7 @@ namespace BuddyApp.Korian
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Buddy.Perception.HumanDetector.OnDetect.Remove(OnHumanDetect);
-            if (Buddy.Actuators.Wheels.IsBusy)
-                Buddy.Actuators.Wheels.Stop();
+            Buddy.Actuators.Wheels.Stop();
             if (Buddy.Navigation.IsBusy)
                 Buddy.Navigation.Stop();
         }
