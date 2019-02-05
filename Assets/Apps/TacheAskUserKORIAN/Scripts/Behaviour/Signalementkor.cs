@@ -3,60 +3,53 @@ using System.Collections.Generic;
 using UnityEngine;
 using BlueQuark;
 
-namespace BuddyApp.Korian
+namespace BuddyApp.TacheAskUserKORIAN
 {
 
-    public class Signalement : AStateMachineBehaviour
+    public class Signalementkor : AStateMachineBehaviour
     {
         private int mNumberTry;
         private float mTimer;
         private float mTimerHelp;
         private int mRandom;
-        private bool mSendMailAgain;
+        
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            mSendMailAgain = false;
+            
             mNumberTry = 0;
             mTimerHelp = 0;
             mTimer = 0F;
-            Buddy.Behaviour.SetMood(Mood.SCARED, false);
-            //Pour les tests de mail
-            //KorianData.Instance.Mail = KorianData.MailType.MAILA;
-            if (KorianData.Instance.Mail == KorianData.MailType.MAILA)
-                SendMail(Buddy.Resources.GetRandomString("maila"));
-            else if (KorianData.Instance.Mail == KorianData.MailType.MAILB)
-                SendMail(Buddy.Resources.GetRandomString("mailb"));
+            Buddy.Behaviour.Mood = Mood.SCARED;
+            if (TacheAskUserKORIANData.Instance.Mail == TacheAskUserKORIANData.MailType.MAILA)
+                SendMail("mailA");
+            else if (TacheAskUserKORIANData.Instance.Mail == TacheAskUserKORIANData.MailType.MAILB)
+                SendMail("mailB");
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mTimer += Time.deltaTime;
             mTimerHelp += Time.deltaTime;
-            if (mSendMailAgain && mNumberTry < 3 && mTimer < 2F)
+            if(mNumberTry < 3 && mTimer < 10F)
             {
-                mSendMailAgain = false;
-                mTimer = 0F;
-                if (!mSendMailAgain && KorianData.Instance.Mail == KorianData.MailType.MAILA)
-                    SendMail(Buddy.Resources.GetRandomString("maila"));
-                //else if (!mSendMailAgain && KorianData.Instance.Mail == KorianData.MailType.MAILB)
-                //    SendMail(Buddy.Resources.GetRandomString("mailb"));
+                if (TacheAskUserKORIANData.Instance.Mail == TacheAskUserKORIANData.MailType.MAILA)
+                    SendMail("MailA");
             }
-
             //Faire Tracking en continu
 
             if(!Buddy.Vocal.IsBusy && mTimerHelp > 5F)
             {
                 mTimerHelp = 0F;
-                int mRandom = Random.Range(0, 3);
+                int mRandom = Random.Range(0, 4);
                 if (mRandom == 0)
-                    Buddy.Vocal.Say(Buddy.Resources.GetRandomString("helpiscoming"));
+                    Buddy.Vocal.Say("helpiscoming");
             }
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Buddy.Behaviour.SetMood(Mood.NEUTRAL, false);
+            Buddy.Behaviour.Mood = Mood.NEUTRAL;
         }
 
         private void SendMail(string iMessage)
@@ -65,7 +58,7 @@ namespace BuddyApp.Korian
             lMail.Addresses.Clear();
             lMail.Addresses.Add("mc@bluefrogrobotics.com");//ADRESSE KORIAN
             lMail.Subject = /*string.IsNullOrEmpty(mXMLData.SubjectMail) ? Buddy.Resources.GetRandomString(STR_MAIL_SUBJECT) : mXMLData.SubjectMail;*/ "SUBJECT MAIL";
-            lMail.Body = /*string.IsNullOrEmpty(mXMLData.BodyMail) ? Buddy.Resources.GetRandomString(STR_MAIL_TEXT) : mXMLData.BodyMail;*/ iMessage;
+            lMail.Body = /*string.IsNullOrEmpty(mXMLData.BodyMail) ? Buddy.Resources.GetRandomString(STR_MAIL_TEXT) : mXMLData.BodyMail;*/ "BODY MAIL";
 
             Buddy.WebServices.EMailSender.Send("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL, lMail, OnEndSending);
         }
@@ -73,18 +66,15 @@ namespace BuddyApp.Korian
         private void OnEndSending(bool iSuccess)
         {
             if (iSuccess)
-            {
-                mSendMailAgain = true;
                 Debug.Log("SUCCESS");
-            }
             else
             {
                 Debug.Log("FAIL");
                 mNumberTry++;
-                if (mNumberTry < 3)
+                if(mNumberTry < 3)
                 {
-                    Buddy.Vocal.SayKey("cantsendmessage");
-                    mSendMailAgain = true;
+                    Buddy.Vocal.Say("cantsendmessage");
+                    
                 }
                 else
                 {
