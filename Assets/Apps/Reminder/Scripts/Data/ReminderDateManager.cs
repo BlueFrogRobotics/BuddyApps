@@ -15,8 +15,8 @@ namespace BuddyApp.Reminder
         {
             E_DATE_CHOICE = 0,
             E_HOUR_CHOICE = 1,
-            E_RECURRENCE_CHOICE = 2,
-            E_MESSAGE_CHOICE = 3
+            //E_RECURRENCE_CHOICE = 2,
+            E_MESSAGE_CHOICE = 2
         }
         
         public const string STR_BYE = "bye";
@@ -29,6 +29,7 @@ namespace BuddyApp.Reminder
         public const string STR_SETUPDATE = "setupdate";
         public const string STR_REMINDER_OK = "reminderok";
 
+        public SpeechInput CompanionInput { get; set; }
         public E_REMINDER_STATE AppState { get; set; }
         public DateTime ReminderDate { get; set; }
         public string ReminderMsg { get; set; }
@@ -59,6 +60,7 @@ namespace BuddyApp.Reminder
             AppState = 0;
             ReminderDate = DateTime.Today;
             ReminderMsg = null;
+            CompanionInput = null;
         }
     }
 }

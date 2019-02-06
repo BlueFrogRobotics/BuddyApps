@@ -2,6 +2,17 @@
 !grammar date_en;
 !import <numbers#nb>;
 
+!export <today>;
+!export <tomorrow>;
+!export <dayaftertomorrow>;
+!export <nextdayofweek>;
+!export <nextweek>;
+!export <nextmonth>;
+!export <nextyear>;
+!export <nextday>;
+!export <nextdate>;
+!export <fulldate>;
+
 !start <today>;
 !start <tomorrow>;
 !start <dayaftertomorrow>;
