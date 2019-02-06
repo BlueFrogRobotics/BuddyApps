@@ -14,9 +14,7 @@ namespace BuddyApp.Reminder
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Debug.Log("----- INIT REMINDER DATA -----");
-            ReminderDateManager.GetInstance().Initialize();
-            
+            // ReminderDateManager was initialized in the OnLoading function.
             // Setting of Header
             Buddy.GUI.Header.DisplayParametersButton(false);
             Font lHeaderFont = Buddy.Resources.Get<Font>("os_awesome");
@@ -53,7 +51,10 @@ namespace BuddyApp.Reminder
             ReminderLanguageManager.GetInstance().Initialize(lDictionaryDate, lDictionaryHour, lDictionaryRecurrence);
             
             Debug.Log("----- REMINDER WILL START -----");
-            Trigger("StartReminder");
+            if (ReminderDateManager.GetInstance().CompanionInput != null)
+                Trigger("PreProcessing");
+            else
+                Trigger("StartReminder");   
         }
     }
 }

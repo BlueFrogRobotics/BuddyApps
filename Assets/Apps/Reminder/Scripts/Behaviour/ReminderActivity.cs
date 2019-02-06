@@ -16,9 +16,22 @@ namespace BuddyApp.Reminder
 		* Called before the App scene loading.
 		*/
 		public override void OnLoading(object[] iArgs)
-		{ 
-			ExtLog.I(ExtLogModule.APP, typeof(ReminderActivity), LogStatus.START, LogInfo.LOADING, "On loading...");
-		}
+		{
+            ExtLog.I(ExtLogModule.APP, typeof(ReminderActivity), LogStatus.START, LogInfo.LOADING, "On loading...");
+
+            Debug.Log("----- INIT REMINDER DATA -----");
+            ReminderDateManager.GetInstance().Initialize();
+
+            if (iArgs.Length != 1)
+                return;
+            /*
+            ** There is a CompanionInput, so after InitState a PreProcessing state will occured.
+            ** During PreProcessingState, CompanionInput is analyzed to find out what information is missing.
+            ** Then the StateMachine is redirected to the right state, to complete the missing reminder informations.
+            */
+
+            //ReminderDateManager.GetInstance().CompanionInput = (SpeechInput)iArgs[0];
+        }
 
 		/*
 		* Called after every Awake() in your scene

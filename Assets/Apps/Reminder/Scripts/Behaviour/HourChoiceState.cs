@@ -271,7 +271,8 @@ namespace BuddyApp.Reminder
             }
             DebugColor("HOUR IS: " + ReminderDateManager.GetInstance().ReminderDate.ToLongTimeString(), "green");
             
-            Trigger("RecurrenceChoiceState");
+            // Replace by 'RecurrenceChoiceState' in future
+            Trigger("GetMessageState");
         }
 
         /*

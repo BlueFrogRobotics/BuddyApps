@@ -287,9 +287,9 @@ namespace BuddyApp.Reminder
                 lViewModeButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_arrow_left"));
                 lViewModeButton.OnClick.Add(() =>
                 {
-                    DebugColor("MSG BACK TO HOUR", "blue");
                     mBIgnoreOnEndListening = true;
-                    Trigger("RecurrenceChoiceState");
+                    // Replace by 'RecurrenceChoiceState' in future
+                    Trigger("HourChoiceState");
                 });
 
                 // Create Step view to the button

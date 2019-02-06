@@ -1,5 +1,22 @@
 #BNF+EMV2.0;
 !grammar hour_en;
+
+!export <atnoon>;
+!export <atprenoon>;
+!export <atpostnoon>;
+!export <atmidnight>;
+!export <atpremidnight>;
+!export <atpostmidnight>;
+!export <athours>;
+!export <atprehours>;
+!export <atposthours>;
+!export <atamhours>;
+!export <atpreamhours>;
+!export <atpostamhours>;
+!export <atpmhours>;
+!export <atprepmhours>;
+!export <atpostpmhours>;
+
 !start <atnoon>;
 !start <atprenoon>;
 !start <atpostnoon>;
