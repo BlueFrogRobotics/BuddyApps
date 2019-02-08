@@ -39,9 +39,23 @@ namespace BuddyApp.Radio
         private IEnumerator AskInfos(RadioStream iRadio, string iToken)
         {
             RadioInfos lInfos = new RadioInfos();
-            yield return iRadio.GetRadioInformations("nostalgie", lInfos, iToken);
-            Debug.Log("infos name: " + lInfos.Name);
-            Debug.Log("infos logo: " + lInfos.LogoURL);
+            yield return iRadio.GetRadioInformations("europe_1_9144", lInfos, iToken);
+            //Debug.Log("info: " + lInfos);
+            RadioList lRadioList = new RadioList();
+            //List<RadioInfos> lRadios = new List<RadioInfos>();
+            //yield return iRadio.SearchRadioName("europe 1", iToken, lRadioList);
+
+            StreamList lStreamList = new StreamList();
+            yield return iRadio.GetRadiosStreams("europe_1_9144", iToken, lStreamList);
+            Debug.Log(lStreamList);
+
+            ShowInfos lShowInfos = new ShowInfos();
+            yield return iRadio.GetLiveInformations("europe_1_9144", iToken, lShowInfos);
+            Debug.Log(lShowInfos);
+            //Debug.Log("radios lenght" + lRadioList.Radios.Count);
+            //Debug.Log("liiiiiiiink: " + lRadioList.Radios[0].Permalink);
+            //Debug.Log("infos name: " + lInfos.Name);
+            //Debug.Log("infos logo: " + lInfos.LogoURL);
         }
     }
 }

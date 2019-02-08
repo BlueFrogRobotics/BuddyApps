@@ -124,35 +124,46 @@ namespace BuddyApp.Radio
             currentActivity.Call("stopStreamWithExo");
         }
 
-        public void UpdateLiveInformations(string lToken)
+        public void UpdateLiveInformations(string iToken)
         {
-            StartCoroutine(GetLiveInformations(mPermaLink, lToken));
+            //StartCoroutine(GetLiveInformations(mPermaLink, iToken));
         }
 
         public IEnumerator GetRadioInformations(string iRadioName, RadioInfos iInfos, string iToken)
         {
             string lRadioName = iRadioName.Trim().ToLower().Replace(" ", "_");
             RadioInfos lInfos = new RadioInfos();
-            UnityWebRequest www = UnityWebRequest.Get("http://service.buddy.api.radioline.fr/Pillow/radios/" + lRadioName);
+            UnityWebRequest lWww = UnityWebRequest.Get("http://service.buddy.api.radioline.fr/Pillow/radios/" + lRadioName);
             //Send request
-            www.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            www.SetRequestHeader("Authorization", "Bearer " + iToken);
-            yield return www.Send();
+            lWww.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            lWww.SetRequestHeader("Authorization", "Bearer " + iToken);
+            yield return lWww.SendWebRequest();
 
-            if (!www.isNetworkError)
+            if (!lWww.isNetworkError)
             {
-                string resultContent = www.downloadHandler.text;
-                Debug.Log("le token: " + resultContent);
-                mLogoUrl = GetInformations(resultContent);
-                Debug.Log("logo url: " + mLogoUrl);
-                //mRadioUI.SetPictureFromUrl(mLogoUrl);
-                //mRadioUI.SetRadioName(GetRadioName(resultContent));
-                mRadioName = GetRadioName(resultContent);
-                Debug.Log("radio name: " + mRadioName);
+                string lResultContent = lWww.downloadHandler.text;
+                //Debug.Log("le token: " + lResultContent);
+                //mLogoUrl = GetInformations(lResultContent);
+                //Debug.Log("logo url: " + mLogoUrl);
+                //mRadioName = GetRadioName(lResultContent);
+                //Debug.Log("radio name: " + mRadioName);
                 // mRadioUI.SetRadioName(mRadioName + " / " + mShowDescription);
                 //StartCoroutine(LoadPicture(mLogoUrl));
-                iInfos.Name = mRadioName;
-                iInfos.LogoURL = mLogoUrl;
+                //iInfos.Name = mRadioName;
+                //iInfos.LogoURL = mLogoUrl;
+                JSONNode lJsonNode = JSON.Parse(lResultContent);
+                if (lJsonNode["body"]["type"] == "error") {
+
+                } else {
+                    string lPermalink = lJsonNode["body"]["content"]["permalink"].Value;
+                    lPermalink = lPermalink.Replace("radios/", "");
+                    iInfos.Permalink = lPermalink;
+                    iInfos.Name = lJsonNode["body"]["content"]["name"].Value;
+                    iInfos.LogoURL = lJsonNode["body"]["content"]["logo"].Value;
+                    iInfos.Description = lJsonNode["body"]["content"]["description"].Value;
+                    iInfos.Language = lJsonNode["body"]["content"]["language"].Value;
+                    iInfos.Country = lJsonNode["body"]["content"]["country"].Value;
+                }
             }
             else
             {
@@ -166,7 +177,7 @@ namespace BuddyApp.Radio
         /// </summary>
         /// <param name="iRadioName">name of the radio</param>
         /// <returns></returns>
-        private IEnumerator GetRadios(string iRadioName, string iToken)
+        public IEnumerator GetRadiosStreams(string iRadioName, string iToken, StreamList iStreams)
         {
 
             string lRadioName = iRadioName.Trim().ToLower().Replace(" ", "_");
@@ -174,7 +185,8 @@ namespace BuddyApp.Radio
             //Send request
             lWww.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             lWww.SetRequestHeader("Authorization", "Bearer " + iToken);
-            yield return lWww.Send();
+            yield return lWww.SendWebRequest();
+            iStreams.StreamLinks = new List<StreamLink>();
 
             if (!lWww.isNetworkError)
             {
@@ -182,6 +194,25 @@ namespace BuddyApp.Radio
                 Debug.Log("le token: " + resultContent);
                 mUrl = GetLink(resultContent);
 
+                JSONNode lJsonNode = JSON.Parse(resultContent);
+                if (lJsonNode["body"]["type"] == "error") {
+                    
+                } else {
+                    for (int i = 0; i < lJsonNode["body"]["content"]["streams"].Count; i++) {
+                        StreamLink lLink = new StreamLink();
+                        lLink.Url = lJsonNode["body"]["content"]["streams"][i]["url"].Value;
+                        lLink.Protocol = lJsonNode["body"]["content"]["streams"][i]["protocol"].Value;
+                        lLink.Format = lJsonNode["body"]["content"]["streams"][i]["format"].Value;
+                        lLink.Codec = lJsonNode["body"]["content"]["streams"][i]["codec"].Value;
+                        lLink.Port = lJsonNode["body"]["content"]["streams"][i]["port"].AsInt;
+                        lLink.Frequency = lJsonNode["body"]["content"]["streams"][i]["frequency"].AsInt;
+                        lLink.Bitrate = lJsonNode["body"]["content"]["streams"][i]["bitrate"].AsInt;
+                        lLink.Channels = lJsonNode["body"]["content"]["streams"][i]["channels"].AsInt;
+                        iStreams.StreamLinks.Add(lLink);
+                    }
+
+                   
+                }
             }
             else
             {
@@ -194,25 +225,25 @@ namespace BuddyApp.Radio
         /// </summary>
         /// <param name="iRadioName">name of the radio</param>
         /// <returns></returns>
-        private IEnumerator GetRadioInformations(string iRadioName, string lToken)
+        private IEnumerator GetRadioInformations(string iRadioName, string iToken)
         {
 
             string lRadioName = iRadioName.Trim().ToLower().Replace(" ", "_");
-            UnityWebRequest www = UnityWebRequest.Get("http://service.buddy.api.radioline.fr/Pillow/radios/" + lRadioName);
+            UnityWebRequest lWww = UnityWebRequest.Get("http://service.buddy.api.radioline.fr/Pillow/radios/" + lRadioName);
             //Send request
-            www.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            www.SetRequestHeader("Authorization", "Bearer " + lToken);
-            yield return www.Send();
+            lWww.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            lWww.SetRequestHeader("Authorization", "Bearer " + iToken);
+            yield return lWww.SendWebRequest();
 
-            if (!www.isNetworkError)
+            if (!lWww.isNetworkError)
             {
-                string resultContent = www.downloadHandler.text;
-                Debug.Log("le token: " + resultContent);
-                mLogoUrl = GetInformations(resultContent);
+                string lResultContent = lWww.downloadHandler.text;
+                Debug.Log("le token: " + lResultContent);
+                mLogoUrl = GetInformations(lResultContent);
                 Debug.Log("logo url: " + mLogoUrl);
                 //mRadioUI.SetPictureFromUrl(mLogoUrl);
                 //mRadioUI.SetRadioName(GetRadioName(resultContent));
-                mRadioName = GetRadioName(resultContent);
+                mRadioName = GetRadioName(lResultContent);
                 Debug.Log("radio name: " + mRadioName);
                // mRadioUI.SetRadioName(mRadioName + " / " + mShowDescription);
                 //StartCoroutine(LoadPicture(mLogoUrl));
@@ -229,27 +260,42 @@ namespace BuddyApp.Radio
         /// </summary>
         /// <param name="iRadioName">radio name</param>
         /// <returns></returns>
-        private IEnumerator GetLiveInformations(string iRadioName, string lToken)
+        public IEnumerator GetLiveInformations(string iRadioName, string iToken, ShowInfos iInfos)
         {
             IsUpdatingLiveInfos = true;
             string lRadioName = iRadioName.Trim().ToLower().Replace(" ", "_");
-            UnityWebRequest www = UnityWebRequest.Get("http://service.buddy.api.radioline.fr/Pillow/radios/" + lRadioName + "/live");
+            UnityWebRequest lWww = UnityWebRequest.Get("http://service.buddy.api.radioline.fr/Pillow/radios/" + lRadioName + "/live");
             //Send request
-            www.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            www.SetRequestHeader("Authorization", "Bearer " + lToken);
-            yield return www.Send();
+            lWww.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            lWww.SetRequestHeader("Authorization", "Bearer " + iToken);
+            yield return lWww.SendWebRequest();
 
-            if (!www.isNetworkError)
+            if (!lWww.isNetworkError)
             {
-                string resultContent = www.downloadHandler.text;
-                Debug.Log("le live info: " + resultContent);
+                string lResultContent = lWww.downloadHandler.text;
+                Debug.Log("le live info: " + lResultContent);
+
+                JSONNode lJsonNode = JSON.Parse(lResultContent);
+                if (lJsonNode["body"]["type"] == "error") {
+                    
+                } else {
+                    iInfos.Baseline = lJsonNode["body"]["content"]["show"]["name"].Value;
+                    iInfos.Start = lJsonNode["body"]["content"]["show"]["start"].Value;
+                    iInfos.End = lJsonNode["body"]["content"]["show"]["end"].Value;
+                    iInfos.Logo = lJsonNode["body"]["content"]["show"]["logo"].Value;
+                    if (lJsonNode["body"]["content"]["track"] != null)
+                        iInfos.Song = lJsonNode["body"]["content"]["track"]["name"].Value;
+                    if (lJsonNode["body"]["content"]["track"] != null)
+                        iInfos.Singer = lJsonNode["body"]["content"]["track"]["artist"]["name"].Value;
+                }
+
                 //mRadioUI.SetShowDescription(GetShowDescription(resultContent));
-                mShowDescription = GetShowDescription(resultContent);
-                string lSongName = GetSongName(resultContent);
+                mShowDescription = GetShowDescription(lResultContent);
+                string lSongName = GetSongName(lResultContent);
                 if (lSongName != "" && lSongName != "error")
                     mShowDescription = lSongName;
                 //mRadioUI.SetRadioName(mRadioName + " / " + mShowDescription);
-                string lSingerName = GetSingerName(resultContent);
+                string lSingerName = GetSingerName(lResultContent);
                 //if (lSingerName != "" && lSingerName != "error")
                 //    mRadioUI.SetSingerName(lSingerName);
                 //else
@@ -266,23 +312,44 @@ namespace BuddyApp.Radio
             IsUpdatingLiveInfos = false;
         }
 
-        public IEnumerator SearchRadioName(string iRadioName, string lToken)
+        public IEnumerator SearchRadioName(string iRadioName, string iToken, RadioList iInfos)
         {
             string lRadioName = iRadioName.Trim().ToLower().Replace(" ", "_");
-            UnityWebRequest www = UnityWebRequest.Get("http://service.buddy.api.radioline.fr/Pillow/search?query=" + System.Uri.EscapeDataString(iRadioName) + "&type=radio");
+            UnityWebRequest lWww = UnityWebRequest.Get("http://service.buddy.api.radioline.fr/Pillow/search?query=" + System.Uri.EscapeDataString(iRadioName) + "&type=radio");
             //Send request
-            www.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            www.SetRequestHeader("Authorization", "Bearer " + lToken);
-            yield return www.Send();
-
-            if (!www.isNetworkError)
+            lWww.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            lWww.SetRequestHeader("Authorization", "Bearer " + iToken);
+            yield return lWww.SendWebRequest();
+            iInfos.Radios = new List<RadioInfos>();
+            if (!lWww.isNetworkError)
             {
-                string resultContent = www.downloadHandler.text;
-                Debug.Log("radio name found: " + resultContent);
+                string lResultContent = lWww.downloadHandler.text;
+                Debug.Log("radio name found: " + lResultContent);
                 //mRadioUI.SetShowDescription(GetShowDescription(resultContent));
                 //showDescription.text = GetShowDescription(resultContent);
-                mPermaLink = GetPermalink(resultContent);
+                //mPermaLink = GetPermalink(lResultContent);
 
+                JSONNode lJsonNode = JSON.Parse(lResultContent);
+                if (lJsonNode["body"]["type"] == "error") {
+                    Debug.Log("error");
+                    //return "error";
+                } else {
+                    Debug.Log("nombre de resultat: " + lJsonNode["body"]["content"].Count);
+                    for(int i=0; i< lJsonNode["body"]["content"].Count; i++) {
+                        RadioInfos lInfo = new RadioInfos();
+                        string lPermalink = lJsonNode["body"]["content"][i]["permalink"].Value;
+                        lPermalink = lPermalink.Replace("radios/", "");
+                        lInfo.Permalink = lPermalink;
+                        lInfo.Name = lJsonNode["body"]["content"][i]["name"].Value;
+                        lInfo.LogoURL = lJsonNode["body"]["content"][i]["logo"].Value;
+                        lInfo.Description = lJsonNode["body"]["content"][i]["description"].Value;
+                        lInfo.Language = lJsonNode["body"]["content"][i]["language"].Value;
+                        lInfo.Country = lJsonNode["body"]["content"][i]["country"].Value;
+                        iInfos.Radios.Add(lInfo);
+                    }
+                }
+                Debug.Log("nb infos: " + iInfos.Radios.Count);
+                //Debug.Log("permalink: " + mPermaLink);
             }
             else
             {
@@ -299,35 +366,35 @@ namespace BuddyApp.Radio
         /// <returns></returns>
         private string PostData(string iURL, string iPostString)
         {
-            String result = "";
+            String lResult = "";
 
             Debug.Log("poststring: \n" + iPostString);
-            Stream myWriter = null;
+            Stream lWriter = null;
 
-            byte[] bytedata = System.Text.Encoding.UTF8.GetBytes(iPostString);
+            byte[] lBytedata = System.Text.Encoding.UTF8.GetBytes(iPostString);
 
-            HttpWebRequest objRequest = (HttpWebRequest)WebRequest.Create(iURL);
-            objRequest.Method = "POST";
-            objRequest.ContentLength = bytedata.Length;
-            objRequest.ContentType = "application/x-www-form-urlencoded";
-            objRequest.ProtocolVersion = HttpVersion.Version11;
+            HttpWebRequest lObjRequest = (HttpWebRequest)WebRequest.Create(iURL);
+            lObjRequest.Method = "POST";
+            lObjRequest.ContentLength = lBytedata.Length;
+            lObjRequest.ContentType = "application/x-www-form-urlencoded";
+            lObjRequest.ProtocolVersion = HttpVersion.Version11;
 
-            objRequest.UseDefaultCredentials = true;
-            objRequest.Credentials = CredentialCache.DefaultCredentials;
-            objRequest.ClientCertificates.Add(new X509Certificate2(Buddy.Resources.GetRawFullPath("service.buddy.79.0.p12"), "@7Cs=\\ze?plT"));
+            lObjRequest.UseDefaultCredentials = true;
+            lObjRequest.Credentials = CredentialCache.DefaultCredentials;
+            lObjRequest.ClientCertificates.Add(new X509Certificate2(Buddy.Resources.GetRawFullPath("service.buddy.79.0.p12"), "@7Cs=\\ze?plT"));
 
             try
             {
                 ServicePointManager.ServerCertificateValidationCallback = MyRemoteCertificateValidationCallback;
-                myWriter = objRequest.GetRequestStream();
-                myWriter.Write(bytedata, 0, bytedata.Length);
-                myWriter.Flush();
-                myWriter.Close();
-                HttpWebResponse objResponse = (HttpWebResponse)objRequest.GetResponse();
+                lWriter = lObjRequest.GetRequestStream();
+                lWriter.Write(lBytedata, 0, lBytedata.Length);
+                lWriter.Flush();
+                lWriter.Close();
+                HttpWebResponse objResponse = (HttpWebResponse)lObjRequest.GetResponse();
                 using (StreamReader sr =
                 new StreamReader(objResponse.GetResponseStream()))
                 {
-                    result = sr.ReadToEnd();
+                    lResult = sr.ReadToEnd();
 
                     // Close and clean up the StreamReader
                     sr.Close();
@@ -339,7 +406,7 @@ namespace BuddyApp.Radio
                 using (StreamReader sr =
                new StreamReader(objResponse.GetResponseStream()))
                 {
-                    result = sr.ReadToEnd();
+                    lResult = sr.ReadToEnd();
 
                     // Close and clean up the StreamReader
                     sr.Close();
@@ -350,9 +417,9 @@ namespace BuddyApp.Radio
 
             }
 
-            Debug.Log("le result: " + result);
+            Debug.Log("le result: " + lResult);
 
-            return result;
+            return lResult;
         }
 
 
@@ -543,6 +610,7 @@ namespace BuddyApp.Radio
             }
             else
             {
+                Debug.Log("nombre de resultat: " + lJsonNode["body"]["content"].Count);
                 lPermalink = lJsonNode["body"]["content"][0]["permalink"].Value;
                 lPermalink = lPermalink.Replace("radios/", "");
                 return lPermalink;
@@ -551,17 +619,17 @@ namespace BuddyApp.Radio
 
 
 
-        /// <summary>
-        /// Start playing given radio 
-        /// </summary>
-        /// <param name="iRadioName">radio name</param>
-        /// <returns></returns>
-        private IEnumerator PlayRadio(string iRadioName, string lToken)
-        {
-            yield return StartCoroutine(GetRadios(iRadioName, lToken));
-            if (mUrl != "error")
-                currentActivity.Call("playStreamWithExo", mUrl);
-        }
+        ///// <summary>
+        ///// Start playing given radio 
+        ///// </summary>
+        ///// <param name="iRadioName">radio name</param>
+        ///// <returns></returns>
+        //private IEnumerator PlayRadio(string iRadioName, string lToken)
+        //{
+        //    yield return StartCoroutine(GetRadios(iRadioName, lToken));
+        //    if (mUrl != "error")
+        //        currentActivity.Call("playStreamWithExo", mUrl);
+        //}
 
 
 
