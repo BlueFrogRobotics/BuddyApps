@@ -7,7 +7,7 @@ using BuddyApp.Shared;
 
 namespace BuddyApp.Reminder
 {
-    public class InitReminder : AStateMachineBehaviour
+    public sealed class InitReminder : AStateMachineBehaviour
     {
         private const int RECOGNITION_SENSIBILITY = 5000;
 

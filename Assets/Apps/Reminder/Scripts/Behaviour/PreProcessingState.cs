@@ -6,7 +6,7 @@ using BlueQuark;
 
 namespace BuddyApp.Reminder
 {
-    public class PreProcessingState : AStateMachineBehaviour
+    public sealed class PreProcessingState : AStateMachineBehaviour
     {
         // Tags for date rules. (EN FR)
         private readonly string[] DATE_TAGS =
@@ -79,7 +79,8 @@ namespace BuddyApp.Reminder
             */
 
             string lKey = null;
-            if (!string.IsNullOrEmpty(lKey = FindAKeyInDico(HOUR_TAGS, mCompanionInput)))
+            lKey = FindAKeyInDico(HOUR_TAGS, mCompanionInput);
+            if (!string.IsNullOrEmpty(lKey))
             {
                 // Extract the hour from speech
                 DateTime lDate = ReminderDateManager.GetInstance().ReminderDate;
@@ -90,8 +91,8 @@ namespace BuddyApp.Reminder
                 ReminderDateManager.GetInstance().ReminderDate = lDate;
                 mReminderInfo += 1;
             }
-
-            if (!string.IsNullOrEmpty(lKey = FindAKeyInDico(DATE_TAGS, mCompanionInput)))
+            lKey = FindAKeyInDico(DATE_TAGS, mCompanionInput);
+            if (!string.IsNullOrEmpty(lKey))
             {
                 // Extract the date from speech
                 DateTime lDate = ReminderDateManager.GetInstance().ReminderDate;
