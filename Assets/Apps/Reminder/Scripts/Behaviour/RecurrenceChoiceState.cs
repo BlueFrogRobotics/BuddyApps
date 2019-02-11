@@ -7,7 +7,7 @@ using System.Timers;
 
 namespace BuddyApp.Reminder
 {
-    public class RecurrenceChoiceState : AStateMachineBehaviour
+    public sealed class RecurrenceChoiceState : AStateMachineBehaviour
     {
         private enum RecurrenceStatus
         {
