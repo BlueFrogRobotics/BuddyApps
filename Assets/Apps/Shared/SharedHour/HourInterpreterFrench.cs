@@ -96,19 +96,19 @@ namespace BuddyApp.Shared
                     SetHour(StringToInt(lStrSplits[0]) + 12, MinutesToInt(lStrMinutes.Substring(lStrMinutes.LastIndexOf(lStrSplits[1]))), ref ioDateTime);
                     return true;
 
-                case "inhours":
+                case "in_hours":
                     SetDate(DateTime.Today, ref ioDateTime);
                     SetHour(DateTime.Now.Hour, DateTime.Now.Minute, ref ioDateTime);
                     ioDateTime = ioDateTime.AddHours(StringToInt(lStrSplits[0]));
                     return true;
 
-                case "inminutes":
+                case "in_minutes":
                     SetDate(DateTime.Today, ref ioDateTime);
                     SetHour(DateTime.Now.Hour, DateTime.Now.Minute, ref ioDateTime);
                     ioDateTime = ioDateTime.AddMinutes(StringToInt(lStrSplits[0]));
                     return true;
 
-                case "inhoursandminutes":
+                case "in_hoursandminutes":
                     lStrMinutes = iSpeechUtterance.Replace("dans ", "")
                                                     .Replace(" heures", "")
                                                     .Replace(" heure", "");

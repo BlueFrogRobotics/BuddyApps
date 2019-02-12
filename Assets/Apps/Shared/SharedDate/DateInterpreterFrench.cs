@@ -81,19 +81,19 @@ namespace BuddyApp.Shared
                 case "fulldate":
                     return SetFullDate(iSpeechUtterance, ref ioDateTime);
 
-                case "indays":
+                case "in_days":
                     SetInDays(iSpeechUtterance, ref ioDateTime);
                     return true;
 
-                case "inweeks":
+                case "in_weeks":
                     SetInWeeks(iSpeechUtterance, ref ioDateTime);
                     return true;
 
-                case "inmonths":
+                case "in_months":
                     SetInMonths(iSpeechUtterance, ref ioDateTime);
                     return true;
 
-                case "inyears":
+                case "in_years":
                     SetInYears(iSpeechUtterance, ref ioDateTime);
                     return true;
 
