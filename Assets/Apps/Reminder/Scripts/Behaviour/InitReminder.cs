@@ -52,7 +52,7 @@ namespace BuddyApp.Reminder
             
             Debug.Log("----- REMINDER WILL START -----");
             if (ReminderDateManager.GetInstance().CompanionInput != null)
-                Trigger("PreProcessing");
+                Trigger("StartReminder");   // Replace by "PreProcessing" when tag are available
             else
                 Trigger("StartReminder");   
         }
