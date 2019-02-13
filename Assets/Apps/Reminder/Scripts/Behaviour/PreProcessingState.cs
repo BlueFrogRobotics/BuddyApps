@@ -70,10 +70,10 @@ namespace BuddyApp.Reminder
             ** Replace mCompanionInput by 'ReminderDateManager.GetInstance().CompanionInput.tag' when available.
             ** Simulate here a Companion Input, where Key = tag, value = Utterance
             */
-            mCompanionInput = new Dictionary<string, string>
-            {
-                {"NEXTDATE", "le 3 février" }
-            };
+            //mCompanionInput = new Dictionary<string, string>
+            //{
+            //    {"NEXTDATE", "le 3 février" }
+            //};
             /*
             **  END TMP Code
             */
