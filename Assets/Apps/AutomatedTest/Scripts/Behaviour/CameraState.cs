@@ -5,60 +5,60 @@ using BlueQuark;
 
 namespace BuddyApp.AutomatedTest
 {
-    public class CameraState :  AStateMachineBehaviour
+    public sealed class CameraState :  AStateMachineBehaviour
     {
+        // This state display all available test for the camera module, and ask user what test he wants to run
 
-        private TToggle mToggleMotionDetect;
-        private TToggle mToggleFaceDetect;
-        private TToggle mToggleShowSkeleton;
-        private TToggle mToggleHumanDetect;
-        private TToggle mToggleTakePhoto;
-
-        public override void Start()
-        {
-        }
+        private AModuleTest mCameraTest;
+        private List<string> mAvailableTestKeys;
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            mCameraTest = AutomatedTestData.Instance.Modules[AutomatedTestData.MODULES.E_CAMERA];
+            mAvailableTestKeys = mCameraTest.GetAvailableTest();
+
+            Buddy.GUI.Header.DisplayParametersButton(false);
+            Buddy.GUI.Header.DisplayLightTitle("Camera Test");
+
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
-                Buddy.Vocal.Say("salut mon ami");
-                // A boolean toggle
-                mToggleMotionDetect = iBuilder.CreateWidget<TToggle>();
-                mToggleFaceDetect = iBuilder.CreateWidget<TToggle>();
-                mToggleShowSkeleton = iBuilder.CreateWidget<TToggle>();
-                mToggleHumanDetect = iBuilder.CreateWidget<TToggle>();
-                mToggleTakePhoto = iBuilder.CreateWidget<TToggle>();
-                mToggleMotionDetect.SetLabel("Motion Detect");
-                mToggleFaceDetect.SetLabel("Face Detect");
-                mToggleShowSkeleton.SetLabel("Show Skeleton");
-                mToggleHumanDetect.SetLabel("Human Detect");
-                mToggleTakePhoto.SetLabel("Take Photo");
+                // Create a toggle button for each available test
+                foreach (string lTestKey in mAvailableTestKeys)
+                {
+                    TToggle lToggle = iBuilder.CreateWidget<TToggle>();
+                    lToggle.SetLabel(lTestKey);
+                    lToggle.ToggleValue = false;
+                    lToggle.OnToggle.Add((iToggle) => 
+                    {
+                        if (iToggle)
+                            mCameraTest.mSelectedTests.Add(lTestKey);
+                        else
+                            mCameraTest.mSelectedTests.Remove(lTestKey);
+                    });
+                }
             },
-
-            // Cancel button callback
-            () => { Debug.Log("Click cancel"); Buddy.GUI.Toaster.Hide(); Trigger("MenuTrigger"); },
-            // And label
+            // Left button Callback
+            () =>
+            {
+                Debug.Log("Click cancel");
+                Trigger("MenuTrigger");
+            },
+            // Left button Name
             "Cancel",
-
-             // next button callback
-             () => {
+            // Right Button Callback
+            () =>
+            {
                  Debug.Log("Click next");
-
-                 Buddy.GUI.Toaster.Hide();
-             },
-            // And label
-            "Next"
-             );
-        }
-
-        public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-
+                if (mCameraTest.mSelectedTests.Count > 0)
+                     Trigger("RunTrigger");
+            },
+            // Right button Name
+            "Next");
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-
+            Buddy.GUI.Header.HideTitle();
+            Buddy.GUI.Toaster.Hide();
         }
     }
 }
