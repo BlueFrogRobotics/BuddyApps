@@ -21,27 +21,6 @@ namespace BuddyApp.RemoteControl
 
         private bool mActive = true;
 
-        void Start()
-        {
-            mMicroOn.SetActive(mActive);
-            mMicroOff.SetActive(!mActive);
-
-            if (mPreSelection)
-            {
-                try
-                {
-                    using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc"))
-                    {
-                        cls.CallStatic("setSoundActive", mActive);
-                    }
-                }
-                catch (System.Exception ex)
-                {
-                    Debug.LogWarning("------ EXCEPTION SoundManager.Start: " + ex.Message + " ------");
-                }
-            }
-        }
-
         public void SoundUpdateToggle()
         {
             mActive = !mActive;
