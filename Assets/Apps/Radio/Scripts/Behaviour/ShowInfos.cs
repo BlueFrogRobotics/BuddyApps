@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BuddyApp.Radio
 {
-    public class ShowInfos
+    public sealed class ShowInfos
     {
 
         public string Name;

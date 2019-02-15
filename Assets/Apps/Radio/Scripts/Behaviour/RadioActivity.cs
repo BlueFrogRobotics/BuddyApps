@@ -10,7 +10,7 @@ using System.Collections.Generic;
 namespace BuddyApp.Radio
 {
     /* This class contains useful callback during your app process */
-    public class RadioActivity : AAppActivity
+    public sealed class RadioActivity : AAppActivity
     {
 		/*
 		* Called before the App scene loading.

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BuddyApp.Radio
 {
-    public class StreamLink
+    public sealed class StreamLink
     {
         public string Url { get; set; }
 

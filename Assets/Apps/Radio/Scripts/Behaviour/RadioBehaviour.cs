@@ -10,7 +10,7 @@ using System.Collections.Generic;
 namespace BuddyApp.Radio
 {
     /* A basic monobehaviour as "AI" behaviour for your app */
-    public class RadioBehaviour : MonoBehaviour
+    public sealed class RadioBehaviour : MonoBehaviour
     {
         /*
          * Data of the application. Save on disc when app is quitted
@@ -39,8 +39,8 @@ namespace BuddyApp.Radio
         private IEnumerator AskInfos(RadioStream iRadio, string iToken)
         {
             RadioInfos lInfos = new RadioInfos();
-            yield return iRadio.GetRadioInformations("europe_1_9144", lInfos, iToken);
-            //Debug.Log("info: " + lInfos);
+            yield return iRadio.GetRadioInformations("europe_1_9144", lInfos, iToken+"knkn");
+            Debug.Log("info: " + lInfos);
             RadioList lRadioList = new RadioList();
             //List<RadioInfos> lRadios = new List<RadioInfos>();
             //yield return iRadio.SearchRadioName("europe 1", iToken, lRadioList);

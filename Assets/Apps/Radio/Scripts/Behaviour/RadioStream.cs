@@ -18,8 +18,16 @@ namespace BuddyApp.Radio
     /// It also play the radio stream using the android plugin (with exoplayer)
     /// link to the radioline doc: https://developers.radioline.co/client.php
     /// </summary>
-    public class RadioStream : MonoBehaviour
+    public sealed class RadioStream : MonoBehaviour
     {
+
+        public enum ErrorState: int
+        {
+            NONE,
+            INVALID_CLIENT,
+            INVALID_OATH_REQUEST,
+            RADIO_NOT_FOUND
+        }
 
         //[SerializeField]
         //private RadioUIManager mRadioUI;
@@ -28,11 +36,11 @@ namespace BuddyApp.Radio
         /// Client id to use the radioline api 
         /// Used to get get a token (the radioline api is protected by a OAuth2 authetification)
         /// </summary>
-        private const string CLIENT_ID = "N2amcZh_-9LNt?X2=R;XWOfsZ8B@.;PwxozfLqoE";
-
-        public string Permalink { get { return mPermaLink; } }
+        private const string CLIENT_ID = "N2amcZh_-9LNt?X2=R;XWOfsZ8B@.;PwxozfLqoElol";
 
         public bool IsUpdatingLiveInfos { get; private set; }
+
+        public ErrorState Error { get; private set; }
 
         private AndroidJavaObject currentActivity;
 
@@ -64,6 +72,7 @@ namespace BuddyApp.Radio
         // Use this for initialization
         void Start()
         {
+            Error = ErrorState.NONE;
             //AndroidJavaClass unity = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
             //currentActivity = unity.GetStatic<AndroidJavaObject>("currentActivity");
 
@@ -84,8 +93,14 @@ namespace BuddyApp.Radio
         {
             string poststring = String.Format("client_id={0}&device_serial={1}&grant_type={2}", System.Uri.EscapeDataString(CLIENT_ID), "test", "password");
             string lPostResult = PostData("https://test.auth.radioline.fr/auth/token", poststring);
-            //mToken = GetToken(lPostResult);
-            return GetToken(lPostResult);
+            if(lPostResult.Contains("invalid_client"))
+                Error = ErrorState.INVALID_CLIENT;
+            else
+                Error = ErrorState.NONE;
+            JSONNode lJsonNode = JSON.Parse(lPostResult);
+
+            string lToken = lJsonNode["access_token"].Value;
+            return lToken;
         }
 
         /// <summary>
@@ -95,25 +110,11 @@ namespace BuddyApp.Radio
         public void Play(string iName, string lToken)
         {
             //Stop();
-
-            StartCoroutine(GetRadioInformations(iName, lToken));
+            
             //StartCoroutine(GetLiveInformations(iName, lToken));
             //StartCoroutine(PlayRadio(iName, lToken));
 
             //StartCoroutine(SearchRadioName(iName));
-        }
-
-        /// <summary>
-        /// Play the radio entered in the inputfield
-        /// </summary>
-        public void Play()
-        {
-            //Stop();
-
-            //string lName = mRadioUI.RadioNameSearched;
-            //RadioplayerData.Instance.DefaultRadio = lName;
-            //Play(lName);
-
         }
 
         /// <summary>
@@ -142,27 +143,25 @@ namespace BuddyApp.Radio
             if (!lWww.isNetworkError)
             {
                 string lResultContent = lWww.downloadHandler.text;
-                //Debug.Log("le token: " + lResultContent);
-                //mLogoUrl = GetInformations(lResultContent);
-                //Debug.Log("logo url: " + mLogoUrl);
-                //mRadioName = GetRadioName(lResultContent);
-                //Debug.Log("radio name: " + mRadioName);
-                // mRadioUI.SetRadioName(mRadioName + " / " + mShowDescription);
-                //StartCoroutine(LoadPicture(mLogoUrl));
-                //iInfos.Name = mRadioName;
-                //iInfos.LogoURL = mLogoUrl;
-                JSONNode lJsonNode = JSON.Parse(lResultContent);
-                if (lJsonNode["body"]["type"] == "error") {
+                Debug.Log("le result des infos: " + lResultContent);
+                if (lResultContent.Contains("Invalid OAuth request"))
+                    Error = ErrorState.INVALID_OATH_REQUEST;
+                else {
+                    JSONNode lJsonNode = JSON.Parse(lResultContent);
 
-                } else {
-                    string lPermalink = lJsonNode["body"]["content"]["permalink"].Value;
-                    lPermalink = lPermalink.Replace("radios/", "");
-                    iInfos.Permalink = lPermalink;
-                    iInfos.Name = lJsonNode["body"]["content"]["name"].Value;
-                    iInfos.LogoURL = lJsonNode["body"]["content"]["logo"].Value;
-                    iInfos.Description = lJsonNode["body"]["content"]["description"].Value;
-                    iInfos.Language = lJsonNode["body"]["content"]["language"].Value;
-                    iInfos.Country = lJsonNode["body"]["content"]["country"].Value;
+                    if (lJsonNode["body"]["type"].Value == "error") {
+                        Error = ErrorState.RADIO_NOT_FOUND;
+                    } else {
+                        Error = ErrorState.NONE;
+                        string lPermalink = lJsonNode["body"]["content"]["permalink"].Value;
+                        lPermalink = lPermalink.Replace("radios/", "");
+                        iInfos.Permalink = lPermalink;
+                        iInfos.Name = lJsonNode["body"]["content"]["name"].Value;
+                        iInfos.LogoURL = lJsonNode["body"]["content"]["logo"].Value;
+                        iInfos.Description = lJsonNode["body"]["content"]["description"].Value;
+                        iInfos.Language = lJsonNode["body"]["content"]["language"].Value;
+                        iInfos.Country = lJsonNode["body"]["content"]["country"].Value;
+                    }
                 }
             }
             else
@@ -190,64 +189,32 @@ namespace BuddyApp.Radio
 
             if (!lWww.isNetworkError)
             {
-                string resultContent = lWww.downloadHandler.text;
-                Debug.Log("le token: " + resultContent);
-                mUrl = GetLink(resultContent);
-
-                JSONNode lJsonNode = JSON.Parse(resultContent);
-                if (lJsonNode["body"]["type"] == "error") {
-                    
-                } else {
-                    for (int i = 0; i < lJsonNode["body"]["content"]["streams"].Count; i++) {
-                        StreamLink lLink = new StreamLink();
-                        lLink.Url = lJsonNode["body"]["content"]["streams"][i]["url"].Value;
-                        lLink.Protocol = lJsonNode["body"]["content"]["streams"][i]["protocol"].Value;
-                        lLink.Format = lJsonNode["body"]["content"]["streams"][i]["format"].Value;
-                        lLink.Codec = lJsonNode["body"]["content"]["streams"][i]["codec"].Value;
-                        lLink.Port = lJsonNode["body"]["content"]["streams"][i]["port"].AsInt;
-                        lLink.Frequency = lJsonNode["body"]["content"]["streams"][i]["frequency"].AsInt;
-                        lLink.Bitrate = lJsonNode["body"]["content"]["streams"][i]["bitrate"].AsInt;
-                        lLink.Channels = lJsonNode["body"]["content"]["streams"][i]["channels"].AsInt;
-                        iStreams.StreamLinks.Add(lLink);
-                    }
-
-                   
-                }
-            }
-            else
-            {
-
-            }
-        }
-
-        /// <summary>
-        /// Get and transmit the official name and logo radio url to RadioUIManager
-        /// </summary>
-        /// <param name="iRadioName">name of the radio</param>
-        /// <returns></returns>
-        private IEnumerator GetRadioInformations(string iRadioName, string iToken)
-        {
-
-            string lRadioName = iRadioName.Trim().ToLower().Replace(" ", "_");
-            UnityWebRequest lWww = UnityWebRequest.Get("http://service.buddy.api.radioline.fr/Pillow/radios/" + lRadioName);
-            //Send request
-            lWww.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            lWww.SetRequestHeader("Authorization", "Bearer " + iToken);
-            yield return lWww.SendWebRequest();
-
-            if (!lWww.isNetworkError)
-            {
                 string lResultContent = lWww.downloadHandler.text;
                 Debug.Log("le token: " + lResultContent);
-                mLogoUrl = GetInformations(lResultContent);
-                Debug.Log("logo url: " + mLogoUrl);
-                //mRadioUI.SetPictureFromUrl(mLogoUrl);
-                //mRadioUI.SetRadioName(GetRadioName(resultContent));
-                mRadioName = GetRadioName(lResultContent);
-                Debug.Log("radio name: " + mRadioName);
-               // mRadioUI.SetRadioName(mRadioName + " / " + mShowDescription);
-                //StartCoroutine(LoadPicture(mLogoUrl));
+                if (lResultContent.Contains("Invalid OAuth request"))
+                    Error = ErrorState.INVALID_OATH_REQUEST;
+                else {
+                    JSONNode lJsonNode = JSON.Parse(lResultContent);
+                    if (lJsonNode["body"]["type"].Value == "error") {
+                        Error = ErrorState.RADIO_NOT_FOUND;
+                    } else {
+                        Error = ErrorState.NONE;
+                        for (int i = 0; i < lJsonNode["body"]["content"]["streams"].Count; i++) {
+                            StreamLink lLink = new StreamLink();
+                            lLink.Url = lJsonNode["body"]["content"]["streams"][i]["url"].Value;
+                            lLink.Protocol = lJsonNode["body"]["content"]["streams"][i]["protocol"].Value;
+                            lLink.Format = lJsonNode["body"]["content"]["streams"][i]["format"].Value;
+                            lLink.Codec = lJsonNode["body"]["content"]["streams"][i]["codec"].Value;
+                            lLink.Port = lJsonNode["body"]["content"]["streams"][i]["port"].AsInt;
+                            lLink.Frequency = lJsonNode["body"]["content"]["streams"][i]["frequency"].AsInt;
+                            lLink.Bitrate = lJsonNode["body"]["content"]["streams"][i]["bitrate"].AsInt;
+                            lLink.Channels = lJsonNode["body"]["content"]["streams"][i]["channels"].AsInt;
+                            iStreams.StreamLinks.Add(lLink);
+                        }
 
+
+                    }
+                }
             }
             else
             {
@@ -274,36 +241,25 @@ namespace BuddyApp.Radio
             {
                 string lResultContent = lWww.downloadHandler.text;
                 Debug.Log("le live info: " + lResultContent);
+                if (lResultContent.Contains("Invalid OAuth request"))
+                    Error = ErrorState.INVALID_OATH_REQUEST;
+                else {
+                    JSONNode lJsonNode = JSON.Parse(lResultContent);
+                    if (lJsonNode["body"]["type"] == "error") {
+                        Error = ErrorState.RADIO_NOT_FOUND;
+                    } else {
+                        Error = ErrorState.NONE;
+                        iInfos.Baseline = lJsonNode["body"]["content"]["show"]["name"].Value;
+                        iInfos.Start = lJsonNode["body"]["content"]["show"]["start"].Value;
+                        iInfos.End = lJsonNode["body"]["content"]["show"]["end"].Value;
+                        iInfos.Logo = lJsonNode["body"]["content"]["show"]["logo"].Value;
+                        if (lJsonNode["body"]["content"]["track"] != null)
+                            iInfos.Song = lJsonNode["body"]["content"]["track"]["name"].Value;
+                        if (lJsonNode["body"]["content"]["track"] != null)
+                            iInfos.Singer = lJsonNode["body"]["content"]["track"]["artist"]["name"].Value;
+                    }
 
-                JSONNode lJsonNode = JSON.Parse(lResultContent);
-                if (lJsonNode["body"]["type"] == "error") {
-                    
-                } else {
-                    iInfos.Baseline = lJsonNode["body"]["content"]["show"]["name"].Value;
-                    iInfos.Start = lJsonNode["body"]["content"]["show"]["start"].Value;
-                    iInfos.End = lJsonNode["body"]["content"]["show"]["end"].Value;
-                    iInfos.Logo = lJsonNode["body"]["content"]["show"]["logo"].Value;
-                    if (lJsonNode["body"]["content"]["track"] != null)
-                        iInfos.Song = lJsonNode["body"]["content"]["track"]["name"].Value;
-                    if (lJsonNode["body"]["content"]["track"] != null)
-                        iInfos.Singer = lJsonNode["body"]["content"]["track"]["artist"]["name"].Value;
                 }
-
-                //mRadioUI.SetShowDescription(GetShowDescription(resultContent));
-                mShowDescription = GetShowDescription(lResultContent);
-                string lSongName = GetSongName(lResultContent);
-                if (lSongName != "" && lSongName != "error")
-                    mShowDescription = lSongName;
-                //mRadioUI.SetRadioName(mRadioName + " / " + mShowDescription);
-                string lSingerName = GetSingerName(lResultContent);
-                //if (lSingerName != "" && lSingerName != "error")
-                //    mRadioUI.SetSingerName(lSingerName);
-                //else
-                //    mRadioUI.SetSingerName("");
-
-                //showDescription.text = GetShowDescription(resultContent);
-
-
             }
             else
             {
@@ -324,32 +280,29 @@ namespace BuddyApp.Radio
             if (!lWww.isNetworkError)
             {
                 string lResultContent = lWww.downloadHandler.text;
-                Debug.Log("radio name found: " + lResultContent);
-                //mRadioUI.SetShowDescription(GetShowDescription(resultContent));
-                //showDescription.text = GetShowDescription(resultContent);
-                //mPermaLink = GetPermalink(lResultContent);
-
-                JSONNode lJsonNode = JSON.Parse(lResultContent);
-                if (lJsonNode["body"]["type"] == "error") {
-                    Debug.Log("error");
-                    //return "error";
-                } else {
-                    Debug.Log("nombre de resultat: " + lJsonNode["body"]["content"].Count);
-                    for(int i=0; i< lJsonNode["body"]["content"].Count; i++) {
-                        RadioInfos lInfo = new RadioInfos();
-                        string lPermalink = lJsonNode["body"]["content"][i]["permalink"].Value;
-                        lPermalink = lPermalink.Replace("radios/", "");
-                        lInfo.Permalink = lPermalink;
-                        lInfo.Name = lJsonNode["body"]["content"][i]["name"].Value;
-                        lInfo.LogoURL = lJsonNode["body"]["content"][i]["logo"].Value;
-                        lInfo.Description = lJsonNode["body"]["content"][i]["description"].Value;
-                        lInfo.Language = lJsonNode["body"]["content"][i]["language"].Value;
-                        lInfo.Country = lJsonNode["body"]["content"][i]["country"].Value;
-                        iInfos.Radios.Add(lInfo);
+                if (lResultContent.Contains("Invalid OAuth request"))
+                    Error = ErrorState.INVALID_OATH_REQUEST;
+                else {
+                    JSONNode lJsonNode = JSON.Parse(lResultContent);
+                    if (lJsonNode["body"]["type"] == "error") {
+                        Error = ErrorState.RADIO_NOT_FOUND;
+                    } else {
+                        Error = ErrorState.NONE;
+                        for (int i = 0; i < lJsonNode["body"]["content"].Count; i++) {
+                            RadioInfos lInfo = new RadioInfos();
+                            string lPermalink = lJsonNode["body"]["content"][i]["permalink"].Value;
+                            lPermalink = lPermalink.Replace("radios/", "");
+                            lInfo.Permalink = lPermalink;
+                            lInfo.Name = lJsonNode["body"]["content"][i]["name"].Value;
+                            lInfo.LogoURL = lJsonNode["body"]["content"][i]["logo"].Value;
+                            lInfo.Description = lJsonNode["body"]["content"][i]["description"].Value;
+                            lInfo.Language = lJsonNode["body"]["content"][i]["language"].Value;
+                            lInfo.Country = lJsonNode["body"]["content"][i]["country"].Value;
+                            iInfos.Radios.Add(lInfo);
+                        }
                     }
                 }
-                Debug.Log("nb infos: " + iInfos.Radios.Count);
-                //Debug.Log("permalink: " + mPermaLink);
+                
             }
             else
             {
@@ -455,168 +408,6 @@ namespace BuddyApp.Radio
             }
             return isOk;
         }
-
-        /// <summary>
-        /// Extract the token from given json
-        /// </summary>
-        /// <param name="iJson">json retreived by the post request</param>
-        /// <returns></returns>
-        private string GetToken(string iJson)
-        {
-            string lToken = "";
-
-            JSONNode lJsonNode = JSON.Parse(iJson);
-
-            lToken = lJsonNode["access_token"].Value;
-            return lToken;
-
-        }
-
-        /// <summary>
-        /// Extract the streaming url from given json
-        /// </summary>
-        /// <param name="iJson">json retreived from get request</param>
-        /// <returns></returns>
-        private string GetLink(string iJson)
-        {
-            string lLink = "";
-
-            JSONNode lJsonNode = JSON.Parse(iJson);
-            if (lJsonNode["body"]["type"] == "error")
-            {
-                return "error";
-            }
-            else
-            {
-                for (int i = 0; i < lJsonNode["body"]["content"]["streams"].Count; i++)
-                {
-                    if (!lJsonNode["body"]["content"]["streams"][i]["protocol"].Value.Contains("hls"))
-                    {
-                        lLink = lJsonNode["body"]["content"]["streams"][i]["url"].Value;
-                        break;
-                    }
-                }
-
-                Debug.Log("le link: " + lLink);
-                return lLink;
-            }
-        }
-
-        /// <summary>
-        /// Extract the radio logo url from given json
-        /// </summary>
-        /// <param name="iJson"></param>
-        /// <returns>json retreived from get request</returns>
-        private string GetInformations(string iJson)
-        {
-            string lLink = "";
-
-            JSONNode lJsonNode = JSON.Parse(iJson);
-            if (lJsonNode["body"]["type"] == "error")
-            {
-                return "error";
-            }
-            else
-            {
-                lLink = lJsonNode["body"]["content"]["logo"].Value;
-                return lLink;
-            }
-        }
-
-        /// <summary>
-        /// Extract the radio name from given json
-        /// </summary>
-        /// <param name="iJson">json retreived from get request</param>
-        /// <returns></returns>
-        private string GetRadioName(string iJson)
-        {
-            string lName = "";
-
-            JSONNode lJsonNode = JSON.Parse(iJson);
-            if (lJsonNode["body"]["type"] == "error")
-            {
-                return "error";
-            }
-            else
-            {
-                lName = lJsonNode["body"]["content"]["name"].Value;
-                return lName;
-            }
-        }
-
-        /// <summary>
-        /// Extract the actual radio show playing from given json
-        /// </summary>
-        /// <param name="iJson"></param>
-        /// <returns>json retreived from get request</returns>
-        private string GetShowDescription(string iJson)
-        {
-            string lDescription = "";
-
-            JSONNode lJsonNode = JSON.Parse(iJson);
-            if (lJsonNode["body"]["type"] == "error")
-            {
-                return "error";
-            }
-            else
-            {
-                lDescription = lJsonNode["body"]["content"]["show"]["name"].Value;
-                return lDescription;
-            }
-        }
-
-        private string GetSongName(string iJson)
-        {
-            string lSongName = "";
-
-            JSONNode lJsonNode = JSON.Parse(iJson);
-            if (lJsonNode["body"]["type"] == "error")
-            {
-                return "error";
-            }
-            else
-            {
-                if (lJsonNode["body"]["content"]["track"] != null)
-                    lSongName = lJsonNode["body"]["content"]["track"]["name"].Value;
-                return lSongName;
-            }
-        }
-
-        private string GetSingerName(string iJson)
-        {
-            string lSingerName = "";
-
-            JSONNode lJsonNode = JSON.Parse(iJson);
-            if (lJsonNode["body"]["type"] == "error")
-            {
-                return "error";
-            }
-            else
-            {
-                if (lJsonNode["body"]["content"]["track"] != null)
-                    lSingerName = lJsonNode["body"]["content"]["track"]["artist"]["name"].Value;
-                return lSingerName;
-            }
-        }
-
-        private string GetPermalink(string iJson)
-        {
-            string lPermalink = "";
-
-            JSONNode lJsonNode = JSON.Parse(iJson);
-            if (lJsonNode["body"]["type"] == "error")
-            {
-                return "error";
-            }
-            else
-            {
-                Debug.Log("nombre de resultat: " + lJsonNode["body"]["content"].Count);
-                lPermalink = lJsonNode["body"]["content"][0]["permalink"].Value;
-                lPermalink = lPermalink.Replace("radios/", "");
-                return lPermalink;
-            }
-        }
-
 
 
         ///// <summary>
