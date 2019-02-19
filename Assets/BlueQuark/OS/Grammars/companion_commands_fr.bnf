@@ -4,6 +4,7 @@
 !start <battery>;
 !start <buddylab>;
 //!start <calculationgame>;
+!start <calendar>;
 !start <canmove>;
 !start <colourseen>;
 !start <copy>;
@@ -14,6 +15,7 @@
 !start <detectobject>;
 !start <dontmove>;
 !start <dosomething>;
+!start <fitness>;
 //!start <freezedance>;
 !start <followme>;
 !start <gallery>;
@@ -62,6 +64,7 @@
 !start <volumeup>;
 !start <wander>;
 !start <welcome>;
+!start <wikipedia>;
 !start <sick>;
 !start <sad>;
 !start <lovely>;
@@ -87,11 +90,11 @@
 <asktake> : ([<canyou>] [nous | me] | peut-on | pouvons-nous) (prendre | faire) | (prends [nous | moi] | fais) | prenons [nous] | on [se] prend | on fait;
 <canyou> : (peux-tu | pourrais-tu | [est-ce que] tu (peux | pourrais));
 
-
 //<alarm> : ((je (veux | voudrais) que tu(lances | programmes | mettes)) | lance | programme | mets |  <canyou> (lancer | programmer | mettre)) une alarme;
 <battery> : [<askgive> | quel est] [[ton | le] niveau de [ta]] batterie;
 <buddylab> : [<asklaunch>] ( buddylab | [le] lab | buddy lab | [le] laboratoire);
 //<calculationgame> : [<asklaunch>] ([de] calcul | [le] jeu de calcul | playmath);
+<calendar> : ( [ <asklaunch> | (montre | affiche) [moi] [mes| les | le | mon] ] (calendrier | agenda) ) | ( (montre | affiche) [moi] [mes| les | le | mon] rappel);
 <canmove> : tu peux bouger;
 //<colour> : bleu | blanc | rouge | vert | jaune | noire | marron | orange | violet | gris | beige | rose;
 <colourseen> : de quel couleur est cet objet;
@@ -103,6 +106,7 @@
 <detectobject> : est-ce que tu vois (quelque chose | un objet) devant toi;
 <dontmove> : [ne] bouge (plus | pas) | arrête-toi | arrête de bouger;
 <dosomething> : (fait | montre moi) quelque chose;
+<fitness> : ( [<asklaunch>] (fitness | gym ) ) | (je (veux | voudrais) faire (du sport | des exercisses physiques) ) |  ( [je veux | peux tu] (faire | fais | démarrer | démarre | lancer | lance | commencer | commence) [un|une|des] ( exercice | séance | activité [physique] ) );
 //<freezedance> : [<asklaunch>] freezedance | je (veux | voudrais) danser;
 <followme> : suis-moi | viens avec moi;
 <gallery> : ([<canyou> (ouvrir | entrer dans | lancer) | (ouvre | (entre | va) dans | lance) ] [la] galerie) | ( ( [<canyou>] ( [me] montrer | afficher ) | [puis-je | [est-ce que] je peux] voir ) | ( montre | affiche )) ( les | mes ) ( photos | images ) ; 
@@ -157,6 +161,7 @@
 <volumeup> : ((augmenter | augmente | monte | monter) [le] (volume | son)) [de <numbers#nb>] | (mets [le] (volume | son) plus fort) | (parle plus fort);
 <wander> : [va te] (balader | promener) | va t'en | pars | (balade | promène) [toi];
 <welcome> : bienvenue;
+<wikipedia> : [<asklaunch>] wikipedia | quelle est la définition de | définition;
 <show> : montre [moi | nous] quand tu es | sois;
 <sick> : <show> malade;
 <sad> : <show> triste;

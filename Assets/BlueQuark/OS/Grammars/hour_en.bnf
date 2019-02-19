@@ -1,5 +1,27 @@
 #BNF+EMV2.0;
 !grammar hour_en;
+
+
+/*
+**	Hour rules to export
+*/
+
+!export <hour_en#atnoon>;
+!export <hour_en#atprenoon>;
+!export <hour_en#atpostnoon>;
+!export <hour_en#atmidnight>;
+!export <hour_en#atpremidnight>;
+!export <hour_en#atpostmidnight>;
+!export <hour_en#athours>;
+!export <hour_en#atprehours>;
+!export <hour_en#atposthours>;
+!export <hour_en#atamhours>;
+!export <hour_en#atpreamhours>;
+!export <hour_en#atpostamhours>;
+!export <hour_en#atpmhours>;
+!export <hour_en#atprepmhours>;
+!export <hour_en#atpostpmhours>;
+
 !start <atnoon>;
 !start <atprenoon>;
 !start <atpostnoon>;
@@ -15,9 +37,6 @@
 !start <atpmhours>;
 !start <atprepmhours>;
 !start <atpostpmhours>;
-!start <inhours>;
-!start <inminutes>;
-!start <inhoursandminutes>;
 
 <atnoon> : [at] noon;
 <atprenoon> : [at] <prehours> noon;
@@ -34,9 +53,6 @@
 <atpmhours> : [at] <morninghours> pm;
 <atprepmhours> : [at] <prehours> <morninghours> pm;
 <atpostpmhours> : [at] <morninghours> <posthours> pm;
-<inhours> : in <hours> hour[s];
-<inminutes> : in <minutes> minute[s];
-<inhoursandminutes> : <inhours> [and] <minutes> [minute[s]];
 
 <morninghours> : 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
 <hours> : <morninghours> | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23;

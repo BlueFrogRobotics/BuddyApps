@@ -1,5 +1,28 @@
 #BNF+EMV2.0;
 !grammar hour_fr;
+
+
+/*
+**	Hour rules to export
+*/
+
+!export <hour_fr#atnoon>;
+!export <hour_fr#atprenoon>;
+!export <hour_fr#atpostnoon>;
+!export <hour_fr#atmidnight>;
+!export <hour_fr#atpremidnight>;
+!export <hour_fr#atpostmidnight>;
+!export <hour_fr#athours>;
+!export <hour_fr#atprehours>;
+!export <hour_fr#atposthours>;
+!export <hour_fr#atamhours>;
+!export <hour_fr#atpreamhours>;
+!export <hour_fr#atpostamhours>;
+!export <hour_fr#atpmhours>;
+!export <hour_fr#atprepmhours>;
+!export <hour_fr#atpostpmhours>;
+
+
 !start <atnoon>;
 !start <atnoonandminutes>;
 !start <atmidnight>;
@@ -10,9 +33,6 @@
 !start <atamhoursandminutes>;
 !start <atpmhours>;
 !start <atpmhoursandminutes>;
-!start <inhours>;
-!start <inminutes>;
-!start <inhoursandminutes>;
 
 <atnoon> : [à] midi;
 <atnoonandminutes> : [à] midi <andminutes>;
@@ -24,9 +44,6 @@
 <atamhoursandminutes> : [à] <morninghours> heure[s] [<andminutes>] du matin;
 <atpmhours> : [à] <morninghours> heure[s] (de l'après-midi | du soir);
 <atpmhoursandminutes> : [à] <morninghours> heure[s] [<andminutes>] (de l'après-midi | du soir);
-<inhours> : dans <hours> heure[s];
-<inminutes> : dans <minutes> minute[s];
-<inhoursandminutes> : <inhours> <andminutes>;
 
 <morninghours> : une | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
 <hours> : <morninghours> | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | vingt-et-une | 22 | 23;

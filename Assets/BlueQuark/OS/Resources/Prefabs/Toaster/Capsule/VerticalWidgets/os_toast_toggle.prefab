@@ -254,7 +254,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: My First
+  m_Text: 
 --- !u!114 &114191141847041372
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -273,6 +273,7 @@ MonoBehaviour:
   m_PreferredHeight: 98
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114347888232449732
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -328,7 +329,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!114 &114365957890791804
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -369,6 +370,7 @@ MonoBehaviour:
   m_PreferredHeight: 98
   m_FlexibleWidth: 1000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114519840052461220
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -414,6 +416,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: 10000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114613408797961330
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -427,6 +430,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lightText: {fileID: 114185273658593608}
   toggle: {fileID: 114347888232449732}
+  checkmark: {fileID: 114519840052461220}
 --- !u!114 &114642060835626596
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -445,6 +449,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114782486143377702
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -476,6 +481,7 @@ MonoBehaviour:
   m_PreferredHeight: 98
   m_FlexibleWidth: 1000
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114930000993969464
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -653,7 +659,7 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1368483781723402}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -664,7 +670,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 520, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!224 &224863270480283498
 RectTransform:

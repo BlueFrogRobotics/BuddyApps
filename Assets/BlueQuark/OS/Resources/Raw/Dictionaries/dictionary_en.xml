@@ -1193,8 +1193,47 @@
 			<RandomValues>
 				<string>you touched my face</string>
 				<string>you tickled my face</string>
-				<string>you caress my head</string>
+				<string>you caress my face</string>
 				<string>you softly touched my face</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>touchhead</Key>
+			<BaseValue />
+			<ClosePhoneticValues>
+				<string />
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>I like when you pet me</string>
+				<string>you touched my head</string>
+				<string>you tickled my head</string>
+				<string>you caress my head</string>
+				<string>you softly touched my head</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>touchshoulder</Key>
+			<BaseValue />
+			<ClosePhoneticValues>
+				<string />
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>you touched my shoulder</string>
+				<string>you tickled my shoulder</string>
+				<string>you poked my shoulder</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>touchheart</Key>
+			<BaseValue />
+			<ClosePhoneticValues>
+				<string />
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>you touched my heart</string>
+				<string>you tickled my chest</string>
+				<string>you caress my chest</string>
+				<string>you softly touched my chest</string>
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
@@ -1440,6 +1479,20 @@
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
+			<Key>stoppokeshoulder</Key>
+			<BaseValue>Stop poking my shoulder!</BaseValue>
+			<ClosePhoneticValues>
+				<string />
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Can you stop poking my shoulder?</string>
+				<string> You know this is my shoulder you are poking, right?</string>
+				<string> Ouch!</string>
+				<string> This is painful... </string>
+				<string> I'm a robot, it doesn't hurt me but it is really annoying. [300] Can you stop poking my shoulder?</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
 			<Key>ilikecaress</Key>
 			<BaseValue>I like when you pet me</BaseValue>
 			<ClosePhoneticValues>
@@ -1448,7 +1501,9 @@
 			<RandomValues>
 				<string>I like when you pet me</string>
 				<string> It tickles but I like it</string>
-				<string> I like when you touch my face</string>
+				<string> I like when you are close to me</string>
+				<string> I like your gentle touch</string>
+				<string> I like to feel the warmth of your human skin</string>
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>

@@ -12,6 +12,67 @@
           <Value>LOVE</Value>
         </Mood>
       </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="MoveBodyBehaviourInstruction">
+        <Delay>
+          <Value>0</Value>
+        </Delay>
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <Angle>
+          <Value>-30</Value>
+        </Angle>
+        <Speed>
+          <Value>15</Value>
+        </Speed>
+        <Distance>
+          <Value>0</Value>
+        </Distance>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
+        <Delay>
+          <Value>0</Value>
+        </Delay>
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <CustomMove>
+          <Value>true</Value>
+        </CustomMove>
+        <YesAngle>
+          <Value>0</Value>
+        </YesAngle>
+        <YesSpeed>
+          <Value>20</Value>
+        </YesSpeed>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
+        <Delay>
+          <Value>0</Value>
+        </Delay>
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <CustomMove>
+          <Value>true</Value>
+        </CustomMove>
+        <NoAngle>
+          <Value>-20</Value>
+        </NoAngle>
+        <NoSpeed>
+          <Value>60</Value>
+        </NoSpeed>
+      </ABehaviourInstruction>
+
       <ABehaviourInstruction xsi:type="PlayFacialEventBehaviourInstruction">
         <Delay>
           <Value>0.5</Value>
@@ -26,9 +87,50 @@
           <Value>BLINK_EYES</Value>
         </FacialEvent>
       </ABehaviourInstruction>
+
+      <ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
+        <Delay>
+          <Value>1</Value>
+        </Delay>
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <CustomMove>
+          <Value>true</Value>
+        </CustomMove>
+        <YesAngle>
+          <Value>40</Value>
+        </YesAngle>
+        <YesSpeed>
+          <Value>40</Value>
+        </YesSpeed>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
+        <Delay>
+          <Value>1</Value>
+        </Delay>
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <CustomMove>
+          <Value>true</Value>
+        </CustomMove>
+        <NoAngle>
+          <Value>40</Value>
+        </NoAngle>
+        <NoSpeed>
+          <Value>40</Value>
+        </NoSpeed>
+      </ABehaviourInstruction>
       <ABehaviourInstruction xsi:type="PlayFacialEventBehaviourInstruction">
         <Delay>
-          <Value>0.5</Value>
+          <Value>1</Value>
         </Delay>
         <IsBlocking>
           <Value>false</Value>
@@ -40,23 +142,21 @@
           <Value>RELATIVE_EVENT</Value>
         </FacialEvent>
       </ABehaviourInstruction>
-      <ABehaviourInstruction xsi:type="PlayFacialEventBehaviourInstruction">
+      <ABehaviourInstruction xsi:type="PlaySoundBehaviourInstruction">
         <Delay>
-          <Value>0.5</Value>
+          <Value>1</Value>
         </Delay>
         <IsBlocking>
           <Value>false</Value>
         </IsBlocking>
-        <IsRequired>
-          <Value>false</Value>
-        </IsRequired>
-        <FacialEvent>
-          <Value>BLINK_EYES</Value>
-        </FacialEvent>
+        <Sound>
+          <Value>SIGH</Value>
+        </Sound>
       </ABehaviourInstruction>
-      <ABehaviourInstruction xsi:type="PlayFacialEventBehaviourInstruction">
+
+      <ABehaviourInstruction xsi:type="MoveBodyBehaviourInstruction">
         <Delay>
-          <Value>0.5</Value>
+          <Value>2</Value>
         </Delay>
         <IsBlocking>
           <Value>false</Value>
@@ -64,9 +164,55 @@
         <IsRequired>
           <Value>false</Value>
         </IsRequired>
-        <FacialEvent>
-          <Value>BLINK_EYES</Value>
-        </FacialEvent>
+        <Angle>
+          <Value>30</Value>
+        </Angle>
+        <Speed>
+          <Value>15</Value>
+        </Speed>
+        <Distance>
+          <Value>0</Value>
+        </Distance>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
+        <Delay>
+          <Value>2</Value>
+        </Delay>
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <CustomMove>
+          <Value>true</Value>
+        </CustomMove>
+        <YesAngle>
+          <Value>20</Value>
+        </YesAngle>
+        <YesSpeed>
+          <Value>20</Value>
+        </YesSpeed>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
+        <Delay>
+          <Value>2</Value>
+        </Delay>
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <CustomMove>
+          <Value>true</Value>
+        </CustomMove>
+        <NoAngle>
+          <Value>0</Value>
+        </NoAngle>
+        <NoSpeed>
+          <Value>20</Value>
+        </NoSpeed>
       </ABehaviourInstruction>
     </Instructions>
   </BehaviourAlgorithm>
