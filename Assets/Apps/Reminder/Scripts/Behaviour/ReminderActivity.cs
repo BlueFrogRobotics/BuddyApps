@@ -24,15 +24,26 @@ namespace BuddyApp.Reminder
 
             if (iArgs == null || (iArgs != null && iArgs.Length != 1))
                 return;
+
+            Debug.Log("----- AFTER CHECK -----");
+
             /*
             ** There is a CompanionInput, so after InitState a PreProcessing state will occured.
             ** During PreProcessingState, CompanionInput is analyzed to find out what information is missing.
             ** Then the StateMachine is redirected to the right state, to complete the missing reminder informations.
             */
 
-            ReminderDateManager.GetInstance().CompanionInput = (SpeechInput)iArgs[0];
-            Debug.LogWarning("COMPANION_RULE:" + ReminderDateManager.GetInstance().CompanionInput.Rule);
-            Debug.LogWarning("COMPANION_UTTERANCE:" + ReminderDateManager.GetInstance().CompanionInput.Utterance);
+            //ReminderDateManager.GetInstance().CompanionInput = (SpeechInput)iArgs[0];
+
+            Debug.Log("----- AFTER INIT COMPANION INPUT -----");
+
+            if (ReminderDateManager.GetInstance().CompanionInput != null)
+            {
+                if (ReminderDateManager.GetInstance().CompanionInput.Rule != null)
+                    Debug.LogWarning("COMPANION_RULE:" + ReminderDateManager.GetInstance().CompanionInput.Rule);
+                if (ReminderDateManager.GetInstance().CompanionInput.Utterance != null)
+                    Debug.LogWarning("COMPANION_UTTERANCE:" + ReminderDateManager.GetInstance().CompanionInput.Utterance);
+            }
         }
 
 		/*
