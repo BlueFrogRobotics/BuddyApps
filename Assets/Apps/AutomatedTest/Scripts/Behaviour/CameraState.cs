@@ -18,7 +18,7 @@ namespace BuddyApp.AutomatedTest
             mAvailableTestKeys = mCameraTest.GetAvailableTest();
 
             Buddy.GUI.Header.DisplayParametersButton(false);
-            Buddy.GUI.Header.DisplayLightTitle("Camera Test");
+            Buddy.GUI.Header.DisplayLightTitle(mCameraTest.Name);
 
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
                 // Create a toggle button for each available test
@@ -26,13 +26,13 @@ namespace BuddyApp.AutomatedTest
                 {
                     TToggle lToggle = iBuilder.CreateWidget<TToggle>();
                     lToggle.SetLabel(lTestKey);
-                    lToggle.ToggleValue = false;
+                    lToggle.ToggleValue = mCameraTest.GetSelectedKey().Contains(lTestKey);
                     lToggle.OnToggle.Add((iToggle) => 
                     {
                         if (iToggle)
-                            mCameraTest.mSelectedTests.Add(lTestKey);
+                            mCameraTest.GetSelectedKey().Add(lTestKey);
                         else
-                            mCameraTest.mSelectedTests.Remove(lTestKey);
+                            mCameraTest.GetSelectedKey().Remove(lTestKey);
                     });
                 }
             },
@@ -43,16 +43,16 @@ namespace BuddyApp.AutomatedTest
                 Trigger("MenuTrigger");
             },
             // Left button Name
-            "Cancel",
+            "Back",
             // Right Button Callback
             () =>
             {
                  Debug.Log("Click next");
-                if (mCameraTest.mSelectedTests.Count > 0)
+                if (mCameraTest.GetSelectedKey().Count > 0)
                      Trigger("RunTrigger");
             },
             // Right button Name
-            "Next");
+            "Run");
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

@@ -12,16 +12,26 @@ namespace BuddyApp.AutomatedTest
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            for (AutomatedTestData.MODULES i = 0; i < AutomatedTestData.MODULES.E_NB_MODULE; i++)
+            StartCoroutine(RunTest());
+        }
+
+
+        private IEnumerator RunTest()
+        {
+            for (AutomatedTestData.MODULES lEntry = 0; lEntry < AutomatedTestData.MODULES.E_NB_MODULE; lEntry++)
             {
-                if (AutomatedTestData.Instance.Modules.ContainsKey(i))
-                        AutomatedTestData.Instance.Modules[i].RunSelectedTest();
+                Debug.LogWarning("-- RUN SELECTED TEST OF:" + lEntry.ToString() + " --");
+                if (AutomatedTestData.Instance.Modules.ContainsKey(lEntry))
+                    yield return AutomatedTestData.Instance.Modules[lEntry].RunSelectedTest();
             }
             Trigger("TestLogTrigger");
+            Debug.LogWarning("-- END RUN TEST --");
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            Buddy.GUI.Header.HideTitle();
+            Buddy.GUI.Toaster.Hide();
         }
     }
 }
