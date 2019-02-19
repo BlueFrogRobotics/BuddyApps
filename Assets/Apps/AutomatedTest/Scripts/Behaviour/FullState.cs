@@ -14,10 +14,10 @@ namespace BuddyApp.AutomatedTest
             Buddy.GUI.Header.DisplayParametersButton(false);
             Buddy.GUI.Header.DisplayLightTitle("Full Test");
 
-            for (AutomatedTestData.MODULES i = 0; i < AutomatedTestData.MODULES.E_NB_MODULE; i++)
+            for (AutomatedTestData.MODULES lModule = 0; lModule < AutomatedTestData.MODULES.E_NB_MODULE; lModule++)
             {
-                if (AutomatedTestData.Instance.Modules.ContainsKey(i))
-                    AutomatedTestData.Instance.Modules[i].SelectAllTest();
+                if (AutomatedTestData.Instance.Modules.ContainsKey(lModule))
+                    AutomatedTestData.Instance.Modules[lModule].SelectAllTest();
             }
 
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {

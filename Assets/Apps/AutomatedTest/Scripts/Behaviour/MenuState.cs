@@ -7,7 +7,7 @@ namespace BuddyApp.AutomatedTest
 {
     public sealed class MenuState : AStateMachineBehaviour
     {
-        //  Display each available module in test
+        //  Display all available test module
 
         private Dictionary<string, string> mButtonContent = new Dictionary<string, string>();
 
@@ -15,9 +15,9 @@ namespace BuddyApp.AutomatedTest
         {
             if (mButtonContent.Count == 0)
             {
-                //mButtonContent.Add("Motions", "MotionTrigger");
-                //mButtonContent.Add("Vocal", "VocalTrigger");
+                mButtonContent.Add("Motions", "MotionTrigger");
                 mButtonContent.Add("Camera", "CameraTrigger");
+                //mButtonContent.Add("Vocal", "VocalTrigger");
                 //mButtonContent.Add("GUI", "GUITrigger");
                 mButtonContent.Add("Full Test", "FullTrigger");
             }

@@ -6,12 +6,15 @@ namespace BuddyApp.AutomatedTest
     /* Data are stored in xml file for persistent data purpose */
     public class AutomatedTestData : AAppData
     {
+        /*
+         *  All Modules available for test
+         */
         public enum MODULES
         {
             E_MOTION,
-            E_VOCAL,
             E_CAMERA,
-            E_GUI,
+            //E_VOCAL,
+            //E_GUI,
             E_NB_MODULE,
         }
 
