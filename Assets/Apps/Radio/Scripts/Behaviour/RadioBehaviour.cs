@@ -39,11 +39,11 @@ namespace BuddyApp.Radio
         private IEnumerator AskInfos(RadioStream iRadio, string iToken)
         {
             RadioInfos lInfos = new RadioInfos();
-            yield return iRadio.GetRadioInformations("europe_1_9144", lInfos, iToken+"knkn");
+            yield return iRadio.GetRadioInformations("europe_1_9144", lInfos, iToken);
             Debug.Log("info: " + lInfos);
             RadioList lRadioList = new RadioList();
             //List<RadioInfos> lRadios = new List<RadioInfos>();
-            //yield return iRadio.SearchRadioName("europe 1", iToken, lRadioList);
+            yield return iRadio.SearchRadioName("europe 1", iToken, lRadioList);
 
             StreamList lStreamList = new StreamList();
             yield return iRadio.GetRadiosStreams("europe_1_9144", iToken, lStreamList);
