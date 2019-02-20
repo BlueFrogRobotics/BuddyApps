@@ -29,12 +29,34 @@ namespace BuddyApp.AutomatedTest
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            GameObject lTestManager = GetGameObject(0);
+            AModuleTest lModule;
+
+            // Check if a TestManager exist
+            if (lTestManager == null)
+            {
+                Debug.LogError("Please attach a TestManager object to AppBehaviour.");
+                return;
+            }
+
             // Create the dictionary
             AutomatedTestData.Instance.Modules = new Dictionary<AutomatedTestData.MODULES, AModuleTest>();
 
-            // Fill the dictionary of module - Only the camera for now
-            AutomatedTestData.Instance.Modules.Add(AutomatedTestData.MODULES.E_CAMERA, new CameraTest());
-            AutomatedTestData.Instance.Modules.Add(AutomatedTestData.MODULES.E_MOTION, new MotionTest());
+            // --- Get the CameraTest Script --
+            if ((lModule = lTestManager.GetComponent<CameraTest>()) == null)
+            {
+                Debug.LogError("Please attach a CameraTest Script to the TestManager.");
+                return;
+            }
+            AutomatedTestData.Instance.Modules.Add(AutomatedTestData.MODULES.E_CAMERA, lModule);
+
+            // --- Get the MotionTest Script --
+            if ((lModule = lTestManager.GetComponent<MotionTest>()) == null)
+            {
+                Debug.LogError("Please attach a MotionTest Script to the TestManager.");
+                return;
+            }
+            AutomatedTestData.Instance.Modules.Add(AutomatedTestData.MODULES.E_MOTION, lModule);
 
             Trigger("MenuTrigger");
         }
