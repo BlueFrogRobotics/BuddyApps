@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BuddyApp.AutomatedTest
 {
-    public abstract class AModuleTest
+    public abstract class AModuleTest : MonoBehaviour //ask CORE If OK
     {
         public abstract string Name { get; }
 
@@ -38,7 +38,6 @@ namespace BuddyApp.AutomatedTest
             mSelectedKey = new List<string>();
             InitTestList();
             InitPool();
-            Debug.LogWarning("CONSTRUCTOR 2");
         }
 
 
@@ -46,7 +45,6 @@ namespace BuddyApp.AutomatedTest
         {
             foreach (string lTest in mSelectedKey)
             {
-                Debug.LogWarning("KEY:" + lTest);
                 if (mTestPool.ContainsKey(lTest))
                     yield return mTestPool[lTest]();
             }
@@ -60,6 +58,14 @@ namespace BuddyApp.AutomatedTest
                 if (mTestPool.ContainsKey(lTest))
                     mSelectedKey.Add(lTest);
             }
+        }
+
+        protected void DebugColor(string msg, string color = null)
+        {
+            if (string.IsNullOrEmpty(color))
+                Debug.Log(msg);
+            else
+                Debug.Log("<color=" + color + ">----" + msg + "----</color>");
         }
     }
 }
