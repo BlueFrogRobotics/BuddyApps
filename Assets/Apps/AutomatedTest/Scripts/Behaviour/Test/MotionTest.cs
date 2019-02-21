@@ -17,6 +17,10 @@ namespace BuddyApp.AutomatedTest
 
         private bool mTestInProcess;
 
+        private bool mCoroutineInProcess;
+
+        //  --- Method ---
+
         public override void InitTestList()
         {
             mAvailableTest = new List<string>();
@@ -48,6 +52,39 @@ namespace BuddyApp.AutomatedTest
             mTestInProcess = false;
         }
 
+        // Common interface for all MotionTest - TODO: Rework interface, use Footer for OK/KO button (see camera test)
+        #region COMMON_UI
+        private void DisplayTestUi(string TestLabel, System.Action iOnRepeat, System.Action iOnStopTest, System.Action iOnFailTest, System.Action iOnSuccessTest)
+        {
+            Buddy.GUI.Toaster.Display<ParameterToast>().With(iBuilder =>
+                {
+                    TText lText = iBuilder.CreateWidget<TText>();
+                    lText.SetCenteredLabel(true);
+                    lText.SetLabel(TestLabel + " test ...");
+
+                    TButton lRepeatButton = iBuilder.CreateWidget<TButton>();
+                    lRepeatButton.SetCenteredLabel(true);
+                    lRepeatButton.SetLabel("Run Test");
+                    lRepeatButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_repeat"));
+                    lRepeatButton.OnClick.Add(iOnRepeat);
+
+                    TButton lStopButton = iBuilder.CreateWidget<TButton>();
+                    lStopButton.SetCenteredLabel(true);
+                    lStopButton.SetLabel("Stop Test");
+                    lStopButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_stop"));
+                    lStopButton.OnClick.Add(iOnStopTest);
+                 },
+                // Action OnClickLeft
+                iOnFailTest,
+                // Text Left
+                "KO",
+                // Action OnClickRight
+                iOnSuccessTest,
+                // Text Right
+                "OK");
+        }
+        #endregion
+
         // All TestRoutine of this module:
 
         #region ROTATION
@@ -55,52 +92,30 @@ namespace BuddyApp.AutomatedTest
         {
             //  --- INIT ---
             mTestInProcess = true;
-
-            // Show UI
-            Buddy.GUI.Toaster.Display<ParameterToast>().With(iBuilder =>
+            // Show UI - And Implement all Ui callback
+            DisplayTestUi("Rotation",
+            () =>   // --- OnClickRepeat ---
             {
-                TText lText = iBuilder.CreateWidget<TText>();
-                lText.SetCenteredLabel(true);
-                lText.SetLabel("Rotation test ...");
-
-                TButton lRepeatButton = iBuilder.CreateWidget<TButton>();
-                lRepeatButton.SetCenteredLabel(true);
-                lRepeatButton.SetLabel("Run Test");
-                lRepeatButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_repeat"));
-                lRepeatButton.OnClick.Add(() =>
-                {
-                    if (!Buddy.Navigation.IsBusy)
-                        Buddy.Navigation.Run<DisplacementStrategy>().Rotate(180F, 60F);
-                });
-
-                TButton lStopButton = iBuilder.CreateWidget<TButton>();
-                lStopButton.SetCenteredLabel(true);
-                lStopButton.SetLabel("Stop Test");
-                lStopButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_stop"));
-                lStopButton.OnClick.Add(() =>
-                {
-                    DebugColor("-- stop --", "blue");
-                    Buddy.Navigation.Stop();
-                });
+                if (!Buddy.Navigation.IsBusy)
+                    Buddy.Navigation.Run<DisplacementStrategy>().Rotate(180F, 60F);
             },
-            // Action OnClickLeft
-            () =>
+            () =>   // --- OnClickStop ---
+            {
+                DebugColor("-- stop --", "blue");
+                Buddy.Navigation.Stop();
+            },
+            () =>   // --- OnClickTestFail ---
             {
                 mTestInProcess = false;
                 Buddy.Navigation.Stop();
-                // FileLog Rotation Test fail
+                mResultPool.Add("Rotation", false);
             },
-            // Text Left
-            "KO",
-            // Action OnClickRight
-            () =>
+            () =>   // --- OnClickTestSuccess ---
             {
                 mTestInProcess = false;
                 Buddy.Navigation.Stop();
-                // FileLog Rotation Test success
-            },
-            // Text Right
-            "OK");
+                mResultPool.Add("Rotation", true);
+            });
 
             //  --- CODE ---
             DebugColor("RotationTest work in progress", "blue");
@@ -111,44 +126,340 @@ namespace BuddyApp.AutomatedTest
 
             //  --- EXIT ---
             Buddy.GUI.Toaster.Hide();
-            yield return new WaitUntil(() => Buddy.GUI.Toaster.IsBusy);
+            yield return new WaitWhile(() => Buddy.GUI.Toaster.IsBusy);
         }
         #endregion
 
+        #region ROTATION_YES
         public IEnumerator RotationYesTests()
         {
-            DebugColor("RotationYes not implemented yet", "blue");
-            yield break;
+            //  --- INIT ---
+            mTestInProcess = true;
+            // Show UI - And Implement all Ui callback
+            DisplayTestUi("RotationYes",
+            () =>   // --- OnClickRepeat ---
+            {
+                StartCoroutine(RotationYesSequence());
+            },
+            () =>   // --- OnClickStop ---
+            {
+                DebugColor("-- stop --", "blue");
+                StopCoroutine(RotationYesSequence());
+                Buddy.Actuators.Head.Yes.Stop();
+            },
+            () =>   // --- OnClickTestFail ---
+            {
+                mTestInProcess = false;
+                StopCoroutine(RotationYesSequence());
+                Buddy.Actuators.Head.Yes.Stop();
+                mResultPool.Add("RotationYes", false);
+            },
+            () =>   // --- OnClickTestSuccess ---
+            {
+                mTestInProcess = false;
+                StopCoroutine(RotationYesSequence());
+                Buddy.Actuators.Head.Yes.Stop();
+                mResultPool.Add("RotationYes", true);
+            });
+
+            //  --- CODE ---
+            DebugColor("RotationYes work in progress", "blue");
+
+            // --- Wait for User ---
+            while (mTestInProcess)
+                yield return null;
+
+            //  --- EXIT ---
+            Buddy.GUI.Toaster.Hide();
+            yield return new WaitWhile(() => Buddy.GUI.Toaster.IsBusy);
         }
 
+        private IEnumerator RotationYesSequence()
+        {
+            float lEpsilon = 0.1F;
+            float lStartAngle = Buddy.Actuators.Head.Yes.Angle;
+
+            DebugColor("-- HeadYes target: 20 --", "red");
+            Buddy.Actuators.Head.Yes.SetPosition(20);
+            yield return new WaitWhile(()=> 
+            {
+                if (Mathf.Abs(Buddy.Actuators.Head.Yes.Angle - 20) < lEpsilon)
+                    return true;
+                return false;
+            });
+
+            DebugColor("-- HeadYes target: 70 --", "red");
+            Buddy.Actuators.Head.Yes.SetPosition(70);
+            yield return new WaitWhile(() =>
+            {
+                if (Mathf.Abs(Buddy.Actuators.Head.Yes.Angle - 70) < lEpsilon)
+                    return true;
+                return false;
+            });
+
+            DebugColor("-- HeadYes target: StartAngle --", "red");
+            Buddy.Actuators.Head.Yes.SetPosition(lStartAngle);
+            yield return new WaitWhile(() =>
+            {
+                if (Mathf.Abs(Buddy.Actuators.Head.Yes.Angle - lStartAngle) < lEpsilon)
+                    return true;
+                return false;
+            });
+        }
+        #endregion
+
+        #region ROTATION_NO
         public IEnumerator RotationNoTests()
         {
-            DebugColor("RotationNo not implemented yet", "blue");
-            yield break;
+            //  --- INIT ---
+            mTestInProcess = true;
+            mCoroutineInProcess = false;
+            // Show UI - And Implement all Ui callback
+            DisplayTestUi("RotationNo",
+            () =>   // --- OnClickRepeat ---
+            {
+                if (!mCoroutineInProcess)
+                {
+                    mCoroutineInProcess = true;
+                    StartCoroutine("RotationNoSequence");
+                }
+            },
+            () =>   // --- OnClickStop ---
+            {
+                DebugColor("-- stop --", "blue");
+                mCoroutineInProcess = false;
+                StopCoroutine("RotationNoSequence");
+                Buddy.Actuators.Head.No.ResetPosition();
+            },
+            () =>   // --- OnClickTestFail ---
+            {
+                mTestInProcess = false;
+                mResultPool.Add("RotationNo", false);
+            },
+            () =>   // --- OnClickTestSuccess ---
+            {
+                mTestInProcess = false;
+                mResultPool.Add("RotationNo", true);
+            });
+
+            //  --- CODE ---
+            DebugColor("RotationNo work in progress", "blue");
+
+            // --- Wait for User ---
+            while (mTestInProcess)
+                yield return null;
+
+            //  --- EXIT ---
+            Buddy.GUI.Toaster.Hide();
+            mCoroutineInProcess = false;
+            StopCoroutine("RotationNoSequence");
+            Buddy.Actuators.Head.No.ResetPosition();
+            yield return new WaitWhile(() => Buddy.GUI.Toaster.IsBusy);
         }
 
+        private IEnumerator RotationNoSequence()
+        {
+            DebugColor("-- HeadNo target: 30 --", "red");
+            Buddy.Actuators.Head.No.SetPosition(30F);
+
+            yield return new WaitWhile(() =>
+            {
+                if (Buddy.Actuators.Head.No.Angle >= 27F)
+                    return false;
+                return true;
+            });
+
+            DebugColor("-- HeadNo target: -30 --", "red");
+            Buddy.Actuators.Head.No.SetPosition(-30F);
+            yield return new WaitWhile(() =>
+            {
+                if (Buddy.Actuators.Head.No.Angle <= -27F)
+                    return false;
+                return true;
+            });
+
+            DebugColor("-- HeadNo target: 0 --", "red");
+            Buddy.Actuators.Head.No.SetPosition(0F);
+            yield return new WaitWhile(() =>
+            {
+                if (Buddy.Actuators.Head.No.Angle <= 3F && Buddy.Actuators.Head.No.Angle >= -3F)
+                    return false;
+                return true;
+            });
+            mCoroutineInProcess = false;
+        }
+        #endregion
+
+        #region MOVE_FORWARD
         public IEnumerator MoveForwardTests()
         {
-            DebugColor("MoveForward not implemented yet", "blue");
-            yield break;
-        }
+            //  --- INIT ---
+            mTestInProcess = true;
+            // Show UI - And Implement all Ui callback
+            DisplayTestUi("MoveForward",
+            () =>   // --- OnClickRepeat ---
+            {
+                if (!Buddy.Navigation.IsBusy)
+                    Buddy.Navigation.Run<DisplacementStrategy>().Move(1F);
+            },
+            () =>   // --- OnClickStop ---
+            {
+                DebugColor("-- stop --", "blue");
+                Buddy.Navigation.Stop();
+            },
+            () =>   // --- OnClickTestFail ---
+            {
+                mTestInProcess = false;
+                Buddy.Navigation.Stop();
+                mResultPool.Add("MoveForward", false);
+            },
+            () =>   // --- OnClickTestSuccess ---
+            {
+                mTestInProcess = false;
+                mResultPool.Add("MoveForward", true);
+                Buddy.Navigation.Stop();
+            });
 
+            //  --- CODE ---
+            DebugColor("MoveForward work in progress", "blue");
+
+            // --- Wait for User ---
+            while (mTestInProcess)
+                yield return null;
+
+            //  --- EXIT ---
+            Buddy.GUI.Toaster.Hide();
+            yield return new WaitWhile(() => Buddy.GUI.Toaster.IsBusy);
+        }
+        #endregion
+
+        #region MOVE_BACKWARD
         public IEnumerator MoveBackwardTests()
         {
-            DebugColor("MoveBackward not implemented yet", "blue");
-            yield break;
-        }
+            //  --- INIT ---
+            mTestInProcess = true;
+            // Show UI - And Implement all Ui callback
+            DisplayTestUi("MoveBackward",
+            () =>   // --- OnClickRepeat ---
+            {
+                if (!Buddy.Navigation.IsBusy)
+                    Buddy.Navigation.Run<DisplacementStrategy>().Move(-1F);
+            },
+            () =>   // --- OnClickStop ---
+            {
+                DebugColor("-- stop --", "blue");
+                Buddy.Navigation.Stop();
+            },
+            () =>   // --- OnClickTestFail ---
+            {
+                mTestInProcess = false;
+                Buddy.Navigation.Stop();
+                mResultPool.Add("MoveBackward", false);
+            },
+            () =>   // --- OnClickTestSuccess ---
+            {
+                mTestInProcess = false;
+                Buddy.Navigation.Stop();
+                mResultPool.Add("MoveBackward", true);
+            });
 
+            //  --- CODE ---
+            DebugColor("MoveBackward work in progress", "blue");
+
+            // --- Wait for User ---
+            while (mTestInProcess)
+                yield return null;
+
+            //  --- EXIT ---
+            Buddy.GUI.Toaster.Hide();
+            yield return new WaitWhile(() => Buddy.GUI.Toaster.IsBusy);
+        }
+        #endregion
+
+        #region OBSTACLE_STOP
         public IEnumerator ObstacleStopTests()
         {
-            DebugColor("ObstacleStop not implemented yet", "blue");
-            yield break;
-        }
+            //  --- INIT ---
+            mTestInProcess = true;
+            // Show UI - And Implement all Ui callback
+            DisplayTestUi("ObstacleStop",
+            () =>   // --- OnClickRepeat ---
+            {
+                if (!Buddy.Navigation.IsBusy)
+                    Buddy.Navigation.Run<DisplacementStrategy>().Move(2F, ObstacleAvoidanceType.STOP);
+            },
+            () =>   // --- OnClickStop ---
+            {
+                DebugColor("-- stop --", "blue");
+                Buddy.Navigation.Stop();
+            },
+            () =>   // --- OnClickTestFail ---
+            {
+                mTestInProcess = false;
+                Buddy.Navigation.Stop();
+                mResultPool.Add("ObstacleStop", false);
+            },
+            () =>   // --- OnClickTestSuccess ---
+            {
+                mTestInProcess = false;
+                Buddy.Navigation.Stop();
+                mResultPool.Add("ObstacleStop", true);
+            });
 
+            //  --- CODE ---
+            DebugColor("ObstacleStop work in progress", "blue");
+
+            // --- Wait for User ---
+            while (mTestInProcess)
+                yield return null;
+
+            //  --- EXIT ---
+            Buddy.GUI.Toaster.Hide();
+            yield return new WaitWhile(() => Buddy.GUI.Toaster.IsBusy);
+        }
+        #endregion
+
+        #region OBSTACLE_AVOIDANCE
         public IEnumerator ObstacleAvoidanceTests()
         {
-            DebugColor("ObstacleAvoidance not implemented yet", "blue");
-            yield break;
+            //  --- INIT ---
+            mTestInProcess = true;
+            // Show UI - And Implement all Ui callback
+            DisplayTestUi("ObstacleAvoidance",
+            () =>   // --- OnClickRepeat ---
+            {
+                if (!Buddy.Navigation.IsBusy)
+                    Buddy.Navigation.Run<DisplacementStrategy>().Move(2F, ObstacleAvoidanceType.TURN);
+            },
+            () =>   // --- OnClickStop ---
+            {
+                DebugColor("-- stop --", "blue");
+                Buddy.Navigation.Stop();
+            },
+            () =>   // --- OnClickTestFail ---
+            {
+                mTestInProcess = false;
+                Buddy.Navigation.Stop();
+                mResultPool.Add("ObstacleAvoidance", false);
+            },
+            () =>   // --- OnClickTestSuccess ---
+            {
+                mTestInProcess = false;
+                Buddy.Navigation.Stop();
+                mResultPool.Add("ObstacleAvoidance", true);
+            });
+
+            //  --- CODE ---
+            DebugColor("ObstacleAvoidance work in progress", "blue");
+
+            // --- Wait for User ---
+            while (mTestInProcess)
+                yield return null;
+
+            //  --- EXIT ---
+            Buddy.GUI.Toaster.Hide();
+            yield return new WaitWhile(() => Buddy.GUI.Toaster.IsBusy);
         }
+        #endregion
     }
 }

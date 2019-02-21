@@ -20,20 +20,33 @@ namespace BuddyApp.AutomatedTest
             Buddy.GUI.Header.DisplayParametersButton(false);
             Buddy.GUI.Header.DisplayLightTitle(mCameraTest.Name);
 
-            Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
+            Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
+            {
+                List<TToggle> lToggles = new List<TToggle>();
+
+                TButton lSelectAll = iBuilder.CreateWidget<TButton>();
+                lSelectAll.SetLabel("Inverser la séléction");
+                lSelectAll.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_retweet"));
+                lSelectAll.OnClick.Add(() =>
+                {
+                    foreach (TToggle lToggle in lToggles)
+                        lToggle.ToggleValue = !lToggle.ToggleValue;
+                });
+
                 // Create a toggle button for each available test
                 foreach (string lTestKey in mAvailableTestKeys)
                 {
                     TToggle lToggle = iBuilder.CreateWidget<TToggle>();
                     lToggle.SetLabel(lTestKey);
-                    lToggle.ToggleValue = mCameraTest.GetSelectedKey().Contains(lTestKey);
+                    lToggle.ToggleValue = mCameraTest.ContainSelectedTest(lTestKey);
                     lToggle.OnToggle.Add((iToggle) => 
                     {
                         if (iToggle)
-                            mCameraTest.GetSelectedKey().Add(lTestKey);
+                            mCameraTest.AddSelectedTest(lTestKey);
                         else
-                            mCameraTest.GetSelectedKey().Remove(lTestKey);
+                            mCameraTest.RemoveSelectedTest(lTestKey);
                     });
+                    lToggles.Add(lToggle);
                 }
             },
             // Left button Callback
@@ -48,7 +61,7 @@ namespace BuddyApp.AutomatedTest
             () =>
             {
                  Debug.Log("Click next");
-                if (mCameraTest.GetSelectedKey().Count > 0)
+                if (mCameraTest.SelectedTestLength() > 0)
                      Trigger("RunTrigger");
             },
             // Right button Name

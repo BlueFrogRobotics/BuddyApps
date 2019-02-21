@@ -20,20 +20,33 @@ namespace BuddyApp.AutomatedTest
             Buddy.GUI.Header.DisplayParametersButton(false);
             Buddy.GUI.Header.DisplayLightTitle(mMotionTest.Name);
 
-            Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
+            Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
+            {
+                List<TToggle> lToggles = new List<TToggle>();
+
+                TButton lSelectAll = iBuilder.CreateWidget<TButton>();
+                lSelectAll.SetLabel("Inverser la sélection");
+                lSelectAll.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_retweet"));
+                lSelectAll.OnClick.Add(() =>
+                {
+                    foreach (TToggle lToggle in lToggles)
+                        lToggle.ToggleValue = !lToggle.ToggleValue;
+                });
+
                 // Create a toggle button for each available test
                 foreach (string lTestKey in mAvailableTestKeys)
                 {
                     TToggle lToggle = iBuilder.CreateWidget<TToggle>();
                     lToggle.SetLabel(lTestKey);
-                    lToggle.ToggleValue = mMotionTest.GetSelectedKey().Contains(lTestKey);
+                    lToggle.ToggleValue = mMotionTest.ContainSelectedTest(lTestKey);
                     lToggle.OnToggle.Add((iToggle) =>
                     {
                         if (iToggle)
-                            mMotionTest.GetSelectedKey().Add(lTestKey);
+                            mMotionTest.AddSelectedTest(lTestKey);
                         else
-                            mMotionTest.GetSelectedKey().Remove(lTestKey) ;
+                            mMotionTest.RemoveSelectedTest(lTestKey);
                     });
+                    lToggles.Add(lToggle);
                 }
             },
             // Left button Callback
@@ -48,7 +61,7 @@ namespace BuddyApp.AutomatedTest
             () =>
             {
                 Debug.Log("Click next");
-                if (mMotionTest.GetSelectedKey().Count > 0)
+                if (mMotionTest.SelectedTestLength() > 0)
                     Trigger("RunTrigger");
             },
             // Right button Name
