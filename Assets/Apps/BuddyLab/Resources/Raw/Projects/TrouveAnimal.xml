@@ -1,0 +1,291 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BehaviourAlgorithm xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <Instructions>
+        <ABehaviourInstruction xsi:type="SayBehaviourInstruction">
+            <IsBlocking>
+                <Value>true</Value>
+            </IsBlocking>
+            <IsRequired>
+                <Value>false</Value>
+            </IsRequired>
+            <Delay>
+                <Value>0</Value>
+            </Delay>
+            <Key>
+                <Value> </Value>
+            </Key>
+            <Utterance>
+                <Value>montre moi le lion</Value>
+            </Utterance>
+            <Pitch>
+                <Value>0</Value>
+            </Pitch>
+            <Speed>
+                <Value>0</Value>
+            </Speed>
+        </ABehaviourInstruction>
+        <ABehaviourInstruction xsi:type="AprilTagInputBehaviourInstruction">
+            <IsBlocking>
+                <Value>true</Value>
+            </IsBlocking>
+            <IsRequired>
+                <Value>false</Value>
+            </IsRequired>
+            <AnyContent>
+                <Value>false</Value>
+            </AnyContent>
+            <ConditionalContents>
+                <Value>
+                    <int>4</int>
+                </Value>
+            </ConditionalContents>
+        </ABehaviourInstruction>
+        <ABehaviourInstruction xsi:type="SetMoodBehaviourInstruction">
+            <IsBlocking>
+                <Value>true</Value>
+            </IsBlocking>
+            <IsRequired>
+                <Value>false</Value>
+            </IsRequired>
+            <Delay>
+                <Value>0</Value>
+            </Delay>
+            <Mood>
+                <Value>SURPRISED</Value>
+            </Mood>
+            <Duration>
+                <Value>1.5</Value>
+            </Duration>
+        </ABehaviourInstruction>
+        <ABehaviourInstruction xsi:type="SayBehaviourInstruction">
+            <IsBlocking>
+                <Value>true</Value>
+            </IsBlocking>
+            <IsRequired>
+                <Value>false</Value>
+            </IsRequired>
+            <Delay>
+                <Value>0</Value>
+            </Delay>
+            <Key>
+                <Value> </Value>
+            </Key>
+            <Utterance>
+                <Value>super</Value>
+            </Utterance>
+            <Pitch>
+                <Value>0</Value>
+            </Pitch>
+            <Speed>
+                <Value>0</Value>
+            </Speed>
+        </ABehaviourInstruction>
+        <ABehaviourInstruction xsi:type="SetMoodBehaviourInstruction">
+            <IsBlocking>
+                <Value>true</Value>
+            </IsBlocking>
+            <IsRequired>
+                <Value>false</Value>
+            </IsRequired>
+            <Delay>
+                <Value>0</Value>
+            </Delay>
+            <Mood>
+                <Value>THINKING</Value>
+            </Mood>
+            <Duration>
+                <Value>1.5</Value>
+            </Duration>
+        </ABehaviourInstruction>
+        <ABehaviourInstruction xsi:type="SayBehaviourInstruction">
+            <IsBlocking>
+                <Value>true</Value>
+            </IsBlocking>
+            <IsRequired>
+                <Value>false</Value>
+            </IsRequired>
+            <Delay>
+                <Value>0</Value>
+            </Delay>
+            <Key>
+                <Value> </Value>
+            </Key>
+            <Utterance>
+                <Value>je voudrais voir un pingouin</Value>
+            </Utterance>
+            <Pitch>
+                <Value>0</Value>
+            </Pitch>
+            <Speed>
+                <Value>0</Value>
+            </Speed>
+        </ABehaviourInstruction>
+        <ABehaviourInstruction xsi:type="AprilTagInputBehaviourInstruction">
+            <IsBlocking>
+                <Value>true</Value>
+            </IsBlocking>
+            <IsRequired>
+                <Value>false</Value>
+            </IsRequired>
+            <AnyContent>
+                <Value>false</Value>
+            </AnyContent>
+            <ConditionalContents>
+                <Value>
+                    <int>5</int>
+                </Value>
+            </ConditionalContents>
+        </ABehaviourInstruction>
+        <ABehaviourInstruction xsi:type="SetMoodBehaviourInstruction">
+            <IsBlocking>
+                <Value>true</Value>
+            </IsBlocking>
+            <IsRequired>
+                <Value>false</Value>
+            </IsRequired>
+            <Delay>
+                <Value>0</Value>
+            </Delay>
+            <Mood>
+                <Value>SURPRISED</Value>
+            </Mood>
+            <Duration>
+                <Value>1.5</Value>
+            </Duration>
+        </ABehaviourInstruction>
+        <ABehaviourInstruction xsi:type="SayBehaviourInstruction">
+            <IsBlocking>
+                <Value>true</Value>
+            </IsBlocking>
+            <IsRequired>
+                <Value>false</Value>
+            </IsRequired>
+            <Delay>
+                <Value>0</Value>
+            </Delay>
+            <Key>
+                <Value> </Value>
+            </Key>
+            <Utterance>
+                <Value>bravo</Value>
+            </Utterance>
+            <Pitch>
+                <Value>0</Value>
+            </Pitch>
+            <Speed>
+                <Value>0</Value>
+            </Speed>
+        </ABehaviourInstruction>
+        <ABehaviourInstruction xsi:type="SetMoodBehaviourInstruction">
+            <IsBlocking>
+                <Value>true</Value>
+            </IsBlocking>
+            <IsRequired>
+                <Value>false</Value>
+            </IsRequired>
+            <Delay>
+                <Value>0</Value>
+            </Delay>
+            <Mood>
+                <Value>NEUTRAL</Value>
+            </Mood>
+            <Duration>
+                <Value>1.5</Value>
+            </Duration>
+        </ABehaviourInstruction>
+        <ABehaviourInstruction xsi:type="SayBehaviourInstruction">
+            <IsBlocking>
+                <Value>true</Value>
+            </IsBlocking>
+            <IsRequired>
+                <Value>false</Value>
+            </IsRequired>
+            <Delay>
+                <Value>0</Value>
+            </Delay>
+            <Key>
+                <Value> </Value>
+            </Key>
+            <Utterance>
+                <Value>montre moi le tigre</Value>
+            </Utterance>
+            <Pitch>
+                <Value>0</Value>
+            </Pitch>
+            <Speed>
+                <Value>0</Value>
+            </Speed>
+        </ABehaviourInstruction>
+        <ABehaviourInstruction xsi:type="AprilTagInputBehaviourInstruction">
+            <IsBlocking>
+                <Value>true</Value>
+            </IsBlocking>
+            <IsRequired>
+                <Value>false</Value>
+            </IsRequired>
+            <AnyContent>
+                <Value>false</Value>
+            </AnyContent>
+            <ConditionalContents>
+                <Value>
+                    <int>7</int>
+                </Value>
+            </ConditionalContents>
+        </ABehaviourInstruction>
+        <ABehaviourInstruction xsi:type="SetMoodBehaviourInstruction">
+            <IsBlocking>
+                <Value>true</Value>
+            </IsBlocking>
+            <IsRequired>
+                <Value>false</Value>
+            </IsRequired>
+            <Delay>
+                <Value>0</Value>
+            </Delay>
+            <Mood>
+                <Value>HAPPY</Value>
+            </Mood>
+            <Duration>
+                <Value>1.5</Value>
+            </Duration>
+        </ABehaviourInstruction>
+        <ABehaviourInstruction xsi:type="SayBehaviourInstruction">
+            <IsBlocking>
+                <Value>true</Value>
+            </IsBlocking>
+            <IsRequired>
+                <Value>false</Value>
+            </IsRequired>
+            <Delay>
+                <Value>0</Value>
+            </Delay>
+            <Key>
+                <Value> </Value>
+            </Key>
+            <Utterance>
+                <Value>ces gagné</Value>
+            </Utterance>
+            <Pitch>
+                <Value>0</Value>
+            </Pitch>
+            <Speed>
+                <Value>0</Value>
+            </Speed>
+        </ABehaviourInstruction>
+        <ABehaviourInstruction xsi:type="PlaySoundBehaviourInstruction">
+            <IsBlocking>
+                <Value>true</Value>
+            </IsBlocking>
+            <IsRequired>
+                <Value>false</Value>
+            </IsRequired>
+            <Delay>
+                <Value>0</Value>
+            </Delay>
+            <FileName />
+            <SoundSample>
+                <Value>LAUGH_4</Value>
+            </SoundSample>
+        </ABehaviourInstruction>
+    </Instructions>
+</BehaviourAlgorithm>

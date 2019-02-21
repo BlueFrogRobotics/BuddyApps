@@ -30,7 +30,7 @@
             </Delay>
             <FileName />
             <SoundSample>
-                <Value>LAUGH_1</Value>
+                <Value>LAUGH_3</Value>
             </SoundSample>
         </ABehaviourInstruction>
         <ABehaviourInstruction xsi:type="SetMoodBehaviourInstruction">
@@ -44,7 +44,7 @@
                 <Value>0</Value>
             </Delay>
             <Mood>
-                <Value>SAD</Value>
+                <Value>SURPRISED</Value>
             </Mood>
             <Duration>
                 <Value>1.5</Value>
@@ -98,23 +98,6 @@
                     <int>1</int>
                 </Value>
             </ConditionalContents>
-        </ABehaviourInstruction>
-        <ABehaviourInstruction xsi:type="SetMoodBehaviourInstruction">
-            <IsBlocking>
-                <Value>true</Value>
-            </IsBlocking>
-            <IsRequired>
-                <Value>false</Value>
-            </IsRequired>
-            <Delay>
-                <Value>0</Value>
-            </Delay>
-            <Mood>
-                <Value>SURPRISED</Value>
-            </Mood>
-            <Duration>
-                <Value>1.5</Value>
-            </Duration>
         </ABehaviourInstruction>
         <ABehaviourInstruction xsi:type="SetMoodBehaviourInstruction">
             <IsBlocking>
