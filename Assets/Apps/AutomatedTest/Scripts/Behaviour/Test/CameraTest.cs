@@ -40,9 +40,12 @@ namespace BuddyApp.AutomatedTest
 
         private bool mTestInProcess;
 
+        //  --- Method ---
+
         public override void InitTestList()
         {
             mAvailableTest = new List<string>();
+            mAvailableTest.Add("CameraView");
             mAvailableTest.Add("MotionDetect");
             mAvailableTest.Add("FaceDetect");
             mAvailableTest.Add("HumanDetect");
@@ -54,6 +57,7 @@ namespace BuddyApp.AutomatedTest
         public override void InitPool()
         {
             mTestPool = new Dictionary<string, TestRoutine>();
+            mTestPool.Add("CameraView", CameraView);
             mTestPool.Add("MotionDetect", MotionDetectTests);
             mTestPool.Add("FaceDetect", FaceDetectTests);
             mTestPool.Add("HumanDetect", HumanDetectTests);
@@ -90,7 +94,59 @@ namespace BuddyApp.AutomatedTest
         }
         #endregion
 
+        // Common interface for all MotionTest
+        #region COMMON_UI
+        private void DisplayTestUi(string iTestTitle, string iTest, bool iCameraView = true)
+        {
+            if (!string.IsNullOrEmpty(iTestTitle))
+                Buddy.GUI.Header.DisplayLightTitle(iTestTitle);
+            if (iCameraView)
+                Buddy.GUI.Toaster.Display<VideoStreamToast>().With(mTextureCam);
+
+            // Fail button
+            FButton lFailButton = Buddy.GUI.Footer.CreateOnLeft<FButton>();
+            lFailButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_close"));
+            lFailButton.SetBackgroundColor(Color.red);
+            lFailButton.SetIconColor(Color.white);
+            lFailButton.OnClick.Add(() => { mTestInProcess = false; mResultPool.Add(iTest, false); });
+
+            // Success button
+            FButton lSuccessButton = Buddy.GUI.Footer.CreateOnRight<FButton>();
+            lSuccessButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_check"));
+            lSuccessButton.SetBackgroundColor(Color.green);
+            lSuccessButton.SetIconColor(Color.white);
+            lSuccessButton.OnClick.Add(() => { mTestInProcess = false; mResultPool.Add(iTest, true); });
+        }
+        #endregion
+
         // All TestRoutine of this module:
+        #region CAMERA_VIEW
+        public IEnumerator CameraView()
+        {
+            //  --- INIT ---
+            mTestInProcess = true;
+            // Initialize texture.
+            mTextureCam = new Texture2D(Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height);
+            // Setting of the callback to use camera data
+            Buddy.Sensors.RGBCamera.OnNewFrame.Add((iInput) => OnFrameCaptured(iInput));
+
+            //  --- CODE ---
+            DebugColor("CameraView work in progress", "blue");
+            DisplayTestUi("Camera View", "CameraView");
+
+            // --- Wait for User ---
+            while (mTestInProcess)
+                yield return null;
+
+            //  --- EXIT ---
+            Buddy.GUI.Header.HideTitle();
+            Buddy.GUI.Toaster.Hide();
+            Buddy.GUI.Footer.Hide();
+            Buddy.Sensors.RGBCamera.OnNewFrame.Clear();
+            Buddy.Sensors.RGBCamera.Close();
+            yield return new WaitWhile(() => Buddy.GUI.Toaster.IsBusy);
+        }
+        #endregion
 
         #region MOTION_DETECT
         public IEnumerator MotionDetectTests()
@@ -112,25 +168,28 @@ namespace BuddyApp.AutomatedTest
 
             //  --- CODE ---
             DebugColor("MotionDetect work in progress", "blue");
-            Buddy.GUI.Toaster.Display<VideoStreamToast>().With(mTextureCam, () => { mTestInProcess = false; });
+            DisplayTestUi("Motion Detect", "MotionDetect");
 
             // --- Wait for User ---
             while (mTestInProcess)
                 yield return null;
 
             //  --- EXIT ---
+            Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
+            Buddy.GUI.Footer.Hide();
             Buddy.Perception.MotionDetector.OnDetect.Clear();
             Buddy.Sensors.RGBCamera.OnNewFrame.Clear();
             Buddy.Sensors.RGBCamera.Close();
-            yield return new WaitUntil(() => Buddy.GUI.Toaster.IsBusy);
+            yield return new WaitWhile(() => Buddy.GUI.Toaster.IsBusy);
         }
 
         // Callback when there is motions detected
         private bool OnMovementDetected(MotionEntity[] iMotions)
         {
             //Draw circle on every motions detected on the detect layer
-            foreach (MotionEntity lEntity in iMotions) {
+            foreach (MotionEntity lEntity in iMotions)
+            {
                 Imgproc.circle(mMatDetect, Utils.Center(lEntity.RectInFrame), 3, new Scalar(mColorOfDisplay), 3);
             }
 
@@ -158,18 +217,20 @@ namespace BuddyApp.AutomatedTest
 
             //  --- CODE ---
             DebugColor("FaceDetectDetect work in progress", "blue");
-            Buddy.GUI.Toaster.Display<VideoStreamToast>().With(mTextureCam, () => { mTestInProcess = false; });
+            DisplayTestUi("Face Detect", "FaceDetect");
 
             // --- Wait for User ---
             while (mTestInProcess)
                 yield return null;
 
             //  --- EXIT ---
+            Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
+            Buddy.GUI.Footer.Hide();
             Buddy.Perception.FaceDetector.OnDetect.Clear();
             Buddy.Sensors.RGBCamera.OnNewFrame.Clear();
             Buddy.Sensors.RGBCamera.Close();
-            yield return new WaitUntil(() => Buddy.GUI.Toaster.IsBusy);
+            yield return new WaitWhile(() => Buddy.GUI.Toaster.IsBusy);
         }
 
         private bool OnFaceDetect(FaceEntity[] iFaces)
@@ -211,18 +272,20 @@ namespace BuddyApp.AutomatedTest
 
             //  --- CODE ---
             DebugColor("HumanDetectDetect work in progress", "blue");
-            Buddy.GUI.Toaster.Display<VideoStreamToast>().With(mTextureCam, () => { mTestInProcess = false; });
+            DisplayTestUi("Human Detect", "HumanDetect");
 
             // --- Wait for User ---
             while (mTestInProcess)
                 yield return null;
 
             //  --- EXIT ---
+            Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
+            Buddy.GUI.Footer.Hide();
             Buddy.Perception.HumanDetector.OnDetect.Clear();
             Buddy.Sensors.RGBCamera.OnNewFrame.Clear();
             Buddy.Sensors.RGBCamera.Close();
-            yield return new WaitUntil(() => Buddy.GUI.Toaster.IsBusy);
+            yield return new WaitWhile(() => Buddy.GUI.Toaster.IsBusy);
         }
 
         private bool OnHumanDetect(HumanEntity[] iHumans)
@@ -257,18 +320,21 @@ namespace BuddyApp.AutomatedTest
 
             //  --- CODE ---
             DebugColor("SkeletonDetectDetect work in progress", "blue");
-            Buddy.GUI.Toaster.Display<VideoStreamToast>().With(mTextureCam, () => { mTestInProcess = false; });
+            DisplayTestUi("Skeleton Detect", "SkeletonDetect");
 
             // --- Wait for User ---
             while (mTestInProcess)
                 yield return null;
 
             //  --- EXIT ---
+            Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
+            Buddy.GUI.Footer.Hide();
             Buddy.Perception.SkeletonDetector.OnDetect.Clear();
             Buddy.Sensors.RGBCamera.OnNewFrame.Clear();
             Buddy.Sensors.RGBCamera.Close();
-            yield return new WaitUntil(() => Buddy.GUI.Toaster.IsBusy);
+            Buddy.Sensors.DepthCamera.Close();
+            yield return new WaitWhile(() => Buddy.GUI.Toaster.IsBusy);
         }
 
         private bool OnSkeletonDetect(SkeletonEntity[] iSkeleton)
@@ -322,7 +388,7 @@ namespace BuddyApp.AutomatedTest
             // --- TRANSITION ---
             Buddy.GUI.Toaster.Hide();
             Buddy.Sensors.RGBCamera.Close();
-            yield return new WaitUntil(() => Buddy.GUI.Toaster.IsBusy);
+            yield return new WaitWhile(() => Buddy.GUI.Toaster.IsBusy);
 
             // --- INIT HDCam & TakePhoto with it ---
             mTestInProcess = true;
@@ -334,9 +400,11 @@ namespace BuddyApp.AutomatedTest
                 yield return null;
 
             //  --- EXIT ---
+            Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
+            Buddy.GUI.Footer.Hide();
             Buddy.Sensors.HDCamera.Close();
-            yield return new WaitUntil(() => Buddy.GUI.Toaster.IsBusy);
+            yield return new WaitWhile(() => Buddy.GUI.Toaster.IsBusy);
         }
 
         private void OnFinish(Photograph iMyPhoto)
@@ -346,7 +414,9 @@ namespace BuddyApp.AutomatedTest
                 mTestInProcess = false;
                 return;
             }
-            Buddy.GUI.Toaster.Display<PictureToast>().With(iMyPhoto.Image, () => { mTestInProcess = false; });
+            Buddy.GUI.Toaster.Display<PictureToast>().With(iMyPhoto.Image);
+            //Show Ui Button but disable VideoToaster
+            DisplayTestUi("Take Photo", "TakePhoto", false);
         }
         #endregion
     }

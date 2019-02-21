@@ -18,6 +18,8 @@ using BlueQuark;
  *  [Module]State   - Display all available test for this module - OnToggle add/remove the test to the SelectedTest list of the module.
  *  RunTestState    - Browse all Module in dictionary, and run all selected test for each module.
  *  TestLogState    - Display a basic log of each test perform, OK - KO. BONUS: Add a button that ask an email, and send to it a logfile with more feedback ?
+ *  
+ *  At the end of the test suite implementation, merge all module state into one if the code is not specific to a module.
  */
 
 namespace BuddyApp.AutomatedTest

@@ -20,8 +20,10 @@ namespace BuddyApp.AutomatedTest
         // Storage of each test to perform, selected by the user.
         private  List<string> mSelectedKey;
 
-        // Getter for mSelectedKey
-        public List<string> GetSelectedKey() { return mSelectedKey; }
+        // Result Pool - It contain all last test perform with their result. (Just boolean for now)
+        protected Dictionary<string, bool> mResultPool;
+
+        //  --- Method ---
 
         // Getter for AvailableTest
         public List<string> GetAvailableTest() { return mAvailableTest; }
@@ -36,28 +38,9 @@ namespace BuddyApp.AutomatedTest
         public AModuleTest()
         {
             mSelectedKey = new List<string>();
+            mResultPool = new Dictionary<string, bool>();
             InitTestList();
             InitPool();
-        }
-
-
-        public IEnumerator RunSelectedTest()
-        {
-            foreach (string lTest in mSelectedKey)
-            {
-                if (mTestPool.ContainsKey(lTest))
-                    yield return mTestPool[lTest]();
-            }
-        }
-
-        public void SelectAllTest()
-        {
-            mSelectedKey.Clear();
-            foreach (string lTest in mAvailableTest)
-            {
-                if (mTestPool.ContainsKey(lTest))
-                    mSelectedKey.Add(lTest);
-            }
         }
 
         protected void DebugColor(string msg, string color = null)
@@ -66,6 +49,62 @@ namespace BuddyApp.AutomatedTest
                 Debug.Log(msg);
             else
                 Debug.Log("<color=" + color + ">----" + msg + "----</color>");
+        }
+
+        public IEnumerator RunSelectedTest()
+        {
+            // Clear all precedent result
+            mResultPool.Clear();
+
+            // Run each TestRoutine
+            foreach (string lTest in mSelectedKey)
+            {
+                if (mTestPool.ContainsKey(lTest))
+                    yield return mTestPool[lTest]();
+            }
+        }
+
+        public Dictionary<string, bool> GetResult()
+        {
+            if (mResultPool.Count == 0)
+                return null;
+            return new Dictionary<string, bool>(mResultPool);
+        }
+
+        public bool ContainSelectedTest(string iTest)
+        {
+            return mSelectedKey.Contains(iTest);
+        }
+
+        public void AddSelectedTest(string iTest)
+        {
+            if (!mSelectedKey.Contains(iTest))
+                mSelectedKey.Add(iTest);
+        }
+
+        public void ClearSelectedTest()
+        {
+            mSelectedKey.Clear();
+        }
+
+        public void RemoveSelectedTest(string iTest)
+        {
+            mSelectedKey.Remove(iTest);
+        }
+
+        public int SelectedTestLength()
+        {
+            return mSelectedKey.Count;
+        }
+
+        public void SelectAllTest()
+        {
+            mSelectedKey.Clear();
+            foreach (string lTest in mAvailableTest)
+            {
+                if (mTestPool.ContainsKey(lTest) && !mSelectedKey.Contains(lTest))
+                    mSelectedKey.Add(lTest);
+            }
         }
     }
 }
