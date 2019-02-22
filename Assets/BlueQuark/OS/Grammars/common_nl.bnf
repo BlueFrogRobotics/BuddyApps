@@ -1,4 +1,10 @@
 #BNF+EMV2.1;
 !grammar common_nl;
 !start <yes>;
-<yes> : Ik hou van planeten | Ik hou van de doden
+!start <no>;
+!start <quit>;
+!start <didntunderstand>;
+<yes> : ja | Oke | is goed | jazeker;
+<no> : Nee | Nee hoor | neh | niet | zeker niet | nee oneens;
+<quit> : Stop | houd op |  stop daarmee;
+<didntunderstand> : [Ik (begrijp | begreep) het niet] (kan je | zou je het kunnen) herhalen;

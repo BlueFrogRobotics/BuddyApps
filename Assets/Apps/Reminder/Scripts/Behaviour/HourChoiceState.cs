@@ -92,7 +92,7 @@ namespace BuddyApp.Reminder
             Buddy.GUI.Screen.OnTouch.Add((iInput) => { Buddy.Vocal.StopListening(); });
 
             // Setting of Vocon param
-            Buddy.Vocal.DefaultInputParameters.Grammars = new string[] { "hour", "common" };
+            Buddy.Vocal.DefaultInputParameters.Grammars = new string[] { "hour", "timespan", "common" };
             Buddy.Vocal.OnEndListening.Clear();
             Buddy.Vocal.OnEndListening.Add(OnEndListening);
 
@@ -150,6 +150,8 @@ namespace BuddyApp.Reminder
                 QuitReminder();
                 return;
             }
+
+            DebugColor("Vocon Validate/Modif SPEECH RULE: " + iSpeechInput.Rule + " --- " + Utils.GetRealStartRule(iSpeechInput.Rule), "blue");
 
             // Launch hour extraction with success
             DateTime lDate = ReminderDateManager.GetInstance().ReminderDate;
@@ -271,7 +273,8 @@ namespace BuddyApp.Reminder
             }
             DebugColor("HOUR IS: " + ReminderDateManager.GetInstance().ReminderDate.ToLongTimeString(), "green");
             
-            Trigger("RecurrenceChoiceState");
+            // Replace by 'RecurrenceChoiceState' in future
+            Trigger("GetMessageState");
         }
 
         /*

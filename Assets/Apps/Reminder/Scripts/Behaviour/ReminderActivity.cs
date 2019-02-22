@@ -16,9 +16,35 @@ namespace BuddyApp.Reminder
 		* Called before the App scene loading.
 		*/
 		public override void OnLoading(object[] iArgs)
-		{ 
-			ExtLog.I(ExtLogModule.APP, typeof(ReminderActivity), LogStatus.START, LogInfo.LOADING, "On loading...");
-		}
+		{
+            ExtLog.I(ExtLogModule.APP, typeof(ReminderActivity), LogStatus.START, LogInfo.LOADING, "On loading...");
+
+            Debug.Log("----- INIT REMINDER DATA -----");
+            ReminderDateManager.GetInstance().Initialize();
+
+            if (iArgs == null || (iArgs != null && iArgs.Length != 1))
+                return;
+
+            Debug.Log("----- AFTER CHECK -----");
+
+            /*
+            ** There is a CompanionInput, so after InitState a PreProcessing state will occured.
+            ** During PreProcessingState, CompanionInput is analyzed to find out what information is missing.
+            ** Then the StateMachine is redirected to the right state, to complete the missing reminder informations.
+            */
+
+            //ReminderDateManager.GetInstance().CompanionInput = (SpeechInput)iArgs[0];
+
+            Debug.Log("----- AFTER INIT COMPANION INPUT -----");
+
+            if (ReminderDateManager.GetInstance().CompanionInput != null)
+            {
+                if (ReminderDateManager.GetInstance().CompanionInput.Rule != null)
+                    Debug.LogWarning("COMPANION_RULE:" + ReminderDateManager.GetInstance().CompanionInput.Rule);
+                if (ReminderDateManager.GetInstance().CompanionInput.Utterance != null)
+                    Debug.LogWarning("COMPANION_UTTERANCE:" + ReminderDateManager.GetInstance().CompanionInput.Utterance);
+            }
+        }
 
 		/*
 		* Called after every Awake() in your scene

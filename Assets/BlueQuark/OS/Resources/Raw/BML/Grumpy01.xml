@@ -20,9 +20,28 @@
           <Value>false</Value>
         </IsRequired>
         <Position>
-          <Value>TOP_RIGHT</Value>
+          <Value>BOTTOM_RIGHT</Value>
         </Position>
       </ABehaviourInstruction>
+
+      <ABehaviourInstruction xsi:type="MoveBodyBehaviourInstruction">
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <Angle>
+          <Value>50</Value>
+        </Angle>
+        <Speed>
+          <Value>100</Value>
+        </Speed>
+        <Distance>
+          <Value>0</Value>
+        </Distance>
+      </ABehaviourInstruction>
+
       <ABehaviourInstruction xsi:type="LookAtBehaviourInstruction">
         <Delay>
           <Value>1</Value>
@@ -34,8 +53,48 @@
           <Value>false</Value>
         </IsRequired>
         <Position>
-          <Value>TOP_LEFT</Value>
+          <Value>LEFT</Value>
         </Position>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
+        <Delay>
+          <Value>1</Value>
+        </Delay>
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <CustomMove>
+          <Value>true</Value>
+        </CustomMove>
+        <NoAngle>
+          <Value>40</Value>
+        </NoAngle>
+        <NoSpeed>
+          <Value>50</Value>
+        </NoSpeed>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
+        <Delay>
+          <Value>1</Value>
+        </Delay>
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <CustomMove>
+          <Value>true</Value>
+        </CustomMove>
+        <YesAngle>
+          <Value>40</Value>
+        </YesAngle>
+        <YesSpeed>
+          <Value>30</Value>
+        </YesSpeed>
       </ABehaviourInstruction>
       <ABehaviourInstruction xsi:type="PlayFacialEventBehaviourInstruction">
         <Delay>
@@ -53,7 +112,7 @@
       </ABehaviourInstruction>
       <ABehaviourInstruction xsi:type="LookAtBehaviourInstruction">
         <Delay>
-          <Value>2</Value>
+          <Value>2.5</Value>
         </Delay>
         <IsBlocking>
           <Value>false</Value>
@@ -65,9 +124,9 @@
           <Value>CENTER</Value>
         </Position>
       </ABehaviourInstruction>
-      <ABehaviourInstruction xsi:type="RunScriptBehaviourInstruction">
+      <ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
         <Delay>
-          <Value>6</Value>
+          <Value>3</Value>
         </Delay>
         <IsBlocking>
           <Value>false</Value>
@@ -75,9 +134,58 @@
         <IsRequired>
           <Value>false</Value>
         </IsRequired>
-        <FileName>
-          <Value>Reset</Value>
-        </FileName>
+        <CustomMove>
+          <Value>true</Value>
+        </CustomMove>
+        <NoAngle>
+          <Value>0</Value>
+        </NoAngle>
+        <NoSpeed>
+          <Value>50</Value>
+        </NoSpeed>
       </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
+        <Delay>
+          <Value>3</Value>
+        </Delay>
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <CustomMove>
+          <Value>true</Value>
+        </CustomMove>
+        <YesAngle>
+          <Value>10</Value>
+        </YesAngle>
+        <YesSpeed>
+          <Value>30</Value>
+        </YesSpeed>
+      </ABehaviourInstruction>
+
+
+      <ABehaviourInstruction xsi:type="MoveBodyBehaviourInstruction">
+        <Delay>
+          <Value>3</Value>
+        </Delay>
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <Angle>
+          <Value>-50</Value>
+        </Angle>
+        <Speed>
+          <Value>100</Value>
+        </Speed>
+        <Distance>
+          <Value>0</Value>
+        </Distance>
+      </ABehaviourInstruction>
+
     </Instructions>
   </BehaviourAlgorithm>

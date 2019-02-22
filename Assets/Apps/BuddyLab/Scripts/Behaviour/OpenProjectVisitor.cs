@@ -457,5 +457,9 @@ namespace BuddyApp.BuddyLab
             return lItem;
         }
 
+        public void Visit(SynchronizedBlockBehaviourInstruction iStructure)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -1,6 +1,23 @@
 #BNF+EMV2.0;
 !grammar date_en;
 !import <numbers#nb>;
+
+
+/*
+**	Date rules to export
+*/
+
+!export <date_en#today>;
+!export <date_en#tomorrow>;
+!export <date_en#dayaftertomorrow>;
+!export <date_en#nextdayofweek>;
+!export <date_en#nextweek>;
+!export <date_en#nextmonth>;
+!export <date_en#nextyear>;
+!export <date_en#nextday>;
+!export <date_en#nextdate>;
+!export <date_en#fulldate>;
+
 !start <today>;
 !start <tomorrow>;
 !start <dayaftertomorrow>;
@@ -11,10 +28,7 @@
 !start <nextday>;
 !start <nextdate>;
 !start <fulldate>;
-!start <indays>;
-!start <inweeks>;
-!start <inmonths>;
-!start <inyears>;
+
 <today> : today;
 <tomorrow> : tomorrow;
 <dayaftertomorrow> : ([the] day after tomorrow);
@@ -25,10 +39,6 @@
 <nextday> : the <dayofmonth>;
 <nextdate> : [the] <dayofmonth> [of] <month> | [on] <month> <dayofmonth>;
 <fulldate> : <nextdate> <year>;
-<indays> : in <numbers#nb> day[s];
-<inweeks> : in <numbers#nb> week[s];
-<inmonths> : in <numbers#nb> month[s];
-<inyears> : in <numbers#nb> (year[s]);
 <dayofweek> : (Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday);
 <dayofmonth> : first | second | third | fourth | fifth | sixth | seventh | eighth | ninth | tenth | eleventh | twelfth | thirteenth | fourteenth | fifteenth | sixteenth | seventeenth | eighteenth | nineteenth | twentieth | twenty-first | twenty-second | twenty-third | twenty-fourth | twenty-fifth | twenty-sixth | twenty-seventh | twenty-eighth | twenty-ninth | thirty | thirty-first;
 <month> : january | february | march | april | may | june | july | august | september | october | november | december;

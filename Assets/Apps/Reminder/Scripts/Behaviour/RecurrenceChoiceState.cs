@@ -7,7 +7,7 @@ using System.Timers;
 
 namespace BuddyApp.Reminder
 {
-    public class RecurrenceChoiceState : AStateMachineBehaviour
+    public sealed class RecurrenceChoiceState : AStateMachineBehaviour
     {
         private enum RecurrenceStatus
         {
@@ -55,7 +55,8 @@ namespace BuddyApp.Reminder
         {
             DebugColor("State Enter Recurrence", "blue");
 
-            ReminderDateManager.GetInstance().AppState = ReminderDateManager.E_REMINDER_STATE.E_RECURRENCE_CHOICE;
+            // Uncomment this line when E_RECURRENCE_CHOICE will be available again
+            //ReminderDateManager.GetInstance().AppState = ReminderDateManager.E_REMINDER_STATE.E_RECURRENCE_CHOICE;
 
             // Set the time out quit event.
             mTimeOut = new Timer(QUIT_TIMEOUT);
