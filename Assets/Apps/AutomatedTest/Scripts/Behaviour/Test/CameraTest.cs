@@ -24,6 +24,8 @@ namespace BuddyApp.AutomatedTest
         // Time out for detection test
         private const float TIMEOUT = 5F;
 
+        private const string TIMEOUT_MSG = "NO DETECT TIMEOUT";
+
         // Detection layer
         private Mat mMatDetect;
 
@@ -139,7 +141,7 @@ namespace BuddyApp.AutomatedTest
             {
                 mTestInProcess = false;
                 mResultPool.Add("motiondetect", false);
-                mErrorPool.Add("motiondetect", "TIMEOUT");
+                mErrorPool.Add("motiondetect", TIMEOUT_MSG);
             });
             StartCoroutine(lTimeOut);
 
@@ -198,7 +200,7 @@ namespace BuddyApp.AutomatedTest
             {
                 mTestInProcess = false;
                 mResultPool.Add("facedetect", false);
-                mErrorPool.Add("facedetect", "TIMEOUT");
+                mErrorPool.Add("facedetect", TIMEOUT_MSG);
             });
             StartCoroutine(lTimeOut);
 
@@ -263,7 +265,7 @@ namespace BuddyApp.AutomatedTest
             {
                 mTestInProcess = false;
                 mResultPool.Add("humandetect", false);
-                mErrorPool.Add("humandetect", "TIMEOUT");
+                mErrorPool.Add("humandetect", TIMEOUT_MSG);
             });
             StartCoroutine(lTimeOut);
 
@@ -321,7 +323,7 @@ namespace BuddyApp.AutomatedTest
             {
                 mTestInProcess = false;
                 mResultPool.Add("skeletondetect", false);
-                mErrorPool.Add("skeletondetect", "TIMEOUT");
+                mErrorPool.Add("skeletondetect", TIMEOUT_MSG);
             });
             StartCoroutine(lTimeOut);
 
@@ -330,6 +332,7 @@ namespace BuddyApp.AutomatedTest
                 yield return null;
 
             //  --- EXIT ---
+            StopCoroutine(lTimeOut);
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
@@ -376,7 +379,7 @@ namespace BuddyApp.AutomatedTest
         }
         #endregion
 
-        // Doesn't work yet - No timeout for this test
+        // Doesn't work yet because TakePhotograph is broken - No timeout for this test
         #region TAKE_PHOTO
         public IEnumerator TakePhotoTests()
         {

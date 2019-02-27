@@ -44,6 +44,14 @@ namespace BuddyApp.AutomatedTest
             // Create the dictionary
             AutomatedTestData.Instance.Modules = new Dictionary<AutomatedTestData.MODULES, AModuleTest>();
 
+            // --- Get the MotionTest Script --
+            if ((lModule = lTestManager.GetComponent<MotionTest>()) == null)
+            {
+                Debug.LogError("Please attach a MotionTest Script to the TestManager.");
+                return;
+            }
+            AutomatedTestData.Instance.Modules.Add(AutomatedTestData.MODULES.E_MOTION, lModule);
+
             // --- Get the CameraTest Script --
             if ((lModule = lTestManager.GetComponent<CameraTest>()) == null)
             {
@@ -52,13 +60,16 @@ namespace BuddyApp.AutomatedTest
             }
             AutomatedTestData.Instance.Modules.Add(AutomatedTestData.MODULES.E_CAMERA, lModule);
 
-            // --- Get the MotionTest Script --
-            if ((lModule = lTestManager.GetComponent<MotionTest>()) == null)
+            // --- Get the VocalTest Script --
+            if ((lModule = lTestManager.GetComponent<VocalTest>()) == null)
             {
-                Debug.LogError("Please attach a MotionTest Script to the TestManager.");
+                Debug.LogError("Please attach a VocalTest Script to the TestManager.");
                 return;
             }
-            AutomatedTestData.Instance.Modules.Add(AutomatedTestData.MODULES.E_MOTION, lModule);
+            AutomatedTestData.Instance.Modules.Add(AutomatedTestData.MODULES.E_VOCAL, lModule);
+
+            // --- Get the GuiTest Script --
+            // not implemented yet
 
             Trigger("MenuTrigger");
         }

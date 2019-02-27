@@ -12,9 +12,11 @@ namespace BuddyApp.AutomatedTest
         public delegate IEnumerator TestRoutine();
 
         // Test pool - Useful to call directly the function throught a key
+        // Be careful each element have to correspond with a key in the language dictionary
         protected Dictionary<string, TestRoutine> mTestPool = null;
 
         // All available test for this module
+        // Be careful each element have to correspond with a key in the language dictionary
         protected List<string> mAvailableTest = null;
 
         // Storage of each test to perform, selected by the user.

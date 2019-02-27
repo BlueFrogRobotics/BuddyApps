@@ -46,32 +46,28 @@ namespace BuddyApp.AutomatedTest
             Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("testlog"));
 
             // FileLog Header - replace all field by data
-            lFileLog = mHeaderFileLog.Replace("date", DateTime.Today.ToShortDateString())
-                                                            .Replace("time", DateTime.Today.ToShortTimeString())
+            lFileLog = mHeaderFileLog.Replace("date", DateTime.Now.ToShortDateString())
+                                                            .Replace("time", DateTime.Now.ToShortTimeString())
                                                             .Replace("robotUid", Buddy.Platform.RobotUID)
                                                             .Replace("bre", Buddy.Platform.RobotSoftwareVersion);
 
             Buddy.GUI.Toaster.Display<VerticalListToast>().With((iBuilder) =>
             {
                 // Display result for each Modules
-                for (AutomatedTestData.MODULES lEntry = 0; lEntry < AutomatedTestData.MODULES.E_NB_MODULE; lEntry++)
+                foreach (KeyValuePair<AutomatedTestData.MODULES, AModuleTest> lModule in AutomatedTestData.Instance.Modules)
                 {
-                    // Skip the module if it's result pool is empty
-                    if (AutomatedTestData.Instance.Modules.ContainsKey(lEntry) == false)
-                        continue;
-                    AModuleTest lModule = AutomatedTestData.Instance.Modules[lEntry];
-                    Dictionary<string, bool> lModuleResult = lModule.GetResult();
+                    Dictionary<string, bool> lModuleResult = lModule.Value.GetResult();
                     if (lModuleResult == null || (lModuleResult != null && lModuleResult.Count == 0))
                         continue;
 
                     // Display the name of the module
                     TVerticalListBox lModuleName = iBuilder.CreateBox();
-                    lModuleName.SetLabel(lModule.Name);
+                    lModuleName.SetLabel(lModule.Value.Name);
                     lModuleName.LeftButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_list"));
                     lModuleName.LeftButton.SetBackgroundColor(new Color(0.5f, 0.5f, 0.5f, 1F));
 
                     // Add the module name to the FileLog
-                    lFileLog += Environment.NewLine + mModuleNameTemplate.Replace("moduleName", lModule.Name) + Environment.NewLine;
+                    lFileLog += Environment.NewLine + mModuleNameTemplate.Replace("moduleName", lModule.Value.Name) + Environment.NewLine;
 
                     // Then display all test result for this module
                     foreach (KeyValuePair<string, bool> lResult in lModuleResult)
@@ -92,16 +88,18 @@ namespace BuddyApp.AutomatedTest
                         else
                         {
                             // TEST KO - Name of the test + feedback
-                            lBox.SetLabel(Buddy.Resources.GetString(lResult.Key) + ": " + lModule.GetErrorByTest(lResult.Key));
+                            lBox.SetLabel(Buddy.Resources.GetString(lResult.Key) + ": " + lModule.Value.GetErrorByTest(lResult.Key));
                             lBox.LeftButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_close"));
                             lBox.LeftButton.SetBackgroundColor(Color.red);
                             // Add the test name & result to the FileLog
                             lFileLog += mTestNameTemplate.Replace("testName", Buddy.Resources.GetString(lResult.Key))
                                                             .Replace("testResult", "KO")
-                                                            .Replace("NoFeedback", lModule.GetErrorByTest(lResult.Key)) + Environment.NewLine;
+                                                            .Replace("NoFeedback", lModule.Value.GetErrorByTest(lResult.Key)) + Environment.NewLine;
                         }
                     }
                 }
+
+                Debug.LogWarning("-- END TEST LOG LIST --");
 
                 //  Then user can send log to an email or go back to menu
                 TVerticalListBox lEndBox = iBuilder.CreateBox();
@@ -116,6 +114,8 @@ namespace BuddyApp.AutomatedTest
                 lEndBox.LeftButton.SetBackgroundColor(new Color(0.5f, 0.5f, 0.5f, 1F));
                 lEndBox.LeftButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_mail"));
                 lEndBox.LeftButton.OnClick.Add(() => SendFileLog(lFileLog));
+
+                Debug.LogWarning("-- END TEST LOG UI--");
             });
         }
 
