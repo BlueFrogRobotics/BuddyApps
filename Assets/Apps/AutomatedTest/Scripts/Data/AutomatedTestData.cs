@@ -13,7 +13,7 @@ namespace BuddyApp.AutomatedTest
         {
             E_MOTION,
             E_CAMERA,
-            //E_VOCAL,
+            E_VOCAL,
             //E_GUI,
             E_NB_MODULE,
         }

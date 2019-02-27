@@ -5,20 +5,25 @@ using BlueQuark;
 
 namespace BuddyApp.AutomatedTest
 {
-    public class VocalState : AStateMachineBehaviour
+    public sealed class ModuleState : AStateMachineBehaviour
     {
-        // This state display all available test for the vocal module, and ask user what test he wants to run
+        // This state display all available test for the selected module, and ask user what test he wants to run
 
-        private AModuleTest mMotionTest;
+        private AModuleTest mModuleTest;
         private List<string> mAvailableTestKeys;
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            mMotionTest = AutomatedTestData.Instance.Modules[AutomatedTestData.MODULES.E_VOCAL];
-            mAvailableTestKeys = mMotionTest.GetAvailableTest();
+            if (GetInteger("ModuleTrigger") > (int)AutomatedTestData.MODULES.E_NB_MODULE)
+            {
+                Debug.LogError("AutomatedTest : ERROR : Module index out of range.");
+                return;
+            }
+            mModuleTest = AutomatedTestData.Instance.Modules[(AutomatedTestData.MODULES)GetInteger("ModuleTrigger")];
+            mAvailableTestKeys = mModuleTest.GetAvailableTest();
 
             Buddy.GUI.Header.DisplayParametersButton(false);
-            Buddy.GUI.Header.DisplayLightTitle(mMotionTest.Name);
+            Buddy.GUI.Header.DisplayLightTitle(mModuleTest.Name);
 
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
             {
@@ -38,13 +43,13 @@ namespace BuddyApp.AutomatedTest
                 {
                     TToggle lToggle = iBuilder.CreateWidget<TToggle>();
                     lToggle.SetLabel(Buddy.Resources.GetString(lTestKey));
-                    lToggle.ToggleValue = mMotionTest.ContainSelectedTest(lTestKey);
+                    lToggle.ToggleValue = mModuleTest.ContainSelectedTest(lTestKey);
                     lToggle.OnToggle.Add((iToggle) =>
                     {
                         if (iToggle)
-                            mMotionTest.AddSelectedTest(lTestKey);
+                            mModuleTest.AddSelectedTest(lTestKey);
                         else
-                            mMotionTest.RemoveSelectedTest(lTestKey);
+                            mModuleTest.RemoveSelectedTest(lTestKey);
                     });
                     lToggles.Add(lToggle);
                 }
@@ -61,7 +66,7 @@ namespace BuddyApp.AutomatedTest
             () =>
             {
                 Debug.Log("Click next");
-                if (mMotionTest.SelectedTestLength() > 0)
+                if (mModuleTest.SelectedTestLength() > 0)
                     Trigger("RunTrigger");
             },
             // Right button Name
@@ -70,9 +75,9 @@ namespace BuddyApp.AutomatedTest
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            SetInteger("ModuleTrigger", -1);
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
         }
     }
 }
-

@@ -15,14 +15,12 @@ namespace BuddyApp.AutomatedTest
             StartCoroutine(RunTest());
         }
 
-
         private IEnumerator RunTest()
         {
-            for (AutomatedTestData.MODULES lEntry = 0; lEntry < AutomatedTestData.MODULES.E_NB_MODULE; lEntry++)
+            foreach (KeyValuePair<AutomatedTestData.MODULES, AModuleTest> lModule in AutomatedTestData.Instance.Modules)
             {
-                Debug.LogWarning("-- RUN SELECTED TEST OF:" + lEntry.ToString() + " --");
-                if (AutomatedTestData.Instance.Modules.ContainsKey(lEntry))
-                    yield return AutomatedTestData.Instance.Modules[lEntry].RunSelectedTest();
+                Debug.LogWarning("-- RUN SELECTED TEST OF:" + lModule.Key.ToString() + " --");
+                yield return lModule.Value.RunSelectedTest();
             }
             Trigger("TestLogTrigger");
             Debug.LogWarning("-- END RUN TEST --");
@@ -35,4 +33,3 @@ namespace BuddyApp.AutomatedTest
         }
     }
 }
-
