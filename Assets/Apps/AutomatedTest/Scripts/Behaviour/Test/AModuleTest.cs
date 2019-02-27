@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BuddyApp.AutomatedTest
 {
-    public abstract class AModuleTest : MonoBehaviour //ask CORE If OK
+    public abstract class AModuleTest : MonoBehaviour
     {
         public abstract string Name { get; }
 
@@ -20,25 +20,31 @@ namespace BuddyApp.AutomatedTest
         // Storage of each test to perform, selected by the user.
         private  List<string> mSelectedKey;
 
-        // Result Pool - It contain all last test perform with their result. (Just boolean for now)
+        // Result Pool - It contain all last test perform with their result.
+        // If a test failed mErrorPool is fill with error feedback
         protected Dictionary<string, bool> mResultPool;
+
+        // Error Pool - It contain all error feedback of failed test. (user's feedback and/or system's feedback)
+        protected Dictionary<string, string> mErrorPool;
+
+        protected float mTimer;
 
         //  --- Method ---
 
         // Getter for AvailableTest
         public List<string> GetAvailableTest() { return mAvailableTest; }
 
-        // This function have to create and fill the TestPool
+        // This function have to create and fill the TestPool - This keys must have the same name of keys dictionnary language for the test
         public abstract void InitPool();
 
-        // This function have to create and fill the AvailableTest List
-        public abstract void InitTestList() ;
-
+        // This function have to create and fill the AvailableTest List - The list contains all mTestPool keys.
+        public abstract void InitTestList();
 
         public AModuleTest()
         {
             mSelectedKey = new List<string>();
             mResultPool = new Dictionary<string, bool>();
+            mErrorPool = new Dictionary<string, string>();
             InitTestList();
             InitPool();
         }
@@ -51,10 +57,22 @@ namespace BuddyApp.AutomatedTest
                 Debug.Log("<color=" + color + ">----" + msg + "----</color>");
         }
 
+        public IEnumerator TimeOut(float iTimer, System.Action iOnEndTimer)
+        {
+            mTimer = 0;
+            while (mTimer < iTimer)
+            {
+                yield return null;
+                mTimer += Time.deltaTime;
+            }
+            iOnEndTimer();
+        }
+
         public IEnumerator RunSelectedTest()
         {
             // Clear all precedent result
             mResultPool.Clear();
+            mErrorPool.Clear();
 
             // Run each TestRoutine
             foreach (string lTest in mSelectedKey)
@@ -64,12 +82,49 @@ namespace BuddyApp.AutomatedTest
             }
         }
 
+        public void SelectAllTest()
+        {
+            mSelectedKey.Clear();
+            foreach (string lTest in mAvailableTest)
+            {
+                if (mTestPool.ContainsKey(lTest) && !mSelectedKey.Contains(lTest))
+                    mSelectedKey.Add(lTest);
+            }
+        }
+
+        // --- mResultPool Method ---
+
         public Dictionary<string, bool> GetResult()
         {
-            if (mResultPool.Count == 0)
+            if (mResultPool == null || mResultPool.Count == 0)
                 return null;
             return new Dictionary<string, bool>(mResultPool);
         }
+
+        // --- mErrorPool Method ---
+
+        public string GetErrorByTest(string iTest)
+        {
+            if (mErrorPool == null || mErrorPool.Count == 0)
+                return "NoFeedback";
+            if (ContainFeedbackError(iTest))
+                return mErrorPool[iTest];
+            return "NoFeedback";
+        }
+
+        public bool ContainFeedbackError(string iKey)
+        {
+            if (mErrorPool == null || mErrorPool.Count == 0)
+                return false;
+            return mErrorPool.ContainsKey(iKey);
+        }
+
+        public void ClearError()
+        {
+            mErrorPool.Clear();
+        }
+
+        // --- mSelectedKey Method ---
 
         public bool ContainSelectedTest(string iTest)
         {
@@ -95,16 +150,6 @@ namespace BuddyApp.AutomatedTest
         public int SelectedTestLength()
         {
             return mSelectedKey.Count;
-        }
-
-        public void SelectAllTest()
-        {
-            mSelectedKey.Clear();
-            foreach (string lTest in mAvailableTest)
-            {
-                if (mTestPool.ContainsKey(lTest) && !mSelectedKey.Contains(lTest))
-                    mSelectedKey.Add(lTest);
-            }
         }
     }
 }

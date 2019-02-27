@@ -9,25 +9,20 @@ namespace BuddyApp.AutomatedTest
 {
     public sealed class CameraTest : AModuleTest
     {
-        /*
-        *  Dependances (SDK tools used by this module):
-        *  Buddy.GUI.Toaster.Hide();
-        *  Buddy.GUI.Toaster.IsBusy;
-        *  Buddy.GUI.Toaster.Display<VideoStreamToast>().With(mTextureCam);
-        *  Buddy.GUI.Toaster.Display<PictureToast>().With(img, onFinish);
-        */
-
         public override string Name
         {
             get
             {
-                return ("Camera Test");
+                return (Buddy.Resources.GetString("camera"));
             }
         }
 
         // Coefficient use to adjust all skeleton point, on the image.
         private const float COEFF_X = 1.7F;
         private const float COEFF_Y = 2.45F;
+
+        // Time out for detection test
+        private const float TIMEOUT = 5F;
 
         // Detection layer
         private Mat mMatDetect;
@@ -45,24 +40,22 @@ namespace BuddyApp.AutomatedTest
         public override void InitTestList()
         {
             mAvailableTest = new List<string>();
-            mAvailableTest.Add("CameraView");
-            mAvailableTest.Add("MotionDetect");
-            mAvailableTest.Add("FaceDetect");
-            mAvailableTest.Add("HumanDetect");
-            mAvailableTest.Add("SkeletonDetect");
-            mAvailableTest.Add("TakePhoto");
+            mAvailableTest.Add("motiondetect");
+            mAvailableTest.Add("facedetect");
+            mAvailableTest.Add("humandetect");
+            mAvailableTest.Add("skeletondetect");
+            mAvailableTest.Add("takephoto");
             return;
         }
 
         public override void InitPool()
         {
             mTestPool = new Dictionary<string, TestRoutine>();
-            mTestPool.Add("CameraView", CameraView);
-            mTestPool.Add("MotionDetect", MotionDetectTests);
-            mTestPool.Add("FaceDetect", FaceDetectTests);
-            mTestPool.Add("HumanDetect", HumanDetectTests);
-            mTestPool.Add("SkeletonDetect", SkeletonDetectTests);
-            mTestPool.Add("TakePhoto", TakePhotoTests);
+            mTestPool.Add("motiondetect", MotionDetectTests);
+            mTestPool.Add("facedetect", FaceDetectTests);
+            mTestPool.Add("humandetect", HumanDetectTests);
+            mTestPool.Add("skeletondetect", SkeletonDetectTests);
+            mTestPool.Add("takephoto", TakePhotoTests);
             return;
         }
 
@@ -96,10 +89,9 @@ namespace BuddyApp.AutomatedTest
 
         // Common interface for all MotionTest
         #region COMMON_UI
-        private void DisplayTestUi(string iTestTitle, string iTest, bool iCameraView = true)
+        private void DisplayTestUi(string iTest, bool iCameraView = true)
         {
-            if (!string.IsNullOrEmpty(iTestTitle))
-                Buddy.GUI.Header.DisplayLightTitle(iTestTitle);
+            Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString(iTest));
             if (iCameraView)
                 Buddy.GUI.Toaster.Display<VideoStreamToast>().With(mTextureCam);
 
@@ -108,8 +100,8 @@ namespace BuddyApp.AutomatedTest
             lFailButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_close"));
             lFailButton.SetBackgroundColor(Color.red);
             lFailButton.SetIconColor(Color.white);
-            lFailButton.OnClick.Add(() => { mTestInProcess = false; mResultPool.Add(iTest, false); });
-
+            lFailButton.OnClick.Add(() => { mTestInProcess = false; mResultPool.Add(iTest, false); mErrorPool.Add(iTest, "From tester"); });
+        
             // Success button
             FButton lSuccessButton = Buddy.GUI.Footer.CreateOnRight<FButton>();
             lSuccessButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_check"));
@@ -120,33 +112,6 @@ namespace BuddyApp.AutomatedTest
         #endregion
 
         // All TestRoutine of this module:
-        #region CAMERA_VIEW
-        public IEnumerator CameraView()
-        {
-            //  --- INIT ---
-            mTestInProcess = true;
-            // Initialize texture.
-            mTextureCam = new Texture2D(Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height);
-            // Setting of the callback to use camera data
-            Buddy.Sensors.RGBCamera.OnNewFrame.Add((iInput) => OnFrameCaptured(iInput));
-
-            //  --- CODE ---
-            DebugColor("CameraView work in progress", "blue");
-            DisplayTestUi("Camera View", "CameraView");
-
-            // --- Wait for User ---
-            while (mTestInProcess)
-                yield return null;
-
-            //  --- EXIT ---
-            Buddy.GUI.Header.HideTitle();
-            Buddy.GUI.Toaster.Hide();
-            Buddy.GUI.Footer.Hide();
-            Buddy.Sensors.RGBCamera.OnNewFrame.Clear();
-            Buddy.Sensors.RGBCamera.Close();
-            yield return new WaitWhile(() => Buddy.GUI.Toaster.IsBusy);
-        }
-        #endregion
 
         #region MOTION_DETECT
         public IEnumerator MotionDetectTests()
@@ -168,13 +133,22 @@ namespace BuddyApp.AutomatedTest
 
             //  --- CODE ---
             DebugColor("MotionDetect work in progress", "blue");
-            DisplayTestUi("Motion Detect", "MotionDetect");
+            DisplayTestUi("motiondetect");
+            // Start the timer for the TimeOut - If no detection occured since 2.5 sec TIMEOUT this test
+            IEnumerator lTimeOut = TimeOut(TIMEOUT, () => 
+            {
+                mTestInProcess = false;
+                mResultPool.Add("motiondetect", false);
+                mErrorPool.Add("motiondetect", "TIMEOUT");
+            });
+            StartCoroutine(lTimeOut);
 
             // --- Wait for User ---
             while (mTestInProcess)
                 yield return null;
 
             //  --- EXIT ---
+            StopCoroutine(lTimeOut);
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
@@ -187,6 +161,7 @@ namespace BuddyApp.AutomatedTest
         // Callback when there is motions detected
         private bool OnMovementDetected(MotionEntity[] iMotions)
         {
+            mTimer = 0F;
             //Draw circle on every motions detected on the detect layer
             foreach (MotionEntity lEntity in iMotions)
             {
@@ -217,13 +192,22 @@ namespace BuddyApp.AutomatedTest
 
             //  --- CODE ---
             DebugColor("FaceDetectDetect work in progress", "blue");
-            DisplayTestUi("Face Detect", "FaceDetect");
+            DisplayTestUi("facedetect");
+            // Start the timer for the TimeOut - If no detection occured since 2.5 sec TIMEOUT this test
+            IEnumerator lTimeOut = TimeOut(TIMEOUT, () =>
+            {
+                mTestInProcess = false;
+                mResultPool.Add("facedetect", false);
+                mErrorPool.Add("facedetect", "TIMEOUT");
+            });
+            StartCoroutine(lTimeOut);
 
             // --- Wait for User ---
             while (mTestInProcess)
                 yield return null;
 
             //  --- EXIT ---
+            StopCoroutine(lTimeOut);
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
@@ -235,6 +219,7 @@ namespace BuddyApp.AutomatedTest
 
         private bool OnFaceDetect(FaceEntity[] iFaces)
         {
+            mTimer = 0F;
             //Draw rectangle on each human detected on the detect layer
             foreach (FaceEntity lEntity in iFaces)
             {
@@ -272,13 +257,22 @@ namespace BuddyApp.AutomatedTest
 
             //  --- CODE ---
             DebugColor("HumanDetectDetect work in progress", "blue");
-            DisplayTestUi("Human Detect", "HumanDetect");
+            DisplayTestUi("humandetect");
+            // Start the timer for the TimeOut - If no detection occured since 2.5 sec TIMEOUT this test
+            IEnumerator lTimeOut = TimeOut(TIMEOUT, () =>
+            {
+                mTestInProcess = false;
+                mResultPool.Add("humandetect", false);
+                mErrorPool.Add("humandetect", "TIMEOUT");
+            });
+            StartCoroutine(lTimeOut);
 
             // --- Wait for User ---
             while (mTestInProcess)
                 yield return null;
 
             //  --- EXIT ---
+            StopCoroutine(lTimeOut);
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
@@ -290,6 +284,7 @@ namespace BuddyApp.AutomatedTest
 
         private bool OnHumanDetect(HumanEntity[] iHumans)
         {
+            mTimer = 0F;
             //Draw rectangle on each human detected on the detect layer
             foreach (HumanEntity lEntity in iHumans)
             {
@@ -320,7 +315,15 @@ namespace BuddyApp.AutomatedTest
 
             //  --- CODE ---
             DebugColor("SkeletonDetectDetect work in progress", "blue");
-            DisplayTestUi("Skeleton Detect", "SkeletonDetect");
+            DisplayTestUi("skeletondetect");
+            // Start the timer for the TimeOut - If no detection occured since 2.5 sec TIMEOUT this test
+            IEnumerator lTimeOut = TimeOut(TIMEOUT, () =>
+            {
+                mTestInProcess = false;
+                mResultPool.Add("skeletondetect", false);
+                mErrorPool.Add("skeletondetect", "TIMEOUT");
+            });
+            StartCoroutine(lTimeOut);
 
             // --- Wait for User ---
             while (mTestInProcess)
@@ -339,6 +342,7 @@ namespace BuddyApp.AutomatedTest
 
         private bool OnSkeletonDetect(SkeletonEntity[] iSkeleton)
         {
+            mTimer = 0F;
             int lWidth = mMatDetect.cols();
             int lHeight = mMatDetect.rows();
             // Calcul the center of the img
@@ -372,7 +376,7 @@ namespace BuddyApp.AutomatedTest
         }
         #endregion
 
-        // Doesn't work yet - TODO: Debug to know if the bug is here or in the SDK
+        // Doesn't work yet - No timeout for this test
         #region TAKE_PHOTO
         public IEnumerator TakePhotoTests()
         {
@@ -416,7 +420,7 @@ namespace BuddyApp.AutomatedTest
             }
             Buddy.GUI.Toaster.Display<PictureToast>().With(iMyPhoto.Image);
             //Show Ui Button but disable VideoToaster
-            DisplayTestUi("Take Photo", "TakePhoto", false);
+            DisplayTestUi("takephoto", false);
         }
         #endregion
     }

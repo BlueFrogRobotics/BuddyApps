@@ -12,7 +12,7 @@ namespace BuddyApp.AutomatedTest
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Buddy.GUI.Header.DisplayParametersButton(false);
-            Buddy.GUI.Header.DisplayLightTitle("Full Test");
+            Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("fulltest"));
 
             for (AutomatedTestData.MODULES lModule = 0; lModule < AutomatedTestData.MODULES.E_NB_MODULE; lModule++)
             {
@@ -23,7 +23,7 @@ namespace BuddyApp.AutomatedTest
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
             TText lText = iBuilder.CreateWidget<TText>();
             lText.SetCenteredLabel(true);
-            lText.SetLabel("All available test will run. Click 'Next' to continue");
+            lText.SetLabel(Buddy.Resources.GetString("alltest"));
             },
             // Left button Callback
             () =>
@@ -32,7 +32,7 @@ namespace BuddyApp.AutomatedTest
                 Trigger("MenuTrigger");
             },
             // Left button Name
-            "Cancel",
+            Buddy.Resources.GetString("cancel"),
             // Right Button Callback
             () =>
             {
@@ -40,7 +40,7 @@ namespace BuddyApp.AutomatedTest
                 Trigger("RunTrigger");
             },
             // Right button Name
-            "Next");
+            Buddy.Resources.GetString("next"));
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

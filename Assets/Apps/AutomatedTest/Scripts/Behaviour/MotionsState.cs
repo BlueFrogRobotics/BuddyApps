@@ -25,7 +25,7 @@ namespace BuddyApp.AutomatedTest
                 List<TToggle> lToggles = new List<TToggle>();
 
                 TButton lSelectAll = iBuilder.CreateWidget<TButton>();
-                lSelectAll.SetLabel("Inverser la sélection");
+                lSelectAll.SetLabel(Buddy.Resources.GetString("reverseselection"));
                 lSelectAll.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_retweet"));
                 lSelectAll.OnClick.Add(() =>
                 {
@@ -37,7 +37,7 @@ namespace BuddyApp.AutomatedTest
                 foreach (string lTestKey in mAvailableTestKeys)
                 {
                     TToggle lToggle = iBuilder.CreateWidget<TToggle>();
-                    lToggle.SetLabel(lTestKey);
+                    lToggle.SetLabel(Buddy.Resources.GetString(lTestKey));
                     lToggle.ToggleValue = mMotionTest.ContainSelectedTest(lTestKey);
                     lToggle.OnToggle.Add((iToggle) =>
                     {
@@ -56,7 +56,7 @@ namespace BuddyApp.AutomatedTest
                 Trigger("MenuTrigger");
             },
             // Left button Name
-            "Back",
+            Buddy.Resources.GetString("back"),
             // Right Button Callback
             () =>
             {
@@ -65,7 +65,7 @@ namespace BuddyApp.AutomatedTest
                     Trigger("RunTrigger");
             },
             // Right button Name
-            "Run");
+            Buddy.Resources.GetString("run"));
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
