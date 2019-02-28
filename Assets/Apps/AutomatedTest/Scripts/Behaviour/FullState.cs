@@ -14,16 +14,11 @@ namespace BuddyApp.AutomatedTest
             Buddy.GUI.Header.DisplayParametersButton(false);
             Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("fulltest"));
 
-            for (AutomatedTestData.MODULES lModule = 0; lModule < AutomatedTestData.MODULES.E_NB_MODULE; lModule++)
+            Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
             {
-                if (AutomatedTestData.Instance.Modules.ContainsKey(lModule))
-                    AutomatedTestData.Instance.Modules[lModule].SelectAllTest();
-            }
-
-            Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
-            TText lText = iBuilder.CreateWidget<TText>();
-            lText.SetCenteredLabel(true);
-            lText.SetLabel(Buddy.Resources.GetString("alltest"));
+                TText lText = iBuilder.CreateWidget<TText>();
+                lText.SetCenteredLabel(true);
+                lText.SetLabel(Buddy.Resources.GetString("alltest"));
             },
             // Left button Callback
             () =>
@@ -37,6 +32,11 @@ namespace BuddyApp.AutomatedTest
             () =>
             {
                 Debug.Log("Click next");
+                ModuleManager.GetInstance().ForeachModulesDo((iModule) =>
+                {
+                    iModule.Value.SelectAllTest();
+                });
+
                 Trigger("RunTrigger");
             },
             // Right button Name

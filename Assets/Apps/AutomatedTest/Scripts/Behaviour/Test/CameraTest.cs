@@ -21,11 +21,6 @@ namespace BuddyApp.AutomatedTest
         private const float COEFF_X = 1.7F;
         private const float COEFF_Y = 2.45F;
 
-        // Time out for detection test
-        private const float TIMEOUT = 5F;
-
-        private const string TIMEOUT_MSG = "NO DETECT TIMEOUT";
-
         // Detection layer
         private Mat mMatDetect;
 
@@ -33,9 +28,9 @@ namespace BuddyApp.AutomatedTest
         private Texture2D mTextureCam;
 
         // Color to use for detection layer
-        private Color mColorOfDisplay;
+        private Scalar mColorOfDisplay;
 
-        private bool mTestInProcess;
+        private bool mTestAutoEvaluated;
 
         //  --- Method ---
 
@@ -43,10 +38,11 @@ namespace BuddyApp.AutomatedTest
         {
             mAvailableTest = new List<string>();
             mAvailableTest.Add("motiondetect");
-            mAvailableTest.Add("facedetect");
+            //mAvailableTest.Add("facedetect");
             mAvailableTest.Add("humandetect");
             mAvailableTest.Add("skeletondetect");
-            mAvailableTest.Add("takephoto");
+            mAvailableTest.Add("takephotorgb");
+            mAvailableTest.Add("takephotohd");
             return;
         }
 
@@ -54,22 +50,25 @@ namespace BuddyApp.AutomatedTest
         {
             mTestPool = new Dictionary<string, TestRoutine>();
             mTestPool.Add("motiondetect", MotionDetectTests);
-            mTestPool.Add("facedetect", FaceDetectTests);
+            //mTestPool.Add("facedetect", FaceDetectTests);
             mTestPool.Add("humandetect", HumanDetectTests);
             mTestPool.Add("skeletondetect", SkeletonDetectTests);
-            mTestPool.Add("takephoto", TakePhotoTests);
+            mTestPool.Add("takephotorgb", TakePhotoRgbTests);
+            mTestPool.Add("takephotohd", TakePhotoHdTests);
             return;
         }
 
-        public CameraTest()
+        private void Awake()
         {
-            mTestInProcess = false;
+            mColorOfDisplay = new Scalar(UnityEngine.Random.Range(128, 255), UnityEngine.Random.Range(0, 255), UnityEngine.Random.Range(0, 255));
         }
 
         // On each frame captured by the camera this function is called, with the matrix of pixel.
         #region CAMERA_CALLBACK
         private void OnFrameCaptured(RGBCameraFrame iInput)
         {
+            if (iInput == null)
+                return;
             // Always clone the input matrix, this avoid to working with the original matrix, when the C++ part wants to modify it.
             Mat lMatSrc = iInput.Mat.clone();
 
@@ -89,37 +88,13 @@ namespace BuddyApp.AutomatedTest
         }
         #endregion
 
-        // Common interface for all MotionTest
-        #region COMMON_UI
-        private void DisplayTestUi(string iTest, bool iCameraView = true)
-        {
-            Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString(iTest));
-            if (iCameraView)
-                Buddy.GUI.Toaster.Display<VideoStreamToast>().With(mTextureCam);
-
-            // Fail button
-            FButton lFailButton = Buddy.GUI.Footer.CreateOnLeft<FButton>();
-            lFailButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_close"));
-            lFailButton.SetBackgroundColor(Color.red);
-            lFailButton.SetIconColor(Color.white);
-            lFailButton.OnClick.Add(() => { mTestInProcess = false; mResultPool.Add(iTest, false); mErrorPool.Add(iTest, "From tester"); });
-        
-            // Success button
-            FButton lSuccessButton = Buddy.GUI.Footer.CreateOnRight<FButton>();
-            lSuccessButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_check"));
-            lSuccessButton.SetBackgroundColor(Color.green);
-            lSuccessButton.SetIconColor(Color.white);
-            lSuccessButton.OnClick.Add(() => { mTestInProcess = false; mResultPool.Add(iTest, true); });
-        }
-        #endregion
-
         // All TestRoutine of this module:
 
         #region MOTION_DETECT
         public IEnumerator MotionDetectTests()
         {
             //  --- INIT ---
-            mTestInProcess = true;
+            mTestAutoEvaluated = false;
             // Initialize texture.
             mTextureCam = new Texture2D(Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height);
             // Setting of the callback to use camera data
@@ -131,43 +106,34 @@ namespace BuddyApp.AutomatedTest
             mMotionDetectorParameter.SensibilityThreshold = 2.5F;
             // OnDetect opens the camera itself so we don't have to do it. Default resolution is 640*480
             Buddy.Perception.MotionDetector.OnDetect.AddP(OnMovementDetected, mMotionDetectorParameter);
-            mColorOfDisplay = new Color(UnityEngine.Random.Range(128, 255), UnityEngine.Random.Range(0, 255), UnityEngine.Random.Range(0, 255));
 
             //  --- CODE ---
             DebugColor("MotionDetect work in progress", "blue");
-            DisplayTestUi("motiondetect");
-            // Start the timer for the TimeOut - If no detection occured since 2.5 sec TIMEOUT this test
-            IEnumerator lTimeOut = TimeOut(TIMEOUT, () => 
-            {
-                mTestInProcess = false;
-                mResultPool.Add("motiondetect", false);
-                mErrorPool.Add("motiondetect", TIMEOUT_MSG);
-            });
-            StartCoroutine(lTimeOut);
+            DisplayTestUi("motiondetect", mTextureCam);
 
             // --- Wait for User ---
             while (mTestInProcess)
                 yield return null;
 
+            // --- Wait Before Quit in AUTO ---
+            if (Mode == TestMode.M_AUTO)
+                yield return new WaitForSeconds(3F);
+
             //  --- EXIT ---
-            StopCoroutine(lTimeOut);
-            Buddy.GUI.Header.HideTitle();
-            Buddy.GUI.Toaster.Hide();
-            Buddy.GUI.Footer.Hide();
             Buddy.Perception.MotionDetector.OnDetect.Clear();
             Buddy.Sensors.RGBCamera.OnNewFrame.Clear();
             Buddy.Sensors.RGBCamera.Close();
-            yield return new WaitWhile(() => Buddy.GUI.Toaster.IsBusy);
         }
 
         // Callback when there is motions detected
         private bool OnMovementDetected(MotionEntity[] iMotions)
         {
-            mTimer = 0F;
+            if (mMatDetect == null)
+                return true;
             //Draw circle on every motions detected on the detect layer
             foreach (MotionEntity lEntity in iMotions)
             {
-                Imgproc.circle(mMatDetect, Utils.Center(lEntity.RectInFrame), 3, new Scalar(mColorOfDisplay), 3);
+                Imgproc.circle(mMatDetect, Utils.Center(lEntity.RectInFrame), 3, mColorOfDisplay, 3);
             }
 
             // Flip to avoid mirror effect.
@@ -177,6 +143,15 @@ namespace BuddyApp.AutomatedTest
             mTextureCam = Utils.ScaleTexture2DFromMat(mMatDetect, mTextureCam);
             // Use matrice of the detect layer to fill the texture.
             Utils.MatToTexture2D(mMatDetect, mTextureCam);
+
+            // Valid the test in auto mode, at the first detection
+            if (Mode == TestMode.M_AUTO && mTestAutoEvaluated == false)
+            {
+                mTestAutoEvaluated = true;
+                mResultPool.Add("motiondetect", true);
+                mTestInProcess = false;
+            }
+
             return true;
         }
         #endregion
@@ -185,7 +160,7 @@ namespace BuddyApp.AutomatedTest
         public IEnumerator FaceDetectTests()
         {
             //  --- INIT ---
-            mTestInProcess = true;
+            mTestAutoEvaluated = false;
             // Initialize texture.
             mTextureCam = new Texture2D(Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height);
             // Setting of the callback to use camera data
@@ -194,38 +169,30 @@ namespace BuddyApp.AutomatedTest
 
             //  --- CODE ---
             DebugColor("FaceDetectDetect work in progress", "blue");
-            DisplayTestUi("facedetect");
-            // Start the timer for the TimeOut - If no detection occured since 2.5 sec TIMEOUT this test
-            IEnumerator lTimeOut = TimeOut(TIMEOUT, () =>
-            {
-                mTestInProcess = false;
-                mResultPool.Add("facedetect", false);
-                mErrorPool.Add("facedetect", TIMEOUT_MSG);
-            });
-            StartCoroutine(lTimeOut);
+            DisplayTestUi("facedetect", mTextureCam);
 
             // --- Wait for User ---
             while (mTestInProcess)
                 yield return null;
 
+            // --- Wait Before Quit in AUTO ---
+            if (Mode == TestMode.M_AUTO)
+                yield return new WaitForSeconds(3F);
+
             //  --- EXIT ---
-            StopCoroutine(lTimeOut);
-            Buddy.GUI.Header.HideTitle();
-            Buddy.GUI.Toaster.Hide();
-            Buddy.GUI.Footer.Hide();
             Buddy.Perception.FaceDetector.OnDetect.Clear();
             Buddy.Sensors.RGBCamera.OnNewFrame.Clear();
             Buddy.Sensors.RGBCamera.Close();
-            yield return new WaitWhile(() => Buddy.GUI.Toaster.IsBusy);
         }
 
         private bool OnFaceDetect(FaceEntity[] iFaces)
         {
-            mTimer = 0F;
+            if (mMatDetect == null)
+                return true;
             //Draw rectangle on each human detected on the detect layer
             foreach (FaceEntity lEntity in iFaces)
             {
-                Imgproc.rectangle(mMatDetect, lEntity.BoundingBox.tl(), lEntity.BoundingBox.br(), new Scalar(mColorOfDisplay));
+                Imgproc.rectangle(mMatDetect, lEntity.BoundingBox.tl(), lEntity.BoundingBox.br(), mColorOfDisplay);
             }
 
             // Flip to avoid mirror effect.
@@ -235,6 +202,15 @@ namespace BuddyApp.AutomatedTest
             mTextureCam = Utils.ScaleTexture2DFromMat(mMatDetect, mTextureCam);
             // Use matrice of the detect layer to fill the texture.
             Utils.MatToTexture2D(mMatDetect, mTextureCam);
+
+            // Valid the test in auto mode, at the first detection
+            if (Mode == TestMode.M_AUTO && mTestAutoEvaluated == false)
+            {
+                mTestAutoEvaluated = true;
+                mResultPool.Add("facedetect", true);
+                mTestInProcess = false;
+            }
+
             return true;
         }
         #endregion
@@ -243,7 +219,7 @@ namespace BuddyApp.AutomatedTest
         public IEnumerator HumanDetectTests()
         {
             //  --- INIT ---
-            mTestInProcess = true;
+            mTestAutoEvaluated = false;
             // Initialize texture.
             mTextureCam = new Texture2D(Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height);
             // Setting of the callback to use camera data
@@ -259,38 +235,30 @@ namespace BuddyApp.AutomatedTest
 
             //  --- CODE ---
             DebugColor("HumanDetectDetect work in progress", "blue");
-            DisplayTestUi("humandetect");
-            // Start the timer for the TimeOut - If no detection occured since 2.5 sec TIMEOUT this test
-            IEnumerator lTimeOut = TimeOut(TIMEOUT, () =>
-            {
-                mTestInProcess = false;
-                mResultPool.Add("humandetect", false);
-                mErrorPool.Add("humandetect", TIMEOUT_MSG);
-            });
-            StartCoroutine(lTimeOut);
+            DisplayTestUi("humandetect", mTextureCam);
 
             // --- Wait for User ---
             while (mTestInProcess)
                 yield return null;
 
+            // --- Wait Before Quit in AUTO ---
+            if (Mode == TestMode.M_AUTO)
+                yield return new WaitForSeconds(3F);
+
             //  --- EXIT ---
-            StopCoroutine(lTimeOut);
-            Buddy.GUI.Header.HideTitle();
-            Buddy.GUI.Toaster.Hide();
-            Buddy.GUI.Footer.Hide();
             Buddy.Perception.HumanDetector.OnDetect.Clear();
             Buddy.Sensors.RGBCamera.OnNewFrame.Clear();
             Buddy.Sensors.RGBCamera.Close();
-            yield return new WaitWhile(() => Buddy.GUI.Toaster.IsBusy);
         }
 
         private bool OnHumanDetect(HumanEntity[] iHumans)
         {
-            mTimer = 0F;
+            if (mMatDetect == null)
+                return true;
             //Draw rectangle on each human detected on the detect layer
             foreach (HumanEntity lEntity in iHumans)
             {
-                Imgproc.rectangle(mMatDetect, lEntity.BoundingBox.tl(), lEntity.BoundingBox.br(), new Scalar(mColorOfDisplay));
+                Imgproc.rectangle(mMatDetect, lEntity.BoundingBox.tl(), lEntity.BoundingBox.br(), mColorOfDisplay);
             }
 
             // Flip to avoid mirror effect.
@@ -299,6 +267,15 @@ namespace BuddyApp.AutomatedTest
             mTextureCam = Utils.ScaleTexture2DFromMat(mMatDetect, mTextureCam);
             // Use matrice of the detect layer to fill the texture.
             Utils.MatToTexture2D(mMatDetect, mTextureCam);
+
+            // Valid the test in auto mode, at the first detection
+            if (Mode == TestMode.M_AUTO && mTestAutoEvaluated == false)
+            {
+                mTestAutoEvaluated = true;
+                mResultPool.Add("humandetect", true);
+                mTestInProcess = false;
+            }
+
             return true;
         }
         #endregion
@@ -307,49 +284,47 @@ namespace BuddyApp.AutomatedTest
         public IEnumerator SkeletonDetectTests()
         {
             //  --- INIT ---
-            mTestInProcess = true;
             // Initialize texture.
+            mTestAutoEvaluated = false;
             mTextureCam = new Texture2D(Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height);
             // Setting of the callback to use camera data
             Buddy.Sensors.RGBCamera.OnNewFrame.Add((iInput) => OnFrameCaptured(iInput));
-            Buddy.Sensors.RGBCamera.Open(RGBCameraMode.COLOR_320X240_30FPS_RGB);
-            Buddy.Perception.SkeletonDetector.OnDetect.AddP(OnSkeletonDetect);
+            if (Buddy.Perception.SkeletonDetector.OnDetect.Count == 0)
+            {
+                Buddy.Sensors.RGBCamera.Open(RGBCameraMode.COLOR_320X240_30FPS_RGB);
+                Buddy.Perception.SkeletonDetector.OnDetect.AddP(OnSkeletonDetect);
+            }
 
             //  --- CODE ---
             DebugColor("SkeletonDetectDetect work in progress", "blue");
-            DisplayTestUi("skeletondetect");
-            // Start the timer for the TimeOut - If no detection occured since 2.5 sec TIMEOUT this test
-            IEnumerator lTimeOut = TimeOut(TIMEOUT, () =>
-            {
-                mTestInProcess = false;
-                mResultPool.Add("skeletondetect", false);
-                mErrorPool.Add("skeletondetect", TIMEOUT_MSG);
-            });
-            StartCoroutine(lTimeOut);
+            DisplayTestUi("skeletondetect", mTextureCam);
 
             // --- Wait for User ---
             while (mTestInProcess)
                 yield return null;
 
+            // --- Wait Before Quit in AUTO ---
+            if (Mode == TestMode.M_AUTO)
+                yield return new WaitForSeconds(3F);
+
             //  --- EXIT ---
-            StopCoroutine(lTimeOut);
-            Buddy.GUI.Header.HideTitle();
-            Buddy.GUI.Toaster.Hide();
-            Buddy.GUI.Footer.Hide();
             Buddy.Perception.SkeletonDetector.OnDetect.Clear();
             Buddy.Sensors.RGBCamera.OnNewFrame.Clear();
             Buddy.Sensors.RGBCamera.Close();
+            Buddy.Sensors.DepthCamera.OnNewFrame.Clear();
             Buddy.Sensors.DepthCamera.Close();
-            yield return new WaitWhile(() => Buddy.GUI.Toaster.IsBusy);
         }
 
         private bool OnSkeletonDetect(SkeletonEntity[] iSkeleton)
         {
-            mTimer = 0F;
+            if (mMatDetect == null)
+                return true;
+
             int lWidth = mMatDetect.cols();
             int lHeight = mMatDetect.rows();
             // Calcul the center of the img
             Point lCenter = new Point(lWidth / 2, lHeight / 2);
+
             foreach (SkeletonEntity lSkeleton in iSkeleton)
             {
                 foreach (SkeletonJoint lJoint in lSkeleton.Joints)
@@ -375,55 +350,64 @@ namespace BuddyApp.AutomatedTest
             mTextureCam = Utils.ScaleTexture2DFromMat(mMatDetect, mTextureCam);
             // Use matrice of the detect layer to fill the texture.
             Utils.MatToTexture2D(mMatDetect, mTextureCam);
+
+            // Valid the test in auto mode, at the first detection
+            if (Mode == TestMode.M_AUTO && mTestAutoEvaluated == false)
+            {
+                mTestAutoEvaluated = true;
+                mResultPool.Add("skeletondetect", true);
+                mTestInProcess = false;
+            }
             return true;
         }
         #endregion
 
-        // Doesn't work yet because TakePhotograph is broken - No timeout for this test
+        // Doesn't work yet because TakePhotograph is broken
         #region TAKE_PHOTO
-        public IEnumerator TakePhotoTests()
+        public IEnumerator TakePhotoRgbTests()
         {
             //  --- INIT RGBCam & TakePhoto with it ---
-            mTestInProcess = true;
+            DebugColor("---- TAKEPHOTOGRAPH RGBCAM ----", "red");
             Buddy.Sensors.RGBCamera.Open(RGBCameraMode.COLOR_640X480_30FPS_RGB);
             Buddy.Sensors.RGBCamera.TakePhotograph(OnFinish);
-
-            // --- Wait for User ---
-            while (mTestInProcess)
-                yield return null;
-
-            // --- TRANSITION ---
-            Buddy.GUI.Toaster.Hide();
-            Buddy.Sensors.RGBCamera.Close();
-            yield return new WaitWhile(() => Buddy.GUI.Toaster.IsBusy);
-
-            // --- INIT HDCam & TakePhoto with it ---
-            mTestInProcess = true;
-            Buddy.Sensors.HDCamera.Open(HDCameraMode.COLOR_640x480_30FPS_RGB);
-            Buddy.Sensors.HDCamera.TakePhotograph(OnFinish);
+            DisplayTestUi("takephotorgb");
 
             // --- Wait for User ---
             while (mTestInProcess)
                 yield return null;
 
             //  --- EXIT ---
-            Buddy.GUI.Header.HideTitle();
+            DebugColor("---- TAKEPHOTOGRAPH RGBCAM  END----", "red");
+            Buddy.Sensors.RGBCamera.Close();
+        }
+
+        public IEnumerator TakePhotoHdTests()
+        {
+            // --- INIT HDCam & TakePhoto with it ---
+            DebugColor("---- TAKEPHOTOGRAPH HDCAM ----", "red");
+            Buddy.Sensors.HDCamera.Open(HDCameraMode.COLOR_640x480_30FPS_RGB);
+            Buddy.Sensors.HDCamera.TakePhotograph(OnFinish);
+            DisplayTestUi("takephotohd");
+
+            // --- Wait for User ---
+            while (mTestInProcess)
+                yield return null;
+
+            //  --- EXIT ---
+            DebugColor("---- TAKEPHOTOGRAPH HDCAM  END----", "red");
+            Buddy.Sensors.HDCamera.Close();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
-            Buddy.Sensors.HDCamera.Close();
-            yield return new WaitWhile(() => Buddy.GUI.Toaster.IsBusy);
         }
 
         private void OnFinish(Photograph iMyPhoto)
         {
             if (iMyPhoto == null)
             {
-                mTestInProcess = false;
+                DebugColor("OnFinish take photo, iPhoto null", "red");
                 return;
             }
             Buddy.GUI.Toaster.Display<PictureToast>().With(iMyPhoto.Image);
-            //Show Ui Button but disable VideoToaster
-            DisplayTestUi("takephoto", false);
         }
         #endregion
     }
