@@ -14,12 +14,13 @@ namespace BuddyApp.AutomatedTest
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (GetInteger("ModuleTrigger") > (int)AutomatedTestData.MODULES.E_NB_MODULE)
+            ModuleManager.MODULES lModuleIndex = (ModuleManager.MODULES)GetInteger("ModuleTrigger");
+            if (lModuleIndex > ModuleManager.MODULES.E_NB_MODULE)
             {
                 Debug.LogError("AutomatedTest : ERROR : Module index out of range.");
                 return;
             }
-            mModuleTest = AutomatedTestData.Instance.Modules[(AutomatedTestData.MODULES)GetInteger("ModuleTrigger")];
+            mModuleTest = ModuleManager.GetInstance().Modules[lModuleIndex];
             mAvailableTestKeys = mModuleTest.GetAvailableTest();
 
             Buddy.GUI.Header.DisplayParametersButton(false);
@@ -29,6 +30,7 @@ namespace BuddyApp.AutomatedTest
             {
                 List<TToggle> lToggles = new List<TToggle>();
 
+                // Create a button to reverse the selection
                 TButton lSelectAll = iBuilder.CreateWidget<TButton>();
                 lSelectAll.SetLabel(Buddy.Resources.GetString("reverseselection"));
                 lSelectAll.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_retweet"));

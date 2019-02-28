@@ -13,22 +13,23 @@ namespace BuddyApp.AutomatedTest
         {
             Buddy.GUI.Header.DisplayParametersButton(false);
             Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("automatedtest"));
-            
-            Buddy.GUI.Toaster.Display<VerticalListToast>().With((iBuilder) => {
+
+            Buddy.GUI.Toaster.Display<VerticalListToast>().With((iBuilder) =>
+            {
                 // Display all available module for testing
-                foreach (KeyValuePair<AutomatedTestData.MODULES, AModuleTest> lModule in AutomatedTestData.Instance.Modules)
+                ModuleManager.GetInstance().ForeachModulesDo((iModule) =>
                 {
                     TVerticalListBox lBox = iBuilder.CreateBox();
-                    lBox.SetLabel(lModule.Value.Name);
+                    lBox.SetLabel(iModule.Value.Name);
                     lBox.LeftButton.Hide();
                     lBox.SetCenteredLabel(true);
                     lBox.LeftButton.SetBackgroundColor(new Color(0.5f, 0.5f, 0.5f, 1F));
                     lBox.OnClick.Add(() =>
                     {
-                        Debug.Log("Click ModuleTrigger: " + (int)lModule.Key);
-                        SetInteger("ModuleTrigger", (int)lModule.Key);
+                        Debug.Log("Click ModuleTrigger: " + (int)iModule.Key);
+                        SetInteger("ModuleTrigger", (int)iModule.Key);
                     });
-                }
+                });
 
                 // Full test
                 TVerticalListBox lFullTestBox = iBuilder.CreateBox();

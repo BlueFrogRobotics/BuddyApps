@@ -3,7 +3,7 @@
     <Entries>
         <DictionaryEntry>
             <Key>motiondetect</Key>
-            <BaseValue>Détection de Mouvement</BaseValue>
+            <BaseValue>Détection de Mouvements</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -13,7 +13,7 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>facedetect</Key>
-            <BaseValue>Détection de Visage</BaseValue>
+            <BaseValue>Détection de Visages</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -23,7 +23,7 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>humandetect</Key>
-            <BaseValue>Détection d'Humain</BaseValue>
+            <BaseValue>Détection d'Humains</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -42,8 +42,8 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>takephoto</Key>
-            <BaseValue>Prise de Poto</BaseValue>
+            <Key>takephotorgb</Key>
+            <BaseValue>Prise de Photos - RGBCam</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -252,18 +252,8 @@
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
-            <Key>sendlogorback</Key>
-            <BaseValue>Envoyer le rapport ou Retour</BaseValue>
-            <ClosePhoneticValues>
-                <string />
-            </ClosePhoneticValues>
-            <RandomValues>
-                <string />
-            </RandomValues>
-        </DictionaryEntry>
-        <DictionaryEntry>
             <Key>alltest</Key>
-            <BaseValue>Tout les tests disponnible seront lancés.</BaseValue>
+            <BaseValue>Tout les tests disponible seront lancés.</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -324,6 +314,146 @@
         <DictionaryEntry>
             <Key>say</Key>
             <BaseValue>Test de diction</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>playgimmick</Key>
+            <BaseValue>Test de gimmick</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>tts</Key>
+            <BaseValue>Test de diction</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>sttgrammar</Key>
+            <BaseValue>Reconnaissance vocale - Grammaire</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>sttfreespeech</Key>
+            <BaseValue>Reconnaissance vocale - Libre</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>mailfield</Key>
+            <BaseValue>Entrez votre email</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>sendlog</Key>
+            <BaseValue>Envoi du rapport de test</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>auto</Key>
+            <BaseValue>Auto</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>manual</Key>
+            <BaseValue>Manuel</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>selectmode</Key>
+            <BaseValue>Choix du mode de test</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>manualmode</Key>
+            <BaseValue>En mode manuel, c'est l'utilisateur qui juge le résultat du test</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>automode</Key>
+            <BaseValue>En mode auto, le résultat du test est, autant que possible, déterminé automatiquement</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>ttstest</Key>
+            <BaseValue>Ceci est un test, [200] Bonjour tout le monde ! [200] Aurevoir !</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>heard</Key>
+            <BaseValue>Entendu: </BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>takephotohd</Key>
+            <BaseValue>Prise de Photos - HDCam</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
