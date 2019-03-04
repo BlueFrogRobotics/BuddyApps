@@ -1,0 +1,12 @@
+#BNF+EMV2.0;
+!grammar gallery_nl;
+!start <delete>;
+!start <next>;
+!start <previous>;
+!start <fullscreen>;
+!start <share>;
+<delete>: verwijder [de | deze] [foto]; 
+<next>: volgende [foto]; 
+<previous>:  vorige [foto];
+<fullscreen>: (show | display) (the | this) (picture | photo) [full screen] | full screen; 
+<share>: delen | publiceren; 

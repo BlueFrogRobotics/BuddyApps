@@ -1,0 +1,8 @@
+#BNF+EMV2.1;
+!grammar app_grammar_nl;
+!start <yes>;
+!start <no>;
+!start <quit>;
+<yes> : ja | Oke | is goed | jazeker | prima | doen we;
+<no> : Nee | Nee hoor | neh | niet | zeker niet | nee oneens;
+<quit> : Stop | hou op |  stop daarmee;
