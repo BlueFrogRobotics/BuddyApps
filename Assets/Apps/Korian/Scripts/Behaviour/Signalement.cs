@@ -24,21 +24,33 @@ namespace BuddyApp.Korian
             //Pour les tests de mail
             //KorianData.Instance.Mail = KorianData.MailType.MAILA;
             if (KorianData.Instance.Mail == KorianData.MailType.MAILA)
+            {
+                Debug.Log("SEND MAIL A");
                 SendMail(Buddy.Resources.GetRandomString("maila"));
+
+            }
             else if (KorianData.Instance.Mail == KorianData.MailType.MAILB)
+            {
+                Debug.Log("SEND MAIL B");
                 SendMail(Buddy.Resources.GetRandomString("mailb"));
+
+            }
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mTimer += Time.deltaTime;
             mTimerHelp += Time.deltaTime;
-            if (mSendMailAgain && mNumberTry < 3 && mTimer < 2F)
+            if (mSendMailAgain && mNumberTry < 3 && mTimer < 2F) 
             {
                 mSendMailAgain = false;
                 mTimer = 0F;
                 if (!mSendMailAgain && KorianData.Instance.Mail == KorianData.MailType.MAILA)
+                {
+                    Debug.Log("SEND MAIL A");
                     SendMail(Buddy.Resources.GetRandomString("maila"));
+
+                }
                 //else if (!mSendMailAgain && KorianData.Instance.Mail == KorianData.MailType.MAILB)
                 //    SendMail(Buddy.Resources.GetRandomString("mailb"));
             }

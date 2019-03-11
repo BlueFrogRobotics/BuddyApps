@@ -53,6 +53,7 @@ namespace BuddyApp.Korian
                     ExtLog.I(ExtLogModule.APP, typeof(AskUser), LogStatus.INFO, LogInfo.RUNNING, "Click yes");
                     Buddy.Vocal.StopListening();
                     Buddy.GUI.Toaster.Hide();
+                    KorianData.Instance.Mail = KorianData.MailType.MAILA;
                     Buddy.Vocal.Say(Buddy.Resources.GetRandomString("helpiscoming"));
                     Trigger("Reporting");
                 },

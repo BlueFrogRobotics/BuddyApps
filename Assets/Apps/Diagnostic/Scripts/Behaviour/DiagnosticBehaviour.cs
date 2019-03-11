@@ -81,7 +81,9 @@ namespace BuddyApp.Diagnostic
             };
             
             mCurrentWindow = WindowType.CAMERAS;
-            SetWindow(0);      
+            Debug.Log("AVANT SET WINDOW");
+            SetWindow(0);
+            Debug.Log("APRES SET WINDOW");
         }
 
 		public void SetWindow(int iIndex)
