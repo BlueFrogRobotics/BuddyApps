@@ -1159,7 +1159,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1669233716}
+      - m_Target: {fileID: 0}
         m_MethodName: ToggleMotion
         m_Mode: 1
         m_Arguments:
@@ -1281,7 +1281,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1669233716}
+      - m_Target: {fileID: 0}
         m_MethodName: ToggleDisplay
         m_Mode: 1
         m_Arguments:
@@ -1537,7 +1537,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1669233716}
+      - m_Target: {fileID: 0}
         m_MethodName: ToggleFollow
         m_Mode: 1
         m_Arguments:
@@ -1666,6 +1666,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1669233717}
   - component: {fileID: 1669233716}
+  - component: {fileID: 1669233718}
   m_Layer: 0
   m_Name: AppBehaviour
   m_TagString: Untagged
@@ -1681,7 +1682,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1669233715}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 861834868, guid: 7889da5704d452644b74510f35235808, type: 3}
+  m_Script: {fileID: -2112039800, guid: 7889da5704d452644b74510f35235808, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Score: {fileID: 1248812333}
@@ -1703,6 +1704,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1669233718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1669233715}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 861834868, guid: 7889da5704d452644b74510f35235808, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Score: {fileID: 1248812333}
+  Position: {fileID: 1662277136}
+  AverageLow: {fileID: 866071875}
+  mTempMax: {fileID: 1446933694}
+  mTempNeighbours: {fileID: 1793116068}
+  mScoreThresh: {fileID: 741375822}
 --- !u!1 &1708442475
 GameObject:
   m_ObjectHideFlags: 0
@@ -1789,7 +1807,7 @@ GameObject:
   - component: {fileID: 1793116069}
   - component: {fileID: 1793116068}
   m_Layer: 0
-  m_Name: InputField
+  m_Name: Neighbour
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
