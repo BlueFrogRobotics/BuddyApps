@@ -23,7 +23,7 @@ namespace BuddyApp.RemoteControl
         private AudioClip mMusicCall;
 
         private IEnumerator mRepeatNotification;
-        private bool mAcceptCallVocally =  false;
+        private bool mAcceptCallVocally = false;
 
         private RemoteControlBehaviour mRemoteControlBehaviour;
 
@@ -57,10 +57,12 @@ namespace BuddyApp.RemoteControl
             Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("receivingcall"));
 
             Buddy.GUI.Toaster.Display<CustomToast>().With(mCustomCapsuleToast,
-            () => {
+            () =>
+            {
                 // On Display, Launch the display animation of the custom toast
                 mCustomCapsuleToast.GetComponent<Animator>().SetTrigger("Select");
-            }, () => {
+            }, () =>
+            {
                 // On Hide
                 Debug.Log("----- ON HIDE ----");
                 Buddy.GUI.Header.HideTitle();
@@ -80,6 +82,9 @@ namespace BuddyApp.RemoteControl
         {
             if (mAcceptCallVocally)
             {
+                Buddy.Vocal.StopAndClear();
+                Buddy.Actuators.Speakers.Media.Stop();
+                StopCoroutine(mRepeatNotification);
                 mRemoteControlBehaviour.LaunchCall();
                 mAcceptCallVocally = false;
             }
@@ -119,24 +124,29 @@ namespace BuddyApp.RemoteControl
          *  We warn user, with speech "incomingcall" and then we listen the user's answer. (yes/no)
          *  When the music ends, the process restarts
          */
+
         private IEnumerator RepeatNotification(int iRepeated)
         {
             // Coroutine is suspended until the music is playing.
-            yield return new WaitUntil(() => !Buddy.Actuators.Speakers.Media.IsBusy);
-
-            // If the call was launched or discrete mode selected, stop the coroutine
-            if (mRemoteControlBehaviour.mCallIsInProgress || RemoteControlData.Instance.DiscreteMode) {
-                Buddy.Vocal.StopAndClear();
-                Buddy.Actuators.Speakers.Media.Stop();
-                // Stop the last coroutine launch
-                StopCoroutine(mRepeatNotification);
-            }
+            yield return new WaitUntil(() =>
+            {
+                // If the call was launched or discrete mode selected, stop the coroutine
+                if (mRemoteControlBehaviour.mCallIsInProgress || RemoteControlData.Instance.DiscreteMode)
+                {
+                    Buddy.Vocal.StopAndClear();
+                    Buddy.Actuators.Speakers.Media.Stop();
+                    StopCoroutine(mRepeatNotification);
+                    return true;
+                }
+                return !Buddy.Actuators.Speakers.Media.IsBusy;
+            });
 
             // Wait 1.5 second before restart the notification
             yield return new WaitForSeconds(1.5F);
 
             // If actual number of repeat is less than REPEAT_CALL, relaunch notification and the actual coroutine ends.
-            if (iRepeated <= REPEAT_CALL) {
+            if (iRepeated <= REPEAT_CALL)
+            {
                 Buddy.Vocal.StopAndClear();
                 Buddy.Actuators.Speakers.Media.Play(mMusicCall);
                 Buddy.Vocal.SayKeyAndListen("incomingcall");
