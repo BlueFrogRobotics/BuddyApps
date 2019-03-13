@@ -125,6 +125,8 @@ namespace BuddyApp.RemoteControl
                 return;
 
             mIncomingCallHandled = true;
+            Buddy.Vocal.StopAndClear();
+            Buddy.Actuators.Speakers.Media.Stop();
             Debug.Log("AcceptCallWithButton");
             Buddy.Actuators.Speakers.Effects.Play(SoundSample.BEEP_1);
             Buddy.Behaviour.SetMood(Mood.NEUTRAL);
