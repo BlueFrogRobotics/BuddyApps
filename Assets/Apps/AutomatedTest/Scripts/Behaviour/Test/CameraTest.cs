@@ -369,6 +369,9 @@ namespace BuddyApp.AutomatedTest
             //  --- INIT RGBCam & TakePhoto with it ---
             DebugColor("---- TAKEPHOTOGRAPH RGBCAM ----", "red");
             Buddy.Sensors.RGBCamera.Open(RGBCameraMode.COLOR_640X480_30FPS_RGB);
+
+            yield return new WaitForSeconds(0.5F);
+
             Buddy.Sensors.RGBCamera.TakePhotograph(OnFinish);
             DisplayTestUi("takephotorgb");
 
@@ -389,6 +392,8 @@ namespace BuddyApp.AutomatedTest
             Buddy.Sensors.HDCamera.TakePhotograph(OnFinish);
             DisplayTestUi("takephotohd");
 
+            yield return new WaitForSeconds(0.5F);
+
             // --- Wait for User ---
             while (mTestInProcess)
                 yield return null;
@@ -407,6 +412,8 @@ namespace BuddyApp.AutomatedTest
                 DebugColor("OnFinish take photo, iPhoto null", "red");
                 return;
             }
+            // test with that
+            Sprite mPhotoSprite = Sprite.Create(iMyPhoto.Image.texture, new UnityEngine.Rect(0, 0, iMyPhoto.Image.texture.width, iMyPhoto.Image.texture.height), new Vector2(0.5F, 0.5F));
             Buddy.GUI.Toaster.Display<PictureToast>().With(iMyPhoto.Image);
         }
         #endregion
