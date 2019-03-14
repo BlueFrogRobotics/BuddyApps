@@ -1,4 +1,4 @@
-using BlueQuark;
+﻿using BlueQuark;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,12 +19,17 @@ namespace BuddyApp.TestGridEye
          */
         private TestGridEyeData mAppData;
 
-        //private GE_Image_Data mThermalImageData;
-        //private GE_Background_Image mBackGroundImage;
-        //private GE_People_Detector mPeopleDetector;
+        private const float DIRECTION_OFFSET_LIMIT = 0.2F;
+        private const float DIRECTION_THRESHOLD = 0.2F;
+        private const float ANGULAR_SPEED = 80F;
+        private const float LINEAR_SPEED = 0.3F;
+        private const int MEASURE_NUMBER = 2;
+
+        private double mLastDirection;
+        private float mObstacleCount;
+        private int mMeasure;
+
         private Sprite mSprite;
-        private int mNbFrame;
-        //private Mat mThermalMat;
         private float[] mThermalSensorDataArray;
         private float mAverageLow;
         private Texture2D mLiTexture;
@@ -78,6 +83,11 @@ namespace BuddyApp.TestGridEye
             mMotion = false;
             mStopped = true;
             Buddy.Actuators.Wheels.Stop();
+
+            // Init variables
+            mObstacleCount = 0;
+            mMeasure = 0;
+            mLastDirection = 0;
         }
 
         void Start()
@@ -86,14 +96,11 @@ namespace BuddyApp.TestGridEye
 
             mDisplay = true;
             mMotion = false;
-            mNbFrame = 0;
             mScore = -1;
-            //mThermalImageData = new GE_Image_Data();
-            //mBackGroundImage = new GE_Background_Image();
-            //mPeopleDetector = new GE_People_Detector();
-            //mThermalMat = new Mat();
+            mLastDirection = 0;
 
-            mThermalSensorDataArray = new float[64];
+            // array for all data of the 8*8 matrix
+            mThermalSensorDataArray = new float[8*8];
 
             mLiTexture = new Texture2D(15, 15) {
                 filterMode = FilterMode.Point,
@@ -107,6 +114,7 @@ namespace BuddyApp.TestGridEye
                 mipMapBias = -0.2F
             };
 
+            // array of 15*15 for linear interpolation of the 8*8 
             mThermalSensorDataArray15 = new float[15 * 15];
 
             Buddy.Sensors.ThermalCamera.OnNewFrame.Add(NewThermalFrame);
@@ -117,64 +125,52 @@ namespace BuddyApp.TestGridEye
 
         private void NewThermalFrame(ThermalCameraFrame iThermalFrame)
         {
-            mNbFrame++;
             iThermalFrame.Mat.get(0, 0, mThermalSensorDataArray);
-
+            // interpolate into mThermalSensorDataArray15
             LinearInterpolation();
 
+            // To get an average of the lower temperature of the 8 last frames
             mAverageThermal.Enqueue(mThermalSensorDataArray15.Min());
-
-            //mAverageLow = ((mNbFrame - 1) * mAverageLow + mThermalSensorDataArray_15.Min()) / mNbFrame;
-
             mAverageLow = mAverageThermal.Average();
-
-
-            //Debug.LogWarning("AverageLow " + mAverageLow);
-            //Debug.LogWarning(" Max: " + lMax);
-            //Debug.LogWarning(" Min: " + mThermalSensorDataArray_15.Min());
-
             AverageLow.text = "AverageLow " + mAverageLow + /*" Max: " + lMax +*/ " Min: " + mThermalSensorDataArray15.Min();
-
-
-
-            int lIndexMax = ComputeScore();
 
             float lMax = mThermalSensorDataArray15.Max();
             float lMin = mThermalSensorDataArray15.Min();
 
-            // if human
+            int lIndexMax = ComputeScore();
+
+            // if human detected - draw heatest point & launch callback if needed
             if (lIndexMax > -1) {
 
-                // Set max temp in black
+                // Set max temp in white
                 mLiTexture.SetPixel(lIndexMax % 15, 14 - (lIndexMax / 15), new Color(1F, 1F, 1F, 1F));
 
                 // TODO: center of human is at center of shape
-                //Debug.LogWarning("Score human: " + mScore);
-                //Debug.LogWarning("position human: x " + lIndexMax % 15 + " y " + lIndexMax % 15 + " i " + lIndexMax);
 
                 Score.text = "Score: " + mScore;
                 Position.text = "Position: " + lIndexMax % 15 + ":" + lIndexMax / 15;
 
-                if (mMotion || mFollow)
+                if (mMotion)
                     OnHumanDetect(lIndexMax % 15);
+                else if (mFollow)
+                    FollowHuman(lIndexMax % 15);
 
-            } else {
+            } else { // No human detect - redraw the image because latest may have some green point
+                // interpolate into mThermalSensorDataArray15
                 LinearInterpolation();
 
+                // Render the heat data on 15*15 Texture - (shade of blue / red)
                 for (int i = 0; i < mThermalSensorDataArray15.Length; i++) {
-                    //lTexture.SetPixel(i%15, i/15, new Color(mThermalSensorDataArray_15[i]*5, 100F, 255F - (mThermalSensorDataArray_15[i] * 5), 1F));
-
+                    // Calcul ratio of : TemperatureRelativeToTheRange / RangeTemperature
                     float lNormalizedTemp = (mThermalSensorDataArray15[i] - lMin) / (lMax - lMin);
-
+                    // This ratio is used to calcul each shade
                     mLiTexture.SetPixel(i % 15, 14 - i / 15, new Color(lNormalizedTemp, 0.0F, 1F - lNormalizedTemp, 0.85F));
                 }
-
             }
-
 
             mLiTexture.Apply();
 
-            /****************/
+            // Render the final Sprite, split into two image: Left : processed image , right: original
             for (int i = 0; i < mLiTexture.height + 5; i++)
                 for (int j = 0; j < mLiTexture.width; j++) {
 
@@ -184,6 +180,7 @@ namespace BuddyApp.TestGridEye
                         // processed image
                         mLiTexture30.SetPixel(j, i, mLiTexture.GetPixel(j, i));
 
+                        // Draw separation between images
                         mLiTexture30.SetPixel(15, i, new Color(0.0F, 0.0F, 0.0F, 0.85F));
 
                         // raw image
@@ -191,13 +188,14 @@ namespace BuddyApp.TestGridEye
 
                         // Add some pixel to get full image
                     } else {
+                        // Bottom black line
                         mLiTexture30.SetPixel(j, i, new Color(0.0F, 0.0F, 0.0F, 0.85F));
+                        // Draw separation between images
                         mLiTexture30.SetPixel(15, i, new Color(0.0F, 0.0F, 0.0F, 0.85F));
+                        // Right black line
                         mLiTexture30.SetPixel(j + 16, i, new Color(0.0F, 0.0F, 0.0F, 0.85F));
                     }
                 }
-
-            /**********************///////////////////
 
             mLiTexture30.Apply();
 
@@ -210,6 +208,76 @@ namespace BuddyApp.TestGridEye
                         mDisplay = false;
                     });
 
+        }
+
+        private void Update()
+        {
+            if (mFollow)
+            {
+                // Add the average of sensor that found an obstacle
+                mObstacleCount += UserInFrontScore();
+
+                // When mMeasurNumber is reach, a new average is compute to reduce false positive
+                if (mMeasure == MEASURE_NUMBER)
+                {
+                    Debug.LogWarning("Obstacle:" + mObstacleCount / (float)MEASURE_NUMBER);
+                    // Finally if an obstacle is detected by several sensor, during several frame, we stop.
+                    if ((mObstacleCount / (float)MEASURE_NUMBER) > 0.4F && mLastDirection < 9F)
+                    {
+                        mStopped = true;
+                        Buddy.Actuators.Wheels.Stop();
+                    }
+                    mObstacleCount = 0;
+                    mMeasure = 0;
+                }
+            }
+        }
+
+        // Average of Sensor - (Value ​​were chosen empirically)
+        private float UserInFrontScore()
+        {
+            int lScore = 0;
+            mMeasure++;
+            if (Buddy.Sensors.UltrasonicSensors.Left.Value < 700)
+                lScore++;
+            if (Buddy.Sensors.UltrasonicSensors.Right.Value < 700)
+                lScore++;
+
+            if (Buddy.Sensors.TimeOfFlightSensors.Front.Value < 700)
+                lScore++;
+            if (Buddy.Sensors.TimeOfFlightSensors.Right.Value < 600)
+                lScore++;
+            if (Buddy.Sensors.TimeOfFlightSensors.Left.Value < 600)
+                lScore++;
+
+            if (Buddy.Sensors.TimeOfFlightSensors.Forehead.Value < 850)
+                lScore++;
+            if (Buddy.Sensors.TimeOfFlightSensors.Chin.Value < 700)
+                lScore++;
+            return ((float)lScore / 7F);
+        }
+
+        private void MoveToward(float iDirection)
+        {
+            float lAngularVelocity;
+
+            // If the direction changes enough, update the robot direction
+            if (Math.Abs(mLastDirection - iDirection) > DIRECTION_OFFSET_LIMIT)
+            {
+                mLastDirection = iDirection;
+                lAngularVelocity = -iDirection * ANGULAR_SPEED;
+                // If the direction is included in the middle range, stop to rotate.
+                if (Math.Abs(iDirection) < DIRECTION_THRESHOLD)
+                    lAngularVelocity = 0F;
+                Buddy.Actuators.Wheels.SetVelocities(LINEAR_SPEED, lAngularVelocity);
+            }
+        }
+
+        private void FollowHuman(int iHumanHeatestPointX)
+        {
+            float lCentered = iHumanHeatestPointX / 15F;
+            Debug.LogWarning("Humancenter: " + lCentered + " / " + (lCentered - 0.5F));
+            MoveToward((lCentered - 0.5F) * -1);
         }
 
         private bool OnHumanDetect(int iRow)
@@ -237,7 +305,6 @@ namespace BuddyApp.TestGridEye
                 mStopped = false;
                 mPreviousLeft = false;
             }
-
             return true;
         }
 
@@ -248,25 +315,21 @@ namespace BuddyApp.TestGridEye
             float lMax = mThermalSensorDataArray15.Max();
             float lMin = mThermalSensorDataArray15.Min();
 
+            // Render the heat data on 15*15 Texture - (shade of blue / red)
             for (int i = 0; i < mThermalSensorDataArray15.Length; i++) {
-                //lTexture.SetPixel(i%15, i/15, new Color(mThermalSensorDataArray_15[i]*5, 100F, 255F - (mThermalSensorDataArray_15[i] * 5), 1F));
-
+                // Calcul ratio of : TemperatureRelativeToTheRange / RangeTemperature
                 float lNormalizedTemp = (mThermalSensorDataArray15[i] - lMin) / (lMax - lMin);
-
+                // This ratio is used to calcul each shade
                 mLiTexture.SetPixel(i % 15, 14 - i / 15, new Color(lNormalizedTemp, 0.0F, 1F - lNormalizedTemp, 0.85F));
             }
 
-
-
-
+            // If the gap between min & max is lower than mTempMax (Choosen constant) don't perform check and stop the algo
             if (lMax - mAverageLow < float.Parse(mTempMax.text) || lMax - lMin < float.Parse(mTempMax.text)) {
-                //Debug.LogWarning("No human");
                 Score.text = "No human";
                 return -1;
             } else {
                 int lScore = 0;
                 int lIndexMax = mThermalSensorDataArray15.ToList().IndexOf(lMax);
-
 
                 // give more importance to verticality
                 for (int i = 1; i < 15; i++) {
@@ -330,6 +393,7 @@ namespace BuddyApp.TestGridEye
             }
         }
 
+        // Check bad calcul on interpolate box is gone (the short cast has been delete)
         private bool LinearInterpolation()
         {
             const byte c_ucImgWidth = 15;
@@ -343,7 +407,7 @@ namespace BuddyApp.TestGridEye
                 //STEP1
                 for (ucX = 0; ucX < c_ucImgWidth; ucX += 2) {
                     // calcul of 15*15 index
-                    byte ucSnr = (byte)(ucX / 2 + ucY / 2 * Constants.SNR_SZ_X);
+                    byte ucSnr = (byte)(ucX / 2 + ucY / 2 * 8);
                     // calcul of 15*15 index
                     byte ucImg = (byte)(ucX + ucY * c_ucImgWidth);
                     mThermalSensorDataArray15[ucImg] = mThermalSensorDataArray[ucSnr];
@@ -352,13 +416,13 @@ namespace BuddyApp.TestGridEye
                 //STEP2
                 for (ucX = 1; ucX < c_ucImgWidth; ucX += 2) {
                     byte ucImg = (byte)(ucX + ucY * c_ucImgWidth);
-                    mThermalSensorDataArray15[ucImg] = (short)((mThermalSensorDataArray15[ucImg - 1] + mThermalSensorDataArray15[ucImg + 1]) / 2);
+                    mThermalSensorDataArray15[ucImg] = ((mThermalSensorDataArray15[ucImg - 1] + mThermalSensorDataArray15[ucImg + 1]) / 2);
                 }
             }
             for (ucY = 1; ucY < c_ucImgHeight; ucY += 2) {
                 for (ucX = 0; ucX < c_ucImgWidth; ucX++) {
                     byte ucImg = (byte)(ucX + ucY * c_ucImgWidth);
-                    mThermalSensorDataArray15[ucImg] = (short)((mThermalSensorDataArray15[ucImg - c_ucImgWidth] + mThermalSensorDataArray15[ucImg + c_ucImgWidth]) / 2);
+                    mThermalSensorDataArray15[ucImg] = ((mThermalSensorDataArray15[ucImg - c_ucImgWidth] + mThermalSensorDataArray15[ucImg + c_ucImgWidth]) / 2);
 
                 }
             }
