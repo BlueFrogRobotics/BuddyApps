@@ -14,6 +14,7 @@ namespace BuddyApp.TestGridEye
     /* A basic monobehaviour as "AI" behaviour for your app */
     public class TestGridEyeBehaviour : MonoBehaviour
     {
+
         /*
          * Data of the application. Save on disc when app is quitted
          */
@@ -26,7 +27,7 @@ namespace BuddyApp.TestGridEye
         private int mNbFrame;
         //private Mat mThermalMat;
         private float[] mThermalSensorDataArray;
-        private float mAverageLow;
+        private float[] mThermalSensorDataArrayCandidate;
         private Texture2D mTexture;
 
         [SerializeField]
@@ -34,10 +35,7 @@ namespace BuddyApp.TestGridEye
 
         [SerializeField]
         private Text Position;
-
-        [SerializeField]
-        private Text AverageLow;
-
+        
         [SerializeField]
         private InputField mTempMax;
 
@@ -90,9 +88,16 @@ namespace BuddyApp.TestGridEye
             //mBackGroundImage = new GE_Background_Image();
             //mPeopleDetector = new GE_People_Detector();
             //mThermalMat = new Mat();
-            mTexture = new Texture2D(8, 8);
+            mTexture = new Texture2D(8, 8) {
+
+                filterMode = FilterMode.Point,
+                anisoLevel = 1,
+                mipMapBias = -0.2F
+            };
+
 
             mThermalSensorDataArray = new float[64];
+            mThermalSensorDataArrayCandidate = new float[64];
 
             Buddy.Sensors.ThermalCamera.OnNewFrame.Add(NewThermalFrame);
 
@@ -104,21 +109,19 @@ namespace BuddyApp.TestGridEye
         {
             mNbFrame++;
             iThermalFrame.Mat.get(0, 0, mThermalSensorDataArray);
+            iThermalFrame.Mat.get(0, 0, mThermalSensorDataArrayCandidate);
 
             mAverageThermal.Enqueue(mThermalSensorDataArray.Min());
 
             //mAverageLow = ((mNbFrame - 1) * mAverageLow + mThermalSensorDataArray.Min()) / mNbFrame;
 
-            mAverageLow = mAverageThermal.Average();
+            //mAverageLow = mAverageThermal.Average();
 
 
             //Debug.LogWarning("AverageLow " + mAverageLow);
             //Debug.LogWarning(" Max: " + lMax);
             //Debug.LogWarning(" Min: " + mThermalSensorDataArray.Min());
-
-            AverageLow.text = "AverageLow " + mAverageLow + /*" Max: " + lMax +*/ " Min: " + mThermalSensorDataArray.Min();
-
-
+            
 
             int lIndexMax = ComputeScore();
 
@@ -139,8 +142,8 @@ namespace BuddyApp.TestGridEye
                     OnHumanDetect(lIndexMax % 8);
 
             } else {
-                iThermalFrame.Mat.get(0, 0, mThermalSensorDataArray);
 
+                // Remove the green pixels
                 float lMax = mThermalSensorDataArray.Max();
                 float lMin = mThermalSensorDataArray.Min();
                 for (int i = 0; i < mThermalSensorDataArray.Length; i++) {
@@ -200,6 +203,7 @@ namespace BuddyApp.TestGridEye
         {
 
             float lMax = mThermalSensorDataArray.Max();
+            float lCurrentCandidateTemp = mThermalSensorDataArrayCandidate.Max();
             float lMin = mThermalSensorDataArray.Min();
 
             for (int i = 0; i < mThermalSensorDataArray.Length; i++) {
@@ -213,13 +217,13 @@ namespace BuddyApp.TestGridEye
 
 
 
-            if (lMax - mAverageLow < float.Parse(mTempMax.text) || lMax - lMin < float.Parse(mTempMax.text)) {
+            if (lCurrentCandidateTemp - lMin < float.Parse(mTempMax.text)) {
                 //Debug.LogWarning("No human");
                 Score.text = "No human";
                 return -1;
             } else {
                 int lScore = 0;
-                int lIndexMax = mThermalSensorDataArray.ToList().IndexOf(lMax);
+                int lIndexMax = mThermalSensorDataArrayCandidate.ToList().IndexOf(lCurrentCandidateTemp);
 
 
                 // give more importance to verticality
@@ -228,19 +232,19 @@ namespace BuddyApp.TestGridEye
                     //Try pixel below
                     int lTestIndex = lIndexMax - i * 8;
                     if (lTestIndex >= 0)
-                        if (mThermalSensorDataArray[lTestIndex] - mAverageLow > float.Parse(mTempNeighbours.text)) {
-                            mTexture.SetPixel(lTestIndex % 8, 7 - lTestIndex / 8, new Color(0F, 0F, 0F, 1F));
+                        if (mThermalSensorDataArray[lTestIndex] - lMin > float.Parse(mTempNeighbours.text)) {
+                            mTexture.SetPixel(lTestIndex % 8, 7 - lTestIndex / 8, new Color(0F, 1F, 0F, 1F));
                             lScore++;
 
                             // Try neighbours
                             if ((lTestIndex) % 8 > 0)
-                                if (mThermalSensorDataArray[lTestIndex - 1] - mAverageLow > float.Parse(mTempNeighbours.text)) {
-                                    mTexture.SetPixel((lTestIndex - 1) % 8, 7 - (lTestIndex - 1) / 8, new Color(0F, 0F, 0F, 1F));
+                                if (mThermalSensorDataArray[lTestIndex - 1] - lMin > float.Parse(mTempNeighbours.text)) {
+                                    mTexture.SetPixel((lTestIndex - 1) % 8, 7 - lTestIndex / 8, new Color(0F, 1F, 0F, 1F));
                                     lScore++;
                                 }
                             if (lTestIndex % 8 < 7)
-                                if (mThermalSensorDataArray[lTestIndex + 1] - mAverageLow > float.Parse(mTempNeighbours.text)) {
-                                    mTexture.SetPixel((lTestIndex + 1) % 8, 7 - (lTestIndex + 1) / 8, new Color(0F, 0F, 0F, 1F));
+                                if (mThermalSensorDataArray[lTestIndex + 1] - lMin > float.Parse(mTempNeighbours.text)) {
+                                    mTexture.SetPixel((lTestIndex + 1) % 8, 7 - lTestIndex / 8, new Color(0F, 1F, 0F, 1F));
                                     lScore++;
                                 }
                         } else
@@ -251,19 +255,19 @@ namespace BuddyApp.TestGridEye
                     // Try pixel above
                     int lTestIndex = lIndexMax + i * 8;
                     if (lTestIndex < 63)
-                        if (mThermalSensorDataArray[lTestIndex] - mAverageLow > float.Parse(mTempNeighbours.text)) {
-                            mTexture.SetPixel(lTestIndex % 8, 7 - lTestIndex / 8, new Color(0F, 0F, 0F, 1F));
+                        if (mThermalSensorDataArray[lTestIndex] - lMin > float.Parse(mTempNeighbours.text)) {
+                            mTexture.SetPixel(lTestIndex % 8, 7 - lTestIndex / 8, new Color(0F, 1F, 0F, 1F));
                             lScore++;
 
                             // Try neighbours
                             if (lTestIndex % 8 > 0)
-                                if (mThermalSensorDataArray[lTestIndex - 1] - mAverageLow > float.Parse(mTempNeighbours.text)) {
-                                    mTexture.SetPixel((lTestIndex - 1) % 8, 7 - (lTestIndex - 1) / 8, new Color(0F, 0F, 0F, 1F));
+                                if (mThermalSensorDataArray[lTestIndex - 1] - lMin > float.Parse(mTempNeighbours.text)) {
+                                    mTexture.SetPixel((lTestIndex - 1) % 8, 7 - lTestIndex / 8, new Color(0F, 1F, 0F, 1F));
                                     lScore++;
                                 }
                             if (lTestIndex % 8 < 7)
-                                if (mThermalSensorDataArray[lTestIndex + 1] - mAverageLow > float.Parse(mTempNeighbours.text)) {
-                                    mTexture.SetPixel((lTestIndex + 1) % 8, 7 - (lTestIndex + 1) / 8, new Color(0F, 0F, 0F, 1F));
+                                if (mThermalSensorDataArray[lTestIndex + 1] - lMin > float.Parse(mTempNeighbours.text)) {
+                                    mTexture.SetPixel((lTestIndex + 1) % 8, 7 - lTestIndex  / 8, new Color(0F, 1F, 0F, 1F));
                                     lScore++;
                                 }
                         } else
@@ -277,7 +281,7 @@ namespace BuddyApp.TestGridEye
                 } else {
 
                     // Try another point
-                    mThermalSensorDataArray[lIndexMax] = mThermalSensorDataArray.Min();
+                    mThermalSensorDataArrayCandidate[lIndexMax] = mThermalSensorDataArray.Min();
                     return ComputeScore();
 
                 }
