@@ -35,7 +35,7 @@ namespace BuddyApp.TestGridEye
 
         [SerializeField]
         private Text Position;
-        
+
         [SerializeField]
         private InputField mTempMax;
 
@@ -54,6 +54,10 @@ namespace BuddyApp.TestGridEye
         private float mTimeHumanDetected;
         private bool mPreviousLeft;
         private bool mStopped;
+        private float mMax;
+        private float mMin;
+        private int mMeanX;
+        private int mMeanY;
 
         public void ToggleDisplay()
         {
@@ -101,64 +105,57 @@ namespace BuddyApp.TestGridEye
 
             Buddy.Sensors.ThermalCamera.OnNewFrame.Add(NewThermalFrame);
 
-            mAverageThermal = new CircularBuffer<float>(8);
+            // mAverageThermal = new CircularBuffer<float>(8);
         }
 
 
         private void NewThermalFrame(ThermalCameraFrame iThermalFrame)
         {
             mNbFrame++;
+
+
             iThermalFrame.Mat.get(0, 0, mThermalSensorDataArray);
             iThermalFrame.Mat.get(0, 0, mThermalSensorDataArrayCandidate);
 
-            mAverageThermal.Enqueue(mThermalSensorDataArray.Min());
+            mMax = mThermalSensorDataArray.Max();
+            mMin = mThermalSensorDataArray.Min();
+            Debug.LogWarning("min max: " + mMin + " " + mMax);
 
-            //mAverageLow = ((mNbFrame - 1) * mAverageLow + mThermalSensorDataArray.Min()) / mNbFrame;
-
-            //mAverageLow = mAverageThermal.Average();
-
-
-            //Debug.LogWarning("AverageLow " + mAverageLow);
-            //Debug.LogWarning(" Max: " + lMax);
-            //Debug.LogWarning(" Min: " + mThermalSensorDataArray.Min());
-            
-
-            int lIndexMax = ComputeScore();
+            int lIndexMax = ComputeScore(true);
 
             // if human
             if (lIndexMax > -1) {
 
                 // Set max temp in black
-                mTexture.SetPixel(lIndexMax % 8, 7 - (lIndexMax / 8), new Color(1F, 1F, 1F, 1F));
+                mTexture.SetPixel(lIndexMax % mTexture.width, (mTexture.height - 1) - (lIndexMax / mTexture.width), new Color(1F, 1F, 1F, 1F));
+                mTexture.SetPixel(mMeanX / mScore, (mTexture.height - 1) - (mMeanY / mScore), new Color(0F, 0F, 0F, 1F));
 
                 // TODO: center of human is at center of shape
                 //Debug.LogWarning("Score human: " + mScore);
                 //Debug.LogWarning("position human: x " + lIndexMax % 8 + " y " + lIndexMax % 8 + " i " + lIndexMax);
 
                 Score.text = "Score: " + mScore;
-                Position.text = "Position: " + lIndexMax % 8 + ":" + lIndexMax / 8;
+                Position.text = "Position: " + lIndexMax % mTexture.width + ":" + lIndexMax / mTexture.width;
 
                 if (mMotion || mFollow)
-                    OnHumanDetect(lIndexMax % 8);
+                    OnHumanDetect( ((float) mMeanX / mScore ) / (mTexture.width - 1));
 
             } else {
-
+                // if no human
                 // Remove the green pixels
-                float lMax = mThermalSensorDataArray.Max();
-                float lMin = mThermalSensorDataArray.Min();
                 for (int i = 0; i < mThermalSensorDataArray.Length; i++) {
-                    //lTexture.SetPixel(i%8, i/8, new Color(mThermalSensorDataArray[i]*5, 100F, 255F - (mThermalSensorDataArray[i] * 5), 1F));
+                    //lTexture.SetPixel(i%mTexture.width, i/mTexture.width, new Color(mThermalSensorDataArray[i]*5, 100F, 255F - (mThermalSensorDataArray[i] * 5), 1F));
 
-                    float lNormalizedTemp = (mThermalSensorDataArray[i] - lMin) / (lMax - lMin);
+                    float lNormalizedTemp = (mThermalSensorDataArray[i] - mMin) / (mMax - mMin);
 
-                    mTexture.SetPixel(i % 8, 7 - i / 8, new Color(lNormalizedTemp, 0.0F, 1F - lNormalizedTemp, 0.85F));
+                    mTexture.SetPixel(i % mTexture.width, 7 - i / mTexture.width, new Color(lNormalizedTemp, 0.0F, 1F - lNormalizedTemp, 0.85F));
                 }
 
             }
 
             mTexture.Apply();
 
-            mSprite = Sprite.Create(mTexture, new UnityEngine.Rect(0.0f, 0.0f, 8, 8), new Vector2(0.5f, 0.5f), 1.0F);
+            mSprite = Sprite.Create(mTexture, new UnityEngine.Rect(0.0f, 0.0f, mTexture.width, mTexture.height), new Vector2(0.5f, 0.5f), 1.0F);
 
             if (!Buddy.GUI.Toaster.IsBusy && mDisplay)
                 Buddy.GUI.Toaster.Display<PictureToast>().With(mSprite,
@@ -169,13 +166,12 @@ namespace BuddyApp.TestGridEye
 
         }
 
-        private bool OnHumanDetect(int iRow)
+        private bool OnHumanDetect(float iCentered)
         {
             Buddy.Behaviour.SetMood(Mood.HAPPY);
             mTimeHumanDetected = Time.time;
-            float lCentered = iRow / 7F;
-            Debug.LogWarning("Humancenter " + lCentered);
-            if (lCentered < 0.6F && lCentered > 0.4F) {
+            //float lCentered = ((float) iRow) / (mTexture.width - 1);
+            if (iCentered < 0.6F && iCentered > 0.4F) {
                 Debug.LogWarning("Stop " + mStopped);
                 mStopped = true;
                 Buddy.Actuators.Wheels.Stop();
@@ -183,12 +179,12 @@ namespace BuddyApp.TestGridEye
                 return false;
 
                 // otherwise, try to put the human in the center
-            } else if (lCentered < 0.6F && (!mPreviousLeft || mStopped /*!Buddy.Actuators.Wheels.IsBusy*/)) {
+            } else if (iCentered < 0.6F && (!mPreviousLeft || mStopped /*!Buddy.Actuators.Wheels.IsBusy*/)) {
                 Debug.LogWarning("Go to left " + mStopped);
                 Buddy.Actuators.Wheels.SetVelocities(0F, -35F);
                 mStopped = false;
                 mPreviousLeft = true;
-            } else if (lCentered > 0.4F && (mPreviousLeft || mStopped/*|| !Buddy.Actuators.Wheels.IsBusy*/)) {
+            } else if (iCentered > 0.4F && (mPreviousLeft || mStopped/*|| !Buddy.Actuators.Wheels.IsBusy*/)) {
                 Debug.LogWarning("Go to right " + mStopped);
                 Buddy.Actuators.Wheels.SetVelocities(0F, 35F);
                 mStopped = false;
@@ -198,95 +194,166 @@ namespace BuddyApp.TestGridEye
             return true;
         }
 
-
-        private int ComputeScore()
+        // TODO: make generic
+        private int GetNextMiddleCandidate()
         {
+            for (int i = 0; i < mThermalSensorDataArrayCandidate.Length; i++) {
+                // if we are on the side, go to center
 
-            float lMax = mThermalSensorDataArray.Max();
-            float lCurrentCandidateTemp = mThermalSensorDataArrayCandidate.Max();
-            float lMin = mThermalSensorDataArray.Min();
+                float lCentered = ((float)(i % mTexture.width)) / (mTexture.width - 1);
 
-            for (int i = 0; i < mThermalSensorDataArray.Length; i++) {
-                //lTexture.SetPixel(i%8, i/8, new Color(mThermalSensorDataArray[i]*5, 100F, 255F - (mThermalSensorDataArray[i] * 5), 1F));
+                if (lCentered < 0.65F && lCentered > 0.35F) {
 
-                float lNormalizedTemp = (mThermalSensorDataArray[i] - lMin) / (lMax - lMin);
+                    // TODO: why is it going through this???
+                    if (i < mThermalSensorDataArrayCandidate.Length)
+                        if (mThermalSensorDataArrayCandidate[i] - mMin > float.Parse(mTempMax.text)) {
+                            // if temp high enough, return this candidate
+                            return i;
+                        }
+                } else
+                    continue;
+            }
+            return -1;
+        }
 
-                mTexture.SetPixel(i % 8, 7 - i / 8, new Color(lNormalizedTemp, 0.0F, 1F - lNormalizedTemp, 0.85F));
+        private int ComputeScore(bool iMiddleCandidate)
+        {
+            float lCurrentCandidateTemp;
+            int lIndexMax = -1;
+
+            if (iMiddleCandidate)
+                lIndexMax = GetNextMiddleCandidate();
+
+            // if we have middle candidate
+            if (lIndexMax != -1) {
+                lCurrentCandidateTemp = mThermalSensorDataArrayCandidate[lIndexMax];
+            }
+
+            // If no candidate in center, Just get the next hotter pixel
+            else {
+                iMiddleCandidate = false;
+                lCurrentCandidateTemp = mThermalSensorDataArrayCandidate.Max();
+                lIndexMax = mThermalSensorDataArrayCandidate.ToList().IndexOf(lCurrentCandidateTemp);
             }
 
 
-
-
-            if (lCurrentCandidateTemp - lMin < float.Parse(mTempMax.text)) {
-                //Debug.LogWarning("No human");
+            // Is the current candidate ok?
+            if (lCurrentCandidateTemp - mMin < float.Parse(mTempMax.text)) {
                 Score.text = "No human";
                 return -1;
+
+
+                // Check the score of the current candidate
             } else {
-                int lScore = 0;
-                int lIndexMax = mThermalSensorDataArrayCandidate.ToList().IndexOf(lCurrentCandidateTemp);
+                // Draw the current texture
+                for (int i = 0; i < mThermalSensorDataArray.Length; i++) {
 
+                    float lNormalizedTemp = (mThermalSensorDataArray[i] - mMin) / (mMax - mMin);
 
-                // give more importance to verticality
-                for (int i = 1; i < 8; i++) {
-
-                    //Try pixel below
-                    int lTestIndex = lIndexMax - i * 8;
-                    if (lTestIndex >= 0)
-                        if (mThermalSensorDataArray[lTestIndex] - lMin > float.Parse(mTempNeighbours.text)) {
-                            mTexture.SetPixel(lTestIndex % 8, 7 - lTestIndex / 8, new Color(0F, 1F, 0F, 1F));
-                            lScore++;
-
-                            // Try neighbours
-                            if ((lTestIndex) % 8 > 0)
-                                if (mThermalSensorDataArray[lTestIndex - 1] - lMin > float.Parse(mTempNeighbours.text)) {
-                                    mTexture.SetPixel((lTestIndex - 1) % 8, 7 - lTestIndex / 8, new Color(0F, 1F, 0F, 1F));
-                                    lScore++;
-                                }
-                            if (lTestIndex % 8 < 7)
-                                if (mThermalSensorDataArray[lTestIndex + 1] - lMin > float.Parse(mTempNeighbours.text)) {
-                                    mTexture.SetPixel((lTestIndex + 1) % 8, 7 - lTestIndex / 8, new Color(0F, 1F, 0F, 1F));
-                                    lScore++;
-                                }
-                        } else
-                            break;
+                    // "7 -" to turn the image upside down
+                    mTexture.SetPixel(i % mTexture.width, (mTexture.height - 1) - i / mTexture.width, new Color(lNormalizedTemp, 0.0F, 1F - lNormalizedTemp, 0.85F));
                 }
 
-                for (int i = 7; i >= 0; i--) {
-                    // Try pixel above
-                    int lTestIndex = lIndexMax + i * 8;
-                    if (lTestIndex < 63)
-                        if (mThermalSensorDataArray[lTestIndex] - lMin > float.Parse(mTempNeighbours.text)) {
-                            mTexture.SetPixel(lTestIndex % 8, 7 - lTestIndex / 8, new Color(0F, 1F, 0F, 1F));
-                            lScore++;
 
-                            // Try neighbours
-                            if (lTestIndex % 8 > 0)
-                                if (mThermalSensorDataArray[lTestIndex - 1] - lMin > float.Parse(mTempNeighbours.text)) {
-                                    mTexture.SetPixel((lTestIndex - 1) % 8, 7 - lTestIndex / 8, new Color(0F, 1F, 0F, 1F));
-                                    lScore++;
-                                }
-                            if (lTestIndex % 8 < 7)
-                                if (mThermalSensorDataArray[lTestIndex + 1] - lMin > float.Parse(mTempNeighbours.text)) {
-                                    mTexture.SetPixel((lTestIndex + 1) % 8, 7 - lTestIndex  / 8, new Color(0F, 1F, 0F, 1F));
-                                    lScore++;
-                                }
-                        } else
+
+                mScore = 1;
+                mMeanX = lIndexMax % mTexture.width;
+                mMeanY = lIndexMax / mTexture.width;
+                // give more importance to verticality
+                for (int i = 0; i < mTexture.height; i++) {
+                    //Try pixel below
+                    int lTestIndex = lIndexMax - i * mTexture.width;
+                    if (lTestIndex >= 0) {
+                        int PixelScore = TryPixel(lTestIndex);
+                        if (PixelScore == 0)
                             break;
+                        else
+                            mScore += PixelScore;
+                    }
+                }
+
+                // Remove i = 0 to avoid taking into account twice the max pixel
+                for (int i = 1; i < mTexture.height; i++) {
+                    // Try pixel above
+                    int lTestIndex = lIndexMax + i * mTexture.width;
+                    if (lTestIndex < mTexture.height * mTexture.width) {
+                        int PixelScore = TryPixel(lTestIndex);
+                        if (PixelScore == 0)
+                            break;
+                        else
+                            mScore += PixelScore;
+                    }
                 }
 
                 // Score good enough, stop here
-                if (lScore > int.Parse(mScoreThresh.text)) {
-                    mScore = lScore;
+                if (mScore > int.Parse(mScoreThresh.text)) {
                     return lIndexMax;
                 } else {
-
+                    Debug.LogWarning("Score not enough:" + mScore);
                     // Try another point
                     mThermalSensorDataArrayCandidate[lIndexMax] = mThermalSensorDataArray.Min();
-                    return ComputeScore();
+                    return ComputeScore(iMiddleCandidate);
 
                 }
             }
         }
+
+        private int TryPixel(int iTestIndex)
+        {
+            int lScore = 0;
+            if (mThermalSensorDataArray[iTestIndex] - mMin > float.Parse(mTempNeighbours.text)) {
+                mTexture.SetPixel(iTestIndex % mTexture.width, (mTexture.height - 1) - iTestIndex / mTexture.width, new Color(0F, 1F, 0F, 1F));
+
+                // this pixel cannot be a candidate
+                mThermalSensorDataArrayCandidate[iTestIndex] = mThermalSensorDataArray.Min();
+
+                // Update Barycenter
+                UpdateBarycenter(iTestIndex);
+
+                lScore++;
+
+                // Try neighbours
+
+
+                // previous neighbour is not in previous colon?
+                if (iTestIndex % mTexture.width > 0)
+                    if (mThermalSensorDataArray[iTestIndex - 1] - mMin > float.Parse(mTempNeighbours.text)) {
+
+                        //Update texture
+                        mTexture.SetPixel((iTestIndex - 1) % mTexture.width, (mTexture.height - 1) - iTestIndex / mTexture.width, new Color(0F, 1F, 0F, 1F));
+                        
+                        // Update Barycenter
+                        UpdateBarycenter(iTestIndex - 1);
+
+                        lScore++;
+                    }
+
+                // next neighbour is not in next colon?
+                if (iTestIndex % mTexture.width < (mTexture.width - 1))
+                    if (mThermalSensorDataArray[iTestIndex + 1] - mMin > float.Parse(mTempNeighbours.text)) {
+
+                        //Update texture
+                        mTexture.SetPixel((iTestIndex + 1) % mTexture.width, (mTexture.height - 1) - iTestIndex / mTexture.width, new Color(0F, 1F, 0F, 1F));
+
+                        // Update Barycenter
+                        UpdateBarycenter(iTestIndex + 1);
+
+                        lScore++;
+                    }
+
+                return lScore;
+            } else
+                return 0;
+        }
+
+
+        // Update Barycenter
+        private void UpdateBarycenter(int iIndex)
+        {
+            mMeanX += (iIndex % mTexture.width);
+            mMeanY += (iIndex / mTexture.width);
+        }
+
     }
 }
 
