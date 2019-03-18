@@ -13,13 +13,13 @@ namespace BuddyApp.Shared
 {
 	namespace Twitter
 	{
-		public sealed class RequestTokenResponse
+		public sealed class RequestTokenResponseShared
 		{
 			public string Token { get; set; }
 			public string TokenSecret { get; set; }
 		}
 
-		public sealed class AccessTokenResponse
+		public sealed class AccessTokenResponseShared
 		{
 			public string Token { get; set; }
 			public string TokenSecret { get; set; }
@@ -27,11 +27,11 @@ namespace BuddyApp.Shared
 			public string ScreenName { get; set; }
 		}
 
-		public delegate void RequestTokenCallback(bool success, RequestTokenResponse response);
-		public delegate void AccessTokenCallback(bool success, AccessTokenResponse response);
-		public delegate void PostTweetCallback(bool success);
+		public delegate void RequestTokenCallbackShared(bool success, RequestTokenResponseShared response);
+		public delegate void AccessTokenCallbackShared(bool success, AccessTokenResponseShared response);
+		public delegate void PostTweetCallbackShared(bool success);
 
-		public sealed class API
+		public sealed class APIShared
 		{
 
 			#region OAuth Token Methods
@@ -46,7 +46,7 @@ namespace BuddyApp.Shared
 			private static readonly string AuthorizationURL = "https://api.twitter.com/oauth/authenticate?oauth_token={0}";
 			private static readonly string AccessTokenURL = "https://api.twitter.com/oauth/access_token";
 
-			public static IEnumerator GetRequestToken(string consumerKey, string consumerSecret, RequestTokenCallback callback)
+			public static IEnumerator GetRequestToken(string consumerKey, string consumerSecret, RequestTokenCallbackShared callback)
 			{
 				WWW web = WWWRequestToken(consumerKey, consumerSecret);
 
@@ -56,7 +56,7 @@ namespace BuddyApp.Shared
 					Debug.Log(string.Format("GetRequestToken - failed. error : {0}", web.error));
 					callback(false, null);
 				} else {
-					RequestTokenResponse response = new RequestTokenResponse {
+					RequestTokenResponseShared response = new RequestTokenResponseShared {
 						Token = Regex.Match(web.text, @"oauth_token=([^&]+)").Groups[1].Value,
 						TokenSecret = Regex.Match(web.text, @"oauth_token_secret=([^&]+)").Groups[1].Value,
 					};
@@ -77,7 +77,7 @@ namespace BuddyApp.Shared
 				Application.OpenURL(string.Format(AuthorizationURL, requestToken));
 			}
 
-			public static IEnumerator GetAccessToken(string consumerKey, string consumerSecret, string requestToken, string pin, AccessTokenCallback callback)
+			public static IEnumerator GetAccessToken(string consumerKey, string consumerSecret, string requestToken, string pin, AccessTokenCallbackShared callback)
 			{
 				WWW web = WWWAccessToken(consumerKey, consumerSecret, requestToken, pin);
 
@@ -87,7 +87,8 @@ namespace BuddyApp.Shared
 					Debug.Log(string.Format("GetAccessToken - failed. error : {0}", web.error));
 					callback(false, null);
 				} else {
-					AccessTokenResponse response = new AccessTokenResponse {
+					AccessTokenResponseShared response = new AccessTokenResponseShared
+                    {
 						Token = Regex.Match(web.text, @"oauth_token=([^&]+)").Groups[1].Value,
 						TokenSecret = Regex.Match(web.text, @"oauth_token_secret=([^&]+)").Groups[1].Value,
 						UserId = Regex.Match(web.text, @"user_id=([^&]+)").Groups[1].Value,
@@ -144,7 +145,7 @@ namespace BuddyApp.Shared
 				return new WWW(AccessTokenURL, dummmy, headers);
 			}
 
-			public static string GetHeaderWithAccessToken(string httpRequestType, string apiURL, string consumerKey, string consumerSecret, AccessTokenResponse response, Dictionary<string, string> parameters)
+			public static string GetHeaderWithAccessToken(string httpRequestType, string apiURL, string consumerKey, string consumerSecret, AccessTokenResponseShared response, Dictionary<string, string> parameters)
 			{
 				AddDefaultOAuthParams(parameters, consumerKey, consumerSecret);
 
@@ -160,7 +161,7 @@ namespace BuddyApp.Shared
 
 			private const string PostTweetURL = "https://api.twitter.com/1.1/statuses/update.json";
 
-			public static IEnumerator PostTweet(string text, string consumerKey, string consumerSecret, AccessTokenResponse response, PostTweetCallback callback)
+			public static IEnumerator PostTweet(string text, string consumerKey, string consumerSecret, AccessTokenResponseShared response, PostTweetCallbackShared callback)
 			{
 				if (string.IsNullOrEmpty(text) || text.Length > 140) {
 					Debug.Log(string.Format("PostTweet - text[{0}] is empty or too long.", text));
@@ -205,7 +206,7 @@ namespace BuddyApp.Shared
 			}
 			private const string UploadURL = "https://api.twitter.com/1.1/statuses/update_with_media.json";
 
-			public static IEnumerator UploadMedia(Texture2D image, string text, string consumerKey, string consumerSecret, AccessTokenResponse response, PostTweetCallback callback)
+			public static IEnumerator UploadMedia(Texture2D image, string text, string consumerKey, string consumerSecret, AccessTokenResponseShared response, PostTweetCallbackShared callback)
 			{
 				if (string.IsNullOrEmpty(text) || text.Length > 140) {
 					Debug.Log(string.Format("PostTweet - text[{0}] is empty or too long.", text));
@@ -242,7 +243,7 @@ namespace BuddyApp.Shared
 
 				}
 			}
-			public static IEnumerator PostPicture(string text, string consumerKey, string consumerSecret, AccessTokenResponse response, PostTweetCallback callback)
+			public static IEnumerator PostPicture(string text, string consumerKey, string consumerSecret, AccessTokenResponseShared response, PostTweetCallbackShared callback)
 			{
 				if (string.IsNullOrEmpty(text) || text.Length > 140) {
 					Debug.Log(string.Format("PostTweet - text[{0}] is empty or too long.", text));

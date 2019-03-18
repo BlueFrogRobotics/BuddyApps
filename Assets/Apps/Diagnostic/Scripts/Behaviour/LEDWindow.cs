@@ -15,6 +15,11 @@ namespace BuddyApp.Diagnostic
         private Dropdown mDropDown;
 
         [SerializeField]
+        private Dropdown mDropDownSequence;
+
+        private LEDPulsePattern mPattern;
+
+        [SerializeField]
         private Toggle mToggle;
         
         [SerializeField]
@@ -82,6 +87,9 @@ namespace BuddyApp.Diagnostic
             mDropDown.onValueChanged.RemoveAllListeners();
             mDropDown.onValueChanged.AddListener((iInput) => SetColor());
 
+            mDropDownSequence.onValueChanged.RemoveAllListeners();
+            mDropDownSequence.onValueChanged.AddListener((iInput) => SetPattern());
+
             sliderH.wholeNumbers = true;
             sliderH.minValue = 0.0F;
             sliderH.maxValue = 360.0F;
@@ -139,6 +147,50 @@ namespace BuddyApp.Diagnostic
             sliderDownSlope.onValueChanged.AddListener((iInput) => OnChangeDownSlope());
 
             SetColor();
+        }
+
+        public void SetPattern()
+        {
+            switch (mDropDownSequence.options[mDropDownSequence.value].text)
+            {
+                case "DEFAULT":
+                  
+                    mPattern = LEDPulsePattern.DEFAULT;
+                    break;
+
+                case "BASIC_BLINK":
+                    mPattern = LEDPulsePattern.BASIC_BLINK;
+                    break;
+
+                case "BREATHING":
+                    mPattern = LEDPulsePattern.BREATHING;
+                    break;
+
+                case "DYNAMIC":
+                    mPattern = LEDPulsePattern.DYNAMIC;
+                    break;
+
+                case "HEART_BEAT":
+                    mPattern = LEDPulsePattern.HEART_BEAT;
+                    break;
+
+                case "LISTENING":
+                    mPattern = LEDPulsePattern.LISTENING;
+                    break;
+
+                case "NOBLINK":
+                    mPattern = LEDPulsePattern.NOBLINK;
+                    break;
+
+                case "PEACEFUL":
+                    mPattern = LEDPulsePattern.PEACEFUL;
+                    break;
+
+                case "RECHARGE":
+                    mPattern = LEDPulsePattern.RECHARGE;
+                    break;
+            }
+
         }
 
         private void SetColor()
@@ -237,27 +289,34 @@ namespace BuddyApp.Diagnostic
             }
         }
         
-        private void ValueChanged()
+        public void ValueChanged()
         {
             SetColor();
         }
 
+        //Waiting for CORE to do a function for flash
         private void SetFlash()
         {
             if (mStatus == false)
             {
-                Buddy.Actuators.LEDs.Flash = true;
+                
+                //Buddy.Actuators.LEDs.Flash = true;
                 mStatus = true;
                 mFlash.GetComponentsInChildren<Text>()[0].text = "TURN OFF FLASH";
                 mFlash.GetComponentsInChildren<Image>()[1].sprite = mStop;
             }
             else
             {
-                Buddy.Actuators.LEDs.Flash = false;
+                //Buddy.Actuators.LEDs.Flash = false;
                 mStatus = false;
                 mFlash.GetComponentsInChildren<Text>()[0].text = "TURN ON FLASH";
                 mFlash.GetComponentsInChildren<Image>()[1].sprite = mPlay;
             }
+        }
+
+        private void LaunchSequence()
+        {
+            Buddy.Actuators.LEDs.SetBodyPattern(mPattern);
         }
 
         private void IsOnlyHSVChecked()

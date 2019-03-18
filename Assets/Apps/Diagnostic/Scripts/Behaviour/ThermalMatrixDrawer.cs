@@ -18,13 +18,13 @@ namespace BuddyApp.Diagnostic
         private Text AverageTemperature;
 
         [SerializeField]
-        private Text mCPUTemperature;
+        private Text CPUTemperature;
         [SerializeField]
-        private Text mHEADTemperature;
+        private Text HEADTemperature;
         [SerializeField]
-        private Text mBODDYTemperature;
+        private Text BODDYTemperature;
         [SerializeField]
-        private Button mToggleFan;
+        private Button ToggleFan;
 
         private int mNbPixel;
         private float mTimeRefresh;
@@ -36,6 +36,7 @@ namespace BuddyApp.Diagnostic
         private void Start()
         {
             mThermalCamera = Buddy.Sensors.ThermalCamera;
+                
             
             //64
             mNbPixel = mThermalCamera.Width * mThermalCamera.Height;
@@ -44,14 +45,14 @@ namespace BuddyApp.Diagnostic
 
             mIsFanActivated = false;
             Buddy.Actuators.Fan.Stop();
-            mToggleFan.onClick.AddListener(delegate {
+            ToggleFan.onClick.AddListener(delegate {
                 OnFanButtonClick();
             });
         }
 
         private void Update()
         {
-            // UPDATE HEAT INFORMATIONS / COMING SOON :) ...
+            // UPDATE HEAT INFORMATIONS
             //mCPUTemperature.text = Buddy.Sencors + " °";
             //mHEADTemperature.text = Buddy.Sencors + " °";
             //mBODDYTemperature.text = Buddy.Sencors + " °";
@@ -84,12 +85,12 @@ namespace BuddyApp.Diagnostic
             if (mIsFanActivated)
             {
                 Buddy.Actuators.Fan.Stop();
-                mToggleFan.GetComponentsInChildren<Text>()[0].text = "START FAN";
+                ToggleFan.GetComponentsInChildren<Text>()[0].text = "START FAN";
             }
             else
             {
                 Buddy.Actuators.Fan.Start();
-                mToggleFan.GetComponentsInChildren<Text>()[0].text = "STOP FAN";
+                ToggleFan.GetComponentsInChildren<Text>()[0].text = "STOP FAN";
             }
 
             mIsFanActivated = !mIsFanActivated;

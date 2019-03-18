@@ -10,11 +10,21 @@ namespace BuddyApp.Diagnostic
 {
     public sealed class MotorsWindow : MonoBehaviour
     {
+        [SerializeField]
+        private Text XOdom;
+        [SerializeField]
+        private Text YOdom;
+        [SerializeField]
+        private Text Cap;
+        [SerializeField]
+        private Text NoAngle;
+        [SerializeField]
+        private Text YesAngle;
+
+
         /// <summary>
         /// Variables from the hardware
         /// </summary>
-        [SerializeField]
-        private Text positionGetter;
         [SerializeField]
         private Text leftSpeedGetter;
         [SerializeField]
@@ -95,6 +105,12 @@ namespace BuddyApp.Diagnostic
 
         void Start()
         {
+            NoAngle.text = Buddy.Actuators.Head.No.Angle.ToString();
+            YesAngle.text = Buddy.Actuators.Head.Yes.Angle.ToString();
+
+            XOdom.text = Buddy.Actuators.Wheels.Odometry.x.ToString();
+            YOdom.text = Buddy.Actuators.Wheels.Odometry.y.ToString();
+            Cap.text = Buddy.Actuators.Wheels.Odometry.z.ToString();
 
             mWheels = Buddy.Actuators.Wheels;
             mYesHinge = Buddy.Actuators.Head.Yes;
@@ -143,7 +159,6 @@ namespace BuddyApp.Diagnostic
 
         void Update()
         {
-            positionGetter.text = "" + mWheels.Odometry;
             leftSpeedGetter.text = "" + mWheels.LeftRotationalSpeed;
             rightSpeedGetter.text = "" + mWheels.RightRotationalSpeed;
             // Draw Head No Angle Feedback
@@ -188,6 +203,9 @@ namespace BuddyApp.Diagnostic
             noAngleBack.text = noHingeAngleSetter.value + " °";
             yesAngleBack.text = yesHingeAngleSetter.value + " °";
             hingeSpeedBack.text = "" + hingeSpeedSetter.value;
+            NoAngle.text = Buddy.Actuators.Head.No.Angle.ToString() + " °";
+            YesAngle.text = Buddy.Actuators.Head.Yes.Angle.ToString() +" °";
+            Cap.text = Buddy.Actuators.Wheels.Odometry.z.ToString() + " °";
         }
 
         public void SetWheelsSpeed()
@@ -222,7 +240,6 @@ namespace BuddyApp.Diagnostic
             //mWheels.TurnAbsoluteAngle(anglePosSetter.value,
             //                    (leftSpeedSetter.value + rightSpeedSetter.value) / 2,
             //                    toleranceSetter.value);
-            Debug.Log("NOT IMPLEMENTED YET");
             Buddy.Navigation.Run<DisplacementStrategy>().RotateTo(anglePosSetter.value, AngularVelocityWheelsSetter.value);
         }
 
@@ -231,7 +248,6 @@ namespace BuddyApp.Diagnostic
             //mWheels.TurnAngle(anglePosSetter.value,
             //                (leftSpeedSetter.value + rightSpeedSetter.value) / 2,
             //                toleranceSetter.value);
-            Debug.Log("NOT IMPLEMENTED YET" + anglePosSetter.value + " / " + AngularVelocityWheelsSetter.value );
             Buddy.Navigation.Run<DisplacementStrategy>().Rotate(anglePosSetter.value, AngularVelocityWheelsSetter.value);
        
         }

@@ -168,13 +168,13 @@ namespace BuddyApp.Shared
         {
             if (mXMLData != null)
             {
-                Twitter.AccessTokenResponse accessToken = new Twitter.AccessTokenResponse
+                Twitter.AccessTokenResponseShared accessToken = new Twitter.AccessTokenResponseShared
                 {
                     Token = mToken,
                     TokenSecret = mTokenSecret
                 };
-                StartCoroutine(Twitter.API.UploadMedia(LoadTexture(mTexture), iMsg, mConsumerKey, mConsumerSecret, accessToken,
-                                                         new Twitter.PostTweetCallback(OnPostTweet)));
+                StartCoroutine(Twitter.APIShared.UploadMedia(LoadTexture(mTexture), iMsg, mConsumerKey, mConsumerSecret, accessToken,
+                                                         new Twitter.PostTweetCallbackShared(OnPostTweet)));
             }
             
         }

@@ -186,12 +186,12 @@ namespace BuddyApp.TakePhoto
             }
             else
             {
-                mPhotoSprite = iMyPhoto.Image;
+                mPhotoSprite = iMyPhoto.Image; 
             }
             iMyPhoto.Save();
             TakePhotoData.Instance.PhotoPath = iMyPhoto.FullPath;
             mIsFrameCaptured = false;
-            Buddy.Vocal.SayAndListen(Buddy.Resources.GetRandomString("redoorshare"), null, "redoorshare", OnEndListening, null, false);
+            Buddy.Vocal.SayAndListen(Buddy.Resources.GetRandomString("redoorshare"), null, "redoorshare", OnEndListening, null);
 
             //UI : display the photo taken with two buttons on the footer to share or redo a photo.
             Buddy.GUI.Toaster.Display<PictureToast>().With(mPhotoSprite);
@@ -213,6 +213,7 @@ namespace BuddyApp.TakePhoto
         //Callback called at the end of the listening.
         private void OnEndListening(SpeechInput iInput)
         {
+
             if (!iInput.IsInterrupted)
             {
                 if (ContainsOneOf(Buddy.Vocal.LastHeardInput.Utterance, Buddy.Resources.GetPhoneticStrings("share")))

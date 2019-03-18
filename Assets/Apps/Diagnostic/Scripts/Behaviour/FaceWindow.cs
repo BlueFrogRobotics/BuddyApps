@@ -62,5 +62,10 @@ namespace BuddyApp.Diagnostic
         {
             Buddy.Actuators.LEDs.SetBodyPattern((LEDPulsePattern)Enum.Parse(typeof(LEDPulsePattern), LEDBehaviourDropdown.captionText.text));
         }
+
+        public void OnResetFace()
+        {
+            Buddy.Behaviour.SetMood(Mood.NEUTRAL);
+        }
     }
 }
