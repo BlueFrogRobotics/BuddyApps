@@ -58,6 +58,7 @@ namespace BuddyApp.TestGridEye
         private float mMin;
         private int mMeanX;
         private int mMeanY;
+        private int mPreviousIndexMax;
 
         public void ToggleDisplay()
         {
@@ -88,6 +89,7 @@ namespace BuddyApp.TestGridEye
             mMotion = false;
             mNbFrame = 0;
             mScore = -1;
+            mPreviousIndexMax = -1;
             //mThermalImageData = new GE_Image_Data();
             //mBackGroundImage = new GE_Background_Image();
             //mPeopleDetector = new GE_People_Detector();
@@ -126,6 +128,8 @@ namespace BuddyApp.TestGridEye
             // if human
             if (lIndexMax > -1) {
 
+                mPreviousIndexMax = lIndexMax;
+
                 // Set max temp in black
                 mTexture.SetPixel(lIndexMax % mTexture.width, (mTexture.height - 1) - (lIndexMax / mTexture.width), new Color(1F, 1F, 1F, 1F));
                 mTexture.SetPixel(mMeanX / mScore, (mTexture.height - 1) - (mMeanY / mScore), new Color(0F, 0F, 0F, 1F));
@@ -141,6 +145,7 @@ namespace BuddyApp.TestGridEye
                     OnHumanDetect( ((float) mMeanX / mScore ) / (mTexture.width - 1));
 
             } else {
+                mPreviousIndexMax = -1;
                 // if no human
                 // Remove the green pixels
                 for (int i = 0; i < mThermalSensorDataArray.Length; i++) {
@@ -221,10 +226,14 @@ namespace BuddyApp.TestGridEye
             float lCurrentCandidateTemp;
             int lIndexMax = -1;
 
-            if (iMiddleCandidate)
+            if (mThermalSensorDataArrayCandidate.Min() > -50F)
+                // This is first try
+                lIndexMax = mPreviousIndexMax;
+
+            else if (iMiddleCandidate)
                 lIndexMax = GetNextMiddleCandidate();
 
-            // if we have middle candidate
+            // if we have middle candidate or previous
             if (lIndexMax != -1) {
                 lCurrentCandidateTemp = mThermalSensorDataArrayCandidate[lIndexMax];
             }
@@ -291,7 +300,7 @@ namespace BuddyApp.TestGridEye
                 } else {
                     Debug.LogWarning("Score not enough:" + mScore);
                     // Try another point
-                    mThermalSensorDataArrayCandidate[lIndexMax] = mThermalSensorDataArray.Min();
+                    mThermalSensorDataArrayCandidate[lIndexMax] = -100F;
                     return ComputeScore(iMiddleCandidate);
 
                 }
@@ -305,7 +314,7 @@ namespace BuddyApp.TestGridEye
                 mTexture.SetPixel(iTestIndex % mTexture.width, (mTexture.height - 1) - iTestIndex / mTexture.width, new Color(0F, 1F, 0F, 1F));
 
                 // this pixel cannot be a candidate
-                mThermalSensorDataArrayCandidate[iTestIndex] = mThermalSensorDataArray.Min();
+                mThermalSensorDataArrayCandidate[iTestIndex] = -100F;
 
                 // Update Barycenter
                 UpdateBarycenter(iTestIndex);
