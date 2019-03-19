@@ -32,10 +32,10 @@ namespace BuddyApp.Diagnostic
         private Text SpeechToTextField;
 
         [SerializeField]
-        private Button SpeechToTextFreeSpeechButton;
+        private Toggle SpeechToTextFreeSpeechButton;
 
         [SerializeField]
-        private Button SpeechToTextGrammarButton;
+        private Toggle SpeechToTextGrammarButton;
 
 
         [SerializeField]
@@ -63,9 +63,9 @@ namespace BuddyApp.Diagnostic
 
         private const string CREDENTIAL_DEFAULT_URL = "http://bfr-dev.azurewebsites.net/dev/BuddyDev-cmfc3b05c071.txt";
 
-        private Sprite mRecord = Buddy.Resources.Get<Sprite>("os_icon_micro_on");
-        private Sprite mStop = Buddy.Resources.Get<Sprite>("os_icon_stop");
-        private Sprite mPlay = Buddy.Resources.Get<Sprite>("os_icon_play");
+        private Sprite mRecord;
+        private Sprite mStop;
+        private Sprite mPlay;
         private Color mBuddyBlue = new Color(0.0f, 0.831f, 0.819f);
         private Color mWhite = new Color(1f, 1f, 1f);
 
@@ -77,8 +77,17 @@ namespace BuddyApp.Diagnostic
         private AudioClip mAudioClip;
         private int mIPreviousMicroIndex = 0;
 
-        private int lprevious = Buddy.Sensors.Microphones.SoundLocalization;
 
+        private int lprevious;
+
+        private void Start()
+        {
+            mRecord = Buddy.Resources.Get<Sprite>("os_icon_micro_on");
+            mStop = Buddy.Resources.Get<Sprite>("os_icon_stop");
+            mPlay = Buddy.Resources.Get<Sprite>("os_icon_play");
+
+            lprevious = Buddy.Sensors.Microphones.SoundLocalization;
+        }
         public void Update()
         {
             LocalizationText.text = Buddy.Sensors.Microphones.SoundLocalization + " °";
@@ -117,8 +126,8 @@ namespace BuddyApp.Diagnostic
                 RecognitionThreshold = 5000
             };
 
-            //SpeechToTextFreeSpeechButton.interactable = false;
-            //StartCoroutine(GetFreespeechCredentials());
+            SpeechToTextFreeSpeechButton.interactable = false;
+            StartCoroutine(GetFreespeechCredentials());
 
             Buddy.Vocal.OnEndListening.Clear();
             Buddy.Vocal.OnEndListening.Add(OnEndListeningSpeechToText);
@@ -127,24 +136,30 @@ namespace BuddyApp.Diagnostic
             TextToSpeechButton.onClick.AddListener(delegate {
                 OnTextToSpeechButtonClick();
             });
-            
+
             // Extract & Play Gimmick
             GimmickDropdown.AddOptions(new List<string>(Enum.GetNames(typeof(SoundSample))));
             GimmickPlayButton.onClick.AddListener(delegate {
                 OnGimmickPlayButtonClick();
             });
 
-
             // Speech to text (Common Grammar)
-            //SpeechToTextGrammarButton.onClick.AddListener(delegate {
-            //    OnSpeechToTextGrammarButtonClick();
-            //});
-
+            SpeechToTextGrammarButton.onValueChanged.AddListener((iValue) =>
+            {
+                if (iValue == true)
+                    OnSpeechToTextGrammarButtonClick();
+                else
+                    Buddy.Vocal.StopAndClear();
+            });
+         
             // Speech to text (Freespeech)
-            //SpeechToTextFreeSpeechButton.onClick.AddListener(delegate {
-            //    OnSpeechToTextFreeSpeechButtonClick();
-            //});
-
+            SpeechToTextFreeSpeechButton.onValueChanged.AddListener((iValue) =>
+            {
+                if (iValue == true)
+                    OnSpeechToTextFreeSpeechButtonClick();
+                else
+                    Buddy.Vocal.StopAndClear();
+            });
 
             // Trigger : Play sound and switch to green for 1 second.
             //TriggerText.color = Color.red;
@@ -162,7 +177,6 @@ namespace BuddyApp.Diagnostic
                     mTimeTrigger.Elapsed += OnTriggerTimedEvent;
                     mTimeTrigger.Start();
                 });
-
 
             // Recording
             mNoiseDetector = Buddy.Perception.NoiseDetector;
@@ -182,8 +196,8 @@ namespace BuddyApp.Diagnostic
             GimmickPlayButton.onClick.RemoveAllListeners();
 
             // Speech to text
-            //SpeechToTextGrammarButton.onClick.RemoveAllListeners(); 
-            //SpeechToTextFreeSpeechButton.onClick.RemoveAllListeners();
+            SpeechToTextGrammarButton.onValueChanged.RemoveAllListeners();
+            SpeechToTextFreeSpeechButton.onValueChanged.RemoveAllListeners();
 
             // Trigger
             Buddy.Vocal.EnableTrigger = false;
@@ -211,27 +225,31 @@ namespace BuddyApp.Diagnostic
             Buddy.Actuators.Speakers.Media.Play((SoundSample)Enum.Parse(typeof(SoundSample), GimmickDropdown.options[GimmickDropdown.value].text));
         }
 
-        //private void OnSpeechToTextGrammarButtonClick ()
-        //{
-        //    Buddy.Vocal.StopAndClear();
-        //    SpeechToTextGrammarButton.GetComponent<Image>().color = mBuddyBlue;
-        //    SpeechToTextFreeSpeechButton.GetComponent<Image>().color = mWhite;
+        private void OnSpeechToTextGrammarButtonClick()
+        {
+            Buddy.Vocal.StopAndClear();
+            //SpeechToTextGrammarButton.GetComponent<Image>().color = mBuddyBlue;
+            //SpeechToTextFreeSpeechButton.GetComponent<Image>().color = mWhite;
 
-        //    Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
-        //    if (!Buddy.Vocal.Listen())
-        //        ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.STOPPING, "ERROR ON LISTEN !!!! ");
-        //}
+            Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
+            if (!Buddy.Vocal.Listen())
+                ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.STOPPING, "ERROR ON LISTEN !!!! ");
+        }
 
-        //private void OnSpeechToTextFreeSpeechButtonClick ()
-        //{
-        //    Buddy.Vocal.StopAndClear();
-        //    SpeechToTextGrammarButton.GetComponent<Image>().color = mWhite;
-        //    SpeechToTextFreeSpeechButton.GetComponent<Image>().color = mBuddyBlue;
+        private void OnSpeechToTextFreeSpeechButtonClick()
+        {
 
-        //    Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.FREESPEECH_ONLY;
-        //    if (!Buddy.Vocal.Listen())
-        //        ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.STOPPING, "ERROR ON LISTEN !!!! ");
-        //}
+
+            Debug.LogWarning("vocal1");
+            Buddy.Vocal.StopAndClear();
+            SpeechToTextGrammarButton.GetComponent<Image>().color = mWhite;
+            Debug.LogWarning("vocal1.5");
+            SpeechToTextFreeSpeechButton.GetComponent<Image>().color = mBuddyBlue;
+            Debug.LogWarning("vocal2");
+            Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.FREESPEECH_ONLY;
+            if (!Buddy.Vocal.Listen())
+                ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.STOPPING, "ERROR ON LISTEN !!!! ");
+        }
 
         private void OnEndListeningSpeechToText(SpeechInput iSpeechInput)
         {
@@ -322,16 +340,16 @@ namespace BuddyApp.Diagnostic
                 mBIsPlaying = true;
             }
         }
-        
-        //private IEnumerator GetFreespeechCredentials()
-        //{
-        //    WWW lWWW = new WWW(CREDENTIAL_DEFAULT_URL);
-        //    yield return lWWW;
-            
-        //    Buddy.Vocal.DefaultInputParameters.Credentials = lWWW.text;
-        //    ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.ENABLED, "Free Speech enabled.");
 
-        //    SpeechToTextFreeSpeechButton.interactable = true;
-        //}
+        private IEnumerator GetFreespeechCredentials()
+        {
+            WWW lWWW = new WWW(CREDENTIAL_DEFAULT_URL);
+            yield return lWWW;
+
+            Buddy.Vocal.DefaultInputParameters.Credentials = lWWW.text;
+            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.ENABLED, "Free Speech enabled.");
+
+            SpeechToTextFreeSpeechButton.interactable = true;
+        }
     }
 }
