@@ -79,8 +79,15 @@ namespace BuddyApp.Diagnostic
         private Button mFlash;
 
         private bool mStatus = false;
-        private Sprite mStop = Buddy.Resources.Get<Sprite>("os_icon_stop");
-        private Sprite mPlay = Buddy.Resources.Get<Sprite>("os_icon_play");
+        private Sprite mStop;
+        private Sprite mPlay;
+
+
+        private void Start()
+        {
+            mStop = Buddy.Resources.Get<Sprite>("os_icon_stop");
+            mPlay = Buddy.Resources.Get<Sprite>("os_icon_play");
+        }
 
         public void OnEnable()
         {
