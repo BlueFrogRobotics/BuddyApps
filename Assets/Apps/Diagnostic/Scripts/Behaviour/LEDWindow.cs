@@ -87,10 +87,6 @@ namespace BuddyApp.Diagnostic
         {
             mStop = Buddy.Resources.Get<Sprite>("os_icon_stop");
             mPlay = Buddy.Resources.Get<Sprite>("os_icon_play");
-        }
-
-        public void OnEnable()
-        {
             mDropDown.onValueChanged.RemoveAllListeners();
             mDropDown.onValueChanged.AddListener((iInput) => SetColor());
 
@@ -153,7 +149,12 @@ namespace BuddyApp.Diagnostic
             sliderDownSlope.onValueChanged.RemoveAllListeners();
             sliderDownSlope.onValueChanged.AddListener((iInput) => OnChangeDownSlope());
 
-            SetColor();
+            ValueChanged();
+        }
+
+        public void OnEnable()
+        {
+           
         }
 
         public void SetPattern()

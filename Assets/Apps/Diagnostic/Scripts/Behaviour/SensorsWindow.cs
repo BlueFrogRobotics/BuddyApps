@@ -306,6 +306,8 @@ namespace BuddyApp.Diagnostic
             // IR
             mBackIRSensor = Buddy.Sensors.InfraredSensor;
 
+          
+
             // CLIFF
             mCliff_FrontFreeWheel = Buddy.Sensors.CliffSensors.FrontFreeWheel;
             mCliff_FrontRightWheel = Buddy.Sensors.CliffSensors.FrontRightWheel;
@@ -421,6 +423,9 @@ namespace BuddyApp.Diagnostic
 
             if (BT_CLIFF.isOn)
             {
+                Debug.Log("salut"); 
+                Debug.Log(" FRONT WHEEL CLIFF " + mCliff_FrontFreeWheel.Value);
+                Debug.Log("lol");
                 // Cliff Front Free Wheel
                 CLIFF_Text_FrontFreeWheel.text = (mCliff_FrontFreeWheel.Value/10) + "cm";
                 CLIFF_Error_FrontFreeWheel.text = mCliff_FrontFreeWheel.Error.ToString();
