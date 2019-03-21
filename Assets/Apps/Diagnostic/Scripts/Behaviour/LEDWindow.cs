@@ -104,6 +104,7 @@ namespace BuddyApp.Diagnostic
             sliderS.minValue = 0.0F;
             sliderS.maxValue = 100.0F;
             sliderS.value = sliderS.maxValue;
+            textS.text = sliderS.maxValue.ToString();
             sliderS.onValueChanged.RemoveAllListeners();
             sliderS.onValueChanged.AddListener((iInput) => OnChangeS());
 
@@ -111,6 +112,7 @@ namespace BuddyApp.Diagnostic
             sliderV.minValue = 0.0F;
             sliderV.maxValue = 100.0F;
             sliderV.value = sliderV.maxValue;
+            textV.text = sliderV.maxValue.ToString();
             sliderV.onValueChanged.RemoveAllListeners();
             sliderV.onValueChanged.AddListener((iInput) => OnChangeV());
 
@@ -150,11 +152,6 @@ namespace BuddyApp.Diagnostic
             sliderDownSlope.onValueChanged.AddListener((iInput) => OnChangeDownSlope());
 
             ValueChanged();
-        }
-
-        public void OnEnable()
-        {
-           
         }
 
         public void SetPattern()
