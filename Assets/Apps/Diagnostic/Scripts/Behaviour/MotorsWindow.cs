@@ -203,9 +203,9 @@ namespace BuddyApp.Diagnostic
             noAngleBack.text = noHingeAngleSetter.value + " °";
             yesAngleBack.text = yesHingeAngleSetter.value + " °";
             hingeSpeedBack.text = "" + hingeSpeedSetter.value;
-            NoAngle.text = Buddy.Actuators.Head.No.Angle.ToString() + " °";
-            YesAngle.text = Buddy.Actuators.Head.Yes.Angle.ToString() +" °";
-            Cap.text = Buddy.Actuators.Wheels.Odometry.z.ToString() + " °";
+            NoAngle.text = Buddy.Actuators.Head.No.Angle.ToString("f3") + " °";
+            YesAngle.text = Buddy.Actuators.Head.Yes.Angle.ToString("f3") +" °";
+            Cap.text = Buddy.Actuators.Wheels.Odometry.z.ToString("f3") + " °";
         }
 
         public void SetWheelsSpeed()

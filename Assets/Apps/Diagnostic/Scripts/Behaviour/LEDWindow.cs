@@ -125,28 +125,28 @@ namespace BuddyApp.Diagnostic
 
             sliderOnDuration.wholeNumbers = true;
             sliderOnDuration.minValue = 0.0F;
-            sliderOnDuration.maxValue = 5000.0F;
+            sliderOnDuration.maxValue = 32767F;
             sliderOnDuration.value = sliderOnDuration.minValue;
             sliderOnDuration.onValueChanged.RemoveAllListeners();
             sliderOnDuration.onValueChanged.AddListener((iInput) => OnChangeOnDuration());
 
             sliderOffDuration.wholeNumbers = true;
             sliderOffDuration.minValue = 0.0F;
-            sliderOffDuration.maxValue = 5000.0F;
+            sliderOffDuration.maxValue = 32767F;
             sliderOffDuration.value = sliderOffDuration.minValue;
             sliderOffDuration.onValueChanged.RemoveAllListeners();
             sliderOffDuration.onValueChanged.AddListener((iInput) => OnChangeOffDuration());
 
             sliderUpSlope.wholeNumbers = true;
             sliderUpSlope.minValue = 0.0F;
-            sliderUpSlope.maxValue = 5000.0F;
+            sliderUpSlope.maxValue = 255F;
             sliderUpSlope.value = sliderOffDuration.minValue;
             sliderUpSlope.onValueChanged.RemoveAllListeners();
             sliderUpSlope.onValueChanged.AddListener((iInput) => OnChangeUpSlope());
 
             sliderDownSlope.wholeNumbers = true;
             sliderDownSlope.minValue = 0.0F;
-            sliderDownSlope.maxValue = 5000.0F;
+            sliderDownSlope.maxValue = 255F;
             sliderDownSlope.value = sliderDownSlope.minValue;
             sliderDownSlope.onValueChanged.RemoveAllListeners();
             sliderDownSlope.onValueChanged.AddListener((iInput) => OnChangeDownSlope());
@@ -319,7 +319,7 @@ namespace BuddyApp.Diagnostic
             }
         }
 
-        private void LaunchSequence()
+        public void LaunchSequence()
         {
             Buddy.Actuators.LEDs.SetBodyPattern(mPattern);
         }
