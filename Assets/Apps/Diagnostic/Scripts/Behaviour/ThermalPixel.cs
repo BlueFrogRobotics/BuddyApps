@@ -21,7 +21,7 @@ namespace BuddyApp.Diagnostic
             MinExpected = 10; 
             MaxExpected = 30; 
             Unite = "°";
-            Form = "0.0";
+            Form = "0.00";
         }
 
         // Use this for initialization

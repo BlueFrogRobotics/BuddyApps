@@ -74,7 +74,7 @@ namespace BuddyApp.Diagnostic
                 for (int i = 0; i < 64; ++i)
                     oAverageTemp += mThermalSensorDataArray[i];
 
-                AverageTemperature.text = "Average Temp:" + (oAverageTemp / 64).ToString() + " °";
+                AverageTemperature.text = "Average Temp:" + (oAverageTemp / 64).ToString("0.00") + " °";
                 AmbiantTemperature.text = mThermalCamera.AmbiantTemperature + " °";
                 mTimeRefresh = 0F;
             }

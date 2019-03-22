@@ -423,41 +423,38 @@ namespace BuddyApp.Diagnostic
 
             if (BT_CLIFF.isOn)
             {
-                Debug.Log("salut"); 
-                Debug.Log(" FRONT WHEEL CLIFF " + mCliff_FrontFreeWheel.Value);
-                Debug.Log("lol");
                 // Cliff Front Free Wheel
-                CLIFF_Text_FrontFreeWheel.text = (mCliff_FrontFreeWheel.Value/10) + "cm";
+                CLIFF_Text_FrontFreeWheel.text = (mCliff_FrontFreeWheel.Value) + "mm";
                 CLIFF_Error_FrontFreeWheel.text = mCliff_FrontFreeWheel.Error.ToString();
                 CLIFF_OK_FrontFreeWheel.color = mCliff_FrontFreeWheel.Error == 0 ? BuddyBlue : Red;
 
                 // Cliff Front Right Wheel
-                CLIFF_Text_FrontRightWheel.text = (mCliff_FrontRightWheel.Value/10) + "cm";
+                CLIFF_Text_FrontRightWheel.text = (mCliff_FrontRightWheel.Value) + "mm";
                 CLIFF_Error_FrontRightWheel.text = mCliff_FrontRightWheel.Error.ToString();
                 CLIFF_OK_FrontRightWheel.color = mCliff_FrontRightWheel.Error == 0 ? BuddyBlue : Red;
 
                 // Cliff Back Right Wheel
-                CLIFF_Text_BackRightWheel.text = (mCliff_BackRightWheel.Value/10) + "cm";
+                CLIFF_Text_BackRightWheel.text = (mCliff_BackRightWheel.Value) + "mm";
                 CLIFF_Error_BackRightWheel.text = mCliff_BackRightWheel.Error.ToString();
                 CLIFF_OK_BackRightWheel.color = mCliff_BackRightWheel.Error == 0 ? BuddyBlue : Red;
 
                 // Cliff Back Right free Wheel
-                CLIFF_Text_BackRightFreeWheel.text = (mCliff_BackRightFreeWheel.Value/10) + "cm";
+                CLIFF_Text_BackRightFreeWheel.text = (mCliff_BackRightFreeWheel.Value) + "mm";
                 CLIFF_Error_BackRightFreeWheel.text = mCliff_BackRightFreeWheel.Error.ToString();
                 CLIFF_OK_BackRightFreeWheel.color = mCliff_BackRightFreeWheel.Error == 0 ? BuddyBlue : Red;
 
                 // Cliff Front Left Wheel
-                CLIFF_Text_FrontLeftWheel.text = (mCliff_FrontLeftWheel.Value/10) + "cm";
+                CLIFF_Text_FrontLeftWheel.text = (mCliff_FrontLeftWheel.Value) + "mm";
                 CLIFF_Error_FrontLeftWheel.text = mCliff_FrontLeftWheel.Error.ToString();
                 CLIFF_OK_FrontLeftWheel.color = mCliff_FrontLeftWheel.Error == 0 ? BuddyBlue : Red;
 
                 // Cliff Back Left Wheel
-                CLIFF_Text_BackLeftWheel.text = (mCliff_BackLeftWheel.Value/10) + "cm";
+                CLIFF_Text_BackLeftWheel.text = (mCliff_BackLeftWheel.Value)+ "mm";
                 CLIFF_Error_BackLeftWheel.text = mCliff_BackLeftWheel.Error.ToString();
                 CLIFF_OK_BackLeftWheel.color = mCliff_BackLeftWheel.Error == 0 ? BuddyBlue : Red;
 
                 // Cliff Back Left Free Wheel
-                CLIFF_Text_BackLeftFreeWheel.text = (mCliff_BackLeftFreeWheel.Value/10) + "cm";
+                CLIFF_Text_BackLeftFreeWheel.text = (mCliff_BackLeftFreeWheel.Value) + "mm";
                 CLIFF_Error_BackLeftFreeWheel.text = mCliff_BackLeftFreeWheel.Error.ToString();
                 CLIFF_OK_BackLeftFreeWheel.color = mCliff_BackLeftFreeWheel.Error == 0 ? BuddyBlue : Red;
             }
