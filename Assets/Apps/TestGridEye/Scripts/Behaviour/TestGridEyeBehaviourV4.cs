@@ -108,18 +108,16 @@ namespace BuddyApp.TestGridEye
             mNbFrame++;
             mRemovedCandidates.Clear();
 
-            if (Buddy.Actuators.Fan.IsBusy)
+            // Init ring buffers
+            if (mNbFrame == 1) {
+                iThermalFrame.Mat.get(0, 0, mThermalSensorDataArray);
+                //mAverageThermal.Enqueue(lThermalSensorDataArray);
 
-                // Init ring buffers
-                if (mNbFrame == 1) {
-                    iThermalFrame.Mat.get(0, 0, mThermalSensorDataArray);
-                    //mAverageThermal.Enqueue(lThermalSensorDataArray);
-
-                    float[] lCopy = new float[mThermalSensorDataArray.Length];
-                    Array.Copy(mThermalSensorDataArray, lCopy, mThermalSensorDataArray.Length);
-                    mMinThermal.Enqueue(lCopy);
-                    return;
-                }
+                float[] lCopy = new float[mThermalSensorDataArray.Length];
+                Array.Copy(mThermalSensorDataArray, lCopy, mThermalSensorDataArray.Length);
+                mMinThermal.Enqueue(lCopy);
+                return;
+            }
 
             //Reset data
             Array.Clear(mThermalSensorDataMinArray, 0, mThermalSensorDataMinArray.Length);
