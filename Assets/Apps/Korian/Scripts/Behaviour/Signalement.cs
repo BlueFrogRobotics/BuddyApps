@@ -25,13 +25,13 @@ namespace BuddyApp.Korian
             //KorianData.Instance.Mail = KorianData.MailType.MAILA;
             if (KorianData.Instance.Mail == KorianData.MailType.MAILA)
             {
-                Debug.Log("SEND MAIL A");
+                Debug.Log("SEND MAIL A enter state");
                 SendMail(Buddy.Resources.GetRandomString("maila"));
 
             }
             else if (KorianData.Instance.Mail == KorianData.MailType.MAILB)
             {
-                Debug.Log("SEND MAIL B");
+                Debug.Log("SEND MAIL B enter state");
                 SendMail(Buddy.Resources.GetRandomString("mailb"));
 
             }
@@ -47,7 +47,7 @@ namespace BuddyApp.Korian
                 mTimer = 0F;
                 if (!mSendMailAgain && KorianData.Instance.Mail == KorianData.MailType.MAILA)
                 {
-                    Debug.Log("SEND MAIL A");
+                    Debug.Log("SEND MAIL A update");
                     SendMail(Buddy.Resources.GetRandomString("maila"));
 
                 }
@@ -86,7 +86,7 @@ namespace BuddyApp.Korian
         {
             if (iSuccess)
             {
-                mSendMailAgain = true;
+                //mSendMailAgain = true;
                 Debug.Log("SUCCESS");
             }
             else

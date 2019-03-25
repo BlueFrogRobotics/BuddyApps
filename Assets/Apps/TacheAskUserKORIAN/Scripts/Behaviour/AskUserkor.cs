@@ -36,7 +36,7 @@ namespace BuddyApp.TacheAskUserKORIAN
                 iBuilder.CreateWidget<TText>().SetLabel(Buddy.Resources.GetRandomString("doyouneedhelp"));
             },
                 () => {
-                    ExtLog.I(ExtLogModule.APP, typeof(AskUser), LogStatus.INFO, LogInfo.RUNNING, "Click no");
+                    //ExtLog.I(ExtLogModule.APP, typeof(AskUserKor), LogStatus.INFO, LogInfo.RUNNING, "Click no");
                     Buddy.GUI.Toaster.Hide();
                     Buddy.Vocal.StopListening();
                     Buddy.Vocal.Say("REGLE DE LEHPAD " + Buddy.Resources.GetRandomString("gobacktosleep"));
@@ -46,7 +46,7 @@ namespace BuddyApp.TacheAskUserKORIAN
                /* Buddy.Resources.GetString("no")*/,
                 
                 () => {
-                    ExtLog.I(ExtLogModule.APP, typeof(AskUser), LogStatus.INFO, LogInfo.RUNNING, "Click yes");
+                    //ExtLog.I(ExtLogModule.APP, typeof(AskUser), LogStatus.INFO, LogInfo.RUNNING, "Click yes");
                     Buddy.Vocal.StopListening();
                     Buddy.GUI.Toaster.Hide();
                     Buddy.Vocal.Say(Buddy.Resources.GetRandomString("helpiscoming"));
