@@ -83,7 +83,7 @@ namespace BuddyApp.Diagnostic
         private Sprite mPlay;
 
 
-        private void Start()
+        private void Start() 
         {
             mStop = Buddy.Resources.Get<Sprite>("os_icon_stop");
             mPlay = Buddy.Resources.Get<Sprite>("os_icon_play");
