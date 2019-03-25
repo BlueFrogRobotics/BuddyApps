@@ -14,6 +14,15 @@ namespace BuddyApp.Diagnostic
 {
     public sealed class VocalWindow : MonoBehaviour
     {
+        public enum TAB
+        {
+            TRIGGER,
+            LOCALIZATION,
+            BEAMFORMING,
+            ECHO_CANCELLATION,
+            COUNT,
+        }
+
         [SerializeField]
         private Slider VolumeSlider;
 
@@ -38,7 +47,6 @@ namespace BuddyApp.Diagnostic
         [SerializeField]
         private Toggle SpeechToTextGrammarButton;
 
-
         [SerializeField]
         private Animator TriggerText;
 
@@ -49,7 +57,7 @@ namespace BuddyApp.Diagnostic
         private Text LocalizationText;
 
         [SerializeField]
-        private Image LocalizationRad;
+        private GameObject LocalizationRad;
 
         [SerializeField]
         private Text AmbiantSoundLevelText;
@@ -69,6 +77,47 @@ namespace BuddyApp.Diagnostic
         [SerializeField]
         private AudioSource ReplayAudioSource;
 
+        [Header("TAB MANAGE")]
+        [SerializeField]
+        private Button[] TabButton = new Button[(int)TAB.COUNT];
+
+        [SerializeField]
+        private GameObject[] TabContent = new GameObject[(int)TAB.COUNT];
+
+        [Header("TRIGGER TAB")]
+        [SerializeField]
+        private Toggle TriggerToggle;
+
+        [SerializeField]
+        private Slider TriggerTreshSlider;
+
+        [SerializeField]
+        private Text TriggerTreshText;
+
+        [SerializeField]
+        private Dropdown TriggerDropdown;
+
+        [Header("LOCALIZATION TAB")]
+        [SerializeField]
+        private Toggle LocalizationToggle;
+
+        [SerializeField]
+        private Slider LocalizationTreshSlider;
+
+        [SerializeField]
+        private Text LocalizationTreshText;
+
+        [Header("BEAMFORMING TAB")]
+        [SerializeField]
+        private Toggle BeamFormingToggle;
+
+        [Header("ECHO CANCELLATION TAB")]
+        [SerializeField]
+        private Toggle EchoCancellationToggle;
+
+        private readonly Color TAB_IDLE_COLOR = new Color(221F / 255F, 221F / 255F, 221F / 255F);
+        private readonly Color STATUS_OFF_COLOR = new Color(56F / 255F, 56F / 255F, 56F / 255F);
+        private readonly Color STATUS_ON_COLOR = new Color(0F, 212F / 255F, 209F / 255F);
 
         private const string CREDENTIAL_DEFAULT_URL = "http://bfr-dev.azurewebsites.net/dev/BuddyDev-cmfc3b05c071.txt";
 
@@ -83,6 +132,7 @@ namespace BuddyApp.Diagnostic
 
         private bool mBIsPlaying = false;
 
+        // List of all recorded audio
         private List<Queue<AudioClip>> mListRecorded = new List<Queue<AudioClip>>();
 
         // Last audio recorded
@@ -92,26 +142,72 @@ namespace BuddyApp.Diagnostic
 
         private int mIPreviousMicroIndex = 0;
 
-        private int mPrevious;
+        private Image mSoundLocField;
+        private int mSoundLocAngle;
+        private float mSoundLocPreviousTreatedAngle;
+
+        public void OnClickTabs(TAB iClickedTab)
+        {
+            if (iClickedTab < 0 && iClickedTab >= TAB.COUNT)
+                return;
+            if (TabContent[(int)iClickedTab].activeSelf)
+                return;
+            for (TAB iTab = 0; iTab < TAB.COUNT; iTab++)
+            {
+                TabContent[(int)iTab].SetActive(false);
+                TabButton[(int)iTab].GetComponent<Image>().color = TAB_IDLE_COLOR;
+            }
+            TabContent[(int)iClickedTab].SetActive(true);
+            TabButton[(int)iClickedTab].GetComponent<Image>().color = Color.white;
+        }
 
         private void Start()
         {
+            mSoundLocPreviousTreatedAngle = 0F;
+            mSoundLocField = LocalizationRad.GetComponent<Image>();
             mRecord = Buddy.Resources.Get<Sprite>("os_icon_micro_on");
             mStop = Buddy.Resources.Get<Sprite>("os_icon_stop");
             mPlay = Buddy.Resources.Get<Sprite>("os_icon_play");
-            mPrevious = Buddy.Sensors.Microphones.SoundLocalization;
             SpeechToTextFreeSpeechButton.interactable = false;
             StartCoroutine(GetFreespeechCredentials());
         }
 
-        public void Update()
+        private void UpdateSoundLocalization()
         {
-            LocalizationText.text = Buddy.Sensors.Microphones.SoundLocalization + " °";
-            LocalizationRad.rectTransform.Rotate(0, 0, Buddy.Sensors.Microphones.SoundLocalization - mPrevious);
-            mPrevious = Buddy.Sensors.Microphones.SoundLocalization;
             AmbiantSoundLevelText.text = Buddy.Sensors.Microphones.AmbiantSound + " db";
             AmbiantSoundLevelSlider.value = Buddy.Sensors.Microphones.AmbiantSound;
+            mSoundLocAngle = Buddy.Sensors.Microphones.SoundLocalization;
+            // Done only for positive angles (as SLOC output angles)
+            if (mSoundLocAngle >= 0)
+            {
+                LocalizationRad.SetActive(true);
+                // Display untreated value
+                LocalizationText.text = mSoundLocAngle.ToString() + " °";
 
+                // Following code was supplied in the ECR_190218_BF_STUDIO_01 : (And then adapted here)
+                // Adapt angle to get it in radians and 0° on left of buddy head 
+                float lAngle = mSoundLocAngle;  // angle is [0..+360[ 
+                lAngle -= 135;                  // angle is [-135..+225] 
+                if (lAngle < 0)
+                    lAngle = lAngle + 360;      // angle is [0..+360[
+                mSoundLocPreviousTreatedAngle = lAngle;
+                mSoundLocField.rectTransform.Rotate(0, 0, lAngle - mSoundLocPreviousTreatedAngle);
+                // This code is not necessary, we can directly rotate the object using transform
+                //Angle = Angle * (float)Math.PI / 180.0F;    // Convert in rad 
+                //x = centerX + radius * (float)Math.Cos(Angle);
+                //y = centerY + radius * (float)Math.Sin(Angle);
+            }
+            else if (LocalizationRad.activeSelf)
+            {
+                // No value compute - disable UI
+                LocalizationText.text = "0 °";
+                LocalizationRad.SetActive(false);
+            }
+        }
+
+        public void Update()
+        {
+            UpdateSoundLocalization();
             if (mBIsPlaying) // Playing record
             {
                 if (null == ReplayAudioSource.clip || !ReplayAudioSource.isPlaying)
@@ -137,6 +233,99 @@ namespace BuddyApp.Diagnostic
 
         public void OnEnable()
         {
+            // Tabs
+            TabButton[(int)TAB.TRIGGER].onClick.AddListener(() => { OnClickTabs(TAB.TRIGGER); });
+            TabButton[(int)TAB.LOCALIZATION].onClick.AddListener(() => { OnClickTabs(TAB.LOCALIZATION); });
+            TabButton[(int)TAB.BEAMFORMING].onClick.AddListener(() => { OnClickTabs(TAB.BEAMFORMING); });
+            TabButton[(int)TAB.ECHO_CANCELLATION].onClick.AddListener(() => { OnClickTabs(TAB.ECHO_CANCELLATION); });
+
+            // Trigger
+            TriggerToggle.onValueChanged.AddListener((iValue) =>
+            {
+                Buddy.Vocal.EnableTrigger = iValue;
+                if (iValue)
+                    TabButton[(int)TAB.TRIGGER].GetComponentsInChildren<Image>()[2].color = STATUS_ON_COLOR;
+                else
+                    TabButton[(int)TAB.TRIGGER].GetComponentsInChildren<Image>()[2].color = STATUS_OFF_COLOR;
+            });
+            TriggerTreshSlider.value = 1000;
+            TriggerTreshText.text = TriggerTreshSlider.value.ToString();
+            TriggerTreshSlider.onValueChanged.AddListener((iTresh) =>
+            {
+                TriggerTreshText.text = TriggerTreshSlider.value.ToString();
+                // -- ADD Treshold setting when available ---
+            });
+
+            // Localization
+            LocalizationToggle.onValueChanged.AddListener((iValue) =>
+            {
+                if (iValue)
+                    TabButton[(int)TAB.LOCALIZATION].GetComponentsInChildren<Image>()[2].color = STATUS_ON_COLOR;
+                else
+                    TabButton[(int)TAB.LOCALIZATION].GetComponentsInChildren<Image>()[2].color = STATUS_OFF_COLOR;
+            });
+            LocalizationTreshSlider.value = 50;
+            LocalizationTreshText.text = LocalizationTreshSlider.value.ToString();
+            LocalizationTreshSlider.onValueChanged.AddListener((iTresh) =>
+            {
+                LocalizationTreshText.text = LocalizationTreshSlider.value.ToString();
+                // -- ADD Treshold setting when available ---
+            });
+
+            // BeamForming
+            BeamFormingToggle.onValueChanged.AddListener((iValue) =>
+            {
+                // Get all child gameobject of EchoCancellation for mutual exclusion
+                List<GameObject> lContents = new List<GameObject>();
+                int lChildCount = TabContent[(int)TAB.ECHO_CANCELLATION].transform.childCount;
+                for (int i = 0; i < lChildCount; i++)
+                    lContents.Add(TabContent[(int)TAB.ECHO_CANCELLATION].transform.GetChild(i).gameObject);
+
+                if (iValue)
+                {
+                    TabButton[(int)TAB.BEAMFORMING].GetComponentsInChildren<Image>()[2].color = STATUS_ON_COLOR;
+                    TabButton[(int)TAB.ECHO_CANCELLATION].GetComponent<CanvasGroup>().alpha = 0.5F;
+                    foreach (GameObject lContent in lContents)
+                        lContent.SetActive(false);
+                    lContents[0].SetActive(true);
+                }
+                else
+                {
+                    TabButton[(int)TAB.BEAMFORMING].GetComponentsInChildren<Image>()[2].color = STATUS_OFF_COLOR;
+                    TabButton[(int)TAB.ECHO_CANCELLATION].GetComponent<CanvasGroup>().alpha = 1F;
+                    foreach (GameObject lContent in lContents)
+                        lContent.SetActive(true);
+                    lContents[0].SetActive(false);
+                }
+            });
+
+            // EchoCancellation
+            EchoCancellationToggle.onValueChanged.AddListener((iValue) =>
+            {
+                // Get all child gameobject of EchoCancellation for mutual exclusion
+                List<GameObject> lContents = new List<GameObject>();
+                int lChildCount = TabContent[(int)TAB.BEAMFORMING].transform.childCount;
+                for (int i = 0; i < lChildCount; i++)
+                    lContents.Add(TabContent[(int)TAB.BEAMFORMING].transform.GetChild(i).gameObject);
+
+                if (iValue)
+                {
+                    TabButton[(int)TAB.ECHO_CANCELLATION].GetComponentsInChildren<Image>()[2].color = STATUS_ON_COLOR;
+                    TabButton[(int)TAB.BEAMFORMING].GetComponent<CanvasGroup>().alpha = 0.5F;
+                    foreach (GameObject lContent in lContents)
+                        lContent.SetActive(false);
+                    lContents[0].SetActive(true);
+                }
+                else
+                {
+                    TabButton[(int)TAB.ECHO_CANCELLATION].GetComponentsInChildren<Image>()[2].color = STATUS_OFF_COLOR;
+                    TabButton[(int)TAB.BEAMFORMING].GetComponent<CanvasGroup>().alpha = 1F;
+                    foreach (GameObject lContent in lContents)
+                        lContent.SetActive(true);
+                    lContents[0].SetActive(false);
+                }
+            });
+
             // Volume slider init & callback
             VolumeSlider.value = (int)(Buddy.Actuators.Speakers.Volume * 100F);
             VolumeSliderText.text = VolumeSlider.value.ToString();
@@ -188,13 +377,12 @@ namespace BuddyApp.Diagnostic
             });
 
             // Trigger : Play sound and switch to green for 1 second.
-            Buddy.Vocal.EnableTrigger = true;
             Buddy.Vocal.OnTrigger.Clear();
             Buddy.Vocal.OnTrigger.Add(
                 (iInput) =>
                 {
                     TriggerText.SetTrigger("ON");
-                    TriggerScore.text = iInput.ToString();
+                    //TriggerScore.text = ... waitCore
                     Buddy.Actuators.Speakers.Media.Play(SoundSample.BEEP_1);
 
                     // Display green for one second then switch red.
@@ -218,6 +406,22 @@ namespace BuddyApp.Diagnostic
 
         public void OnDisable()
         {
+            // Tabs
+            foreach (Button lButton in TabButton)
+                lButton.onClick.RemoveAllListeners();
+            // Trigger
+            TriggerToggle.onValueChanged.RemoveAllListeners();
+            TriggerTreshSlider.onValueChanged.RemoveAllListeners();
+
+            // Localization
+            LocalizationToggle.onValueChanged.RemoveAllListeners();
+            LocalizationTreshSlider.onValueChanged.RemoveAllListeners();
+
+            // BeamForming
+            BeamFormingToggle.onValueChanged.RemoveAllListeners();
+
+            //EchoCancellation
+            EchoCancellationToggle.onValueChanged.RemoveAllListeners();
 
             //Volume
             VolumeSlider.onValueChanged.RemoveAllListeners();
