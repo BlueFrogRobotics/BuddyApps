@@ -69,6 +69,47 @@ namespace BuddyApp.Diagnostic
         [SerializeField]
         private AudioSource ReplayAudioSource;
 
+        [Header("TRIGGER TAB")]
+        [SerializeField]
+        private Button TiggerTabButton;
+
+        [SerializeField]
+        private GameObject TiggerContent;
+
+        [SerializeField]
+        private Slider TiggerThreshSlider;
+
+        [SerializeField]
+        private Text TriggerTreshText;
+
+        [SerializeField]
+        private Dropdown TriggerDropdown;
+
+        [Header("LOCALIZATION TAB")]
+        [SerializeField]
+        private Button LocalizationTabButton;
+
+        [SerializeField]
+        private GameObject LocalizationContent;
+
+        [Header("BEAMFORMING TAB")]
+        [SerializeField]
+        private Button BeamFormingTabButton;
+
+        [SerializeField]
+        private GameObject BeamFormingContent;
+
+        [Header("ECHO CANCELLATION TAB")]
+        [SerializeField]
+        private Button EchoCancellationTabButton;
+
+        [SerializeField]
+        private GameObject EchoCancellationContent;
+
+        private readonly Color TAB_IDLE_COLOR = new Color(221, 221, 221);
+        private readonly Color TAB_DISABLE_COLOR = new Color(221, 221, 221);
+        private readonly Color STATUS_OFF_COLOR = new Color(56, 56, 56);
+        private readonly Color STATUS_ON_COLOR = new Color(0, 212, 209);
 
         private const string CREDENTIAL_DEFAULT_URL = "http://bfr-dev.azurewebsites.net/dev/BuddyDev-cmfc3b05c071.txt";
 
@@ -93,6 +134,19 @@ namespace BuddyApp.Diagnostic
         private int mIPreviousMicroIndex = 0;
 
         private int mPrevious;
+
+        public enum TABS
+        {
+            TRIGGER_TAB,
+            LOCALIZATION_TAB,
+            BEAMFORMINF_TAB,
+            ECHO_CANCELLATION_TAB,
+        }
+
+        public void OnClickTabs(int iTab)
+        {
+
+        }
 
         private void Start()
         {
