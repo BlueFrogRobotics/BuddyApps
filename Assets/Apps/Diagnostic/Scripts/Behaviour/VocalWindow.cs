@@ -183,15 +183,18 @@ namespace BuddyApp.Diagnostic
                 LocalizationRad.SetActive(true);
                 // Display untreated value
                 LocalizationText.text = mSoundLocAngle.ToString() + " °";
+                mSoundLocField.rectTransform.Rotate(0, 0, Buddy.Sensors.Microphones.SoundLocalization - mSoundLocPreviousTreatedAngle);
+                mSoundLocPreviousTreatedAngle = Buddy.Sensors.Microphones.SoundLocalization;
 
                 // Following code was supplied in the ECR_190218_BF_STUDIO_01 : (And then adapted here)
                 // Adapt angle to get it in radians and 0° on left of buddy head 
-                float lAngle = mSoundLocAngle;  // angle is [0..+360[ 
-                lAngle -= 135;                  // angle is [-135..+225] 
-                if (lAngle < 0)
-                    lAngle = lAngle + 360;      // angle is [0..+360[
-                mSoundLocPreviousTreatedAngle = lAngle;
-                mSoundLocField.rectTransform.Rotate(0, 0, lAngle - mSoundLocPreviousTreatedAngle);
+                //float lAngle = mSoundLocAngle;  // angle is [0..+360[ 
+                //lAngle -= 135;                  // angle is [-135..+225] 
+                //if (lAngle < 0)
+                //    lAngle = lAngle + 360;      // angle is [0..+360[
+                //Debug.LogWarning("---- Sloc:" + mSoundLocAngle + " / Treated:" + lAngle + " / diff with previous to rotate:" + (lAngle - mSoundLocPreviousTreatedAngle) + " ----");
+                //mSoundLocField.rectTransform.Rotate(0, 0, (lAngle - mSoundLocPreviousTreatedAngle));
+                //mSoundLocPreviousTreatedAngle = lAngle;
                 // This code is not necessary, we can directly rotate the object using transform
                 //Angle = Angle * (float)Math.PI / 180.0F;    // Convert in rad 
                 //x = centerX + radius * (float)Math.Cos(Angle);
@@ -377,6 +380,7 @@ namespace BuddyApp.Diagnostic
             });
 
             // Trigger : Play sound and switch to green for 1 second.
+            Buddy.Vocal.EnableTrigger = true;
             Buddy.Vocal.OnTrigger.Clear();
             Buddy.Vocal.OnTrigger.Add(
                 (iInput) =>
@@ -537,7 +541,7 @@ namespace BuddyApp.Diagnostic
                 {
                     if (!PlayRecordButton.interactable)
                     {
-                        if (mNoiseDetector.MicrophoneIdx < mIPreviousMicroIndex && null != mAudioClip)
+                        if (mNoiseDetector.MicrophoneIdx < mIPreviousMicroIndex && null != mAudioClip && mAudioClip.length > 1F)
                         {
                             mListAudio.Enqueue(mAudioClip);
                             mAudioClip = null;
@@ -565,14 +569,17 @@ namespace BuddyApp.Diagnostic
                 PlayRecordButton.interactable = true;
                 RecordButton.GetComponentsInChildren<Text>()[0].text = "START RECORDING";
                 RecordButton.GetComponentsInChildren<Image>()[1].sprite = mRecord;
-                if (null != mAudioClip)
-                    mListAudio.Enqueue(mAudioClip);
-                mListRecorded.Add(new Queue<AudioClip>(mListAudio));
-                mListAudio.Clear();
-                RecordDropdown.options.Add(new Dropdown.OptionData("record_" + RecordDropdown.options.Count.ToString()));
-                if (RecordDropdown.interactable == false)
-                    RecordDropdown.interactable = true;
                 mNoiseDetector.OnDetect.Clear();
+                if (null != mAudioClip && mAudioClip.length > 1F)
+                    mListAudio.Enqueue(mAudioClip);
+                if (mListAudio.Count > 0)
+                {
+                    mListRecorded.Add(new Queue<AudioClip>(mListAudio));
+                    mListAudio.Clear();
+                    RecordDropdown.options.Add(new Dropdown.OptionData("record_" + RecordDropdown.options.Count.ToString()));
+                    if (RecordDropdown.interactable == false)
+                        RecordDropdown.interactable = true;
+                }
                 return;
             }
         }
