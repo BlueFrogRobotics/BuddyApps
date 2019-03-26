@@ -364,7 +364,8 @@ namespace BuddyApp.Reminder
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
-            Buddy.Vocal.SayKey("reminderok", (iOutput) => { QuitApp(); });
+            string lEndingSpeech = Buddy.Resources.GetString("reminderok") + "[300]" + ReminderDateManager.GetInstance().ReminderMsg;
+            Buddy.Vocal.Say(lEndingSpeech, (iOutput) => { QuitApp(); });
         }
     }
 }
