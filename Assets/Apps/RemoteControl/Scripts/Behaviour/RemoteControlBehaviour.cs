@@ -38,27 +38,29 @@ namespace BuddyApp.RemoteControl
         private RemoteControlData mAppData;
 
         [SerializeField]
-        private Webrtc mWebRtc;
+        private Webrtc WebRtc;
 
         [SerializeField]
-        private Text mUserCalling = null;
+        private Text UserCalling = null;
 
         [SerializeField]
-        private AudioClip mMusicCall;
+        private AudioClip MusicCall;
 
-        public bool mCallIsInProgress;
+        public bool CallIsInProgress;
 
         private bool mIncomingCallHandled;
         private bool mCallStoped;
 
         // Custom Toast - UI to manage the call, and view all video feedback
         [SerializeField]
-        private GameObject mCallView;
+        private GameObject CallView;
+
+        private CallViewManager mCallViewManager;
 
         public void backToLobby()
         {
-            if (mWebRtc.ConnectionState == Webrtc.CONNECTION.CONNECTING)
-                mWebRtc.HangUp();
+            if (WebRtc.ConnectionState == Webrtc.CONNECTION.CONNECTING)
+                WebRtc.HangUp();
             AAppActivity.QuitApp();
         }
 
@@ -71,12 +73,13 @@ namespace BuddyApp.RemoteControl
             //// il faut lire la liste des users, l'enregistrer après acceptation de l'appel, si changement des autorisations
             //// Faire une fonction qui confirme et check tout au lieu des trigger toussa toussa
 
-            mCallIsInProgress = false;
+            CallIsInProgress = false;
             mIncomingCallHandled = false;
             mCallStoped = false;
 
             // CallView in custom toast
-            if (!mCallView) {
+            if (!CallView)
+            {
                 Debug.LogError("Please add reference to CallView_customToast");
                 return;
             }
@@ -86,25 +89,33 @@ namespace BuddyApp.RemoteControl
         public void LaunchCall()
         {
             Buddy.Vocal.StopAndClear();
-            mCallIsInProgress = true;
-            mWebRtc.gameObject.SetActive(true);
+            CallIsInProgress = true;
+            WebRtc.gameObject.SetActive(true);
             Buddy.GUI.Toaster.Hide();
 
             // Display the custom prefab to manage the call
-            Buddy.GUI.Toaster.Display<CustomToast>().With(mCallView,
-            () => {
+
+            Buddy.GUI.Toaster.Display<CustomToast>().With(CallView,
+            () =>
+            {
                 // On Display, Launch the display animation of the custom toast
                 if (RemoteControlData.Instance.RemoteMode == RemoteControlData.AvailableRemoteMode.REMOTE_CONTROL)
-                    mCallView.GetComponent<Animator>().SetTrigger("Open_WCall");
+                {
+                    if ((mCallViewManager = CallView.GetComponent<CallViewManager>()))
+                        mCallViewManager.DisplayVolumeSlider();
+                    else
+                        Debug.LogWarning("---- CallManager not found on CallView ----");
+                    CallView.GetComponent<Animator>().SetTrigger("Open_WCall");
+                }
                 else if (RemoteControlData.Instance.RemoteMode == RemoteControlData.AvailableRemoteMode.TAKE_CONTROL)
-                    mCallView.GetComponent<Animator>().SetTrigger("Open_WCall");
+                    CallView.GetComponent<Animator>().SetTrigger("Open_WCall");
             }, null);
         }
 
         // Wizard Of Oz mode, Just active the WebRTC object.
         public void LaunchCallWithoutWindow()
         {
-            mWebRtc.gameObject.SetActive(true);
+            WebRtc.gameObject.SetActive(true);
         }
 
         // Button stop the call, during the call.
@@ -149,24 +160,30 @@ namespace BuddyApp.RemoteControl
 
         public IEnumerator Call()
         {
-            if (!RemoteControlData.Instance.DiscreteMode) {
+            if (!RemoteControlData.Instance.DiscreteMode)
+            {
                 yield return new WaitForSeconds(1.5F);
                 string lReceiver = "";
                 UserAccount[] lUsers = Buddy.Platform.Users.GetUsers();
-                foreach (UserAccount lUser in lUsers) {
-                    if (WebRTCListener.RemoteID.Trim() == lUser.Email) {
+                foreach (UserAccount lUser in lUsers)
+                {
+                    if (WebRTCListener.RemoteID.Trim() == lUser.Email)
+                    {
                         lReceiver = lUser.FirstName;
                     }
                 }
                 string lTextToSay = "[user]";
-                if (string.IsNullOrEmpty(lReceiver)) {
+                if (string.IsNullOrEmpty(lReceiver))
+                {
                     lTextToSay = lTextToSay.Replace("[user]", WebRTCListener.RemoteID);
-                    if (mUserCalling)
-                        mUserCalling.text = WebRTCListener.RemoteID;
-                } else {
+                    if (UserCalling)
+                        UserCalling.text = WebRTCListener.RemoteID;
+                }
+                else
+                {
                     lTextToSay = lTextToSay.Replace("[user]", lReceiver);
-                    if (mUserCalling)
-                        mUserCalling.text = lReceiver;
+                    if (UserCalling)
+                        UserCalling.text = lReceiver;
                 }
             }
             yield return null;

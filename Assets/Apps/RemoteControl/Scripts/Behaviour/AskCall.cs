@@ -131,7 +131,7 @@ namespace BuddyApp.RemoteControl
             yield return new WaitUntil(() =>
             {
                 // If the call was launched or discrete mode selected, stop the coroutine
-                if (mRemoteControlBehaviour.mCallIsInProgress || RemoteControlData.Instance.DiscreteMode)
+                if (mRemoteControlBehaviour.CallIsInProgress || RemoteControlData.Instance.DiscreteMode)
                 {
                     Buddy.Vocal.StopAndClear();
                     Buddy.Actuators.Speakers.Media.Stop();
