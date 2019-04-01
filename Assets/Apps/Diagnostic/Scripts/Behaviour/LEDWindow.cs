@@ -154,6 +154,14 @@ namespace BuddyApp.Diagnostic
             ValueChanged();
         }
 
+        private double LogFunc(float iSliderValue)
+        {
+            double mValue = 0F;
+            double A = 0F, B = 0F, C = 0F;
+            mValue = A + B * Math.Exp(C * FloatToDouble(iSliderValue));
+            return mValue;
+        }
+
         public void SetPattern()
         {
             switch (mDropDownSequence.options[mDropDownSequence.value].text)
@@ -345,6 +353,11 @@ namespace BuddyApp.Diagnostic
         private short FloatToShort(float iFloat)
         {
             return System.Convert.ToInt16(iFloat);
+        }
+
+        private double FloatToDouble(float iFloat)
+        {
+            return System.Convert.ToDouble(iFloat);
         }
 
         private void OnChangeH()
