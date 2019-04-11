@@ -116,7 +116,7 @@ namespace BuddyApp.ExperienceCenter
 
         void Update()
         {
-            mBatteryLevel = Buddy.Sensors.Battery.ChargingState;
+            mBatteryLevel = Buddy.Sensors.Battery.Level;
 
             if (mTrigger != ExperienceCenterData.Instance.VoiceTrigger) {
                 mTrigger = ExperienceCenterData.Instance.VoiceTrigger;
@@ -453,7 +453,7 @@ namespace BuddyApp.ExperienceCenter
                 ExperienceCenterData.Instance.RunTrigger = true;
         }
 
-        public void OnTrigger(int iLevel)
+        public void OnTrigger(SpeechHotword iHotword)
         {
             string currentTrigger = GetTriggerString();
             if (currentTrigger == "Idle" || currentTrigger == "ByeBye" || currentTrigger == "MoveForward")

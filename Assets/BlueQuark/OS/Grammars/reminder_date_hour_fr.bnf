@@ -1,0 +1,98 @@
+#BNF+EMV2.1;
+!grammar reminder_date_hour_fr;
+
+/*
+**	Timespan rules
+*/
+
+!import <timespan_fr#in_days>;
+!import <timespan_fr#in_weeks>;
+!import <timespan_fr#in_months>;
+!import <timespan_fr#in_years>;
+!import <timespan_fr#in_hoursandminutes>;
+!import <timespan_fr#in_hours>;
+!import <timespan_fr#in_minutes>;
+
+/*
+**	Hour rules
+*/
+
+!import <hour_fr#atnoon>;
+!import <hour_fr#atnoonandminutes>;
+!import <hour_fr#atmidnight>;
+!import <hour_fr#atmidnightandminutes>;
+!import <hour_fr#athours>;
+!import <hour_fr#athoursandminutes>;
+!import <hour_fr#atamhours>;
+!import <hour_fr#atamhoursandminutes>;
+!import <hour_fr#atpmhours>;
+!import <hour_fr#atpmhoursandminutes>;
+
+/*
+**	Date rules
+*/
+
+!import <date_fr#today>;
+!import <date_fr#tomorrow>;
+!import <date_fr#dayaftertomorrow>;
+!import <date_fr#nextdayofweek>;
+!import <date_fr#nextweek>;
+!import <date_fr#nextmonth>;
+!import <date_fr#nextyear>;
+!import <date_fr#nextday>;
+!import <date_fr#nextdate>;
+!import <date_fr#fulldate>;
+
+/*
+**	Rules that can be recognize
+*/
+
+!start <reminder_date_hour>;
+
+/*
+**	Final rules to add reminder with a date and an hour
+*/
+
+<reminder_date_hour> : <add_reminder> [<date_entry>] [<hour_entry>];
+
+/*
+**	All rules for date, with tag.
+*/
+
+<date_entry> : !tag(TODAY, <date_fr#today>)
+				| !tag(TOMORROW, <date_fr#tomorrow>)
+				| !tag(DAYFTERTOMORROW, <date_fr#dayaftertomorrow>)
+				| !tag(NEXTDAYOFWEEK, <date_fr#nextdayofweek>)
+				| !tag(NEXTWEEK, <date_fr#nextweek>)
+				| !tag(NEXTMONTH, <date_fr#nextmonth>)
+				| !tag(NEXTYEAR, <date_fr#nextyear>)
+				| !tag(NEXTDAY, <date_fr#nextday>)
+				| !tag(NEXTDATE, <date_fr#nextdate>)
+				| !tag(FULLDATE, <date_fr#fulldate>)
+				| !tag(INYEARS, <timespan_fr#in_years>)
+				| !tag(INMONTHS, <timespan_fr#in_months>)
+				| !tag(INWEEKS, <timespan_fr#in_months>)
+				| !tag(INDAYS, <timespan_fr#in_days>);
+
+/*
+**	All rules for hour, with tag.
+*/
+
+<hour_entry> : !tag(ATNOON, <hour_fr#atnoon>)
+				| !tag(ATNOONANDMINUTES, <hour_fr#atnoonandminutes>)
+				| !tag(ATMIDNIGHT, <hour_fr#atmidnight>)
+				| !tag(ATMIDNIGHTANDMINUTES, <hour_fr#atmidnightandminutes>)
+				| !tag(ATHOURS, <hour_fr#athours>)
+				| !tag(ATHOURSANDMINUTES, <hour_fr#athoursandminutes>)
+				| !tag(ATAMHOURS, <hour_fr#atamhours>)
+				| !tag(ATAMHOURSANDMINUTES, <hour_fr#atamhoursandminutes>)
+				| !tag(ATPMHOURS, <hour_fr#atpmhours>)
+				| !tag(ATPMHOURSANDMINUTES, <hour_fr#atpmhoursandminutes>)
+				| !tag(INHOURS, <timespan_fr#in_hours>)
+				| !tag(INMINUTES, <timespan_fr#in_minutes>)
+				| !tag(INHOURSANDMINUTES, <timespan_fr#in_hoursandminutes>);
+/*
+**	Key sequence
+*/
+
+<add_reminder> : ([Peux-tu] ajouter | rajouter | enregistrer | mettre | ajoute | rajoute | enregistre | mets) un rappel | (lance | démarre) [l'application] (rappel | reminder);

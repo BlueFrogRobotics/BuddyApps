@@ -89,7 +89,7 @@ namespace BuddyApp.Diagnostic
             }
             else
             {
-                Buddy.Actuators.Fan.Start();
+                Buddy.Actuators.Fan.Mode = FanMode.ON;
                 ToggleFan.GetComponentsInChildren<Text>()[0].text = "STOP FAN";
             }
 

@@ -6,21 +6,16 @@
 **	Hour rules to export
 */
 
-!export <hour_fr#atnoon>;
-!export <hour_fr#atprenoon>;
-!export <hour_fr#atpostnoon>;
-!export <hour_fr#atmidnight>;
-!export <hour_fr#atpremidnight>;
-!export <hour_fr#atpostmidnight>;
-!export <hour_fr#athours>;
-!export <hour_fr#atprehours>;
-!export <hour_fr#atposthours>;
-!export <hour_fr#atamhours>;
-!export <hour_fr#atpreamhours>;
-!export <hour_fr#atpostamhours>;
-!export <hour_fr#atpmhours>;
-!export <hour_fr#atprepmhours>;
-!export <hour_fr#atpostpmhours>;
+!export <atnoon>;
+!export <atnoonandminutes>;
+!export <atmidnight>;
+!export <atmidnightandminutes>;
+!export <athours>;
+!export <athoursandminutes>;
+!export <atamhours>;
+!export <atamhoursandminutes>;
+!export <atpmhours>;
+!export <atpmhoursandminutes>;
 
 
 !start <atnoon>;

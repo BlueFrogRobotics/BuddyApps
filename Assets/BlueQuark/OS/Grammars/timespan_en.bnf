@@ -1,0 +1,39 @@
+#BNF+EMV2.0;
+!grammar timespan_en;
+!import <duration_en#duration_years>;
+!import <duration_en#duration_months>;
+!import <duration_en#duration_weeks>;
+!import <duration_en#duration_days>;
+!import <duration_en#duration_hours>;
+!import <duration_en#duration_minutes>;
+!import <duration_en#duration_hoursandminutes>;
+
+
+
+/*
+**	Timespan rules to export
+*/
+
+!export <timespan_en#in_days>;
+!export <timespan_en#in_weeks>;
+!export <timespan_en#in_months>;
+!export <timespan_en#in_years>;
+!export <timespan_en#in_hoursandminutes>;
+!export <timespan_en#in_hours>;
+!export <timespan_en#in_minutes>;
+
+!start <in_years>;
+!start <in_months>;
+!start <in_weeks>;
+!start <in_days>;
+!start <in_hours>;
+!start <in_minutes>;
+!start <in_hoursandminutes>;
+
+<in_years> : in <duration_en#duration_years>;
+<in_months> : in <duration_en#duration_months>;
+<in_weeks> : in <duration_en#duration_weeks>;
+<in_days> : in <duration_en#duration_days>;
+<in_hours> : in <duration_en#duration_hours>;
+<in_minutes> : in <duration_en#duration_minutes>;
+<in_hoursandminutes> : in <duration_en#duration_hoursandminutes>;

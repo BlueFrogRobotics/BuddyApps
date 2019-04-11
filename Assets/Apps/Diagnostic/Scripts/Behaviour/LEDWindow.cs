@@ -229,20 +229,21 @@ namespace BuddyApp.Diagnostic
         {
             if (mToggle.isOn)
             {
-                Buddy.Actuators.LEDs.SetHSVHeartLight(
-                    FloatToShort(sliderH.value),
+                Buddy.Actuators.LEDs.SetHeartLight(
+                    FloatToUShort(sliderH.value),
                     FloatToByte(sliderS.value),
                     FloatToByte(sliderV.value));
             }
             else
             {
-                Buddy.Actuators.LEDs.SetHSVHeartLight(
-                    FloatToShort(sliderH.value),
+                Buddy.Actuators.LEDs.SetHeartLight(
+                    FloatToUShort(sliderH.value),
                     FloatToByte(sliderS.value),
-                    FloatToByte(sliderV.value),
+                    FloatToByte(sliderV.value));
+                Buddy.Actuators.LEDs.SetHeartPattern(
                     FloatToByte(sliderLowLevel.value),
-                    FloatToShort(sliderOnDuration.value),
-                    FloatToShort(sliderOffDuration.value),
+                    FloatToUShort(sliderOnDuration.value),
+                    FloatToUShort(sliderOffDuration.value),
                     FloatToByte(sliderUpSlope.value),
                     FloatToByte(sliderDownSlope.value));
             }
@@ -252,20 +253,21 @@ namespace BuddyApp.Diagnostic
         {
             if (mToggle.isOn)
             {
-                Buddy.Actuators.LEDs.SetHSVLeftShoulderLight(
-                    FloatToShort(sliderH.value),
+                Buddy.Actuators.LEDs.SetShouldersLights(
+                    FloatToUShort(sliderH.value),
                     FloatToByte(sliderS.value),
                     FloatToByte(sliderV.value));
             }
             else
             {
-                Buddy.Actuators.LEDs.SetHSVLeftShoulderLight(
-                    FloatToShort(sliderH.value),
+                Buddy.Actuators.LEDs.SetShouldersLights(
+                    FloatToUShort(sliderH.value),
                     FloatToByte(sliderS.value),
-                    FloatToByte(sliderV.value),
+                    FloatToByte(sliderV.value));
+                Buddy.Actuators.LEDs.SetShouldersPattern(
                     FloatToByte(sliderLowLevel.value),
-                    FloatToShort(sliderOnDuration.value),
-                    FloatToShort(sliderOffDuration.value),
+                    FloatToUShort(sliderOnDuration.value),
+                    FloatToUShort(sliderOffDuration.value),
                     FloatToByte(sliderUpSlope.value),
                     FloatToByte(sliderDownSlope.value));
             }
@@ -275,20 +277,21 @@ namespace BuddyApp.Diagnostic
         {
             if (mToggle.isOn)
             {
-                Buddy.Actuators.LEDs.SetHSVRightShoulderLight(
-                    FloatToShort(sliderH.value),
+                Buddy.Actuators.LEDs.SetShouldersLights(
+                    FloatToUShort(sliderH.value),
                     FloatToByte(sliderS.value),
                     FloatToByte(sliderV.value));
             }
             else
             {
-                Buddy.Actuators.LEDs.SetHSVRightShoulderLight(
-                    FloatToShort(sliderH.value),
+                Buddy.Actuators.LEDs.SetShouldersLights(
+                    FloatToUShort(sliderH.value),
                     FloatToByte(sliderS.value),
-                    FloatToByte(sliderV.value),
+                    FloatToByte(sliderV.value));
+                Buddy.Actuators.LEDs.SetShouldersPattern(
                     FloatToByte(sliderLowLevel.value),
-                    FloatToShort(sliderOnDuration.value),
-                    FloatToShort(sliderOffDuration.value),
+                    FloatToUShort(sliderOnDuration.value),
+                    FloatToUShort(sliderOffDuration.value),
                     FloatToByte(sliderUpSlope.value),
                     FloatToByte(sliderDownSlope.value));
             }
@@ -332,6 +335,11 @@ namespace BuddyApp.Diagnostic
         private byte FloatToByte(float iFloat)
         {
             return System.Convert.ToByte(iFloat);
+        }
+
+        private ushort FloatToUShort(float iFloat)
+        {
+            return System.Convert.ToUInt16(iFloat);
         }
 
         private short FloatToShort(float iFloat)

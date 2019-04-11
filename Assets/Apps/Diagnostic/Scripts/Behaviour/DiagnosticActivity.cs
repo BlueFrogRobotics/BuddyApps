@@ -17,13 +17,11 @@ namespace BuddyApp.Diagnostic
 		{
             ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.SUCCESS, LogInfo.LOADING, "On start...");
             Buddy.GUI.Header.DisplayParametersButton(false);
-            Buddy.Actuators.Fan.Auto();
         }
 
         public override void OnQuit()
 		{
             ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.UNLOADING, "On quit...");
-            Buddy.Actuators.Fan.Auto();
         }
     }
 }

@@ -60,6 +60,7 @@
 !start <tellsomething>;
 //!start <timer>;
 !start <volume>;
+!start <volumeset>;
 !start <volumedown>;
 !start <volumeup>;
 !start <wander>;
@@ -155,6 +156,7 @@
 <tellsomething> : tell me something | [tell me a] fun fact;
 //<timer> : set a (timer | countdown) [of <delai>];
 <volume> : (what is | what's | give [me | us]) the volume [level];
+<volumeset> : (put | set) the (volume | sound) to <numbers#nb>;
 <volumeup> : turn up the (volume | sound) | turn the (volume | sound) up | speak louder;
 <volumedown> : turn down the (volume | sound) | turn the (volume | sound) down | lower (the volume | your voice);
 <wander> : (walk | wander) [around] | go away | go for a (walk | ride) | (take | have) a stroll;
