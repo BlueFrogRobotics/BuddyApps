@@ -4,6 +4,7 @@ using UnityEngine;
 
 using BlueQuark;
 using System.Collections.Generic;
+using System;
 
 namespace BuddyApp.Diagnostic
 {
@@ -165,5 +166,19 @@ namespace BuddyApp.Diagnostic
 			//BYOS.Instance.AppManager.Quit();
 			//new Buddy.Command.HomeCmd().Execute();
 		}
-	}
+
+        public double ExpScale(double inputValue, double midValue, double maxValue)
+        {
+            double returnValue = 0;
+            if (inputValue < 0 || inputValue > 1) throw new ArgumentOutOfRangeException("Input value must be between 0 and 1.0");
+            if (midValue <= 0 || midValue >= maxValue) throw new ArgumentOutOfRangeException("MidValue must be greater than 0 and less than MaxValue");
+            // returnValue = A + B * Math.Exp(C * inputValue);
+            double M = maxValue / midValue;
+            double C = Math.Log(Math.Pow(M - 1, 2));
+            double B = maxValue / (Math.Exp(C) - 1);
+            double A = -1 * B;
+            returnValue = A + B * Math.Exp(C * inputValue);
+            return returnValue;
+        }
+    }
 }

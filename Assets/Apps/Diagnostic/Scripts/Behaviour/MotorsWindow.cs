@@ -8,8 +8,12 @@ using BlueQuark;
 
 namespace BuddyApp.Diagnostic
 {
+
+    //loga : distance, linear velocity, angular velocity, rotation velocity
     public sealed class MotorsWindow : MonoBehaviour
     {
+        private DiagnosticBehaviour mDiagBehaviour = new DiagnosticBehaviour();
+
         [SerializeField]
         private Text XOdom;
         [SerializeField]
@@ -159,6 +163,7 @@ namespace BuddyApp.Diagnostic
 
         void Update()
         {
+            //Debug.Log("Width slider : " + hingeSpeedSetter.gameObject.transform.);
             leftSpeedGetter.text = "" + mWheels.LeftRotationalSpeed;
             rightSpeedGetter.text = "" + mWheels.RightRotationalSpeed;
             // Draw Head No Angle Feedback
@@ -189,20 +194,20 @@ namespace BuddyApp.Diagnostic
                 yesHingeAngleGetterFeedbackB.fillAmount = (mYesHinge.Angle / 60.00f) * 0.15f;
             }
 
-            linearVelocity.text = Math.Round(linearVelocitySetter.value, 2) + " M/s";
+            linearVelocity.text = (mDiagBehaviour.ExpScale(Math.Round(linearVelocitySetter.value + 1d, 2)/2d, 0.5d, 2d)-1d).ToString("0.00") + " M/s";
 
-            angularVelocity.text = "" + angularVelocitySetter.value;
+            angularVelocity.text =  (angularVelocitySetter.value ).ToString();
 
-            distance.text = Math.Round(distanceSetter.value, 2) + " M";
+            distance.text = mDiagBehaviour.ExpScale( Math.Round(distanceSetter.value, 2)/10D, 2D, 10D).ToString("0.00") + " M";
 
-            AngularVelocityWheelsText.text = AngularVelocityWheelsSetter.value + " °/s";
+            AngularVelocityWheelsText.text = (mDiagBehaviour.ExpScale((angularVelocitySetter.value) / 250D, 40D, 250D)).ToString("0.00") + " °/s";
 
             angleBack.text = anglePosSetter.value + " °";
             //toleranceBack.text = "Tol : " + toleranceSetter.value;
 
             noAngleBack.text = noHingeAngleSetter.value + " °";
             yesAngleBack.text = yesHingeAngleSetter.value + " °";
-            hingeSpeedBack.text = "" + hingeSpeedSetter.value;
+            hingeSpeedBack.text =  (mDiagBehaviour.ExpScale( hingeSpeedSetter.value / 96D, 10D, 96D)).ToString("0.0F");
             NoAngle.text = Buddy.Actuators.Head.No.Angle.ToString("f3") + " °";
             YesAngle.text = Buddy.Actuators.Head.Yes.Angle.ToString("f3") +" °";
             Cap.text = Buddy.Actuators.Wheels.Odometry.z.ToString("f3") + " °";

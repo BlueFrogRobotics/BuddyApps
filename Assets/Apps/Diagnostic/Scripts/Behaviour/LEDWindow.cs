@@ -10,6 +10,7 @@ namespace BuddyApp.Diagnostic
 {
     public sealed class LEDWindow : MonoBehaviour
     {
+        private DiagnosticBehaviour mDiagBehaviour = new DiagnosticBehaviour();
 
         [SerializeField]
         private Dropdown mDropDown;
@@ -125,42 +126,36 @@ namespace BuddyApp.Diagnostic
 
             sliderOnDuration.wholeNumbers = true;
             sliderOnDuration.minValue = 0.0F;
-            sliderOnDuration.maxValue = 32767F;
+            sliderOnDuration.maxValue = 32767F; //32767F;
             sliderOnDuration.value = sliderOnDuration.minValue;
             sliderOnDuration.onValueChanged.RemoveAllListeners();
-            sliderOnDuration.onValueChanged.AddListener((iInput) => OnChangeOnDuration());
+            sliderOnDuration.onValueChanged.AddListener((iInput) => OnChangeOnDuration(iInput));
 
             sliderOffDuration.wholeNumbers = true;
             sliderOffDuration.minValue = 0.0F;
-            sliderOffDuration.maxValue = 32767F;
+            sliderOffDuration.maxValue = 32767F; //32767F;
             sliderOffDuration.value = sliderOffDuration.minValue;
             sliderOffDuration.onValueChanged.RemoveAllListeners();
-            sliderOffDuration.onValueChanged.AddListener((iInput) => OnChangeOffDuration());
+            sliderOffDuration.onValueChanged.AddListener((iInput) => OnChangeOffDuration(iInput));
 
             sliderUpSlope.wholeNumbers = true;
             sliderUpSlope.minValue = 0.0F;
-            sliderUpSlope.maxValue = 255F;
+            sliderUpSlope.maxValue = 255F; //255F;
             sliderUpSlope.value = sliderOffDuration.minValue;
             sliderUpSlope.onValueChanged.RemoveAllListeners();
-            sliderUpSlope.onValueChanged.AddListener((iInput) => OnChangeUpSlope());
+            sliderUpSlope.onValueChanged.AddListener((iInput) => OnChangeUpSlope(iInput));
 
             sliderDownSlope.wholeNumbers = true;
             sliderDownSlope.minValue = 0.0F;
-            sliderDownSlope.maxValue = 255F;
+            sliderDownSlope.maxValue = 255F; //255F;
             sliderDownSlope.value = sliderDownSlope.minValue;
             sliderDownSlope.onValueChanged.RemoveAllListeners();
-            sliderDownSlope.onValueChanged.AddListener((iInput) => OnChangeDownSlope());
+            sliderDownSlope.onValueChanged.AddListener((iInput) => OnChangeDownSlope(iInput));
 
             ValueChanged();
+            
         }
 
-        private double LogFunc(float iSliderValue)
-        {
-            double mValue = 0F;
-            double A = 0F, B = 0F, C = 0F;
-            mValue = A + B * Math.Exp(C * FloatToDouble(iSliderValue));
-            return mValue;
-        }
 
         public void SetPattern()
         {
@@ -360,6 +355,11 @@ namespace BuddyApp.Diagnostic
             return System.Convert.ToDouble(iFloat);
         }
 
+        private float DoubleToFloat(double iDouble)
+        {
+            return (float)iDouble;
+        }
+
         private void OnChangeH()
         {
             textH.text = sliderH.value.ToString();
@@ -384,27 +384,32 @@ namespace BuddyApp.Diagnostic
             SetColor();
         }
 
-        private void OnChangeOnDuration()
+        private void OnChangeOnDuration(float iInput)
         {
-            textOnDuration.text = sliderOnDuration.value.ToString();
+            sliderOnDuration.value = iInput;
+            //Debug.Log("IInput changed onduration slider duration : " + FloatToDouble(iInput / 32767f) + " input : " + iInput.ToString() + " test : " + sliderOnDuration.value.ToString());
+            textOnDuration.text = mDiagBehaviour.ExpScale(FloatToDouble(iInput / 32767f) , 1000d, 32767d).ToString("0"); 
             SetColor();
         }
 
-        private void OnChangeOffDuration()
+        private void OnChangeOffDuration(float iInput)
         {
-            textOffDuration.text = sliderOffDuration.value.ToString();
+            sliderOffDuration.value = iInput;
+            textOffDuration.text = mDiagBehaviour.ExpScale(FloatToDouble(iInput / 32767f) , 1000d, 32767d).ToString("0");
             SetColor();
         }
 
-        private void OnChangeUpSlope()
+        private void OnChangeUpSlope(float iInput)
         {
-            textUpSlope.text = sliderUpSlope.value.ToString();
+            sliderUpSlope.value = iInput;
+            textUpSlope.text = mDiagBehaviour.ExpScale(FloatToDouble(iInput / 255f) , 50d, 255d).ToString("0");
             SetColor();
         }
 
-        private void OnChangeDownSlope()
+        private void OnChangeDownSlope(float iInput)
         {
-            textDownSlope.text = sliderDownSlope.value.ToString();
+            sliderDownSlope.value = iInput;
+            textDownSlope.text = mDiagBehaviour.ExpScale(FloatToDouble(iInput / 255f) , 50d, 255d).ToString("0"); ;
             SetColor();
         }
         

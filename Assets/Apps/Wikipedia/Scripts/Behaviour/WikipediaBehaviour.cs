@@ -16,6 +16,9 @@ namespace BuddyApp.Wikipedia
 	/* A basic monobehaviour as "AI" behaviour for your app */
 	public class WikipediaBehaviour : MonoBehaviour
 	{
+        //Max listen before quitting the app
+        private int mMaxListen;
+        private int mNumberOfListen;
 
 		// Credentials for google freespeech
 		private string mGoogleCredentials;
@@ -27,6 +30,8 @@ namespace BuddyApp.Wikipedia
 		/// <returns></returns>
 		public IEnumerator Start()
 		{
+            mMaxListen = 4;
+            mNumberOfListen = 0;
 			// We get the credentials for google freespeech before
 			// listening.
 			yield return StartCoroutine(RetrieveCredentialsAsync());
@@ -47,6 +52,7 @@ namespace BuddyApp.Wikipedia
 		{
 			Debug.Log("OnEndListening");
 			if (string.IsNullOrEmpty(iSpeechInput.Utterance)) {
+                Debug.Log("ON END LISTENING : ISPEECHINPUT NULL OU EMPTY" );
 				// We didn't get the answer, we listen again.
 				SayAndListen("ilisten");
 				return;
@@ -70,11 +76,13 @@ namespace BuddyApp.Wikipedia
 		/// <param name="iSpeechInputStatus"></param>
 		private void OnListeningStatus(SpeechInputStatus iSpeechInputStatus)
 		{
-			Debug.Log("Listening status");
-			if (iSpeechInputStatus.IsError) {
-				// An error occured, probably network or credentials.
-				// We need to signal it and then we will quit the app.
-				Buddy.Behaviour.SetMood(Mood.SAD);
+            Debug.Log("Listening status");
+
+            if (iSpeechInputStatus.IsError) {
+                Debug.Log("Listening status : " + iSpeechInputStatus.Type.ToString());
+                // An error occured, probably network or credentials.
+                // We need to signal it and then we will quit the app.
+                Buddy.Behaviour.SetMood(Mood.SAD);
 				Buddy.Vocal.SayKey("freespeecherror",
 					// Quit app
 					(iSpeechOutput) => { Buddy.Platform.Application.Stop(); });
@@ -232,9 +240,11 @@ namespace BuddyApp.Wikipedia
 		/// <returns></returns>
 		private IEnumerator RetrieveCredentialsAsync()
 		{
-			using (WWW lQuery = new WWW("http://bfr-dev.azurewebsites.net/dev/BuddyDev-mplqc5fk128f1.txt")) {
-				yield return lQuery;
+            //OLD cred : http://bfr-dev.azurewebsites.net/dev/BuddyDev-mplqc5fk128f1.txt
+            using (WWW lQuery = new WWW("http://bfr-dev.azurewebsites.net/dev/BuddyDev-cmfc3b05c071.txt")) {
+                yield return lQuery;
 				mGoogleCredentials = lQuery.text;
+                Debug.Log("<color=red>CREDENTIAL : </color>" + mGoogleCredentials);
 			}
 		}
 
