@@ -328,34 +328,38 @@ namespace BuddyApp.Diagnostic
         {
             if (BT_TOF.isOn == true)
             {
+                //Debug.Log("FILTERED VALUE : " + mForeHeadTOFSensor.FilteredValue + " " + mChinTOFSensor.FilteredValue + " " + mFrontRightTOFSensor.FilteredValue + " " + mFrontMiddleTOFSensor.FilteredValue
+                //    + " " + mFrontLeftTOFSensor.FilteredValue + " " + mBackTOFSensor.FilteredValue);
+
+                
                 //TOF SENSOR FORE HEAD
                 TOF_Error_00.text = mForeHeadTOFSensor.Error.ToString();
-                TOF_Text_00.text = (mForeHeadTOFSensor.Value/1000) + "m";
+                TOF_Text_00.text = (mForeHeadTOFSensor.FilteredValue/1000) + "m";
                 TOF_OK_00.color = mForeHeadTOFSensor.Error == 0 ? BuddyBlue : Red;
 
                 //TOF SENSOR CHIN
                 TOF_Error_01.text = mChinTOFSensor.Error.ToString();
-                TOF_Text_01.text = (mChinTOFSensor.Value/1000) + "m";
+                TOF_Text_01.text = (mChinTOFSensor.FilteredValue/1000) + "m";
                 TOF_OK_01.color = mChinTOFSensor.Error == 0 ? BuddyBlue : Red;
 
                 //TOF SENSOR FRONT RIGHT
                 TOF_Error_02.text = mFrontRightTOFSensor.Error.ToString();
-                TOF_Text_02.text = (mFrontRightTOFSensor.Value/1000) + "m";
+                TOF_Text_02.text = (mFrontRightTOFSensor.FilteredValue / 1000) + "m";
                 TOF_OK_02.color = mFrontRightTOFSensor.Error == 0 ? BuddyBlue : Red;
 
                 //TOF SENSOR FRONT MIDDLE
                 TOF_Error_03.text = mFrontMiddleTOFSensor.Error.ToString();
-                TOF_Text_03.text = (mFrontMiddleTOFSensor.Value/1000) + "m";
+                TOF_Text_03.text = (mFrontMiddleTOFSensor.FilteredValue / 1000) + "m";
                 TOF_OK_03.color = mFrontMiddleTOFSensor.Error == 0 ? BuddyBlue : Red;
 
                 //TOF SENSOR FRONT LEFT
                 TOF_Error_04.text = mFrontLeftTOFSensor.Error.ToString();
-                TOF_Text_04.text = (mFrontLeftTOFSensor.Value/1000) + "m";
+                TOF_Text_04.text = (mFrontLeftTOFSensor.FilteredValue / 1000) + "m";
                 TOF_OK_04.color = mFrontLeftTOFSensor.Error == 0 ? BuddyBlue : Red;
 
                 //TOF SENSOR BACK
                 TOF_Error_05.text = mBackTOFSensor.Error.ToString();
-                TOF_Text_05.text = (mBackTOFSensor.Value/1000) + "m";
+                TOF_Text_05.text = (mBackTOFSensor.FilteredValue / 1000) + "m";
                 TOF_OK_05.color = mBackTOFSensor.Error == 0 ? BuddyBlue : Red;
             }
 
@@ -369,12 +373,12 @@ namespace BuddyApp.Diagnostic
             if (BT_US.isOn)
             {
                 //US RECEPTEUR RIGHT
-                US_Text_00.text = (mRightUSSensor.Value/1000) + "m";
+                US_Text_00.text = (mRightUSSensor.FilteredValue / 1000) + "m";
                 US_OK_00.color = BuddyBlue;
                 US_Error_00.text = mRightUSSensor.Error.ToString();
 
                 //US RECEPTEUR LEFT
-                US_Text_01.text = (mLeftUSSensor.Value/1000) + "m";
+                US_Text_01.text = (mLeftUSSensor.FilteredValue / 1000) + "m";
                 US_OK_01.color = BuddyBlue;
                 US_Error_01.text = mLeftUSSensor.Error.ToString();
             }

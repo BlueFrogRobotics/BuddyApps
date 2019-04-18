@@ -121,6 +121,7 @@ namespace BuddyApp.Diagnostic
 
         private const string CREDENTIAL_DEFAULT_URL = "http://bfr-dev.azurewebsites.net/dev/BuddyDev-cmfc3b05c071.txt";
 
+
         private Sprite mRecord;
         private Sprite mStop;
         private Sprite mPlay;
