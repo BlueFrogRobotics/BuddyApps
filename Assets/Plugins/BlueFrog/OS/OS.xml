@@ -10,6 +10,11 @@
             </summary>
             <seealso cref="T:BlueQuark.Internal.Looper"/>
         </member>
+        <member name="M:BlueQuark.Internal.AComponent.Finalize">
+            <summary>
+            Unsubscribes from the loop system.
+            </summary>
+        </member>
         <member name="M:BlueQuark.Internal.AComponent.EnableLoop">
             <summary>
             Subscribes the component to the looping system.
@@ -78,7 +83,7 @@
         </member>
         <member name="T:BlueQuark.Internal.ABindedComponent">
             <summary>
-            A binded component can subscribe to the EventBus system.
+            A binded component can subscribe/unsubscribe to the EventBus system.
             </summary>
             <seealso cref="T:BlueQuark.Internal.EventBus"/>
         </member>
@@ -92,6 +97,11 @@
             All event registrations.
             </summary>
         </member>
+        <member name="M:BlueQuark.Internal.ABindedComponent.Finalize">
+            <summary>
+            Unbind from EventBus all registered handlers.
+            </summary>
+        </member>
         <member name="M:BlueQuark.Internal.ABindedComponent.RegisterHandler(System.String)">
             <summary>
             Register an handler (subscribtion id).
@@ -100,13 +110,13 @@
         </member>
         <member name="M:BlueQuark.Internal.ABindedComponent.Bind">
             <summary>
-            Suscribe your method listener to the wished event.
+            Put all your subcriptions inside this method.
             </summary>
             <seealso cref="T:BlueQuark.Internal.AEvent"/>
         </member>
         <member name="M:BlueQuark.Internal.ABindedComponent.Unbind">
             <summary>
-            Unsubscribe to all events.
+            Put all your unsubcriptions inside this method.
             </summary>
         </member>
         <member name="T:BlueQuark.Internal.IAvailable">
@@ -244,7 +254,7 @@
         </member>
         <member name="F:BlueQuark.Internal.APresenter`1.mULink">
             <summary>
-            Unity link (MonoBehaviour) of the Presenter object. Use it for platform dependant purposes and/or display and/or Unity callbacks
+            Unity link (MonoBehaviour) of the Presenter object. Use it for platform dependant purposes and/or display and/or Unity callbacks.
             </summary>
         </member>
         <member name="M:BlueQuark.Internal.APresenter`1.GetComponentInChildren``1">
@@ -678,6 +688,27 @@
         <member name="M:BlueQuark.Internal.AMicrocontroller`2.ToString">
             <summary>
             All info of the µC.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.Licenses.READSPEAKER_TTS_LICENSE">
+            <summary>
+            Provided by David Rönn Jansson (david.ronn-jansson@readspeaker.com) of VoiceText.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.Licenses.ORBBEC_BODY_TRACKING_LICENSE">
+            <summary>
+            Provided by Gordon Thorsby (gthor@orbbec3d.com) of Orbbec3D.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.Licenses.GOOGLE_SPEECH_API_CREDENTIALS_URL">
+            <summary>
+            Download via WWW request the text content of this URL.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.Licenses.RADIOLINE_CLIENT_ID">
+            <summary> 
+            Client id to use the radioline api.
+            Used to get a token (the radioline api is protected by a OAuth2 authentification).
             </summary>
         </member>
         <member name="T:BlueQuark.Internal.MusicType">
@@ -2219,6 +2250,11 @@
             </summary>
             <param name="iMessage"></param>
         </member>
+        <member name="M:BlueQuark.Internal.AESection.Finalize">
+            <summary>
+            Dipose the section.
+            </summary>
+        </member>
         <member name="T:BlueQuark.Internal.AEContentWidget`1">
             <summary>
             Base class for content (right opened window) widget for Explorer.
@@ -2665,14 +2701,19 @@
             and Unity for display, Editor interaction, plugin or callback purposes.
             </summary>
         </member>
+        <member name="F:BlueQuark.Internal.AULink.mPresenter">
+            <summary>
+            Presenter logical class of the current Unity Link. Use it to forward Unity callbacks.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.AULink.mLooper">
+            <summary>
+            Looping (Update like) system.
+            </summary>
+        </member>
         <member name="F:BlueQuark.Internal.AULink.mEventBus">
             <summary>
             The event bus system. Allows to fire events.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Internal.AULink.mPresenter">
-            <summary>
-            Presenter logical class of the current Unity Link. Use it to forward Unity callbacks
             </summary>
         </member>
         <member name="P:BlueQuark.Internal.AULink.IsLooping">
@@ -2680,12 +2721,13 @@
             True if the ULink is registered to Looper.
             </summary>
         </member>
-        <member name="M:BlueQuark.Internal.AULink.Setup(BlueQuark.Internal.AComponent,BlueQuark.Internal.EventBus)">
+        <member name="M:BlueQuark.Internal.AULink.Setup(BlueQuark.Internal.AComponent,BlueQuark.Internal.EventBus,BlueQuark.Internal.Looper)">
             <summary>
             Called after ctor to setup base dependencies.
             </summary>
-            <param name="iPresenter">The assigned presenter</param>
-            <param name="iEventBus">The eventbus system</param>
+            <param name="iPresenter">The assigned presenter.</param>
+            <param name="iEventBus">The eventbus system.</param>
+            <param name="iLooper">The looping (Update) system.</param>
         </member>
         <member name="M:BlueQuark.Internal.AULink.Initialize">
             <summary>
@@ -2783,8 +2825,8 @@
             Entry point of the BlueQuark operating system. Initialization order : Looper > EventBus > Injector > Main 
             </summary>
             <seealso cref="T:BlueQuark.Internal.Injector"/>
-            <seealso cref="T:BlueQuark.Internal.Looper"/>
             <seealso cref="T:BlueQuark.Internal.EventBus"/>
+            <seealso cref="T:BlueQuark.Internal.Looper"/>
             <seealso cref="T:BlueQuark.Buddy"/>
         </member>
         <member name="T:BlueQuark.Internal.HDMI">
@@ -7419,7 +7461,7 @@
         </member>
         <member name="T:BlueQuark.FacialExpression">
             <summary>
-            Represents different expressions that Buddy can show
+            Represents an expression that Buddy can show through its face.
             </summary>
         </member>
         <member name="F:BlueQuark.FacialExpression.NEUTRAL">
@@ -7766,7 +7808,7 @@
             Reboot the Android board. Terminal function.
             </summary>
         </member>
-        <member name="M:BlueQuark.AndroidMotherboard.Recovery">
+        <member name="M:BlueQuark.AndroidMotherboard.RestartRecovery">
             <summary>
             Reboot in recovery mode the Android board. Terminal function.
             </summary>
@@ -8223,30 +8265,471 @@
             Echo cancellation microphones parameters.
             </summary>
         </member>
+        <member name="F:BlueQuark.EchoCancellationParameters.MIN_DATA_SIZE">
+            <summary>
+            Min tolerated bus data size.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.EchoCancellationParameters.MAX_DATA_SIZE">
+            <summary>
+            Max tolerated bus data size.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.EchoCancellationParameters.DEFAULT_DATA_SIZE">
+            <summary>
+            Default bus data size.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.EchoCancellationParameters.MIN_GAIN">
+            <summary>
+            Min tolerated gain.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.EchoCancellationParameters.MAX_GAIN">
+            <summary>
+            Max tolerated gain.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.EchoCancellationParameters.DEFAULT_GAIN">
+            <summary>
+            Default gain.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.EchoCancellationParameters.DEFAULT_DENOISER_STATE">
+            <summary>
+            Default denoiser state.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.EchoCancellationParameters.DataSize">
+            <summary>
+            Size of data processed in batch by the AEC.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.EchoCancellationParameters.DenoiserState">
+            <summary>
+            Denoiser usage.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.EchoCancellationParameters.Gain">
+            <summary>
+            Automatic gain of AEC.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.EchoCancellationParameters.#ctor">
+            <summary>
+            Ctor with default parameters.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.EchoCancellationParameters.#ctor(System.Int16)">
+            <summary>
+            Ctor to set the batch data size.
+            </summary>
+            <param name="iDataSize">Size of data processed in batch by the AEC</param>
+        </member>
+        <member name="M:BlueQuark.EchoCancellationParameters.#ctor(System.Int16,System.Int16)">
+            <summary>
+            Ctor to set the batch data size and the automatic gain.
+            </summary>
+            <param name="iDataSize">Size of data processed in batch by the AEC</param>
+            <param name="iGain">Automatic gain of AEC</param>
+        </member>
+        <member name="M:BlueQuark.EchoCancellationParameters.#ctor(System.Int16,System.Int16,System.Int16)">
+            <summary>
+            Ctor to set the batch data size.
+            </summary>
+            <param name="iDataSize">Size of data processed in batch by the AEC.</param>
+            <param name="iGain">Automatic gain of AEC.</param>
+            <param name="iDenoiserState">Denoiser usage.</param>
+        </member>
+        <member name="M:BlueQuark.EchoCancellationParameters.ToString">
+            <summary>
+            ToString overriding.
+            </summary>
+            <returns>Result.</returns>
+        </member>
         <member name="T:BlueQuark.SoundDetectionParameters">
             <summary>
             Noise detection microphones parameters.
             </summary>
+        </member>
+        <member name="F:BlueQuark.SoundDetectionParameters.DEFAULT_OFFSET">
+            <summary>
+            Default added offset.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.SoundDetectionParameters.Offset">
+            <summary>
+            Offset added to dB value to calibrate the ambient sound level.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.SoundDetectionParameters.#ctor">
+            <summary>
+            Ctor with default parameters.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.SoundDetectionParameters.#ctor(System.Int16)">
+            <summary>
+            Ctor to set the offset.
+            </summary>
+            <param name="iOffSet">Offset added to dB value to calibrate the ambient sound level.</param>
+        </member>
+        <member name="M:BlueQuark.SoundDetectionParameters.ToString">
+            <summary>
+            ToString overriding.
+            </summary>
+            <returns>Result.</returns>
         </member>
         <member name="T:BlueQuark.SoundOutputParameters">
             <summary>
             Source sound output microphones parameters.
             </summary>
         </member>
+        <member name="F:BlueQuark.SoundOutputParameters.MIN_VOLUME">
+            <summary>
+            Minimal tolerated volume.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.SoundOutputParameters.MAX_VOLUME">
+            <summary>
+            Maximal tolerated volume.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.SoundOutputParameters.DEFAULT_VOLUME">
+            <summary>
+            Default volume of the out sound.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.SoundOutputParameters.Volume">
+            <summary>
+            Output volume.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.SoundOutputParameters.#ctor">
+            <summary>
+            Ctor with default parameters.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.SoundOutputParameters.#ctor(System.Byte)">
+            <summary>
+            Ctor to set the output volume.
+            </summary>
+            <param name="iVolume">The output volume in dB.</param>
+        </member>
+        <member name="M:BlueQuark.SoundOutputParameters.ToString">
+            <summary>
+            ToString overriding.
+            </summary>
+            <returns>Result.</returns>
+        </member>
         <member name="T:BlueQuark.VocalTriggerParameters">
             <summary>
-            Vocal trigger microphones parameters.
+            Vocal trigger microphones parameters for the hotword "OKAY BUDDY".
             </summary>
+        </member>
+        <member name="F:BlueQuark.VocalTriggerParameters.MIN_THRESHOLD">
+            <summary>
+            Minimal tolerated threshold. Everything will pass.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.VocalTriggerParameters.MAX_THRESHOLD">
+            <summary>
+            Maximal tolerated threshold. Nothing will pass.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.VocalTriggerParameters.DEFAULT_THRESHOLD">
+            <summary>
+            Default threshold value.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.VocalTriggerParameters.MIN_SEARCH">
+            <summary>
+            Min tolerated search.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.VocalTriggerParameters.MAX_SEARCH">
+            <summary>
+            Max tolerated search.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.VocalTriggerParameters.DEFAULT_SEARCH">
+            <summary>
+            Default number of search.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.VocalTriggerParameters.DEFAULT_LANGUAGE">
+            <summary>
+            Default recognized language for the hotword.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.VocalTriggerParameters.Search">
+            <summary>
+            Number of search done by the algorithm.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.VocalTriggerParameters.Language">
+            <summary>
+            Current language detected.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.VocalTriggerParameters.Threshold">
+            <summary>
+            Threshold of the recognition.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.VocalTriggerParameters.#ctor">
+            <summary>
+            Ctor with all default parameters.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.VocalTriggerParameters.#ctor(System.Int16)">
+            <summary>
+            Ctor to set the threshold. Arbitrary unit.
+            </summary>
+            <param name="iThreshold">Recognition threshold.</param>
+        </member>
+        <member name="M:BlueQuark.VocalTriggerParameters.#ctor(System.Int16,System.Int16)">
+            <summary>
+            Ctor to set the threshold and the number of search.
+            </summary>
+            <param name="iThreshold">Recognition threshold.</param>
+            <param name="iSearch">Number of search.</param>
+        </member>
+        <member name="M:BlueQuark.VocalTriggerParameters.#ctor(System.Int16,BlueQuark.ISO6391Code)">
+            <summary>
+            Ctor to set the threshold and the detected language.
+            </summary>
+            <param name="iThreshold">Recognition threshold.</param>
+            <param name="iLanguage">Language that must be detected by the ASR.</param>
+        </member>
+        <member name="M:BlueQuark.VocalTriggerParameters.#ctor(System.Int16,System.Int16,BlueQuark.ISO6391Code)">
+            <summary>
+            Ctor to set the threshold, the number of search and the language to detect.
+            </summary>
+            <param name="iThreshold">Recognition threshold.</param>
+            <param name="iSearch">Number of search.</param>
+            <param name="iLanguage">Language that must be detected by the ASR.</param>
+        </member>
+        <member name="M:BlueQuark.VocalTriggerParameters.ToString">
+            <summary>
+            ToString overriding.
+            </summary>
+            <returns>Result.</returns>
         </member>
         <member name="T:BlueQuark.BeamformingParameters">
             <summary>
             Beamforming microphones parameters.
             </summary>
         </member>
+        <member name="F:BlueQuark.BeamformingParameters.ALGORITHM_CARDIOD_BASIC">
+            <summary>
+            BF algorithm.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.BeamformingParameters.ALGORITHM_CARDIOD_DENOISE">
+            <summary>
+            BF algorithm.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.BeamformingParameters.ALGORITHM_ASR_READ">
+            <summary>
+            BF algorithm.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.BeamformingParameters.ALGORITHM_STRONG">
+            <summary>
+            BF algorithm.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.BeamformingParameters.DEFAULT_ALGORITHM">
+            <summary>
+            BF algorithm.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.BeamformingParameters.DIRECTION_BACK_RIGHT">
+            <summary>
+            Direction mode at the back right of the robot.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.BeamformingParameters.DIRECTION_BACK">
+            <summary>
+            Direction mode at the back of the robot.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.BeamformingParameters.DIRECTION_BACK_LEFT">
+            <summary>
+            Direction mode at the back left of the robot.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.BeamformingParameters.DIRECTION_LEFT">
+            <summary>
+            Direction mode at the left of the robot.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.BeamformingParameters.DIRECTION_FRONT_LEFT">
+            <summary>
+            Direction mode at the front left of the robot.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.BeamformingParameters.DIRECTION_FRONT">
+            <summary>
+            Direction mode at the front of the robot.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.BeamformingParameters.DIRECTION_FRONT_RIGHT">
+            <summary>
+            Direction mode at the front right of the robot.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.BeamformingParameters.DIRECTION_RIGHT">
+            <summary>
+            Direction mode at the right of the robot.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.BeamformingParameters.DEFAULT_DIRECTION">
+            <summary>
+            Default direction mode at the back right of the robot.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.BeamformingParameters.Algorithm">
+            <summary>
+            Algorithm used for the beamforming.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.BeamformingParameters.Direction">
+            <summary>
+            Direction of the beamforming.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.BeamformingParameters.Gain">
+            <summary>
+            Default gain.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.BeamformingParameters.#ctor">
+            <summary>
+            Ctor with default parameters.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.BeamformingParameters.#ctor(System.Byte)">
+            <summary>
+            Ctor to set the algorithm.
+            </summary>
+            <param name="iDirection">Used algorithm for the detection.</param>
+        </member>
+        <member name="M:BlueQuark.BeamformingParameters.ToString">
+            <summary>
+            ToString overriding.
+            </summary>
+            <returns>Result.</returns>
+        </member>
+        <member name="M:BlueQuark.BeamformingParameters.#ctor(System.Byte,System.Byte)">
+            <summary>
+            Ctor to set the algorithm and the direction of the detection.
+            </summary>
+            <param name="iAlgorithm">Used algorithm for the detection.</param>
+            <param name="iDirection">Direction of the detection.</param>
+        </member>
         <member name="T:BlueQuark.SoundLocalizationParameters">
             <summary>
             Source sound localization microphones parameters.
             </summary>
+        </member>
+        <member name="F:BlueQuark.SoundLocalizationParameters.ALGORITHM_XCORR">
+            <summary>
+            Cross correlation algorithm.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.SoundLocalizationParameters.ALGORITHM_GCCP">
+            <summary>
+            Sound loc algorithm.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.SoundLocalizationParameters.ALGORITHM_BMPH">
+            <summary>
+            Sound loc algorithm.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.SoundLocalizationParameters.DEFAULT_ALGORITHM">
+            <summary>
+            Default algorithm used by Sound loc.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.SoundLocalizationParameters.MIN_RESOLUTION">
+            <summary>
+            Min tolerated angle resolution.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.SoundLocalizationParameters.MAX_RESOLUTION">
+            <summary>
+            Max tolerated angle resolution.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.SoundLocalizationParameters.DEFAULT_RESOLUTION">
+            <summary>
+            Default angle resolution.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.SoundLocalizationParameters.MIN_THRESHOLD">
+            <summary>
+            Minimal tolerated threshold. Everything will pass.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.SoundLocalizationParameters.MAX_THRESHOLD">
+            <summary>
+            Maximal tolerated threshold. Nothing will pass.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.SoundLocalizationParameters.DEFAULT_THRESHOLD">
+            <summary>
+            Default sound threshold.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.SoundLocalizationParameters.Algorithm">
+            <summary>
+            Algorithm used to compute the angle.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.SoundLocalizationParameters.Resolution">
+            <summary>
+            Angle resolution in degrees.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.SoundLocalizationParameters.Threshold">
+            <summary>
+            Sound threshold from which the angle is computed.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.SoundLocalizationParameters.#ctor">
+            <summary>
+            Ctor with all default parameters.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.SoundLocalizationParameters.#ctor(System.Byte)">
+            <summary>
+            Ctor to set both algorithm and resolution.
+            </summary>
+            <param name="iResolution">Angle resolution in degrees.</param>
+        </member>
+        <member name="M:BlueQuark.SoundLocalizationParameters.#ctor(System.Byte,System.Int32)">
+            <summary>
+            Ctor to set both algorithm and resolution.
+            </summary>
+            <param name="iResolution">Angle resolution in degrees.</param>
+            <param name="iThreshold">A lower threshold will tolerate more input.</param>
+        </member>
+        <member name="M:BlueQuark.SoundLocalizationParameters.ToString">
+            <summary>
+            ToString overriding.
+            </summary>
+            <returns>Result.</returns>
+        </member>
+        <member name="M:BlueQuark.SoundLocalizationParameters.#ctor(System.Byte,System.Int32,System.Byte)">
+            <summary>
+            Ctor to set both algorithm and resolution.
+            </summary>
+            <param name="iAlgorithm">Used algorithm.</param>
+            <param name="iResolution">Angle resolution in degrees.</param>
+            <param name="iThreshold">A lower threshold will tolerate more input.</param>
         </member>
         <member name="T:BlueQuark.TrackingMovingType">
             <summary>
@@ -12617,7 +13100,12 @@
         </member>
         <member name="P:BlueQuark.Wheels.IsBusy">
             <summary>
-            Returns true if the wheels are currently asserved.
+            Returns true if the wheels are moving (controlled or pushed in any way).
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Wheels.IsControlled">
+            <summary>
+            Returns true if the wheels are currently operated by the engine. Typically, if false but IsBusy is true, it means that the robot is pushed manually.
             </summary>
         </member>
         <member name="P:BlueQuark.Wheels.Odometry">
@@ -15568,7 +16056,7 @@
         </member>
         <member name="T:BlueQuark.InfraredSensor">
             <summary>
-            Infra red sensor component of the robot. Use the IR sensor for directional and precise purpose like distance estimation.
+            Infra red sensor component at the bottom-back of the robot. Use the IR sensor for directional and precise purpose like distance estimation.
             </summary>
         </member>
         <member name="P:BlueQuark.InfraredSensor.Orientation">
@@ -15593,7 +16081,7 @@
         </member>
         <member name="P:BlueQuark.Microphones.AmbiantSound">
             <summary>
-            Ambient sound level.
+            Ambient sound level. Value in dB.
             </summary>
         </member>
         <member name="P:BlueQuark.Microphones.SoundLocalization">
@@ -15631,16 +16119,6 @@
             Source sound localization microphones parameters. Set null to restore default parameters.
             </summary>
         </member>
-        <member name="P:BlueQuark.Microphones.SoundDetectionParameters">
-            <summary>
-            Noise detection parameters. Set null to restore default parameters.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Microphones.SoundOutputParameters">
-            <summary>
-            Source sound microphones parameters. Set null to restore default parameters.
-            </summary>
-        </member>
         <member name="P:BlueQuark.Microphones.BeamformingParameters">
             <summary>
             Beamforming microphones parameters. Set null to restore default parameters.
@@ -15650,16 +16128,16 @@
             <summary>
             Serializes in string the current microphones state.
             </summary>
-            <returns>The current microphones state</returns>
+            <returns>The current microphones state.</returns>
+        </member>
+        <member name="P:BlueQuark.Microphones.SoundOutputParameters">
+            <summary>
+            Source sound microphones parameters. Set null to restore default parameters.
+            </summary>
         </member>
         <member name="P:BlueQuark.Microphones.VocalTriggerParameters">
             <summary>
             Vocal trigger microphones parameters. Set null to restore default parameters.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Microphones.EchoCancellationParameters">
-            <summary>
-            Echo cancellation microphones parameters. Set null to restore default parameters.
             </summary>
         </member>
         <member name="P:BlueQuark.Microphones.EnableVocalTrigger">
@@ -17860,6 +18338,13 @@
             <param name="iSourcePath">Origin path of the file.</param>
             <param name="iDestPath">Dest path of the file.</param>
             <returns>True of the process was good</returns>
+        </member>
+        <member name="M:BlueQuark.Utils.CreateFile(System.String)">
+            <summary>
+            Create or override a file at the given path.
+            </summary>
+            <param name="iPath">Full path to the file.</param>
+            <returns>True if the process was good.</returns>
         </member>
         <member name="M:BlueQuark.Utils.DeleteFile(System.String)">
             <summary>
@@ -20727,12 +21212,6 @@
             <summary>
             Contains the methods to search and play a radio stream.
             Every radio is identified by a permalink.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Radio.CLIENT_ID">
-            <summary> 
-            Client id to use the radioline api.
-            Used to get a token (the radioline api is protected by a OAuth2 authentification).
             </summary>
         </member>
         <member name="F:BlueQuark.Radio.mToken">
