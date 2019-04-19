@@ -21,7 +21,20 @@ namespace BuddyApp.Diagnostic
 
         [SerializeField]
         private Dropdown LEDBehaviourDropdown;
-        
+
+        [SerializeField]
+        private Slider EnergySlider;
+        [SerializeField]
+        private Text EnergyText;
+
+        [SerializeField]
+        private Slider PositivenessSlider;
+        [SerializeField]
+        private Text PositivenessText;
+
+        [SerializeField]
+        private Dropdown LabialExpression;
+
         void OnEnable()
         {
             BackgroundImage.SetActive(false);
@@ -41,11 +54,54 @@ namespace BuddyApp.Diagnostic
             MoodDropdown.onValueChanged.AddListener((iInput) => OnMoodChanged());
             EventDropdown.onValueChanged.AddListener((iInput) => OnEventChanged());
             LEDBehaviourDropdown.onValueChanged.AddListener((iInput) => OnLEDBehaviourChanged());
+
+
+            EnergySlider.onValueChanged.AddListener((iInput) => OnChangeEnergy(iInput));
+            PositivenessSlider.onValueChanged.AddListener((iInput) => OnChangePositiveness(iInput));
+            EnergySlider.value = 1F;
+            PositivenessSlider.value = 1F;
+
+            LabialExpression.onValueChanged.AddListener((iInput) => OnChangeLabialExpression(iInput));
         }
 
         void OnDisable()
         {
             BackgroundImage.SetActive(true);
+        }
+
+        public void OnChangeLabialExpression(int iLabialValue)
+        {
+            if(iLabialValue == 1)
+            {
+                Buddy.Behaviour.Face.SetLabialExpression(BlueQuark.LabialExpression.NEUTRAL);
+                Buddy.Vocal.Say("Neutral expression");
+            }
+            else if(iLabialValue == 2)
+            {
+                Buddy.Behaviour.Face.SetLabialExpression(BlueQuark.LabialExpression.HAPPY);
+                Buddy.Vocal.Say("happy expression");
+            }
+            else if (iLabialValue == 3)
+            {
+                Buddy.Behaviour.Face.SetLabialExpression(BlueQuark.LabialExpression.ANGRY);
+                Buddy.Vocal.Say("angry expression");
+            }
+        }
+
+        public void OnChangePositiveness(float iInput)
+        {
+            float mPositiveness = 0F;
+            mPositiveness = iInput - 1F;
+            PositivenessText.text = mPositiveness.ToString("0.00");
+            Buddy.Behaviour.Face.Pleasure = mPositiveness;
+        }
+
+        public void OnChangeEnergy(float iInput)
+        {
+            float mEnergy = 0F;
+            mEnergy = iInput - 1F;
+            EnergyText.text = mEnergy.ToString("0.00");
+            Buddy.Behaviour.Face.Arousal = mEnergy;
         }
         
         public void OnMoodChanged()
@@ -65,6 +121,8 @@ namespace BuddyApp.Diagnostic
 
         public void OnResetFace()
         {
+            EnergySlider.value = 1F;
+            PositivenessSlider.value = 1F;
             Buddy.Behaviour.SetMood(Mood.NEUTRAL);
         }
     }
