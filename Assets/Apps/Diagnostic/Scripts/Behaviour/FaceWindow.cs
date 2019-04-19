@@ -35,6 +35,8 @@ namespace BuddyApp.Diagnostic
         [SerializeField]
         private Dropdown LabialExpression;
 
+        private bool mIsDone;
+
         void OnEnable()
         {
             BackgroundImage.SetActive(false);
@@ -46,6 +48,7 @@ namespace BuddyApp.Diagnostic
             MoodDropdown.onValueChanged.RemoveAllListeners();
             EventDropdown.onValueChanged.RemoveAllListeners();
             LEDBehaviourDropdown.onValueChanged.RemoveAllListeners();
+            LabialExpression.onValueChanged.RemoveAllListeners();
 
             MoodDropdown.AddOptions(new List<string>(Enum.GetNames(typeof(Mood))));
             EventDropdown.AddOptions(new List<string>(Enum.GetNames(typeof(FacialEvent))));
@@ -75,16 +78,19 @@ namespace BuddyApp.Diagnostic
             {
                 Buddy.Behaviour.Face.SetLabialExpression(BlueQuark.LabialExpression.NEUTRAL);
                 Buddy.Vocal.Say("Neutral expression");
+                iLabialValue = 0;
             }
             else if(iLabialValue == 2)
             {
                 Buddy.Behaviour.Face.SetLabialExpression(BlueQuark.LabialExpression.HAPPY);
                 Buddy.Vocal.Say("happy expression");
+                iLabialValue = 0;
             }
             else if (iLabialValue == 3)
             {
                 Buddy.Behaviour.Face.SetLabialExpression(BlueQuark.LabialExpression.ANGRY);
                 Buddy.Vocal.Say("angry expression");
+                iLabialValue = 0;
             }
         }
 
