@@ -70,7 +70,6 @@ namespace BuddyApp.BuddyLab
         private void OnListening(SpeechInput iSpeech)
         {
             mTimeOut++;
-            Debug.Log("[LAB] speech: " + iSpeech.Utterance + " confidence: " + iSpeech.Confidence);
             if (!string.IsNullOrEmpty(iSpeech.Rule) /*&& iSpeech.Confidence>5000*/) {
                 if (iSpeech.Rule.Contains("menusimple")) {
                     Trigger("MakeProject");

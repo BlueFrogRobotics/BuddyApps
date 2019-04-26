@@ -10,7 +10,7 @@ namespace BuddyApp.Shared
         TWITTER,
         MAIL,
         BOTH
-    };
+    }; 
 
     [SerializeField]
     public sealed class XMLDataShared

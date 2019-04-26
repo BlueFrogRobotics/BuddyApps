@@ -122,7 +122,7 @@ namespace BuddyApp.ExperienceCenter
         {
             if (!string.IsNullOrEmpty(iSpeech.Rule))
             {
-                Debug.LogFormat("VOCON [EXCENTER][QUESTIONBEHAVIOUR] SpeechToText : {0} | Confidence : {1} | StartRule : {2}", iSpeech.Utterance, iSpeech.Confidence, iSpeech.Rule);
+                Debug.LogFormat("VOCON [EXCENTER][QUESTIONBEHAVIOUR] SpeechToText : {0} | StartRule : {2}", iSpeech.Utterance, iSpeech.Rule);
                 bool lClauseFound = false;
                 string lKey = "";
                 foreach (string lElement in mKeyList)

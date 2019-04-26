@@ -84,9 +84,8 @@ namespace BuddyApp.Gallery
         {
             ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "RULE : " + iSpeechInput.Rule);
             ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "UTTERANCE : " + iSpeechInput.Utterance);
-            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.READING, "CONFIDENCE : " + iSpeechInput.Confidence);
             
-            if (iSpeechInput.IsInterrupted || -1 == iSpeechInput.Confidence) // Error during recognition or forced StopListening
+            if (iSpeechInput.IsInterrupted /*|| -1 == iSpeechInput.Confidence*/) // Error during recognition or forced StopListening
             {
                 return;
             }

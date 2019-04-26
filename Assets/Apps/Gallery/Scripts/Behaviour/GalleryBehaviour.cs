@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace BuddyApp.Gallery
 {
@@ -19,15 +20,21 @@ namespace BuddyApp.Gallery
 
         void Start()
         {
-			/*
+            /*
 			* You can setup your App activity here.
 			*/
-			GalleryActivity.Init(null);
-			
-			/*
+            GalleryActivity.Init(null);
+
+            /*
 			* Init your app data
 			*/
             mAppData = GalleryData.Instance;
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        internal static void Listen()
+        {
+            Buddy.Vocal.OnTrigger.Add((iAction) => Buddy.Vocal.SayKeyAndListen("ilisten"));
         }
     }
 }

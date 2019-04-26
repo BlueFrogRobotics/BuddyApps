@@ -92,7 +92,7 @@ namespace BuddyApp.RemoteControl
 
         private void OnSpeechReco(SpeechInput iSpeechInput)
         {
-            if (iSpeechInput.Confidence == -1)
+            if (iSpeechInput.IsInterrupted)
                 return;
 
             Buddy.Behaviour.SetMood(Mood.NEUTRAL);

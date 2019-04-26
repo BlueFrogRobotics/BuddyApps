@@ -382,10 +382,37 @@ namespace BuddyApp.Diagnostic
 
             // Trigger : Play sound and switch to green for 1 second.
             Buddy.Vocal.EnableTrigger = true;
-            Buddy.Vocal.OnTrigger.Clear();
-            Buddy.Vocal.OnTrigger.Add(
-                (iInput) =>
-                {
+
+            // BEGIN ACCRA COMP
+            //Buddy.Vocal.OnTrigger.Clear();
+            //Buddy.Vocal.OnTrigger.Add(
+            //    (iInput) =>
+            //    {
+            //        TriggerText.SetTrigger("ON");
+            //        //TriggerScore.text = ... waitCore
+            //        Buddy.Actuators.Speakers.Media.Play(SoundSample.BEEP_1);
+
+            //        // Display green for one second then switch red.
+            //        mTimeTrigger = new Timer(1000);
+            //        mTimeTrigger.Elapsed += OnTriggerTimedEvent;
+            //        mTimeTrigger.Start();
+            //    });
+
+            try {
+                CallbackArray<int> lCallback = (CallbackArray<int>)typeof(Vocal).GetProperty("OnTrigger").GetValue(Buddy.Vocal);
+                lCallback.Clear();
+                lCallback.Add((iInput) => {
+                        TriggerText.SetTrigger("ON"); 
+                        //TriggerScore.text = ... waitCore 
+                        Buddy.Actuators.Speakers.Media.Play(SoundSample.BEEP_1);
+
+                        // Display green for one second then switch red.
+                        mTimeTrigger = new Timer(1000);
+                        mTimeTrigger.Elapsed += OnTriggerTimedEvent;
+                        mTimeTrigger.Start();
+                    });
+            } catch (Exception iException) {
+                ACCRAComp.OnTrigger(() => {
                     TriggerText.SetTrigger("ON");
                     //TriggerScore.text = ... waitCore
                     Buddy.Actuators.Speakers.Media.Play(SoundSample.BEEP_1);
@@ -395,6 +422,8 @@ namespace BuddyApp.Diagnostic
                     mTimeTrigger.Elapsed += OnTriggerTimedEvent;
                     mTimeTrigger.Start();
                 });
+            }
+            // END ACCRA COMP
 
             // Init Recorded audio dropdown list
             ReplayAudioSource.clip = null;
@@ -448,7 +477,15 @@ namespace BuddyApp.Diagnostic
             // Trigger
             TriggerScore.text = "0";
             Buddy.Vocal.EnableTrigger = false;
-            Buddy.Vocal.OnTrigger.Clear();
+
+            // BEGIN ACCRA COMP
+            try {
+                CallbackArray<int> lCallback = (CallbackArray<int>)typeof(Vocal).GetProperty("OnTrigger").GetValue(Buddy.Vocal);
+                lCallback.Clear();
+            } catch (Exception iException) {
+                ACCRAComp.Clear();
+            }
+            // END ACCRA COMP
 
             // Record
             if (mBIsPlaying)
@@ -514,8 +551,8 @@ namespace BuddyApp.Diagnostic
                     ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.BAD_ARGUMENT, "No speech was recognized.");
                     return;
                 }
-                else if (iSpeechInput.Confidence <= 0)
-                    ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.BAD_ARGUMENT, "No speech was recognized.");
+                //else if (iSpeechInput.Confidence <= 0)
+                //    ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.BAD_ARGUMENT, "No speech was recognized.");
                 SpeechToTextGrammarButton.isOn = false;
             }
         }
@@ -622,10 +659,14 @@ namespace BuddyApp.Diagnostic
             WWW lWWW = new WWW(CREDENTIAL_DEFAULT_URL);
             yield return lWWW;
 
-            Buddy.Vocal.DefaultInputParameters.Credentials = lWWW.text;
-            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.ENABLED, "Free Speech enabled.");
+            try {
+                Buddy.Vocal.DefaultInputParameters.Credentials = lWWW.text;
+                ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.ENABLED, "Free Speech enabled.");
 
-            SpeechToTextFreeSpeechButton.interactable = true;
+                SpeechToTextFreeSpeechButton.interactable = true;
+            } catch {
+                SpeechToTextFreeSpeechButton.interactable = false;
+            }
         }
     }
 }

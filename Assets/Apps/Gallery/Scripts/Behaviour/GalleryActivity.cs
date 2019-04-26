@@ -57,7 +57,18 @@ namespace BuddyApp.Gallery
 
             // Vocal initialization and welcome
             Buddy.GUI.Screen.OnTouch.Add((iTouch) => { if (Buddy.Vocal.IsListening) { Buddy.Vocal.StopListening(); } }); // StopAndClear ?
-            Buddy.Vocal.OnTrigger.Add((iAction) => Buddy.Vocal.SayKeyAndListen("ilisten"));
+
+            // BEGIN ACCRA COMP
+            try {
+                CallbackArray<int> lCallback = (CallbackArray<int>)typeof(Vocal).GetProperty("OnTrigger").GetValue(Buddy.Vocal);
+                lCallback.Add((loc) => {
+                    Buddy.Vocal.SayKeyAndListen("ilisten");
+                });
+            } catch (Exception iException) {
+                GalleryBehaviour.Listen();
+            }
+
+            // END ACCRA COMP
 
             if (null == lStrAppName) // At least 2 parameters
             {

@@ -244,7 +244,7 @@ namespace BuddyApp.AutomatedTest
 
         private void OnEndListeningSpeechToText(SpeechInput iSpeechInput, string iSpeechTest)
         {
-            if (iSpeechInput.IsInterrupted || (iSpeechTest == "sttgrammar" && iSpeechInput.Confidence <= 0))
+            if (iSpeechInput.IsInterrupted || (iSpeechTest == "sttgrammar"/* && iSpeechInput.Confidence <= 0*/))
             {
                 if (Mode == TestMode.M_AUTO && mListeningLoop)
                 {

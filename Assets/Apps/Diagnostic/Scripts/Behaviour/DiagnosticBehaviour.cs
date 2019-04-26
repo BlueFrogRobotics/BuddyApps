@@ -8,41 +8,41 @@ using System;
 
 namespace BuddyApp.Diagnostic
 {
-	public enum WindowType : int
-	{
-		VOCAL,
-		LED,
-		MOTORS,
-		FACE,
-		CAMERAS,
-		THERMAL,
-		SENSORS,
+    public enum WindowType : int
+    {
+        VOCAL,
+        LED,
+        MOTORS,
+        FACE,
+        CAMERAS,
+        THERMAL,
+        SENSORS,
         CONNEXION
     }
 
-	/* A basic monobehaviour as "AI" behaviour for your app */
-	public sealed class DiagnosticBehaviour : MonoBehaviour
+    /* A basic monobehaviour as "AI" behaviour for your app */
+    public sealed class DiagnosticBehaviour : MonoBehaviour
     {
 
-		[SerializeField]
-		private GameObject vocalRoot;
-		[SerializeField]
-		private GameObject ledRoot;
-		[SerializeField]
-		private GameObject motorsRoot;
-		[SerializeField]
-		private GameObject faceRoot;
-		[SerializeField]
-		private GameObject camerasRoot;
-		[SerializeField]
-		private GameObject thermalRoot;
-		[SerializeField]
-		private GameObject sensorsRoot;
+        [SerializeField]
+        private GameObject vocalRoot;
+        [SerializeField]
+        private GameObject ledRoot;
+        [SerializeField]
+        private GameObject motorsRoot;
+        [SerializeField]
+        private GameObject faceRoot;
+        [SerializeField]
+        private GameObject camerasRoot;
+        [SerializeField]
+        private GameObject thermalRoot;
+        [SerializeField]
+        private GameObject sensorsRoot;
         [SerializeField]
         private GameObject connexionRoot;
 
-       /*[SerializeField]
-        private Button motorsBT;*/
+        /*[SerializeField]
+         private Button motorsBT;*/
 
         [SerializeField]
         private Image vocalBT;
@@ -72,24 +72,24 @@ namespace BuddyApp.Diagnostic
          */
         void Start()
         {
-			mRoots = new List<GameObject>() { vocalRoot,
-				ledRoot, motorsRoot, faceRoot,
-				camerasRoot, thermalRoot, sensorsRoot, connexionRoot
+            mRoots = new List<GameObject>() { vocalRoot,
+                ledRoot, motorsRoot, faceRoot,
+                camerasRoot, thermalRoot, sensorsRoot, connexionRoot
             };
             mBTs = new List<Image>() { vocalBT,
                 ledBT, motorsBT, faceBT,
                 camerasBT, thermalBT, sensorsBT, connexionBT
             };
-            
+
             mCurrentWindow = WindowType.CAMERAS;
             SetWindow(0);
         }
 
-		public void SetWindow(int iIndex)
-		{
-			WindowType lType = (WindowType)iIndex;
-			if (mCurrentWindow != lType) {
-				mCurrentWindow = lType;
+        public void SetWindow(int iIndex)
+        {
+            WindowType lType = (WindowType)iIndex;
+            if (mCurrentWindow != lType) {
+                mCurrentWindow = lType;
                 Rect lrect_Vocal = vocalBT.GetComponent<RectTransform>().rect;
                 lrect_Vocal.height = 100;
                 Rect lrect_Led = ledBT.GetComponent<RectTransform>().rect;
@@ -108,39 +108,39 @@ namespace BuddyApp.Diagnostic
                 lrect_Connexion.height = 100;
                 Debug.Log("Vocal rect Before: " + lrect_Vocal);
                 switch (mCurrentWindow) {
-					case WindowType.VOCAL:
-						DisableAllExcept(vocalRoot);
+                    case WindowType.VOCAL:
+                        DisableAllExcept(vocalRoot);
                         vocalBT.color = BuddyBlue;
                         lrect_Vocal.height = 120;
                         Debug.Log("Vocal rect After: " + lrect_Vocal);
                         break;
-					case WindowType.LED:
-						DisableAllExcept(ledRoot);
+                    case WindowType.LED:
+                        DisableAllExcept(ledRoot);
                         ledBT.color = BuddyBlue;
                         lrect_Led.height = 120;
                         break;
-					case WindowType.MOTORS:
-						DisableAllExcept(motorsRoot);
+                    case WindowType.MOTORS:
+                        DisableAllExcept(motorsRoot);
                         motorsBT.color = BuddyBlue;
                         lrect_Motors.height = 120;
                         break;
-					case WindowType.FACE:
-						DisableAllExcept(faceRoot);
+                    case WindowType.FACE:
+                        DisableAllExcept(faceRoot);
                         faceBT.color = BuddyBlue;
                         lrect_Face.height = 120;
                         break;
-					case WindowType.CAMERAS:
-						DisableAllExcept(camerasRoot);
+                    case WindowType.CAMERAS:
+                        DisableAllExcept(camerasRoot);
                         camerasBT.color = BuddyBlue;
                         lrect_Cameras.height = 120;
                         break;
-					case WindowType.THERMAL:
-						DisableAllExcept(thermalRoot);
+                    case WindowType.THERMAL:
+                        DisableAllExcept(thermalRoot);
                         thermalBT.color = BuddyBlue;
                         lrect_Thermal.height = 120;
                         break;
-					case WindowType.SENSORS:
-						DisableAllExcept(sensorsRoot);
+                    case WindowType.SENSORS:
+                        DisableAllExcept(sensorsRoot);
                         sensorsBT.color = BuddyBlue;
                         lrect_Sensors.height = 120;
                         break;
@@ -150,22 +150,22 @@ namespace BuddyApp.Diagnostic
                         lrect_Connexion.height = 120;
                         break;
                 }
-			}
-		}
+            }
+        }
 
-		private void DisableAllExcept(GameObject iGOToKeep)
-		{
-			foreach (GameObject lRoot in mRoots)
-				lRoot.SetActive(lRoot == iGOToKeep);
+        private void DisableAllExcept(GameObject iGOToKeep)
+        {
+            foreach (GameObject lRoot in mRoots)
+                lRoot.SetActive(lRoot == iGOToKeep);
             foreach (Image lBT in mBTs)
                 lBT.color = White;
         }
 
-		public void Quit()
-		{
-			//BYOS.Instance.AppManager.Quit();
-			//new Buddy.Command.HomeCmd().Execute();
-		}
+        public void Quit()
+        {
+            //BYOS.Instance.AppManager.Quit();
+            //new Buddy.Command.HomeCmd().Execute();
+        }
 
         public double ExpScale(double inputValue, double midValue, double maxValue)
         {

@@ -24,15 +24,7 @@ namespace BuddyApp.Diagnostic
         void Start()
         {
             mIsPinging = false;
-            
         }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
 
         IEnumerator CheckConnection()
         {

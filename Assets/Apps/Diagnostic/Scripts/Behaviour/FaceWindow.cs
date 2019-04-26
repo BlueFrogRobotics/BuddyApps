@@ -12,7 +12,7 @@ namespace BuddyApp.Diagnostic
     {
         [SerializeField]
         private GameObject BackgroundImage;
-        
+
         [SerializeField]
         private Dropdown MoodDropdown;
 
@@ -74,20 +74,15 @@ namespace BuddyApp.Diagnostic
 
         public void OnChangeLabialExpression(int iLabialValue)
         {
-            if(iLabialValue == 1)
-            {
+            if (iLabialValue == 1) {
                 Buddy.Behaviour.Face.SetLabialExpression(BlueQuark.LabialExpression.NEUTRAL);
                 Buddy.Vocal.Say("Neutral expression");
                 iLabialValue = 0;
-            }
-            else if(iLabialValue == 2)
-            {
+            } else if (iLabialValue == 2) {
                 Buddy.Behaviour.Face.SetLabialExpression(BlueQuark.LabialExpression.HAPPY);
                 Buddy.Vocal.Say("happy expression");
                 iLabialValue = 0;
-            }
-            else if (iLabialValue == 3)
-            {
+            } else if (iLabialValue == 3) {
                 Buddy.Behaviour.Face.SetLabialExpression(BlueQuark.LabialExpression.ANGRY);
                 Buddy.Vocal.Say("angry expression");
                 iLabialValue = 0;
@@ -99,7 +94,10 @@ namespace BuddyApp.Diagnostic
             float mPositiveness = 0F;
             mPositiveness = iInput - 1F;
             PositivenessText.text = mPositiveness.ToString("0.00");
-            Buddy.Behaviour.Face.Pleasure = mPositiveness;
+            try {
+                Buddy.Behaviour.Face.Pleasure = mPositiveness;
+            } catch {
+            }
         }
 
         public void OnChangeEnergy(float iInput)
@@ -107,19 +105,22 @@ namespace BuddyApp.Diagnostic
             float mEnergy = 0F;
             mEnergy = iInput - 1F;
             EnergyText.text = mEnergy.ToString("0.00");
-            Buddy.Behaviour.Face.Arousal = mEnergy;
+            try {
+                Buddy.Behaviour.Face.Arousal = mEnergy;
+            } catch {
+            }
         }
-        
+
         public void OnMoodChanged()
         {
             Buddy.Behaviour.SetMood((Mood)Enum.Parse(typeof(Mood), MoodDropdown.captionText.text));
         }
-        
+
         public void OnEventChanged()
         {
             Buddy.Behaviour.Face.PlayEvent((FacialEvent)Enum.Parse(typeof(FacialEvent), EventDropdown.captionText.text));
         }
-        
+
         public void OnLEDBehaviourChanged()
         {
             Buddy.Actuators.LEDs.SetBodyPattern((LEDPulsePattern)Enum.Parse(typeof(LEDPulsePattern), LEDBehaviourDropdown.captionText.text));
