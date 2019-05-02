@@ -169,12 +169,12 @@ namespace BuddyApp.TestGridEye
                 return false;
 
                 // otherwise, try to put the human in the center
-            } else if (iCentered < 0.6F && (!mPreviousLeft || mStopped /*!Buddy.Actuators.Wheels.IsBusy*/)) {
+            } else if (iCentered <= 0.4F && (!mPreviousLeft || mStopped /*!Buddy.Actuators.Wheels.IsBusy*/)) {
                 Debug.LogWarning("Go to left " + mStopped);
                 Buddy.Actuators.Wheels.SetVelocities(0F, -40F);
                 mStopped = false;
                 mPreviousLeft = true;
-            } else if (iCentered > 0.4F && (mPreviousLeft || mStopped /*|| !Buddy.Actuators.Wheels.IsBusy*/)) {
+            } else if (iCentered >= 0.6F && (mPreviousLeft || mStopped /*|| !Buddy.Actuators.Wheels.IsBusy*/)) {
                 Debug.LogWarning("Go to right " + mStopped);
                 Buddy.Actuators.Wheels.SetVelocities(0F, 40F);
                 mStopped = false;
