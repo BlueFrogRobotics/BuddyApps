@@ -53,10 +53,10 @@ namespace BuddyApp.Diagnostic
         private Text linearVelocity;
         [SerializeField]
         private Slider linearVelocitySetter;
-        [SerializeField]
-        private Text angularVelocity;
-        [SerializeField]
-        private Slider angularVelocitySetter;
+        //[SerializeField]
+        //private Text angularVelocity;
+        //[SerializeField]
+        //private Slider angularVelocitySetter;
 
         /// <summary>
         /// Old MoveDistance
@@ -124,9 +124,9 @@ namespace BuddyApp.Diagnostic
             linearVelocitySetter.minValue = -1F;
             linearVelocitySetter.maxValue = 1F;
 
-            angularVelocitySetter.wholeNumbers = true;
-            angularVelocitySetter.minValue = -3.14F;
-            angularVelocitySetter.maxValue = 3.14F;
+            //angularVelocitySetter.wholeNumbers = true;
+            //angularVelocitySetter.minValue = -3.14F;
+            //angularVelocitySetter.maxValue = 3.14F;
 
             //timerSetter.wholeNumbers = true;
             //timerSetter.minValue = 500F;
@@ -196,11 +196,11 @@ namespace BuddyApp.Diagnostic
 
             linearVelocity.text = (mDiagBehaviour.ExpScale(Math.Round(linearVelocitySetter.value + 1d, 2)/2d, 0.5d, 2d)-1d).ToString("0.00") + " M/s";
 
-            angularVelocity.text =  (angularVelocitySetter.value ).ToString();
+            //angularVelocity.text =  (angularVelocitySetter.value ).ToString();
 
             distance.text = mDiagBehaviour.ExpScale( Math.Round(distanceSetter.value, 2)/10D, 2D, 10D).ToString("0.00") + " M";
 
-            AngularVelocityWheelsText.text = (mDiagBehaviour.ExpScale((angularVelocitySetter.value) / 250D, 40D, 250D)).ToString("0.00") + " °/s";
+            AngularVelocityWheelsText.text = (mDiagBehaviour.ExpScale((AngularVelocityWheelsSetter.value) / 250D, 40D, 250D)).ToString("0.00") + " °/s";
 
             angleBack.text = anglePosSetter.value + " °";
             //toleranceBack.text = "Tol : " + toleranceSetter.value;
@@ -211,6 +211,8 @@ namespace BuddyApp.Diagnostic
             NoAngle.text = Buddy.Actuators.Head.No.Angle.ToString("f3") + " °";
             YesAngle.text = Buddy.Actuators.Head.Yes.Angle.ToString("f3") +" °";
             Cap.text = Buddy.Actuators.Wheels.Odometry.z.ToString("f3") + " °";
+
+            //Debug.Log("angular velocity : " + );
         }
 
         public void SetWheelsSpeed()
@@ -246,6 +248,7 @@ namespace BuddyApp.Diagnostic
             //                    (leftSpeedSetter.value + rightSpeedSetter.value) / 2,
             //                    toleranceSetter.value);
             Buddy.Navigation.Run<DisplacementStrategy>().RotateTo(anglePosSetter.value, AngularVelocityWheelsSetter.value);
+            Debug.Log("angular  velocity rotate to : " + AngularVelocityWheelsSetter.value);
         }
 
         public void TurnRelative()
@@ -254,7 +257,8 @@ namespace BuddyApp.Diagnostic
             //                (leftSpeedSetter.value + rightSpeedSetter.value) / 2,
             //                toleranceSetter.value);
             Buddy.Navigation.Run<DisplacementStrategy>().Rotate(anglePosSetter.value, AngularVelocityWheelsSetter.value);
-       
+            Debug.Log("angular  velocity rotate : " + AngularVelocityWheelsSetter.value);
+
         }
 
         public void GoTo()
