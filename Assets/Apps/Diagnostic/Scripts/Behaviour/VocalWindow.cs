@@ -110,10 +110,16 @@ namespace BuddyApp.Diagnostic
         [Header("BEAMFORMING TAB")]
         [SerializeField]
         private Toggle BeamFormingToggle;
+        [SerializeField]
+        private Dropdown BeamFormingDropDown;
+        [SerializeField]
+        private GameObject BeamFormingText;
 
         [Header("ECHO CANCELLATION TAB")]
         [SerializeField]
         private Toggle EchoCancellationToggle;
+        [SerializeField]
+        private GameObject EchoCancellationText;
 
         private readonly Color TAB_IDLE_COLOR = new Color(221F / 255F, 221F / 255F, 221F / 255F);
         private readonly Color STATUS_OFF_COLOR = new Color(56F / 255F, 56F / 255F, 56F / 255F);
@@ -170,7 +176,145 @@ namespace BuddyApp.Diagnostic
             mStop = Buddy.Resources.Get<Sprite>("os_icon_stop");
             mPlay = Buddy.Resources.Get<Sprite>("os_icon_play");
             SpeechToTextFreeSpeechButton.interactable = false;
+
+            TriggerTreshSlider.wholeNumbers = true;
+            TriggerTreshSlider.minValue = 0F;
+            TriggerTreshSlider.maxValue = 2000F;
+            TriggerTreshSlider.value = 1000F;
+            TriggerTreshSlider.onValueChanged.AddListener((iInput) => OnSliderThresholdChange(iInput));
+
+            LocalizationTreshSlider.wholeNumbers = true;
+            LocalizationTreshSlider.minValue = 10F;
+            LocalizationTreshSlider.maxValue = 128F;
+            LocalizationTreshSlider.value = 40F;
+            LocalizationTreshSlider.onValueChanged.AddListener((iInput) => OnChangeThresholdLocalization(iInput));
+
+            TriggerDropdown.onValueChanged.AddListener((iInput) => OnSearchTriggerOption(iInput));
+
+            BeamFormingDropDown.onValueChanged.AddListener((iInput) => OnDirectionBeam(iInput));
+
             StartCoroutine(GetFreespeechCredentials());
+        }
+
+        private void OnToggleActivated()
+        {
+            if(EchoCancellationToggle.isOn && TabContent[2].activeSelf)
+            {
+                BeamFormingText.SetActive(true);
+            }
+            else if (BeamFormingToggle.isOn && TabContent[3].activeSelf)
+            {
+                EchoCancellationText.SetActive(true);
+            }
+            else
+            {
+                EchoCancellationText.SetActive(false);
+                BeamFormingText.SetActive(false);
+            }
+        }
+       
+        private void OnChangeThresholdLocalization(float iInput)
+        {
+            byte lReso = Buddy.Sensors.Microphones.SoundLocalizationParameters.Resolution;
+            Buddy.Sensors.Microphones.SoundLocalizationParameters = new SoundLocalizationParameters(lReso, FloatToInt(iInput));
+        }
+
+        #region TabTrigger
+        private void OnSliderThresholdChange(float iInput)
+        {
+            Buddy.Sensors.Microphones.VocalTriggerParameters = new VocalTriggerParameters(FloatToShort(iInput));
+        }
+
+        private void OnSearchTriggerOption(int iInput)
+        {
+            int lSearchValue = 0;
+            switch (iInput)
+            {
+                case 0:
+                    lSearchValue = 1;
+                    break;
+                case 1:
+                    lSearchValue = 4;
+                    break;
+                case 2:
+                    lSearchValue = 7;
+                    break;
+                case 3:
+                    lSearchValue = 10;
+                    break;
+                case 4:
+                    lSearchValue = 13;
+                    break;
+                case 5:
+                    lSearchValue = 16;
+                    break;
+                case 6:
+                    lSearchValue = 18;
+                    break;
+                default:
+                    lSearchValue = 1;
+                    break;
+            }
+            Buddy.Sensors.Microphones.VocalTriggerParameters = new VocalTriggerParameters(FloatToShort(TriggerTreshSlider.value),IntToShort(lSearchValue));
+        }
+        #endregion
+
+        #region TabBeamforming
+        private void OnDirectionBeam(int iInput)
+        {
+            int lDirectionValue = 0;
+            switch (iInput)
+            {
+                case 0:
+                    lDirectionValue = 1;
+                    break;
+                case 1:
+                    lDirectionValue = 2;
+                    break;
+                case 2:
+                    lDirectionValue = 3;
+                    break;
+                case 3:
+                    lDirectionValue = 4;
+                    break;
+                case 4:
+                    lDirectionValue = 5;
+                    break;
+                case 5:
+                    lDirectionValue = 6;
+                    break;
+                case 6:
+                    lDirectionValue = 7;
+                    break;
+                case 7:
+                    lDirectionValue = 8;
+                    break;
+                default:
+                    lDirectionValue = 1;
+                    break;
+            }
+            Buddy.Sensors.Microphones.BeamformingParameters = new BeamformingParameters(IntToByte(lDirectionValue));
+        }
+        #endregion
+
+        private byte IntToByte(int iInt)
+        {
+            return System.Convert.ToByte(iInt);
+        }
+
+        private short FloatToShort(float iFloat)
+        {
+            return System.Convert.ToInt16(iFloat);
+        }
+
+        private short IntToShort(int iInt)
+        {
+            return System.Convert.ToInt16(iInt);
+        }
+
+        private int FloatToInt(float iFloat)
+        {
+            return System.Convert.ToInt32(iFloat);
         }
 
         private void UpdateSoundLocalization()
@@ -211,6 +355,7 @@ namespace BuddyApp.Diagnostic
 
         public void Update()
         {
+            
             UpdateSoundLocalization();
             if (mBIsPlaying) // Playing record
             {

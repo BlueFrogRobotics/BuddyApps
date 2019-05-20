@@ -223,8 +223,8 @@ namespace BuddyApp.Diagnostic
 
             //mWheels.SetVelocities(mWheels.LinearVelocity, mWheels.AngularVelocity);
             //mWheels.SetVelocities(linearVelocitySetter.value, angularVelocitySetter.value);
-            double mDistance = Math.Round(distanceSetter.value, 4);
-            double mLinearVelocity = Math.Round(linearVelocitySetter.value, 4);
+            double mDistance = mDiagBehaviour.ExpScale(Math.Round(distanceSetter.value, 4) / 10D, 2D, 10D);
+            double mLinearVelocity = (mDiagBehaviour.ExpScale(Math.Round(linearVelocitySetter.value + 1d, 4) / 2d, 0.5d, 2d) - 1d);
             Buddy.Navigation.Run<DisplacementStrategy>().Move((float)mDistance, (float)mLinearVelocity, ObstacleAvoidanceType.NONE);
 
         }
@@ -237,8 +237,8 @@ namespace BuddyApp.Diagnostic
             //                    toleranceSetter.value);
             //Debug.Log("NOT IMPLEMENTED YET");
             //mNavigation.Run<DisplacementStrategy>().Move(distanceSetter.value, speedDisplacementStrategySetter.value);
-            double mDistance = Math.Round(distanceSetter.value, 4);
-            double mLinearVelocity = Math.Round(linearVelocitySetter.value, 4);
+            double mDistance = mDiagBehaviour.ExpScale(Math.Round(distanceSetter.value, 4) / 10D, 2D, 10D);
+            double mLinearVelocity = (mDiagBehaviour.ExpScale(Math.Round(linearVelocitySetter.value + 1d, 4) / 2d, 0.5d, 2d) - 1d);
             Buddy.Navigation.Run<DisplacementStrategy>().Move((float)mDistance, (float)mLinearVelocity, ObstacleAvoidanceType.NONE);
         }
 
@@ -247,7 +247,7 @@ namespace BuddyApp.Diagnostic
             //mWheels.TurnAbsoluteAngle(anglePosSetter.value,
             //                    (leftSpeedSetter.value + rightSpeedSetter.value) / 2,
             //                    toleranceSetter.value);
-            Buddy.Navigation.Run<DisplacementStrategy>().RotateTo(anglePosSetter.value, AngularVelocityWheelsSetter.value);
+            Buddy.Navigation.Run<DisplacementStrategy>().RotateTo(anglePosSetter.value, DoubleToFloat(mDiagBehaviour.ExpScale((AngularVelocityWheelsSetter.value) / 250D, 40D, 250D)));
             Debug.Log("angular  velocity rotate to : " + AngularVelocityWheelsSetter.value);
         }
 
@@ -256,7 +256,7 @@ namespace BuddyApp.Diagnostic
             //mWheels.TurnAngle(anglePosSetter.value,
             //                (leftSpeedSetter.value + rightSpeedSetter.value) / 2,
             //                toleranceSetter.value);
-            Buddy.Navigation.Run<DisplacementStrategy>().Rotate(anglePosSetter.value, AngularVelocityWheelsSetter.value);
+            Buddy.Navigation.Run<DisplacementStrategy>().Rotate(anglePosSetter.value, DoubleToFloat(mDiagBehaviour.ExpScale((AngularVelocityWheelsSetter.value) / 250D, 40D, 250D)));
             Debug.Log("angular  velocity rotate : " + AngularVelocityWheelsSetter.value);
 
         }
@@ -274,13 +274,18 @@ namespace BuddyApp.Diagnostic
 
         public void SetYesPos()
         {
-            mYesHinge.SetPosition(yesHingeAngleSetter.value, hingeSpeedSetter.value);
+            mYesHinge.SetPosition(yesHingeAngleSetter.value, DoubleToFloat(mDiagBehaviour.ExpScale(hingeSpeedSetter.value / 96D, 10D, 96D)));
             //mYesHinge.SetPosition(yesHingeAngleSetter.value);
         }
 
         public void SetNoPos()
         {
-            mNoHinge.SetPosition(noHingeAngleSetter.value, hingeSpeedSetter.value);
+            mNoHinge.SetPosition(noHingeAngleSetter.value, DoubleToFloat(mDiagBehaviour.ExpScale(hingeSpeedSetter.value / 96D, 10D, 96D)));
+        }
+
+        private float DoubleToFloat(double iDouble)
+        {
+            return (float)iDouble;
         }
     }
 }
