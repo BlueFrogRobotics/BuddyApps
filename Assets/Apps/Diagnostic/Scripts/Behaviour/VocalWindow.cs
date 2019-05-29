@@ -181,12 +181,14 @@ namespace BuddyApp.Diagnostic
             TriggerTreshSlider.minValue = 0F;
             TriggerTreshSlider.maxValue = 2000F;
             TriggerTreshSlider.value = 1000F;
+            TriggerTreshText.text = TriggerTreshSlider.value.ToString();
             TriggerTreshSlider.onValueChanged.AddListener((iInput) => OnSliderThresholdChange(iInput));
 
             LocalizationTreshSlider.wholeNumbers = true;
             LocalizationTreshSlider.minValue = 10F;
             LocalizationTreshSlider.maxValue = 128F;
             LocalizationTreshSlider.value = 40F;
+            LocalizationTreshText.text = LocalizationTreshSlider.value.ToString();
             LocalizationTreshSlider.onValueChanged.AddListener((iInput) => OnChangeThresholdLocalization(iInput));
 
             TriggerDropdown.onValueChanged.AddListener((iInput) => OnSearchTriggerOption(iInput));
@@ -215,13 +217,16 @@ namespace BuddyApp.Diagnostic
        
         private void OnChangeThresholdLocalization(float iInput)
         {
+            
             byte lReso = Buddy.Sensors.Microphones.SoundLocalizationParameters.Resolution;
+            LocalizationTreshText.text = FloatToInt(iInput).ToString();
             Buddy.Sensors.Microphones.SoundLocalizationParameters = new SoundLocalizationParameters(lReso, FloatToInt(iInput));
         }
 
         #region TabTrigger
         private void OnSliderThresholdChange(float iInput)
         {
+            TriggerTreshText.text = FloatToShort(iInput).ToString();
             Buddy.Sensors.Microphones.VocalTriggerParameters = new VocalTriggerParameters(FloatToShort(iInput));
         }
 
@@ -388,6 +393,17 @@ namespace BuddyApp.Diagnostic
             TabButton[(int)TAB.BEAMFORMING].onClick.AddListener(() => { OnClickTabs(TAB.BEAMFORMING); });
             TabButton[(int)TAB.ECHO_CANCELLATION].onClick.AddListener(() => { OnClickTabs(TAB.ECHO_CANCELLATION); });
 
+            List<GameObject> lContentsStart = new List<GameObject>();
+            int lChildCounts = TabContent[(int)TAB.BEAMFORMING].transform.childCount;
+            for (int i = 0; i < lChildCounts; i++)
+                lContentsStart.Add(TabContent[(int)TAB.BEAMFORMING].transform.GetChild(i).gameObject);
+            TabButton[(int)TAB.ECHO_CANCELLATION].GetComponentsInChildren<Image>()[2].color = STATUS_OFF_COLOR;
+            TabButton[(int)TAB.BEAMFORMING].GetComponent<CanvasGroup>().alpha = 1F;
+            foreach (GameObject lContent in lContentsStart)
+                lContent.SetActive(false);
+            lContentsStart[1].SetActive(true);
+
+
             // Trigger
             TriggerToggle.onValueChanged.AddListener((iValue) =>
             {
@@ -397,29 +413,34 @@ namespace BuddyApp.Diagnostic
                 else
                     TabButton[(int)TAB.TRIGGER].GetComponentsInChildren<Image>()[2].color = STATUS_OFF_COLOR;
             });
-            TriggerTreshSlider.value = 1000;
-            TriggerTreshText.text = TriggerTreshSlider.value.ToString();
-            TriggerTreshSlider.onValueChanged.AddListener((iTresh) =>
-            {
-                TriggerTreshText.text = TriggerTreshSlider.value.ToString();
-                // -- ADD Treshold setting when available ---
-            });
+            //TriggerTreshSlider.value = 1000;
+            //TriggerTreshText.text = TriggerTreshSlider.value.ToString();
+            //TriggerTreshSlider.onValueChanged.AddListener((iTresh) =>
+            //{
+            //    TriggerTreshText.text = TriggerTreshSlider.value.ToString();
+            //    // -- ADD Treshold setting when available ---
+            //});
 
             // Localization
             LocalizationToggle.onValueChanged.AddListener((iValue) =>
             {
+                Buddy.Sensors.Microphones.EnableSoundLocalization = iValue;
+                Debug.LogWarning("SOUNDLOC : " + Buddy.Sensors.Microphones.EnableSoundLocalization);
                 if (iValue)
                     TabButton[(int)TAB.LOCALIZATION].GetComponentsInChildren<Image>()[2].color = STATUS_ON_COLOR;
+                
                 else
                     TabButton[(int)TAB.LOCALIZATION].GetComponentsInChildren<Image>()[2].color = STATUS_OFF_COLOR;
+                    
+                    
             });
-            LocalizationTreshSlider.value = 50;
-            LocalizationTreshText.text = LocalizationTreshSlider.value.ToString();
-            LocalizationTreshSlider.onValueChanged.AddListener((iTresh) =>
-            {
-                LocalizationTreshText.text = LocalizationTreshSlider.value.ToString();
-                // -- ADD Treshold setting when available ---
-            });
+            //LocalizationTreshSlider.value = 50;
+            //LocalizationTreshText.text = LocalizationTreshSlider.value.ToString();
+            //LocalizationTreshSlider.onValueChanged.AddListener((iTresh) =>
+            //{
+            //    LocalizationTreshText.text = LocalizationTreshSlider.value.ToString();
+            //    // -- ADD Treshold setting when available ---
+            //});
 
             // BeamForming
             BeamFormingToggle.onValueChanged.AddListener((iValue) =>
@@ -429,7 +450,8 @@ namespace BuddyApp.Diagnostic
                 int lChildCount = TabContent[(int)TAB.ECHO_CANCELLATION].transform.childCount;
                 for (int i = 0; i < lChildCount; i++)
                     lContents.Add(TabContent[(int)TAB.ECHO_CANCELLATION].transform.GetChild(i).gameObject);
-
+                Buddy.Sensors.Microphones.EnableBeamforming = iValue;
+                Debug.LogWarning("BEAMFORMING : " + Buddy.Sensors.Microphones.EnableBeamforming);
                 if (iValue)
                 {
                     TabButton[(int)TAB.BEAMFORMING].GetComponentsInChildren<Image>()[2].color = STATUS_ON_COLOR;
@@ -437,6 +459,7 @@ namespace BuddyApp.Diagnostic
                     foreach (GameObject lContent in lContents)
                         lContent.SetActive(false);
                     lContents[0].SetActive(true);
+                    TabContent[(int)TAB.BEAMFORMING].transform.GetChild(2).gameObject.SetActive(true);
                 }
                 else
                 {
@@ -445,6 +468,7 @@ namespace BuddyApp.Diagnostic
                     foreach (GameObject lContent in lContents)
                         lContent.SetActive(true);
                     lContents[0].SetActive(false);
+                    TabContent[(int)TAB.BEAMFORMING].transform.GetChild(2).gameObject.SetActive(false);
                 }
             });
 
@@ -472,6 +496,7 @@ namespace BuddyApp.Diagnostic
                     foreach (GameObject lContent in lContents)
                         lContent.SetActive(true);
                     lContents[0].SetActive(false);
+                    lContents[2].SetActive(false);
                 }
             });
 
@@ -612,6 +637,14 @@ namespace BuddyApp.Diagnostic
             GimmickDropdown.ClearOptions();
             GimmickPlayButton.onClick.RemoveAllListeners();
 
+            TriggerTreshSlider.onValueChanged.RemoveAllListeners();
+            LocalizationTreshSlider.onValueChanged.RemoveAllListeners();
+
+            TriggerDropdown.onValueChanged.RemoveAllListeners();
+
+            BeamFormingDropDown.onValueChanged.RemoveAllListeners();
+
+
             // Speech to text
             SpeechToTextGrammarButton.onValueChanged.RemoveAllListeners();
             SpeechToTextFreeSpeechButton.onValueChanged.RemoveAllListeners();
@@ -728,6 +761,7 @@ namespace BuddyApp.Diagnostic
                         {
                             mListAudio.Enqueue(mAudioClip);
                             mAudioClip = null;
+                            mNoiseDetector.RecordClip.UnloadAudioData();
                         }
 
                         if (mNoiseDetector.MicrophoneData != null)
