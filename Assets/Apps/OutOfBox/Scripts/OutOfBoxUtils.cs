@@ -63,6 +63,14 @@ namespace BuddyApp.OutOfBox
 
             iOnEnd?.Invoke();
         }
+
+        public static void DebugColor(string msg, string color = null)
+        {
+            if (string.IsNullOrEmpty(color))
+                Debug.Log(msg);
+            else
+                Debug.Log("<color=" + color + ">----" + msg + "----</color>");
+        }
     }
 }
 
