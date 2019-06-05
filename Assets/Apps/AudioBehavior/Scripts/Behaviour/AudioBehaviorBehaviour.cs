@@ -58,16 +58,16 @@ namespace BuddyApp.AudioBehavior
         {
             mThermal = !mThermal;
 
-            if (mThermal) {
-                mYolo = false;
-                Buddy.Actuators.Head.Yes.SetPosition(5F);
-                // Creation & Settings of parameters that will be used in detection
-                mThermalDetector.mCallback = OnHumanDetect;
-                mThermalDetector.Start();
-            } else {
-                mThermalDetector.Stop();
+            //if (mThermal) {
+            //    mYolo = false;
+            //    Buddy.Actuators.Head.Yes.SetPosition(5F);
+            //    // Creation & Settings of parameters that will be used in detection
+            //    mThermalDetector.mCallback = OnHumanDetect;
+            //    mThermalDetector.Start();
+            //} else {
+                //mThermalDetector.Stop();
                 Buddy.Actuators.Head.Yes.SetPosition(-9.9F);
-            }
+            //}
         }
 
         public void ToggleHumanTracking()
@@ -81,7 +81,7 @@ namespace BuddyApp.AudioBehavior
         void Start()
         {
 
-            mThermalDetector = new ThermalDetector();
+            //mThermalDetector = new ThermalDetector();
 
             /*
 			* You can setup your App activity here.
@@ -133,7 +133,7 @@ namespace BuddyApp.AudioBehavior
                 }
 
                 // If we find human before sound loc destination, stop navigation and center on human
-            } else if (Math.Abs(mTargetOdom - mAngleLastDetect) < 20) {
+            } else if(Math.Abs(mTargetOdom - mAngleLastDetect) < 20) {
                 Buddy.Navigation.Stop();
                 mGoTowardHuman = true;
             }
@@ -144,8 +144,8 @@ namespace BuddyApp.AudioBehavior
             // Reset listen + callback of search
 
             Buddy.Perception.HumanDetector.OnDetect.Remove(OnHumanFound);
-            if (mThermal)
-                mThermalDetector.mCallback = OnHumanDetect;
+            //if (mThermal)
+            //    mThermalDetector.mCallback = OnHumanDetect;
             Buddy.Vocal.Stop();
             Buddy.Actuators.Wheels.Stop();
 
@@ -163,7 +163,7 @@ namespace BuddyApp.AudioBehavior
             //        }
             //    );
             //}
-
+            
             Debug.LogWarning("my angle " + mSoundLoc);
             Debug.LogWarning("os angle " + iHotWord.SoundLocalization);
             Debug.LogWarning("reco score " + iHotWord.RecognitionScore);
@@ -205,8 +205,8 @@ namespace BuddyApp.AudioBehavior
                     }
                 );
 
-                } else if (mThermal) {
-                    mThermalDetector.mCallback = OnHumanFound;
+                //} else if (mThermal) {
+                //    mThermalDetector.mCallback = OnHumanFound;
                 } else {
                     Buddy.Vocal.Say("Mais je t'écoute");
                     OnEndSearch();
@@ -247,10 +247,10 @@ namespace BuddyApp.AudioBehavior
                             SensorMode = SensorMode.VISION,
                         }
                         );
-                    } else if (mThermal) {
-                        // Keep turning the same way
-                        Buddy.Actuators.Wheels.SetVelocities(0F, (-mRotation / Math.Abs(mRotation)) * 45F);
-                        mThermalDetector.mCallback = OnHumanFound;
+                    //} else if (mThermal) {
+                    //    // Keep turning the same way
+                    //    Buddy.Actuators.Wheels.SetVelocities(0F, (-mRotation / Math.Abs(mRotation)) * 45F);
+                    //    mThermalDetector.mCallback = OnHumanFound;
                     } else {
                         // Go back to initial position
                         Debug.LogWarning("no human seen, rotate to " + mRotation / Math.Abs(mRotation) * (360 - Math.Abs(mRotation)));
@@ -281,8 +281,8 @@ namespace BuddyApp.AudioBehavior
         private void OnHumanFound(HumanEntity[] obj)
         {
             Buddy.Perception.HumanDetector.OnDetect.Remove(OnHumanFound);
-            if (mThermal)
-                mThermalDetector.mCallback = OnHumanDetect;
+            //if (mThermal)
+            //    mThermalDetector.mCallback = OnHumanDetect;
             Buddy.Behaviour.SetMood(Mood.HAPPY, 2F);
             Debug.LogWarning("We found a human!!");
             Buddy.Vocal.Say("Ha te voila! Je t'aicoute");
@@ -293,8 +293,8 @@ namespace BuddyApp.AudioBehavior
         {
             //Buddy.Perception.HumanDetector.OnDetect.Clear();
             Buddy.Perception.HumanDetector.OnDetect.Remove(OnHumanFound);
-            if (mThermal)
-                mThermalDetector.mCallback = OnHumanDetect;
+            //if (mThermal)
+            //    mThermalDetector.mCallback = OnHumanDetect;
 
             Buddy.Actuators.Head.Yes.SetPosition(9F);
             Debug.LogWarning("motion end ");
@@ -332,7 +332,7 @@ namespace BuddyApp.AudioBehavior
         private void Update()
         {
             if (mAverageAmbiant.Count == 30) {
-                mLastAverageAmbiant = (int)mAverageAmbiant.Average();
+                mLastAverageAmbiant = (int) mAverageAmbiant.Average();
                 Debug.LogWarning("last ambiant average" + mLastAverageAmbiant);
 
                 // Remove values to update every 30 seconds
