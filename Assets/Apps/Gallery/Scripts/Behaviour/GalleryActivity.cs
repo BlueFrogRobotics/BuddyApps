@@ -27,6 +27,8 @@ namespace BuddyApp.Gallery
         public override void OnLoading(object[] iArgs)
 		{ 
 			ExtLog.I(ExtLogModule.APP, typeof(GalleryActivity), LogStatus.START, LogInfo.LOADING, "On loading...");
+            if (!Directory.Exists(Buddy.Platform.Application.PersistentDataPath + "Shared"))
+                Directory.CreateDirectory(Buddy.Platform.Application.PersistentDataPath + "Shared");
 
             // TODO: Deal with parameters (ie, name of an image, name of an application?)
             this.mArgs = iArgs;

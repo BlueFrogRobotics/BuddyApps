@@ -34,10 +34,10 @@ namespace BuddyApp.TakePhoto
 			mMail = new EMail();
 			mTexture = new Texture2D(1, 1);
 
-			if (File.Exists(Buddy.Resources.GetRawFullPath("Twitter/config.xml"))) {
+			if (File.Exists(Buddy.Platform.Application.PersistentDataPath + "Shared/config.xml")) {
 
 				mXMLData = new XMLData();
-				mXMLData = Utils.UnserializeXML<XMLData>(Buddy.Resources.GetRawFullPath("Twitter/config.xml"));
+				mXMLData = Utils.UnserializeXML<XMLData>(Buddy.Platform.Application.PersistentDataPath + "Shared/config.xml");
 
 				mToken = mXMLData.Token;
 				mTokenSecret = mXMLData.TokenSecret;

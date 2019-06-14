@@ -78,6 +78,8 @@ namespace BuddyApp.BuddyLab
             Debug.Log("show algo 1");
             FillBehaviourAlgorithm(iFileName);
 
+            Debug.Log("show algo 2");
+
             OpenProjectVisitor lVisitor = new OpenProjectVisitor(itemManager, panel.transform);
             lVisitor.Visit(BehaviourAlgorithm);
         }
@@ -92,7 +94,7 @@ namespace BuddyApp.BuddyLab
 
         public void FillBehaviourAlgorithm(string iFileName)
         {
-            mDirectoryPath = Buddy.Resources.GetRawFullPath("Projects" + "/" + iFileName);
+            mDirectoryPath = Buddy.Platform.Application.PersistentDataPath + "Projects" + "/" + iFileName;
             Debug.Log("le full path: " + mDirectoryPath);
             BehaviourAlgorithm.Instructions.Clear();
             BehaviourAlgorithm lAlgo = null;

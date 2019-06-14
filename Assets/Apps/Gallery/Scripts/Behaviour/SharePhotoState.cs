@@ -23,7 +23,7 @@ namespace BuddyApp.Gallery
         {
             ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "On State Enter...");
 
-            mXMLData = Utils.UnserializeXML<XMLData>(Buddy.Resources.GetRawFullPath("Share/config.xml"));
+            mXMLData = Utils.UnserializeXML<XMLData>(Buddy.Platform.Application.PersistentDataPath + "Shared/config.xml");
             
             if (null == mXMLData)
             {

@@ -51,7 +51,7 @@ namespace BuddyApp.BuddyLab
             mSequence.GetComponent<RectTransform>().localPosition = new Vector3(-400, 80, 0);
             Canvas.ForceUpdateCanvases();
 
-            string lDirectoryPath = Buddy.Resources.GetRawFullPath("Projects/" + iFileName);
+            string lDirectoryPath = Buddy.Platform.Application.PersistentDataPath + "Projects" + iFileName;
 
         }
 

@@ -393,6 +393,13 @@ namespace BuddyApp.BuddyLab
             throw new System.NotImplementedException();
         }
 
+        //TODO update when necessary
+
+        //public void Visit(IfConditionBehaviourInstruction iStructure)
+        //{
+        //    throw new System.NotImplementedException();
+        //}
+
         public void Visit(ElseConditionBehaviourInstruction iStructure)
         {
             throw new System.NotImplementedException();

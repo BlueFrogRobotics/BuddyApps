@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 namespace BuddyApp.TakePhoto
 {
@@ -17,6 +18,9 @@ namespace BuddyApp.TakePhoto
         public override void OnLoading(object[] iArgs)
         {
             ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "On loading...");
+            if (!Directory.Exists(Buddy.Platform.Application.PersistentDataPath + "Shared"))
+                Directory.CreateDirectory(Buddy.Platform.Application.PersistentDataPath + "Shared");
+
         }
 
         /*

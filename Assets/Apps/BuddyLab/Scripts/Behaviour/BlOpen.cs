@@ -40,12 +40,12 @@ namespace BuddyApp.BuddyLab
             GetGameObject(6).GetComponent<Animator>().SetTrigger("open");
             mTimer = 0F;
             mAnimDone = false;
-            Debug.Log(Buddy.Resources.GetRawFullPath("Projects", Context.APP));
+            Debug.LogWarning("PATHHHHHHHHHHHH " + Buddy.Platform.Application.PersistentDataPath + "Projects");
             mButton = GetGameObject(0).GetComponent<Button>();
             mListButton = GetGameObject(1).GetComponent<Transform>();
             ///Load all files from folder projects 
             mProject = new List<string>();
-            mDirectoryInfo = new DirectoryInfo(Buddy.Resources.GetRawFullPath("Projects", Context.APP));
+            mDirectoryInfo = new DirectoryInfo(Buddy.Platform.Application.PersistentDataPath + "Projects");
 
             //destroy all buttons created before
             for (int i = mListButton.childCount - 1; i >= 0; --i)
@@ -97,6 +97,7 @@ namespace BuddyApp.BuddyLab
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
+
             mTimer += Time.deltaTime;
             if(mTimer > 0.4F && !mAnimDone)
             {
@@ -123,10 +124,10 @@ namespace BuddyApp.BuddyLab
         private void DeleteProject()
         {
             Debug.Log(EventSystem.current.currentSelectedGameObject.transform.parent.GetComponentInChildren<Text>().text);
-            Debug.Log(Buddy.Resources.GetRawFullPath("Projects", Context.APP) + "/" +
+            Debug.Log(Buddy.Platform.Application.PersistentDataPath + "Projects" + "/" +
                 EventSystem.current.currentSelectedGameObject.transform.parent.GetComponentInChildren<Text>().text + ".xml");
 
-            File.Delete(Buddy.Resources.GetRawFullPath("Projects", Context.APP) + "/" +
+            File.Delete(Buddy.Platform.Application.PersistentDataPath + "Projects" + "/" +
                 EventSystem.current.currentSelectedGameObject.transform.parent.GetComponentInChildren<Text>().text + ".xml");
             Destroy(EventSystem.current.currentSelectedGameObject.transform.parent.gameObject);
         }

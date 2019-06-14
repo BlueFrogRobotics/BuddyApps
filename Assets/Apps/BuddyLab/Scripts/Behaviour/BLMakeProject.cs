@@ -35,7 +35,7 @@ namespace BuddyApp.BuddyLab
 
 			GetGameObject(6).GetComponent<Animator>().SetTrigger("open");
 			mProject = new List<string>();
-			mDirectoryInfo = new DirectoryInfo(Buddy.Resources.GetRawFullPath("Projects", Context.APP));
+			mDirectoryInfo = new DirectoryInfo(Buddy.Platform.Application.PersistentDataPath + "Projects");
 			mTimer = 0F;
 			mAnimDone = false;
 			mYesNoButton = GetGameObject(5).transform.GetChild(0).gameObject;
@@ -87,7 +87,7 @@ namespace BuddyApp.BuddyLab
 
             } else {
 
-				using (var file = File.Create(Buddy.Resources.GetRawFullPath("Projects", Context.APP) + "/" + mBLBehaviour.NameOpenProject + ".xml")) {
+				using (var file = File.Create(Buddy.Platform.Application.PersistentDataPath + "Projects" + "/" + mBLBehaviour.NameOpenProject + ".xml")) {
 
 				}
 				GetGameObject(5).GetComponent<Animator>().SetTrigger("close");
