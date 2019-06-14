@@ -164,7 +164,7 @@ namespace BuddyApp.TestGridEyeFilter
                 float lNormalizedTemp = (mThermalSensorDataArrayCandidate[i] - mThermalSensorDataArrayCandidate.Min() - 0) / (10 - 0);
                 //float lNormalizedTemp = (lThermalSensorDataArray[i] - lMin) / (lMax - lMin);
                 // "(mTexture.height - 1) -" to turn the image upside down
-                mTexture.SetPixel(i % mTexture.width, (mTexture.height - 1) - i / mTexture.width, new Color(lNormalizedTemp, 0.0F, 1F - lNormalizedTemp, 0.85F));
+                mTexture.SetPixel((mTexture.width - 1) - (i % mTexture.width), i / mTexture.width, new Color(lNormalizedTemp, 0.0F, 1F - lNormalizedTemp, 0.85F));
             }
 
             // Try to find the human
@@ -218,15 +218,15 @@ namespace BuddyApp.TestGridEyeFilter
         private void DrawHuman(int iIndexMax)
         {
             for (int i = 0; i < mHumanCurrentPose.Count(); ++i)
-                mTexture.SetPixel(mHumanCurrentPose[i] % mTexture.width, (mTexture.height - 1) - mHumanCurrentPose[i] / mTexture.width, new Color(0F, 1F, 0F, 1F));
+                mTexture.SetPixel((mTexture.height - 1) - (mHumanCurrentPose[i] % mTexture.width), mHumanCurrentPose[i] / mTexture.width, new Color(0F, 1F, 0F, 1F));
 
 
             // Set max temp in white
-            mTexture.SetPixel(iIndexMax % mTexture.width, (mTexture.height - 1) - (iIndexMax / mTexture.width), new Color(1F, 1F, 1F, 1F));
+            mTexture.SetPixel((mTexture.height - 1) - (iIndexMax % mTexture.width), iIndexMax / mTexture.width, new Color(1F, 1F, 1F, 1F));
             mHumanCurrentPose.Add(iIndexMax);
 
             // Set Barycenter in black
-            mTexture.SetPixel((mMeanX + 1) / mHumanCurrentPose.Count, (mTexture.height - 1) - ((mMeanY + 1) / mHumanCurrentPose.Count), new Color(0F, 0F, 0F, 1F));
+            mTexture.SetPixel((mTexture.width - 1) - ((mMeanX + 1) / mHumanCurrentPose.Count), (mMeanY + 1) / mHumanCurrentPose.Count, new Color(0F, 0F, 0F, 1F));
         }
 
         private bool OnHumanDetect(float iCentered)
@@ -244,12 +244,12 @@ namespace BuddyApp.TestGridEyeFilter
                 // otherwise, try to put the human in the center
             } else if (iCentered < 0.6F && (!mPreviousLeft || mStopped /*!Buddy.Actuators.Wheels.IsBusy*/)) {
                 Debug.LogWarning("Go to left " + mStopped);
-                Buddy.Actuators.Wheels.SetVelocities(0F, -65F * iCentered);
+                Buddy.Actuators.Wheels.SetVelocities(0F, 65F * iCentered);
                 mStopped = false;
                 mPreviousLeft = true;
             } else if (iCentered > 0.4F && (mPreviousLeft || mStopped /*|| !Buddy.Actuators.Wheels.IsBusy*/)) {
                 Debug.LogWarning("Go to right " + mStopped);
-                Buddy.Actuators.Wheels.SetVelocities(0F, 65F * (1 - iCentered));
+                Buddy.Actuators.Wheels.SetVelocities(0F, -65F * (1 - iCentered));
                 mStopped = false;
                 mPreviousLeft = false;
             }
