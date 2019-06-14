@@ -112,9 +112,8 @@ namespace BuddyApp.TestGridEye
                 for (int i = 0; i < mThermalSensorDataArray.Length; i++) {
                     // Use full range
                     float lNormalizedTemp = (mThermalSensorDataArray[i] - mMin) / (lMax - mMin);
-
-                    // "7 -" to turn the image upside down
-                    mTexture.SetPixel(i % mTexture.width, (mTexture.height - 1) - i / mTexture.width, new Color(lNormalizedTemp, 0.0F, 1F - lNormalizedTemp, 0.85F));
+                    
+                    mTexture.SetPixel((mTexture.width - 1) - (i % mTexture.width), i / mTexture.width, new Color(lNormalizedTemp, 0.0F, 1F - lNormalizedTemp, 0.85F));
                 }
             }
 
@@ -171,12 +170,12 @@ namespace BuddyApp.TestGridEye
                 // otherwise, try to put the human in the center
             } else if (iCentered <= 0.4F && (!mPreviousLeft || mStopped /*!Buddy.Actuators.Wheels.IsBusy*/)) {
                 Debug.LogWarning("Go to left " + mStopped);
-                Buddy.Actuators.Wheels.SetVelocities(0F, -40F);
+                Buddy.Actuators.Wheels.SetVelocities(0F, 40F);
                 mStopped = false;
                 mPreviousLeft = true;
             } else if (iCentered >= 0.6F && (mPreviousLeft || mStopped /*|| !Buddy.Actuators.Wheels.IsBusy*/)) {
                 Debug.LogWarning("Go to right " + mStopped);
-                Buddy.Actuators.Wheels.SetVelocities(0F, 40F);
+                Buddy.Actuators.Wheels.SetVelocities(0F, -40F);
                 mStopped = false;
                 mPreviousLeft = false;
             }
@@ -413,16 +412,16 @@ namespace BuddyApp.TestGridEye
         private void DrawHuman(int iIndexMax)
         {
             for (int i = 0; i < mHumanPosition.Count(); ++i)
-                mTexture.SetPixel(mHumanPosition[i] % mTexture.width, (mTexture.height - 1) - mHumanPosition[i] / mTexture.width, new Color(0F, 1F, 0F, 1F));
+                mTexture.SetPixel((mTexture.width - 1) - (mHumanPosition[i] % mTexture.width), mHumanPosition[i] / mTexture.width, new Color(0F, 1F, 0F, 1F));
 
 
             // Set max temp in white
-            mTexture.SetPixel(iIndexMax % mTexture.width, (mTexture.height - 1) - (iIndexMax / mTexture.width), new Color(1F, 1F, 1F, 1F));
+            mTexture.SetPixel((mTexture.width - 1) - (iIndexMax % mTexture.width), (iIndexMax / mTexture.width), new Color(1F, 1F, 1F, 1F));
             mHumanPosition.Add(iIndexMax);
 
             // Set Barycenter in black
             ComputeBarycenter();
-            mTexture.SetPixel(mMeanX / mHumanPosition.Count, (mTexture.height - 1) - (mMeanY / mHumanPosition.Count), new Color(0F, 0F, 0F, 1F));
+            mTexture.SetPixel((mTexture.width - 1) - (mMeanX / mHumanPosition.Count), mMeanY / mHumanPosition.Count, new Color(0F, 0F, 0F, 1F));
 
             Debug.LogWarning("Barycenter value x : " + mMeanX + " y " + mMeanY + " score " + mHumanPosition.Count + " resulty 7 - " + ((mMeanY + 1) / mHumanPosition.Count));
 
