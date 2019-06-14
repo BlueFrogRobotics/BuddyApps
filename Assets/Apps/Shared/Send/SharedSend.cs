@@ -93,10 +93,10 @@ namespace BuddyApp.Shared
                 NumberOfListeningBeforeQuit = 1;
             }
 
-            if (File.Exists(Buddy.Resources.GetRawFullPath("Shared/" + FilenameOfConfig)))
+            if (File.Exists(Buddy.Platform.Application.PersistentDataPath + "Shared/" + FilenameOfConfig))
             {
                 mXMLData = new XMLDataShared();
-                mXMLData = Utils.UnserializeXML<XMLDataShared>(Buddy.Resources.GetRawFullPath("Shared/" + FilenameOfConfig));
+                mXMLData = Utils.UnserializeXML<XMLDataShared>(Buddy.Platform.Application.PersistentDataPath + "Shared/" + FilenameOfConfig);
 
                 if (mXMLData == null)
                     Debug.Log("null xml data");
