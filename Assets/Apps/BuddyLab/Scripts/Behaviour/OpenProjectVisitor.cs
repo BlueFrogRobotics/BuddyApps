@@ -388,7 +388,7 @@ namespace BuddyApp.BuddyLab
             InstantiateItem(0, iStructure, Category.CONDITION);
         }
 
-        public void Visit<T>(IfConditionBehaviourInstruction<T> iStructure)
+        public void Visit(IfConditionBehaviourInstruction iStructure)
         {
             throw new System.NotImplementedException();
         }

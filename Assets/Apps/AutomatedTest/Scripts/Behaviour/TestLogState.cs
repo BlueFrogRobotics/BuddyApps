@@ -48,7 +48,7 @@ namespace BuddyApp.AutomatedTest
             ModuleManager.GetInstance().FileLog = mHeaderFileLog.Replace("date", DateTime.Now.ToShortDateString())
                                                             .Replace("time", DateTime.Now.ToShortTimeString())
                                                             .Replace("robotUid", Buddy.Platform.RobotUID)
-                                                            .Replace("bre", Buddy.Platform.RobotSoftwareVersion);
+                                                            .Replace("bre", Buddy.Platform.BREVersion);
 
             // Send file log button - don't clear result / error / filelog
             FButton lSendButton = Buddy.GUI.Footer.CreateOnLeft<FButton>();

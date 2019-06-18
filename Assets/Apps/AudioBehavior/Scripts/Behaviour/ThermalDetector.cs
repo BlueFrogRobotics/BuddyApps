@@ -58,7 +58,7 @@ namespace BuddyApp.AudioBehavior
                 HumanEntity lHumanEntity = new HumanEntity();
 
                 //Debug.LogWarning("MeanX " + mMeanX + " (mMeanX / mHumanPosition.Count) " + ((double)mMeanX / mHumanPosition.Count) + " /7F " + ((double)mMeanX / mHumanPosition.Count) / (7F));
-                lHumanEntity.Center = new OpenCVUnity.Point(((double)mMeanX / mHumanPosition.Count) / (7F), ((double)mMeanY / mHumanPosition.Count));
+                //lHumanEntity.Center = new OpenCVUnity.Point(((double)mMeanX / mHumanPosition.Count) / (7F), ((double)mMeanY / mHumanPosition.Count));
                 lHumanEntities[0] = lHumanEntity;
 
                 mCallback(lHumanEntities);
