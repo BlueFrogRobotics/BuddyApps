@@ -18,7 +18,8 @@ namespace BuddyApp.Wikipedia
 		public override void OnLoading(object[] iArgs)
 		{ 
 			ExtLog.I(ExtLogModule.APP, typeof(WikipediaActivity), LogStatus.START, LogInfo.LOADING, "On loading...");
-		}
+            WikipediaData.Instance.Utterance = (null != iArgs && 0 < iArgs.Length && typeof(string) == iArgs[0].GetType()) ? (string)iArgs[0] : null;
+        }
 
 		/*
 		* Called after every Awake() in your scene

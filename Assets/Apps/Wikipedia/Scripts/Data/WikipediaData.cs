@@ -8,7 +8,7 @@ namespace BuddyApp.Wikipedia
         /*
          * Data getters / setters
          */
-        public int MyValue { get; set; }
+        public string Utterance { get; set; }
 
         /*
          * Data singleton access
