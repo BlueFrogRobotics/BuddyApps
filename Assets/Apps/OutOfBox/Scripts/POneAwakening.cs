@@ -7,9 +7,11 @@ namespace BuddyApp.OutOfBox
 {
     public class POneAwakening : AStateMachineBehaviour
     {
+
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            OutOfBoxUtils.DebugColor("FIRST PHASE : ", "blue");
             Buddy.Actuators.Head.No.ResetPosition();
             Buddy.Actuators.Head.Yes.SetPosition(-9F, 45F , (iPos) =>
             {
@@ -27,10 +29,11 @@ namespace BuddyApp.OutOfBox
                         {
                             // Play BI here
                             StartCoroutine(OutOfBoxUtils.PlayBIAsync(() =>
-                            // OnEndBI
                             {
                                 // Run discovering after speech
-                                Buddy.Vocal.Say(Buddy.Resources.GetString("phaseonearound"), (iOut) => { Trigger("Detect"); });
+                                Buddy.Vocal.Say(Buddy.Resources.GetString("phaseonearound"), (iOut) => {
+                                    OutOfBoxData.Instance.Phase = OutOfBoxData.PhaseId.PhaseTwo;
+                                    Trigger("Base");});
                             }));
                         });
                     });

@@ -22,7 +22,7 @@ namespace BuddyApp.OutOfBox
                 "BlinkDouble02",
                 "Suspicious01",
                 "Suspicious02",
-                "Surprised01",
+                "Surprised01", 
                 "Whistle01",
                 "Whistle02",
                 "Doubtful01",
@@ -34,23 +34,30 @@ namespace BuddyApp.OutOfBox
         public static IEnumerator WaitTimeAsync(float iWaitingTime, Action iOnEndWaiting)
         {
             yield return new WaitForSeconds(iWaitingTime);
-            iOnEndWaiting?.Invoke();
+            if (iOnEndWaiting != null)
+                iOnEndWaiting();
+            //iOnEndWaiting?.Invoke();
         }
 
         public static IEnumerator PlayBIAsync(Action iOnEnd = null, string iBML = null, bool iMood = false)
         {
+            DebugColor("START PlayBI ASYNC : ", "blue");
             bool lBMLIsEnding = false;
 
             if (string.IsNullOrEmpty(iBML))
             {
+                DebugColor("START PlayBI ASYNC 22222: ", "blue");
                 int lIndex = mRandom.Next(mBML.Length);
+                DebugColor("START PlayBI ASYNC 33333: ", "blue");
                 iBML = mBML[lIndex];
+                DebugColor("START PlayBI ASYNC 44444: " + iBML, "blue");
             }
 
+            DebugColor("START PlayBI ASYNC 55555: ", "blue");
             yield return new WaitForSeconds(0.100F);
 
             Debug.LogError("--- RUN " + iBML);
-            Buddy.Behaviour.Interpreter.Run(iBML, () =>
+            Buddy.Behaviour.Interpreter.Run(Buddy.Resources.GetRawFullPath(iBML), () =>
             {
                 Debug.LogError("--- ON END RUN " + iBML);
                 lBMLIsEnding = true;
@@ -61,7 +68,25 @@ namespace BuddyApp.OutOfBox
 
             yield return new WaitForSeconds(0.200F);
 
-            iOnEnd?.Invoke();
+
+            if (iOnEnd != null) 
+                iOnEnd(); 
+            //iOnEnd?.Invoke();
+        }
+
+        public static float WrapAngle(double iAngle)
+        {
+            iAngle = (double)Math.IEEERemainder((double)iAngle, 360);
+            if (iAngle <= -180)
+            {
+                iAngle += 360;
+            }
+            else if (iAngle > 180)
+            {
+                iAngle -= 360;
+            }
+
+            return (float)iAngle;
         }
 
         public static void DebugColor(string msg, string color = null)
