@@ -1,0 +1,8 @@
+#BNF+EMV2.1;
+!grammar redoorshare;
+!start <redo>;
+!start <share>;
+!start <quit>;
+<redo> : foto | kiekje | plaatje | nog een keer | nog eentje | maak nog een foto | nog meer | opnieuw | nieuwe foto | weer een foto | nog een foto | nog een foto maken;
+<share> : twitter | (share | tweet | publish | deel | delen | publiceer | plaats | zet) [op twitter];
+<quit> : klaar | genoeg | stop | dat was het | ik wil niet meer | ik hoef niet meer | nee | dat is het | dat is alles | dat was alles | niets | einde | terug;
