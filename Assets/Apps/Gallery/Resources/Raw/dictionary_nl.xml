@@ -1,108 +1,128 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <LanguageThesaurus xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <Entries>
-        <DictionaryEntry>
-            <Key>welcome</Key>
-            <BaseValue>Welkom bij het fotoalbum hier is de nieuwste foto</BaseValue>
-            <ClosePhoneticValues>
-                <string />
-            </ClosePhoneticValues>
-            <RandomValues>
-                <string>Welkom bij het fotoalbum hier is de nieuwste foto</string>
-            </RandomValues>
-        </DictionaryEntry>
-        <DictionaryEntry>
-            <Key>deletevalidation</Key>
-            <BaseValue>Wil je deze foto echt verwijderen?</BaseValue>
-            <ClosePhoneticValues>
-                <string />
-            </ClosePhoneticValues>
-            <RandomValues>
-                <string>Wil je deze foto echt verwijderen?</string>
-            </RandomValues>
-        </DictionaryEntry>
-        <DictionaryEntry>
-            <Key>picturedeleted</Key>
-            <BaseValue>Oké, ik verwijder de foto</BaseValue>
-            <ClosePhoneticValues>
-                <string />
-            </ClosePhoneticValues>
-            <RandomValues>
-                <string>Oké, ik verwijder de foto</string>
-            </RandomValues>
-        </DictionaryEntry>
-        <DictionaryEntry>
-            <Key>emailsubject</Key>
-            <BaseValue>Foto van Buddy</BaseValue>
-            <ClosePhoneticValues>
-                <string />
-            </ClosePhoneticValues>
-            <RandomValues>
-                <string>Foto van Buddy</string>
-            </RandomValues>
-        </DictionaryEntry>
-        <DictionaryEntry>
-            <Key>emailtext</Key>
-            <BaseValue>Hier is Buddy, wat vind je van mijn laatste foto reportage ?</BaseValue>
-            <ClosePhoneticValues>
-                <string />
-            </ClosePhoneticValues>
-            <RandomValues>
-                <string>Hier is Buddy, wat vind je van mijn laatste foto reportage ?</string>
-            </RandomValues>
-        </DictionaryEntry>
-        <DictionaryEntry>
-            <Key>welcomefromapp</Key>
-            <BaseValue>Welkom bij app_name gallery hier is de nieuwste foto</BaseValue>
-            <ClosePhoneticValues>
-                <string />
-            </ClosePhoneticValues>
-            <RandomValues>
-                <string />
-            </RandomValues>
-        </DictionaryEntry>
-        <DictionaryEntry>
-            <Key>tweet</Key>
-            <BaseValue>Good time!</BaseValue>
-            <ClosePhoneticValues>
-                <string />
-            </ClosePhoneticValues>
-            <RandomValues>
-                <string>Fijne dag!</string> 
-                <string>Altijd leuk om mensen te ontmoeten!</string> 
-                <string>Op de foto met mijn nieuwe vriend!</string> 
-                <string>Leuk dat je langskwam!</string>
-            </RandomValues>
-        </DictionaryEntry>
-        <DictionaryEntry>
-            <Key>imageinfos</Key>
-            <BaseValue>app_name   dd/mm/yyyy</BaseValue>
-            <ClosePhoneticValues>
-                <string />
-            </ClosePhoneticValues>
-            <RandomValues>
-                <string />
-            </RandomValues>
-        </DictionaryEntry>
-        <DictionaryEntry>
-            <Key>errorconnexion</Key>
-            <BaseValue>Ik kon de foto niet exporteren</BaseValue>
-            <ClosePhoneticValues>
-                <string />
-            </ClosePhoneticValues>
-            <RandomValues>
-                <string />
-            </RandomValues>
-        </DictionaryEntry>
-        <DictionaryEntry>
-            <Key>pictureshared</Key>
-            <BaseValue>Ok ik heb je foto gedeeld</BaseValue>
-            <ClosePhoneticValues>
-                <string />
-            </ClosePhoneticValues>
-            <RandomValues>
-                <string>Ok ik heb je foto gedeeld</string>
-            </RandomValues>
-        </DictionaryEntry>
-    </Entries>
+	<Entries>
+		<DictionaryEntry>
+			<Key>welcome</Key>
+			<BaseValue>Welkom bij het fotoalbum hier is de nieuwste foto</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Welkom bij het fotoalbum hier is de nieuwste foto</string>
+				<string>Hier is het fotoalbum</string>
+				<string>Laten we foto's kijken in het album</string>
+				<string>Laten we foto's kijken</string>
+				<string>We gaan foto's kijken. De eerste foto is de nieuwste foto</string>
+				<string>Ik laat je graag het fotoalbum zien!</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>deletevalidation</Key>
+			<BaseValue>Wil je deze foto echt verwijderen?</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Wil je deze foto echt verwijderen?</string>
+				<string>Weet je zeker dat je de foto wilt verwijderen?</string>
+				<string>Klopt het dat je de foto wilt verwijderen?</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>picturedeleted</Key>
+			<BaseValue>Okay, ik verwijder de foto</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Okay, ik verwijder de foto</string>
+				<string>Okay, dan verwijder ik nu de foto</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>emailsubject</Key>
+			<BaseValue>Foto van Buddy</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Foto van Buddy</string>
+				<string>Buddy's foto</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>emailtext</Key>
+			<BaseValue>Hier is Buddy, wat vind je van mijn laatste foto reportage ?</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Hier is Buddy, wat vind je van mijn laatste foto reportage ?</string>
+				<string>Hier ben ik! Kijk eens naar mijn laatste foto's</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>welcomefromapp</Key>
+			<BaseValue>Welkom bij app_name gallery hier is de nieuwste foto</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Welkom bij app_name gallery hier is de nieuwste foto</string>
+				<string>welkom in het fotoalbum. Hier is de nieuwste foto</string>
+				<string>Welkom bij het fotoalbum. Hier is de laatste foto</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>tweet</Key>
+			<BaseValue>Fijne dag!</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Fijne dag!</string>
+				<string>Altijd leuk om mensen te ontmoeten!</string>
+				<string>Op de foto met mijn nieuwe vriend!</string>
+				<string>Leuk dat je langskwam!</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>imageinfos</Key>
+			<BaseValue>app_name   dd</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>app_name   dd</string>
+				<string>mm</string>
+				<string>yyyy</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>errorconnexion</Key>
+			<BaseValue>Ik kon de foto niet exporteren</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Ik kon de foto niet exporteren</string>
+				<string>Sorry, er ging iets mis met exporteren</string>
+				<string>Sorry, ik kon de foto niet exporteren</string>
+				<string>Sorry, het lukte me niet om de foto te exporteren</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>pictureshared</Key>
+			<BaseValue>OK ik heb je foto gedeeld</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>OK ik heb je foto gedeeld</string>
+				<string>OK je foto is nu gedeeld</string>
+				<string>OK ik heb je foto nu gedeeld</string>
+				<string>OK ik heb de foto nu gedeeld</string>
+			</RandomValues>
+		</DictionaryEntry>
+	</Entries>
 </LanguageThesaurus>
