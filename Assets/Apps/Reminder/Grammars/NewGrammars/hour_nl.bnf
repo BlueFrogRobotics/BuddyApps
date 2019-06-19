@@ -1,0 +1,37 @@
+#BNF+EMV2.0;
+!grammar hour_nl;
+!start <atnoon>;
+!start <atamhours>;
+!start <atamhoursandminutes>;
+!start <atamhalfhours>;
+!start <atamminuteshours>;
+
+!start <atpmhours>;
+!start <atpmhoursandminutes>;
+!start <atpmhalfhours>;
+!start <atpmminuteshours>;
+
+
+<atnoon> : [om] 12 uur [<afternoon>] | <afternoon> [om] 12 uur;
+<atamhours> : [om] <morninghours> uur <morning> | <morning> [om] <morninghours> uur | [om] <seventotwelve> uur | <night> [om] <onettosix> uur | [om] <onettosix> uur <night>;
+<atamhoursandminutes> : [om] <morninghours> uur <minutes> <morning> | <morning> [om] <morninghours> uur <minutes> | [om] <seventotwelve> uur <minutes> | <night> [om] <onettosix> uur <minutes> | [om] <onettosix> uur <minutes> <night> | [om] 12 uur <minutes> [<afternoon>] | <afternoon> [om] 12 uur <minutes>;
+<atamhalfhours> : [om] half <morninghours> <morning> | <morning> [om] half <morninghours> | [om] half <seventotwelve> | <night> [om] half <onettosix> | [om] half <onettosix> <night> | [om] half 12 uur [<afternoon>] | <afternoon> [om] half 12 uur;
+<atamminuteshours> : <minutespastto> <morninghours> <morning> | <morning> <minutespastto> <morninghours> | <minutespastto> <seventotwelve> | <night> <minutespastto> <onettosix> | <minutespastto> <onettosix> <night> | <minutespastto> 12 [<afternoon>] | <afternoon> <minutespastto> 12;
+
+<atpmhours> : [om] <onetoeleven> uur <afternoon> | <afternoon> [om] <onetoeleven> uur | [om] (<afternoonhours> | <onettosix>) uur | <night> [om] <seventotwelve> uur | [om] <seventotwelve> uur <night>;
+<atpmhoursandminutes> : [om] <onetoeleven> uur <minutes> <afternoon> | <afternoon> [om] <onetoeleven> uur <minutes> | [om] (<afternoonhours> | <onettosix>) uur <minutes>| <night> [om] <seventotwelve> uur <minutes>| [om] <seventotwelve> uur <minutes> <night>;
+<atpmhalfhours> : [om] half <onetoeleven> <afternoon> | <afternoon> [om] half <onetoeleven> | [om] half (<afternoonhours> | <onettosix>)  | <night> [om] half <seventotwelve> | [om] half <seventotwelve> <night>;
+<atpmminuteshours> : [om] <minutespastto> <onetoeleven> <afternoon> | <afternoon> <minutespastto> <onetoeleven> | <minutespastto> (<afternoonhours> | <onettosix>) | <night> <minutespastto> <seventotwelve> | <minutespastto> <seventotwelve> <night>;
+
+
+<minutespastto> : [om] (<minutes> | kwart) [minuten] (over | voor) [half];
+<night> : 's nachts | 's avonds | in de avond;
+<morning> : 's ochtends | 's morgens;
+<afternoon> : 's middags; 
+<morninghours> : 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+<afternoonhours> : 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24;
+<firstthirtyminutes> : 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29;
+<minutes> : <firstthirtyminutes> | 30 | 31 | 32 | 33 | 34 | 35 | 36 | 37 | 38 | 39 | 40 | 41 | 42 | 43 | 44 | 45 | 46 | 47 | 48 | 49 | 50 | 51| 52 | 53 | 54 | 55 | 56 | 57 | 58 | 59;
+<onettosix> : 1 | 2 | 3 | 4 | 5 | 6;
+<seventotwelve> : 7 | 8 | 9 | 10 | 11 | 12;
+<onetoeleven> : 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;

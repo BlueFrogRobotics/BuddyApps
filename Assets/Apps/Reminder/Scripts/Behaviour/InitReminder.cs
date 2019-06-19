@@ -31,14 +31,16 @@ namespace BuddyApp.Reminder
             Dictionary<ISO6391Code, DateInterpreter> lDictionaryDate = new Dictionary<ISO6391Code, DateInterpreter>
                 {
                     { ISO6391Code.EN, new DateInterpreterEnglish() },
-                    { ISO6391Code.FR, new DateInterpreterFrench() }
+                    { ISO6391Code.FR, new DateInterpreterFrench() },
+                    { ISO6391Code.NL, new DateInterpreterDutch() }
                 };
 
             // Define reminder hour languages
             Dictionary<ISO6391Code, HourInterpreter> lDictionaryHour = new Dictionary<ISO6391Code, HourInterpreter>
                 {
                     { ISO6391Code.EN, new HourInterpreterEnglish() },
-                    { ISO6391Code.FR, new HourInterpreterFrench() }
+                    { ISO6391Code.FR, new HourInterpreterFrench() },
+                    { ISO6391Code.NL, new HourInterpreterDutch() }
                 };
 
             // Define reminder recurrence languages

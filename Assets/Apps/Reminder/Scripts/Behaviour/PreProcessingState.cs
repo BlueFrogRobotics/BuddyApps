@@ -13,7 +13,7 @@ namespace BuddyApp.Reminder
         {
             "TODAY",
             "TOMORROW",
-            "DAYFTERTOMORROW",
+            "DAYAFTERTOMORROW",
             "NEXTDAYOFWEEK",
             "NEXTWEEK",
             "NEXTMONTH",
@@ -21,10 +21,10 @@ namespace BuddyApp.Reminder
             "NEXTDAY",
             "NEXTDATE",
             "FULLDATE",
-            "INYEARS",
-            "INMONTHS",
-            "INWEEKS",
-            "INDAYS"
+            "IN_YEARS",
+            "IN_MONTHS",
+            "IN_WEEKS",
+            "IN_DAYS"
         };
 
         // Tags for hour rules. (EN FR)
@@ -44,15 +44,19 @@ namespace BuddyApp.Reminder
             "ATPOSTHOURS",
             "ATAMHOURS",
 			"ATAMHOURSANDMINUTES",
+            "ATAMMINUTESHOURS",
+            "ATAMHALFHOURS",
             "ATPREAMHOURS",
             "ATPOSTAMHOURS",
             "ATPMHOURS",
 			"ATPMHOURSANDMINUTES",
+            "ATPMMINUTESHOURS",
+            "ATPMHALFHOURS",
             "ATPREPMHOURS",
             "ATPOSTPMHOURS",
-            "INHOURS",
-			"INMINUTES",
-			"INHOURSANDMINUTES"
+            "IN_HOURS",
+			"IN_MINUTES",
+			"IN_HOURSANDMINUTES",
         };
 
         private int mReminderInfo;
@@ -72,7 +76,8 @@ namespace BuddyApp.Reminder
             */
             //mCompanionInput = new Dictionary<string, string>
             //{
-            //    {"NEXTDATE", "le 3 février" }
+            //    {"FULLDATE", "Dinsdag 8 augustus 2019" },
+            //    {"ATAMMINUTESHOURS", "3 over half 5" }
             //};
             /*
             **  END TMP Code
