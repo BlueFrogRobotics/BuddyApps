@@ -120,35 +120,40 @@ namespace BuddyApp.Diagnostic
             sliderLowLevel.wholeNumbers = true;
             sliderLowLevel.minValue = 0.0F;
             sliderLowLevel.maxValue = 100.0F;
-            sliderLowLevel.value = sliderLowLevel.minValue;
+            sliderLowLevel.value = 1F;
+            textLowLevel.text = sliderLowLevel.value.ToString();
             sliderLowLevel.onValueChanged.RemoveAllListeners();
             sliderLowLevel.onValueChanged.AddListener((iInput) => OnChangeLowLevel());
 
             sliderOnDuration.wholeNumbers = true;
             sliderOnDuration.minValue = 0.0F;
-            sliderOnDuration.maxValue = 32767F; //32767F;
-            sliderOnDuration.value = sliderOnDuration.minValue;
+            sliderOnDuration.maxValue = 10000F;
+            sliderOnDuration.value = 10F;
+            textOnDuration.text = sliderOnDuration.value.ToString();
             sliderOnDuration.onValueChanged.RemoveAllListeners();
             sliderOnDuration.onValueChanged.AddListener((iInput) => OnChangeOnDuration(iInput));
 
             sliderOffDuration.wholeNumbers = true;
             sliderOffDuration.minValue = 0.0F;
-            sliderOffDuration.maxValue = 32767F; //32767F;
-            sliderOffDuration.value = sliderOffDuration.minValue;
+            sliderOffDuration.maxValue = 10000F;
+            sliderOffDuration.value = 300;
+            textOffDuration.text = sliderOffDuration.value.ToString();
             sliderOffDuration.onValueChanged.RemoveAllListeners();
             sliderOffDuration.onValueChanged.AddListener((iInput) => OnChangeOffDuration(iInput));
 
             sliderUpSlope.wholeNumbers = true;
             sliderUpSlope.minValue = 0.0F;
-            sliderUpSlope.maxValue = 255F; //255F;
-            sliderUpSlope.value = sliderOffDuration.minValue;
+            sliderUpSlope.maxValue = 100F;
+            sliderUpSlope.value = 3F;
+            textUpSlope.text = sliderUpSlope.value.ToString();
             sliderUpSlope.onValueChanged.RemoveAllListeners();
             sliderUpSlope.onValueChanged.AddListener((iInput) => OnChangeUpSlope(iInput));
 
             sliderDownSlope.wholeNumbers = true;
             sliderDownSlope.minValue = 0.0F;
-            sliderDownSlope.maxValue = 255F; //255F;
-            sliderDownSlope.value = sliderDownSlope.minValue;
+            sliderDownSlope.maxValue = 100F;
+            sliderDownSlope.value = 3F;
+            textDownSlope.text = sliderDownSlope.value.ToString();
             sliderDownSlope.onValueChanged.RemoveAllListeners();
             sliderDownSlope.onValueChanged.AddListener((iInput) => OnChangeDownSlope(iInput));
 
@@ -209,18 +214,13 @@ namespace BuddyApp.Diagnostic
                     SetColorHeart();
                     break;
 
-                case "LEFT_SHOULDER":
-                    SetColorLeftShoulder();
+                case "SHOULDER":
+                    SetColorShoulder();
                     break;
 
-                case "RIGHT_SHOULDER":
-                    SetColorRightShoulder();
-                    break;
-
-                case "ALL":
+                case "BOTH":
                     SetColorHeart();
-                    SetColorLeftShoulder();
-                    SetColorRightShoulder();
+                    SetColorShoulder();
                     break;
             }
 
@@ -252,7 +252,7 @@ namespace BuddyApp.Diagnostic
             }
         }
 
-        private void SetColorLeftShoulder()
+        private void SetColorShoulder()
         {
             if (mToggle.isOn)
             {
@@ -276,29 +276,29 @@ namespace BuddyApp.Diagnostic
             }
         }
 
-        private void SetColorRightShoulder()
-        {
-            if (mToggle.isOn)
-            {
-                Buddy.Actuators.LEDs.SetShouldersLights(
-                    FloatToUShort(sliderH.value),
-                    FloatToByte(sliderS.value),
-                    FloatToByte(sliderV.value));
-            }
-            else
-            {
-                Buddy.Actuators.LEDs.SetShouldersLights(
-                    FloatToUShort(sliderH.value),
-                    FloatToByte(sliderS.value),
-                    FloatToByte(sliderV.value));
-                Buddy.Actuators.LEDs.SetShouldersPattern(
-                    FloatToByte(sliderLowLevel.value),
-                    FloatToUShort(sliderOnDuration.value),
-                    FloatToUShort(sliderOffDuration.value),
-                    FloatToByte(sliderUpSlope.value),
-                    FloatToByte(sliderDownSlope.value));
-            }
-        }
+        //private void SetColorRightShoulder()
+        //{
+        //    if (mToggle.isOn)
+        //    {
+        //        Buddy.Actuators.LEDs.SetShouldersLights(
+        //            FloatToUShort(sliderH.value),
+        //            FloatToByte(sliderS.value),
+        //            FloatToByte(sliderV.value));
+        //    }
+        //    else
+        //    {
+        //        Buddy.Actuators.LEDs.SetShouldersLights(
+        //            FloatToUShort(sliderH.value),
+        //            FloatToByte(sliderS.value),
+        //            FloatToByte(sliderV.value));
+        //        Buddy.Actuators.LEDs.SetShouldersPattern(
+        //            FloatToByte(sliderLowLevel.value),
+        //            FloatToUShort(sliderOnDuration.value),
+        //            FloatToUShort(sliderOffDuration.value),
+        //            FloatToByte(sliderUpSlope.value),
+        //            FloatToByte(sliderDownSlope.value));
+        //    }
+        //}
         
         public void ValueChanged()
         {
@@ -388,28 +388,28 @@ namespace BuddyApp.Diagnostic
         {
             sliderOnDuration.value = iInput;
             //Debug.Log("IInput changed onduration slider duration : " + FloatToDouble(iInput / 32767f) + " input : " + iInput.ToString() + " test : " + sliderOnDuration.value.ToString());
-            textOnDuration.text = mDiagBehaviour.ExpScale(FloatToDouble(iInput / 32767f) , 1000d, 32767d).ToString("0"); 
+            textOnDuration.text = mDiagBehaviour.ExpScale(FloatToDouble(iInput / 10000f) , 1000d, 10000d).ToString("0"); 
             SetColor();
         }
 
         private void OnChangeOffDuration(float iInput)
         {
             sliderOffDuration.value = iInput;
-            textOffDuration.text = mDiagBehaviour.ExpScale(FloatToDouble(iInput / 32767f) , 1000d, 32767d).ToString("0");
+            textOffDuration.text = mDiagBehaviour.ExpScale(FloatToDouble(iInput / 10000f) , 1000d, 10000d).ToString("0");
             SetColor();
         }
 
         private void OnChangeUpSlope(float iInput)
         {
             sliderUpSlope.value = iInput;
-            textUpSlope.text = mDiagBehaviour.ExpScale(FloatToDouble(iInput / 255f) , 50d, 255d).ToString("0");
+            textUpSlope.text = mDiagBehaviour.ExpScale(FloatToDouble(iInput / 100f) , 25d, 100d).ToString("0");
             SetColor();
         }
 
         private void OnChangeDownSlope(float iInput)
         {
             sliderDownSlope.value = iInput;
-            textDownSlope.text = mDiagBehaviour.ExpScale(FloatToDouble(iInput / 255f) , 50d, 255d).ToString("0"); ;
+            textDownSlope.text = mDiagBehaviour.ExpScale(FloatToDouble(iInput / 100f) , 25d, 100d).ToString("0"); ;
             SetColor();
         }
         

@@ -194,23 +194,23 @@ namespace BuddyApp.Diagnostic
                 yesHingeAngleGetterFeedbackB.fillAmount = (mYesHinge.Angle / 60.00f) * 0.15f;
             }
 
-            linearVelocity.text = (mDiagBehaviour.ExpScale(Math.Round(linearVelocitySetter.value + 1d, 2)/2d, 0.5d, 2d)-1d).ToString("0.00") + " M/s";
+            linearVelocity.text = (mDiagBehaviour.ExpScale(Math.Round(linearVelocitySetter.value + 1d, 2)/2d, 0.5d, 2d)-1d).ToString("0.00") /*+ " m/s"*/;
 
             //angularVelocity.text =  (angularVelocitySetter.value ).ToString();
 
-            distance.text = mDiagBehaviour.ExpScale( Math.Round(distanceSetter.value, 2)/10D, 2D, 10D).ToString("0.00") + " M";
+            distance.text = mDiagBehaviour.ExpScale( Math.Round(distanceSetter.value, 2)/10D, 2D, 10D).ToString("0.00")/* + " m"*/;
 
-            AngularVelocityWheelsText.text = (mDiagBehaviour.ExpScale((AngularVelocityWheelsSetter.value) / 250D, 40D, 250D)).ToString("0.00") + " °/s";
+            AngularVelocityWheelsText.text = (mDiagBehaviour.ExpScale((AngularVelocityWheelsSetter.value) / 250D, 40D, 250D)).ToString("0.00")/* + " °/s"*/;
 
-            angleBack.text = anglePosSetter.value + " °";
+            angleBack.text = anglePosSetter.value.ToString() /*+ " °"*/;
             //toleranceBack.text = "Tol : " + toleranceSetter.value;
 
-            noAngleBack.text = noHingeAngleSetter.value + " °";
-            yesAngleBack.text = yesHingeAngleSetter.value + " °";
+            noAngleBack.text = noHingeAngleSetter.value.ToString() /*+ " °"*/;
+            yesAngleBack.text = yesHingeAngleSetter.value.ToString() /*+ " °"*/;
             hingeSpeedBack.text =  (mDiagBehaviour.ExpScale( hingeSpeedSetter.value / 96D, 10D, 96D)).ToString("0.0F");
-            NoAngle.text = Buddy.Actuators.Head.No.Angle.ToString("f3") + " °";
-            YesAngle.text = Buddy.Actuators.Head.Yes.Angle.ToString("f3") +" °";
-            Cap.text = Buddy.Actuators.Wheels.Odometry.z.ToString("f3") + " °";
+            NoAngle.text = Buddy.Actuators.Head.No.Angle.ToString("f3")/* + " °"*/;
+            YesAngle.text = Buddy.Actuators.Head.Yes.Angle.ToString("f3") /*+" °"*/;
+            Cap.text = Buddy.Actuators.Wheels.Odometry.z.ToString("f3")/* + " °"*/;
 
             //Debug.Log("angular velocity : " + );
         }
