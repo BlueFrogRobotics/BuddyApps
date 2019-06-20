@@ -8,9 +8,10 @@ namespace BuddyApp.OutOfBox
     public class PSixTrigger : AStateMachineBehaviour
     {
         private float mTimer = -1000F;
-
+        private bool mTransitionEnd;
         public override void OnStateEnter(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
         {
+            mTransitionEnd = false;
             Buddy.Vocal.Say("psixintro", (iOut) => 
             {
                 Buddy.GUI.Toaster.Display<ParameterToast>().With((iOnBuild) =>
@@ -42,22 +43,32 @@ namespace BuddyApp.OutOfBox
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
         {
-            if(mTimer > 5F)
+            if(mTimer > 7F && !mTransitionEnd)
             {
-                Buddy.Vocal.Say("");
-                mTimer = -2000F;
+                Buddy.Vocal.Say("psixmouth", (iOut) => TransitionToEnd());
+                mTransitionEnd = true;
             }
-        }
-
-        public override void OnStateExit(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
-        {
-            
         }
 
         private void BuddyTrigged(SpeechHotword iHotWord)
         {
-            //mTrigger = true;
-            //Buddy.Vocal.Say(Buddy.Resources.GetString("seeheart"), (iSpeech) => { TransitionToEnd(); });
+            mTransitionEnd = true;
+            Buddy.Vocal.Say(Buddy.Resources.GetString("psixseeheart"), (iSpeech) => { TransitionToEnd(); });
+        }
+
+        private void TransitionToEnd()
+        {
+            Buddy.Vocal.Say("psixask", (iOut) =>
+            {
+                Buddy.Vocal.Listen((iListen) => {
+                    OutOfBoxUtils.PlayBIAsync(() => Buddy.Vocal.Say(Buddy.Resources.GetString("psixthanks"), (iSpeech) =>
+                    {
+                        //Launch diagnostic
+                        QuitApp();
+                    }));
+                });
+                
+            });
         }
     }
 }

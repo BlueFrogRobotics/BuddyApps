@@ -27,6 +27,7 @@ namespace BuddyApp.OutOfBox
 			/*
 			* Init your app data
 			*/
+            //Faire la partie qui change le outofboxdata.phase par rapport à la phase que lance le user
             mAppData = OutOfBoxData.Instance;
         }
     }
