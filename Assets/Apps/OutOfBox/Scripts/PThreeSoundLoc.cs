@@ -14,66 +14,81 @@ namespace BuddyApp.OutOfBox
         private float mSoundLoc;
         private bool mRotateDone;
         private float mTimer;
+        private bool mStartSL;
+        private float mLastSoundLoc;
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
         {
+            Buddy.Sensors.Microphones.SoundLocalizationParameters = new SoundLocalizationParameters(Buddy.Sensors.Microphones.SoundLocalizationParameters.Resolution, 75);
             mTimer = 0F;
             mRotateDone = false;
             mHumanDetected = false;
             mSoundLocEnabled = false;
             mHumanDetectEnabled = false;
+            mStartSL = false;
           
             Buddy.Perception.HumanDetector.OnDetect.AddP(OnHumanDetect,new HumanDetectorParameter { SensorMode = SensorMode.VISION });
-            Buddy.Vocal.Say("pthreefirststep", (iOut) => { Buddy.Vocal.Say("pthreesecondstep", (iOutLoc) => { StartSourceLoc(); }); });
+            Buddy.Vocal.SayKey("pthreefirststep", (iOut) => { Buddy.Vocal.SayKey("pthreesecondstep", (iOutLoc) => { StartSourceLoc(); }); });
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
         {
-            mTimer += Time.deltaTime;
+            OutOfBoxUtils.DebugColor("START SL : " + mStartSL, "blue");
+            if(mRotateDone)
+                mTimer += Time.deltaTime;
 
-            if (Buddy.Sensors.Microphones.SoundLocalization != Microphones.NO_SOUND_LOCALIZATION && mSoundLocEnabled && mTimer < 12F) 
+            if(mStartSL)
             {
-                //if (mSoundLoc != Buddy.Sensors.Microphones.SoundLocalization)
-                //{
-                    
-                mSoundLoc = Buddy.Sensors.Microphones.SoundLocalization;
-                Buddy.Actuators.Wheels.SetVelocities(0f, Convert.ToSingle(mSoundLoc));
-                mSoundLocEnabled = false;
+                mStartSL = false;
+                Buddy.Sensors.Microphones.EnableSoundLocalization = true;
+                Buddy.Vocal.SayKey("pthreewhostart");
+                mSoundLocEnabled = true;
+            }
+            if (Buddy.Sensors.Microphones.SoundLocalization != Microphones.NO_SOUND_LOCALIZATION)
+            {
+                mLastSoundLoc = Time.time;
+                mSoundLoc = Convert.ToSingle(Buddy.Sensors.Microphones.SoundLocalization);
+            }
+
+            if (mSoundLocEnabled && mTimer < 12F && mLastSoundLoc > 0.200F && (Time.time - mLastSoundLoc) < 1.2F) 
+            {
+                Buddy.Sensors.Microphones.EnableSoundLocalization = false;
                 Buddy.Behaviour.Face.PlayEvent(FacialEvent.OPEN_EYES, false);
-                OutOfBoxUtils.WaitTimeAsync(2F, () => { mHumanDetectEnabled = true; });
-                //}
+                Buddy.Navigation.Run<DisplacementStrategy>().Rotate(mSoundLoc, 80F, () => { mHumanDetectEnabled = true; });
+                mSoundLocEnabled = false;
             }
             else if(mTimer > 12F && mSoundLocEnabled)
             {
                 //Passer à la suite ou stop l'app parce que plus personne n'est devant le robot
                 mSoundLocEnabled = false;
             }
-
             if (mHumanDetected)
             {
-                Buddy.Perception.HumanDetector.OnDetect.RemoveP(OnHumanDetect);
-                Buddy.Vocal.Say("pthreevoila");
-                OutOfBoxData.Instance.Phase = OutOfBoxData.PhaseId.PhaseFour;
+                Buddy.Vocal.SayKey("pthreevoila");
                 Trigger("Base");
             }
             else if(!mHumanDetected && mTimer > 15F && !mSoundLocEnabled)
             {
-                Buddy.Perception.HumanDetector.OnDetect.RemoveP(OnHumanDetect);
-                Buddy.Vocal.Say("pthreedobetter");
-                OutOfBoxData.Instance.Phase = OutOfBoxData.PhaseId.PhaseFour;
+                Buddy.Vocal.SayKey("pthreedobetter");
                 Trigger("Base");
             }
+        }
 
+        public override void OnStateExit(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
+        {
+            Buddy.Sensors.Microphones.SoundLocalizationParameters = null;
+            OutOfBoxData.Instance.Phase = OutOfBoxData.PhaseId.PhaseFour;
+            Buddy.Perception.HumanDetector.OnDetect.RemoveP(OnHumanDetect);
         }
 
         private void StartSourceLoc()
         {
-            Buddy.Actuators.Wheels.SetVelocities(0F, 180F);
-            Buddy.Behaviour.Face.PlayEvent(FacialEvent.FALL_ASLEEP, false);
-            OutOfBoxUtils.WaitTimeAsync(2F, () => {
-                Buddy.Sensors.Microphones.EnableSoundLocalization = true;
-                Buddy.Vocal.Say("pthreewhostart");
-                mSoundLocEnabled = true;
+            
+            Buddy.Navigation.Run<DisplacementStrategy>().Rotate(180F, 80F, () => 
+            {
+                Buddy.Behaviour.Face.PlayEvent(FacialEvent.CLOSE_EYES, false);
+                mRotateDone = true;
+                mStartSL = true;
             });
         }
 

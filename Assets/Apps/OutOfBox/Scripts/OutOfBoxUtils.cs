@@ -41,23 +41,18 @@ namespace BuddyApp.OutOfBox
 
         public static IEnumerator PlayBIAsync(Action iOnEnd = null, string iBML = null, bool iMood = false)
         {
-            DebugColor("START PlayBI ASYNC : ", "blue");
             bool lBMLIsEnding = false;
 
             if (string.IsNullOrEmpty(iBML))
             {
-                DebugColor("START PlayBI ASYNC 22222: ", "blue");
                 int lIndex = mRandom.Next(mBML.Length);
-                DebugColor("START PlayBI ASYNC 33333: ", "blue");
                 iBML = mBML[lIndex];
-                DebugColor("START PlayBI ASYNC 44444: " + iBML, "blue");
             }
-
-            DebugColor("START PlayBI ASYNC 55555: ", "blue");
+            
             yield return new WaitForSeconds(0.100F);
 
             Debug.LogError("--- RUN " + iBML);
-            Buddy.Behaviour.Interpreter.Run(Buddy.Resources.GetRawFullPath(iBML), () =>
+            Buddy.Behaviour.Interpreter.Run(iBML, () =>
             {
                 Debug.LogError("--- ON END RUN " + iBML);
                 lBMLIsEnding = true;
@@ -92,9 +87,9 @@ namespace BuddyApp.OutOfBox
         public static void DebugColor(string msg, string color = null)
         {
             if (string.IsNullOrEmpty(color))
-                Debug.Log(msg);
+                Debug.LogWarning(msg);
             else
-                Debug.Log("<color=" + color + ">----" + msg + "----</color>");
+                Debug.LogWarning("<color=" + color + ">----" + msg + "----</color>");
         }
     }
 }

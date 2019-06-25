@@ -60,9 +60,17 @@ namespace BuddyApp.OutOfBox
                 Buddy.Actuators.Head.No.ResetPosition();
                 mTotalAngle = -1000F;
                 if (mNumberOfDetect > 0)
-                    Buddy.Vocal.Say("phasetwoend", (iOut) => { Trigger("SoundLoc"); });
+                {
+                    OutOfBoxData.Instance.Phase = OutOfBoxData.PhaseId.PhaseThree;
+                    Buddy.Vocal.SayKey("phasetwoend", (iOut) => { Trigger("Base"); });
+
+                }
                 else if (mNumberOfDetect == 0)
-                    Buddy.Vocal.Say("phasetwonodetection", (iOut) => { Trigger("SoundLoc"); });
+                {
+                    OutOfBoxData.Instance.Phase = OutOfBoxData.PhaseId.PhaseThree;
+                    Buddy.Vocal.SayKey("phasetwonodetection", (iOut) => { Trigger("Base"); }); 
+
+                }
             }
         }
 
@@ -163,7 +171,7 @@ namespace BuddyApp.OutOfBox
 
         private void EndPhaseDetect()
         {
-            Buddy.Vocal.Say("phasetwoend");
+            Buddy.Vocal.SayKey("phasetwoend");
             OutOfBoxData.Instance.Phase = OutOfBoxData.PhaseId.PhaseThree;
             Trigger("Base");
         }

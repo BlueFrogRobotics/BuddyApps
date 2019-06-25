@@ -18,7 +18,8 @@ namespace BuddyApp.OutOfBox
 		public override void OnLoading(object[] iArgs)
 		{ 
 			ExtLog.I(ExtLogModule.APP, typeof(OutOfBoxActivity), LogStatus.START, LogInfo.LOADING, "On loading...");
-		}
+
+        }
 
 		/*
 		* Called after every Awake() in your scene
@@ -26,6 +27,7 @@ namespace BuddyApp.OutOfBox
         public override void OnAwake()
         {
             ExtLog.I(ExtLogModule.APP, typeof(OutOfBoxActivity), LogStatus.START, LogInfo.RUNNING, "On awake...");
+
         }
 
 		/*
@@ -34,6 +36,8 @@ namespace BuddyApp.OutOfBox
         public override void OnStart()
         {
             ExtLog.I(ExtLogModule.APP, typeof(OutOfBoxActivity), LogStatus.SUCCESS, LogInfo.LOADING, "On start...");
+            
+            OutOfBoxUtils.Init();
         }
 
 		/*

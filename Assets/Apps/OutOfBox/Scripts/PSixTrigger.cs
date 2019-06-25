@@ -12,7 +12,7 @@ namespace BuddyApp.OutOfBox
         public override void OnStateEnter(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
         {
             mTransitionEnd = false;
-            Buddy.Vocal.Say("psixintro", (iOut) => 
+            Buddy.Vocal.SayKey("psixintro", (iOut) => 
             {
                 Buddy.GUI.Toaster.Display<ParameterToast>().With((iOnBuild) =>
                 {
@@ -30,7 +30,7 @@ namespace BuddyApp.OutOfBox
                     {
                         StartCoroutine(OutOfBoxUtils.WaitTimeAsync(1F, () => 
                         {
-                            Buddy.Vocal.Say("psixokbuddy");
+                            Buddy.Vocal.SayKey("psixokbuddy");
                             Buddy.Vocal.EnableTrigger = true;
                             Buddy.Vocal.ListenOnTrigger = true;
                             Buddy.Vocal.OnTrigger.Add(BuddyTrigged);
@@ -45,7 +45,7 @@ namespace BuddyApp.OutOfBox
         {
             if(mTimer > 7F && !mTransitionEnd)
             {
-                Buddy.Vocal.Say("psixmouth", (iOut) => TransitionToEnd());
+                Buddy.Vocal.SayKey("psixmouth", (iOut) => TransitionToEnd());
                 mTransitionEnd = true;
             }
         }
@@ -58,7 +58,7 @@ namespace BuddyApp.OutOfBox
 
         private void TransitionToEnd()
         {
-            Buddy.Vocal.Say("psixask", (iOut) =>
+            Buddy.Vocal.SayKey("psixask", (iOut) =>
             {
                 Buddy.Vocal.Listen((iListen) => {
                     OutOfBoxUtils.PlayBIAsync(() => Buddy.Vocal.Say(Buddy.Resources.GetString("psixthanks"), (iSpeech) =>

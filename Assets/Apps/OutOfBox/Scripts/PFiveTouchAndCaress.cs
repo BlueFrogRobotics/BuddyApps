@@ -13,14 +13,14 @@ namespace BuddyApp.OutOfBox
         {
             mTimer = 0F;
             mActiveTimer = false;
-            Buddy.Vocal.Say("pfivelovecaress", (iOut) => 
+            Buddy.Vocal.SayKey("pfivelovecaress", (iOut) => 
             {
                 Buddy.Behaviour.SetMood(Mood.ANGRY, false);
                 StartCoroutine(OutOfBoxUtils.WaitTimeAsync(1F, () => {
-                    Buddy.Vocal.Say("pfivedontlovecaress", (iOutTwo) =>
+                    Buddy.Vocal.SayKey("pfivedontlovecaress", (iOutTwo) =>
                     {
                         Buddy.Behaviour.ResetMood();
-                        Buddy.Vocal.Say("pfivewhowantstotry", (iOutSpeech) => { Buddy.Behaviour.Face.OnTouch.Add(OnFaceTouched); mActiveTimer = true; });
+                        Buddy.Vocal.SayKey("pfivewhowantstotry", (iOutSpeech) => { Buddy.Behaviour.Face.OnTouch.Add(OnFaceTouched); mActiveTimer = true; });
                     });
                 }));
                 
@@ -32,50 +32,52 @@ namespace BuddyApp.OutOfBox
         {
             if (mActiveTimer && mTimer < 15F)
             {
-                mTimer = Time.deltaTime;
+                mTimer += Time.deltaTime;
+                OutOfBoxUtils.DebugColor("TIMER P FIVE : " + mTimer, "blue");
                 if (!Buddy.Behaviour.Interpreter.IsBusy)
                 {
                     if (Buddy.Sensors.TouchSensors.BackHead.Value)
                     {
                         mTimer = 0F;
                         OutOfBoxUtils.DebugColor("BACKHEAD", "blue");
-                        Buddy.Behaviour.Interpreter.Run("CenterHead01");
+                        Buddy.Behaviour.Interpreter.Run("CenterHead01", () => { Buddy.Behaviour.SetMood(Mood.NEUTRAL); });
                     }
                     else if (Buddy.Sensors.TouchSensors.Heart.Value)
                     {
                         mTimer = 0F;
                         OutOfBoxUtils.DebugColor("Heart", "blue");
-                        Buddy.Behaviour.Interpreter.Run("CenterHeart01");
+                        Buddy.Behaviour.Interpreter.Run("CenterHeart01", () => { Buddy.Behaviour.SetMood(Mood.NEUTRAL); });
                     }
                     else if (Buddy.Sensors.TouchSensors.LeftHead.Value)
                     {
                         mTimer = 0F;
                         OutOfBoxUtils.DebugColor("LeftHead", "blue");
-                        Buddy.Behaviour.Interpreter.Run("LeftHead01");
+                        Buddy.Behaviour.Interpreter.Run("LeftHead01", () => { Buddy.Behaviour.SetMood(Mood.NEUTRAL); });
                     }
                     else if (Buddy.Sensors.TouchSensors.LeftShoulder.Value)
                     {
                         mTimer = 0F;
                         OutOfBoxUtils.DebugColor("LeftShoulder", "blue");
-                        Buddy.Behaviour.Interpreter.Run("LeftShoulder01");
+                        Buddy.Behaviour.Interpreter.Run("LeftShoulder01", () => { Buddy.Behaviour.SetMood(Mood.NEUTRAL); });
                     }
                     else if (Buddy.Sensors.TouchSensors.RightHead.Value)
                     {
                         mTimer = 0F;
                         OutOfBoxUtils.DebugColor("RightHead", "blue");
-                        Buddy.Behaviour.Interpreter.Run("RightHead01");
+                        Buddy.Behaviour.Interpreter.Run("RightHead01", () => { Buddy.Behaviour.SetMood(Mood.NEUTRAL); });
                     }
                     else if (Buddy.Sensors.TouchSensors.RightShoulder.Value)
                     {
                         mTimer = 0F;
                         OutOfBoxUtils.DebugColor("RightShoulder", "blue");
-                        Buddy.Behaviour.Interpreter.Run("RightShoulder01");
+                        Buddy.Behaviour.Interpreter.Run("RightShoulder01", () => { Buddy.Behaviour.SetMood(Mood.NEUTRAL); });
                     }
                 }
-                else if (mTimer > 15F)
+
+                if (mTimer > 15F)
                 {
-                    //quit app apres BI
-                    OutOfBoxUtils.PlayBIAsync(() => { Buddy.Vocal.Say("pfivetooshy", (OutSpeech) => 
+                    OutOfBoxUtils.DebugColor("TIMER FINI ", "blue");
+                    OutOfBoxUtils.PlayBIAsync(() => { Buddy.Vocal.SayKey("pfivetooshy", (OutSpeech) => 
                     {
                         OutOfBoxData.Instance.Phase = OutOfBoxData.PhaseId.PhaseSix;
                         Trigger("Base");
@@ -92,7 +94,7 @@ namespace BuddyApp.OutOfBox
             if(iFacial == FacialPart.LEFT_EYE || iFacial == FacialPart.RIGHT_EYE)
             {
                 Buddy.Behaviour.Interpreter.StopAndClear();
-                Buddy.Behaviour.Interpreter.Run("BML/Angry01");
+                Buddy.Behaviour.Interpreter.Run("BML/Angry01", () => { Buddy.Behaviour.SetMood(Mood.NEUTRAL); });
             }
             else if(iFacial == FacialPart.MOUTH)
             {
@@ -100,7 +102,7 @@ namespace BuddyApp.OutOfBox
                     Buddy.Vocal.Listen(SpeechRecognitionMode.GRAMMAR_ONLY);
             }
             else
-                Buddy.Behaviour.Interpreter.Run("BML/Happy01");
+                Buddy.Behaviour.Interpreter.Run("BML/Happy01", () => { Buddy.Behaviour.SetMood(Mood.NEUTRAL); });
         }
     }
 }
