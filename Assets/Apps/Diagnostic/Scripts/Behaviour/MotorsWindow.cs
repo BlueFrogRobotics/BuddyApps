@@ -167,7 +167,7 @@ namespace BuddyApp.Diagnostic
             leftSpeedGetter.text = "" + mWheels.LeftRotationalSpeed;
             rightSpeedGetter.text = "" + mWheels.RightRotationalSpeed;
             // Draw Head No Angle Feedback
-            noHingeAngleGetter.text = mNoHinge.Angle + " °";
+            noHingeAngleGetter.text = mNoHinge.Angle.ToString();
             if(mNoHinge.Angle >= 0) {
                 noHingeAngleGetterFeedbackL.fillAmount = 0;
                 noHingeAngleGetterFeedbackL.fillAmount = (mNoHinge.Angle / 90.00f) * 0.25f;
@@ -180,7 +180,7 @@ namespace BuddyApp.Diagnostic
                 noHingeAngleGetterFeedbackR.fillAmount = (mNoHinge.Angle / 90.00f) * 0.25f;
             }
             // Draw Head Yes Angle Feedback
-            yesHingeAngleGetter.text = mYesHinge.Angle + " °";
+            yesHingeAngleGetter.text = mYesHinge.Angle.ToString();
             if (mYesHinge.Angle >= 0)
             {
                 yesHingeAngleGetterFeedbackT.fillAmount = 0;
@@ -270,6 +270,12 @@ namespace BuddyApp.Diagnostic
             Debug.Log("NOT IMPLEMENTED YET");
             //Buddy.Navigation.Run<LocationStrategy>().To(new Vector2(float.Parse(xPosSetter.text),
             //                            float.Parse(yPosSetter.text)));
+        }
+
+        public void StopMotors()
+        {
+            Buddy.Actuators.Head.Stop();
+            Buddy.Actuators.Wheels.Stop();
         }
 
         public void SetYesPos()

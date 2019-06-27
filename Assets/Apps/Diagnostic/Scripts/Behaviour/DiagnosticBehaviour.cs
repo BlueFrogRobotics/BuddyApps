@@ -67,6 +67,7 @@ namespace BuddyApp.Diagnostic
         private WindowType mCurrentWindow;
         private Color BuddyBlue = new Color(0.0f, 0.831f, 0.819f);
         private Color White = new Color(1f, 1f, 1f);
+        public const float REFRESH_TIMER = 0.5F;
         /*
          * Init refs to API and your app data
          */

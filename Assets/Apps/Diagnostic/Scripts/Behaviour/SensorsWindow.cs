@@ -10,6 +10,10 @@ namespace BuddyApp.Diagnostic
 {
     public sealed class SensorsWindow : MonoBehaviour
     {
+
+        [SerializeField]
+        private Dropdown DropdownFilteredValue;
+
         /// <summary>
         /// MENU & WINDOWS LINKS
         /// </summary>
@@ -257,8 +261,22 @@ namespace BuddyApp.Diagnostic
         private List<Toggle> mAllToggle;
         private List<GameObject> mAllWindow;
 
+        private float mTimerRefresh;
+
+        private bool mFilteredValue;
+
         void Start()
         {
+            mTimerRefresh = 0F;
+            if(DropdownFilteredValue.value == 0)
+            {
+                mFilteredValue = false;
+            }
+            else if(DropdownFilteredValue.value == 1)
+            {
+                mFilteredValue = true;
+            }
+
             // Create Toggle Button list
             mAllToggle = new List<Toggle>();
             mAllToggle.Add(BT_TOF);
@@ -326,155 +344,191 @@ namespace BuddyApp.Diagnostic
 
         void Update()
         {
-            if (BT_TOF.isOn == true)
+            mTimerRefresh += Time.deltaTime;
+            //A tester les filtered value avec dropdown et value des US / TOF
+            if(mTimerRefresh > DiagnosticBehaviour.REFRESH_TIMER)
             {
-                //Debug.Log("FILTERED VALUE : " + mForeHeadTOFSensor.Value + " " + mChinTOFSensor.Value + " " + mFrontRightTOFSensor.Value + " " + mFrontMiddleTOFSensor.Value
-                //    + " " + mFrontLeftTOFSensor.Value + " " + mBackTOFSensor.Value);
+                mTimerRefresh = 0F;
+                if (BT_TOF.isOn == true)
+                {
+                    //Debug.Log("FILTERED VALUE : " + mForeHeadTOFSensor.Value + " " + mChinTOFSensor.Value + " " + mFrontRightTOFSensor.Value + " " + mFrontMiddleTOFSensor.Value
+                    //    + " " + mFrontLeftTOFSensor.Value + " " + mBackTOFSensor.Value);
 
-                
-                //TOF SENSOR FORE HEAD
-                TOF_Error_00.text = mForeHeadTOFSensor.Error.ToString();
-                TOF_Text_00.text = (mForeHeadTOFSensor.Value/1000) + "m";
-                TOF_OK_00.color = mForeHeadTOFSensor.Error == 0 ? BuddyBlue : Red;
 
-                //TOF SENSOR CHIN
-                TOF_Error_01.text = mChinTOFSensor.Error.ToString();
-                TOF_Text_01.text = (mChinTOFSensor.Value/1000) + "m";
-                TOF_OK_01.color = mChinTOFSensor.Error == 0 ? BuddyBlue : Red;
+                    //TOF SENSOR FORE HEAD
+                    TOF_Error_00.text = mForeHeadTOFSensor.Error.ToString();
+                    if (mFilteredValue)
+                        TOF_Text_00.text = (mForeHeadTOFSensor.FilteredValue / 1000) + "m";
+                    else
+                        TOF_Text_00.text = (mForeHeadTOFSensor.Value / 1000) + "m";
+                    TOF_OK_00.color = mForeHeadTOFSensor.Error == 0 ? BuddyBlue : Red;
 
-                //TOF SENSOR FRONT RIGHT
-                TOF_Error_02.text = mFrontRightTOFSensor.Error.ToString();
-                TOF_Text_02.text = (mFrontRightTOFSensor.Value / 1000) + "m";
-                TOF_OK_02.color = mFrontRightTOFSensor.Error == 0 ? BuddyBlue : Red;
+                    //TOF SENSOR CHIN
+                    TOF_Error_01.text = mChinTOFSensor.Error.ToString();
+                    if (mFilteredValue)
+                        TOF_Text_01.text = (mChinTOFSensor.FilteredValue / 1000) + "m";
+                    else
+                        TOF_Text_01.text = (mChinTOFSensor.Value / 1000) + "m";
+                    TOF_OK_01.color = mChinTOFSensor.Error == 0 ? BuddyBlue : Red;
 
-                //TOF SENSOR FRONT MIDDLE
-                TOF_Error_03.text = mFrontMiddleTOFSensor.Error.ToString();
-                TOF_Text_03.text = (mFrontMiddleTOFSensor.Value / 1000) + "m";
-                TOF_OK_03.color = mFrontMiddleTOFSensor.Error == 0 ? BuddyBlue : Red;
+                    //TOF SENSOR FRONT RIGHT
+                    TOF_Error_02.text = mFrontRightTOFSensor.Error.ToString();
+                    if (mFilteredValue)
+                        TOF_Text_02.text = (mFrontRightTOFSensor.FilteredValue / 1000) + "m";
+                    else
+                        TOF_Text_02.text = (mFrontRightTOFSensor.Value / 1000) + "m";
+                    TOF_OK_02.color = mFrontRightTOFSensor.Error == 0 ? BuddyBlue : Red;
 
-                //TOF SENSOR FRONT LEFT
-                TOF_Error_04.text = mFrontLeftTOFSensor.Error.ToString();
-                TOF_Text_04.text = (mFrontLeftTOFSensor.Value / 1000) + "m";
-                TOF_OK_04.color = mFrontLeftTOFSensor.Error == 0 ? BuddyBlue : Red;
+                    //TOF SENSOR FRONT MIDDLE
+                    TOF_Error_03.text = mFrontMiddleTOFSensor.Error.ToString();
+                    if (mFilteredValue)
+                        TOF_Text_03.text = (mFrontMiddleTOFSensor.FilteredValue / 1000) + "m";
+                    else
+                        TOF_Text_03.text = (mFrontMiddleTOFSensor.Value / 1000) + "m";
+                    TOF_OK_03.color = mFrontMiddleTOFSensor.Error == 0 ? BuddyBlue : Red;
 
-                //TOF SENSOR BACK
-                TOF_Error_05.text = mBackTOFSensor.Error.ToString();
-                TOF_Text_05.text = (mBackTOFSensor.Value / 1000) + "m";
-                TOF_OK_05.color = mBackTOFSensor.Error == 0 ? BuddyBlue : Red;
+                    //TOF SENSOR FRONT LEFT
+                    TOF_Error_04.text = mFrontLeftTOFSensor.Error.ToString();
+                    if (mFilteredValue)
+                        TOF_Text_04.text = (mFrontLeftTOFSensor.FilteredValue / 1000) + "m";
+                    else
+                        TOF_Text_04.text = (mFrontLeftTOFSensor.Value / 1000) + "m";
+                    TOF_OK_04.color = mFrontLeftTOFSensor.Error == 0 ? BuddyBlue : Red;
+
+                    //TOF SENSOR BACK
+                    TOF_Error_05.text = mBackTOFSensor.Error.ToString();
+                    if (mFilteredValue)
+                        TOF_Text_05.text = (mBackTOFSensor.FilteredValue / 1000) + "m";
+                    else
+                        TOF_Text_05.text = (mBackTOFSensor.Value / 1000) + "m";
+                    TOF_OK_05.color = mBackTOFSensor.Error == 0 ? BuddyBlue : Red;
+                }
+
+                if (BT_IR.isOn)
+                {
+                    //IR RECEPTEUR
+                    IR_Text_00.text = "#" + mBackIRSensor.Value;
+                    IR_OK_00.color = BuddyBlue;
+                }
+
+                if (BT_US.isOn)
+                {
+                    //US RECEPTEUR RIGHT
+                    if (mFilteredValue)
+                        US_Text_00.text = (mRightUSSensor.FilteredValue / 1000) + "m";
+                    else
+                        US_Text_00.text = (mRightUSSensor.Value / 1000) + "m";
+                    US_OK_00.color = BuddyBlue;
+                    US_Error_00.text = mRightUSSensor.Error.ToString();
+
+                    //US RECEPTEUR LEFT
+                    if (mFilteredValue)
+                        US_Text_01.text = (mLeftUSSensor.FilteredValue / 1000) + "m";
+                    else
+                        US_Text_01.text = (mLeftUSSensor.Value / 1000) + "m";
+                    US_OK_01.color = BuddyBlue;
+                    US_Error_01.text = mLeftUSSensor.Error.ToString();
+                }
+
+                if (BT_CARESS.isOn)
+                {
+                    //CARESS RIGHT
+                    CARESS_Text_RIGHT.text = mTouchSensor.RightHead.Value.ToString();
+                    CARESS_Error_RIGHT.text = mTouchSensor.RightHead.Error.ToString();
+                    CARESS_Text_RIGHT.color = mTouchSensor.RightHead.Value ? BuddyBlue : Red;
+                    CARESS_OK_RIGHT.color = mTouchSensor.RightHead.Error == 0 ? BuddyBlue : Red;
+
+                    //CARESS BACK
+                    CARESS_Text_BACK.text = mTouchSensor.BackHead.Value.ToString();
+                    CARESS_Error_BACK.text = mTouchSensor.BackHead.Error.ToString();
+                    CARESS_Text_BACK.color = mTouchSensor.BackHead.Value ? BuddyBlue : Red;
+                    CARESS_OK_BACK.color = mTouchSensor.BackHead.Error == 0 ? BuddyBlue : Red;
+
+                    //CARESS LEFT
+                    CARESS_Text_LEFT.text = mTouchSensor.LeftHead.Value.ToString();
+                    CARESS_Error_LEFT.text = mTouchSensor.LeftHead.Error.ToString();
+                    CARESS_Text_LEFT.color = mTouchSensor.LeftHead.Value ? BuddyBlue : Red;
+                    CARESS_OK_LEFT.color = mTouchSensor.LeftHead.Error == 0 ? BuddyBlue : Red;
+                }
+
+                if (BT_PINCH.isOn)
+                {
+                    // PINCH HEART
+                    PINCH_Text_HEART.text = mTouchSensor.Heart.Value.ToString();
+                    PINCH_Error_HEART.text = mTouchSensor.Heart.Error.ToString();
+                    PINCH_Text_HEART.color = mTouchSensor.Heart.Value ? BuddyBlue : Red;
+                    PINCH_OK_HEART.color = mTouchSensor.Heart.Error == 0 ? BuddyBlue : Red;
+
+                    // PINCH LEFT
+                    PINCH_Text_LEFT.text = mTouchSensor.LeftShoulder.Value.ToString();
+                    PINCH_Error_LEFT.text = mTouchSensor.LeftShoulder.Error.ToString();
+                    PINCH_Text_LEFT.color = mTouchSensor.LeftShoulder.Value ? BuddyBlue : Red;
+                    PINCH_OK_LEFT.color = mTouchSensor.LeftShoulder.Error == 0 ? BuddyBlue : Red;
+
+                    // PINCH RIGHT
+                    PINCH_Text_RIGHT.text = mTouchSensor.RightShoulder.Value.ToString();
+                    PINCH_Error_RIGHT.text = mTouchSensor.RightShoulder.Error.ToString();
+                    PINCH_Text_RIGHT.color = mTouchSensor.RightShoulder.Value ? BuddyBlue : Red;
+                    PINCH_OK_RIGHT.color = mTouchSensor.RightShoulder.Error == 0 ? BuddyBlue : Red;
+                }
+
+                if (BT_CLIFF.isOn)
+                {
+                    // Cliff Front Free Wheel
+                    CLIFF_Text_FrontFreeWheel.text = (mCliff_FrontFreeWheel.Value) + "mm";
+                    CLIFF_Error_FrontFreeWheel.text = mCliff_FrontFreeWheel.Error.ToString();
+                    CLIFF_OK_FrontFreeWheel.color = mCliff_FrontFreeWheel.Error == 0 ? BuddyBlue : Red;
+
+                    // Cliff Front Right Wheel
+                    CLIFF_Text_FrontRightWheel.text = (mCliff_FrontRightWheel.Value) + "mm";
+                    CLIFF_Error_FrontRightWheel.text = mCliff_FrontRightWheel.Error.ToString();
+                    CLIFF_OK_FrontRightWheel.color = mCliff_FrontRightWheel.Error == 0 ? BuddyBlue : Red;
+
+                    // Cliff Back Right Wheel
+                    CLIFF_Text_BackRightWheel.text = (mCliff_BackRightWheel.Value) + "mm";
+                    CLIFF_Error_BackRightWheel.text = mCliff_BackRightWheel.Error.ToString();
+                    CLIFF_OK_BackRightWheel.color = mCliff_BackRightWheel.Error == 0 ? BuddyBlue : Red;
+
+                    // Cliff Back Right free Wheel
+                    CLIFF_Text_BackRightFreeWheel.text = (mCliff_BackRightFreeWheel.Value) + "mm";
+                    CLIFF_Error_BackRightFreeWheel.text = mCliff_BackRightFreeWheel.Error.ToString();
+                    CLIFF_OK_BackRightFreeWheel.color = mCliff_BackRightFreeWheel.Error == 0 ? BuddyBlue : Red;
+
+                    // Cliff Front Left Wheel
+                    CLIFF_Text_FrontLeftWheel.text = (mCliff_FrontLeftWheel.Value) + "mm";
+                    CLIFF_Error_FrontLeftWheel.text = mCliff_FrontLeftWheel.Error.ToString();
+                    CLIFF_OK_FrontLeftWheel.color = mCliff_FrontLeftWheel.Error == 0 ? BuddyBlue : Red;
+
+                    // Cliff Back Left Wheel
+                    CLIFF_Text_BackLeftWheel.text = (mCliff_BackLeftWheel.Value) + "mm";
+                    CLIFF_Error_BackLeftWheel.text = mCliff_BackLeftWheel.Error.ToString();
+                    CLIFF_OK_BackLeftWheel.color = mCliff_BackLeftWheel.Error == 0 ? BuddyBlue : Red;
+
+                    // Cliff Back Left Free Wheel
+                    CLIFF_Text_BackLeftFreeWheel.text = (mCliff_BackLeftFreeWheel.Value) + "mm";
+                    CLIFF_Error_BackLeftFreeWheel.text = mCliff_BackLeftFreeWheel.Error.ToString();
+                    CLIFF_OK_BackLeftFreeWheel.color = mCliff_BackLeftFreeWheel.Error == 0 ? BuddyBlue : Red;
+                }
+
+                if (BT_IMU.isOn)
+                {
+                    Gyro_X.text = mIMU.Gyroscope.x.ToString("F0");
+                    Gyro_Y.text = mIMU.Gyroscope.y.ToString("F0");
+                    Gyro_Z.text = mIMU.Gyroscope.z.ToString("F0");
+                    Acc_X.text = mIMU.Accelerometer.x.ToString("F0");
+                    Acc_Y.text = mIMU.Accelerometer.y.ToString("F0");
+                    Acc_Z.text = mIMU.Accelerometer.z.ToString("F0");
+
+                    IMU_OK_00.color = mIMU.Error == 0 ? BuddyBlue : Red;
+                    IMU_Error_00.text = mIMU.Error.ToString();
+                }
             }
+            
+        }
 
-            if (BT_IR.isOn)
-            {
-                //IR RECEPTEUR
-                IR_Text_00.text = "#" + mBackIRSensor.Value;
-                IR_OK_00.color = BuddyBlue;
-            }
-
-            if (BT_US.isOn)
-            {
-                //US RECEPTEUR RIGHT
-                US_Text_00.text = (mRightUSSensor.Value / 1000) + "m";
-                US_OK_00.color = BuddyBlue;
-                US_Error_00.text = mRightUSSensor.Error.ToString();
-
-                //US RECEPTEUR LEFT
-                US_Text_01.text = (mLeftUSSensor.Value / 1000) + "m";
-                US_OK_01.color = BuddyBlue;
-                US_Error_01.text = mLeftUSSensor.Error.ToString();
-            }
-
-            if (BT_CARESS.isOn)
-            {
-                //CARESS RIGHT
-                CARESS_Text_RIGHT.text = mTouchSensor.RightHead.Value.ToString();
-                CARESS_Error_RIGHT.text = mTouchSensor.RightHead.Error.ToString();
-                CARESS_Text_RIGHT.color = mTouchSensor.RightHead.Value ? BuddyBlue : Red;
-                CARESS_OK_RIGHT.color = mTouchSensor.RightHead.Error == 0 ? BuddyBlue : Red;
-
-                //CARESS BACK
-                CARESS_Text_BACK.text = mTouchSensor.BackHead.Value.ToString();
-                CARESS_Error_BACK.text = mTouchSensor.BackHead.Error.ToString();
-                CARESS_Text_BACK.color = mTouchSensor.BackHead.Value ? BuddyBlue : Red;
-                CARESS_OK_BACK.color = mTouchSensor.BackHead.Error == 0 ? BuddyBlue : Red;
-
-                //CARESS LEFT
-                CARESS_Text_LEFT.text = mTouchSensor.LeftHead.Value.ToString();
-                CARESS_Error_LEFT.text = mTouchSensor.LeftHead.Error.ToString();
-                CARESS_Text_LEFT.color = mTouchSensor.LeftHead.Value ? BuddyBlue : Red;
-                CARESS_OK_LEFT.color = mTouchSensor.LeftHead.Error == 0 ? BuddyBlue : Red;
-            }
-
-            if (BT_PINCH.isOn)
-            {
-                // PINCH HEART
-                PINCH_Text_HEART.text = mTouchSensor.Heart.Value.ToString();
-                PINCH_Error_HEART.text = mTouchSensor.Heart.Error.ToString();
-                PINCH_Text_HEART.color = mTouchSensor.Heart.Value ? BuddyBlue : Red;
-                PINCH_OK_HEART.color = mTouchSensor.Heart.Error == 0 ? BuddyBlue : Red;
-
-                // PINCH LEFT
-                PINCH_Text_LEFT.text = mTouchSensor.LeftShoulder.Value.ToString();
-                PINCH_Error_LEFT.text = mTouchSensor.LeftShoulder.Error.ToString();
-                PINCH_Text_LEFT.color = mTouchSensor.LeftShoulder.Value ? BuddyBlue : Red;
-                PINCH_OK_LEFT.color = mTouchSensor.LeftShoulder.Error == 0 ? BuddyBlue : Red;
-
-                // PINCH RIGHT
-                PINCH_Text_RIGHT.text = mTouchSensor.RightShoulder.Value.ToString();
-                PINCH_Error_RIGHT.text = mTouchSensor.RightShoulder.Error.ToString();
-                PINCH_Text_RIGHT.color = mTouchSensor.RightShoulder.Value ? BuddyBlue : Red;
-                PINCH_OK_RIGHT.color = mTouchSensor.RightShoulder.Error == 0 ? BuddyBlue : Red;
-            }
-
-            if (BT_CLIFF.isOn)
-            {
-                // Cliff Front Free Wheel
-                CLIFF_Text_FrontFreeWheel.text = (mCliff_FrontFreeWheel.Value) + "mm";
-                CLIFF_Error_FrontFreeWheel.text = mCliff_FrontFreeWheel.Error.ToString();
-                CLIFF_OK_FrontFreeWheel.color = mCliff_FrontFreeWheel.Error == 0 ? BuddyBlue : Red;
-
-                // Cliff Front Right Wheel
-                CLIFF_Text_FrontRightWheel.text = (mCliff_FrontRightWheel.Value) + "mm";
-                CLIFF_Error_FrontRightWheel.text = mCliff_FrontRightWheel.Error.ToString();
-                CLIFF_OK_FrontRightWheel.color = mCliff_FrontRightWheel.Error == 0 ? BuddyBlue : Red;
-
-                // Cliff Back Right Wheel
-                CLIFF_Text_BackRightWheel.text = (mCliff_BackRightWheel.Value) + "mm";
-                CLIFF_Error_BackRightWheel.text = mCliff_BackRightWheel.Error.ToString();
-                CLIFF_OK_BackRightWheel.color = mCliff_BackRightWheel.Error == 0 ? BuddyBlue : Red;
-
-                // Cliff Back Right free Wheel
-                CLIFF_Text_BackRightFreeWheel.text = (mCliff_BackRightFreeWheel.Value) + "mm";
-                CLIFF_Error_BackRightFreeWheel.text = mCliff_BackRightFreeWheel.Error.ToString();
-                CLIFF_OK_BackRightFreeWheel.color = mCliff_BackRightFreeWheel.Error == 0 ? BuddyBlue : Red;
-
-                // Cliff Front Left Wheel
-                CLIFF_Text_FrontLeftWheel.text = (mCliff_FrontLeftWheel.Value) + "mm";
-                CLIFF_Error_FrontLeftWheel.text = mCliff_FrontLeftWheel.Error.ToString();
-                CLIFF_OK_FrontLeftWheel.color = mCliff_FrontLeftWheel.Error == 0 ? BuddyBlue : Red;
-
-                // Cliff Back Left Wheel
-                CLIFF_Text_BackLeftWheel.text = (mCliff_BackLeftWheel.Value)+ "mm";
-                CLIFF_Error_BackLeftWheel.text = mCliff_BackLeftWheel.Error.ToString();
-                CLIFF_OK_BackLeftWheel.color = mCliff_BackLeftWheel.Error == 0 ? BuddyBlue : Red;
-
-                // Cliff Back Left Free Wheel
-                CLIFF_Text_BackLeftFreeWheel.text = (mCliff_BackLeftFreeWheel.Value) + "mm";
-                CLIFF_Error_BackLeftFreeWheel.text = mCliff_BackLeftFreeWheel.Error.ToString();
-                CLIFF_OK_BackLeftFreeWheel.color = mCliff_BackLeftFreeWheel.Error == 0 ? BuddyBlue : Red;
-            }
-
-            if (BT_IMU.isOn)
-            {
-                Gyro_X.text = "X: " + mIMU.Gyroscope.x;
-                Gyro_Y.text = "Y: " + mIMU.Gyroscope.y;
-                Gyro_Z.text = "Z: " + mIMU.Gyroscope.z;
-                Acc_X.text = "X: " + mIMU.Accelerometer.x;
-                Acc_Y.text = "Y: " + mIMU.Accelerometer.y;
-                Acc_Z.text = "Z: " + mIMU.Accelerometer.z;
-                
-                IMU_OK_00.color = mIMU.Error == 0 ? BuddyBlue : Red;
-                IMU_Error_00.text = mIMU.Error.ToString();
-            }
+        public void OnChangeDropdownValue()
+        {
+            mFilteredValue = !mFilteredValue;
         }
 
         public void ToggleValueChanged(int iIndex)

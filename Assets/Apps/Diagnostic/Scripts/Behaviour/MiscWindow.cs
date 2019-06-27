@@ -60,6 +60,10 @@ namespace BuddyApp.Diagnostic
         [SerializeField]
         private Button ButtonResetAudio;
 
+        [SerializeField]
+        private Text StatusBatteryTop;
+
+        private float mTimer;
 
         private float mBatteryLevel = 0F;
         private float mBatterySaved = 0F;
@@ -67,6 +71,9 @@ namespace BuddyApp.Diagnostic
         // Use this for initialization
         void Start()
         {
+            mTimer = 0F;
+            // a tester
+            AmplifierSlider.value = Buddy.Actuators.Speakers.Gain;
 
             mBatteryLevel = SystemInfo.batteryLevel*100F;
             mBatterySaved = mBatteryLevel;
@@ -78,12 +85,12 @@ namespace BuddyApp.Diagnostic
             RainetteVersion.text = Buddy.Boards.Head.Version;
             AudioVersion.text = Buddy.Boards.Head.AudioµC.Version;
 
-            //Status : 
-            HemiseStatus.text = Buddy.Boards.Body.Status.ToString();
-            MotionStatus.text = Buddy.Boards.Body.WheelsµC.Status.ToString();
-            HeadStatus.text = Buddy.Boards.Head.HeadµC.Status.ToString();
-            RainetteStatus.text = Buddy.Boards.Head.Status.ToString();
-            AudioStatus.text = Buddy.Boards.Head.AudioµC.Status.ToString();
+            //Status : (a tester les valeur en hex)
+            HemiseStatus.text = Buddy.Boards.Body.Status.ToString("X");
+            MotionStatus.text = Buddy.Boards.Body.WheelsµC.Status.ToString("X");
+            HeadStatus.text = Buddy.Boards.Head.HeadµC.Status.ToString("X");
+            RainetteStatus.text = Buddy.Boards.Head.Status.ToString("X");
+            AudioStatus.text = Buddy.Boards.Head.AudioµC.Status.ToString("X");
 
             //ResetButton :
             ButtonResetHemise.onClick.AddListener(ResetHemise);
@@ -93,12 +100,19 @@ namespace BuddyApp.Diagnostic
             ButtonResetAudio.onClick.AddListener(ResetAudio);
 
             AmplifierSlider.onValueChanged.AddListener((iInput) => OnSliderAmplifierChanger(iInput));
-
         }
 
         // Update is called once per frame
         void Update()
         {
+            mTimer += Time.deltaTime;
+            if(mTimer > DiagnosticBehaviour.REFRESH_TIMER)
+            {
+                mTimer = 0F;
+                TextVoltage.text = Buddy.Sensors.Battery.AverageLevel.ToString("D") + " - " + Buddy.Sensors.Battery.Level.ToString("D");
+
+            }
+
             mBatteryLevel = SystemInfo.batteryLevel*100F;
             if(mBatterySaved != mBatteryLevel)
             {
@@ -106,40 +120,73 @@ namespace BuddyApp.Diagnostic
                 SliderBattery.value = mBatteryLevel/100F;
             }
             BatteryPercent.text = (SystemInfo.batteryLevel * 100).ToString();
-            TextVoltage.text = Buddy.Sensors.Battery.AverageLevel.ToString("D") + " - " + Buddy.Sensors.Battery.Level.ToString("D");
+
+            //A tester
+            UpdateBatteryStatus();
+        }
+
+        private void UpdateBatteryStatus()
+        {
+            if (Buddy.Sensors.Battery.ChargingStatus == BatteryChargingStatus.CHARGING)
+                StatusBatteryTop.text = "Charge in progress";
+            else if (Buddy.Sensors.Battery.ChargingStatus == BatteryChargingStatus.NOT_CHARGING)
+                StatusBatteryTop.text = "Not charging";
+            else if (Buddy.Sensors.Battery.ChargingStatus == BatteryChargingStatus.FULLY_CHARGED)
+                StatusBatteryTop.text = "Fully charged";
+        }
+
+        //A tester
+        public void ReadStatus()
+        {
+            ResetHemise();
+            ResetMotion();
+            ResetHead();
+            ResetRainette();
+            ResetAudio();
+
+            HemiseVersion.text = Buddy.Boards.Body.Version;
+            MotionVersion.text = Buddy.Boards.Body.WheelsµC.Version;
+            HeadVersion.text = Buddy.Boards.Head.HeadµC.Version;
+            RainetteVersion.text = Buddy.Boards.Head.Version;
+            AudioVersion.text = Buddy.Boards.Head.AudioµC.Version;
         }
 
         public void ResetHemise()
         {
             Buddy.Boards.Body.ResetStatus();
-            HemiseStatus.text = Buddy.Boards.Body.Status.ToString();
+            // a tester 
+            HemiseStatus.text = Buddy.Boards.Body.Status.ToString("X");
         }
 
         public void ResetMotion()
         {
             Buddy.Boards.Body.WheelsµC.ResetStatus();
-            MotionStatus.text = Buddy.Boards.Body.WheelsµC.Status.ToString();
+            // a tester 
+            MotionStatus.text = Buddy.Boards.Body.WheelsµC.Status.ToString("X");
 
         }
 
         public void ResetHead()
         {
             Buddy.Boards.Head.HeadµC.ResetStatus();
-            HeadStatus.text = Buddy.Boards.Head.HeadµC.Status.ToString();
+            // a tester 
+            HeadStatus.text = Buddy.Boards.Head.HeadµC.Status.ToString("X");
 
         }
 
         public void ResetRainette()
         {
             Buddy.Boards.Head.ResetStatus();
-            RainetteStatus.text = Buddy.Boards.Head.Status.ToString();
+            // a tester 
+            RainetteStatus.text = Buddy.Boards.Head.Status.ToString("X");
 
         }
 
         public void ResetAudio()
         {
             Buddy.Boards.Head.AudioµC.ResetStatus();
-            AudioStatus.text = Buddy.Boards.Head.AudioµC.Status.ToString();
+            // a tester 
+            AudioStatus.text = Buddy.Boards.Head.AudioµC.Status.ToString("X");
 
         }
 

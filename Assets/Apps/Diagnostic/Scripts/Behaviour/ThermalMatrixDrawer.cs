@@ -22,7 +22,7 @@ namespace BuddyApp.Diagnostic
         [SerializeField]
         private Text HEADTemperature;
         [SerializeField]
-        private Text BODDYTemperature;
+        private Text BODYTemperature;
         [SerializeField]
         private Button ToggleFan;
 
@@ -53,14 +53,13 @@ namespace BuddyApp.Diagnostic
         private void Update()
         {
             // UPDATE HEAT INFORMATIONS
-            //mCPUTemperature.text = Buddy.Sencors + " °";
-            //mHEADTemperature.text = Buddy.Sencors + " °";
-            //mBODDYTemperature.text = Buddy.Sencors + " °";
-
+            //CPUTemperature.text = Buddy.Sensors. + " °";
 
             mTimeRefresh += Time.deltaTime;
-            if(mTimeRefresh >= 0.2F)
+            if(mTimeRefresh >= DiagnosticBehaviour.REFRESH_TIMER)
             {
+                BODYTemperature.text = Buddy.Sensors.IMU.Temperature + " °";
+                HEADTemperature.text = Buddy.Boards.Main.Temperature + " °";
                 //Mat lMat = mThermalCamera.Frame.Mat.clone();
                 //Core.flip(lMat, lMat, 0);
                 mThermalCamera.Frame.Mat.get(0, 0, mThermalSensorDataArray);
