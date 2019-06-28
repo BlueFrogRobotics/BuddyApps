@@ -11,53 +11,82 @@ namespace BuddyApp.BIPlayer
 {
     /* A basic monobehaviour as "AI" behaviour for your app */
     public class BIPlayerBehaviour : MonoBehaviour
-	{
-		[SerializeField]
-		private InputField bmlName;
+    {
+        [SerializeField]
+        private InputField biName;
 
-		[SerializeField]
-		private UnityEngine.UI.Button launchButton;
+        [SerializeField]
+        private Button launchButton;
+
+        [SerializeField]
+        private Button runRandomButton;
+
+        [SerializeField]
+        private Dropdown BehaviourMovementPatternDropdown;
+
+        [SerializeField]
+        private Dropdown BehaviourCommitmentDropdown;
+
+        [SerializeField]
+        private Dropdown MoodDropdown;
 
 
 
-		public void Callback(string iInput)
-		{
-			if (string.IsNullOrEmpty(iInput)) {
-				Buddy.Vocal.Say("Veuillez donner un nom de BML à exécuter s'il-vous-plaît.");
-				return;
-			}
+        public void LaunchBI()
+        {
+            if (string.IsNullOrEmpty(biName.text)) {
+                Buddy.Vocal.Say("Veuillez donner un nom de BI à exécuter s'il-vous-plaît.");
+                return;
+            }
 
-			if (!Buddy.Behaviour.Interpreter.Run("BML/" + iInput))
-				Buddy.Vocal.Say("Je n'ai pas  su trouvé le BML demandé.");
-		}
+            if (!Buddy.Behaviour.Interpreter.Run(biName.text))
+                Buddy.Vocal.Say("Je n'ai pas su trouvé le BI " + biName.text);
+        }
 
-		public void LaunchBML()
-		{
-			Callback(bmlName.text);
-		}
+        public void RunRandomBI()
+        {
+            if (string.IsNullOrWhiteSpace(MoodDropdown.captionText.text)) {
+                Debug.Log("RunRandom with no mood => Neutral");
+                Buddy.Behaviour.Interpreter.RunRandom(Mood.NEUTRAL);
+            } else {
+                if (string.IsNullOrWhiteSpace(BehaviourMovementPatternDropdown.captionText.text)) {
+                    Debug.Log("RunRandom with mood");
+                    Buddy.Behaviour.Interpreter.RunRandom((Mood)Enum.Parse(typeof(Mood), MoodDropdown.captionText.text));
+                } else {
+                    if (string.IsNullOrWhiteSpace(BehaviourCommitmentDropdown.captionText.text)) {
+                        Debug.Log("RunRandom with mood and motion");
+                        Buddy.Behaviour.Interpreter.RunRandom((Mood)Enum.Parse(typeof(Mood), MoodDropdown.captionText.text),
+                                (BehaviourMovementPattern)Enum.Parse(typeof(BehaviourMovementPattern), BehaviourMovementPatternDropdown.captionText.text));
+                    } else {
+                        Debug.Log("RunRandom with mood, motion and commitment");
+                        Buddy.Behaviour.Interpreter.RunRandom((Mood)Enum.Parse(typeof(Mood), MoodDropdown.captionText.text),
+                            (BehaviourMovementPattern)Enum.Parse(typeof(BehaviourMovementPattern), BehaviourMovementPatternDropdown.captionText.text),
+                            (BehaviourCommitment)Enum.Parse(typeof(BehaviourCommitment), BehaviourCommitmentDropdown.captionText.text));
+                    }
+                }
 
-		public void ToggleUI()
-		{
-			bmlName.gameObject.SetActive(!bmlName.isActiveAndEnabled);
-			launchButton.gameObject.SetActive(!launchButton.isActiveAndEnabled);
-		}
-	
-	/*
-	 * Data of the application. Save on disc when app is quitted
-	 */
-	private BIPlayerData mAppData;
+            }
+        }
+
+        public void ToggleUI()
+        {
+            biName.gameObject.SetActive(!biName.isActiveAndEnabled);
+            launchButton.gameObject.SetActive(!launchButton.isActiveAndEnabled);
+            runRandomButton.gameObject.SetActive(!runRandomButton.isActiveAndEnabled);
+            MoodDropdown.gameObject.SetActive(!MoodDropdown.isActiveAndEnabled);
+            BehaviourCommitmentDropdown.gameObject.SetActive(!BehaviourCommitmentDropdown.isActiveAndEnabled);
+            BehaviourMovementPatternDropdown.gameObject.SetActive(!BehaviourMovementPatternDropdown.isActiveAndEnabled);
+        }
+
 
         void Start()
         {
-			/*
-			* You can setup your App activity here.
-			*/
-			BIPlayerActivity.Init(null);
-			
-			/*
-			* Init your app data
-			*/
-            mAppData = BIPlayerData.Instance;
+            MoodDropdown.AddOptions(new List<string>(Enum.GetNames(typeof(Mood))));
+            BehaviourCommitmentDropdown.AddOptions(new List<string>(Enum.GetNames(typeof(BehaviourCommitment))));
+            BehaviourMovementPatternDropdown.AddOptions(new List<string>(Enum.GetNames(typeof(BehaviourMovementPattern))));
+
+            Buddy.Behaviour.Face.OnTouchSkin.Add(ToggleUI);
+
         }
     }
 }
