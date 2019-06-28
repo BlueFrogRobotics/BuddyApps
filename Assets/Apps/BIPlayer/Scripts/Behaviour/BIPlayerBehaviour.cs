@@ -22,6 +22,9 @@ namespace BuddyApp.BIPlayer
         private Button runRandomButton;
 
         [SerializeField]
+        private Toggle runRandomLoopToggle;
+
+        [SerializeField]
         private Dropdown BehaviourMovementPatternDropdown;
 
         [SerializeField]
@@ -29,8 +32,7 @@ namespace BuddyApp.BIPlayer
 
         [SerializeField]
         private Dropdown MoodDropdown;
-
-
+        private bool mRunRandomLoop;
 
         public void LaunchBI()
         {
@@ -47,25 +49,38 @@ namespace BuddyApp.BIPlayer
         {
             if (string.IsNullOrWhiteSpace(MoodDropdown.captionText.text)) {
                 Debug.Log("RunRandom with no mood => Neutral");
-                Buddy.Behaviour.Interpreter.RunRandom(Mood.NEUTRAL);
+                Buddy.Behaviour.Interpreter.RunRandom(Mood.NEUTRAL, OnEndRun);
             } else {
                 if (string.IsNullOrWhiteSpace(BehaviourMovementPatternDropdown.captionText.text)) {
                     Debug.Log("RunRandom with mood");
-                    Buddy.Behaviour.Interpreter.RunRandom((Mood)Enum.Parse(typeof(Mood), MoodDropdown.captionText.text));
+                    Buddy.Behaviour.Interpreter.RunRandom((Mood)Enum.Parse(typeof(Mood), MoodDropdown.captionText.text), OnEndRun);
                 } else {
                     if (string.IsNullOrWhiteSpace(BehaviourCommitmentDropdown.captionText.text)) {
                         Debug.Log("RunRandom with mood and motion");
                         Buddy.Behaviour.Interpreter.RunRandom((Mood)Enum.Parse(typeof(Mood), MoodDropdown.captionText.text),
-                                (BehaviourMovementPattern)Enum.Parse(typeof(BehaviourMovementPattern), BehaviourMovementPatternDropdown.captionText.text));
+                                (BehaviourMovementPattern)Enum.Parse(typeof(BehaviourMovementPattern), BehaviourMovementPatternDropdown.captionText.text), OnEndRun);
                     } else {
                         Debug.Log("RunRandom with mood, motion and commitment");
                         Buddy.Behaviour.Interpreter.RunRandom((Mood)Enum.Parse(typeof(Mood), MoodDropdown.captionText.text),
                             (BehaviourMovementPattern)Enum.Parse(typeof(BehaviourMovementPattern), BehaviourMovementPatternDropdown.captionText.text),
-                            (BehaviourCommitment)Enum.Parse(typeof(BehaviourCommitment), BehaviourCommitmentDropdown.captionText.text));
+                            (BehaviourCommitment)Enum.Parse(typeof(BehaviourCommitment), BehaviourCommitmentDropdown.captionText.text), OnEndRun);
                     }
                 }
 
             }
+        }
+
+        private void OnEndRun()
+        {
+            if (runRandomLoopToggle.isOn)
+                RunRandomBI();
+            else
+                Buddy.Vocal.Say("fini");
+        }
+
+        public void RunRandomLoop()
+        {
+            mRunRandomLoop = !mRunRandomLoop;
         }
 
         public void ToggleUI()
@@ -73,11 +88,11 @@ namespace BuddyApp.BIPlayer
             biName.gameObject.SetActive(!biName.isActiveAndEnabled);
             launchButton.gameObject.SetActive(!launchButton.isActiveAndEnabled);
             runRandomButton.gameObject.SetActive(!runRandomButton.isActiveAndEnabled);
+            runRandomLoopToggle.gameObject.SetActive(!runRandomLoopToggle.isActiveAndEnabled);
             MoodDropdown.gameObject.SetActive(!MoodDropdown.isActiveAndEnabled);
             BehaviourCommitmentDropdown.gameObject.SetActive(!BehaviourCommitmentDropdown.isActiveAndEnabled);
             BehaviourMovementPatternDropdown.gameObject.SetActive(!BehaviourMovementPatternDropdown.isActiveAndEnabled);
         }
-
 
         void Start()
         {
@@ -86,6 +101,7 @@ namespace BuddyApp.BIPlayer
             BehaviourMovementPatternDropdown.AddOptions(new List<string>(Enum.GetNames(typeof(BehaviourMovementPattern))));
 
             Buddy.Behaviour.Face.OnTouchSkin.Add(ToggleUI);
+            Buddy.Behaviour.Face.OnTouchMouth.Add(() => { Buddy.Behaviour.Interpreter.StopAndClear(); runRandomLoopToggle.isOn = false; });
 
         }
     }
