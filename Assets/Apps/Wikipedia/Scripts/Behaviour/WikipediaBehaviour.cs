@@ -1,4 +1,4 @@
-using BlueQuark;
+﻿using BlueQuark;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -34,6 +34,7 @@ namespace BuddyApp.Wikipedia
             mNumberOfListen = 0;
             // We get the credentials for google freespeech before
             // listening.
+            
             if (!string.IsNullOrEmpty(WikipediaData.Instance.Utterance)) {
                 string lDefinition = ExtractDefinition(WikipediaData.Instance.Utterance);
                 if (string.IsNullOrEmpty(lDefinition)) {
@@ -45,9 +46,9 @@ namespace BuddyApp.Wikipedia
                     StartCoroutine(BuildDefinitionAnswer(lDefinition));
                 }
             } else {
-
                 yield return StartCoroutine(RetrieveCredentialsAsync());
-                Debug.Log("Say and listen");
+                //Debug.Log("Say and listen");
+
                 SayAndListen("ilisten");
             }
         }
@@ -188,7 +189,9 @@ namespace BuddyApp.Wikipedia
                         string lRes = "";
 
                         // To handle French special char
-                        string[] lFragmant = UnescapeHex(lRequest.downloadHandler.text).Split('"');
+                        //string[] lFragmant = UnescapeHex(lRequest.downloadHandler.text).Split('"');
+
+                        string[] lFragmant = Regex.Unescape(lRequest.downloadHandler.text).Split('"');
 
 
                         // Get the correct answer from wikipedia
