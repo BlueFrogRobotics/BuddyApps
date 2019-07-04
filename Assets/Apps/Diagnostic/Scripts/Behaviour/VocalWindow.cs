@@ -42,10 +42,19 @@ namespace BuddyApp.Diagnostic
         private Button GimmickPlayButton;
 
         [SerializeField]
+        private Button PlayMusic;
+
+        [SerializeField]
+        private Text PlayMusicText;
+
+        [SerializeField]
         private Toggle SpeechToTextFreeSpeechButton;
 
         [SerializeField]
         private Toggle SpeechToTextGrammarButton;
+
+        [SerializeField]
+        private Toggle SpeechToHybrid;
 
         [SerializeField]
         private Animator TriggerText;
@@ -175,7 +184,7 @@ namespace BuddyApp.Diagnostic
             mRecord = Buddy.Resources.Get<Sprite>("os_icon_micro_on");
             mStop = Buddy.Resources.Get<Sprite>("os_icon_stop");
             mPlay = Buddy.Resources.Get<Sprite>("os_icon_play");
-            SpeechToTextFreeSpeechButton.interactable = false;
+            SpeechToTextFreeSpeechButton.interactable = true;
 
             TriggerTreshSlider.wholeNumbers = true;
             TriggerTreshSlider.minValue = 0F;
@@ -550,6 +559,14 @@ namespace BuddyApp.Diagnostic
                     Buddy.Vocal.StopAndClear();
             });
 
+            //A tester
+            SpeechToHybrid.onValueChanged.AddListener((iValue) =>
+            {
+                if (iValue)
+                    OnHybrid();
+                else
+                    Buddy.Vocal.StopAndClear();
+            });
             // Trigger : Play sound and switch to green for 1 second.
             Buddy.Vocal.EnableTrigger = true;
 
@@ -606,6 +623,10 @@ namespace BuddyApp.Diagnostic
             RecordButton.onClick.AddListener(OnRecordingButtonClick);
             PlayRecordButton.onClick.AddListener(OnPlayRecordButtonClick);
             PlayRecordButton.GetComponentsInChildren<Text>()[0].text = "PLAY";
+
+            //Play Music
+            PlayMusic.GetComponentsInChildren<Text>()[0].text = "PLAY MUSIC";
+            PlayMusic.onClick.AddListener(OnPlayMusic);
         }
 
         public void OnDisable()
@@ -689,12 +710,31 @@ namespace BuddyApp.Diagnostic
             Buddy.Actuators.Speakers.Media.Play((SoundSample)Enum.Parse(typeof(SoundSample), GimmickDropdown.options[GimmickDropdown.value].text));
         }
 
+        //a tester
+        private void OnPlayMusic()
+        {
+            if(Equals("PLAY MUSIC", PlayMusicText.text))
+            {
+                PlayMusicText.text = "STOP MUSIC";
+                ReplayAudioSource.GetComponent<AudioSource>().clip.name = Buddy.Resources.GetSoundsFullPath("");
+                ReplayAudioSource.Play();
+            }
+
+            if(Equals("STOP MUSIC", PlayMusicText.text))
+            {
+                PlayMusicText.text = "PLAY MUSIC";
+                ReplayAudioSource.Stop();
+                ReplayAudioSource.GetComponent<AudioSource>().clip.name = "";
+            }
+        }
+
         private void OnSpeechToTextGrammarButtonClick()
         {
             Buddy.Vocal.StopAndClear();
 
             // Reset button display of free speech
             SpeechToTextFreeSpeechButton.isOn = false;
+            SpeechToHybrid.isOn = false;
 
             Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
             if (!Buddy.Vocal.Listen())
@@ -707,22 +747,34 @@ namespace BuddyApp.Diagnostic
 
             // Reset button display of grammar
             SpeechToTextGrammarButton.isOn = false;
+            SpeechToHybrid.isOn = false;
 
             Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.FREESPEECH_ONLY;
             if (!Buddy.Vocal.Listen())
                 ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.STOPPING, "ERROR ON LISTEN !!!! ");
         }
 
+        private void OnHybrid()
+        {
+            Buddy.Vocal.StopAndClear();
+            
+            Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_THEN_FREESPEECH;
+            if (!Buddy.Vocal.Listen())
+                ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.STOPPING, "ERROR ON LISTEN !!!! ");
+
+        }
+
         private void OnEndListeningSpeechToText(SpeechInput iSpeechInput)
         {
-            if (SpeechToTextFreeSpeechButton.isOn == true)
+            if (SpeechToTextFreeSpeechButton.isOn)
             {
                 if (iSpeechInput.IsInterrupted)
                     return;
                 SpeechToTextFreeSpeechButton.isOn = false;
+                SpeechToHybrid.isOn = false;
                 return;
             }
-            else if (SpeechToTextGrammarButton.isOn == true)
+            else if (SpeechToTextGrammarButton.isOn)
             {
                 if (iSpeechInput.IsInterrupted)
                 {
@@ -731,6 +783,12 @@ namespace BuddyApp.Diagnostic
                 }
                 //else if (iSpeechInput.Confidence <= 0)
                 //    ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.BAD_ARGUMENT, "No speech was recognized.");
+                SpeechToTextGrammarButton.isOn = false;
+                SpeechToHybrid.isOn = false;
+            }
+            else if(SpeechToHybrid.isOn)
+            {
+                SpeechToTextFreeSpeechButton.isOn = false;
                 SpeechToTextGrammarButton.isOn = false;
             }
         }
@@ -743,6 +801,7 @@ namespace BuddyApp.Diagnostic
 
         private void OnRecordingButtonClick()
         {
+            //avoir des ref des text plutot que de faire des getcomponentsinchildren a chaque clic qui reste bad niveau opti meme si ça ne change pas grand chose ici
             if (string.Equals("START RECORDING", RecordButton.GetComponentsInChildren<Text>()[0].text))
             {
                 PlayRecordButton.interactable = false;

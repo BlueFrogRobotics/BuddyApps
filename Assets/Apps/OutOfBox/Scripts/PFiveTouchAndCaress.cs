@@ -23,9 +23,7 @@ namespace BuddyApp.OutOfBox
                         Buddy.Vocal.SayKey("pfivewhowantstotry", (iOutSpeech) => { Buddy.Behaviour.Face.OnTouch.Add(OnFaceTouched); mActiveTimer = true; });
                     });
                 }));
-                
             });
-            
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
@@ -74,7 +72,7 @@ namespace BuddyApp.OutOfBox
                     }
                 }
 
-                if (mTimer > 15F)
+                if (mTimer > 10F)
                 {
                     OutOfBoxUtils.DebugColor("TIMER FINI ", "blue");
                     OutOfBoxUtils.PlayBIAsync(() => { Buddy.Vocal.SayKey("pfivetooshy", (OutSpeech) => 
