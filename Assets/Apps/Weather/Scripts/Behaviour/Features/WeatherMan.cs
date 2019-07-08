@@ -38,14 +38,14 @@ namespace BuddyApp.Weather
                 block.Add(WP);
             }
 
-            NextGO.GetComponent<Animator>().SetTrigger("open");
-            for (int i = 0; i < 4; i++)
-            {
-                GameObject GO = Instantiate(LittleBlockGO);
-                GO.transform.parent = NextGO.transform;
-                WP = GO.GetComponent<WeatherPanel>();
-                block.Add(WP);
-            }
+            //NextGO.GetComponent<Animator>().SetTrigger("open");
+            //for (int i = 0; i < 4; i++)
+            //{
+            //    GameObject GO = Instantiate(LittleBlockGO);
+            //    GO.transform.parent = NextGO.transform;
+            //    WP = GO.GetComponent<WeatherPanel>();
+            //    block.Add(WP);
+            //}
         }
     
         //StartCoroutine(Example());

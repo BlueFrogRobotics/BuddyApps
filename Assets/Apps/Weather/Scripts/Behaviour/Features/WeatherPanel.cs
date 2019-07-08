@@ -214,22 +214,22 @@ namespace BuddyApp.Weather
         {
             //A voir le fonctionnement par rapport a avant
             //image.sprite = Buddy.Resources.Get<Sprite>("BG_Morning", "Atlas_Meteo");
-            image.sprite = Buddy.Resources.Get<Sprite>("BG_Morning");
+            image.sprite = Buddy.Resources.Get<Sprite>("Weather_BG_Morning");
         }
 
         public void Noon()
         {
-            image.sprite = Buddy.Resources.Get<Sprite>("BG_Noon");
+            image.sprite = Buddy.Resources.Get<Sprite>("Weather_BG_Noon");
         }
 
         public void After_Noon()
         {
-            image.sprite = Buddy.Resources.Get<Sprite>("BG_Afternoon");
+            image.sprite = Buddy.Resources.Get<Sprite>("Weather_BG_Afternoon");
         }
 
         public void Evening()
         {
-            image.sprite = Buddy.Resources.Get<Sprite>("BG_Night");
+            image.sprite = Buddy.Resources.Get<Sprite>("Weather_BG_Night");
         }
     }
 }
