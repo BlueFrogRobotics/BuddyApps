@@ -31,9 +31,15 @@ namespace BuddyApp.Weather
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             Debug.Log("VocalRequest : " + WeatherData.Instance.VocalRequest);
+            string vocalRequest = "What's the weather like";
+            if (Buddy.Platform.Language.SystemInputLanguage.ISO6391Code == ISO6391Code.FR)            
+                vocalRequest = "Quel temps fait-il";
 
             if (WeatherData.Instance.VocalRequest != "")
                 StringAnalysis(WeatherData.Instance.VocalRequest);
+            else
+                StringAnalysis(vocalRequest);
+
 
             Trigger("Request");
         }
@@ -81,6 +87,20 @@ namespace BuddyApp.Weather
                         }
                     }
                 }
+            }
+            else
+            {
+                // Day of week in vocal request
+                for (int i=0; i<7; i++)
+                {
+                    DayOfWeek d = (DayOfWeek)i;
+                    if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings(d.ToString().ToLower())))
+                    {
+                        int dnow = (int)DateTime.Now.DayOfWeek;
+                        mWeatherB.mDate = (i >= dnow) ? i - dnow : (7 + i) - dnow;
+                    }
+                }
+
             }
 
             if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("min")))
@@ -145,7 +165,7 @@ namespace BuddyApp.Weather
             string[] words = iSpeech.Split(' ');
             for (int iw = 0; iw < words.Length; ++iw)
             {
-                if (words[iw].ToLower() == Buddy.Resources.GetString("inlocation") && iw + 1 < words.Length)
+                if (words[iw].ToLower() == Buddy.Resources.GetString("inlocation") && (iw + 1) < words.Length)
                 {
                     if (!string.IsNullOrEmpty(words[iw + 1]))
                         if (char.IsUpper(words[iw + 1][0]))
@@ -157,16 +177,17 @@ namespace BuddyApp.Weather
                                 for (int j = iw + 1; j < words.Length; j++)
                                 {
                                     if (!char.IsUpper(words[j][0]))
-                                        break;
+                                        break;                                    
                                     lDefinitionWord += words[j] + " ";
-
                                 }
                             }
                             mWeatherB.mLocation = lDefinitionWord;
                         }
                 }
             }
+
             mWeatherB.mName = mWeatherB.mLocation;
+
             foreach (CityData city in mCities.Cities)
             {
                 if (mWeatherB.mLocation.Equals(city.Name))

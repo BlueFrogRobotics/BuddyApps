@@ -538,7 +538,7 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string>il n'y pas de [forecast] de prévu</string>
-                <string>il n'y aura pas de neige [forecast]</string>
+                <string>il n'y aura pas de [forecast]</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -573,12 +573,12 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>raining</Key>
-            <BaseValue>pleuvoir</BaseValue>
+            <BaseValue>pluie</BaseValue>
             <ClosePhoneticValues>
-                <string>pleuvoir</string>
+                <string>pluie</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string>pleuvoir</string>
+                <string>pluie</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -906,6 +906,16 @@
             <RandomValues>
                 <string>J'ai demandé la météo à ma copine grenouille mais elle n'est pas disponible.</string>
                 <string>Je te propose de refaire la demande dans quelques instants.</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>unknowndate</Key>
+            <BaseValue>Désolé je ne connais pas la météo pour ce jour là</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Désolé je ne connais pas la météo pour ce jour là</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>
