@@ -18,6 +18,9 @@ namespace BuddyApp.Weather
         private List<WeatherPanel> mTrip;
         private WeatherMan mMan;
 
+        private const int NB_DATA_IN_DAY = 8;
+        private const int FIRST_HOUR = 8;
+
         #region Unity Methods
 
         public override void Start()
@@ -40,10 +43,17 @@ namespace BuddyApp.Weather
             mTrip = mMan.block;
             mTimer = 0F;
 
-            if (mWeatherB.mCommand == WeatherBehaviour.WeatherCommand.NONE)
-                StartCoroutine(DisplayToaster(mWeatherB.mWeatherInfos));
+            if (!CheckDataForRequestedDate(mWeatherB.mWeatherInfos))
+            {
+                Buddy.Vocal.SayKey("unknowndate");
+            }
             else
-                ExecuteCommand(mWeatherB.mWeatherInfos);
+            {
+                if (mWeatherB.mCommand == WeatherBehaviour.WeatherCommand.NONE)
+                    StartCoroutine(DisplayToaster(mWeatherB.mWeatherInfos));
+                else
+                    ExecuteCommand(mWeatherB.mWeatherInfos);
+            }
         }
 
         /// <summary>
@@ -84,14 +94,12 @@ namespace BuddyApp.Weather
             string lDayString = RecoverDay(iSayDayOfWeek, lDateTime);
             string lAnswer = string.Empty;
 
-
             if (mWeatherB.mForecast != WeatherType.UNKNOWN)
             {
                 if (mWeatherB.mWhen)
                 {
                     if (mWeatherB.mIndice != -1)
                     {
-
                         // Give date: It will rain ...
                         lAnswer = Buddy.Resources.GetRandomString((iWeatherInfo.Type.ToString().ToLower()).Replace("_", "")) + " " + Buddy.Resources.GetRandomString("the") + " " + EnglishDate(iWeatherInfo.Day) + " " + Buddy.Resources.GetRandomString("inlocation") + " " + EnglishHour(iWeatherInfo.Hour) + " " + Buddy.Resources.GetRandomString("hour") + " ";
                     }
@@ -128,9 +136,12 @@ namespace BuddyApp.Weather
             }
             else
                 lAnswer = InitAnswerRestitution(iWeatherInfo, lDayString);
-
-            if (mWeatherB.mName != "")
+            
+            if (mWeatherB.mName != "" && !string.IsNullOrEmpty(lAnswer))
+            {
+                Debug.Log(lAnswer);
                 Buddy.Vocal.Say(lAnswer);
+            }
         }
 
         /// <summary>
@@ -193,23 +204,25 @@ namespace BuddyApp.Weather
 
             if (mWeatherB.mWeatherTime == WeatherBehaviour.WeatherMoment.NONE)
             {
-                WeatherInfo lMinWeather = RecoverMinMaxTempOfADay(mWeatherB.mWeatherInfos, true, iDayString);
-                WeatherInfo lMaxWeather = RecoverMinMaxTempOfADay(mWeatherB.mWeatherInfos, false, iDayString);
-                if (lMinWeather.Hour == lMaxWeather.Hour)
+                int hourMin, tempMin, hourMax, tempMax;
+                if (!RecoverMinMaxTempOfADay(iWeatherInfo.Day, out hourMin, out tempMin, out hourMax, out tempMax))
+                    return lAnswer;
+
+                if (hourMin == hourMax)
                 {
                     lAnswer = Buddy.Resources.GetRandomString("lightrestitution");
                     lAnswer = lAnswer.Replace("[date]", iDayString + " " + Buddy.Resources.GetRandomString("inlocation") + " " + mWeatherB.mName);
-                    lAnswer = lAnswer.Replace("[degree]", lMinWeather.MinTemperature.ToString());
+                    lAnswer = lAnswer.Replace("[degree]", tempMin.ToString());
                     lAnswer = lAnswer.Replace("[forecast]", Buddy.Resources.GetRandomString((iWeatherInfo.Type.ToString().ToLower()).Replace("_", "")));
                 }
                 else
                 {
                     lAnswer = Buddy.Resources.GetRandomString("restitution");
                     lAnswer = lAnswer.Replace("[date]", iDayString + " " + Buddy.Resources.GetRandomString("inlocation") + " " + mWeatherB.mName);
-                    lAnswer = lAnswer.Replace("[minTemp]", lMinWeather.MinTemperature.ToString());
-                    lAnswer = lAnswer.Replace("[hourMin]", EnglishHour(lMinWeather.Hour));
-                    lAnswer = lAnswer.Replace("[maxTemp]", lMaxWeather.MaxTemperature.ToString());
-                    lAnswer = lAnswer.Replace("[hourMax]", EnglishHour(lMaxWeather.Hour));
+                    lAnswer = lAnswer.Replace("[minTemp]", tempMin.ToString());
+                    lAnswer = lAnswer.Replace("[hourMin]", EnglishHour(hourMin));
+                    lAnswer = lAnswer.Replace("[maxTemp]", tempMax.ToString());
+                    lAnswer = lAnswer.Replace("[hourMax]", EnglishHour(hourMax));
                     lAnswer = lAnswer.Replace("[forecast]", Buddy.Resources.GetRandomString((iWeatherInfo.Type.ToString().ToLower()).Replace("_", "")));
                 }
             }
@@ -219,8 +232,28 @@ namespace BuddyApp.Weather
                 lAnswer = lAnswer.Replace("[date]", iDayString + " " + Buddy.Resources.GetRandomString("inlocation") + " " + mWeatherB.mName);
                 lAnswer = lAnswer.Replace("[time]", Buddy.Resources.GetRandomString(mWeatherB.mWeatherTime.ToString().ToLower()));
                 lAnswer = lAnswer.Replace("[degree]", iWeatherInfo.MinTemperature.ToString());
-            }
+            }            
             return (lAnswer);
+        }
+
+        private bool CheckDataForRequestedDate(WeatherInfo[] iWeatherInfo)
+        {
+            DateTime lTime = DateTime.Today;
+            if (mWeatherB.mDate > 0)
+                lTime = lTime.AddDays(mWeatherB.mDate);
+
+            if (iWeatherInfo.Length == 0)
+                return false;
+
+            for (int i = 0; i < iWeatherInfo.Length; i++)
+            {
+                if (iWeatherInfo[i].Day == lTime.Day && iWeatherInfo[i].Hour > FIRST_HOUR)
+                {
+                    // There is weather info for at least one daily hour in the day requested
+                    return true;
+                }
+            }
+            return false;
         }
 
         /// <summary>
@@ -230,91 +263,116 @@ namespace BuddyApp.Weather
         /// <param name="iIsMin">if true, get the minimum. if false, get the maximum</param>
         /// <param name="iDayString">the day</param>
         /// <returns>Instance of weatherInfo</returns>
-        private WeatherInfo RecoverMinMaxTempOfADay(WeatherInfo[] iWeatherInfo, bool iIsMin, string iDayString)
+        private bool RecoverMinMaxTempOfADay(int day, out int hourMin, out int tempMin, out int hourMax, out int tempMax)
         {
-            int j = 0;
             float lMinTemp = 200F;
             float lMaxTemp = -200F;
-            int hourMax = 0;
-            int hourMin = 0;
+            hourMax = 0;
+            hourMin = 0;
 
-            // Get today's weather (8am to 8pm)
-
-            if (mWeatherB.mDate >= 1)
+            for (int i = 0; i < mWeatherB.mWeatherInfos.Length; i++)
             {
-                for (int k = 0; k < mWeatherB.mDate; k++)
+                if (mWeatherB.mWeatherInfos[i].Day == day && mWeatherB.mWeatherInfos[i].Hour > FIRST_HOUR)
                 {
-                    j++;
-                    while (iWeatherInfo[j].Hour != 8)
-                        j++;
-                }
-            }
-            DateTime lTime = DateTime.Today;
-
-            if (mWeatherB.mDate >= 1)
-                lTime = lTime.AddDays(mWeatherB.mDate);
-            if (mWeatherB.mWeekend)
-                if (iDayString.Equals("sunday"))
-                {
-                    lTime = lTime.AddDays(1);
-                };
-            int index = j;
-
-            for (int i = 0; i < 8; i++)
-            {
-                if (lTime.Day.ToString().Equals(iWeatherInfo[j].Day.ToString()))
-                {
-                    if (iWeatherInfo[j].MinTemperature < lMinTemp)
+                    if (mWeatherB.mWeatherInfos[i].MinTemperature < lMinTemp)
                     {
-                        lMinTemp = iWeatherInfo[j].MinTemperature;
-                        hourMin = iWeatherInfo[j].Hour;
+                        lMinTemp = mWeatherB.mWeatherInfos[i].MinTemperature;
+                        hourMin = mWeatherB.mWeatherInfos[i].Hour;
                     }
-                    if (iWeatherInfo[j].MaxTemperature > lMaxTemp)
+                    if (mWeatherB.mWeatherInfos[i].MaxTemperature > lMaxTemp)
                     {
-                        lMaxTemp = iWeatherInfo[j].MaxTemperature;
-                        hourMax = iWeatherInfo[j].Hour;
+                        lMaxTemp = mWeatherB.mWeatherInfos[i].MaxTemperature;
+                        hourMax = mWeatherB.mWeatherInfos[i].Hour;
                     }
                 }
-                j++;
             }
-            // If the we don't have any information about today's weather, we set the weather of tomorrow 
+            
+            tempMin = (int)Math.Round(lMinTemp);
+            tempMax = (int)Math.Round(lMaxTemp);
 
             if (lMinTemp == 200F)
-            {
-                lTime = lTime.AddDays(1);
-                for (int i = 0; i < 8; i++)
-                {
-                    if (lTime.Day.ToString().Equals(iWeatherInfo[index].Day.ToString()))
-                    {
-                        if (iWeatherInfo[index].MinTemperature < lMinTemp)
-                        {
-                            lMinTemp = iWeatherInfo[index].MinTemperature;
-                            hourMin = iWeatherInfo[index].Hour;
-                        }
-                        if (iWeatherInfo[index].MaxTemperature > lMaxTemp)
-                        {
-                            lMaxTemp = iWeatherInfo[index].MaxTemperature;
-                            hourMax = iWeatherInfo[index].Hour;
-                        }
-                    }
-                    index++;
-                }
-            }
+                return false;
 
-            WeatherInfo lWeatherInfoMin = new WeatherInfo()
-            {
-                MinTemperature = (int)Math.Ceiling(lMinTemp),
-                Hour = hourMin
-            };
-            WeatherInfo lWeatherInfoMax = new WeatherInfo()
-            {
-                MaxTemperature = (int)Math.Ceiling(lMaxTemp),
-                Hour = hourMax
-            };
-            if (iIsMin)
-                return (lWeatherInfoMin);
-            else
-                return (lWeatherInfoMax);
+            return true;
+
+            //if (mWeatherB.mDate >= 1)
+            //{
+            //    for (int k = 0; k < mWeatherB.mDate; k++)
+            //    {
+            //        j++;
+            //        while (j < (iWeatherInfo.Length-1) && iWeatherInfo[j].Hour != START_HOUR_MINMAX_TEMP)
+            //            j++;
+            //    }
+            //}
+
+            //if (mWeatherB.mDate >= 1)
+            //    lTime = lTime.AddDays(mWeatherB.mDate);
+            //if (mWeatherB.mWeekend)
+            //    if (iDayString.Equals("sunday"))
+            //    {
+            //        lTime = lTime.AddDays(1);
+            //    };
+            //int index = j;
+
+            //for (int i = 0; i < 8; i++)
+            //{
+            //    if (lTime.Day.ToString().Equals(iWeatherInfo[j].Day.ToString()))
+            //    {
+            //        if (iWeatherInfo[j].MinTemperature < lMinTemp)
+            //        {
+            //            lMinTemp = iWeatherInfo[j].MinTemperature;
+            //            hourMin = iWeatherInfo[j].Hour;
+            //        }
+            //        if (iWeatherInfo[j].MaxTemperature > lMaxTemp)
+            //        {
+            //            lMaxTemp = iWeatherInfo[j].MaxTemperature;
+            //            hourMax = iWeatherInfo[j].Hour;
+            //        }
+            //    }
+            //    j++;
+            //    if (j >= iWeatherInfo.Length)
+            //        break;
+            //}
+            //// If the we don't have any information about today's weather, we set the weather of tomorrow 
+
+            //if (lMinTemp == 200F)
+            //{
+            //    lTime = lTime.AddDays(1);
+            //    for (int i = 0; i < 8; i++)
+            //    {
+            //        if (lTime.Day.ToString().Equals(iWeatherInfo[index].Day.ToString()))
+            //        {
+            //            if (iWeatherInfo[index].MinTemperature < lMinTemp)
+            //            {
+            //                lMinTemp = iWeatherInfo[index].MinTemperature;
+            //                hourMin = iWeatherInfo[index].Hour;
+            //            }
+            //            if (iWeatherInfo[index].MaxTemperature > lMaxTemp)
+            //            {
+            //                lMaxTemp = iWeatherInfo[index].MaxTemperature;
+            //                hourMax = iWeatherInfo[index].Hour;
+            //            }
+            //        }
+            //        index++;
+            //        if (index >= iWeatherInfo.Length)
+            //            break;
+            //    }
+            //}
+
+            //WeatherInfo lWeatherInfoMin = new WeatherInfo()
+            //{
+            //    MinTemperature = (int)Math.Ceiling(lMinTemp),
+            //    Hour = hourMin
+            //};
+            //WeatherInfo lWeatherInfoMax = new WeatherInfo()
+            //{
+            //    MaxTemperature = (int)Math.Ceiling(lMaxTemp),
+            //    Hour = hourMax
+            //};
+            //if (iIsMin)
+            //    return (lWeatherInfoMin);
+            //else
+            //    return (lWeatherInfoMax);
         }
 
         /// <summary>
@@ -336,7 +394,7 @@ namespace BuddyApp.Weather
                 for (int k = 0; k < mWeatherB.mDate; k++)
                 {
                     j++;
-                    while (iWeatherInfo[j].Hour != 8)
+                    while (j < (iWeatherInfo.Length-1) && iWeatherInfo[j].Hour != 6)
                         j++;
                 }
             }
@@ -354,6 +412,8 @@ namespace BuddyApp.Weather
                     hourMax = iWeatherInfo[j].Hour;
                 }
                 j++;
+                if (j >= iWeatherInfo.Length)
+                    break;
             }
             WeatherInfo lWeatherInfoMin = new WeatherInfo()
             {
@@ -376,7 +436,6 @@ namespace BuddyApp.Weather
             //mWeatherB.mIsOk = false;
 
             string lDayString = RecoverDay();
-
             string lAnswer = Buddy.Resources.GetRandomString("saycommand");
             lAnswer = lAnswer.Replace("[date]", lDayString);
             lAnswer = lAnswer.Replace("[localization]", mWeatherB.mName);
@@ -448,68 +507,84 @@ namespace BuddyApp.Weather
             if (mWeatherB.mWeekend)
                 lNbDays = 1;
 
+            mWeatherB.mIsOk = false;
+
             for (int d = 0; d <= lNbDays; d++)
             {
-                if (mWeatherB.mWeekend)
-                    SayWeather(mWeatherB.mWeatherInfos[mWeatherB.mIndice + 4 * d], true);
-                else
-                {
-                    if ((mWeatherB.mIndice + 4 * d) == -1)
-                        SayWeather(mWeatherB.mWeatherInfos[0]);
-                    else
-                        SayWeather(mWeatherB.mWeatherInfos[mWeatherB.mIndice + 4 * d]);
-                }
+                int indice = mWeatherB.mIndice + NB_DATA_IN_DAY * d;
 
-                float num = 0.1f;
-                int j = 0;
+                if (indice >= 0 && indice < mWeatherB.mWeatherInfos.Length)
+                    SayWeather(mWeatherB.mWeatherInfos[indice], mWeatherB.mWeekend);
+                else if (d==0 && mWeatherB.mWeatherInfos.Length > 0)
+                    SayWeather(mWeatherB.mWeatherInfos[0]);
 
-                //Toaster.Display<BackgroundToast>().With();
-                //Buddy.GUI.Toaster.Display<CustomToast>().With();
+                yield return new WaitForSeconds(3f);
 
-                mWeatherB.mIsOk = false;
-                if (mWeatherB.mDate >= 1)
-                {
-                    for (int k = 0; k < mWeatherB.mDate + d; k++)
-                    {
-                        j++;
-                        while (iWeatherInfo[j].Hour != 8)
-                            j++;
-                    }
-                }
-
-                for (int i = 0; i < 8; i++)
-                {
-                    if (i >= 4)
-                    {
-                        j++;
-                        while (iWeatherInfo[j].Hour != 12)
-                            j++;
-                        SetPanel(mTrip[i], iWeatherInfo[j], true);
-
-                    }
-
-                    if (i < 4)
-                    {
-                        SetPanel(mTrip[i], iWeatherInfo[j], false);
-                        j++;
-                    }
-                    yield return new WaitForSeconds(num);
-                }
-
-                if (lNbDays == 0)
-                    yield return new WaitForSeconds(6f);
-                else
-                    yield return new WaitForSeconds(3f);
-
-                while (Buddy.Vocal.IsSpeaking )
+                while (Buddy.Vocal.IsSpeaking)
                     yield return null;
 
-                for (int i = 7; i >= 0; i--)
-                {
-                    mTrip[i].Cancel();
-                    yield return new WaitForSeconds(num);
-                }
-                Buddy.GUI.Toaster.Hide();
+                //if (mWeatherB.mWeekend)
+                //{
+                //    SayWeather(mWeatherB.mWeatherInfos[mWeatherB.mIndice + 4 * d], true);
+                //}
+                //else
+                //{
+                //    if ((mWeatherB.mIndice + 4 * d) == -1)
+                //        SayWeather(mWeatherB.mWeatherInfos[0]);
+                //    else
+                //        SayWeather(mWeatherB.mWeatherInfos[mWeatherB.mIndice + 4 * d]);
+                //}
+
+                //float num = 0.1f;
+                //int j = 0;
+
+                ////Toaster.Display<BackgroundToast>().With();
+                ////Buddy.GUI.Toaster.Display<CustomToast>();
+
+                //mWeatherB.mIsOk = false;
+                //if (mWeatherB.mDate >= 1)
+                //{
+                //    for (int k = 0; k < mWeatherB.mDate + d; k++)
+                //    {
+                //        j++;
+                //        while (iWeatherInfo[j].Hour != 9)
+                //            j++;
+                //    }
+                //}
+
+                //for (int i = 0; i < 8; i++)
+                //{
+                //    //if (i >= 4)
+                //    //{
+                //    //    j++;
+                //    //    while (iWeatherInfo[j].Hour != 12)
+                //    //        j++;
+                //    //    SetPanel(mTrip[i], iWeatherInfo[j], true);
+
+                //    //}
+
+                //    if (i < 4)
+                //    {
+                //        SetPanel(mTrip[i], iWeatherInfo[j], false);
+                //        j++;
+                //    }
+                //    yield return new WaitForSeconds(num);
+                //}
+
+                //if (lNbDays == 0)
+                //    yield return new WaitForSeconds(6f);
+                //else
+                //    yield return new WaitForSeconds(3f);
+
+                //while (Buddy.Vocal.IsSpeaking)
+                //    yield return null;
+
+                //for (int i = 3; i >= 0; i--)
+                //{
+                //    mTrip[i].Cancel();
+                //    yield return new WaitForSeconds(num);
+                //}
+                //Buddy.GUI.Toaster.Hide();
             }
             mWeatherB.mIsOk = true;
         }
@@ -570,7 +645,7 @@ namespace BuddyApp.Weather
                 iTrip.SetSun();
             else
                 iTrip.SetMoon();
-             
+
             Debug.Log("SETPANEL 8");
             switch (iWeatherInfo.Type)
             {

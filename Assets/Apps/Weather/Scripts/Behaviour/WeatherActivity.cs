@@ -14,7 +14,7 @@ namespace BuddyApp.Weather
         public override void OnLoading(object[] iInputArgs)
         {
             ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "On loading...");
-            if (iInputArgs != null) {
+            if (iInputArgs != null && iInputArgs.Length > 0) {
                 // We have an input sentence
                 WeatherData.Instance.VocalRequest = (string)iInputArgs[0];
             } else {
