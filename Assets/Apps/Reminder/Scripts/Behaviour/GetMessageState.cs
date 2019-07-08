@@ -111,10 +111,7 @@ namespace BuddyApp.Reminder
 
             if (MessageStatus.E_UI_DISPLAY == mMsgStatus) // If was already displayed
             {
-                Buddy.Vocal.OnEndListening.Clear();
-                Buddy.Vocal.OnEndListening.Add(VoconResult);
-                Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
-                Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("hereisthemsg") + "[200]" + Buddy.Resources.GetString("validateormodify"));
+				SayMessageAndListen();
 
                 DisplayMessageEntry();
             }
@@ -178,13 +175,8 @@ namespace BuddyApp.Reminder
             {
                 ReminderDateManager.GetInstance().ReminderMsg = iSpeechInput.Utterance;
 				
-                Buddy.Vocal.OnEndListening.Clear();
-                Buddy.Vocal.StopAndClear();
-                Buddy.Vocal.OnEndListening.Add(VoconResult);
-                Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
-				
-                Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("hereisthemsg") + "[200]" + Buddy.Resources.GetString("validateormodify"));
-
+                SayMessageAndListen();	
+                
                 DisplayMessageEntry();
                 return;
             }
@@ -202,15 +194,9 @@ namespace BuddyApp.Reminder
             }
             else if (MessageStatus.E_SECOND_LISTENING == mMsgStatus)
             {
-                mMsgStatus = MessageStatus.E_UI_DISPLAY;
+                mMsgStatus = MessageStatus.E_UI_DISPLAY;                
 
-                // Launch Vocon - Validation/or/Modify
-                Buddy.Vocal.OnEndListening.Clear();
-                Buddy.Vocal.OnEndListening.Add(VoconResult);
-
-                Buddy.Vocal.StopAndClear();
-                Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
-                Buddy.Vocal.SayAndListen(Buddy.Resources.GetString("hereisthemsg") + "[200]" + Buddy.Resources.GetString("validateormodify"));
+				SayMessageAndListen();
 
                 DisplayMessageEntry();
             }
@@ -269,7 +255,21 @@ namespace BuddyApp.Reminder
         {
             mBIgnoreOnEndListening = true;
             Trigger("ExitReminder");
-        }
+        }	
+		
+		private void SayMessageAndListen()
+		{
+			Buddy.Vocal.OnEndListening.Clear();
+			Buddy.Vocal.StopAndClear();
+			// Launch Vocon - Validation/or/Modify
+			Buddy.Vocal.OnEndListening.Add(VoconResult);
+			Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
+			
+			string msg = Buddy.Resources.GetString("hereisthemsg");				
+			if (!string.IsNullOrEmpty(ReminderDateManager.GetInstance().ReminderMsg))
+				msg += "[50]" + ReminderDateManager.GetInstance().ReminderMsg;
+			Buddy.Vocal.SayAndListen(msg + "[200]" + Buddy.Resources.GetString("validateormodify"));
+		}			
 
         private void DisplayMessageEntry()
         {
@@ -364,8 +364,7 @@ namespace BuddyApp.Reminder
             Buddy.GUI.Header.HideTitle();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
-            string lEndingSpeech = Buddy.Resources.GetString("reminderok") + "[300]" + ReminderDateManager.GetInstance().ReminderMsg;
-            Buddy.Vocal.Say(lEndingSpeech, (iOutput) => { QuitApp(); });
+            Buddy.Vocal.SayKey("reminderok", (iOutput) => { QuitApp(); });
         }
     }
 }
