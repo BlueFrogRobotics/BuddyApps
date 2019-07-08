@@ -1,0 +1,13 @@
+#BNF+EMV2.1;
+!grammar radio_en;
+!start <radio>;
+!start <quit>;
+!start <volumedown>;
+!start <volumeup>;
+!import <numbers#nb>;
+
+<radioname> : RTL2 | France Maghreb 2 | Virgin Radio | RMC | Radio Nova | Radio Meuh | Fun Radio | Tropiques FM | FIP | Jazz Radio | Europe 1 | Djam Radio | Chérie | Hotmixradio 80 | RTL | Rire et Chansons | Latina | Radio Public Santé | franceinfo | Chante France | Skyrock | La Grosse Radio | Beur FM | RFM | NRJ | Africa numéro 1 | Alouette | Sud Radio | OUI FM | M Radio | Radio Orient | Nostalgie | RADIO FG | BFM Business | France Culture | Voltage | France Bleu Paris | France Inter | Radio Classique | France Musique;
+<radio> : [launch] ([the] radio | [[the] radio] <radioname>);
+<quit> : quit | cancel | stop | exit | that's all | leave;
+<volumeup> : turn up the (volume | sound) | turn the (volume | sound) up [by <numbers#nb> [percent]]| speak louder;
+<volumedown> : turn down the (volume | sound) | turn the (volume | sound) down [by <numbers#nb> [percent]] | lower (the volume | your voice);
