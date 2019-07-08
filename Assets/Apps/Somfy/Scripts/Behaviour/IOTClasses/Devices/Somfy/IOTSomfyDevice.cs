@@ -212,7 +212,10 @@ namespace BuddyApp.Somfy
             UnityWebRequest request = UnityWebRequest.Put(lUrl, bytePostData); //use PUT method to send simple stream of bytes
             request.method = "POST"; //hack to send POST to server instead of PUT
             request.SetRequestHeader("Content-Type", "application/json");
-            request.SetRequestHeader("Cookie", "JSESSIONID=" + System.Uri.EscapeDataString(mSessionID));
+
+            if (Application.platform == RuntimePlatform.WindowsEditor)
+                request.SetRequestHeader("Cookie", "JSESSIONID=" + System.Uri.EscapeDataString(mSessionID));
+
             mHasFinishedCommand = false;
             request.SendWebRequest().completed += OnEndRequest;
             ///
@@ -236,7 +239,7 @@ namespace BuddyApp.Somfy
             //    mHasFinishedCommand = true;
             //}
             //);
-            Debug.Log("encore apres post");
+            //Debug.Log("encore apres post");
         }
 
         protected void ChangeStateValue(string lStateName)

@@ -10,16 +10,16 @@ namespace BuddyApp.Somfy
         protected List<IOTDevices> mDevices = new List<IOTDevices>();
         public List<IOTDevices> Devices { get { return mDevices; } }
 
-        public virtual void Creation()
-        {
-            mListIntantParams.Clear();
-        }
+        //public virtual void Creation()
+        //{
+        //    mListIntantParams.Clear();
+        //}
 
-        public override void Connect()
-        {
-            Login();
-            GetDevices();
-        }
+        //public override void Connect()
+        //{
+        //    Login();
+        //    GetDevices();
+        //}
 
         public override void OnOff(bool iOnOff)
         {
@@ -27,15 +27,15 @@ namespace BuddyApp.Somfy
                 lDevices.OnOff(iOnOff);
         }
 
-        public virtual void Login()
+        public virtual IEnumerator Login()
         {
-
+            yield return null;
         }
 
-        public virtual void GetDevices()
-        {
+        //public virtual void GetDevices()
+        //{
 
-        }
+        //}
 
         public virtual IEnumerator GetTheDevices()
         {

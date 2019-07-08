@@ -22,6 +22,7 @@ namespace BuddyApp.Somfy
         {
             mInitialized = false;
             mChangeState = false;
+
             if (string.IsNullOrEmpty(SomfyData.Instance.VocalRequest))
             {
                 Debug.Log("vocal request est nul!!!!!!");
@@ -29,7 +30,7 @@ namespace BuddyApp.Somfy
             }
             else
             {
-                Debug.Log("vocal request n est pas du tout nul!!!!!!");
+                //Debug.Log("vocal request n est pas du tout nul!!!!!!");
                 StartCoroutine(FromCompanion());
             }
         }
@@ -204,7 +205,7 @@ namespace BuddyApp.Somfy
                 yield return null;
             Debug.Log("avant get device");
             Debug.Log("les devices trouves: " + mSomfyBehaviour.Box.Devices.Count);
-            mSomfyBehaviour.GetDevices();
+            //mSomfyBehaviour.GetMonitoredDevices();
             mListening = false;
             mSpeechReco = "";
             Buddy.Vocal.OnEndListening.Add(OnSpeechReco);
@@ -219,11 +220,13 @@ namespace BuddyApp.Somfy
 
         private IEnumerator FromCompanion()
         {
-            Debug.Log("vocal request: " + SomfyData.Instance.VocalRequest);
+            //string vocalRequest = "mets la musique dans le salon";
+            //Debug.Log("vocal request: " + SomfyData.Instance.VocalRequest);
             while (mSomfyBehaviour.Box.Devices.Count == 0)
                 yield return null;
-            mSomfyBehaviour.GetDevices();
+            //mSomfyBehaviour.GetMonitoredDevices();
             ParseText(SomfyData.Instance.VocalRequest);
+            //ParseText(vocalRequest);
             while (Buddy.Vocal.IsSpeaking)
                 yield return null;
             yield return new WaitForSeconds(2.5f);

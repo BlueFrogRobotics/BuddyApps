@@ -25,6 +25,11 @@ namespace BuddyApp.Somfy
         private IOTSomfyDevice mThermometer;
         private IOTSomfyDevice mSonos;
 
+        public bool IsBoxAvailable()
+        {
+            return Box.Available;
+        }
+
 
         void Start()
         {
@@ -33,47 +38,49 @@ namespace BuddyApp.Somfy
 			*/
             SomfyActivity.Init(null);
 
-
             /*
 			* Init your app data
 			*/
             mAppData = SomfyData.Instance;
 
-            SomfyData.Instance.URL_API = "https://ha102-1.overkiz.com/enduser-mobile-web/enduserAPI";
-
-
-
-        }
-
-        public void Login()
-        {
             Box = new IOTSomfy();
-            Box.Login();
+
         }
 
-        public void ConnectDevices()
+        public IEnumerator Login()
         {
-            Box.GetDevices();
+            return Box.Login();
         }
 
-        public IEnumerator ConnectTheDevices()
+        //public void ConnectDevices()
+        //{
+        //    Box.GetDevices();
+        //}
+
+        /// <summary>
+        /// Collects all the connected devices.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerator CollectConnectedDevices()
         {
             return Box.GetTheDevices();
         }
 
-        public void GetDevices()
+        /// <summary>
+        /// Search monitored devices in the list of connected devices
+        /// </summary>
+        public void GetMonitoredDevices()
         {
             //box.GetDevices();
-            Debug.Log("debut de get device");
-            Debug.Log("nb devices: " + Box.Devices.Count);
+            //Debug.Log("debut de get device");
+            Debug.Log("Nb connected devices: " + Box.Devices.Count);
             foreach (IOTDevices lDevice in Box.Devices)
             {
-                //Debug.Log("le machin");
-                Debug.Log("category : " + lDevice.Type.ToString());
+                Debug.Log("Category : " + lDevice.Type.ToString());
 
                 if (lDevice.Type == IOTDevices.DeviceType.STORE && lDevice.Name == "Living room blind")
                 {
-                    Debug.Log("store");
+                    Debug.Log("Living room blind connected");
                     mStore = (IOTSomfyDevice)lDevice;
                     //if (store.states != null)
                     //{
@@ -85,7 +92,7 @@ namespace BuddyApp.Somfy
                 }
                 else if (lDevice.Type == IOTDevices.DeviceType.SWITCH && lDevice.Name == "Living room plug")
                 {
-                    Debug.Log("plug living room");
+                    Debug.Log("Living room plug connected");
                     mPlug = (IOTSomfyDevice)lDevice;
                     //if (plug.states != null)
                     //{
@@ -97,7 +104,7 @@ namespace BuddyApp.Somfy
                 }
                 else if (lDevice.Type == IOTDevices.DeviceType.SWITCH && lDevice.Name == "Office plug")
                 {
-                    Debug.Log("plug Office");
+                    Debug.Log("Office plug connected");
                     mPlug2 = (IOTSomfyDevice)lDevice;
                     //if (plug.states != null)
                     //{
@@ -109,12 +116,12 @@ namespace BuddyApp.Somfy
                 }
                 else if (lDevice.Type == IOTDevices.DeviceType.THERMOSTAT && lDevice.Name == "thermostat")
                 {
-                    Debug.Log("le thermos: " + lDevice.Name);
+                    Debug.Log("Thermostat connected " + lDevice.Name);
                     mThermostat = (IOTSomfyDevice)lDevice;
                 }
                 else if (lDevice.Type == IOTDevices.DeviceType.THERMOMETER && lDevice.Name == "thermostat-1")
                 {
-                    Debug.Log("le thermos");
+                    Debug.Log("Thermostat-1 connected");
                     mThermometer = (IOTSomfyDevice)lDevice;
                     if (mThermometer.states != null)
                     {
@@ -126,7 +133,7 @@ namespace BuddyApp.Somfy
                 }
                 else if (lDevice.Type == IOTDevices.DeviceType.SPEAKER)
                 {
-                    Debug.Log("le sonos: " + lDevice.Name);
+                    Debug.Log("Sonos connected " + lDevice.Name);
                     mSonos = (IOTSomfyDevice)lDevice;
                 }
             }

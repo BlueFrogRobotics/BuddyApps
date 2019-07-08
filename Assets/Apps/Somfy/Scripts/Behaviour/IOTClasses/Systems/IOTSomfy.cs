@@ -23,81 +23,54 @@ namespace BuddyApp.Somfy
         {
             mName = "Somfy";
             mSpriteName = "IOT_System_Somfy";
+            mSessionID = "";
         }
 
 
-        public override void Connect()
+        //public override void Connect()
+        //{
+        //    Login();
+
+        //    //PlayerPrefs.SetString("somfy_user", mCredentials[1]);
+        //    //PlayerPrefs.SetString("somfy_password", mCredentials[2]);
+        //    //PlayerPrefs.Save();
+        //}
+
+        /// <summary>
+        /// Send login request
+        /// </summary>
+        /// <returns></returns>
+        public override IEnumerator Login()
         {
-            Login();
+            Debug.Log("Somfy login: "+ SomfyData.Instance.Login);
+            Credentials[1] = SomfyData.Instance.Login;
+            Credentials[2] = SomfyData.Instance.Password;
 
-            //PlayerPrefs.SetString("somfy_user", mCredentials[1]);
-            //PlayerPrefs.SetString("somfy_password", mCredentials[2]);
-            //PlayerPrefs.Save();
-        }
-
-        public override void Login()
-        {
-            string lUrl = SomfyData.Instance.URL_API + "/" + "login"/* + "?userId=" + Credentials[1] + "&userPassword=" + Credentials[2]*/;
-            Hashtable user = new Hashtable();
-            Debug.Log("somfy machin");
-            Debug.Log("somfy login: "+ SomfyData.Instance.Login);
-            Credentials[1] = SomfyData.Instance.Login;//"innofair2";
-            Credentials[2] = SomfyData.Instance.Password;//"2016fair2";
-            //Credentials[1] = "innofair2";
-            //Credentials[2] = "2016fair2";
-            user["userId"] = Credentials[1];
-            user["userPassword"] = Credentials[2];
-
-            /*Request lRequest = new Request("POST",lUrl, user);
-            lRequest.Send((lResult) =>
-            {
-                if (lResult == null)
-                {
-                    Debug.LogError("Somfy not connected");
-                    mAvailable = false;
-                    return;
-                }
-                Debug.Log(lResult.response.Text);
-                mHeaders.Clear();
-                mHeaders["SET-COOKIE"] = lResult.response.GetHeader("SET-COOKIE");
-                getSessionId();
-                GetDevices();
-            });*/
-            /*WWWForm form = new WWWForm();
-            form.AddField("userId", Credentials[1]);
-            form.AddField("userPassword", Credentials[2]);
-            UnityWebRequest www = UnityWebRequest.Post("https://ha102-1.overkiz.com/enduser-mobile-web/enduserAPI/" + "login",form);
-            www.Send();
-            while (!www.isDone)
-            {
-
-            }
-            Debug.Log(www.error);*/
             WWWForm form = new WWWForm();
             form.AddField("userId", Credentials[1]);
             form.AddField("userPassword", Credentials[2]);
-            //formData.Add(new MultipartFormDataSection("userId="+id+"&userPassword="+password));
 
-            UnityWebRequest www = UnityWebRequest.Post(SomfyData.Instance.URL_API + "/login", form);
-            //yield return www.Send();
-            www.Send();
-            while (!www.isDone)
-            {
+            using (UnityWebRequest www = UnityWebRequest.Post(SomfyData.Instance.URL_API + "/login", form))
+            { 
+                yield return www.SendWebRequest();
 
-            }
-            if (www.isNetworkError)
-            {
-                Debug.Log(www.error);
-            }
-            else
-            {
-                Debug.Log("dowload handler "+www.downloadHandler.text);
-                mHeaders.Clear();
-                mHeaders["SET-COOKIE"] = www.GetResponseHeader("SET-COOKIE");
-                Debug.Log("header received: " + mHeaders["SET-COOKIE"]);
-                string lSessionId = getSessionId();
-                Debug.Log("session id: " + lSessionId);
-                //GetDevices();
+                if (www.isHttpError || www.isNetworkError)
+                {
+                    mAvailable = false;
+                    Debug.Log("Login error " + www.error + " " + www.downloadHandler.text);
+                }
+                else
+                {
+                    mAvailable = true;
+                    Debug.Log("Dowload handler " + www.downloadHandler.text);
+                    mHeaders.Clear();
+                    mHeaders["SET-COOKIE"] = www.GetResponseHeader("SET-COOKIE");
+                    Debug.Log("header received: " + mHeaders["SET-COOKIE"]);
+                    if (!UpdateSessionId())
+                    {
+                        Debug.Log("Error setting session ID");
+                    }
+                }
             }
 
             //Upload(Credentials[1], Credentials[2]);
@@ -105,180 +78,197 @@ namespace BuddyApp.Somfy
 
         }
 
-        private IEnumerator GetDelayedDevices()
-        {
-            yield return new WaitForSeconds(2);
-            GetDevices();
-            yield return new WaitForSeconds(2);
-            Upload(Credentials[1], Credentials[2]);
-        }
-
-    
+        //private IEnumerator GetDelayedDevices()
+        //{
+        //    yield return new WaitForSeconds(2);
+        //    GetDevices();
+        //    yield return new WaitForSeconds(2);
+        //    yield return Upload(Credentials[1], Credentials[2]);
+        //}
 
 
-        void Upload(string id, string password)
-        {
-            //List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
-            WWWForm form = new WWWForm();
-            form.AddField("userId", id);
-            form.AddField("userPassword", password);
-            //formData.Add(new MultipartFormDataSection("userId="+id+"&userPassword="+password));
 
-            UnityWebRequest www = UnityWebRequest.Post(SomfyData.Instance.URL_API + "/login", form);
-            //yield return www.Send();
-            www.Send();
-            while (!www.isDone)
-            {
 
-            }
-            if (www.isNetworkError)
-            {
-                Debug.Log(www.error);
-            }
-            else
-            {
-                Debug.Log("Form upload complete!" + www.downloadHandler.text);
-            }
-        }
+        //IEnumerator Upload(string id, string password)
+        //{
+        //    //List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
+        //    WWWForm form = new WWWForm();
+        //    form.AddField("userId", id);
+        //    form.AddField("userPassword", password);
+        //    //formData.Add(new MultipartFormDataSection("userId="+id+"&userPassword="+password));
 
+        //    UnityWebRequest www = UnityWebRequest.Post(SomfyData.Instance.URL_API + "/login", form);
+        //    //yield return www.Send();
+        //    yield return www.SendWebRequest();
+        //    if (www.isNetworkError)
+        //    {
+        //        Debug.Log(www.error);
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("Form upload complete!" + www.downloadHandler.text);
+        //    }
+        //}
+
+        /// <summary>
+        /// Gets all connected devices.
+        /// </summary>
+        /// <returns></returns>
         public override IEnumerator GetTheDevices()
         {
             string url = SomfyData.Instance.URL_API + "/setup/devices";
-            UnityWebRequest www = UnityWebRequest.Get(url);
-            www.SetRequestHeader("Cookie", "JSESSIONID=" + System.Uri.EscapeDataString(mSessionID));
-            yield return www.SendWebRequest();
-            Debug.Log("get devices upload complete!" + www.downloadHandler.text);
-            string response = "{\"devices\" :" + www.downloadHandler.text + "}";
-            IOTSomfyDeviceCollection lDevices = new IOTSomfyDeviceCollection(response);
-            Debug.Log("avant ecriture reponse");
-            File.WriteAllText(Buddy.Resources.GetRawFullPath("response.txt"), response);
-            Debug.Log("apres ecriture reponse");
-            //Debug.Log("{\"devices\" :" + lResult.response.Text + "}");
-            if (lDevices != null)
-            {
-                Debug.Log("nombre somfy devices: " + lDevices.devices.Length);
-                mDevices = lDevices.devices.ToList<IOTDevices>();
-                Debug.Log("apres init mdevice");
-                int j = 0;
-                for (int i = 0; i < mDevices.Count; ++i)
+
+            using (UnityWebRequest www = UnityWebRequest.Get(url))
+            { 
+                // Cookie header already set on runtime
+                if (Application.platform == RuntimePlatform.WindowsEditor)
+                    www.SetRequestHeader("Cookie", "JSESSIONID=" + System.Uri.EscapeDataString(mSessionID));
+
+                yield return www.SendWebRequest();
+                if (www.isHttpError || www.isNetworkError)
                 {
-                    string iUiClass = ((IOTSomfyDevice)mDevices[i]).uiClass;
-                    Debug.Log("ui class: " + iUiClass);
-                    if (iUiClass == "Pod")
+                    Debug.Log("Get devices error " + www.error + " " + www.downloadHandler.text);
+                }
+                else
+                {
+                    Debug.Log("Get devices upload complete!" + www.downloadHandler.text);
+                    string response = "{\"devices\" :" + www.downloadHandler.text + "}";
+                    IOTSomfyDeviceCollection lDevices = new IOTSomfyDeviceCollection(response);
+                    //Debug.Log("avant ecriture reponse");
+                    //File.WriteAllText(Buddy.Resources.GetRawFullPath("response.txt"), response);
+                    //Debug.Log("apres ecriture reponse");
+                    //Debug.Log("{\"devices\" :" + lResult.response.Text + "}");
+                    if (lDevices != null)
                     {
-                        mDevices.RemoveAt(i);
-                        i--;
-                        j++;
+                        Debug.Log("Number somfy devices: " + lDevices.devices.Length);
+                        mDevices = lDevices.devices.ToList<IOTDevices>();
+                        //Debug.Log("apres init mdevice");
+                        int j = 0;
+                        for (int i = 0; i < mDevices.Count; ++i)
+                        {
+                            string iUiClass = ((IOTSomfyDevice)mDevices[i]).uiClass;
+                            Debug.Log("Device " + i + " UI class: " + iUiClass);
+                            if (iUiClass == "Pod")
+                            {
+                                mDevices.RemoveAt(i);
+                                i--;
+                                j++;
+                            }
+                            else
+                            {
+                                mDevices[i].Credentials[1] = mCredentials[1];
+                                mDevices[i].Credentials[2] = mCredentials[2];
+                                if (iUiClass == "OnOff")
+                                    mDevices[i] = new IOTSomfySwitch(lDevices.devices[i + j], mSessionID);
+                                else if (iUiClass == "Screen")
+                                    mDevices[i] = new IOTSomfyStore(lDevices.devices[i + j], mSessionID);
+                                else if (iUiClass == "HeatingSystem")
+                                    mDevices[i] = new IOTSomfyThermostat(lDevices.devices[i + j], mSessionID);
+                                else if (iUiClass == "TemperatureSensor")
+                                    mDevices[i] = new IOTSomfyThermometer(lDevices.devices[i + j], mSessionID);
+                                else if (iUiClass == "MusicPlayer")
+                                    mDevices[i] = new IOTSomfySonos(lDevices.devices[i + j], mSessionID);
+                            }
+                        }
                     }
-                    else
-                    {
-                        mDevices[i].Credentials[1] = mCredentials[1];
-                        mDevices[i].Credentials[2] = mCredentials[2];
-                        if (iUiClass == "OnOff")
-                            mDevices[i] = new IOTSomfySwitch(lDevices.devices[i + j], mSessionID);
-                        else if (iUiClass == "Screen")
-                            mDevices[i] = new IOTSomfyStore(lDevices.devices[i + j], mSessionID);
-                        else if (iUiClass == "HeatingSystem")
-                            mDevices[i] = new IOTSomfyThermostat(lDevices.devices[i + j], mSessionID);
-                        else if (iUiClass == "TemperatureSensor")
-                            mDevices[i] = new IOTSomfyThermometer(lDevices.devices[i + j], mSessionID);
-                        else if (iUiClass == "MusicPlayer")
-                            mDevices[i] = new IOTSomfySonos(lDevices.devices[i + j], mSessionID);
-                    }
+                    //Upload(Credentials[1], Credentials[2]);
                 }
             }
-            Upload(Credentials[1], Credentials[2]);
         }
 
-        public override void GetDevices()
-        {
-            string url = SomfyData.Instance.URL_API + "/setup/devices";
-            Debug.Log("url api: " + url);
-            Request lRequest = new Request("GET", url);
-            lRequest.cookieJar = null;
-            lRequest.SetHeader("Cookie", "JSESSIONID="+ System.Uri.EscapeDataString(mSessionID));
+        //public override void GetDevices()
+        //{
+        //    string url = SomfyData.Instance.URL_API + "/setup/devices";
+        //    Debug.Log("url api: " + url);
+        //    Request lRequest = new Request("GET", url);
+        //    lRequest.cookieJar = null;
+        //    lRequest.SetHeader("Cookie", "JSESSIONID="+ System.Uri.EscapeDataString(mSessionID));
 
-            //UnityWebRequest www = UnityWebRequest.Get(url);
-            //www.SetRequestHeader("Cookie", "JSESSIONID=" + System.Uri.EscapeDataString(mSessionID));
-            //www.SendWebRequest();
-            //Debug.Log("get device upload complete!" + www.downloadHandler.text);
-            lRequest.Send((lResult) =>
-            {
-                if (lResult == null || lResult.response == null)
-                {
-                    Debug.LogError("Somfy not connected");
-                    return;
-                }
-                Debug.Log("avant response");
-                Debug.Log("identifiants magique: " + SomfyData.Instance.Login + " " + SomfyData.Instance.Password);
+        //    //UnityWebRequest www = UnityWebRequest.Get(url);
+        //    //www.SetRequestHeader("Cookie", "JSESSIONID=" + System.Uri.EscapeDataString(mSessionID));
+        //    //www.SendWebRequest();
+        //    //Debug.Log("get device upload complete!" + www.downloadHandler.text);
+        //    lRequest.Send((lResult) =>
+        //    {
+        //        if (lResult == null || lResult.response == null)
+        //        {
+        //            Debug.LogError("Somfy not connected");
+        //            return;
+        //        }
+        //        Debug.Log("avant response");
+        //        Debug.Log("identifiants magique: " + SomfyData.Instance.Login + " " + SomfyData.Instance.Password);
 
-                string response = "{\"devices\" :" + lResult.response.Text + "}";
-                Debug.Log("reponse: " + response);
-                //JSONNode lJsonNode = Buddy.JSON.Parse(response);
-                //Debug.Log("response: " + response);
-                //IOTSomfyDeviceCollection lDevices = JsonUtility.FromJson<IOTSomfyDeviceCollection>(response.Trim());
-                IOTSomfyDeviceCollection lDevices = new IOTSomfyDeviceCollection(response);
-                //lDevices.devices = new IOTSomfyDevice[lJsonNode["devices"].Count];
-                //Debug.Log("device count "+lJsonNode["devices"].Count);
-                //for(int i=0; i< lJsonNode["devices"].Count; i++)
-                //{
-                //    lDevices.devices[i] = new IOTSomfyDevice();
-                //    long.TryParse(lJsonNode["devices"][i]["creationTime"].Value, out lDevices.devices[i].creationTime);
-                //    long.TryParse(lJsonNode["devices"][i]["lastUpdateTime"].Value, out lDevices.devices[i].lastUpdateTime);
-                //    Debug.Log("1");
-                //    lDevices.devices[i].label = lJsonNode["devices"][i]["label"].Value;
-                //    Debug.Log("device: " + lJsonNode["devices"][i]["label"].Value);
-                //    lDevices.devices[i].deviceURL= lJsonNode["devices"][i]["deviceURL"].Value;
-                //    bool.TryParse(lJsonNode["devices"][i]["shortcut"].Value, out lDevices.devices[i].shortcut);
-                //    lDevices.devices[i].uiClass = lJsonNode["devices"][i]["uiClass"].Value;
-                //}
+        //        string response = "{\"devices\" :" + lResult.response.Text + "}";
+        //        Debug.Log("reponse: " + response);
+        //        //JSONNode lJsonNode = Buddy.JSON.Parse(response);
+        //        //Debug.Log("response: " + response);
+        //        //IOTSomfyDeviceCollection lDevices = JsonUtility.FromJson<IOTSomfyDeviceCollection>(response.Trim());
+        //        IOTSomfyDeviceCollection lDevices = new IOTSomfyDeviceCollection(response);
+        //        //lDevices.devices = new IOTSomfyDevice[lJsonNode["devices"].Count];
+        //        //Debug.Log("device count "+lJsonNode["devices"].Count);
+        //        //for(int i=0; i< lJsonNode["devices"].Count; i++)
+        //        //{
+        //        //    lDevices.devices[i] = new IOTSomfyDevice();
+        //        //    long.TryParse(lJsonNode["devices"][i]["creationTime"].Value, out lDevices.devices[i].creationTime);
+        //        //    long.TryParse(lJsonNode["devices"][i]["lastUpdateTime"].Value, out lDevices.devices[i].lastUpdateTime);
+        //        //    Debug.Log("1");
+        //        //    lDevices.devices[i].label = lJsonNode["devices"][i]["label"].Value;
+        //        //    Debug.Log("device: " + lJsonNode["devices"][i]["label"].Value);
+        //        //    lDevices.devices[i].deviceURL= lJsonNode["devices"][i]["deviceURL"].Value;
+        //        //    bool.TryParse(lJsonNode["devices"][i]["shortcut"].Value, out lDevices.devices[i].shortcut);
+        //        //    lDevices.devices[i].uiClass = lJsonNode["devices"][i]["uiClass"].Value;
+        //        //}
 
 
 
-                //string lResponseText = "{\"devices\" :" + lResult.response.Text + "}";
-                Debug.Log("avant ecriture reponse");
-                File.WriteAllText(Buddy.Resources.GetRawFullPath("response.txt"), response);
-                Debug.Log("apres ecriture reponse");
-                //Debug.Log("{\"devices\" :" + lResult.response.Text + "}");
-                if (lDevices != null)
-                {
-                    Debug.Log("nombre somfy devices: " + lDevices.devices.Length);
-                    mDevices = lDevices.devices.ToList<IOTDevices>();
-                    Debug.Log("apres init mdevice");
-                    int j = 0;
-                    for (int i = 0; i < mDevices.Count; ++i)
-                    {
-                        string iUiClass = ((IOTSomfyDevice)mDevices[i]).uiClass;
-                        Debug.Log("ui class: " + iUiClass);
-                        if (iUiClass == "Pod")
-                        {
-                            mDevices.RemoveAt(i);
-                            i--;
-                            j++;
-                        }
-                        else
-                        {
-                            mDevices[i].Credentials[1] = mCredentials[1];
-                            mDevices[i].Credentials[2] = mCredentials[2];
-                            if (iUiClass == "OnOff")
-                                mDevices[i] = new IOTSomfySwitch(lDevices.devices[i + j], mSessionID);
-                            else if (iUiClass == "Screen")
-                                mDevices[i] = new IOTSomfyStore(lDevices.devices[i + j], mSessionID);
-                            else if (iUiClass == "HeatingSystem")
-                                mDevices[i] = new IOTSomfyThermostat(lDevices.devices[i + j], mSessionID);
-                            else if (iUiClass == "TemperatureSensor")
-                                mDevices[i] = new IOTSomfyThermometer(lDevices.devices[i + j], mSessionID);
-                            else if (iUiClass == "MusicPlayer")
-                                mDevices[i] = new IOTSomfySonos(lDevices.devices[i + j], mSessionID);
-                        }
-                    }
-                }
-            });
+        //        //string lResponseText = "{\"devices\" :" + lResult.response.Text + "}";
+        //        Debug.Log("avant ecriture reponse");
+        //        File.WriteAllText(Buddy.Resources.GetRawFullPath("response.txt"), response);
+        //        Debug.Log("apres ecriture reponse");
+        //        //Debug.Log("{\"devices\" :" + lResult.response.Text + "}");
+        //        if (lDevices != null)
+        //        {
+        //            Debug.Log("nombre somfy devices: " + lDevices.devices.Length);
+        //            mDevices = lDevices.devices.ToList<IOTDevices>();
+        //            Debug.Log("apres init mdevice");
+        //            int j = 0;
+        //            for (int i = 0; i < mDevices.Count; ++i)
+        //            {
+        //                string iUiClass = ((IOTSomfyDevice)mDevices[i]).uiClass;
+        //                Debug.Log("ui class: " + iUiClass);
+        //                if (iUiClass == "Pod")
+        //                {
+        //                    mDevices.RemoveAt(i);
+        //                    i--;
+        //                    j++;
+        //                }
+        //                else
+        //                {
+        //                    mDevices[i].Credentials[1] = mCredentials[1];
+        //                    mDevices[i].Credentials[2] = mCredentials[2];
+        //                    if (iUiClass == "OnOff")
+        //                        mDevices[i] = new IOTSomfySwitch(lDevices.devices[i + j], mSessionID);
+        //                    else if (iUiClass == "Screen")
+        //                        mDevices[i] = new IOTSomfyStore(lDevices.devices[i + j], mSessionID);
+        //                    else if (iUiClass == "HeatingSystem")
+        //                        mDevices[i] = new IOTSomfyThermostat(lDevices.devices[i + j], mSessionID);
+        //                    else if (iUiClass == "TemperatureSensor")
+        //                        mDevices[i] = new IOTSomfyThermometer(lDevices.devices[i + j], mSessionID);
+        //                    else if (iUiClass == "MusicPlayer")
+        //                        mDevices[i] = new IOTSomfySonos(lDevices.devices[i + j], mSessionID);
+        //                }
+        //            }
+        //        }
+        //    });
 
-            Upload(Credentials[1], Credentials[2]);
-        }
+        //    Upload(Credentials[1], Credentials[2]);
+        //}
 
-        private string getSessionId()
+        /// <summary>
+        /// Updates the session identifier from header.
+        /// </summary>
+        /// <returns>True if session Id has been found</returns>
+        private bool UpdateSessionId()
         {
             string res = null;
             string[] data = null;
@@ -293,16 +283,17 @@ namespace BuddyApp.Somfy
                         {
                             res = data[0].Replace("JSESSIONID=", "");
                             mSessionID = res;
-                            Debug.Log("sessionId: " + res);
+                            Debug.Log("SessionId: " + res);
+                            return true;
                         }
                     }
                 }
             }
             else
             {
-                Debug.Log("headers is null");
+                Debug.Log("Headers is null");
             }
-            return res;
+            return false;
         }
 
         public static bool MyRemoteCertificateValidationCallback(System.Object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)

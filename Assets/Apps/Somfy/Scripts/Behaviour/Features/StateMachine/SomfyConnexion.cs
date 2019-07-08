@@ -28,14 +28,20 @@ namespace BuddyApp.Somfy
       
         }
 
+
         private IEnumerator Login()
         {
-            GetComponent<SomfyBehaviour>().Login();
+            SomfyBehaviour somfyBehaviour = GetComponent<SomfyBehaviour>();
+            yield return somfyBehaviour.Login();
+
+            if (!somfyBehaviour.IsBoxAvailable())
+                QuitApp();
 
             yield return new WaitForSeconds(1);
-            yield return GetComponent<SomfyBehaviour>().ConnectTheDevices();
+            yield return somfyBehaviour.CollectConnectedDevices();
             yield return new WaitForSeconds(1);
-            GetComponent<SomfyBehaviour>().GetDevices();
+            somfyBehaviour.GetMonitoredDevices();
+
             Trigger("NextStep");
         }
     }

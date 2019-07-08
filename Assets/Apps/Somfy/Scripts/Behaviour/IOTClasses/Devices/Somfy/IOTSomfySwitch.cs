@@ -55,7 +55,8 @@ namespace BuddyApp.Somfy
             UnityWebRequest request = UnityWebRequest.Put(lUrl, bytePostData); //use PUT method to send simple stream of bytes
             request.method = "POST"; //hack to send POST to server instead of PUT
             request.SetRequestHeader("Content-Type", "application/json");
-            request.SetRequestHeader("Cookie", "JSESSIONID=" + System.Uri.EscapeDataString(mSessionID));
+            if (Application.platform == RuntimePlatform.WindowsEditor)
+                request.SetRequestHeader("Cookie", "JSESSIONID=" + System.Uri.EscapeDataString(mSessionID));
             mHasFinishedCommand = false;
             request.SendWebRequest().completed += OnEndRequest;
             /////
@@ -87,26 +88,6 @@ namespace BuddyApp.Somfy
             //    mHasFinishedCommand = true;
             //}
             //);
-        }
-
-        private void postAction(string iUrl, bool iOnOff)
-        {
-            if (mSessionID != null)
-            {
-                WWWForm lForm = new WWWForm();
-                lForm.AddField("Cookie", mSessionID);
-                WWW lWWW = new WWW(iUrl, lForm);
-
-                while(lWWW.progress < 1F)
-                {
-
-                }
-                Debug.Log(lWWW.text);
-            }
-            else
-            {
-                Debug.Log("Login error");
-            }
         }
 
         private void OnEndRequest(AsyncOperation lOp)
