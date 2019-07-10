@@ -273,8 +273,7 @@ namespace BuddyApp.AudioBehavior
 						(Math.Abs(mRotation) - (Math.Abs(Buddy.Actuators.Wheels.Odometry.AngleDeg() - mAngleLastDetect) % 360)));
 
 					Debug.LogWarning("human seen, rotate to " + mAngleLastDetect);
-					Buddy.Navigation.Run<DisplacementStrategy>().RotateTo(mAngleLastDetect, 80F, OnEndSearch);
-
+					Buddy.Navigation.Run<DisplacementStrategy>().RotateTo(mAngleLastDetect, 80F, (Action<Vector3>) OnEndSearch);
 				}
 				else
 				{
@@ -329,7 +328,7 @@ namespace BuddyApp.AudioBehavior
 
 			Buddy.Behaviour.SetMood(Mood.NEUTRAL);
 
-			Buddy.Navigation.Run<DisplacementStrategy>().RotateTo(mAngleAtTrigger, 80F, OnEndSearch);
+			Buddy.Navigation.Run<DisplacementStrategy>().RotateTo(mAngleAtTrigger, 80F, (Action<Vector3>) OnEndSearch);
 		}
 
 		private void OnHumanFound(HumanEntity[] obj)
