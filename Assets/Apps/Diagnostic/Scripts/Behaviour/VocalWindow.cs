@@ -48,6 +48,9 @@ namespace BuddyApp.Diagnostic
         private Text PlayMusicText;
 
         [SerializeField]
+        private AudioClip AudioClipMusic;
+
+        [SerializeField]
         private Toggle SpeechToTextFreeSpeechButton;
 
         [SerializeField]
@@ -76,6 +79,9 @@ namespace BuddyApp.Diagnostic
 
         [SerializeField]
         private Dropdown RecordDropdown;
+
+        [SerializeField]
+        private Button ResetList;
 
         [SerializeField]
         private Button RecordButton;
@@ -123,6 +129,10 @@ namespace BuddyApp.Diagnostic
         private Dropdown BeamFormingDropDown;
         [SerializeField]
         private GameObject BeamFormingText;
+
+        [SerializeField]
+        private List<GameObject> Circles;
+
 
         [Header("ECHO CANCELLATION TAB")]
         [SerializeField]
@@ -188,9 +198,9 @@ namespace BuddyApp.Diagnostic
 
             TriggerTreshSlider.wholeNumbers = true;
             TriggerTreshSlider.minValue = 0F;
-            TriggerTreshSlider.maxValue = 2000F;
-            TriggerTreshSlider.value = 1000F;
-            TriggerTreshText.text = TriggerTreshSlider.value.ToString();
+            TriggerTreshSlider.maxValue = 200;
+            TriggerTreshSlider.value = 80;
+            TriggerTreshText.text = (TriggerTreshSlider.value * 10).ToString();
             TriggerTreshSlider.onValueChanged.AddListener((iInput) => OnSliderThresholdChange(iInput));
 
             LocalizationTreshSlider.wholeNumbers = true;
@@ -235,8 +245,9 @@ namespace BuddyApp.Diagnostic
         #region TabTrigger
         private void OnSliderThresholdChange(float iInput)
         {
-            TriggerTreshText.text = FloatToShort(iInput).ToString();
-            Buddy.Sensors.Microphones.VocalTriggerParameters = new VocalTriggerParameters(FloatToShort(iInput));
+            TriggerTreshText.text = FloatToShort(iInput*10).ToString();
+            Buddy.Sensors.Microphones.VocalTriggerParameters = new VocalTriggerParameters(FloatToShort(iInput*10));
+
         }
 
         private void OnSearchTriggerOption(int iInput)
@@ -276,6 +287,10 @@ namespace BuddyApp.Diagnostic
         #region TabBeamforming
         private void OnDirectionBeam(int iInput)
         {
+            foreach (GameObject img in Circles)
+            {
+                img.SetActive(false);
+            }
             int lDirectionValue = 0;
             switch (iInput)
             {
@@ -307,6 +322,7 @@ namespace BuddyApp.Diagnostic
                     lDirectionValue = 1;
                     break;
             }
+            Circles[lDirectionValue-1].SetActive(true);
             Buddy.Sensors.Microphones.BeamformingParameters = new BeamformingParameters(IntToByte(lDirectionValue));
         }
         #endregion
@@ -401,6 +417,11 @@ namespace BuddyApp.Diagnostic
             TabButton[(int)TAB.LOCALIZATION].onClick.AddListener(() => { OnClickTabs(TAB.LOCALIZATION); });
             TabButton[(int)TAB.BEAMFORMING].onClick.AddListener(() => { OnClickTabs(TAB.BEAMFORMING); });
             TabButton[(int)TAB.ECHO_CANCELLATION].onClick.AddListener(() => { OnClickTabs(TAB.ECHO_CANCELLATION); });
+
+            foreach (GameObject img in Circles)
+            {
+                img.SetActive(false);
+            }
 
             List<GameObject> lContentsStart = new List<GameObject>();
             int lChildCounts = TabContent[(int)TAB.BEAMFORMING].transform.childCount;
@@ -570,6 +591,8 @@ namespace BuddyApp.Diagnostic
             // Trigger : Play sound and switch to green for 1 second.
             Buddy.Vocal.EnableTrigger = true;
 
+            SpeechToTextFreeSpeechButton.isOn = true;
+
             // BEGIN ACCRA COMP
             //Buddy.Vocal.OnTrigger.Clear();
             //Buddy.Vocal.OnTrigger.Add(
@@ -616,6 +639,9 @@ namespace BuddyApp.Diagnostic
             ReplayAudioSource.clip = null;
             if (RecordDropdown.options.Count <= 1)
                 RecordDropdown.interactable = false;
+
+            //Button Reset List
+            ResetList.onClick.AddListener(OnClicResetList);
 
             // Recording
             mNoiseDetector = Buddy.Perception.NoiseDetector;
@@ -696,6 +722,7 @@ namespace BuddyApp.Diagnostic
 
             // Remove end listening callbacks
             Buddy.Vocal.OnEndListening.Clear();
+            ResetList.onClick.RemoveAllListeners();
         }
 
         private void OnTextToSpeechButtonClick()
@@ -704,27 +731,33 @@ namespace BuddyApp.Diagnostic
             Buddy.Vocal.Say(TextToSpeechInputField.text);
         }
 
+        private void OnClicResetList()
+        {
+            Debug.LogWarning("RESET LIST");
+            RecordDropdown.options.Clear();
+            mListRecorded.Clear();
+        }
+
         private void OnGimmickPlayButtonClick()
         {
             Buddy.Actuators.Speakers.Media.Stop();
             Buddy.Actuators.Speakers.Media.Play((SoundSample)Enum.Parse(typeof(SoundSample), GimmickDropdown.options[GimmickDropdown.value].text));
         }
-
-        //a tester
+        
         private void OnPlayMusic()
         {
-            if(Equals("PLAY MUSIC", PlayMusicText.text))
+            AudioSource lAudioSource = ReplayAudioSource.GetComponent<AudioSource>();
+            if (Equals("PLAY MUSIC", PlayMusicText.text))
             {
                 PlayMusicText.text = "STOP MUSIC";
-                ReplayAudioSource.GetComponent<AudioSource>().clip.name = Buddy.Resources.GetSoundsFullPath("bensound-creativeminds.mp3");
-                ReplayAudioSource.Play();
+                lAudioSource.clip = AudioClipMusic; 
+                lAudioSource.Play();
             }
-
-            if(Equals("STOP MUSIC", PlayMusicText.text))
+            else if(Equals("STOP MUSIC", PlayMusicText.text))
             {
                 PlayMusicText.text = "PLAY MUSIC";
-                ReplayAudioSource.Stop();
-                ReplayAudioSource.GetComponent<AudioSource>().clip.name = "";
+                lAudioSource.Stop();
+                lAudioSource.clip = null;
             }
         }
 
