@@ -20,23 +20,35 @@ namespace BuddyApp.TestSourceLoc
 		[SerializeField]
 		Slider mThresh;
 
-		void Start()
+        [SerializeField]
+        Text mTextSlider;
+
+        [SerializeField]
+        Text mTextThresh;
+
+        [SerializeField]
+        Text mTextAngle;
+        
+        [SerializeField]
+        Text mTextLastAngle;
+
+        [SerializeField]
+        Text mTextTime;
+
+        void Start()
 		{
 
 			/*
 			* You can setup your App activity here.
 			*/
 			TestSourceLocActivity.Init(null);
-
-			/*
-			* Init your app data
-			*/
-			mAppData = TestSourceLocData.Instance;
+            
 			mThresh.value = Buddy.Sensors.Microphones.SoundLocalizationParameters.Threshold;
 		}
 
 		public void OnThreshValueChange()
 		{
+            mTextSlider.text = mThresh.value.ToString();
 			Buddy.Sensors.Microphones.SoundLocalizationParameters = new SoundLocalizationParameters(Buddy.Sensors.Microphones.SoundLocalizationParameters.Resolution, (int) mThresh.value);
 			Debug.LogWarning("SourceLoc threshold set to " + mThresh.value);
 		}
@@ -44,9 +56,14 @@ namespace BuddyApp.TestSourceLoc
 
 		private void Update()
 		{
-			if (Buddy.Sensors.Microphones.SoundLocalization != Microphones.NO_SOUND_LOCALIZATION)
-			{
-				Debug.LogWarning("New sound loc + time + thresh" + Buddy.Sensors.Microphones.SoundLocalization + "  " + DateTime.Now.ToString() + " " + Buddy.Sensors.Microphones.SoundLocalizationParameters.Threshold);
+            mTextThresh.text = "Threshold: " + Buddy.Sensors.Microphones.SoundLocalizationParameters.Threshold.ToString();
+            mTextAngle.text = "Value: " + Buddy.Sensors.Microphones.SoundLocalization.ToString();
+
+
+            if (Buddy.Sensors.Microphones.SoundLocalization != Microphones.NO_SOUND_LOCALIZATION) {
+                mTextLastAngle.text = "LastAngle: " + Buddy.Sensors.Microphones.SoundLocalization.ToString();
+                mTextTime.text = DateTime.Now.ToString("mm:ss");
+                Debug.LogWarning("New sound loc + time + thresh" + Buddy.Sensors.Microphones.SoundLocalization + "  " + DateTime.Now.ToString() + " " + Buddy.Sensors.Microphones.SoundLocalizationParameters.Threshold);
 			}
 		}
 	}
