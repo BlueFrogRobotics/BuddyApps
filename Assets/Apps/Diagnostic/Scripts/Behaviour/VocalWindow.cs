@@ -716,7 +716,7 @@ namespace BuddyApp.Diagnostic
             if(Equals("PLAY MUSIC", PlayMusicText.text))
             {
                 PlayMusicText.text = "STOP MUSIC";
-                ReplayAudioSource.GetComponent<AudioSource>().clip.name = Buddy.Resources.GetSoundsFullPath("");
+                ReplayAudioSource.GetComponent<AudioSource>().clip.name = Buddy.Resources.GetSoundsFullPath("bensound-creativeminds.mp3");
                 ReplayAudioSource.Play();
             }
 
