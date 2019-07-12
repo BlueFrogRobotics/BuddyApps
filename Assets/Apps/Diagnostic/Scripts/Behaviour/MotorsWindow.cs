@@ -5,6 +5,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using BlueQuark;
+using System.Collections;
 
 namespace BuddyApp.Diagnostic
 {
@@ -30,21 +31,13 @@ namespace BuddyApp.Diagnostic
         /// Variables from the hardware
         /// </summary>
         [SerializeField]
-        private Text leftSpeedGetter;
+        private Image YesHingeAngleGetterFeedbackT;
         [SerializeField]
-        private Text rightSpeedGetter;
+        private Image YesHingeAngleGetterFeedbackB;
         [SerializeField]
-        private Text yesHingeAngleGetter;
+        private Image NoHingeAngleGetterFeedbackL;
         [SerializeField]
-        private Image yesHingeAngleGetterFeedbackT;
-        [SerializeField]
-        private Image yesHingeAngleGetterFeedbackB;
-        [SerializeField]
-        private Text noHingeAngleGetter;
-        [SerializeField]
-        private Image noHingeAngleGetterFeedbackL;
-        [SerializeField]
-        private Image noHingeAngleGetterFeedbackR;
+        private Image NoHingeAngleGetterFeedbackR;
 
         /// <summary>
         /// Parameters for setwheelspeed
@@ -53,10 +46,6 @@ namespace BuddyApp.Diagnostic
         private Text linearVelocity;
         [SerializeField]
         private Slider linearVelocitySetter;
-        //[SerializeField]
-        //private Text angularVelocity;
-        //[SerializeField]
-        //private Slider angularVelocitySetter;
 
         /// <summary>
         /// Old MoveDistance
@@ -69,6 +58,8 @@ namespace BuddyApp.Diagnostic
         private Text AngularVelocityWheelsText;
         [SerializeField]
         private Slider AngularVelocityWheelsSetter;
+        [SerializeField]
+        private Dropdown TimeMove;
 
 
         [SerializeField]
@@ -76,14 +67,6 @@ namespace BuddyApp.Diagnostic
         [SerializeField]
         private Slider anglePosSetter;
 
-        [SerializeField]
-        private InputField xPosSetter;
-
-        [SerializeField]
-        private InputField yPosSetter;
-
-        //[SerializeField]
-        //private Slider toleranceSetter;
 
         [SerializeField]
         private Slider yesHingeAngleSetter;
@@ -99,9 +82,6 @@ namespace BuddyApp.Diagnostic
         [SerializeField]
         private Text hingeSpeedBack;
 
-        [SerializeField]
-        private Text toleranceBack;
-
         private Wheels mWheels;
         private YesHeadHinge mYesHinge;
         private NoHeadHinge mNoHinge;
@@ -109,167 +89,148 @@ namespace BuddyApp.Diagnostic
 
         void Start()
         {
-            NoAngle.text = Buddy.Actuators.Head.No.Angle.ToString();
-            YesAngle.text = Buddy.Actuators.Head.Yes.Angle.ToString();
+            NoAngle.text = Buddy.Actuators.Head.No.Angle.ToString("0.000");
+            YesAngle.text = Buddy.Actuators.Head.Yes.Angle.ToString("0.000");
 
             XOdom.text = Buddy.Actuators.Wheels.Odometry.x.ToString();
             YOdom.text = Buddy.Actuators.Wheels.Odometry.y.ToString();
-            Cap.text = Buddy.Actuators.Wheels.Odometry.z.ToString();
+            Cap.text = Buddy.Actuators.Wheels.Odometry.z.ToString("0.000");
 
             mWheels = Buddy.Actuators.Wheels;
             mYesHinge = Buddy.Actuators.Head.Yes;
             mNoHinge = Buddy.Actuators.Head.No;
 
             linearVelocitySetter.wholeNumbers = false;
-            linearVelocitySetter.minValue = -1F;
-            linearVelocitySetter.maxValue = 1F;
+            linearVelocitySetter.value = 0.0F;
+            linearVelocitySetter.minValue = -0.6F;
+            linearVelocitySetter.maxValue = 0.6F;
 
-            //angularVelocitySetter.wholeNumbers = true;
-            //angularVelocitySetter.minValue = -3.14F;
-            //angularVelocitySetter.maxValue = 3.14F;
-
-            //timerSetter.wholeNumbers = true;
-            //timerSetter.minValue = 500F;
-            //timerSetter.maxValue = 10000F;
+            TimeMove.AddOptions(new List<string>() { "1", "2", "3", "5", "7", "10" });
 
             AngularVelocityWheelsSetter.wholeNumbers = true;
-            AngularVelocityWheelsSetter.minValue = 0F;
-            AngularVelocityWheelsSetter.maxValue = 250F;
+            AngularVelocityWheelsSetter.value = 0.0F;
+            AngularVelocityWheelsSetter.minValue = -100F;
+            AngularVelocityWheelsSetter.maxValue = 100F;
 
             anglePosSetter.wholeNumbers = true;
-            anglePosSetter.minValue = -180F;
-            anglePosSetter.maxValue = 180F;
-
-            //toleranceSetter.wholeNumbers = false;
-            //toleranceSetter.minValue = 0F;
-            //toleranceSetter.maxValue = 5F;
+            anglePosSetter.value = 0.0F;
+            anglePosSetter.minValue = 0F;
+            anglePosSetter.maxValue = 360F;
 
             distanceSetter.wholeNumbers = false;
+            distanceSetter.value = 0.0F;
             distanceSetter.minValue = 0F;
             distanceSetter.maxValue = 10F;
 
             yesHingeAngleSetter.wholeNumbers = true;
+            yesHingeAngleSetter.value = 0F;
             yesHingeAngleSetter.minValue = -50F;
             yesHingeAngleSetter.maxValue = 37F;
 
             noHingeAngleSetter.wholeNumbers = true;
+            noHingeAngleSetter.value = 0F;
             noHingeAngleSetter.minValue = -100F;
             noHingeAngleSetter.maxValue = 100F;
 
             hingeSpeedSetter.wholeNumbers = true;
+            hingeSpeedSetter.value = 0F;
             hingeSpeedSetter.minValue = 0F;
-            hingeSpeedSetter.maxValue = 96F;
+            hingeSpeedSetter.maxValue = 100F;
         }
 
         void Update()
         {
             //Debug.Log("Width slider : " + hingeSpeedSetter.gameObject.transform.);
-            leftSpeedGetter.text = "" + mWheels.LeftRotationalSpeed;
-            rightSpeedGetter.text = "" + mWheels.RightRotationalSpeed;
             // Draw Head No Angle Feedback
-            noHingeAngleGetter.text = mNoHinge.Angle.ToString();
-            if(mNoHinge.Angle >= 0) {
-                noHingeAngleGetterFeedbackL.fillAmount = 0;
-                noHingeAngleGetterFeedbackL.fillAmount = (mNoHinge.Angle / 90.00f) * 0.25f;
-                noHingeAngleGetterFeedbackR.fillAmount = 0;
+            NoAngle.text = mNoHinge.Angle.ToString();
+            if (mNoHinge.Angle >= 0) {
+                NoHingeAngleGetterFeedbackL.fillAmount = 0;
+                NoHingeAngleGetterFeedbackL.fillAmount = (mNoHinge.Angle / 90.00f) * 0.25f;
+                NoHingeAngleGetterFeedbackR.fillAmount = 0;
             }
-            if (mNoHinge.Angle <= 0)
-            {
-                noHingeAngleGetterFeedbackL.fillAmount = 0;
-                noHingeAngleGetterFeedbackR.fillAmount = 0;
-                noHingeAngleGetterFeedbackR.fillAmount = (mNoHinge.Angle / 90.00f) * 0.25f;
+            if (mNoHinge.Angle <= 0) {
+                NoHingeAngleGetterFeedbackL.fillAmount = 0;
+                NoHingeAngleGetterFeedbackR.fillAmount = 0;
+                NoHingeAngleGetterFeedbackR.fillAmount = (mNoHinge.Angle / 90.00f) * 0.25f;
             }
             // Draw Head Yes Angle Feedback
-            yesHingeAngleGetter.text = mYesHinge.Angle.ToString();
-            if (mYesHinge.Angle >= 0)
-            {
-                yesHingeAngleGetterFeedbackT.fillAmount = 0;
-                yesHingeAngleGetterFeedbackT.fillAmount = (mYesHinge.Angle / 80.00f) * 0.25f;
-                yesHingeAngleGetterFeedbackB.fillAmount = 0;
+            YesAngle.text = mYesHinge.Angle.ToString();
+            if (mYesHinge.Angle >= 0) {
+                YesHingeAngleGetterFeedbackT.fillAmount = 0;
+                YesHingeAngleGetterFeedbackT.fillAmount = (mYesHinge.Angle / 80.00f) * 0.25f;
+                YesHingeAngleGetterFeedbackB.fillAmount = 0;
             }
-            if (mNoHinge.Angle <= 0)
-            {
-                yesHingeAngleGetterFeedbackT.fillAmount = 0;
-                yesHingeAngleGetterFeedbackB.fillAmount = 0;
-                yesHingeAngleGetterFeedbackB.fillAmount = (mYesHinge.Angle / 60.00f) * 0.15f;
+            if (mNoHinge.Angle <= 0) {
+                YesHingeAngleGetterFeedbackT.fillAmount = 0;
+                YesHingeAngleGetterFeedbackB.fillAmount = 0;
+                YesHingeAngleGetterFeedbackB.fillAmount = (mYesHinge.Angle / 60.00f) * 0.15f;
             }
 
-            linearVelocity.text = (mDiagBehaviour.ExpScale(Math.Round(linearVelocitySetter.value + 1d, 2)/2d, 0.5d, 2d)-1d).ToString("0.00") /*+ " m/s"*/;
+            linearVelocity.text = linearVelocitySetter.value.ToString("0.00");
+            //(mDiagBehaviour.ExpScale(Math.Round(linearVelocitySetter.value + 1d, 2) / 2d, 0.5d, 2d) - 1d).ToString("0.00") /*+ " m/s"*/;
 
             //angularVelocity.text =  (angularVelocitySetter.value ).ToString();
 
-            distance.text = mDiagBehaviour.ExpScale( Math.Round(distanceSetter.value, 2)/10D, 2D, 10D).ToString("0.00")/* + " m"*/;
+            distance.text = mDiagBehaviour.ExpScale(Math.Round(distanceSetter.value, 2) / 10D, 2D, 10D).ToString("0.00")/* + " m"*/;
 
-            AngularVelocityWheelsText.text = (mDiagBehaviour.ExpScale((AngularVelocityWheelsSetter.value) / 250D, 40D, 250D)).ToString("0.00")/* + " °/s"*/;
+            AngularVelocityWheelsText.text = AngularVelocityWheelsSetter.value.ToString("0.00");
+            //(mDiagBehaviour.ExpScale((AngularVelocityWheelsSetter.value) / 250D, 40D, 250D)).ToString("0.00")/* + " °/s"*/;
 
-            angleBack.text = anglePosSetter.value.ToString() /*+ " °"*/;
+            angleBack.text = (mDiagBehaviour.ExpScale(anglePosSetter.value / 360D, 40D, 360D)).ToString("0") /*+ " °"*/;
             //toleranceBack.text = "Tol : " + toleranceSetter.value;
 
             noAngleBack.text = noHingeAngleSetter.value.ToString() /*+ " °"*/;
             yesAngleBack.text = yesHingeAngleSetter.value.ToString() /*+ " °"*/;
-            hingeSpeedBack.text =  (mDiagBehaviour.ExpScale( hingeSpeedSetter.value / 96D, 10D, 96D)).ToString("0.0F");
+            hingeSpeedBack.text = (mDiagBehaviour.ExpScale(hingeSpeedSetter.value / 100D, 10D, 100D)).ToString("0.0");
             NoAngle.text = Buddy.Actuators.Head.No.Angle.ToString("f3")/* + " °"*/;
             YesAngle.text = Buddy.Actuators.Head.Yes.Angle.ToString("f3") /*+" °"*/;
+            XOdom.text = Buddy.Actuators.Wheels.Odometry.x.ToString("f3");
+            YOdom.text = Buddy.Actuators.Wheels.Odometry.y.ToString("f3");
             Cap.text = Buddy.Actuators.Wheels.Odometry.z.ToString("f3")/* + " °"*/;
-
-            //Debug.Log("angular velocity : " + );
-        }
-
-        public void SetWheelsSpeed()
-        {
-            //mWheels.SetWheelsSpeed(leftSpeedSetter.value,
-            //                        rightSpeedSetter.value,
-            //                        (int)timerSetter.value);
-
-            //mWheels.SetVelocities(mWheels.LinearVelocity, mWheels.AngularVelocity);
-            //mWheels.SetVelocities(linearVelocitySetter.value, angularVelocitySetter.value);
-            double mDistance = mDiagBehaviour.ExpScale(Math.Round(distanceSetter.value, 4) / 10D, 2D, 10D);
-            double mLinearVelocity = (mDiagBehaviour.ExpScale(Math.Round(linearVelocitySetter.value + 1d, 4) / 2d, 0.5d, 2d) - 1d);
-            Buddy.Navigation.Run<DisplacementStrategy>().Move((float)mDistance, (float)mLinearVelocity, ObstacleAvoidanceType.NONE);
 
         }
 
         public void MoveDistance()
         {
-            //mWheels.MoveDistance(leftSpeedSetter.value,
-            //                    rightSpeedSetter.value,
-            //                    distanceSetter.value,
-            //                    toleranceSetter.value);
-            //Debug.Log("NOT IMPLEMENTED YET");
-            //mNavigation.Run<DisplacementStrategy>().Move(distanceSetter.value, speedDisplacementStrategySetter.value);
-            double mDistance = mDiagBehaviour.ExpScale(Math.Round(distanceSetter.value, 4) / 10D, 2D, 10D);
-            double mLinearVelocity = (mDiagBehaviour.ExpScale(Math.Round(linearVelocitySetter.value + 1d, 4) / 2d, 0.5d, 2d) - 1d);
-            Buddy.Navigation.Run<DisplacementStrategy>().Move((float)mDistance, (float)mLinearVelocity, ObstacleAvoidanceType.NONE);
+            Buddy.Navigation.Run<DisplacementStrategy>().Move(float.Parse(distance.text), float.Parse(linearVelocity.text), ObstacleAvoidanceType.NONE);
         }
 
-        public void TurnAbsolute()
+        public void DelayedMoveDistance()
         {
-            //mWheels.TurnAbsoluteAngle(anglePosSetter.value,
-            //                    (leftSpeedSetter.value + rightSpeedSetter.value) / 2,
-            //                    toleranceSetter.value);
-            Buddy.Navigation.Run<DisplacementStrategy>().RotateTo(anglePosSetter.value, DoubleToFloat(mDiagBehaviour.ExpScale((AngularVelocityWheelsSetter.value) / 250D, 40D, 250D)));
-            Debug.Log("angular  velocity rotate to : " + AngularVelocityWheelsSetter.value);
+            StartCoroutine(DelayedNav());
+        }
+
+        private IEnumerator DelayedNav()
+        {
+            Debug.Log("Try to move");
+            //if (Input.touchCount > 0)
+            //    for (int i = 0; i < Input.touchCount; ++i)
+            //        if (Input.GetTouch(i).phase != TouchPhase.Ended)
+            yield return new WaitForSeconds(1F);
+
+
+            Debug.Log("Try to move 2");
+
+            Buddy.Actuators.Wheels.SetVelocities(float.Parse(linearVelocity.text), float.Parse(AngularVelocityWheelsText.text));
+
+            Debug.Log("move for : " + float.Parse(TimeMove.captionText.text));
+
+            yield return new WaitForSeconds(float.Parse(TimeMove.captionText.text));
+            Debug.Log("Try to stop");
+            Buddy.Navigation.Stop();
+
         }
 
         public void TurnRelative()
         {
-            //mWheels.TurnAngle(anglePosSetter.value,
-            //                (leftSpeedSetter.value + rightSpeedSetter.value) / 2,
-            //                toleranceSetter.value);
-            Buddy.Navigation.Run<DisplacementStrategy>().Rotate(anglePosSetter.value, DoubleToFloat(mDiagBehaviour.ExpScale((AngularVelocityWheelsSetter.value) / 250D, 40D, 250D)));
-            Debug.Log("angular  velocity rotate : " + AngularVelocityWheelsSetter.value);
+            Buddy.Navigation.Run<DisplacementStrategy>().Rotate(float.Parse(angleBack.text), AngularVelocityWheelsSetter.value);
+            Debug.Log("angular velocity rotate : " + AngularVelocityWheelsSetter.value);
 
         }
 
         public void GoTo()
         {
-            //mWheels.MoveToAbsolutePosition(new Vector2(float.Parse(xPosSetter.text),
-            //                            float.Parse(yPosSetter.text)),
-            //                            (leftSpeedSetter.value + rightSpeedSetter.value) / 2,
-            //                            toleranceSetter.value);
             Debug.Log("NOT IMPLEMENTED YET");
-            //Buddy.Navigation.Run<LocationStrategy>().To(new Vector2(float.Parse(xPosSetter.text),
-            //                            float.Parse(yPosSetter.text)));
         }
 
         public void StopMotors()
@@ -280,13 +241,12 @@ namespace BuddyApp.Diagnostic
 
         public void SetYesPos()
         {
-            mYesHinge.SetPosition(yesHingeAngleSetter.value, DoubleToFloat(mDiagBehaviour.ExpScale(hingeSpeedSetter.value / 96D, 10D, 96D)));
-            //mYesHinge.SetPosition(yesHingeAngleSetter.value);
+            mYesHinge.SetPosition(yesHingeAngleSetter.value, float.Parse(hingeSpeedBack.text));
         }
 
         public void SetNoPos()
         {
-            mNoHinge.SetPosition(noHingeAngleSetter.value, DoubleToFloat(mDiagBehaviour.ExpScale(hingeSpeedSetter.value / 96D, 10D, 96D)));
+            mNoHinge.SetPosition(noHingeAngleSetter.value, float.Parse(hingeSpeedBack.text));
         }
 
         private float DoubleToFloat(double iDouble)
