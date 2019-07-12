@@ -19,10 +19,13 @@ namespace BuddyApp.Diagnostic
         [SerializeField]
         private Dropdown mDropDownSequence;
 
+        [SerializeField]
+        private Dropdown EventDropDown;
+
         private LEDPulsePattern mPattern;
 
-        [SerializeField]
-        private Toggle mToggle;
+        //[SerializeField]
+        //private Toggle mToggle;
 
         [SerializeField]
         private Text textH;
@@ -101,11 +104,22 @@ namespace BuddyApp.Diagnostic
         {
             mStop = Buddy.Resources.Get<Sprite>("os_icon_stop");
             mPlay = Buddy.Resources.Get<Sprite>("os_icon_play");
+
             mDropDown.onValueChanged.RemoveAllListeners();
             mDropDown.onValueChanged.AddListener((iInput) => SetColor());
 
-            mDropDownSequence.onValueChanged.RemoveAllListeners();
-            mDropDownSequence.onValueChanged.AddListener((iInput) => SetPattern());
+            mDropDownSequence.AddOptions(new List<string>(Enum.GetNames(typeof(LEDPulsePattern))));
+            mDropDownSequence.onValueChanged.AddListener((iInput) => {
+                Buddy.Actuators.LEDs.SetBodyPattern((LEDPulsePattern)Enum.Parse(typeof(LEDPulsePattern), mDropDownSequence.captionText.text));
+                mDropDownSequence.GetComponentsInChildren<Image>()[1].sprite = mStop;
+                EventDropDown.GetComponentsInChildren<Image>()[1].sprite = mPlay;
+            });
+
+            EventDropDown.AddOptions(new List<string>(Enum.GetNames(typeof(LEDEvent))));
+            EventDropDown.onValueChanged.AddListener((iInput) => { Buddy.Actuators.LEDs.PlayEvent((LEDEvent)Enum.Parse(typeof(LEDEvent), EventDropDown.captionText.text));
+                EventDropDown.GetComponentsInChildren<Image>()[1].sprite = mStop;
+                mDropDownSequence.GetComponentsInChildren<Image>()[1].sprite = mPlay;
+            });
 
             sliderH.wholeNumbers = true;
             sliderH.minValue = 0F;
@@ -189,58 +203,62 @@ namespace BuddyApp.Diagnostic
             SliderFlashDelay.onValueChanged.AddListener((iInput) => TextSliderFlashDelay.text = mDiagBehaviour.ExpScale(FloatToDouble(iInput / 1000f), 100d, 1000d).ToString("0"));
 
             SetColor();
-        }
-
-
-        private void SetPattern()
-        {
-            switch (mDropDownSequence.options[mDropDownSequence.value].text) {
-                case "PARAMETERS":
-                    SetColor();
-                    break;
-
-                case "DEFAULT":
-
-                    mPattern = LEDPulsePattern.DEFAULT;
-                    break;
-
-                case "BASIC_BLINK":
-                    mPattern = LEDPulsePattern.BASIC_BLINK;
-                    break;
-
-                case "BREATHING":
-                    mPattern = LEDPulsePattern.BREATHING;
-                    break;
-
-                case "DYNAMIC":
-                    mPattern = LEDPulsePattern.DYNAMIC;
-                    break;
-
-                case "HEART_BEAT":
-                    mPattern = LEDPulsePattern.HEART_BEAT;
-                    break;
-
-                case "LISTENING":
-                    mPattern = LEDPulsePattern.LISTENING;
-                    break;
-
-                case "NOBLINK":
-                    mPattern = LEDPulsePattern.NOBLINK;
-                    break;
-
-                case "PEACEFUL":
-                    mPattern = LEDPulsePattern.PEACEFUL;
-                    break;
-
-                case "RECHARGE":
-                    mPattern = LEDPulsePattern.RECHARGE;
-                    break;
-            }
 
         }
+
+
+        //private void SetPattern()
+        //{
+        //    switch (mDropDownSequence.options[mDropDownSequence.value].text) {
+        //        case "PARAMETERS":
+        //            SetColor();
+        //            break;
+
+        //        case "DEFAULT":
+        //            mPattern = LEDPulsePattern.DEFAULT;
+        //            break;
+
+        //        case "BASIC_BLINK":
+        //            mPattern = LEDPulsePattern.BASIC_BLINK;
+        //            break;
+
+        //        case "BREATHING":
+        //            mPattern = LEDPulsePattern.BREATHING;
+        //            break;
+
+        //        case "DYNAMIC":
+        //            mPattern = LEDPulsePattern.DYNAMIC;
+        //            break;
+
+        //        case "HEART_BEAT":
+        //            mPattern = LEDPulsePattern.HEART_BEAT;
+        //            break;
+
+        //        case "LISTENING":
+        //            mPattern = LEDPulsePattern.LISTENING;
+        //            break;
+
+        //        case "NOBLINK":
+        //            mPattern = LEDPulsePattern.NOBLINK;
+        //            break;
+
+        //        case "PEACEFUL":
+        //            mPattern = LEDPulsePattern.PEACEFUL;
+        //            break;
+
+        //        case "RECHARGE":
+        //            mPattern = LEDPulsePattern.RECHARGE;
+        //            break;
+        //    }
+
+        //}
 
         private void SetColor()
         {
+
+
+            EventDropDown.GetComponentsInChildren<Image>()[1].sprite = mPlay;
+            mDropDownSequence.GetComponentsInChildren<Image>()[1].sprite = mPlay;
 
             Debug.Log("Set color to " +
                     FloatToUShort(sliderH.value) + " " +
@@ -275,12 +293,12 @@ namespace BuddyApp.Diagnostic
                     FloatToByte(sliderS.value) + " " +
                     FloatToByte(sliderV.value));
 
-            if (mDropDownSequence.captionText.text != "PARAMETERS") {
-                    Buddy.Actuators.LEDs.SetHeartLight(
-                    FloatToUShort(sliderH.value),
-                    FloatToByte(sliderS.value),
-                    FloatToByte(sliderV.value));
-            } else {
+            //if (mDropDownSequence.captionText.text != "PARAMETERS") {
+            //        Buddy.Actuators.LEDs.SetHeartLight(
+            //        FloatToUShort(sliderH.value),
+            //        FloatToByte(sliderS.value),
+            //        FloatToByte(sliderV.value));
+            //} else {
                 Debug.Log("Set heart pattern to " +
                     byte.Parse(textLowLevel.text)  + " " + 
                     ushort.Parse(textOnDuration.text) + " " +
@@ -297,17 +315,17 @@ namespace BuddyApp.Diagnostic
                     ushort.Parse(textOffDuration.text),
                     byte.Parse(textUpSlope.text),
                     byte.Parse(textDownSlope.text));
-            }
+           // }
         }
 
         private void SetColorShoulder()
         {
-            if (mDropDownSequence.captionText.text != "PARAMETERS") {
-                Buddy.Actuators.LEDs.SetShouldersLights(
-                    FloatToUShort(sliderH.value),
-                    FloatToByte(sliderS.value),
-                    FloatToByte(sliderV.value));
-            } else {
+          //  if (mDropDownSequence.captionText.text != "PARAMETERS") {
+          //      Buddy.Actuators.LEDs.SetShouldersLights(
+          //          FloatToUShort(sliderH.value),
+          //          FloatToByte(sliderS.value),
+          //          FloatToByte(sliderV.value));
+          //  } else {
                 Buddy.Actuators.LEDs.SetShouldersLights(
                     FloatToUShort(sliderH.value),
                     FloatToByte(sliderS.value),
@@ -318,7 +336,7 @@ namespace BuddyApp.Diagnostic
                     ushort.Parse(textOffDuration.text),
                     byte.Parse(textUpSlope.text),
                     byte.Parse(textDownSlope.text));
-            }
+            //}
         }
 
         
@@ -359,15 +377,15 @@ namespace BuddyApp.Diagnostic
         }
 
 
-        public void LaunchSequence()
-        {
-            Buddy.Actuators.LEDs.SetBodyPattern(mPattern);
-        }
+        //public void LaunchSequence()
+        //{
+        //    Buddy.Actuators.LEDs.SetBodyPattern(mPattern);
+        //}
 
-        private void IsOnlyHSVChecked()
-        {
-            SetColor();
-        }
+        //private void IsOnlyHSVChecked()
+        //{
+        //    SetColor();
+        //}
 
         private byte FloatToByte(float iFloat)
         {
