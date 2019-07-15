@@ -92,8 +92,8 @@ namespace BuddyApp.Diagnostic
             NoAngle.text = Buddy.Actuators.Head.No.Angle.ToString("0.000");
             YesAngle.text = Buddy.Actuators.Head.Yes.Angle.ToString("0.000");
 
-            XOdom.text = Buddy.Actuators.Wheels.Odometry.x.ToString();
-            YOdom.text = Buddy.Actuators.Wheels.Odometry.y.ToString();
+            XOdom.text = Buddy.Actuators.Wheels.Odometry.x.ToString("f3") + "m";
+            YOdom.text = Buddy.Actuators.Wheels.Odometry.y.ToString("f3") + "m";
             Cap.text = Buddy.Actuators.Wheels.Odometry.z.ToString("0.000");
 
             mWheels = Buddy.Actuators.Wheels;
@@ -184,8 +184,8 @@ namespace BuddyApp.Diagnostic
             hingeSpeedBack.text = (mDiagBehaviour.ExpScale(hingeSpeedSetter.value / 100D, 10D, 100D)).ToString("0.0");
             NoAngle.text = Buddy.Actuators.Head.No.Angle.ToString("f3")/* + " °"*/;
             YesAngle.text = Buddy.Actuators.Head.Yes.Angle.ToString("f3") /*+" °"*/;
-            XOdom.text = Buddy.Actuators.Wheels.Odometry.x.ToString("f3");
-            YOdom.text = Buddy.Actuators.Wheels.Odometry.y.ToString("f3");
+            XOdom.text = Buddy.Actuators.Wheels.Odometry.x.ToString("f3") + "m";
+            YOdom.text = Buddy.Actuators.Wheels.Odometry.y.ToString("f3") + "m";
             Cap.text = Buddy.Actuators.Wheels.Odometry.z.ToString("f3")/* + " °"*/;
 
         }

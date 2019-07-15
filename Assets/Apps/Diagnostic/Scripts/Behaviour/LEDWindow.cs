@@ -98,27 +98,30 @@ namespace BuddyApp.Diagnostic
         private bool mStatus = false;
         private Sprite mStop;
         private Sprite mPlay;
+		private Sprite mArrow;
 
 
-        private void Start()
+		private void Start()
         {
             mStop = Buddy.Resources.Get<Sprite>("os_icon_stop");
             mPlay = Buddy.Resources.Get<Sprite>("os_icon_play");
+			mArrow = Buddy.Resources.Get<Sprite>("os_icon_arrow_right");
 
-            mDropDown.onValueChanged.RemoveAllListeners();
+			mDropDown.onValueChanged.RemoveAllListeners();
             mDropDown.onValueChanged.AddListener((iInput) => SetColor());
 
             mDropDownSequence.AddOptions(new List<string>(Enum.GetNames(typeof(LEDPulsePattern))));
             mDropDownSequence.onValueChanged.AddListener((iInput) => {
                 Buddy.Actuators.LEDs.SetBodyPattern((LEDPulsePattern)Enum.Parse(typeof(LEDPulsePattern), mDropDownSequence.captionText.text));
-                mDropDownSequence.GetComponentsInChildren<Image>()[1].sprite = mStop;
+                mDropDownSequence.GetComponentsInChildren<Image>()[1].sprite = mArrow;
                 EventDropDown.GetComponentsInChildren<Image>()[1].sprite = mPlay;
             });
 
             EventDropDown.AddOptions(new List<string>(Enum.GetNames(typeof(LEDEvent))));
             EventDropDown.onValueChanged.AddListener((iInput) => { Buddy.Actuators.LEDs.PlayEvent((LEDEvent)Enum.Parse(typeof(LEDEvent), EventDropDown.captionText.text));
-                EventDropDown.GetComponentsInChildren<Image>()[1].sprite = mStop;
+                EventDropDown.GetComponentsInChildren<Image>()[1].sprite = mArrow;
                 mDropDownSequence.GetComponentsInChildren<Image>()[1].sprite = mPlay;
+				StartCoroutine(StopEvent());
             });
 
             sliderH.wholeNumbers = true;
@@ -147,7 +150,7 @@ namespace BuddyApp.Diagnostic
             sliderLowLevel.wholeNumbers = true;
             sliderLowLevel.minValue = 0F;
             sliderLowLevel.maxValue = 100F;
-            sliderLowLevel.value = 0F;
+            sliderLowLevel.value = 1F;
             textLowLevel.text = sliderLowLevel.value.ToString();
             sliderLowLevel.onValueChanged.RemoveAllListeners();
             sliderLowLevel.onValueChanged.AddListener((iInput) => OnChangeLowLevel());
@@ -163,7 +166,7 @@ namespace BuddyApp.Diagnostic
             sliderOffDuration.wholeNumbers = true;
             sliderOffDuration.minValue = 0F;
             sliderOffDuration.maxValue = 10000F;
-            sliderOffDuration.value = 300;
+            sliderOffDuration.value = 300F;
             textOffDuration.text = sliderOffDuration.value.ToString();
             sliderOffDuration.onValueChanged.RemoveAllListeners();
             sliderOffDuration.onValueChanged.AddListener((iInput) => OnChangeOffDuration(iInput));
@@ -206,54 +209,17 @@ namespace BuddyApp.Diagnostic
 
         }
 
+		private IEnumerator StopEvent()
+		{
+			yield return new WaitForSeconds(3F);
 
-        //private void SetPattern()
-        //{
-        //    switch (mDropDownSequence.options[mDropDownSequence.value].text) {
-        //        case "PARAMETERS":
-        //            SetColor();
-        //            break;
+			EventDropDown.GetComponentsInChildren<Image>()[1].sprite = mPlay;
+			Buddy.Actuators.LEDs.PlayEvent(0);
+			SetColor();
+		}
+	
 
-        //        case "DEFAULT":
-        //            mPattern = LEDPulsePattern.DEFAULT;
-        //            break;
-
-        //        case "BASIC_BLINK":
-        //            mPattern = LEDPulsePattern.BASIC_BLINK;
-        //            break;
-
-        //        case "BREATHING":
-        //            mPattern = LEDPulsePattern.BREATHING;
-        //            break;
-
-        //        case "DYNAMIC":
-        //            mPattern = LEDPulsePattern.DYNAMIC;
-        //            break;
-
-        //        case "HEART_BEAT":
-        //            mPattern = LEDPulsePattern.HEART_BEAT;
-        //            break;
-
-        //        case "LISTENING":
-        //            mPattern = LEDPulsePattern.LISTENING;
-        //            break;
-
-        //        case "NOBLINK":
-        //            mPattern = LEDPulsePattern.NOBLINK;
-        //            break;
-
-        //        case "PEACEFUL":
-        //            mPattern = LEDPulsePattern.PEACEFUL;
-        //            break;
-
-        //        case "RECHARGE":
-        //            mPattern = LEDPulsePattern.RECHARGE;
-        //            break;
-        //    }
-
-        //}
-
-        private void SetColor()
+		private void SetColor()
         {
 
 
