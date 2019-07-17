@@ -143,6 +143,7 @@ namespace BuddyApp.Diagnostic
         private readonly Color TAB_IDLE_COLOR = new Color(221F / 255F, 221F / 255F, 221F / 255F);
         private readonly Color STATUS_OFF_COLOR = new Color(56F / 255F, 56F / 255F, 56F / 255F);
         private readonly Color STATUS_ON_COLOR = new Color(0F, 212F / 255F, 209F / 255F);
+        private readonly Color STATUS_OFF_RED_COLOR = new Color(1F, 0F, 0F);
 
         private const string CREDENTIAL_DEFAULT_URL = "http://bfr-dev.azurewebsites.net/dev/BuddyDev-cmfc3b05c071.txt";
 
@@ -150,6 +151,8 @@ namespace BuddyApp.Diagnostic
         private Sprite mRecord;
         private Sprite mStop;
         private Sprite mPlay;
+        private Sprite mStopBig;
+        private Sprite mPlayBig;
         private Color mBuddyBlue = new Color(0.0f, 0.831f, 0.819f);
         private Color mWhite = new Color(1f, 1f, 1f);
 
@@ -171,6 +174,7 @@ namespace BuddyApp.Diagnostic
         private Image mSoundLocField;
         private int mSoundLocAngle;
         private float mSoundLocPreviousTreatedAngle;
+        private int mDirectionValue;
 
         public void OnClickTabs(TAB iClickedTab)
         {
@@ -189,11 +193,14 @@ namespace BuddyApp.Diagnostic
 
         private void Start()
         {
+            mDirectionValue = 1;
             mSoundLocPreviousTreatedAngle = 0F;
             mSoundLocField = LocalizationRad.GetComponent<Image>();
             mRecord = Buddy.Resources.Get<Sprite>("os_icon_micro_on");
             mStop = Buddy.Resources.Get<Sprite>("os_icon_stop");
             mPlay = Buddy.Resources.Get<Sprite>("os_icon_play");
+            mStopBig = Buddy.Resources.Get<Sprite>("os_icon_stop_big");
+            mPlayBig = Buddy.Resources.Get<Sprite>("os_icon_play_big");
             SpeechToTextFreeSpeechButton.interactable = true;
 
             TriggerTreshSlider.wholeNumbers = true;
@@ -217,18 +224,25 @@ namespace BuddyApp.Diagnostic
             StartCoroutine(GetFreespeechCredentials());
         }
 
+        // Manage warning text
         private void OnToggleActivated()
         {
+
+            Debug.Log("OnToggleActivated");
+
             if(EchoCancellationToggle.isOn && TabContent[2].activeSelf)
             {
                 BeamFormingText.SetActive(true);
+                Debug.Log("Active BeamForming Warning");
             }
             else if (BeamFormingToggle.isOn && TabContent[3].activeSelf)
             {
                 EchoCancellationText.SetActive(true);
+                Debug.Log("Active Echo Cancel Warning");
             }
-            else
+            else 
             {
+                Debug.Log("DisActive both Cancel Warning");
                 EchoCancellationText.SetActive(false);
                 BeamFormingText.SetActive(false);
             }
@@ -289,41 +303,41 @@ namespace BuddyApp.Diagnostic
         {
             foreach (GameObject img in Circles)
             {
-                img.SetActive(false);
+                img.GetComponentsInChildren<Image>()[1].color = STATUS_OFF_RED_COLOR;
             }
-            int lDirectionValue = 0;
+           
             switch (iInput)
             {
                 case 0:
-                    lDirectionValue = 1;
+                    mDirectionValue = 1;
                     break;
                 case 1:
-                    lDirectionValue = 2;
+                    mDirectionValue = 2;
                     break;
                 case 2:
-                    lDirectionValue = 3;
+                    mDirectionValue = 3;
                     break;
                 case 3:
-                    lDirectionValue = 4;
+                    mDirectionValue = 4;
                     break;
                 case 4:
-                    lDirectionValue = 5;
+                    mDirectionValue = 5;
                     break;
                 case 5:
-                    lDirectionValue = 6;
+                    mDirectionValue = 6;
                     break;
                 case 6:
-                    lDirectionValue = 7;
+                    mDirectionValue = 7;
                     break;
                 case 7:
-                    lDirectionValue = 8;
+                    mDirectionValue = 8;
                     break;
                 default:
-                    lDirectionValue = 1;
+                    mDirectionValue = 1;
                     break;
             }
-            Circles[lDirectionValue-1].SetActive(true);
-            Buddy.Sensors.Microphones.BeamformingParameters = new BeamformingParameters(IntToByte(lDirectionValue));
+            Circles[mDirectionValue-1].GetComponentsInChildren<Image>()[1].color = STATUS_ON_COLOR;
+            Buddy.Sensors.Microphones.BeamformingParameters = new BeamformingParameters(IntToByte(mDirectionValue));
         }
         #endregion
 
@@ -420,7 +434,7 @@ namespace BuddyApp.Diagnostic
 
             foreach (GameObject img in Circles)
             {
-                img.SetActive(false);
+                img.GetComponentsInChildren<Image>()[1].color = STATUS_OFF_RED_COLOR;
             }
 
             List<GameObject> lContentsStart = new List<GameObject>();
@@ -482,8 +496,10 @@ namespace BuddyApp.Diagnostic
                     lContents.Add(TabContent[(int)TAB.ECHO_CANCELLATION].transform.GetChild(i).gameObject);
                 Buddy.Sensors.Microphones.EnableBeamforming = iValue;
                 Debug.LogWarning("BEAMFORMING : " + Buddy.Sensors.Microphones.EnableBeamforming);
-                if (iValue)
+                if (iValue) 
                 {
+                    Debug.Log("ON beam: off echo + color on");
+                    Circles[mDirectionValue - 1].GetComponentsInChildren<Image>()[1].color = STATUS_ON_COLOR;
                     TabButton[(int)TAB.BEAMFORMING].GetComponentsInChildren<Image>()[2].color = STATUS_ON_COLOR;
                     TabButton[(int)TAB.ECHO_CANCELLATION].GetComponent<CanvasGroup>().alpha = 0.5F;
                     foreach (GameObject lContent in lContents)
@@ -491,8 +507,10 @@ namespace BuddyApp.Diagnostic
                     lContents[0].SetActive(true);
                     TabContent[(int)TAB.BEAMFORMING].transform.GetChild(2).gameObject.SetActive(true);
                 }
-                else
+                else 
                 {
+                    Debug.Log("OFF beam: on echo + color off");
+                    Circles[mDirectionValue - 1].GetComponentsInChildren<Image>()[1].color = STATUS_OFF_RED_COLOR;
                     TabButton[(int)TAB.BEAMFORMING].GetComponentsInChildren<Image>()[2].color = STATUS_OFF_COLOR;
                     TabButton[(int)TAB.ECHO_CANCELLATION].GetComponent<CanvasGroup>().alpha = 1F;
                     foreach (GameObject lContent in lContents)
@@ -510,9 +528,12 @@ namespace BuddyApp.Diagnostic
                 int lChildCount = TabContent[(int)TAB.BEAMFORMING].transform.childCount;
                 for (int i = 0; i < lChildCount; i++)
                     lContents.Add(TabContent[(int)TAB.BEAMFORMING].transform.GetChild(i).gameObject);
+                Buddy.Sensors.Microphones.EnableEchoCancellation = iValue;
+                Debug.LogWarning("ECHOCANCEL : " + Buddy.Sensors.Microphones.EnableEchoCancellation);
 
                 if (iValue)
                 {
+                    Debug.Log("ON echo: off beam forming + color on");
                     TabButton[(int)TAB.ECHO_CANCELLATION].GetComponentsInChildren<Image>()[2].color = STATUS_ON_COLOR;
                     TabButton[(int)TAB.BEAMFORMING].GetComponent<CanvasGroup>().alpha = 0.5F;
                     foreach (GameObject lContent in lContents)
@@ -521,6 +542,7 @@ namespace BuddyApp.Diagnostic
                 }
                 else
                 {
+                    Debug.Log("Off echo: on beam forming + color off");
                     TabButton[(int)TAB.ECHO_CANCELLATION].GetComponentsInChildren<Image>()[2].color = STATUS_OFF_COLOR;
                     TabButton[(int)TAB.BEAMFORMING].GetComponent<CanvasGroup>().alpha = 1F;
                     foreach (GameObject lContent in lContents)
@@ -591,7 +613,7 @@ namespace BuddyApp.Diagnostic
             // Trigger : Play sound and switch to green for 1 second.
             Buddy.Vocal.EnableTrigger = true;
 
-            SpeechToTextFreeSpeechButton.isOn = true;
+            SpeechToTextFreeSpeechButton.isOn = false;
 
             // BEGIN ACCRA COMP
             //Buddy.Vocal.OnTrigger.Clear();
@@ -749,12 +771,14 @@ namespace BuddyApp.Diagnostic
             AudioSource lAudioSource = ReplayAudioSource.GetComponent<AudioSource>();
             if (Equals("PLAY MUSIC", PlayMusicText.text))
             {
+                PlayMusic.GetComponentsInChildren<Image>()[1].sprite = mStopBig;
                 PlayMusicText.text = "STOP MUSIC";
                 lAudioSource.clip = AudioClipMusic; 
                 lAudioSource.Play();
             }
             else if(Equals("STOP MUSIC", PlayMusicText.text))
             {
+                PlayMusic.GetComponentsInChildren<Image>()[1].sprite = mPlayBig;
                 PlayMusicText.text = "PLAY MUSIC";
                 lAudioSource.Stop();
                 lAudioSource.clip = null;
@@ -766,8 +790,8 @@ namespace BuddyApp.Diagnostic
             Buddy.Vocal.StopAndClear();
 
             // Reset button display of free speech
-            SpeechToTextFreeSpeechButton.isOn = false;
-            SpeechToHybrid.isOn = false;
+            //SpeechToTextFreeSpeechButton.isOn = false;
+            //SpeechToHybrid.isOn = false;
 
             Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
             if (!Buddy.Vocal.Listen())
@@ -779,8 +803,8 @@ namespace BuddyApp.Diagnostic
             Buddy.Vocal.StopAndClear();
 
             // Reset button display of grammar
-            SpeechToTextGrammarButton.isOn = false;
-            SpeechToHybrid.isOn = false;
+            //SpeechToTextGrammarButton.isOn = false;
+            //SpeechToHybrid.isOn = false;
 
             Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.FREESPEECH_ONLY;
             if (!Buddy.Vocal.Listen())
