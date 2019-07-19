@@ -79,14 +79,14 @@ namespace BuddyApp.Diagnostic
             mBatterySaved = mBatteryLevel;
             SliderBattery.value = mBatteryLevel / 100F;
             //Version :
-            HemiseVersion.text = Buddy.Boards.Body.Version;
+            HemiseVersion.text = Buddy.Boards.Body.BodyµC.Version;
             MotionVersion.text = Buddy.Boards.Body.WheelsµC.Version;
             HeadVersion.text = Buddy.Boards.Head.HeadµC.Version;
             RainetteVersion.text = Buddy.Boards.Head.Version;
             AudioVersion.text = Buddy.Boards.Head.AudioµC.Version;
 
             //Status : (a tester les valeur en hex)
-            HemiseStatus.text = Buddy.Boards.Body.Status.ToString("X");
+            HemiseStatus.text = Buddy.Boards.Body.BodyµC.Status.ToString("X");
             MotionStatus.text = Buddy.Boards.Body.WheelsµC.Status.ToString("X");
             HeadStatus.text = Buddy.Boards.Head.HeadµC.Status.ToString("X");
             RainetteStatus.text = Buddy.Boards.Head.Status.ToString("X");

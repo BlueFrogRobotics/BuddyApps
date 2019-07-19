@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using BlueQuark;
 using OpenCVUnity;
 using System.Timers;
+using System.IO;
 
 namespace BuddyApp.Diagnostic
 {
@@ -147,7 +148,7 @@ namespace BuddyApp.Diagnostic
 
         private const string CREDENTIAL_DEFAULT_URL = "http://bfr-dev.azurewebsites.net/dev/BuddyDev-cmfc3b05c071.txt";
 
-
+        private bool mIsRecording = false;
         private Sprite mRecord;
         private Sprite mStop;
         private Sprite mPlay;
@@ -174,7 +175,6 @@ namespace BuddyApp.Diagnostic
         private Image mSoundLocField;
         private int mSoundLocAngle;
         private float mSoundLocPreviousTreatedAngle;
-        private int mDirectionValue;
 
         public void OnClickTabs(TAB iClickedTab)
         {
@@ -182,8 +182,7 @@ namespace BuddyApp.Diagnostic
                 return;
             if (TabContent[(int)iClickedTab].activeSelf)
                 return;
-            for (TAB iTab = 0; iTab < TAB.COUNT; iTab++)
-            {
+            for (TAB iTab = 0; iTab < TAB.COUNT; iTab++) {
                 TabContent[(int)iTab].SetActive(false);
                 TabButton[(int)iTab].GetComponent<Image>().color = TAB_IDLE_COLOR;
             }
@@ -193,7 +192,6 @@ namespace BuddyApp.Diagnostic
 
         private void Start()
         {
-            mDirectionValue = 1;
             mSoundLocPreviousTreatedAngle = 0F;
             mSoundLocField = LocalizationRad.GetComponent<Image>();
             mRecord = Buddy.Resources.Get<Sprite>("os_icon_micro_on");
@@ -203,72 +201,92 @@ namespace BuddyApp.Diagnostic
             mPlayBig = Buddy.Resources.Get<Sprite>("os_icon_play_big");
             SpeechToTextFreeSpeechButton.interactable = true;
 
+            InitRecordDropDown();
+
             TriggerTreshSlider.wholeNumbers = true;
             TriggerTreshSlider.minValue = 0F;
-            TriggerTreshSlider.maxValue = 200;
-            TriggerTreshSlider.value = 80;
+            TriggerTreshSlider.maxValue = 200F;
+            TriggerTreshSlider.value = 80F;
             TriggerTreshText.text = (TriggerTreshSlider.value * 10).ToString();
+            TriggerTreshSlider.onValueChanged.RemoveAllListeners();
             TriggerTreshSlider.onValueChanged.AddListener((iInput) => OnSliderThresholdChange(iInput));
+
 
             LocalizationTreshSlider.wholeNumbers = true;
             LocalizationTreshSlider.minValue = 10F;
             LocalizationTreshSlider.maxValue = 128F;
             LocalizationTreshSlider.value = 40F;
             LocalizationTreshText.text = LocalizationTreshSlider.value.ToString();
+            LocalizationTreshSlider.onValueChanged.RemoveAllListeners();
             LocalizationTreshSlider.onValueChanged.AddListener((iInput) => OnChangeThresholdLocalization(iInput));
 
+            TriggerDropdown.value = 3;
             TriggerDropdown.onValueChanged.AddListener((iInput) => OnSearchTriggerOption(iInput));
 
+            BeamFormingDropDown.value = 5;
             BeamFormingDropDown.onValueChanged.AddListener((iInput) => OnDirectionBeam(iInput));
 
             StartCoroutine(GetFreespeechCredentials());
         }
 
+        private void InitRecordDropDown()
+        {
+            RecordDropdown.options.Add(new Dropdown.OptionData("PREVIOUSLY RECORDED AUDIO FILES"));
+
+            Debug.LogWarning("files in directory : ");
+            foreach (string lPath in Directory.GetFiles(Buddy.Resources.AppRawDataPath)) {
+                Debug.LogWarning(lPath);
+                if (lPath.Contains("record") && lPath.Contains(".wav")) {
+                    RecordDropdown.options.Add(new Dropdown.OptionData(lPath.Substring(lPath.IndexOf("record"), lPath.IndexOf(".wav") - lPath.IndexOf("record"))));
+                    Debug.LogWarning(lPath.Substring(lPath.IndexOf("record"), lPath.IndexOf(".wav") - lPath.IndexOf("record")));
+                } else {
+                    Debug.LogWarning("Does not contain record or .wav: " + lPath.Contains("record") + " " + lPath.Contains(".wav"));
+                }
+            }
+            if (RecordDropdown.options.Count > 1)
+                RecordDropdown.interactable = true;
+        }
+
         // Manage warning text
         private void OnToggleActivated()
         {
-
             Debug.Log("OnToggleActivated");
 
-            if(EchoCancellationToggle.isOn && TabContent[2].activeSelf)
-            {
+            if (EchoCancellationToggle.isOn && TabContent[2].activeSelf) {
                 BeamFormingText.SetActive(true);
                 Debug.Log("Active BeamForming Warning");
-            }
-            else if (BeamFormingToggle.isOn && TabContent[3].activeSelf)
-            {
+            } else if (BeamFormingToggle.isOn && TabContent[3].activeSelf) {
                 EchoCancellationText.SetActive(true);
                 Debug.Log("Active Echo Cancel Warning");
-            }
-            else 
-            {
+            } else {
                 Debug.Log("DisActive both Cancel Warning");
                 EchoCancellationText.SetActive(false);
                 BeamFormingText.SetActive(false);
             }
         }
-       
+
         private void OnChangeThresholdLocalization(float iInput)
         {
-            
+            Debug.LogWarning("thresh slider loca " + FloatToInt(iInput));
             byte lReso = Buddy.Sensors.Microphones.SoundLocalizationParameters.Resolution;
             LocalizationTreshText.text = FloatToInt(iInput).ToString();
             Buddy.Sensors.Microphones.SoundLocalizationParameters = new SoundLocalizationParameters(lReso, FloatToInt(iInput));
+            Debug.LogWarning("thresh loca set to " + Buddy.Sensors.Microphones.SoundLocalizationParameters.Threshold);
         }
 
         #region TabTrigger
         private void OnSliderThresholdChange(float iInput)
         {
-            TriggerTreshText.text = FloatToShort(iInput*10).ToString();
-            Buddy.Sensors.Microphones.VocalTriggerParameters = new VocalTriggerParameters(FloatToShort(iInput*10));
+            Debug.LogWarning("thresh slider change " + iInput);
+            TriggerTreshText.text = FloatToShort(iInput * 10).ToString();
+            Buddy.Sensors.Microphones.VocalTriggerParameters = new VocalTriggerParameters(FloatToShort(iInput * 10));
 
         }
 
         private void OnSearchTriggerOption(int iInput)
         {
             int lSearchValue = 0;
-            switch (iInput)
-            {
+            switch (iInput) {
                 case 0:
                     lSearchValue = 1;
                     break;
@@ -294,50 +312,19 @@ namespace BuddyApp.Diagnostic
                     lSearchValue = 1;
                     break;
             }
-            Buddy.Sensors.Microphones.VocalTriggerParameters = new VocalTriggerParameters(FloatToShort(TriggerTreshSlider.value),IntToShort(lSearchValue));
+            Buddy.Sensors.Microphones.VocalTriggerParameters = new VocalTriggerParameters(FloatToShort(TriggerTreshSlider.value * 10), IntToShort(lSearchValue));
         }
         #endregion
 
         #region TabBeamforming
         private void OnDirectionBeam(int iInput)
         {
-            foreach (GameObject img in Circles)
-            {
+            foreach (GameObject img in Circles) {
                 img.GetComponentsInChildren<Image>()[1].color = STATUS_OFF_RED_COLOR;
             }
-           
-            switch (iInput)
-            {
-                case 0:
-                    mDirectionValue = 1;
-                    break;
-                case 1:
-                    mDirectionValue = 2;
-                    break;
-                case 2:
-                    mDirectionValue = 3;
-                    break;
-                case 3:
-                    mDirectionValue = 4;
-                    break;
-                case 4:
-                    mDirectionValue = 5;
-                    break;
-                case 5:
-                    mDirectionValue = 6;
-                    break;
-                case 6:
-                    mDirectionValue = 7;
-                    break;
-                case 7:
-                    mDirectionValue = 8;
-                    break;
-                default:
-                    mDirectionValue = 1;
-                    break;
-            }
-            Circles[mDirectionValue-1].GetComponentsInChildren<Image>()[1].color = STATUS_ON_COLOR;
-            Buddy.Sensors.Microphones.BeamformingParameters = new BeamformingParameters(IntToByte(mDirectionValue));
+
+            Circles[iInput].GetComponentsInChildren<Image>()[1].color = STATUS_ON_COLOR;
+            Buddy.Sensors.Microphones.BeamformingParameters = new BeamformingParameters(IntToByte(iInput));
         }
         #endregion
 
@@ -367,8 +354,7 @@ namespace BuddyApp.Diagnostic
             AmbiantSoundLevelSlider.value = Buddy.Sensors.Microphones.AmbiantSound;
             mSoundLocAngle = Buddy.Sensors.Microphones.SoundLocalization;
             // Done only for positive angles (as SLOC output angles)
-            if (mSoundLocAngle >= 0)
-            {
+            if (mSoundLocAngle >= 0) {
                 LocalizationRad.SetActive(true);
                 // Display untreated value
                 LocalizationText.text = mSoundLocAngle.ToString() + " °";
@@ -388,9 +374,7 @@ namespace BuddyApp.Diagnostic
                 //Angle = Angle * (float)Math.PI / 180.0F;    // Convert in rad 
                 //x = centerX + radius * (float)Math.Cos(Angle);
                 //y = centerY + radius * (float)Math.Sin(Angle);
-            }
-            else if (LocalizationRad.activeSelf)
-            {
+            } else if (LocalizationRad.activeSelf) {
                 // No value compute - disable UI
                 LocalizationText.text = "0 °";
                 LocalizationRad.SetActive(false);
@@ -399,27 +383,41 @@ namespace BuddyApp.Diagnostic
 
         public void Update()
         {
-            
             UpdateSoundLocalization();
-            if (mBIsPlaying) // Playing record
-            {
-                if (null == ReplayAudioSource.clip || !ReplayAudioSource.isPlaying)
-                {
-                    ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "Record - Should start playing...");
 
-                    if (mListAudio != null && mListAudio.Count > 0)
-                    {
-                        ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "Record - There is " + mListAudio.Count + " clip(s) to play...");
-                        ReplayAudioSource.clip = mListAudio.Dequeue();
-                        ReplayAudioSource.Play();
+            if (mBIsPlaying) // Playing record
+                if (null == ReplayAudioSource.clip || !ReplayAudioSource.isPlaying)
+                    // turn off
+                    OnPlayRecordButtonClick();
+
+
+
+            if (mIsRecording) {
+
+                Debug.LogWarning("update on play record button : " + mIPreviousMicroIndex);
+
+                if (!PlayRecordButton.interactable) {
+
+                    int lMicroIdx = mNoiseDetector.MicrophoneIdx;
+
+                    if (lMicroIdx < mIPreviousMicroIndex && null != mAudioClip && mAudioClip.length > 1F) {
+                        Debug.LogWarning("noise detector first step");
+                        mListAudio.Enqueue(mAudioClip);
+                        mAudioClip = null;
                     }
-                    else
-                    {
-                        ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "Record - No clip to play...");
-                        ReplayAudioSource.clip = null;
-                        mListAudio.Clear();
-                        OnPlayRecordButtonClick();
+
+
+                    if (mNoiseDetector.MicrophoneData != null) {
+                        Debug.LogWarning("noise detector second step");
+                        ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "Recording : Save new state" + lMicroIdx);
+                        mAudioClip = AudioClip.Create(mNoiseDetector.RecordClip.name, mNoiseDetector.RecordClip.samples, mNoiseDetector.RecordClip.channels, mNoiseDetector.RecordClip.frequency, false);
+
+                        float[] samples = new float[mNoiseDetector.RecordClip.samples * mNoiseDetector.RecordClip.channels];
+
+                        mNoiseDetector.RecordClip.GetData(samples, 0);
+                        mAudioClip.SetData(samples, 0);
                     }
+                    mIPreviousMicroIndex = lMicroIdx;
                 }
             }
         }
@@ -432,8 +430,9 @@ namespace BuddyApp.Diagnostic
             TabButton[(int)TAB.BEAMFORMING].onClick.AddListener(() => { OnClickTabs(TAB.BEAMFORMING); });
             TabButton[(int)TAB.ECHO_CANCELLATION].onClick.AddListener(() => { OnClickTabs(TAB.ECHO_CANCELLATION); });
 
-            foreach (GameObject img in Circles)
-            {
+
+
+            foreach (GameObject img in Circles) {
                 img.GetComponentsInChildren<Image>()[1].color = STATUS_OFF_RED_COLOR;
             }
 
@@ -449,8 +448,7 @@ namespace BuddyApp.Diagnostic
 
 
             // Trigger
-            TriggerToggle.onValueChanged.AddListener((iValue) =>
-            {
+            TriggerToggle.onValueChanged.AddListener((iValue) => {
                 Buddy.Vocal.EnableTrigger = iValue;
                 if (iValue)
                     TabButton[(int)TAB.TRIGGER].GetComponentsInChildren<Image>()[2].color = STATUS_ON_COLOR;
@@ -465,18 +463,22 @@ namespace BuddyApp.Diagnostic
             //    // -- ADD Treshold setting when available ---
             //});
 
+            TriggerDropdown.value = 3;
+            TriggerDropdown.onValueChanged.AddListener((iInput) => OnSearchTriggerOption(iInput));
+            TriggerTreshText.text = FloatToShort(TriggerTreshSlider.value * 10).ToString();
+            TriggerTreshSlider.onValueChanged.AddListener((iInput) => OnSliderThresholdChange(iInput));
+
             // Localization
-            LocalizationToggle.onValueChanged.AddListener((iValue) =>
-            {
+            LocalizationToggle.onValueChanged.AddListener((iValue) => {
                 Buddy.Sensors.Microphones.EnableSoundLocalization = iValue;
                 Debug.LogWarning("SOUNDLOC : " + Buddy.Sensors.Microphones.EnableSoundLocalization);
                 if (iValue)
                     TabButton[(int)TAB.LOCALIZATION].GetComponentsInChildren<Image>()[2].color = STATUS_ON_COLOR;
-                
+
                 else
                     TabButton[(int)TAB.LOCALIZATION].GetComponentsInChildren<Image>()[2].color = STATUS_OFF_COLOR;
-                    
-                    
+
+
             });
             //LocalizationTreshSlider.value = 50;
             //LocalizationTreshText.text = LocalizationTreshSlider.value.ToString();
@@ -486,9 +488,13 @@ namespace BuddyApp.Diagnostic
             //    // -- ADD Treshold setting when available ---
             //});
 
-            // BeamForming
-            BeamFormingToggle.onValueChanged.AddListener((iValue) =>
-            {
+            LocalizationTreshText.text = LocalizationTreshSlider.value.ToString();
+            LocalizationTreshSlider.onValueChanged.AddListener((iInput) => OnChangeThresholdLocalization(iInput));
+
+            // BeamForming            
+            BeamFormingDropDown.value = 5;
+            BeamFormingDropDown.onValueChanged.AddListener((iInput) => OnDirectionBeam(iInput));
+            BeamFormingToggle.onValueChanged.AddListener((iValue) => {
                 // Get all child gameobject of EchoCancellation for mutual exclusion
                 List<GameObject> lContents = new List<GameObject>();
                 int lChildCount = TabContent[(int)TAB.ECHO_CANCELLATION].transform.childCount;
@@ -496,21 +502,18 @@ namespace BuddyApp.Diagnostic
                     lContents.Add(TabContent[(int)TAB.ECHO_CANCELLATION].transform.GetChild(i).gameObject);
                 Buddy.Sensors.Microphones.EnableBeamforming = iValue;
                 Debug.LogWarning("BEAMFORMING : " + Buddy.Sensors.Microphones.EnableBeamforming);
-                if (iValue) 
-                {
+                if (iValue) {
                     Debug.Log("ON beam: off echo + color on");
-                    Circles[mDirectionValue - 1].GetComponentsInChildren<Image>()[1].color = STATUS_ON_COLOR;
+                    Circles[BeamFormingDropDown.value].GetComponentsInChildren<Image>()[1].color = STATUS_ON_COLOR;
                     TabButton[(int)TAB.BEAMFORMING].GetComponentsInChildren<Image>()[2].color = STATUS_ON_COLOR;
                     TabButton[(int)TAB.ECHO_CANCELLATION].GetComponent<CanvasGroup>().alpha = 0.5F;
                     foreach (GameObject lContent in lContents)
                         lContent.SetActive(false);
                     lContents[0].SetActive(true);
                     TabContent[(int)TAB.BEAMFORMING].transform.GetChild(2).gameObject.SetActive(true);
-                }
-                else 
-                {
+                } else {
                     Debug.Log("OFF beam: on echo + color off");
-                    Circles[mDirectionValue - 1].GetComponentsInChildren<Image>()[1].color = STATUS_OFF_RED_COLOR;
+                    Circles[BeamFormingDropDown.value].GetComponentsInChildren<Image>()[1].color = STATUS_OFF_RED_COLOR;
                     TabButton[(int)TAB.BEAMFORMING].GetComponentsInChildren<Image>()[2].color = STATUS_OFF_COLOR;
                     TabButton[(int)TAB.ECHO_CANCELLATION].GetComponent<CanvasGroup>().alpha = 1F;
                     foreach (GameObject lContent in lContents)
@@ -521,8 +524,7 @@ namespace BuddyApp.Diagnostic
             });
 
             // EchoCancellation
-            EchoCancellationToggle.onValueChanged.AddListener((iValue) =>
-            {
+            EchoCancellationToggle.onValueChanged.AddListener((iValue) => {
                 // Get all child gameobject of EchoCancellation for mutual exclusion
                 List<GameObject> lContents = new List<GameObject>();
                 int lChildCount = TabContent[(int)TAB.BEAMFORMING].transform.childCount;
@@ -531,17 +533,14 @@ namespace BuddyApp.Diagnostic
                 Buddy.Sensors.Microphones.EnableEchoCancellation = iValue;
                 Debug.LogWarning("ECHOCANCEL : " + Buddy.Sensors.Microphones.EnableEchoCancellation);
 
-                if (iValue)
-                {
+                if (iValue) {
                     Debug.Log("ON echo: off beam forming + color on");
                     TabButton[(int)TAB.ECHO_CANCELLATION].GetComponentsInChildren<Image>()[2].color = STATUS_ON_COLOR;
                     TabButton[(int)TAB.BEAMFORMING].GetComponent<CanvasGroup>().alpha = 0.5F;
                     foreach (GameObject lContent in lContents)
                         lContent.SetActive(false);
                     lContents[0].SetActive(true);
-                }
-                else
-                {
+                } else {
                     Debug.Log("Off echo: on beam forming + color off");
                     TabButton[(int)TAB.ECHO_CANCELLATION].GetComponentsInChildren<Image>()[2].color = STATUS_OFF_COLOR;
                     TabButton[(int)TAB.BEAMFORMING].GetComponent<CanvasGroup>().alpha = 1F;
@@ -555,15 +554,13 @@ namespace BuddyApp.Diagnostic
             // Volume slider init & callback
             VolumeSlider.value = (int)(Buddy.Actuators.Speakers.Volume * 100F);
             VolumeSliderText.text = VolumeSlider.value.ToString();
-            VolumeSlider.onValueChanged.AddListener((iVolume) =>
-            {
+            VolumeSlider.onValueChanged.AddListener((iVolume) => {
                 Buddy.Actuators.Speakers.Volume = iVolume / 100F;
                 VolumeSliderText.text = iVolume.ToString();
             });
 
             // Initialize listen.
-            Buddy.Vocal.DefaultInputParameters = new SpeechInputParameters()
-            {
+            Buddy.Vocal.DefaultInputParameters = new SpeechInputParameters() {
                 Grammars = new string[] { "common" },
                 RecognitionThreshold = 5000
             };
@@ -572,21 +569,18 @@ namespace BuddyApp.Diagnostic
             Buddy.Vocal.OnEndListening.Add(OnEndListeningSpeechToText);
 
             // Text to speech
-            TextToSpeechButton.onClick.AddListener(delegate
-            {
+            TextToSpeechButton.onClick.AddListener(delegate {
                 OnTextToSpeechButtonClick();
             });
 
             // Extract & Play Gimmick
             GimmickDropdown.AddOptions(new List<string>(Enum.GetNames(typeof(SoundSample))));
-            GimmickPlayButton.onClick.AddListener(delegate
-            {
+            GimmickPlayButton.onClick.AddListener(delegate {
                 OnGimmickPlayButtonClick();
             });
 
             // Speech to text (Common Grammar)
-            SpeechToTextGrammarButton.onValueChanged.AddListener((iValue) =>
-            {
+            SpeechToTextGrammarButton.onValueChanged.AddListener((iValue) => {
                 if (iValue == true)
                     OnSpeechToTextGrammarButtonClick();
                 else
@@ -594,8 +588,7 @@ namespace BuddyApp.Diagnostic
             });
 
             // Speech to text (Freespeech)
-            SpeechToTextFreeSpeechButton.onValueChanged.AddListener((iValue) =>
-            {
+            SpeechToTextFreeSpeechButton.onValueChanged.AddListener((iValue) => {
                 if (iValue == true)
                     OnSpeechToTextFreeSpeechButtonClick();
                 else
@@ -603,8 +596,7 @@ namespace BuddyApp.Diagnostic
             });
 
             //A tester
-            SpeechToHybrid.onValueChanged.AddListener((iValue) =>
-            {
+            SpeechToHybrid.onValueChanged.AddListener((iValue) => {
                 if (iValue)
                     OnHybrid();
                 else
@@ -613,54 +605,27 @@ namespace BuddyApp.Diagnostic
             // Trigger : Play sound and switch to green for 1 second.
             Buddy.Vocal.EnableTrigger = true;
 
-            SpeechToTextFreeSpeechButton.isOn = false;
 
-            // BEGIN ACCRA COMP
-            //Buddy.Vocal.OnTrigger.Clear();
-            //Buddy.Vocal.OnTrigger.Add(
-            //    (iInput) =>
-            //    {
-            //        TriggerText.SetTrigger("ON");
-            //        //TriggerScore.text = ... waitCore
-            //        Buddy.Actuators.Speakers.Media.Play(SoundSample.BEEP_1);
+            Buddy.Vocal.OnTrigger.Add((iInput) => {
+                TriggerText.SetTrigger("ON");
+                Buddy.Actuators.Speakers.Media.Play(SoundSample.BEEP_1);
 
-            //        // Display green for one second then switch red.
-            //        mTimeTrigger = new Timer(1000);
-            //        mTimeTrigger.Elapsed += OnTriggerTimedEvent;
-            //        mTimeTrigger.Start();
-            //    });
+                // Display green for one second then switch red.
+                mTimeTrigger = new Timer(1000);
+                mTimeTrigger.Elapsed += OnTriggerTimedEvent;
+                mTimeTrigger.Start();
+            });
 
-            try {
-                CallbackArray<int> lCallback = (CallbackArray<int>)typeof(Vocal).GetProperty("OnTrigger").GetValue(Buddy.Vocal);
-                lCallback.Clear();
-                lCallback.Add((iInput) => {
-                        TriggerText.SetTrigger("ON"); 
-                        //TriggerScore.text = ... waitCore 
-                        Buddy.Actuators.Speakers.Media.Play(SoundSample.BEEP_1);
-
-                        // Display green for one second then switch red.
-                        mTimeTrigger = new Timer(1000);
-                        mTimeTrigger.Elapsed += OnTriggerTimedEvent;
-                        mTimeTrigger.Start();
-                    });
-            } catch (Exception iException) {
-                ACCRAComp.OnTrigger(() => {
-                    TriggerText.SetTrigger("ON");
-                    //TriggerScore.text = ... waitCore
-                    Buddy.Actuators.Speakers.Media.Play(SoundSample.BEEP_1);
-
-                    // Display green for one second then switch red.
-                    mTimeTrigger = new Timer(1000);
-                    mTimeTrigger.Elapsed += OnTriggerTimedEvent;
-                    mTimeTrigger.Start();
-                });
-            }
-            // END ACCRA COMP
+            Buddy.Vocal.OnCompleteTrigger.Add((iInput) => {
+                TriggerScore.text = iInput.RecognitionScore.ToString();
+            });
 
             // Init Recorded audio dropdown list
             ReplayAudioSource.clip = null;
             if (RecordDropdown.options.Count <= 1)
                 RecordDropdown.interactable = false;
+            else
+                RecordDropdown.interactable = true;
 
             //Button Reset List
             ResetList.onClick.AddListener(OnClicResetList);
@@ -725,14 +690,8 @@ namespace BuddyApp.Diagnostic
             TriggerScore.text = "0";
             Buddy.Vocal.EnableTrigger = false;
 
-            // BEGIN ACCRA COMP
-            try {
-                CallbackArray<int> lCallback = (CallbackArray<int>)typeof(Vocal).GetProperty("OnTrigger").GetValue(Buddy.Vocal);
-                lCallback.Clear();
-            } catch (Exception iException) {
-                ACCRAComp.Clear();
-            }
-            // END ACCRA COMP
+            Buddy.Vocal.OnTrigger.Clear();
+            Buddy.Vocal.OnCompleteTrigger.Clear();
 
             // Record
             if (mBIsPlaying)
@@ -745,6 +704,8 @@ namespace BuddyApp.Diagnostic
             // Remove end listening callbacks
             Buddy.Vocal.OnEndListening.Clear();
             ResetList.onClick.RemoveAllListeners();
+
+            PlayMusic.onClick.RemoveAllListeners();
         }
 
         private void OnTextToSpeechButtonClick()
@@ -756,7 +717,13 @@ namespace BuddyApp.Diagnostic
         private void OnClicResetList()
         {
             Debug.LogWarning("RESET LIST");
+            for (int i = 1; i < RecordDropdown.options.Count; ++i) {
+                Utils.DeleteFile(Buddy.Resources.AppRawDataPath + RecordDropdown.options[i].text + ".wav");
+                Debug.Log("Deleting " + Buddy.Resources.AppRawDataPath + RecordDropdown.options[i].text + ".wav");
+            }
             RecordDropdown.options.Clear();
+            RecordDropdown.options.Add(new Dropdown.OptionData("PREVIOUSLY RECORDED AUDIO FILES"));
+            RecordDropdown.captionText.text = "PREVIOUSLY RECORDED AUDIO FILES";
             mListRecorded.Clear();
         }
 
@@ -765,19 +732,18 @@ namespace BuddyApp.Diagnostic
             Buddy.Actuators.Speakers.Media.Stop();
             Buddy.Actuators.Speakers.Media.Play((SoundSample)Enum.Parse(typeof(SoundSample), GimmickDropdown.options[GimmickDropdown.value].text));
         }
-        
+
         private void OnPlayMusic()
         {
             AudioSource lAudioSource = ReplayAudioSource.GetComponent<AudioSource>();
-            if (Equals("PLAY MUSIC", PlayMusicText.text))
-            {
+            if (Equals("PLAY MUSIC", PlayMusicText.text)) {
+                Debug.Log("Stop Music");
                 PlayMusic.GetComponentsInChildren<Image>()[1].sprite = mStopBig;
                 PlayMusicText.text = "STOP MUSIC";
-                lAudioSource.clip = AudioClipMusic; 
+                lAudioSource.clip = AudioClipMusic;
                 lAudioSource.Play();
-            }
-            else if(Equals("STOP MUSIC", PlayMusicText.text))
-            {
+            } else if (Equals("STOP MUSIC", PlayMusicText.text)) {
+                Debug.Log("Playing Music");
                 PlayMusic.GetComponentsInChildren<Image>()[1].sprite = mPlayBig;
                 PlayMusicText.text = "PLAY MUSIC";
                 lAudioSource.Stop();
@@ -814,7 +780,7 @@ namespace BuddyApp.Diagnostic
         private void OnHybrid()
         {
             Buddy.Vocal.StopAndClear();
-            
+
             Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_THEN_FREESPEECH;
             if (!Buddy.Vocal.Listen())
                 ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.STOPPING, "ERROR ON LISTEN !!!! ");
@@ -823,18 +789,14 @@ namespace BuddyApp.Diagnostic
 
         private void OnEndListeningSpeechToText(SpeechInput iSpeechInput)
         {
-            if (SpeechToTextFreeSpeechButton.isOn)
-            {
+            if (SpeechToTextFreeSpeechButton.isOn) {
                 if (iSpeechInput.IsInterrupted)
                     return;
                 SpeechToTextFreeSpeechButton.isOn = false;
                 SpeechToHybrid.isOn = false;
                 return;
-            }
-            else if (SpeechToTextGrammarButton.isOn)
-            {
-                if (iSpeechInput.IsInterrupted)
-                {
+            } else if (SpeechToTextGrammarButton.isOn) {
+                if (iSpeechInput.IsInterrupted) {
                     ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.BAD_ARGUMENT, "No speech was recognized.");
                     return;
                 }
@@ -842,9 +804,7 @@ namespace BuddyApp.Diagnostic
                 //    ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.BAD_ARGUMENT, "No speech was recognized.");
                 SpeechToTextGrammarButton.isOn = false;
                 SpeechToHybrid.isOn = false;
-            }
-            else if(SpeechToHybrid.isOn)
-            {
+            } else if (SpeechToHybrid.isOn) {
                 SpeechToTextFreeSpeechButton.isOn = false;
                 SpeechToTextGrammarButton.isOn = false;
             }
@@ -859,79 +819,61 @@ namespace BuddyApp.Diagnostic
         private void OnRecordingButtonClick()
         {
             //avoir des ref des text plutot que de faire des getcomponentsinchildren a chaque clic qui reste bad niveau opti meme si ça ne change pas grand chose ici
-            if (string.Equals("START RECORDING", RecordButton.GetComponentsInChildren<Text>()[0].text))
-            {
-                PlayRecordButton.interactable = false;
-                RecordButton.GetComponentsInChildren<Text>()[0].text = "STOP RECORDING";
-                RecordButton.GetComponentsInChildren<Image>()[1].sprite = mStop;
+            if (string.Equals("START RECORDING", RecordButton.GetComponentsInChildren<Text>()[0].text)) {
+                if (!mIsRecording) {
+                    PlayRecordButton.interactable = false;
+                    RecordButton.GetComponentsInChildren<Text>()[0].text = "STOP RECORDING";
+                    RecordButton.GetComponentsInChildren<Image>()[1].sprite = mStop;
 
-                // Save first AudioClip and callback when new sound detected.
-                mListAudio.Clear();
-                mAudioClip = null;
-                mNoiseDetector.OnDetect.Add(
-                (fFloat) =>
-                {
-                    if (!PlayRecordButton.interactable)
-                    {
-                        if (mNoiseDetector.MicrophoneIdx < mIPreviousMicroIndex && null != mAudioClip && mAudioClip.length > 1F)
-                        {
-                            mListAudio.Enqueue(mAudioClip);
-                            mAudioClip = null;
-                            mNoiseDetector.RecordClip.UnloadAudioData();
-                        }
+                    // Save first AudioClip and callback when new sound detected.
+                    mListAudio.Clear();
+                    mAudioClip = null;
+                    mIsRecording = true;
 
-                        if (mNoiseDetector.MicrophoneData != null)
-                        {
-                            ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "Recording : Save new state" + mNoiseDetector.MicrophoneIdx);
-
-                            mAudioClip = AudioClip.Create(mNoiseDetector.RecordClip.name, mNoiseDetector.RecordClip.samples, mNoiseDetector.RecordClip.channels, mNoiseDetector.RecordClip.frequency, false);
-                            float[] samples = new float[mNoiseDetector.RecordClip.samples * mNoiseDetector.RecordClip.channels];
-                            mNoiseDetector.RecordClip.GetData(samples, 0);
-                            mAudioClip.SetData(samples, 0);
-                        }
-
-                        mIPreviousMicroIndex = mNoiseDetector.MicrophoneIdx;
-                    }
-                });
-
+                    // Used to start microphone?
+                    mNoiseDetector.OnDetect.Add((iInput) => { });
+                    mIPreviousMicroIndex = 0;
+                }
+                Debug.LogWarning("update record button click");
                 return;
             }
 
-            if (string.Equals("STOP RECORDING", RecordButton.GetComponentsInChildren<Text>()[0].text))
-            {
-                PlayRecordButton.interactable = true;
+            if (string.Equals("STOP RECORDING", RecordButton.GetComponentsInChildren<Text>()[0].text)) {
                 RecordButton.GetComponentsInChildren<Text>()[0].text = "START RECORDING";
                 RecordButton.GetComponentsInChildren<Image>()[1].sprite = mRecord;
-                mNoiseDetector.OnDetect.Clear();
-                if (null != mAudioClip && mAudioClip.length > 1F)
-                    mListAudio.Enqueue(mAudioClip);
-                if (mListAudio.Count > 0)
-                {
-                    mListRecorded.Add(new Queue<AudioClip>(mListAudio));
-                    mListAudio.Clear();
-                    RecordDropdown.options.Add(new Dropdown.OptionData("record_" + RecordDropdown.options.Count.ToString()));
-                    if (RecordDropdown.interactable == false)
-                        RecordDropdown.interactable = true;
-                }
-                return;
+                StartCoroutine(StopAsync());
+            }
+        }
+
+        private IEnumerator StopAsync()
+        {
+            Debug.LogWarning("before yield");
+            yield return new WaitForSeconds(4F);
+            Debug.LogWarning("after yield");
+            mIsRecording = false;
+            PlayRecordButton.interactable = true;
+
+            mNoiseDetector.OnDetect.Clear();
+            if (null != mAudioClip && mNoiseDetector.MicrophoneIdx > mIPreviousMicroIndex)
+                mListAudio.Enqueue(mAudioClip);
+
+
+            if (mListAudio.Count > 0) {
+                mListRecorded.Add(new Queue<AudioClip>(mListAudio));
+                Utils.Save(Buddy.Resources.AppRawDataPath + "record_" + RecordDropdown.options.Count.ToString(), Utils.Combine(mListAudio.ToArray()));
+                Debug.LogWarning("save  file at " + Buddy.Resources.AppRawDataPath + "record_" + RecordDropdown.options.Count.ToString());
+                mListAudio.Clear();
+                RecordDropdown.options.Add(new Dropdown.OptionData("record_" + RecordDropdown.options.Count.ToString()));
+                if (RecordDropdown.interactable == false)
+                    RecordDropdown.interactable = true;
             }
         }
 
         private void OnPlayRecordButtonClick()
         {
-            if (mBIsPlaying)
-            {
-                Debug.LogWarning("---- IS PLAYING ----");
-                RecordButton.interactable = true;
-                RecordDropdown.interactable = true;
-                PlayRecordButton.GetComponentsInChildren<Text>()[0].text = "PLAY";
-                PlayRecordButton.GetComponentsInChildren<Image>()[1].sprite = mPlay;
-                ReplayAudioSource.Stop();
-                mListAudio.Clear();
-                mBIsPlaying = false;
-            }
-            else
-            {
+            Debug.Log("Play recorded");
+
+            if (!mBIsPlaying) {
                 if (RecordDropdown.value == 0)
                     return;
                 Debug.LogWarning("---- IS NOT PLAYING ----");
@@ -939,15 +881,57 @@ namespace BuddyApp.Diagnostic
                 RecordDropdown.interactable = false;
                 PlayRecordButton.GetComponentsInChildren<Text>()[0].text = "STOP";
                 PlayRecordButton.GetComponentsInChildren<Image>()[1].sprite = mStop;
-                // Ignore 0 index, because it's the default msg in list
-                if (RecordDropdown.value > 0)
-                {
-                    Debug.LogWarning("-------- DropDownVal: " + RecordDropdown.value + " LisRecMax: " + mListRecorded.Count + " -----------");
-                    mListAudio = new Queue<AudioClip>(mListRecorded[RecordDropdown.value - 1]);
-                }
-                mBIsPlaying = true;
+                Debug.LogWarning("-------- DropDownVal: " + RecordDropdown.captionText.text);
+
+                // Get Audio from file and play
+                StartCoroutine(PlayRecord());
+
+            } else if (mBIsPlaying) {
+                AudioSource lAudioSource = ReplayAudioSource.GetComponent<AudioSource>();
+                Debug.LogWarning("---- IS PLAYING ----");
+                RecordButton.interactable = true;
+                RecordDropdown.interactable = true;
+                PlayRecordButton.GetComponentsInChildren<Text>()[0].text = "PLAY";
+                PlayRecordButton.GetComponentsInChildren<Image>()[1].sprite = mPlay;
+                lAudioSource.Stop();
+                lAudioSource.clip = null;
+                mBIsPlaying = false;
             }
         }
+
+        private IEnumerator PlayRecord()
+        {
+            Debug.Log("try to load " + Buddy.Resources.AppRawDataPath + RecordDropdown.captionText.text + ".wav");
+
+            if (!File.Exists(Buddy.Resources.AppRawDataPath + RecordDropdown.captionText.text + ".wav")) {
+                Debug.LogWarning("file doesn't exist! " + Buddy.Resources.AppRawDataPath + RecordDropdown.captionText.text + ".wav");
+                // Stop
+                OnPlayRecordButtonClick();
+            } else {
+                AudioSource lAudioSource = ReplayAudioSource.GetComponent<AudioSource>();
+                using (var www = new WWW("file://" + Buddy.Resources.AppRawDataPath + RecordDropdown.captionText.text + ".wav")) {
+                    yield return www;
+                    lAudioSource.clip = www.GetAudioClip();
+                }
+
+                while (lAudioSource.clip.loadState != AudioDataLoadState.Loaded && lAudioSource.clip.loadState != AudioDataLoadState.Failed) {
+                    Debug.Log(".");
+                    yield return new WaitForSeconds(0.1F);
+                }
+
+                if (lAudioSource.clip.loadState == AudioDataLoadState.Loaded) {
+                    Debug.LogWarning("Actually starts to play!!!");
+                    lAudioSource.Play();
+                    mBIsPlaying = true;
+                } else {
+                    Debug.LogWarning("Can't load " + Buddy.Resources.AppRawDataPath + RecordDropdown.captionText.text + ".wav");
+                    // Stop
+                    mBIsPlaying = true;
+                    OnPlayRecordButtonClick();
+                }
+            }
+        }
+
 
         private IEnumerator GetFreespeechCredentials()
         {
