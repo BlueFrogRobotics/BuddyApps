@@ -16,8 +16,6 @@ namespace BuddyApp.Diagnostic
         //GET GAMEOBJECT WINDOW
         [SerializeField]
         private GameObject Window_TOF;
-        //[SerializeField]
-        //private GameObject Window_IR;
         [SerializeField]
         private GameObject Window_US;
         [SerializeField]
@@ -32,8 +30,6 @@ namespace BuddyApp.Diagnostic
         //GET TOGGLES NAV BUTTON
         [SerializeField]
         private Toggle BT_TOF;
-        //[SerializeField]
-        //private Toggle BT_IR;
         [SerializeField]
         private Toggle BT_US;
         [SerializeField]
@@ -92,14 +88,6 @@ namespace BuddyApp.Diagnostic
         private Text TOF_Error_04;
         [SerializeField]
         private Text TOF_Error_05;
-
-        //LED IR RECEPTRICE
-        //[SerializeField]
-        //private Text IR_Text_00;
-        //[SerializeField]
-        //private Image IR_OK_00;
-        //[SerializeField]
-        //private Text IR_Error_00;
 
         //US SENSORS
         [SerializeField]
@@ -240,7 +228,6 @@ namespace BuddyApp.Diagnostic
         private TimeOfFlightSensor mFrontMiddleTOFSensor;
         private TimeOfFlightSensor mFrontLeftTOFSensor;
         private TimeOfFlightSensor mBackTOFSensor;
-        private InfraredSensor mBackIRSensor;
         private CliffSensor mCliff_FrontFreeWheel;
         private CliffSensor mCliff_FrontRightWheel;
         private CliffSensor mCliff_BackRightWheel;
@@ -271,7 +258,6 @@ namespace BuddyApp.Diagnostic
             // Create Toggle Button list
             mAllToggle = new List<Toggle>();
             mAllToggle.Add(BT_TOF);
-            //mAllToggle.Add(BT_IR);
             mAllToggle.Add(BT_US);
             mAllToggle.Add(BT_CARESS);
             mAllToggle.Add(BT_PINCH);
@@ -290,7 +276,6 @@ namespace BuddyApp.Diagnostic
             // Create Window list
             mAllWindow = new List<GameObject>();
             mAllWindow.Add(Window_TOF);
-            //mAllWindow.Add(Window_IR);
             mAllWindow.Add(Window_US);
             mAllWindow.Add(Window_CARESS);
             mAllWindow.Add(Window_PINCH);
@@ -313,12 +298,7 @@ namespace BuddyApp.Diagnostic
             mFrontMiddleTOFSensor = Buddy.Sensors.TimeOfFlightSensors.Front;
             mFrontLeftTOFSensor = Buddy.Sensors.TimeOfFlightSensors.Left;
             mBackTOFSensor = Buddy.Sensors.TimeOfFlightSensors.Back;
-
-            // IR
-            mBackIRSensor = Buddy.Sensors.InfraredSensor;
-
-
-
+            
             // CLIFF
             mCliff_FrontFreeWheel = Buddy.Sensors.CliffSensors.FrontFreeWheel;
             mCliff_FrontRightWheel = Buddy.Sensors.CliffSensors.FrontRightWheel;
@@ -394,14 +374,6 @@ namespace BuddyApp.Diagnostic
                         TOF_Text_05.text = (mBackTOFSensor.Value / 1000) + "m";
                     TOF_OK_05.color = mBackTOFSensor.Error == 0 ? BuddyBlue : Red;
                 }
-
-                //if (BT_IR.isOn)
-                //{
-                //    //IR RECEPTEUR
-                //    IR_Text_00.text = "#" + mBackIRSensor.Value;
-                //    IR_OK_00.color = BuddyBlue;
-                //}
-
 
                 if (BT_US.isOn) {
                     //US RECEPTEUR RIGHT

@@ -354,29 +354,18 @@ namespace BuddyApp.Diagnostic
             AmbiantSoundLevelSlider.value = Buddy.Sensors.Microphones.AmbiantSound;
             mSoundLocAngle = Buddy.Sensors.Microphones.SoundLocalization;
             // Done only for positive angles (as SLOC output angles)
-            if (mSoundLocAngle >= 0) {
+            if (mSoundLocAngle != Microphones.NO_SOUND_LOCALIZATION) {
                 LocalizationRad.SetActive(true);
                 // Display untreated value
                 LocalizationText.text = mSoundLocAngle.ToString() + " °";
-                mSoundLocField.rectTransform.Rotate(0, 0, Buddy.Sensors.Microphones.SoundLocalization - mSoundLocPreviousTreatedAngle);
-                mSoundLocPreviousTreatedAngle = Buddy.Sensors.Microphones.SoundLocalization;
-
-                // Following code was supplied in the ECR_190218_BF_STUDIO_01 : (And then adapted here)
-                // Adapt angle to get it in radians and 0° on left of buddy head 
-                //float lAngle = mSoundLocAngle;  // angle is [0..+360[ 
-                //lAngle -= 135;                  // angle is [-135..+225] 
-                //if (lAngle < 0)
-                //    lAngle = lAngle + 360;      // angle is [0..+360[
-                //Debug.LogWarning("---- Sloc:" + mSoundLocAngle + " / Treated:" + lAngle + " / diff with previous to rotate:" + (lAngle - mSoundLocPreviousTreatedAngle) + " ----");
-                //mSoundLocField.rectTransform.Rotate(0, 0, (lAngle - mSoundLocPreviousTreatedAngle));
-                //mSoundLocPreviousTreatedAngle = lAngle;
-                // This code is not necessary, we can directly rotate the object using transform
-                //Angle = Angle * (float)Math.PI / 180.0F;    // Convert in rad 
-                //x = centerX + radius * (float)Math.Cos(Angle);
-                //y = centerY + radius * (float)Math.Sin(Angle);
-            } else if (LocalizationRad.activeSelf) {
+                if (mSoundLocAngle < 0)
+                    mSoundLocAngle += 360;
+                mSoundLocField.rectTransform.Rotate(0, 0, mSoundLocAngle - mSoundLocPreviousTreatedAngle);
+                mSoundLocPreviousTreatedAngle = mSoundLocAngle;
+                
+            } else {
                 // No value compute - disable UI
-                LocalizationText.text = "0 °";
+                LocalizationText.text = "-- °";
                 LocalizationRad.SetActive(false);
             }
         }
@@ -424,6 +413,8 @@ namespace BuddyApp.Diagnostic
 
         public void OnEnable()
         {
+            StartCoroutine(GetFreespeechCredentials());
+
             // Tabs
             TabButton[(int)TAB.TRIGGER].onClick.AddListener(() => { OnClickTabs(TAB.TRIGGER); });
             TabButton[(int)TAB.LOCALIZATION].onClick.AddListener(() => { OnClickTabs(TAB.LOCALIZATION); });
@@ -469,6 +460,7 @@ namespace BuddyApp.Diagnostic
             TriggerTreshSlider.onValueChanged.AddListener((iInput) => OnSliderThresholdChange(iInput));
 
             // Localization
+            Buddy.Sensors.Microphones.EnableSoundLocalization = LocalizationToggle.isOn;
             LocalizationToggle.onValueChanged.AddListener((iValue) => {
                 Buddy.Sensors.Microphones.EnableSoundLocalization = iValue;
                 Debug.LogWarning("SOUNDLOC : " + Buddy.Sensors.Microphones.EnableSoundLocalization);
@@ -581,7 +573,7 @@ namespace BuddyApp.Diagnostic
 
             // Speech to text (Common Grammar)
             SpeechToTextGrammarButton.onValueChanged.AddListener((iValue) => {
-                if (iValue == true)
+                if (iValue)
                     OnSpeechToTextGrammarButtonClick();
                 else
                     Buddy.Vocal.StopAndClear();
@@ -589,7 +581,7 @@ namespace BuddyApp.Diagnostic
 
             // Speech to text (Freespeech)
             SpeechToTextFreeSpeechButton.onValueChanged.AddListener((iValue) => {
-                if (iValue == true)
+                if (iValue)
                     OnSpeechToTextFreeSpeechButtonClick();
                 else
                     Buddy.Vocal.StopAndClear();
@@ -635,7 +627,7 @@ namespace BuddyApp.Diagnostic
             RecordButton.GetComponentsInChildren<Text>()[0].text = "START RECORDING";
             RecordButton.onClick.AddListener(OnRecordingButtonClick);
             PlayRecordButton.onClick.AddListener(OnPlayRecordButtonClick);
-            PlayRecordButton.GetComponentsInChildren<Text>()[0].text = "PLAY";
+            PlayRecordButton.GetComponentsInChildren<Text>()[0].text = "PLAY RECORDED";
 
             //Play Music
             PlayMusic.GetComponentsInChildren<Text>()[0].text = "PLAY MUSIC";
@@ -784,30 +776,33 @@ namespace BuddyApp.Diagnostic
             Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_THEN_FREESPEECH;
             if (!Buddy.Vocal.Listen())
                 ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.STOPPING, "ERROR ON LISTEN !!!! ");
-
         }
 
         private void OnEndListeningSpeechToText(SpeechInput iSpeechInput)
         {
-            if (SpeechToTextFreeSpeechButton.isOn) {
-                if (iSpeechInput.IsInterrupted)
-                    return;
-                SpeechToTextFreeSpeechButton.isOn = false;
-                SpeechToHybrid.isOn = false;
-                return;
-            } else if (SpeechToTextGrammarButton.isOn) {
-                if (iSpeechInput.IsInterrupted) {
-                    ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.BAD_ARGUMENT, "No speech was recognized.");
-                    return;
-                }
-                //else if (iSpeechInput.Confidence <= 0)
-                //    ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.BAD_ARGUMENT, "No speech was recognized.");
-                SpeechToTextGrammarButton.isOn = false;
-                SpeechToHybrid.isOn = false;
-            } else if (SpeechToHybrid.isOn) {
-                SpeechToTextFreeSpeechButton.isOn = false;
-                SpeechToTextGrammarButton.isOn = false;
-            }
+            //if (SpeechToTextFreeSpeechButton.isOn) {
+            //    if (iSpeechInput.IsInterrupted)
+            //        return;
+            //    SpeechToTextFreeSpeechButton.isOn = false;
+            //    SpeechToHybrid.isOn = false;
+            //    return;
+            //} else if (SpeechToTextGrammarButton.isOn) {
+            //    if (iSpeechInput.IsInterrupted) {
+            //        ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.BAD_ARGUMENT, "No speech was recognized.");
+            //        return;
+            //    }
+            //    //else if (iSpeechInput.Confidence <= 0)
+            //    //    ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.BAD_ARGUMENT, "No speech was recognized.");
+            //    SpeechToTextGrammarButton.isOn = false;
+            //    SpeechToHybrid.isOn = false;
+            //} else if (SpeechToHybrid.isOn) {
+            //    SpeechToTextFreeSpeechButton.isOn = false;
+            //    SpeechToTextGrammarButton.isOn = false;
+            //}
+
+            SpeechToTextFreeSpeechButton.isOn = false;
+            SpeechToTextGrammarButton.isOn = false;
+            SpeechToHybrid.isOn = false;
         }
 
         private void OnTriggerTimedEvent(System.Object source, System.Timers.ElapsedEventArgs e)
@@ -864,6 +859,7 @@ namespace BuddyApp.Diagnostic
                 Debug.LogWarning("save  file at " + Buddy.Resources.AppRawDataPath + "record_" + RecordDropdown.options.Count.ToString());
                 mListAudio.Clear();
                 RecordDropdown.options.Add(new Dropdown.OptionData("record_" + RecordDropdown.options.Count.ToString()));
+                RecordDropdown.value = RecordDropdown.options.Count - 1;
                 if (RecordDropdown.interactable == false)
                     RecordDropdown.interactable = true;
             }
@@ -891,7 +887,7 @@ namespace BuddyApp.Diagnostic
                 Debug.LogWarning("---- IS PLAYING ----");
                 RecordButton.interactable = true;
                 RecordDropdown.interactable = true;
-                PlayRecordButton.GetComponentsInChildren<Text>()[0].text = "PLAY";
+                PlayRecordButton.GetComponentsInChildren<Text>()[0].text = "PLAY RECORDED";
                 PlayRecordButton.GetComponentsInChildren<Image>()[1].sprite = mPlay;
                 lAudioSource.Stop();
                 lAudioSource.clip = null;

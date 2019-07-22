@@ -24,9 +24,6 @@ namespace BuddyApp.Diagnostic
 
         private LEDPulsePattern mPattern;
 
-        //[SerializeField]
-        //private Toggle mToggle;
-
         [SerializeField]
         private Text textH;
 
@@ -98,30 +95,27 @@ namespace BuddyApp.Diagnostic
         private bool mStatus = false;
         private Sprite mStop;
         private Sprite mPlay;
-		private Sprite mArrow;
+        private Sprite mArrow;
 
 
-		private void Start()
+        private void Start()
         {
             mStop = Buddy.Resources.Get<Sprite>("os_icon_stop");
             mPlay = Buddy.Resources.Get<Sprite>("os_icon_play");
-			mArrow = Buddy.Resources.Get<Sprite>("os_icon_arrow_right");
+            mArrow = Buddy.Resources.Get<Sprite>("os_icon_arrow_right");
 
-			mDropDown.onValueChanged.RemoveAllListeners();
+            mDropDown.onValueChanged.RemoveAllListeners();
             mDropDown.onValueChanged.AddListener((iInput) => SetColor());
 
             mDropDownSequence.AddOptions(new List<string>(Enum.GetNames(typeof(LEDPulsePattern))));
-            mDropDownSequence.onValueChanged.AddListener((iInput) => {
-                Buddy.Actuators.LEDs.SetBodyPattern((LEDPulsePattern)Enum.Parse(typeof(LEDPulsePattern), mDropDownSequence.captionText.text));
-                mDropDownSequence.GetComponentsInChildren<Image>()[1].sprite = mArrow;
-                EventDropDown.GetComponentsInChildren<Image>()[1].sprite = mPlay;
-            });
+            mDropDownSequence.onValueChanged.AddListener(OnPatternChanged);
 
             EventDropDown.AddOptions(new List<string>(Enum.GetNames(typeof(LEDEvent))));
-            EventDropDown.onValueChanged.AddListener((iInput) => { Buddy.Actuators.LEDs.PlayEvent((LEDEvent)Enum.Parse(typeof(LEDEvent), EventDropDown.captionText.text));
+            EventDropDown.onValueChanged.AddListener((iInput) => {
+                Buddy.Actuators.LEDs.PlayEvent((LEDEvent)Enum.Parse(typeof(LEDEvent), EventDropDown.captionText.text));
                 EventDropDown.GetComponentsInChildren<Image>()[1].sprite = mArrow;
                 mDropDownSequence.GetComponentsInChildren<Image>()[1].sprite = mPlay;
-				StartCoroutine(StopEvent());
+                StartCoroutine(StopEvent());
             });
 
             sliderH.wholeNumbers = true;
@@ -187,7 +181,6 @@ namespace BuddyApp.Diagnostic
             sliderDownSlope.onValueChanged.RemoveAllListeners();
             sliderDownSlope.onValueChanged.AddListener((iInput) => OnChangeDownSlope(iInput));
 
-
             SliderFlashValue.wholeNumbers = true;
             SliderFlashValue.minValue = 0F;
             SliderFlashValue.maxValue = 100F;
@@ -195,7 +188,6 @@ namespace BuddyApp.Diagnostic
             TextSliderFlashValue.text = SliderFlashValue.value.ToString();
             SliderFlashValue.onValueChanged.RemoveAllListeners();
             SliderFlashValue.onValueChanged.AddListener((iInput) => TextSliderFlashValue.text = iInput.ToString());
-
 
             SliderFlashDelay.wholeNumbers = true;
             SliderFlashDelay.minValue = 0F;
@@ -206,23 +198,38 @@ namespace BuddyApp.Diagnostic
             SliderFlashDelay.onValueChanged.AddListener((iInput) => TextSliderFlashDelay.text = mDiagBehaviour.ExpScale(FloatToDouble(iInput / 1000f), 100d, 1000d).ToString("0"));
 
             SetColor();
-
         }
 
-		private IEnumerator StopEvent()
-		{
-			yield return new WaitForSeconds(3F);
-
-			EventDropDown.GetComponentsInChildren<Image>()[1].sprite = mPlay;
-			Buddy.Actuators.LEDs.PlayEvent(0);
-			SetColor();
-		}
-	
-
-		private void SetColor()
+        private void OnPatternChanged(int iPattern)
         {
+            switch (mDropDown.options[mDropDown.value].text) {
+                case "HEART":
+                    Buddy.Actuators.LEDs.SetHeartPattern((LEDPulsePattern)Enum.Parse(typeof(LEDPulsePattern), mDropDownSequence.captionText.text));
+                    break;
+                case "SHOULDER":
+                    Buddy.Actuators.LEDs.SetShouldersPattern((LEDPulsePattern)Enum.Parse(typeof(LEDPulsePattern), mDropDownSequence.captionText.text));
+                    break;
+
+                case "BOTH":
+                    Buddy.Actuators.LEDs.SetBodyPattern((LEDPulsePattern)Enum.Parse(typeof(LEDPulsePattern), mDropDownSequence.captionText.text));
+                    break;
+            }
+            mDropDownSequence.GetComponentsInChildren<Image>()[1].sprite = mArrow;
+            EventDropDown.GetComponentsInChildren<Image>()[1].sprite = mPlay;
+        }
+
+        private IEnumerator StopEvent()
+        {
+            yield return new WaitForSeconds(3F);
+
+            EventDropDown.GetComponentsInChildren<Image>()[1].sprite = mPlay;
+            Buddy.Actuators.LEDs.PlayEvent(0);
+            SetColor();
+        }
 
 
+        private void SetColor()
+        {
             EventDropDown.GetComponentsInChildren<Image>()[1].sprite = mPlay;
             mDropDownSequence.GetComponentsInChildren<Image>()[1].sprite = mPlay;
 
@@ -252,60 +259,45 @@ namespace BuddyApp.Diagnostic
 
         private void SetColorHeart()
         {
-
-
             Debug.Log("Set heart color to " +
                     FloatToUShort(sliderH.value) + " " +
                     FloatToByte(sliderS.value) + " " +
                     FloatToByte(sliderV.value));
 
-            //if (mDropDownSequence.captionText.text != "PARAMETERS") {
-            //        Buddy.Actuators.LEDs.SetHeartLight(
-            //        FloatToUShort(sliderH.value),
-            //        FloatToByte(sliderS.value),
-            //        FloatToByte(sliderV.value));
-            //} else {
-                Debug.Log("Set heart pattern to " +
-                    byte.Parse(textLowLevel.text)  + " " + 
-                    ushort.Parse(textOnDuration.text) + " " +
-                    ushort.Parse(textOffDuration.text) + " " +
-                    byte.Parse(textUpSlope.text) + " " +
-                    byte.Parse(textDownSlope.text));
-                Buddy.Actuators.LEDs.SetHeartLight(
-                    FloatToUShort(sliderH.value),
-                    FloatToByte(sliderS.value),
-                    FloatToByte(sliderV.value));
-                Buddy.Actuators.LEDs.SetHeartPattern(
-                    byte.Parse(textLowLevel.text),
-                    ushort.Parse(textOnDuration.text),
-                    ushort.Parse(textOffDuration.text),
-                    byte.Parse(textUpSlope.text),
-                    byte.Parse(textDownSlope.text));
-           // }
+            Debug.Log("Set heart pattern to " +
+                byte.Parse(textLowLevel.text) + " " +
+                ushort.Parse(textOnDuration.text) + " " +
+                ushort.Parse(textOffDuration.text) + " " +
+                byte.Parse(textUpSlope.text) + " " +
+                byte.Parse(textDownSlope.text));
+
+            Buddy.Actuators.LEDs.SetHeartLight(
+                FloatToUShort(sliderH.value),
+                FloatToByte(sliderS.value),
+                FloatToByte(sliderV.value));
+            Buddy.Actuators.LEDs.SetHeartPattern(
+                byte.Parse(textLowLevel.text),
+                ushort.Parse(textOnDuration.text),
+                ushort.Parse(textOffDuration.text),
+                byte.Parse(textUpSlope.text),
+                byte.Parse(textDownSlope.text));
         }
 
         private void SetColorShoulder()
         {
-          //  if (mDropDownSequence.captionText.text != "PARAMETERS") {
-          //      Buddy.Actuators.LEDs.SetShouldersLights(
-          //          FloatToUShort(sliderH.value),
-          //          FloatToByte(sliderS.value),
-          //          FloatToByte(sliderV.value));
-          //  } else {
-                Buddy.Actuators.LEDs.SetShouldersLights(
-                    FloatToUShort(sliderH.value),
-                    FloatToByte(sliderS.value),
-                    FloatToByte(sliderV.value));
-                Buddy.Actuators.LEDs.SetShouldersPattern(
-                    byte.Parse(textLowLevel.text),
-                    ushort.Parse(textOnDuration.text),
-                    ushort.Parse(textOffDuration.text),
-                    byte.Parse(textUpSlope.text),
-                    byte.Parse(textDownSlope.text));
-            //}
+            Buddy.Actuators.LEDs.SetShouldersLights(
+                FloatToUShort(sliderH.value),
+                FloatToByte(sliderS.value),
+                FloatToByte(sliderV.value));
+            Buddy.Actuators.LEDs.SetShouldersPattern(
+                byte.Parse(textLowLevel.text),
+                ushort.Parse(textOnDuration.text),
+                ushort.Parse(textOffDuration.text),
+                byte.Parse(textUpSlope.text),
+                byte.Parse(textDownSlope.text));
         }
 
-        
+
         //Waiting for CORE to do a function for flash
         private void SetFlash()
         {
@@ -338,34 +330,21 @@ namespace BuddyApp.Diagnostic
                 mFlash.GetComponentsInChildren<Text>()[0].text = "TURN ON FLASH";
                 mFlash.GetComponentsInChildren<Image>()[1].sprite = mPlay;
             }
-
-
         }
-
-
-        //public void LaunchSequence()
-        //{
-        //    Buddy.Actuators.LEDs.SetBodyPattern(mPattern);
-        //}
-
-        //private void IsOnlyHSVChecked()
-        //{
-        //    SetColor();
-        //}
-
+        
         private byte FloatToByte(float iFloat)
         {
-            return System.Convert.ToByte(iFloat);
+            return Convert.ToByte(iFloat);
         }
 
         private ushort FloatToUShort(float iFloat)
         {
-            return System.Convert.ToUInt16(iFloat);
+            return Convert.ToUInt16(iFloat);
         }
 
         private double FloatToDouble(float iFloat)
         {
-            return System.Convert.ToDouble(iFloat);
+            return Convert.ToDouble(iFloat);
         }
 
         private void OnChangeH()
@@ -394,7 +373,6 @@ namespace BuddyApp.Diagnostic
 
         private void OnChangeOnDuration(float iInput)
         {
-            //sliderOnDuration.value = iInput;
             //Debug.Log("IInput changed onduration slider duration : " + FloatToDouble(iInput / 32767f) + " input : " + iInput.ToString() + " test : " + sliderOnDuration.value.ToString());
             textOnDuration.text = mDiagBehaviour.ExpScale(FloatToDouble(iInput / 10000f), 1000d, 10000d).ToString("0");
             SetColor();
@@ -402,21 +380,18 @@ namespace BuddyApp.Diagnostic
 
         private void OnChangeOffDuration(float iInput)
         {
-            //sliderOffDuration.value = iInput;
             textOffDuration.text = mDiagBehaviour.ExpScale(FloatToDouble(iInput / 10000f), 1000d, 10000d).ToString("0");
             SetColor();
         }
 
         private void OnChangeUpSlope(float iInput)
         {
-            //sliderUpSlope.value = iInput;
             textUpSlope.text = mDiagBehaviour.ExpScale(FloatToDouble(iInput / 100f), 25d, 100d).ToString("0");
             SetColor();
         }
 
         private void OnChangeDownSlope(float iInput)
         {
-            //sliderDownSlope.value = iInput;
             textDownSlope.text = mDiagBehaviour.ExpScale(FloatToDouble(iInput / 100f), 25d, 100d).ToString("0"); ;
             SetColor();
         }

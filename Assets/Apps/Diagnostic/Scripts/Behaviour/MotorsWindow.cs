@@ -105,7 +105,7 @@ namespace BuddyApp.Diagnostic
             linearVelocitySetter.minValue = -0.6F;
             linearVelocitySetter.maxValue = 0.6F;
 
-            TimeMove.AddOptions(new List<string>() { "1", "2", "3", "5", "7", "10" });
+            TimeMove.AddOptions(new List<string>() { "MOVE", "1s", "2s", "3s", "5s", "7s", "10s" });
 
             AngularVelocityWheelsSetter.wholeNumbers = true;
             AngularVelocityWheelsSetter.value = 0.0F;
@@ -182,11 +182,11 @@ namespace BuddyApp.Diagnostic
             noAngleBack.text = noHingeAngleSetter.value.ToString() /*+ " °"*/;
             yesAngleBack.text = yesHingeAngleSetter.value.ToString() /*+ " °"*/;
             hingeSpeedBack.text = (mDiagBehaviour.ExpScale(hingeSpeedSetter.value / 100D, 10D, 100D)).ToString("0.0");
-            NoAngle.text = Buddy.Actuators.Head.No.Angle.ToString("f3")/* + " °"*/;
-            YesAngle.text = Buddy.Actuators.Head.Yes.Angle.ToString("f3") /*+" °"*/;
+            NoAngle.text = Buddy.Actuators.Head.No.Angle.ToString("f3") + " °";
+            YesAngle.text = Buddy.Actuators.Head.Yes.Angle.ToString("f3") + " °";
             XOdom.text = Buddy.Actuators.Wheels.Odometry.x.ToString("f3") + "m";
             YOdom.text = Buddy.Actuators.Wheels.Odometry.y.ToString("f3") + "m";
-            Cap.text = Buddy.Actuators.Wheels.Odometry.z.ToString("f3")/* + " °"*/;
+            Cap.text = Buddy.Actuators.Wheels.Odometry.z.ToString("f3") + " °";
 
         }
 
@@ -197,7 +197,8 @@ namespace BuddyApp.Diagnostic
 
         public void DelayedMoveDistance()
         {
-            StartCoroutine(DelayedNav());
+            if (TimeMove.value != 0)
+                StartCoroutine(DelayedNav());
         }
 
         private IEnumerator DelayedNav()
@@ -213,12 +214,13 @@ namespace BuddyApp.Diagnostic
 
             Buddy.Actuators.Wheels.SetVelocities(float.Parse(linearVelocity.text), float.Parse(AngularVelocityWheelsText.text));
 
-            Debug.Log("move for : " + float.Parse(TimeMove.captionText.text));
+            float lTime = float.Parse(TimeMove.captionText.text.Remove(1));
 
-            yield return new WaitForSeconds(float.Parse(TimeMove.captionText.text));
+            Debug.Log("move for : " + lTime);
+
+            yield return new WaitForSeconds(lTime);
             Debug.Log("Try to stop");
             Buddy.Navigation.Stop();
-
         }
 
         public void TurnRelative()

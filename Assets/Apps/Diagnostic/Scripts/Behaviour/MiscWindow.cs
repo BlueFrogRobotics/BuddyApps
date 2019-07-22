@@ -112,7 +112,7 @@ namespace BuddyApp.Diagnostic
             mTimer += Time.deltaTime;
             if (mTimer > DiagnosticBehaviour.REFRESH_TIMER) {
                 mTimer = 0F;
-                TextVoltage.text = Buddy.Sensors.Battery.AverageLevel.ToString("D") + " - " + Buddy.Sensors.Battery.Level.ToString("D");
+                TextVoltage.text = Buddy.Sensors.Battery.AverageLevel.ToString("D") + "mV";
 
             }
 
@@ -146,7 +146,7 @@ namespace BuddyApp.Diagnostic
             ResetRainette();
             ResetAudio();
 
-            HemiseVersion.text = Buddy.Boards.Body.Version;
+            HemiseVersion.text = Buddy.Boards.Body.BodyµC.Version;
             MotionVersion.text = Buddy.Boards.Body.WheelsµC.Version;
             HeadVersion.text = Buddy.Boards.Head.HeadµC.Version;
             RainetteVersion.text = Buddy.Boards.Head.Version;
