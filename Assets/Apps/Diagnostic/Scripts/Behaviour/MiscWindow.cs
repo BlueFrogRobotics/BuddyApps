@@ -13,6 +13,11 @@ namespace BuddyApp.Diagnostic
         private Slider SliderBattery;
         [SerializeField]
         private Text BatteryPercent;
+
+
+        [SerializeField]
+        private Text StatusBatteryTop;
+
         [SerializeField]
         private Text BatteryStatus;
 
@@ -60,8 +65,6 @@ namespace BuddyApp.Diagnostic
         [SerializeField]
         private Button ButtonResetAudio;
 
-        [SerializeField]
-        private Text StatusBatteryTop;
 
         private float mTimer;
 
@@ -75,7 +78,7 @@ namespace BuddyApp.Diagnostic
             // a tester
             AmplifierSlider.value = Buddy.Actuators.Speakers.Gain;
 
-            mBatteryLevel = SystemInfo.batteryLevel*100F;
+            mBatteryLevel = SystemInfo.batteryLevel * 100F;
             mBatterySaved = mBatteryLevel;
             SliderBattery.value = mBatteryLevel / 100F;
             //Version :
@@ -100,24 +103,23 @@ namespace BuddyApp.Diagnostic
             ButtonResetAudio.onClick.AddListener(ResetAudio);
 
             AmplifierSlider.onValueChanged.AddListener((iInput) => OnSliderAmplifierChanger(iInput));
+            StatusBatteryTop.text = "NOT AVAILABLE";
         }
 
         // Update is called once per frame
         void Update()
         {
             mTimer += Time.deltaTime;
-            if(mTimer > DiagnosticBehaviour.REFRESH_TIMER)
-            {
+            if (mTimer > DiagnosticBehaviour.REFRESH_TIMER) {
                 mTimer = 0F;
                 TextVoltage.text = Buddy.Sensors.Battery.AverageLevel.ToString("D") + " - " + Buddy.Sensors.Battery.Level.ToString("D");
 
             }
 
-            mBatteryLevel = SystemInfo.batteryLevel*100F;
-            if(mBatterySaved != mBatteryLevel)
-            {
+            mBatteryLevel = SystemInfo.batteryLevel * 100F;
+            if (mBatterySaved != mBatteryLevel) {
                 mBatterySaved = mBatteryLevel;
-                SliderBattery.value = mBatteryLevel/100F;
+                SliderBattery.value = mBatteryLevel / 100F;
             }
             BatteryPercent.text = (SystemInfo.batteryLevel * 100).ToString();
 
@@ -128,11 +130,11 @@ namespace BuddyApp.Diagnostic
         private void UpdateBatteryStatus()
         {
             if (Buddy.Sensors.Battery.ChargingStatus == BatteryChargingStatus.CHARGING)
-                StatusBatteryTop.text = "Charge in progress";
+                BatteryStatus.text = "Charge in progress";
             else if (Buddy.Sensors.Battery.ChargingStatus == BatteryChargingStatus.NOT_CHARGING)
-                StatusBatteryTop.text = "Not charging";
+                BatteryStatus.text = "Not charging";
             else if (Buddy.Sensors.Battery.ChargingStatus == BatteryChargingStatus.FULLY_CHARGED)
-                StatusBatteryTop.text = "Fully charged";
+                BatteryStatus.text = "Fully charged";
         }
 
         //A tester
@@ -193,9 +195,9 @@ namespace BuddyApp.Diagnostic
         public void OnSliderAmplifierChanger(float iInput)
         {
             int mSliderValue = (int)iInput;
-            if(mSliderValue == 0)
+            if (mSliderValue == 0)
                 Buddy.Actuators.Speakers.Gain = 20;
-            else if(mSliderValue == 1)
+            else if (mSliderValue == 1)
                 Buddy.Actuators.Speakers.Gain = 32;
             else if (mSliderValue == 2)
                 Buddy.Actuators.Speakers.Gain = 36;

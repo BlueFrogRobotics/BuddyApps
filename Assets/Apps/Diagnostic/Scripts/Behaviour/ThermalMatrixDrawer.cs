@@ -36,8 +36,8 @@ namespace BuddyApp.Diagnostic
         private void Start()
         {
             mThermalCamera = Buddy.Sensors.ThermalCamera;
-                
-            
+
+
             //64
             mNbPixel = mThermalCamera.Width * mThermalCamera.Height;
             mThermalSensorDataArray = new float[mNbPixel];
@@ -56,16 +56,14 @@ namespace BuddyApp.Diagnostic
             //CPUTemperature.text = Buddy.Sensors. + " °";
 
             mTimeRefresh += Time.deltaTime;
-            if(mTimeRefresh >= DiagnosticBehaviour.REFRESH_TIMER)
-            {
+            if (mTimeRefresh >= DiagnosticBehaviour.REFRESH_TIMER) {
                 BODYTemperature.text = Buddy.Sensors.IMU.Temperature + " °";
                 HEADTemperature.text = Buddy.Sensors.ThermalCamera.AmbiantTemperature + " °";
-				CPUTemperature.text = Buddy.Boards.Main.Temperature + " °";
-				//Mat lMat = mThermalCamera.Frame.Mat.clone();
-				//Core.flip(lMat, lMat, 0);
-				mThermalCamera.Frame.Mat.get(0, 0, mThermalSensorDataArray);
-                for(int i = 0; i < mThermalSensorDataArray.Length; ++i)
-                {
+                CPUTemperature.text = Buddy.Boards.Main.Temperature + " °";
+                //Mat lMat = mThermalCamera.Frame.Mat.clone();
+                //Core.flip(lMat, lMat, 0);
+                mThermalCamera.Frame.Mat.get(0, 0, mThermalSensorDataArray);
+                for (int i = 0; i < mThermalSensorDataArray.Length; ++i) {
                     float lValuePixel = mThermalSensorDataArray[mThermalSensorDataArray.Length - 1 - i];
                     if (lValuePixel != 0)
                         pixels[i].Value = lValuePixel;
@@ -80,15 +78,14 @@ namespace BuddyApp.Diagnostic
             }
         }
 
-        private void OnFanButtonClick ()
+        private void OnFanButtonClick()
         {
-            if (mIsFanActivated)
-            {
+            if (mIsFanActivated) {
+                ToggleFan.GetComponentsInChildren<Image>()[1].sprite = Buddy.Resources.Get<Sprite>("os_icon_play");
                 Buddy.Actuators.Fan.Stop();
                 ToggleFan.GetComponentsInChildren<Text>()[0].text = "START FAN";
-            }
-            else
-            {
+            } else {
+                ToggleFan.GetComponentsInChildren<Image>()[1].sprite = Buddy.Resources.Get<Sprite>("os_icon_stop");
                 Buddy.Actuators.Fan.Mode = FanMode.ON;
                 ToggleFan.GetComponentsInChildren<Text>()[0].text = "STOP FAN";
             }

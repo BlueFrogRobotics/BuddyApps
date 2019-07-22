@@ -10,18 +10,14 @@ namespace BuddyApp.Diagnostic
 {
     public sealed class SensorsWindow : MonoBehaviour
     {
-
-        [SerializeField]
-        private Dropdown DropdownFilteredValue;
-
         /// <summary>
         /// MENU & WINDOWS LINKS
         /// </summary>
         //GET GAMEOBJECT WINDOW
         [SerializeField]
         private GameObject Window_TOF;
-        [SerializeField]
-        private GameObject Window_IR;
+        //[SerializeField]
+        //private GameObject Window_IR;
         [SerializeField]
         private GameObject Window_US;
         [SerializeField]
@@ -36,8 +32,8 @@ namespace BuddyApp.Diagnostic
         //GET TOGGLES NAV BUTTON
         [SerializeField]
         private Toggle BT_TOF;
-        [SerializeField]
-        private Toggle BT_IR;
+        //[SerializeField]
+        //private Toggle BT_IR;
         [SerializeField]
         private Toggle BT_US;
         [SerializeField]
@@ -47,10 +43,13 @@ namespace BuddyApp.Diagnostic
         [SerializeField]
         private Toggle BT_CLIFF;
         [SerializeField]
+        private Toggle BT_FILTERED;
+        [SerializeField]
         private Toggle BT_IMU;
 
         /// <summary>
         /// ALL TOFF BUBBLES LINKS
+        /// </summary>
         /// </summary>
         //GET TOF BUBBLES TEXT
         [SerializeField]
@@ -95,12 +94,12 @@ namespace BuddyApp.Diagnostic
         private Text TOF_Error_05;
 
         //LED IR RECEPTRICE
-        [SerializeField]
-        private Text IR_Text_00;
-        [SerializeField]
-        private Image IR_OK_00;
-        [SerializeField]
-        private Text IR_Error_00;
+        //[SerializeField]
+        //private Text IR_Text_00;
+        //[SerializeField]
+        //private Image IR_OK_00;
+        //[SerializeField]
+        //private Text IR_Error_00;
 
         //US SENSORS
         [SerializeField]
@@ -115,7 +114,7 @@ namespace BuddyApp.Diagnostic
         private Image US_OK_01;
         [SerializeField]
         private Text US_Error_01;
-        
+
         //CLIFF SENSORS
         [SerializeField]
         private Text CLIFF_Text_FrontFreeWheel;
@@ -173,7 +172,7 @@ namespace BuddyApp.Diagnostic
         private Text CLIFF_Error_BackLeftFreeWheel;
         [SerializeField]
         private Image CLIFF_Icon_BackLeftFreeWheel;
-        
+
         //IMU
         [SerializeField]
         private Text Gyro_X;
@@ -191,7 +190,7 @@ namespace BuddyApp.Diagnostic
         private Image IMU_OK_00;
         [SerializeField]
         private Text IMU_Error_00;
-        
+
         //PINCH 
         [SerializeField]
         private Text PINCH_Text_HEART;
@@ -240,7 +239,7 @@ namespace BuddyApp.Diagnostic
         private TimeOfFlightSensor mFrontRightTOFSensor;
         private TimeOfFlightSensor mFrontMiddleTOFSensor;
         private TimeOfFlightSensor mFrontLeftTOFSensor;
-        private TimeOfFlightSensor mBackTOFSensor;   
+        private TimeOfFlightSensor mBackTOFSensor;
         private InfraredSensor mBackIRSensor;
         private CliffSensor mCliff_FrontFreeWheel;
         private CliffSensor mCliff_FrontRightWheel;
@@ -268,19 +267,11 @@ namespace BuddyApp.Diagnostic
         void Start()
         {
             mTimerRefresh = 0F;
-            if(DropdownFilteredValue.value == 0)
-            {
-                mFilteredValue = false;
-            }
-            else if(DropdownFilteredValue.value == 1)
-            {
-                mFilteredValue = true;
-            }
 
             // Create Toggle Button list
             mAllToggle = new List<Toggle>();
             mAllToggle.Add(BT_TOF);
-            mAllToggle.Add(BT_IR);
+            //mAllToggle.Add(BT_IR);
             mAllToggle.Add(BT_US);
             mAllToggle.Add(BT_CARESS);
             mAllToggle.Add(BT_PINCH);
@@ -288,15 +279,18 @@ namespace BuddyApp.Diagnostic
             mAllToggle.Add(BT_IMU);
 
             //Display all Toggle ON
-            foreach (Toggle Tog in mAllToggle)
-            {
+            foreach (Toggle Tog in mAllToggle) {
                 Tog.isOn = true;
             }
+
+            // Filtered value?
+            mFilteredValue = BT_FILTERED.isOn;
+            BT_FILTERED.onValueChanged.AddListener((iInput) => mFilteredValue = iInput);
 
             // Create Window list
             mAllWindow = new List<GameObject>();
             mAllWindow.Add(Window_TOF);
-            mAllWindow.Add(Window_IR);
+            //mAllWindow.Add(Window_IR);
             mAllWindow.Add(Window_US);
             mAllWindow.Add(Window_CARESS);
             mAllWindow.Add(Window_PINCH);
@@ -304,8 +298,7 @@ namespace BuddyApp.Diagnostic
             mAllWindow.Add(Window_IMU);
 
             //Display all window
-            foreach (GameObject Window in mAllWindow)
-            {
+            foreach (GameObject Window in mAllWindow) {
                 Window.SetActive(true);
             }
 
@@ -324,7 +317,7 @@ namespace BuddyApp.Diagnostic
             // IR
             mBackIRSensor = Buddy.Sensors.InfraredSensor;
 
-          
+
 
             // CLIFF
             mCliff_FrontFreeWheel = Buddy.Sensors.CliffSensors.FrontFreeWheel;
@@ -339,18 +332,16 @@ namespace BuddyApp.Diagnostic
             mIMU = Buddy.Sensors.IMU;
 
             //TouchSensor
-            mTouchSensor = Buddy.Sensors.TouchSensors; 
+            mTouchSensor = Buddy.Sensors.TouchSensors;
         }
 
         void Update()
         {
             mTimerRefresh += Time.deltaTime;
             //A tester les filtered value avec dropdown et value des US / TOF
-            if(mTimerRefresh > DiagnosticBehaviour.REFRESH_TIMER)
-            {
+            if (mTimerRefresh > DiagnosticBehaviour.REFRESH_TIMER) {
                 mTimerRefresh = 0F;
-                if (BT_TOF.isOn == true)
-                {
+                if (BT_TOF.isOn) {
                     //Debug.Log("FILTERED VALUE : " + mForeHeadTOFSensor.Value + " " + mChinTOFSensor.Value + " " + mFrontRightTOFSensor.Value + " " + mFrontMiddleTOFSensor.Value
                     //    + " " + mFrontLeftTOFSensor.Value + " " + mBackTOFSensor.Value);
 
@@ -404,15 +395,15 @@ namespace BuddyApp.Diagnostic
                     TOF_OK_05.color = mBackTOFSensor.Error == 0 ? BuddyBlue : Red;
                 }
 
-                if (BT_IR.isOn)
-                {
-                    //IR RECEPTEUR
-                    IR_Text_00.text = "#" + mBackIRSensor.Value;
-                    IR_OK_00.color = BuddyBlue;
-                }
+                //if (BT_IR.isOn)
+                //{
+                //    //IR RECEPTEUR
+                //    IR_Text_00.text = "#" + mBackIRSensor.Value;
+                //    IR_OK_00.color = BuddyBlue;
+                //}
 
-                if (BT_US.isOn)
-                {
+
+                if (BT_US.isOn) {
                     //US RECEPTEUR RIGHT
                     if (mFilteredValue)
                         US_Text_00.text = (mRightUSSensor.FilteredValue / 1000) + "m";
@@ -430,8 +421,7 @@ namespace BuddyApp.Diagnostic
                     US_Error_01.text = mLeftUSSensor.Error.ToString();
                 }
 
-                if (BT_CARESS.isOn)
-                {
+                if (BT_CARESS.isOn) {
                     //CARESS RIGHT
                     CARESS_Text_RIGHT.text = mTouchSensor.RightHead.Value.ToString();
                     CARESS_Error_RIGHT.text = mTouchSensor.RightHead.Error.ToString();
@@ -451,8 +441,7 @@ namespace BuddyApp.Diagnostic
                     CARESS_OK_LEFT.color = mTouchSensor.LeftHead.Error == 0 ? BuddyBlue : Red;
                 }
 
-                if (BT_PINCH.isOn)
-                {
+                if (BT_PINCH.isOn) {
                     // PINCH HEART
                     PINCH_Text_HEART.text = mTouchSensor.Heart.Value.ToString();
                     PINCH_Error_HEART.text = mTouchSensor.Heart.Error.ToString();
@@ -472,8 +461,7 @@ namespace BuddyApp.Diagnostic
                     PINCH_OK_RIGHT.color = mTouchSensor.RightShoulder.Error == 0 ? BuddyBlue : Red;
                 }
 
-                if (BT_CLIFF.isOn)
-                {
+                if (BT_CLIFF.isOn) {
                     // Cliff Front Free Wheel
                     CLIFF_Text_FrontFreeWheel.text = (mCliff_FrontFreeWheel.Value) + "mm";
                     CLIFF_Error_FrontFreeWheel.text = mCliff_FrontFreeWheel.Error.ToString();
@@ -510,8 +498,7 @@ namespace BuddyApp.Diagnostic
                     CLIFF_OK_BackLeftFreeWheel.color = mCliff_BackLeftFreeWheel.Error == 0 ? BuddyBlue : Red;
                 }
 
-                if (BT_IMU.isOn)
-                {
+                if (BT_IMU.isOn) {
                     Gyro_X.text = mIMU.Gyroscope.x.ToString("F0");
                     Gyro_Y.text = mIMU.Gyroscope.y.ToString("F0");
                     Gyro_Z.text = mIMU.Gyroscope.z.ToString("F0");
@@ -523,7 +510,7 @@ namespace BuddyApp.Diagnostic
                     IMU_Error_00.text = mIMU.Error.ToString();
                 }
             }
-            
+
         }
 
         public void OnChangeDropdownValue()
@@ -536,11 +523,9 @@ namespace BuddyApp.Diagnostic
             Toggle mToggle = mAllToggle[iIndex];
             GameObject mWindow = mAllWindow[iIndex];
             bool mStatus = mToggle.isOn;
-            if (mStatus == true){
+            if (mStatus == true) {
                 mWindow.SetActive(true);
-            }
-            else
-            {
+            } else {
                 mWindow.SetActive(false);
             }
         }
