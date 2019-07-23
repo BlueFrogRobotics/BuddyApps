@@ -50,7 +50,7 @@ namespace BuddyApp.OutOfBox
         private void BuddyTrigged(SpeechHotword iHotWord)
         {
             mTransitionEnd = true;
-            Buddy.Vocal.SayKey("psixseeheart", (iSpeech) => { if (!iSpeech.IsInterrupted)  TransitionToEnd(); });
+            Buddy.Vocal.SayKey("psixseeheart", (iSpeech) => { if (!iSpeech.IsInterrupted) TransitionToEnd(); });
         }
 
         private void TransitionToEnd()
@@ -58,10 +58,10 @@ namespace BuddyApp.OutOfBox
             Buddy.Vocal.SayKey("psixask", (iOut) => {
                 if (!iOut.IsInterrupted)
                     Buddy.Vocal.Listen((iListen) => {
-                        OutOfBoxUtils.PlayBIAsync(() => Buddy.Vocal.Say(Buddy.Resources.GetString("psixthanks"), (iSpeech) => {
+                        StartCoroutine(OutOfBoxUtils.PlayBIAsync(() => Buddy.Vocal.Say(Buddy.Resources.GetString("psixthanks"), (iSpeech) => {
                             //Launch diagnostic
                             Buddy.Platform.Application.StartApp("Diagnostic");
-                        }));
+                        })));
                     });
 
             });
