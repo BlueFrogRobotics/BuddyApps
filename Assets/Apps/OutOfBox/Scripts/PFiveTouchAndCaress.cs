@@ -9,6 +9,16 @@ namespace BuddyApp.OutOfBox
     {
         private float mTimer;
         private bool mActiveTimer;
+
+
+        public override void Start()
+        {
+            base.Start();
+
+            mBehaviour = GetComponent<OutOfBoxBehaviour>();
+            mBehaviour.PhaseDropDown.onValueChanged.AddListener((iInput) => Trigger("Base"));
+        }
+
         public override void OnStateEnter(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
         {
             mTimer = 0F;
@@ -77,7 +87,7 @@ namespace BuddyApp.OutOfBox
                     OutOfBoxUtils.DebugColor("TIMER FINI ", "blue");
                     OutOfBoxUtils.PlayBIAsync(() => { Buddy.Vocal.SayKey("pfivetooshy", (OutSpeech) => 
                     {
-                        OutOfBoxData.Instance.Phase = OutOfBoxData.PhaseId.PhaseSix;
+                        mBehaviour.PhaseDropDown.value = 5;
                         Trigger("Base");
                     });
                     });
