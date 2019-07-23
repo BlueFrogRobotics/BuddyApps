@@ -16,8 +16,6 @@ namespace BuddyApp.Weather
 
     public class OpenWeather : MonoBehaviour
     {
-
-
         private const string URL_WEATHER_OPENWEATHER = "http://api.openweathermap.org/data/2.5/forecast?APPID=ace9da3d335c3e0174e21a213e320943&mode=xml&units=metric";//&q=Paris";
 
         private Dictionary<int, WeatherType> mOWWeatherTypes;
@@ -107,9 +105,10 @@ namespace BuddyApp.Weather
             string lXMLData = string.Empty;
             yield return StartCoroutine(RequestAsync(url_weather_localisation, value => lXMLData = value));
 
-            if (lXMLData == null)
+            if (string.IsNullOrEmpty(lXMLData))
             {
-                //iCallback(new WeatherInfo[0], WeatherError.REQUEST_FAILED);
+                iCallback(new WeatherInfo[0], WeatherError.REQUEST_FAILED);
+                mProcessing = false;
                 yield break;
             }
 
@@ -271,20 +270,15 @@ namespace BuddyApp.Weather
             }
             catch (ArgumentException e)
             {
-                Debug.LogError("\nThe second HttpWebRequest object has raised an Argument Exception as 'Connection' Property is set to 'Close'");
-                Debug.LogError("\n{0}" + e.Message);
+                Debug.LogError("\nThe second HttpWebRequest object has raised an Argument Exception as 'Connection' Property is set to 'Close' " + e.Message);
             }
             catch (WebException e)
             {
-                Debug.LogError("WebException raised!");
-                Debug.LogError("\n{0}" + e.Message);
-                Debug.LogError("\n{0}" + e.Status);
+                Debug.LogError("WebException raised " + e.Status + " " + e.Message);
             }
             catch (Exception e)
             {
-                Debug.LogError("Exception raised!");
-                Debug.LogError("Source :{0} " + e.Source);
-                Debug.LogError("Message :{0} " + e.Message);
+                Debug.LogError("Exception raised " + e.Source + " " + e.Message);
             }
 
             yield break;
