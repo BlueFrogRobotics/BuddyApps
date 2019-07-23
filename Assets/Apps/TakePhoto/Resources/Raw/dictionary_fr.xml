@@ -203,14 +203,37 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>pictureshared</Key>
-            <BaseValue />
+            <BaseValue>Photo publiée</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>Ok I shared your picture</string>
-                <string>Done, your picture has been shared</string>
-                <string>Ok picture shared</string>
+                <string>Voilà j'ai partagé la photo</string>
+                <string>Ok c'est partagé</string>
+                <string>C'est bon la photo est envoyée</string>
+                <string>Et voilà c'est partagé</string>
+                <string>Ca y est c'est envoyé</string>
+                <string>C'est fait ta photo est partagée</string>
+            </RandomValues>
+        </DictionaryEntry>
+		<DictionaryEntry>
+			<Key>cheese</Key>
+			<BaseValue>[200] cheese</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>[200] cheese</string>
+			</RandomValues>
+		</DictionaryEntry>
+        <DictionaryEntry>
+            <Key>errorconnexion</Key>
+            <BaseValue>Je n’ai pas réussi à exporter la photo</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
             </RandomValues>
         </DictionaryEntry>
     </Entries>

@@ -57,12 +57,12 @@ namespace BuddyApp.TakePhoto
             mMatSrc = new Mat();
             mMat = new Mat();
 
-		}
+        }
 
 
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
-		{
+        {
             //Init 
             ToastRender = false;
 			mPhotoTaken = false;
@@ -127,7 +127,7 @@ namespace BuddyApp.TakePhoto
                         {
                             Buddy.Vocal.Say((3 - mSpeechId).ToString(), true);
                             if (mSpeechId == 2)
-                                Buddy.Vocal.Say("[200] cheese", true);
+                                Buddy.Vocal.SayKey("cheese", true);
                             mSpeechId++;
                             mTimer = 0F;
                         }
@@ -213,82 +213,70 @@ namespace BuddyApp.TakePhoto
         //Callback called at the end of the listening.
         private void OnEndListening(SpeechInput iInput)
         {
-
-            if (!iInput.IsInterrupted)
+            if (iInput.IsInterrupted)
             {
-                if (ContainsOneOf(Buddy.Vocal.LastHeardInput.Utterance, Buddy.Resources.GetPhoneticStrings("share")))
-                {
-                    Buddy.GUI.Toaster.Hide();
-                    Buddy.GUI.Footer.Hide();
-                    Trigger("Tweet");
-                }
-                else if (ContainsOneOf(Buddy.Vocal.LastHeardInput.Utterance, Buddy.Resources.GetPhoneticStrings("redo")))
-                {
-                    Buddy.GUI.Toaster.Hide();
-                    Buddy.GUI.Footer.Hide();
-                    Trigger("RedoPhoto");
-                }
-                else
-                {
-                    if (mNumberListen < MAXLISTENNINGITER)
-                    {
-                        // if the human answer is outside of planned sentences, we increment the
-                        // number of listen and we listen again.
-                        mNumberListen++;
-                        Buddy.Vocal.Listen(
-                            iInputRec => { OnEndListening(iInputRec); }
-                            );
-                    }
-                    else
-                    {
-                        // If we launch the listen too many times, it's like a timeout and
-                        // we get back to the menu
-                        Buddy.GUI.Toaster.Hide();
-                        Buddy.GUI.Footer.Hide();
-                        QuitApp();
-                    }
-                }
+                return;
             }
 
+            if (!string.IsNullOrEmpty(iInput.Rule))
+            {
+                if (iInput.Rule.EndsWith("share"))
+                {
+                    ClearAndTrigger("Tweet");
+                }
+                else if (iInput.Rule.EndsWith("redo"))
+                {
+                    ClearAndTrigger("RedoPhoto");
+                }
+                else if (iInput.Rule.EndsWith("quit"))
+                {
+                    ClearAndQuit();
+                }
+                return;
+            }
+            if (mNumberListen < MAXLISTENNINGITER)
+            {
+                // if the human answer is outside of planned sentences, we increment the
+                // number of listen and we listen again.
+                mNumberListen++;
+                Buddy.Vocal.Listen(
+                    iInputRec => { OnEndListening(iInputRec); }
+                    );
+            }
+            else
+            {
+                // If we launch the listen too many times, it's like a timeout and
+                // we get back to the menu
+                ClearAndQuit();
+            }
         }
 
         private void OnButtonShare()
 		{
 			Buddy.Actuators.Speakers.Media.Play(SoundSample.BEEP_1);
-            Buddy.Vocal.StopAndClear();
-            Buddy.GUI.Toaster.Hide();
-            Buddy.GUI.Footer.Hide();
-            Trigger("Tweet");
+            ClearAndTrigger("Tweet");
         }
 
 		private void OnButtonRedo()
 		{
 			Buddy.Actuators.Speakers.Media.Play(SoundSample.BEEP_1);
+            ClearAndTrigger("RedoPhoto");
+        }
+
+        private void ClearAndTrigger(string triggerName)
+        {
             Buddy.Vocal.StopAndClear();
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
-            Trigger("RedoPhoto");
+            Trigger(triggerName);
         }
 
-        public static bool ContainsOneOf(string iSpeech, string[] iListSpeech)
+        private void ClearAndQuit()
         {
-            if(!string.IsNullOrEmpty(iSpeech))
-            {
-                for (int i = 0; i < iListSpeech.Length; ++i)
-                {
-                    string[] lWords = iListSpeech[i].Split(' ');
-                    if (lWords.Length < 2 && !string.IsNullOrEmpty(lWords[0]))
-                    {
-                        if (lWords[0].ToLower() == iSpeech.ToLower())
-                        {
-                            return true;
-                        }
-                    }
-                    else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower()))
-                        return true;
-                }
-            }
-            return false;
+            Buddy.Vocal.StopAndClear();
+            Buddy.GUI.Toaster.Hide();
+            Buddy.GUI.Footer.Hide();
+            QuitApp();
         }
     }
 }
