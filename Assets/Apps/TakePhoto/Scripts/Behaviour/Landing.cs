@@ -29,7 +29,7 @@ namespace BuddyApp.TakePhoto
         private void ActionStartApp()
         {
             //Buddy.Vocal.SayKey("movehands");
-            Buddy.Actuators.Head.SetPosition(0F, 0F);
+            Buddy.Actuators.Head.SetPosition(15F, 0F);
         }
     }
 }
