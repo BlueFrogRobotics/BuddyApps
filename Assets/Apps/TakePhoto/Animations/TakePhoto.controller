@@ -13,49 +13,49 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: RedoPhoto
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: AskPhotoAgain
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: LookForUser
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Tweet
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Quit
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: play
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: noplay
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -311,7 +311,7 @@ AnimatorState:
   m_Transitions:
   - {fileID: 1101363273155953926}
   m_StateMachineBehaviours:
-  - {fileID: 114711262625915810}
+  - {fileID: 114871022875270310}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -339,7 +339,7 @@ AnimatorState:
   - {fileID: 1101402789312313698}
   - {fileID: 1101586070477959364}
   m_StateMachineBehaviours:
-  - {fileID: 114717648226953990}
+  - {fileID: 114596921205502282}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -392,7 +392,7 @@ AnimatorState:
   - {fileID: 1101187857760193432}
   - {fileID: 1101970772735559102}
   m_StateMachineBehaviours:
-  - {fileID: 114296690005198866}
+  - {fileID: 114001810206621784}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -443,6 +443,17 @@ AnimatorStateMachine:
   m_ExitPosition: {x: 168, y: -156, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 1102884818564748644}
+--- !u!114 &114001810206621784
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 2102768304, guid: 5824aec9ddecbc147aad6e8a298ea02b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114078270485738170
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -481,6 +492,17 @@ MonoBehaviour:
   RandomBML: 0
   AnswerBML: []
   QuitBML: 
+--- !u!114 &114178258275074708
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 81160464, guid: 5824aec9ddecbc147aad6e8a298ea02b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114240438565922682
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -603,6 +625,33 @@ MonoBehaviour:
   IsBinaryToaster: 0
   IsMultipleQuestion: 0
   IsMultipleToaster: 0
+--- !u!114 &114596921205502282
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -674594985, guid: 5824aec9ddecbc147aad6e8a298ea02b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NameOfXML: common
+  BuddySays: redopic
+  KeyQuestion: redopic
+  IsSoundForButton: 0
+  FxSound: 20
+  NameVoconGrammarFile: common
+  BuddySaysWhenQuit: 
+  context: 0
+  IsBinaryQuestion: 1
+  WantBinaryToasterDisplay: 1
+  IsMultipleQuestion: 0
+  WantMultipleQuestionToasterDisplay: 0
+  PlayBML: 0
+  RandomBML: 0
+  AnswerBML: []
+  QuitBML: 
 --- !u!114 &114711262625915810
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -722,6 +771,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -1516135266, guid: 5824aec9ddecbc147aad6e8a298ea02b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114841144063122412
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1516135266, guid: 5824aec9ddecbc147aad6e8a298ea02b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114871022875270310
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -2107244059, guid: 5824aec9ddecbc147aad6e8a298ea02b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1101 &1101187857760193432
@@ -975,8 +1046,7 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1101955932921071892}
-  m_StateMachineBehaviours:
-  - {fileID: 114761863611536578}
+  m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1002,7 +1072,7 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions: []
   m_StateMachineBehaviours:
-  - {fileID: 114778839266662954}
+  - {fileID: 114841144063122412}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1030,7 +1100,7 @@ AnimatorState:
   - {fileID: 1101785725985694710}
   - {fileID: 1101730303946234346}
   m_StateMachineBehaviours:
-  - {fileID: 114240438565922682}
+  - {fileID: 114178258275074708}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
