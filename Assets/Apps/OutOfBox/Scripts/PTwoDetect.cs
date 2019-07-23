@@ -72,13 +72,13 @@ namespace BuddyApp.OutOfBox
                 if (mNumberOfDetect > 0)
                 {
                     mBehaviour.PhaseDropDown.value = 2;
-                    Buddy.Vocal.SayKey("phasetwoend", (iOut) => { Trigger("Base"); });
+                    Buddy.Vocal.SayKey("phasetwoend", (iOut) => { if (!iOut.IsInterrupted) Trigger("Base"); });
 
                 }
                 else if (mNumberOfDetect == 0)
                 {
                     mBehaviour.PhaseDropDown.value = 2;
-                    Buddy.Vocal.SayKey("phasetwonodetection", (iOut) => { Trigger("Base"); }); 
+                    Buddy.Vocal.SayKey("phasetwonodetection", (iOut) => { if(!iOut.IsInterrupted) Trigger("Base"); }); 
 
                 }
             }

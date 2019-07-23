@@ -19,6 +19,9 @@ namespace BuddyApp.OutOfBox
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
         {
+            Buddy.Navigation.Stop();
+            Buddy.Actuators.Wheels.Stop();
+            Buddy.Behaviour.Stop();
             Buddy.Vocal.StopAndClear();
             Buddy.Behaviour.ResetMood();
             Trigger(mBehaviour.PhaseDropDown.captionText.text);

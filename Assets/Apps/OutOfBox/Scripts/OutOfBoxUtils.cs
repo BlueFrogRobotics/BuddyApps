@@ -33,6 +33,7 @@ namespace BuddyApp.OutOfBox
 
         public static IEnumerator WaitTimeAsync(float iWaitingTime, Action iOnEndWaiting)
         {
+            Debug.LogWarning("Waititme ");
             yield return new WaitForSeconds(iWaitingTime);
             if (iOnEndWaiting != null)
                 iOnEndWaiting();
@@ -41,7 +42,10 @@ namespace BuddyApp.OutOfBox
 
         public static IEnumerator PlayBIAsync(Action iOnEnd = null, string iBML = null, bool iMood = false)
         {
+            Debug.LogWarning("Play BI!!!!!!!");
             bool lBMLIsEnding = false;
+
+            Debug.LogWarning("--- PlayBIAsync ");
 
             if (string.IsNullOrEmpty(iBML))
             {
@@ -51,10 +55,10 @@ namespace BuddyApp.OutOfBox
             
             yield return new WaitForSeconds(0.100F);
 
-            Debug.LogError("--- RUN " + iBML);
+            Debug.LogWarning("--- RUN " + iBML);
             Buddy.Behaviour.Interpreter.Run(iBML, () =>
             {
-                Debug.LogError("--- ON END RUN " + iBML);
+                Debug.LogWarning("--- ON END RUN " + iBML);
                 lBMLIsEnding = true;
             });
 
