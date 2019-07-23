@@ -18,6 +18,16 @@ namespace BuddyApp.OutOfBox
         private float mTimer;
         private int mNumberOfDetect;
 
+
+
+        public override void Start()
+        {
+            base.Start();
+
+            mBehaviour = GetComponent<OutOfBoxBehaviour>();
+            mBehaviour.PhaseDropDown.onValueChanged.AddListener((iInput) => Trigger("Base"));
+        }
+
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
@@ -61,13 +71,13 @@ namespace BuddyApp.OutOfBox
                 mTotalAngle = -1000F;
                 if (mNumberOfDetect > 0)
                 {
-                    OutOfBoxData.Instance.Phase = OutOfBoxData.PhaseId.PhaseThree;
+                    mBehaviour.PhaseDropDown.value = 2;
                     Buddy.Vocal.SayKey("phasetwoend", (iOut) => { Trigger("Base"); });
 
                 }
                 else if (mNumberOfDetect == 0)
                 {
-                    OutOfBoxData.Instance.Phase = OutOfBoxData.PhaseId.PhaseThree;
+                    mBehaviour.PhaseDropDown.value = 2;
                     Buddy.Vocal.SayKey("phasetwonodetection", (iOut) => { Trigger("Base"); }); 
 
                 }
@@ -172,7 +182,7 @@ namespace BuddyApp.OutOfBox
         private void EndPhaseDetect()
         {
             Buddy.Vocal.SayKey("phasetwoend");
-            OutOfBoxData.Instance.Phase = OutOfBoxData.PhaseId.PhaseThree;
+            mBehaviour.PhaseDropDown.value = 2;
             Trigger("Base");
         }
 

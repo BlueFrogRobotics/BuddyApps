@@ -6,7 +6,17 @@ using BlueQuark;
 namespace BuddyApp.OutOfBox
 {
     public class PFourMovement : AStateMachineBehaviour
-    {        
+    {
+
+
+        public override void Start()
+        {
+            base.Start();
+
+            mBehaviour = GetComponent<OutOfBoxBehaviour>();
+            mBehaviour.PhaseDropDown.onValueChanged.AddListener((iInput) => Trigger("Base"));
+        }
+
         public override void OnStateEnter(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
         {
             Buddy.Actuators.Head.No.ResetPosition();
@@ -33,7 +43,7 @@ namespace BuddyApp.OutOfBox
                                                 {
                                                     StartCoroutine(OutOfBoxUtils.PlayBIAsync(() =>
                                                     {
-                                                        OutOfBoxData.Instance.Phase = OutOfBoxData.PhaseId.PhaseFive;
+                                                        mBehaviour.PhaseDropDown.value = 4;
                                                         Trigger("Base");
                                                     }));
                                                 });

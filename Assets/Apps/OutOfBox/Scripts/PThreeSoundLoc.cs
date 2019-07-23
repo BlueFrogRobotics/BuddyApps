@@ -17,6 +17,15 @@ namespace BuddyApp.OutOfBox
         private bool mStartSL;
         private float mLastSoundLoc;
 
+
+        public override void Start()
+        {
+            base.Start();
+
+            mBehaviour = GetComponent<OutOfBoxBehaviour>();
+            mBehaviour.PhaseDropDown.onValueChanged.AddListener((iInput) => Trigger("Base"));
+        }
+
         public override void OnStateEnter(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
         {
             Buddy.Sensors.Microphones.SoundLocalizationParameters = new SoundLocalizationParameters(Buddy.Sensors.Microphones.SoundLocalizationParameters.Resolution, 75);
@@ -77,13 +86,12 @@ namespace BuddyApp.OutOfBox
         public override void OnStateExit(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
         {
             Buddy.Sensors.Microphones.SoundLocalizationParameters = null;
-            OutOfBoxData.Instance.Phase = OutOfBoxData.PhaseId.PhaseFour;
+            mBehaviour.PhaseDropDown.value = 3;
             Buddy.Perception.HumanDetector.OnDetect.RemoveP(OnHumanDetect);
         }
 
         private void StartSourceLoc()
-        {
-            
+        {            
             Buddy.Navigation.Run<DisplacementStrategy>().Rotate(180F, 80F, () => 
             {
                 Buddy.Behaviour.Face.PlayEvent(FacialEvent.CLOSE_EYES, false);

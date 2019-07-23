@@ -20,6 +20,7 @@ namespace BuddyApp.OutOfBox
         private OutOfBoxStateMachineManager mManager;
         private Animator mAnimator;
 
+        internal OutOfBoxBehaviour mBehaviour;
         internal OutOfBoxStateMachineManager Manager { set { mManager = value; } }
         internal Animator Animator { set { mAnimator = value; } }
 
