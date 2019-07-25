@@ -14,7 +14,6 @@ namespace BuddyApp.Diagnostic
         [SerializeField]
         private Text BatteryPercent;
 
-
         [SerializeField]
         private Text StatusBatteryTop;
 
@@ -65,7 +64,6 @@ namespace BuddyApp.Diagnostic
         [SerializeField]
         private Button ButtonResetAudio;
 
-
         private float mTimer;
 
         private float mBatteryLevel = 0F;
@@ -88,7 +86,7 @@ namespace BuddyApp.Diagnostic
             RainetteVersion.text = Buddy.Boards.Head.Version;
             AudioVersion.text = Buddy.Boards.Head.AudioµC.Version;
 
-            //Status : (a tester les valeur en hex)
+            //Status : 
             HemiseStatus.text = Buddy.Boards.Body.BodyµC.Status.ToString("X");
             MotionStatus.text = Buddy.Boards.Body.WheelsµC.Status.ToString("X");
             HeadStatus.text = Buddy.Boards.Head.HeadµC.Status.ToString("X");
@@ -123,7 +121,6 @@ namespace BuddyApp.Diagnostic
             }
             BatteryPercent.text = (SystemInfo.batteryLevel * 100).ToString();
 
-            //A tester
             UpdateBatteryStatus();
         }
 
@@ -137,7 +134,6 @@ namespace BuddyApp.Diagnostic
                 BatteryStatus.text = "Fully charged";
         }
 
-        //A tester
         public void ReadStatus()
         {
             ResetHemise();
@@ -156,40 +152,31 @@ namespace BuddyApp.Diagnostic
         public void ResetHemise()
         {
             Buddy.Boards.Body.ResetStatus();
-            // a tester 
             HemiseStatus.text = Buddy.Boards.Body.Status.ToString("X");
         }
 
         public void ResetMotion()
         {
             Buddy.Boards.Body.WheelsµC.ResetStatus();
-            // a tester 
             MotionStatus.text = Buddy.Boards.Body.WheelsµC.Status.ToString("X");
-
         }
 
         public void ResetHead()
         {
             Buddy.Boards.Head.HeadµC.ResetStatus();
-            // a tester 
             HeadStatus.text = Buddy.Boards.Head.HeadµC.Status.ToString("X");
-
         }
 
         public void ResetRainette()
         {
             Buddy.Boards.Head.ResetStatus();
-            // a tester 
             RainetteStatus.text = Buddy.Boards.Head.Status.ToString("X");
-
         }
 
         public void ResetAudio()
         {
             Buddy.Boards.Head.AudioµC.ResetStatus();
-            // a tester 
             AudioStatus.text = Buddy.Boards.Head.AudioµC.Status.ToString("X");
-
         }
 
         public void OnSliderAmplifierChanger(float iInput)

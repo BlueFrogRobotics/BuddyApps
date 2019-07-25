@@ -322,9 +322,6 @@ namespace BuddyApp.Diagnostic
             if (mTimerRefresh > DiagnosticBehaviour.REFRESH_TIMER) {
                 mTimerRefresh = 0F;
                 if (BT_TOF.isOn) {
-                    //Debug.Log("FILTERED VALUE : " + mForeHeadTOFSensor.Value + " " + mChinTOFSensor.Value + " " + mFrontRightTOFSensor.Value + " " + mFrontMiddleTOFSensor.Value
-                    //    + " " + mFrontLeftTOFSensor.Value + " " + mBackTOFSensor.Value);
-
 
                     //TOF SENSOR FORE HEAD
                     TOF_Error_00.text = mForeHeadTOFSensor.Error.ToString();

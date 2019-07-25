@@ -52,16 +52,11 @@ namespace BuddyApp.Diagnostic
 
         private void Update()
         {
-            // UPDATE HEAT INFORMATIONS
-            //CPUTemperature.text = Buddy.Sensors. + " °";
-
             mTimeRefresh += Time.deltaTime;
             if (mTimeRefresh >= DiagnosticBehaviour.REFRESH_TIMER) {
                 BODYTemperature.text = Buddy.Sensors.IMU.Temperature + " °";
                 HEADTemperature.text = Buddy.Sensors.ThermalCamera.AmbiantTemperature + " °";
                 CPUTemperature.text = Buddy.Boards.Main.Temperature + " °";
-                //Mat lMat = mThermalCamera.Frame.Mat.clone();
-                //Core.flip(lMat, lMat, 0);
                 mThermalCamera.Frame.Mat.get(0, 0, mThermalSensorDataArray);
                 for (int i = 0; i < mThermalSensorDataArray.Length; ++i) {
                     float lValuePixel = mThermalSensorDataArray[mThermalSensorDataArray.Length - 1 - i];

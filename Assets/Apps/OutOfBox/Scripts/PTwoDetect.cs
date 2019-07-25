@@ -120,13 +120,11 @@ namespace BuddyApp.OutOfBox
             }
             else
             {
-                StartCoroutine(OutOfBoxUtils.WaitTimeAsync(0.150F, () =>
-                {
-                    //Robot turn with a velocity but won't stop before doing 360°
-                    Buddy.Actuators.Wheels.SetVelocities(0F, 70F);
-                    mDetectEnabled = true;
-                    mHumanDetectEnabled = true;
-                }));
+                //Robot turn with a velocity but won't stop before doing 360°
+                Buddy.Actuators.Wheels.SetVelocities(0F, 70F);
+                mDetectEnabled = true;
+                mHumanDetectEnabled = true;
+                
             }
         }
 
@@ -173,7 +171,7 @@ namespace BuddyApp.OutOfBox
                         StartDetect(-80F);
                     }));
                 });
-                StartCoroutine(OutOfBoxUtils.WaitTimeAsync(0.1F, () => Buddy.Actuators.Head.No.ResetPosition()));
+                StartCoroutine(WaitTimeAndResetNo());
             }
             OutOfBoxUtils.DebugColor("Human detected", "blue");
             return true;
@@ -191,6 +189,12 @@ namespace BuddyApp.OutOfBox
             Buddy.Actuators.Wheels.Stop();
             mHumanDetectEnabled = false;
             mDetectEnabled = false;
+        }
+
+        private IEnumerator WaitTimeAndResetNo()
+        {
+            yield return new WaitForSeconds(0.1F);
+            Buddy.Actuators.Head.No.ResetPosition();
         }
 
     }

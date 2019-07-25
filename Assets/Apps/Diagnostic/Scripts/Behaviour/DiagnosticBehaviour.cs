@@ -41,9 +41,6 @@ namespace BuddyApp.Diagnostic
         [SerializeField]
         private GameObject connexionRoot;
 
-        /*[SerializeField]
-         private Button motorsBT;*/
-
         [SerializeField]
         private Image vocalBT;
         [SerializeField]
@@ -68,9 +65,7 @@ namespace BuddyApp.Diagnostic
         private Color BuddyBlue = new Color(0.0f, 0.831f, 0.819f);
         private Color White = new Color(1f, 1f, 1f);
         public const float REFRESH_TIMER = 0.5F;
-        /*
-         * Init refs to API and your app data
-         */
+
         void Start()
         {
             mRoots = new List<GameObject>() { vocalRoot,
@@ -107,13 +102,11 @@ namespace BuddyApp.Diagnostic
                 lrect_Sensors.height = 100;
                 Rect lrect_Connexion = connexionBT.GetComponent<RectTransform>().rect;
                 lrect_Connexion.height = 100;
-                Debug.Log("Vocal rect Before: " + lrect_Vocal);
                 switch (mCurrentWindow) {
                     case WindowType.VOCAL:
                         DisableAllExcept(vocalRoot);
                         vocalBT.color = BuddyBlue;
                         lrect_Vocal.height = 120;
-                        Debug.Log("Vocal rect After: " + lrect_Vocal);
                         break;
                     case WindowType.LED:
                         DisableAllExcept(ledRoot);
@@ -160,12 +153,6 @@ namespace BuddyApp.Diagnostic
                 lRoot.SetActive(lRoot == iGOToKeep);
             foreach (Image lBT in mBTs)
                 lBT.color = White;
-        }
-
-        public void Quit()
-        {
-            //BYOS.Instance.AppManager.Quit();
-            //new Buddy.Command.HomeCmd().Execute();
         }
 
         public double ExpScale(double inputValue, double midValue, double maxValue)

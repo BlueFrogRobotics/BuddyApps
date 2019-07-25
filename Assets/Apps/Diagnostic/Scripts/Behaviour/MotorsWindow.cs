@@ -85,7 +85,6 @@ namespace BuddyApp.Diagnostic
         private Wheels mWheels;
         private YesHeadHinge mYesHinge;
         private NoHeadHinge mNoHinge;
-        //private BlueQuark.Navigation mNavigation;
 
         void Start()
         {
@@ -140,7 +139,6 @@ namespace BuddyApp.Diagnostic
 
         void Update()
         {
-            //Debug.Log("Width slider : " + hingeSpeedSetter.gameObject.transform.);
             // Draw Head No Angle Feedback
             NoAngle.text = mNoHinge.Angle.ToString();
             if (mNoHinge.Angle >= 0) {
@@ -167,20 +165,11 @@ namespace BuddyApp.Diagnostic
             }
 
             linearVelocity.text = linearVelocitySetter.value.ToString("0.00");
-            //(mDiagBehaviour.ExpScale(Math.Round(linearVelocitySetter.value + 1d, 2) / 2d, 0.5d, 2d) - 1d).ToString("0.00") /*+ " m/s"*/;
-
-            //angularVelocity.text =  (angularVelocitySetter.value ).ToString();
-
-            distance.text = mDiagBehaviour.ExpScale(Math.Round(distanceSetter.value, 2) / 10D, 2D, 10D).ToString("0.00")/* + " m"*/;
-
+            distance.text = mDiagBehaviour.ExpScale(Math.Round(distanceSetter.value, 2) / 10D, 2D, 10D).ToString("0.00");
             AngularVelocityWheelsText.text = AngularVelocityWheelsSetter.value.ToString("0.00");
-            //(mDiagBehaviour.ExpScale((AngularVelocityWheelsSetter.value) / 250D, 40D, 250D)).ToString("0.00")/* + " °/s"*/;
-
-            angleBack.text = (mDiagBehaviour.ExpScale(anglePosSetter.value / 360D, 40D, 360D)).ToString("0") /*+ " °"*/;
-            //toleranceBack.text = "Tol : " + toleranceSetter.value;
-
-            noAngleBack.text = noHingeAngleSetter.value.ToString() /*+ " °"*/;
-            yesAngleBack.text = yesHingeAngleSetter.value.ToString() /*+ " °"*/;
+            angleBack.text = (mDiagBehaviour.ExpScale(anglePosSetter.value / 360D, 40D, 360D)).ToString("0");
+            noAngleBack.text = noHingeAngleSetter.value.ToString();
+            yesAngleBack.text = yesHingeAngleSetter.value.ToString();
             hingeSpeedBack.text = (mDiagBehaviour.ExpScale(hingeSpeedSetter.value / 100D, 10D, 100D)).ToString("0.0");
             NoAngle.text = Buddy.Actuators.Head.No.Angle.ToString("f3") + " °";
             YesAngle.text = Buddy.Actuators.Head.Yes.Angle.ToString("f3") + " °";
@@ -203,36 +192,17 @@ namespace BuddyApp.Diagnostic
 
         private IEnumerator DelayedNav()
         {
-            Debug.Log("Try to move");
-            //if (Input.touchCount > 0)
-            //    for (int i = 0; i < Input.touchCount; ++i)
-            //        if (Input.GetTouch(i).phase != TouchPhase.Ended)
             yield return new WaitForSeconds(1F);
-
-
-            Debug.Log("Try to move 2");
-
             Buddy.Actuators.Wheels.SetVelocities(float.Parse(linearVelocity.text), float.Parse(AngularVelocityWheelsText.text));
-
             float lTime = float.Parse(TimeMove.captionText.text.Remove(1));
-
-            Debug.Log("move for : " + lTime);
-
             yield return new WaitForSeconds(lTime);
-            Debug.Log("Try to stop");
             Buddy.Navigation.Stop();
         }
 
         public void TurnRelative()
         {
             Buddy.Navigation.Run<DisplacementStrategy>().Rotate(float.Parse(angleBack.text), AngularVelocityWheelsSetter.value);
-            Debug.Log("angular velocity rotate : " + AngularVelocityWheelsSetter.value);
 
-        }
-
-        public void GoTo()
-        {
-            Debug.Log("NOT IMPLEMENTED YET");
         }
 
         public void StopMotors()

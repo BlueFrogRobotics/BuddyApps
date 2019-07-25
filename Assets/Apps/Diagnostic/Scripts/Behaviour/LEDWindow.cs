@@ -315,8 +315,7 @@ namespace BuddyApp.Diagnostic
         {
             float lTime = int.Parse(TextSliderFlashDelay.text) / 1000F;
             Buddy.Actuators.LEDs.DimmableFlash = int.Parse(TextSliderFlashValue.text) / 100F;
-            Debug.Log("flash dimmer value " + int.Parse(TextSliderFlashValue.text) / 100F);
-            //Buddy.Actuators.LEDs.Flash = true;
+           
             mStatus = true;
             mFlash.GetComponentsInChildren<Text>()[0].text = "TURN OFF FLASH";
             mFlash.GetComponentsInChildren<Image>()[1].sprite = mStop;
@@ -373,7 +372,6 @@ namespace BuddyApp.Diagnostic
 
         private void OnChangeOnDuration(float iInput)
         {
-            //Debug.Log("IInput changed onduration slider duration : " + FloatToDouble(iInput / 32767f) + " input : " + iInput.ToString() + " test : " + sliderOnDuration.value.ToString());
             textOnDuration.text = mDiagBehaviour.ExpScale(FloatToDouble(iInput / 10000f), 1000d, 10000d).ToString("0");
             SetColor();
         }

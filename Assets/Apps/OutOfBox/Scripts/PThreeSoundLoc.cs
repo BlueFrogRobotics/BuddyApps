@@ -60,6 +60,7 @@ namespace BuddyApp.OutOfBox
                 Buddy.Vocal.SayKey("pthreewhostart");
                 mSoundLocEnabled = true;
             }
+
             if (Buddy.Sensors.Microphones.SoundLocalization != Microphones.NO_SOUND_LOCALIZATION) {
                 mLastSoundLoc = Time.time;
                 mSoundLoc = Convert.ToSingle(Buddy.Sensors.Microphones.SoundLocalization);
@@ -73,7 +74,10 @@ namespace BuddyApp.OutOfBox
             } else if (mTimer > 12F && mSoundLocEnabled) {
                 //Passer à la suite ou stop l'app parce que plus personne n'est devant le robot
                 mSoundLocEnabled = false;
+                //QuitApp();
+                Trigger("Base");
             }
+
             if (mHumanDetected) {
                 Buddy.Vocal.SayKey("pthreevoila");
                 Trigger("Base");
@@ -93,6 +97,8 @@ namespace BuddyApp.OutOfBox
         private void StartSourceLoc()
         {
             Buddy.Navigation.Run<DisplacementStrategy>().Rotate(180F, 80F, () => {
+                Buddy.Actuators.Head.No.ResetPosition();
+                Buddy.Actuators.Head.Yes.ResetPosition();
                 Buddy.Behaviour.Face.PlayEvent(FacialEvent.CLOSE_EYES, false);
                 mRotateDone = true;
                 mStartSL = true;
