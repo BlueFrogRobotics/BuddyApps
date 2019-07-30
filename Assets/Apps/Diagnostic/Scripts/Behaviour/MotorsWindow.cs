@@ -197,6 +197,8 @@ namespace BuddyApp.Diagnostic
             float lTime = float.Parse(TimeMove.captionText.text.Remove(1));
             yield return new WaitForSeconds(lTime);
             Buddy.Navigation.Stop();
+            // Reset dropdown
+            TimeMove.value = 0;
         }
 
         public void TurnRelative()

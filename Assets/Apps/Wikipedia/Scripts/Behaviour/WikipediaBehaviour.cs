@@ -34,12 +34,12 @@ namespace BuddyApp.Wikipedia
             mNumberOfListen = 0;
             // We get the credentials for google freespeech before
             // listening.
-            
+
             if (!string.IsNullOrEmpty(WikipediaData.Instance.Utterance)) {
                 string lDefinition = ExtractDefinition(WikipediaData.Instance.Utterance);
                 if (string.IsNullOrEmpty(lDefinition)) {
                     Debug.LogWarning("Couldn't find definition to look for");
-                    Buddy.Platform.Application.Stop();
+                    SayAndListen("ilisten");
                 } else {
                     // We start a coroutine to make the request
                     Buddy.Behaviour.SetMood(Mood.THINKING);
@@ -48,7 +48,6 @@ namespace BuddyApp.Wikipedia
             } else {
                 yield return StartCoroutine(RetrieveCredentialsAsync());
                 //Debug.Log("Say and listen");
-
                 SayAndListen("ilisten");
             }
         }
@@ -199,31 +198,31 @@ namespace BuddyApp.Wikipedia
                             if (lFragmant[i] == "],[") {
                                 lRes = lFragmant[i + 1];
                                 Debug.Log(lRes);
+                            } else if (lFragmant[i].Contains("https://")) {
+                                Debug.LogWarning("page url " + lFragmant[i]);
+                                StartCoroutine(DisplayImageUrl(lFragmant[i]));
                                 break;
                             }
                         }
 
-                        if (string.IsNullOrEmpty(lRes))
+                        if (string.IsNullOrEmpty(lRes)) {
                             // What to say when we got no answer?
                             lRes = Buddy.Resources.GetRandomString("noanswer").Replace("[definition]", iDefinition);
-                        else {
+                            SayAndListen(lRes, false);
+                        } else {
                             // Remove phonetics
                             string lRegex = "(\\[.*\\])";
                             lRes = Regex.Replace(lRes, lRegex, "");
+
+                            if (!string.IsNullOrEmpty(WikipediaData.Instance.Utterance))
+                                Buddy.Vocal.Say(lRes, (iSpeechOutput) => {
+                                    Buddy.GUI.Toaster.Hide();
+                                    Buddy.Platform.Application.Stop();
+                                });
+                            else
+                                SayAndListen(lRes, false);
                         }
 
-                        Debug.Log("lRes: " + lRes);
-
-
-                        // Say the answere and listen again
-                        //Buddy.Vocal.SayAndListen(lRes, null, OnEndListening, OnListeningStatus, SpeechRecognitionMode.FREESPEECH_ONLY);
-
-                        if (!string.IsNullOrEmpty(WikipediaData.Instance.Utterance))
-                            Buddy.Vocal.Say(lRes, (iSpeechOutput) => {
-                                Buddy.Platform.Application.Stop();
-                            });
-                        else
-                            SayAndListen(lRes, false);
                     }
                 }
             }
@@ -251,10 +250,12 @@ namespace BuddyApp.Wikipedia
                 iToSay = Buddy.Resources.GetRandomString("ilisten");
 
             //Call the say and listen function with correct params
-            Buddy.Vocal.SayAndListen(new SpeechOutput(iToSay), null, OnEndListening, OnListeningStatus, new SpeechInputParameters() {
-                Credentials = mGoogleCredentials, // here your credentials
-                RecognitionMode = SpeechRecognitionMode.FREESPEECH_ONLY // Default mode is Grammar, you have to specify the free speech mode
-            });
+            Buddy.Vocal.SayAndListen(new SpeechOutput(iToSay), (iOutput) =>
+                                    Buddy.GUI.Toaster.Hide(), OnEndListening, OnListeningStatus,
+                                    new SpeechInputParameters() {
+                                        Credentials = mGoogleCredentials, // here your credentials
+                                        RecognitionMode = SpeechRecognitionMode.FREESPEECH_ONLY // Default mode is Grammar, you have to specify the free speech mode
+                                    });
         }
 
         /// <summary>
@@ -269,6 +270,67 @@ namespace BuddyApp.Wikipedia
                 mGoogleCredentials = lQuery.text;
                 Debug.Log("<color=red>CREDENTIAL : </color>" + mGoogleCredentials);
             }
+        }
+
+        private IEnumerator DisplayImageUrl(string iUrl)
+        {
+
+            Dictionary<string, string> lHeaders = new Dictionary<string, string>();
+            lHeaders.Add("Accept", "text/html, application/xhtml+xml, */*");
+            lHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko");
+
+            WWW lWww = new WWW(iUrl, null, lHeaders);
+
+            Debug.LogWarning("pre yield ");
+            yield return lWww;
+
+            string lOutput = lWww.text;
+            string lImgUrl = GetUrlImageFromWikiPage(lOutput);
+
+            Debug.LogWarning("image url " + lImgUrl);
+
+            if (!string.IsNullOrEmpty(lImgUrl))
+                StartCoroutine(DisplayImage(lImgUrl));
+        }
+
+        private IEnumerator DisplayImage(string iImgUrl)
+        {
+            // Display random image
+
+            using (WWW www = new WWW(iImgUrl)) {
+                // Wait for download to complete
+                yield return www;
+
+                // assign texture
+                Texture2D lTexture = www.texture;
+
+                //if (www.texture.height < 250 || www.texture.width < 250) {
+                //    //GET ANOTHER IMAGE
+                //    iImgUrls.RemoveAt(lRand);
+                //    StartCoroutine(DisplayRandomImage(iImgUrls, iRequest));
+                //} else {
+                Debug.LogWarning("size " + lTexture.width + "x" + lTexture.height);
+                Sprite lSprite = Sprite.Create(lTexture, new Rect(0.0f, 0.0f, lTexture.width, lTexture.height), new Vector2(0.5f, 0.5f), 100.0f);
+                Buddy.GUI.Toaster.Display<PictureToast>().With(lSprite);
+
+                //}
+            }
+        }
+
+
+        private string GetUrlImageFromWikiPage(string iUrl)
+        {
+            int lIndex = iUrl.IndexOf("og:image", StringComparison.Ordinal);
+            Debug.LogWarning("index found is " + lIndex);
+
+            if (lIndex >= 0) {
+                lIndex = iUrl.IndexOf("\"", lIndex + 12, StringComparison.Ordinal);
+                lIndex++;
+                int lIndex2 = iUrl.IndexOf("\"", lIndex, StringComparison.Ordinal);
+                return iUrl.Substring(lIndex, lIndex2 - lIndex);
+
+            } else
+                return "";
         }
 
     }
