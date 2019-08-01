@@ -75,14 +75,16 @@
 !start <scared>;
 !start <knockknock>;
 !start <operation>;
-//!start <radio>;
+!start <radio>;
 !start <operationagain>;
 //!start <cancel>;
 !start <accraactivity>;
-!start <accraalarm>;
 !start <quit>;
 !import <numbers#nb>;
 //!import <names#anyname>;
+
+!start <weather>;
+!import <weather_fr#weather>;
 
 <asklaunch> : ((ouvre | lance ) | (<canyou> (ouvrir | lancer)) | je voudrais [utiliser | jouer à | que tu (ouvres | lances)]) [[l'] application ];
 <askgive> : (<canyou> [me | nous] (donner | dire)) | ((donne | dis) [moi | nous]) | (je (veux | voudrais) que tu [me | nous] (donnes | dises)) ;
@@ -106,7 +108,7 @@
 <detectobject> : est-ce que tu vois (quelque chose | un objet) devant toi;
 <dontmove> : [ne] bouge (plus | pas) | arrête-toi | arrête de bouger;
 <dosomething> : (fait | montre moi) quelque chose;
-<fitness> : ( [<asklaunch>] (fitness | gym ) ) | (je (veux | voudrais) faire (du sport | des exercisses physiques) ) |  ( [je veux | peux tu] (faire | fais | démarrer | démarre | lancer | lance | commencer | commence) [un|une|des] ( exercice | séance | activité [physique] ) );
+<fitness> : ( [<asklaunch>] (fitness) ) | (je (veux | voudrais) faire (du sport | des exercises physiques) ) |  ( [je veux | peux tu] (faire | fais | démarrer | démarre | lancer | lance | commencer | commence) [un|une|des] ( exercice | séance | activité [physique] ) );
 //<freezedance> : [<asklaunch>] freezedance | je (veux | voudrais) danser;
 <followme> : suis-moi | viens avec moi;
 <gallery> : ([<canyou> (ouvrir | entrer dans | lancer) | (ouvre | (entre | va) dans | lance) ] [la] galerie) | ( ( [<canyou>] ( [me] montrer | afficher ) | [puis-je | [est-ce que] je peux] voir ) | ( montre | affiche )) ( les | mes ) ( photos | images ) ; 
@@ -161,7 +163,7 @@
 <volumeup> : ((augmenter | augmente | monte | monter) [le] (volume | son)) [de <numbers#nb>] | (mets [le] (volume | son) plus fort) | (parle plus fort);
 <wander> : [va te] (balader | promener) | va t'en | pars | (balade | promène) [toi];
 <welcome> : bienvenue;
-<wikipedia> : [<asklaunch>] wikipedia | quelle est la définition de | définition;
+<wikipedia> : [<asklaunch>] wikipedia | définition;
 <show> : montre [moi | nous] quand tu es | sois;
 <sick> : <show> malade;
 <sad> : <show> triste;
@@ -174,11 +176,12 @@
 <knockknock> : toc toc;
 <delai> : <numbers#nb> (secondes | minutes | heures);
 <rotationangle> : [de] <numbers#nb> degrés;
-//<radioname> : RTL2 | France Maghreb 2 | Virgin Radio | RMC | Radio Nova | Radio Meuh | Fun Radio | Tropiques FM | FIP | Jazz Radio | Europe 1 | Djam Radio | Chérie | Hotmixradio 80 | RTL | Rire et Chansons | Latina | Radio Public Santé | franceinfo | Chante France | Skyrock | La Grosse Radio | Beur FM | RFM | NRJ | Africa numéro 1 | Alouette | Sud Radio | OUI FM | M Radio | Radio Orient | Nostalgie | RADIO FG | BFM Business | France Culture | Voltage | France Bleu Paris | France Inter | Radio Classique | France Musique;
-//<radio> : [<asklaunch>] ([la] radio | [[la] radio] <radioname>);
+<radioname> : RTL2 | France Maghreb 2 | Virgin Radio | RMC | Radio Nova | Radio Meuh | Fun Radio | Tropiques FM | FIP | Jazz Radio | Europe 1 | Djam Radio | Chérie FM | Hotmixradio 80 | RTL | Rire et Chansons | Latina | Radio Public Santé | franceinfo | Chante France | Skyrock | La Grosse Radio | Beur FM | RFM | NRJ | Africa numéro 1 | Alouette | Sud Radio | OUI FM | M Radio | Radio Orient | Nostalgie | RADIO FG | BFM Business | France Culture | Voltage | France Bleu Paris | France Inter | Radio Classique | France Musique;
+<radio> : [<asklaunch> | mets] [la] radio [<radioname>];
 <operation> : [combien (font | ça fait)]  <numbers#nb> (plus | moins | divisé par | multiplié par | fois) <numbers#nb>;
 <operationagain> : (plus | moins | divisé par | multiplié par | fois) <numbers#nb>;
 //<cancel> : (supprime | enlève) [tous] les (minuteur | décompte | compte à rebours | timer);
 <accraactivity> : (([<canyou> | je (veux | voudrais | peux) | puis-je | on (veut | voudrait)] (lancer | faire | démarrer)) | (lance | fait | démarre)) (un exercice | une activité | une séance);
-<accraalarm> : (Préviens | Appelle | Alerte) ((de | à) l'aide | du secours | un aidant | quelqu'un) | Je [ne] vais [vraiment] pas bien | Je vais [vraiment] [très] mal | J'ai un problème | Je suis tombé;
 <quit> : quitter | annuler | arrêter | sortir | terminer | annule | quitte | ferme | arrête | arrêt | ce sera tout | stop;
+
+<weather> : <weather_fr#weather>;

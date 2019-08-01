@@ -46,7 +46,7 @@ namespace BuddyApp.Guardian
             {
                 mTimer = 0.0F;
                 //TestPrintTemperature(50.0F);
-                Debug.Log("temp max: " + mFireDetection.GetHottestTemp());
+                Debug.Log("temp max: " + mFireDetection.GetHottestTemperature());
             }
         }
 
@@ -85,7 +85,7 @@ namespace BuddyApp.Guardian
             mMatSrc = mShowTemp.TemperatureToColorMat();
             Core.flip(mMatSrc, mMatSrc, 0);
             Utils.MatToTexture2D(mMatSrc, mTexture);
-            if(mFireDetection.GetHottestTemp()> DetectionManager.MAX_TEMPERATURE_THRESHOLD)
+            if(mFireDetection.GetHottestTemperature()> DetectionManager.MAX_TEMPERATURE_THRESHOLD)
             {
                 Buddy.Actuators.Speakers.Media.Play(SoundSample.BEEP_1);
             }

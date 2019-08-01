@@ -402,7 +402,7 @@ namespace BuddyApp.ExperienceCenter
                         return GetTrigger();
                     }
                 case StateReq.Language: {
-                        if (Buddy.Platform.Language.SystemInputLanguage.ISO6391Code==ISO6391Code.FR)
+                        if (Buddy.Platform.Language.InputLanguage.ISO6391Code == ISO6391Code.FR)
                             return State.French;
                         else
                             return State.English;
@@ -439,8 +439,7 @@ namespace BuddyApp.ExperienceCenter
 
         private void AvoidLock(SpeechInputStatus iEvent)
         {
-            if (iEvent.IsError)
-            {
+            if (iEvent.IsError) {
                 Buddy.Actuators.Wheels.Locked = false;
                 Debug.LogWarningFormat("[EXCENTER][ANIMMANAGER] ERROR STT: {0}", iEvent.ToString());
             }

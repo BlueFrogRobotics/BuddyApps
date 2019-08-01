@@ -1,41 +1,68 @@
-<?xml version="1.0" ?>
-  <BehaviourAlgorithm xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <Instructions>
-      <ABehaviourInstruction xsi:type="RunScriptBehaviourInstruction">
-        <IsBlocking>
-          <Value>false</Value>
-        </IsBlocking>
-        <IsRequired>
-          <Value>false</Value>
-        </IsRequired>
-        <FileName>
-          <Value>Neutral05</Value>
-        </FileName>
-      </ABehaviourInstruction>
-      <ABehaviourInstruction xsi:type="SayBehaviourInstruction">
-        <IsBlocking>
-          <Value>false</Value>
-        </IsBlocking>
-        <IsRequired>
-          <Value>false</Value>
-        </IsRequired>
-        <Key>
-          <Value>introjoke</Value>
-        </Key>
-      </ABehaviourInstruction>
-      <ABehaviourInstruction xsi:type="SayBehaviourInstruction">
-        <Delay>
-          <Value>5</Value>
-        </Delay>
-        <IsBlocking>
-          <Value>false</Value>
-        </IsBlocking>
-        <IsRequired>
-          <Value>false</Value>
-        </IsRequired>
-        <Key>
-          <Value>joke</Value>
-        </Key>
-      </ABehaviourInstruction>
-    </Instructions>
-  </BehaviourAlgorithm>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BehaviourAlgorithmStorage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <Settings>
+        <Mood>NEUTRAL</Mood>
+        <Commitment>NOT_ENGAGED</Commitment>
+        <MovementPattern>COMPLETE_FREEDOM</MovementPattern>
+    </Settings>
+    <Algorithm>
+        <Instructions>
+            <ABehaviourInstruction xsi:type="RunScriptBehaviourInstruction">
+                <IsBlocking>
+                    <Value>false</Value>
+                </IsBlocking>
+                <IsRequired>
+                    <Value>false</Value>
+                </IsRequired>
+                <Delay>
+                    <Value>0</Value>
+                </Delay>
+                <FileName>
+                    <Value>Neutral05</Value>
+                </FileName>
+            </ABehaviourInstruction>
+            <ABehaviourInstruction xsi:type="SayBehaviourInstruction">
+                <IsBlocking>
+                    <Value>false</Value>
+                </IsBlocking>
+                <IsRequired>
+                    <Value>false</Value>
+                </IsRequired>
+                <Delay>
+                    <Value>0</Value>
+                </Delay>
+                <Key>
+                    <Value>introjoke</Value>
+                </Key>
+                <Utterance />
+                <Pitch>
+                    <Value>0</Value>
+                </Pitch>
+                <Speed>
+                    <Value>0</Value>
+                </Speed>
+            </ABehaviourInstruction>
+            <ABehaviourInstruction xsi:type="SayBehaviourInstruction">
+                <IsBlocking>
+                    <Value>false</Value>
+                </IsBlocking>
+                <IsRequired>
+                    <Value>false</Value>
+                </IsRequired>
+                <Delay>
+                    <Value>5</Value>
+                </Delay>
+                <Key>
+                    <Value>joke</Value>
+                </Key>
+                <Utterance />
+                <Pitch>
+                    <Value>0</Value>
+                </Pitch>
+                <Speed>
+                    <Value>0</Value>
+                </Speed>
+            </ABehaviourInstruction>
+        </Instructions>
+    </Algorithm>
+</BehaviourAlgorithmStorage>

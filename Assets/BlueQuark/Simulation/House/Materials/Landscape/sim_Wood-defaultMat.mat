@@ -11,6 +11,7 @@ Material:
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
@@ -42,7 +43,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: d18cfbea13c1f204e8b3911a59342a72, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 0.5, y: 0.2}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:

@@ -1,4 +1,10 @@
-<?xml version="1.0" ?>
+<?xml version="1.0" encoding="utf-8"?>
+<BehaviourAlgorithmStorage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Settings>
+		<Mood>NEUTRAL</Mood>
+		<Commitment>NOT_ENGAGED</Commitment>
+		<MovementPattern>COMPLETE_FREEDOM</MovementPattern>
+	</Settings>
   <BehaviourAlgorithm xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <Instructions>
       <ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
@@ -17,17 +23,6 @@
         <YesSpeed>
           <Value>20</Value>
         </YesSpeed>
-      </ABehaviourInstruction>
-      <ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
-        <IsBlocking>
-          <Value>false</Value>
-        </IsBlocking>
-        <IsRequired>
-          <Value>false</Value>
-        </IsRequired>
-        <CustomMove>
-          <Value>true</Value>
-        </CustomMove>
         <NoAngle>
           <Value>-20</Value>
         </NoAngle>
@@ -35,12 +30,14 @@
           <Value>50</Value>
         </NoSpeed>
       </ABehaviourInstruction>
+
       <ABehaviourInstruction xsi:type="PlaySoundBehaviourInstruction">
         <IsBlocking>
           <Value>false</Value>
         </IsBlocking>
         <Sound>
           <Value>RANDOM_LAUGH</Value>
+          <Name>randomsound</Name>
         </Sound>
       </ABehaviourInstruction>
       <ABehaviourInstruction xsi:type="PlayFacialEventBehaviourInstruction">
@@ -52,8 +49,10 @@
         </IsRequired>
         <FacialEvent>
           <Value>SMILE</Value>
+          <Name>randomevent</Name>
         </FacialEvent>
       </ABehaviourInstruction>
+
       <ABehaviourInstruction xsi:type="PlayFacialEventBehaviourInstruction">
         <Delay>
           <Value>0.5</Value>
@@ -68,6 +67,7 @@
           <Value>CLOSE_EYES</Value>
         </FacialEvent>
       </ABehaviourInstruction>
+
       <ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
         <Delay>
           <Value>1</Value>
@@ -87,6 +87,19 @@
         <NoSpeed>
           <Value>50</Value>
         </NoSpeed>
+      </ABehaviourInstruction>
+
+      <ABehaviourInstruction xsi:type="SayBehaviourInstruction">
+        <Delay>
+          <Value>1.5</Value>
+        </Delay>
+        <IsBlocking>
+          <Value>true</Value>
+        </IsBlocking>
+        <Utterance>
+          <Value></Value>
+          <Name>sayevent</Name>
+        </Utterance>
       </ABehaviourInstruction>
       <ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
         <Delay>
@@ -108,6 +121,7 @@
           <Value>50</Value>
         </NoSpeed>
       </ABehaviourInstruction>
+
       <ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
         <Delay>
           <Value>2</Value>
@@ -128,6 +142,7 @@
           <Value>50</Value>
         </NoSpeed>
       </ABehaviourInstruction>
+
       <ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
         <Delay>
           <Value>2.5</Value>
@@ -147,20 +162,6 @@
         <YesSpeed>
           <Value>20</Value>
         </YesSpeed>
-      </ABehaviourInstruction>
-      <ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
-        <Delay>
-          <Value>2.5</Value>
-        </Delay>
-        <IsBlocking>
-          <Value>false</Value>
-        </IsBlocking>
-        <IsRequired>
-          <Value>false</Value>
-        </IsRequired>
-        <CustomMove>
-          <Value>true</Value>
-        </CustomMove>
         <NoAngle>
           <Value>0</Value>
         </NoAngle>
@@ -184,3 +185,4 @@
       </ABehaviourInstruction>
     </Instructions>
   </BehaviourAlgorithm>
+</BehaviourAlgorithmStorage>

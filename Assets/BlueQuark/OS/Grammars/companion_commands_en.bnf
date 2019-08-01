@@ -76,14 +76,16 @@
 !start <scared>;
 !start <knockknock>;
 !start <operation>;
-//!start <radio>;
+!start <radio>;
 !start <operationagain>;
 //!start <cancel>;
 !start <accraactivity>;
-!start <accraalarm>;
 !start <quit>;
 !import <numbers#nb>;
 //!import <names#anyname>;
+
+!start <weather>;
+!import <weather_en#weather>;
 
 <asklaunch> : [<canyou>] (open | launch | play) [[the] application];
 <asktell> : [<canyou>] (tell | find | give) [me | us] | I want to hear;
@@ -161,7 +163,7 @@
 <volumedown> : turn down the (volume | sound) | turn the (volume | sound) down | lower (the volume | your voice);
 <wander> : (walk | wander) [around] | go away | go for a (walk | ride) | (take | have) a stroll;
 <welcome> : welcome;
-<wikipedia> : [<asklaunch>] wikipedia | what is the definition of | definition;
+<wikipedia> : [<asklaunch>] wikipedia | definition;
 <show> : show [me | us] when you are | be;
 <sick> : <show> sick;
 <sad> : <show> sad;
@@ -174,11 +176,11 @@
 <knockknock> : knock knock;
 <delai> : <numbers#nb> (seconds | minutes | hours);
 <rotationangle> : <numbers#nb> degrees;
-//<radioname> : RTL2 | France Maghreb 2 | Virgin Radio | RMC | Radio Nova | Radio Meuh | Fun Radio | Tropiques FM | FIP | Jazz Radio | Europe 1 | Djam Radio | Chérie | Hotmixradio 80 | RTL | Rire et Chansons | Latina | Radio Public Santé | franceinfo | Chante France | Skyrock | La Grosse Radio | Beur FM | RFM | NRJ | Africa numéro 1 | Alouette | Sud Radio | OUI FM | M Radio | Radio Orient | Nostalgie | RADIO FG | BFM Business | France Culture | Voltage | France Bleu Paris | France Inter | Radio Classique | France Musique;
-//<radio> : [<asklaunch>] ([the] radio | [[the] radio] <radioname>);
+<radioname> : RTL2 | France Maghreb 2 | Virgin Radio | RMC | Radio Nova | Radio Meuh | Fun Radio | Tropiques FM | FIP | Jazz Radio | Europe 1 | Djam Radio | Chérie | Hotmixradio 80 | RTL | Rire et Chansons | Latina | Radio Public Santé | franceinfo | Chante France | Skyrock | La Grosse Radio | Beur FM | RFM | NRJ | Africa numéro 1 | Alouette | Sud Radio | OUI FM | M Radio | Radio Orient | Nostalgie | RADIO FG | BFM Business | France Culture | Voltage | France Bleu Paris | France Inter | Radio Classique | France Musique;
+<radio> : [<asklaunch> | start] ([the] radio | [[the] radio] <radioname>);
 <operation> : [(how much are | what is)] <numbers#nb> (plus | minus | divided by | multiplied by | times) <numbers#nb>;
 <operationagain> :  (plus | minus | divided by | multiplied by | times) <numbers#nb>;
 //<cancel> : (cancel | delete) [all] the timer;
 <accraactivity> : [<canyou> | (I | we) (want to | would like [you] to) | can I] (launch | start | do | make) (an exercice | an activity | a session);
-<accraalarm> : Call for help | Alert (an helper | someone) | I'm not really well | I have a problem;
 <quit> : quit | cancel | stop | exit | that's all | back | end | leave | stop;
+<weather> : <weather_en#weather>;

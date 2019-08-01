@@ -162,7 +162,7 @@ namespace BuddyApp.Wikipedia
 
                 string lRequestUriString = "";
                 // check language to request the correct wikipedia webpage
-                if (Buddy.Platform.Language.SystemOutputLanguage == Buddy.Platform.Language.GetLanguageFromISOCode(ISO6391Code.FR))
+                if (Buddy.Platform.Language.OutputLanguage == Buddy.Platform.Language.GetLanguageFromISOCode(ISO6391Code.FR))
                     lRequestUriString = string.Format("https://fr.wikipedia.org/w/api.php?format=json&action=opensearch&search="
                         + Uri.EscapeUriString(iDefinition) + "&limit=1&profile=fuzzy");
                 else

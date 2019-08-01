@@ -74,7 +74,7 @@ namespace BuddyApp.Diagnostic
         {
             mTimer = 0F;
             // a tester
-            AmplifierSlider.value = Buddy.Actuators.Speakers.Gain;
+            AmplifierSlider.value = 0;
 
             mBatteryLevel = SystemInfo.batteryLevel * 100F;
             mBatterySaved = mBatteryLevel;
@@ -183,11 +183,11 @@ namespace BuddyApp.Diagnostic
         {
             int mSliderValue = (int)iInput;
             if (mSliderValue == 0)
-                Buddy.Actuators.Speakers.Gain = 20;
+                Buddy.Actuators.Speakers.Gain = AudioGain.LOW;
             else if (mSliderValue == 1)
-                Buddy.Actuators.Speakers.Gain = 32;
+                Buddy.Actuators.Speakers.Gain = AudioGain.MEDIUM;
             else if (mSliderValue == 2)
-                Buddy.Actuators.Speakers.Gain = 36;
+                Buddy.Actuators.Speakers.Gain = AudioGain.HIGH;
         }
     }
 

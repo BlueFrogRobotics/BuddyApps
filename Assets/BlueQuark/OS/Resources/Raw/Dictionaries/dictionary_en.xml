@@ -294,7 +294,11 @@
 			<Key>joke</Key>
 			<BaseValue>Why did the chicken cross the road ?[1200] To get to the other side</BaseValue>
 			<ClosePhoneticValues>
-				<string />
+				<string>joke</string>
+				<string>jokes</string>
+				<string>tell a joke</string>
+				<string>tell jokes</string>
+				<string>make me laugh</string>
 			</ClosePhoneticValues>
 			<RandomValues>
 				<string>Why did the chicken cross the road ?[1200] To get to the other side!</string>
@@ -385,6 +389,10 @@
 			<ClosePhoneticValues>
 				<string>wander</string>
 				<string>go away</string>
+				<string>go for a walk</string>
+				<string>go wander</string>
+				<string>go around</string>
+				<string>roam</string>
 			</ClosePhoneticValues>
 			<RandomValues>
 				<string>wander</string>
@@ -558,7 +566,10 @@
 			<Key>follow</Key>
 			<BaseValue>I follow you</BaseValue>
 			<ClosePhoneticValues>
-				<string />
+				<string>follow</string>
+				<string>follow mei</string>
+				<string>come to me</string>
+				<string>follow my steps</string>
 			</ClosePhoneticValues>
 			<RandomValues>
 				<string>Okay, I follow you!</string>
@@ -590,10 +601,14 @@
 			<Key>moveforward</Key>
 			<BaseValue>I move forwards</BaseValue>
 			<ClosePhoneticValues>
-				<string />
+				<string>forward</string>
+				<string>move forward</string>
+				<string>move straight</string>
+				<string>go forward</string>
+				<string>go straight</string>
 			</ClosePhoneticValues>
 			<RandomValues>
-				<string>I move [meters] meters forwards</string>
+				<string>I move [meters] meters forward</string>
 				<string>I go [meters] meters straight</string>
 				<string>Move away guys, I go [meters] meters straight</string>
 				<string>Ok, but clean out ahead</string>
@@ -604,7 +619,11 @@
 			<Key>movebackward</Key>
 			<BaseValue>I move backwards</BaseValue>
 			<ClosePhoneticValues>
-				<string />
+				<string>backward</string>
+				<string>move backward</string>
+				<string>go backward</string>
+				<string>move back</string>
+				<string>go back</string>
 			</ClosePhoneticValues>
 			<RandomValues>
 				<string>I move [meters] meters backwards</string>
@@ -618,7 +637,10 @@
 			<Key>headdown</Key>
 			<BaseValue>I'll look down</BaseValue>
 			<ClosePhoneticValues>
-				<string />
+				<string>look down</string>
+				<string>head down</string>
+				<string>head to the ground</string>
+				<string>head lower</string>
 			</ClosePhoneticValues>
 			<RandomValues>
 				<string>Okay, I'll look down</string>
@@ -629,7 +651,10 @@
 			<Key>headup</Key>
 			<BaseValue>I'll look up</BaseValue>
 			<ClosePhoneticValues>
-				<string />
+				<string>look up</string>
+				<string>head up</string>
+				<string>head to the sky</string>
+				<string>head higher</string>
 			</ClosePhoneticValues>
 			<RandomValues>
 				<string>Okay, I'll look up</string>
@@ -640,7 +665,10 @@
 			<Key>headright</Key>
 			<BaseValue>I'll look to the right</BaseValue>
 			<ClosePhoneticValues>
-				<string />
+				<string>look right</string>
+				<string>look to the right</string>
+				<string>head right</string>
+				<string>head to the right</string>
 			</ClosePhoneticValues>
 			<RandomValues>
 				<string>I'll look [degrees] degrees to the right</string>
@@ -652,7 +680,10 @@
 			<Key>headleft</Key>
 			<BaseValue>I'll look to the left</BaseValue>
 			<ClosePhoneticValues>
-				<string />
+				<string>look left</string>
+				<string>look to the left</string>
+				<string>head left</string>
+				<string>head to the left</string>
 			</ClosePhoneticValues>
 			<RandomValues>
 				<string>Okay, I'll look to the left</string>
@@ -714,7 +745,10 @@
 			<Key>moveright</Key>
 			<BaseValue>I move to the right</BaseValue>
 			<ClosePhoneticValues>
-				<string />
+				<string>turn right</string>
+				<string>go right</string>
+				<string>turn to the right</string>
+				<string>go to the right</string>
 			</ClosePhoneticValues>
 			<RandomValues>
 				<string>I move [degrees] degrees right</string>
@@ -726,7 +760,10 @@
 			<Key>moveleft</Key>
 			<BaseValue>I move to the left</BaseValue>
 			<ClosePhoneticValues>
-				<string />
+				<string>turn left</string>
+				<string>go left</string>
+				<string>turn to the left</string>
+				<string>go to the left</string>
 			</ClosePhoneticValues>
 			<RandomValues>
 				<string>I move [degrees] degrees to the left</string>
@@ -738,7 +775,11 @@
 			<Key>volumeup</Key>
 			<BaseValue />
 			<ClosePhoneticValues>
-				<string />
+				<string>volume up</string>
+				<string>volume louder</string>
+				<string>speak up</string>
+				<string>speak louder</string>
+				<string>louder</string>
 			</ClosePhoneticValues>
 			<RandomValues>
 				<string>I increase the volume of</string>
@@ -761,7 +802,15 @@
 			<Key>volumedown</Key>
 			<BaseValue>I decreased the volume of</BaseValue>
 			<ClosePhoneticValues>
-				<string />
+				<string>volume down</string>
+				<string>volume low</string>
+				<string>volume lower</string>
+				<string>speak low</string>
+				<string>speak lower</string>
+				<string>speak down</string>
+				<string>lower sound</string>
+				<string>low sound</string>
+				<string>lower the sound</string>
 			</ClosePhoneticValues>
 			<RandomValues>
 				<string>I decreased the volume of</string>
@@ -778,6 +827,19 @@
 				<string>Ok, I stop moving</string>
 				<string>Sure, I stay here</string>
 				<string>okay boss, I won't move!</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>dontmove</Key>
+			<BaseValue>Do not move</BaseValue>
+			<ClosePhoneticValues>
+				<string>Don't move</string>
+				<string>do not move</string>
+				<string>stop moving</string>
+				<string>stay here</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Do not move</string>
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
@@ -937,6 +999,16 @@
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
+			<Key>moodcliff</Key>
+			<BaseValue>I was scared by a cliff</BaseValue>
+			<ClosePhoneticValues>
+				<string>I was scared by a cliff</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>I was scared by a cliff</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
 			<Key>iam</Key>
 			<BaseValue>I am</BaseValue>
 			<ClosePhoneticValues>
@@ -977,27 +1049,23 @@
 			<Key>alarm</Key>
 			<BaseValue>alarm</BaseValue>
 			<ClosePhoneticValues>
-				<string />
 				<string>set an alarm</string>
 				<string>program an alarm</string>
 				<string>add an alarm</string>
 			</ClosePhoneticValues>
 			<RandomValues>
-				<string />
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
 			<Key>buddylab</Key>
 			<BaseValue>BuddyLab</BaseValue>
 			<ClosePhoneticValues>
-				<string />
 				<string>Buddylab</string>
 				<string>lab</string>
 				<string>Buddy lab</string>
 				<string>laboratory</string>
 			</ClosePhoneticValues>
 			<RandomValues>
-				<string />
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
@@ -1008,14 +1076,12 @@
 				<string>countdown</string>
 			</ClosePhoneticValues>
 			<RandomValues>
-				<string />
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
 			<Key>calculationgame</Key>
 			<BaseValue>Calculation Game</BaseValue>
 			<ClosePhoneticValues>
-				<string />
 				<string>calculation application</string>
 				<string>calculation game</string>
 				<string>calculus application</string>
@@ -1023,19 +1089,16 @@
 				<string>playmath</string>
 			</ClosePhoneticValues>
 			<RandomValues>
-				<string />
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
 			<Key>memorygame</Key>
 			<BaseValue>Memory Game</BaseValue>
 			<ClosePhoneticValues>
-				<string />
 				<string>memory game</string>
 				<string>memory application</string>
 			</ClosePhoneticValues>
 			<RandomValues>
-				<string />
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
@@ -1046,14 +1109,12 @@
 				<string>I want to dance</string>
 			</ClosePhoneticValues>
 			<RandomValues>
-				<string />
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
 			<Key>guardian</Key>
 			<BaseValue>guardian</BaseValue>
 			<ClosePhoneticValues>
-				<string />
 				<string>guardian</string>
 				<string>guard</string>
 				<string>watchman</string>
@@ -1061,14 +1122,12 @@
 				<string>caretaker</string>
 			</ClosePhoneticValues>
 			<RandomValues>
-				<string />
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
 			<Key>iot</Key>
 			<BaseValue>IOT</BaseValue>
 			<ClosePhoneticValues>
-				<string />
 				<string>IOT</string>
 				<string>connected objects</string>
 				<string>connected object</string>
@@ -1087,14 +1146,12 @@
 				<string>open the screen</string>
 			</ClosePhoneticValues>
 			<RandomValues>
-				<string />
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
 			<Key>rlgl</Key>
 			<BaseValue>Red Light Green Light</BaseValue>
 			<ClosePhoneticValues>
-				<string />
 				<string>red light green light </string>
 				<string>red light green light</string>
 				<string>red light</string>
@@ -1103,14 +1160,12 @@
 				<string>green light</string>
 			</ClosePhoneticValues>
 			<RandomValues>
-				<string />
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
 			<Key>photo</Key>
 			<BaseValue>Photo</BaseValue>
 			<ClosePhoneticValues>
-				<string />
 				<string>let’s take a photo</string>
 				<string>take a picture</string>
 				<string>photo</string>
@@ -1119,14 +1174,12 @@
 				<string>pictures</string>
 			</ClosePhoneticValues>
 			<RandomValues>
-				<string />
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
 			<Key>pose</Key>
 			<BaseValue>Pose</BaseValue>
 			<ClosePhoneticValues>
-				<string />
 				<string>selfie</string>
 				<string>take a selfie</string>
 				<string>photo with you</string>
@@ -1134,7 +1187,6 @@
 				<string>picture together</string>
 			</ClosePhoneticValues>
 			<RandomValues>
-				<string />
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
@@ -1170,14 +1222,12 @@
 				<string>sky be clear</string>
 			</ClosePhoneticValues>
 			<RandomValues>
-				<string />
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
 			<Key>eyepoke</Key>
 			<BaseValue />
 			<ClosePhoneticValues>
-				<string />
 			</ClosePhoneticValues>
 			<RandomValues>
 				<string>you poked my eye</string>
@@ -1188,7 +1238,6 @@
 			<Key>othertouch</Key>
 			<BaseValue />
 			<ClosePhoneticValues>
-				<string />
 			</ClosePhoneticValues>
 			<RandomValues>
 				<string>you touched my face</string>
@@ -1201,7 +1250,6 @@
 			<Key>touchhead</Key>
 			<BaseValue />
 			<ClosePhoneticValues>
-				<string />
 			</ClosePhoneticValues>
 			<RandomValues>
 				<string>I like when you pet me</string>
@@ -1292,7 +1340,9 @@
 			<Key>moodcanmove</Key>
 			<BaseValue />
 			<ClosePhoneticValues>
-				<string />
+				<string>you can move</string>
+				<string>you can roll</string>
+				<string>you can stretch</string>
 			</ClosePhoneticValues>
 			<RandomValues>
 				<string>You said that I can move</string>
@@ -1751,6 +1801,16 @@
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
+			<Key>whois</Key>
+			<BaseValue>who is</BaseValue>
+			<ClosePhoneticValues>
+				<string>who is</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>who is</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
 			<Key>who</Key>
 			<BaseValue>who</BaseValue>
 			<ClosePhoneticValues>
@@ -1994,11 +2054,17 @@
 			<BaseValue>I love you</BaseValue>
 			<ClosePhoneticValues>
 				<string>I love you</string>
-				<string> I really like you</string>
-				<string> I like playing with you</string>
-				<string> You are a good boy</string>
+				<string>I like you</string>
+				<string>I really love you</string>
+				<string>I really like you</string>
+				<string>like playing with you</string>
 				<string>good boy</string>
+				<string>you are pretty</string>
 				<string>you are nice</string>
+				<string>kiss me</string>
+				<string>kiss</string>
+				<string>I want a kiss</string>
+				<string>give me a kiss</string>
 			</ClosePhoneticValues>
 			<RandomValues>
 				<string>I love you</string>
@@ -2049,6 +2115,18 @@
 				<string>you love me</string>
 				<string> you expressed your warm human love to me</string>
 				<string>I think you love me</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>userlost</Key>
+			<BaseValue>Where are you</BaseValue>
+			<ClosePhoneticValues>
+				<string></string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Where are you</string>
+				<string>I can't see you anymore</string>
+				<string>wait for me</string>
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
@@ -2202,7 +2280,7 @@
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
-			<Key>behaviour</Key>
+			<Key>show</Key>
 			<BaseValue>behaviour</BaseValue>
 			<ClosePhoneticValues>
 				<string>behaviour</string>
@@ -2210,6 +2288,7 @@
 				<string>behaviours</string>
 				<string>behaviors</string>
 				<string>BML</string>
+				<string>BI</string>
 			</ClosePhoneticValues>
 			<RandomValues>
 				<string>behaviour</string>
@@ -2461,7 +2540,12 @@
 			<Key>hour</Key>
 			<BaseValue>hour</BaseValue>
 			<ClosePhoneticValues>
-				<string>hour</string>
+				<string>time</string>
+				<string>what time</string>
+				<string>give the time</string>
+				<string>give me the time</string>
+				<string>tell the time</string>
+				<string>tell me the time</string>
 			</ClosePhoneticValues>
 			<RandomValues>
 				<string>hour</string>
@@ -3069,17 +3153,17 @@
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
-				<Key>listennotif</Key>
-				<BaseValue>Listen to the reminder?</BaseValue>
-				<ClosePhoneticValues>
-					<string />
-				</ClosePhoneticValues>
-				<RandomValues>
-					<string>Should I read the reminder?</string>
-					<string>Should I tell you the notification?</string>
-					<string>Do you want to listen to the notification?</string>
-				</RandomValues>
-			</DictionaryEntry>
+			<Key>listennotif</Key>
+			<BaseValue>Listen to the reminder?</BaseValue>
+			<ClosePhoneticValues>
+				<string />
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Should I read the reminder?</string>
+				<string>Should I tell you the notification?</string>
+				<string>Do you want to listen to the notification?</string>
+			</RandomValues>
+		</DictionaryEntry>
 		<DictionaryEntry>
 			<Key>qhello</Key>
 			<BaseValue>Hello how are you?</BaseValue>
@@ -3745,1344 +3829,1391 @@
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
-			<Key>repeatpls</Key>
-			<BaseValue>Could you repeat please ?</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>iheard</Key>
-			<BaseValue>I heard</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>apps</Key>
-			<BaseValue>apps</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>explorerappsdesc</Key>
-			<BaseValue>Manage and play your applications</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>companion</Key>
-			<BaseValue>companion</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>multimedia</Key>
-			<BaseValue>multimedia</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>security</Key>
-			<BaseValue>security</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>games</Key>
-			<BaseValue>games</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>edutainment</Key>
-			<BaseValue>edutainment</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>utility</Key>
-			<BaseValue>utility</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>other</Key>
-			<BaseValue>other</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>availableapps</Key>
-			<BaseValue>available apps</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>battery</Key>
-			<BaseValue>battery</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>explorerbatterydesc</Key>
-			<BaseValue>Battery and docking settings</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>quitapp</Key>
-			<BaseValue>Quit application</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>vocal</Key>
-			<BaseValue>vocal</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>explorervocaldesc</Key>
-			<BaseValue>Your chat room with the robot</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>stt</Key>
-			<BaseValue>Speech To Text</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>startstt</Key>
-			<BaseValue>Start STT</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>startsphinx</Key>
-			<BaseValue>Start Sphinx</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>stopsphinx</Key>
-			<BaseValue>Stop Sphinx</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>debug</Key>
-			<BaseValue>Debug</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>sphinxtrigger</Key>
-			<BaseValue>Sphinx trigger</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>hastrigger</Key>
-			<BaseValue>Has trigger</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>network</Key>
-			<BaseValue>network</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>explorernetworkdesc</Key>
-			<BaseValue>Wifi and bluetooth settings</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>wifinetworks</Key>
-			<BaseValue>wifi networks</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>confirm</Key>
-			<BaseValue>confirm</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>establishconnection</Key>
-			<BaseValue>establish connection</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>connecteddevices</Key>
-			<BaseValue>connected devices</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>nowifi</Key>
-			<BaseValue>No wifi</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>parameters</Key>
-			<BaseValue>parameters</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>explorerparametersdesc</Key>
-			<BaseValue>Settings of your Buddy</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>volume</Key>
-			<BaseValue>volume</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>voicerate</Key>
-			<BaseValue>voice rate</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>lang</Key>
-			<BaseValue>language</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>usersettings</Key>
-			<BaseValue>user settings</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>osversion</Key>
-			<BaseValue>OS version</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>quitbuddy</Key>
-			<BaseValue>quit Buddy</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>english</Key>
-			<BaseValue>english</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>french</Key>
-			<BaseValue>french</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>photos</Key>
-			<BaseValue>photos</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>yourgallery</Key>
-			<BaseValue>your gallery</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>explorerphotosdesc</Key>
-			<BaseValue>Your personal photographs and images</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>explorersecuritydesc</Key>
-			<BaseValue>Security parameters</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>explorervideosdesc</Key>
-			<BaseValue>Your videos and movies</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>videos</Key>
-			<BaseValue>videos</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>buddystorage</Key>
-			<BaseValue>Buddy's storage</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>available</Key>
-			<BaseValue>available</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>system</Key>
-			<BaseValue>system</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>applications</Key>
-			<BaseValue>applications</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>selectall</Key>
-			<BaseValue>select all</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>shareselected</Key>
-			<BaseValue>share selected</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>trashselected</Key>
-			<BaseValue>trash selected</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>loading</Key>
-			<BaseValue>loading</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>defaultsettingstitle</Key>
-			<BaseValue>Your app's settings</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>account</Key>
-			<BaseValue>Account</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>exploreraccountdesc</Key>
-			<BaseValue>Your account settings</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>hello</Key>
-			<BaseValue>Hello</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>loggedaccount</Key>
-			<BaseValue>Logged account</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>availableaccount</Key>
-			<BaseValue>Available account(s)</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>create</Key>
-			<BaseValue>Create</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>new</Key>
-			<BaseValue>New</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>accountcreation</Key>
-			<BaseValue>Account creation</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>firstname</Key>
-			<BaseValue>Firstname</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>lastname</Key>
-			<BaseValue>Lastname</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>email</Key>
-			<BaseValue>E-mail</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>gender</Key>
-			<BaseValue>Gender</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>password</Key>
-			<BaseValue>Password</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>accountsesstype</Key>
-			<BaseValue>Session type</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>acnamealreadyexists</Key>
-			<BaseValue>An account with the same name already exists</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>admin</Key>
-			<BaseValue>administrator</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>user</Key>
-			<BaseValue>User</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>guest</Key>
-			<BaseValue>Guest</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>male</Key>
-			<BaseValue>Male</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>female</Key>
-			<BaseValue>Female</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>installapp</Key>
-			<BaseValue>Install Apps</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>removeapp</Key>
-			<BaseValue>Remove App</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>allappaccess</Key>
-			<BaseValue>All app access</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>socialnetwork</Key>
-			<BaseValue>Social networks</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>createaccount</Key>
-			<BaseValue>Create account</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>deleteaccount</Key>
-			<BaseValue>Delete account</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>editownaccount</Key>
-			<BaseValue>Edit own account</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>editaccounts</Key>
-			<BaseValue>Edit accounts</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>errorpermuninstallapp</Key>
-			<BaseValue>You have not the permission to uninstall app</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>errorperminstallapp</Key>
-			<BaseValue>You have not the permission to install this app</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>appinstalled</Key>
-			<BaseValue>is fully installed</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>availableappupdate</Key>
-			<BaseValue>An app update is available, would you like to install it ?</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>proceedappupdate</Key>
-			<BaseValue>(1) apps updates have been proceed</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>myaccount</Key>
-			<BaseValue>My account</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>update</Key>
-			<BaseValue>Updates</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>auto</Key>
-			<BaseValue>Auto</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>search</Key>
-			<BaseValue>Search</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>online</Key>
-			<BaseValue>Online</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>cancel</Key>
-			<BaseValue>Cancel</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>back</Key>
-			<BaseValue>Back</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>goodpwd</Key>
-			<BaseValue>Good password !</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>wrongpwd</Key>
-			<BaseValue>Bad password</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>pleasewait</Key>
-			<BaseValue>Please wait...</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>yourid</Key>
-			<BaseValue>Your identifier</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>yourpwd</Key>
-			<BaseValue>Your password</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>confirmquitapp</Key>
-			<BaseValue>Do you really want to leave the current app ?</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>robot</Key>
-			<BaseValue>Robot</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>appuninstalled</Key>
-			<BaseValue>Application completely removed</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>reboot</Key>
-			<BaseValue>Reboot Buddy</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>enablelockscreen</Key>
-			<BaseValue>Enable lock screen everywhere</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>lockscreentimer</Key>
-			<BaseValue>Lock screen timer</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>defaultapps</Key>
-			<BaseValue>Default apps</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>acnullvalues</Key>
-			<BaseValue>Some fields aren't filled</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>acemailalreadyexists</Key>
-			<BaseValue>An account with the same email already exists</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>refresh</Key>
-			<BaseValue>Refresh</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>confirmremoveapp</Key>
-			<BaseValue>Remove app (1) ?</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>connect</Key>
-			<BaseValue>Connect</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>currentrobotpin</Key>
-			<BaseValue>Current Buddy PIN</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>newrobotpin</Key>
-			<BaseValue>New Buddy PIN (4 digits)</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>confirmrobotpin</Key>
-			<BaseValue>Confirm new Buddy PIN</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>bootopt</Key>
-			<BaseValue>Boot settings</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>changepassword</Key>
-			<BaseValue>Change password</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>newrobotpinset</Key>
-			<BaseValue>New security PIN correctly established !</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>italian</Key>
-			<BaseValue>Italian</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>dutch</Key>
-			<BaseValue>Dutch</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>german</Key>
-			<BaseValue>German</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>japanese</Key>
-			<BaseValue>Japanese</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>korean</Key>
-			<BaseValue>Korean</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>hourlyeventearly</Key>
-			<BaseValue>It's still early</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>hourlyeventmidday</Key>
-			<BaseValue>It's mid-day</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>hourlyeventsleep</Key>
-			<BaseValue>It's nearly time to go to sleep</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>hourlyeventnight</Key>
-			<BaseValue>It's night-time</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>dayeventweekend</Key>
-			<BaseValue>I love week-ends</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>dayeventmonday</Key>
-			<BaseValue>I don't like Mondays. I can't wait for the week-end to come</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>dayeventfriday</Key>
-			<BaseValue>Tomorrow is the week-end</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>remindersay</Key>
-			<BaseValue>I have a %0 notification</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>for</Key>
-			<BaseValue>for</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string />
-			</RandomValues>
-		</DictionaryEntry>
-		<DictionaryEntry>
-			<Key>youmoved</Key>
-			<BaseValue>Too bad, you moved [250], You will do better next time</BaseValue>
-			<ClosePhoneticValues>
-				<string />
-			</ClosePhoneticValues>
-			<RandomValues>
-				<string>Too bad, you moved [250], You will do better next time</string>
-			</RandomValues>
-		</DictionaryEntry>
-	</Entries>
+			<Key>repeat</Key>
+			<BaseValue>Can you repeat please?</BaseValue>
+			<ClosePhoneticValues>
+				<string>repeat please</string>
+				<string>repeat</string>
+				<string>say again</string>
+				<string>say that again</string>
+				<string>repeat what you just said</string>
+				<string>repeat what you said</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Can you repeat please?</string>
+				<string>Could you repeat please?</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>repeatafterme</Key>
+			<BaseValue>Repeat after me</BaseValue>
+			<ClosePhoneticValues>
+				<string>repeat this</string>
+				<string>repeat after me</string>
+				<string>say this</string>
+				<string>say the sentence</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>repeat after me</string>
+			</RandomValues>
+			</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>iheard</Key>
+					<BaseValue>I heard</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>apps</Key>
+					<BaseValue>apps</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>explorerappsdesc</Key>
+					<BaseValue>Manage and play your applications</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>companion</Key>
+					<BaseValue>companion</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>multimedia</Key>
+					<BaseValue>multimedia</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>security</Key>
+					<BaseValue>security</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>games</Key>
+					<BaseValue>games</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>edutainment</Key>
+					<BaseValue>edutainment</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>utility</Key>
+					<BaseValue>utility</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>other</Key>
+					<BaseValue>other</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>availableapps</Key>
+					<BaseValue>available apps</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>battery</Key>
+					<BaseValue>battery</BaseValue>
+					<ClosePhoneticValues>
+						<string>battery</string>
+						<string>battery level</string>
+						<string>energy level</string>
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>explorerbatterydesc</Key>
+					<BaseValue>Battery and docking settings</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>quitapp</Key>
+					<BaseValue>Quit application</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>vocal</Key>
+					<BaseValue>vocal</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>explorervocaldesc</Key>
+					<BaseValue>Your chat room with the robot</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>stt</Key>
+					<BaseValue>Speech To Text</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>startstt</Key>
+					<BaseValue>Start STT</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>startsphinx</Key>
+					<BaseValue>Start Sphinx</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>stopsphinx</Key>
+					<BaseValue>Stop Sphinx</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>debug</Key>
+					<BaseValue>Debug</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>sphinxtrigger</Key>
+					<BaseValue>Sphinx trigger</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>hastrigger</Key>
+					<BaseValue>Has trigger</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>network</Key>
+					<BaseValue>network</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>explorernetworkdesc</Key>
+					<BaseValue>Wifi and bluetooth settings</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>wifinetworks</Key>
+					<BaseValue>wifi networks</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>confirm</Key>
+					<BaseValue>confirm</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>establishconnection</Key>
+					<BaseValue>establish connection</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>connecteddevices</Key>
+					<BaseValue>connected devices</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>nowifi</Key>
+					<BaseValue>No wifi</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>parameters</Key>
+					<BaseValue>parameters</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>explorerparametersdesc</Key>
+					<BaseValue>Settings of your Buddy</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>volume</Key>
+					<BaseValue>volume</BaseValue>
+					<ClosePhoneticValues>
+						<string>volume</string>
+						<string>audio volume</string>
+						<string>what is the volume</string>
+						<string>me the volume</string>
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>volumeset</Key>
+			<BaseValue>set the volume</BaseValue>
+			<ClosePhoneticValues>
+				<string>set volume</string>
+				<string>set the volume</string>
+				<string>put the volume</string>
+				<string>volume to</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>je règle le volume à</string>
+			</RandomValues>
+		</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>voicerate</Key>
+					<BaseValue>voice rate</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>lang</Key>
+					<BaseValue>language</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>usersettings</Key>
+					<BaseValue>user settings</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>osversion</Key>
+					<BaseValue>OS version</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>quitbuddy</Key>
+					<BaseValue>quit Buddy</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>english</Key>
+					<BaseValue>english</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>french</Key>
+					<BaseValue>french</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>photos</Key>
+					<BaseValue>photos</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>yourgallery</Key>
+					<BaseValue>your gallery</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>explorerphotosdesc</Key>
+					<BaseValue>Your personal photographs and images</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>explorersecuritydesc</Key>
+					<BaseValue>Security parameters</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>explorervideosdesc</Key>
+					<BaseValue>Your videos and movies</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>videos</Key>
+					<BaseValue>videos</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>buddystorage</Key>
+					<BaseValue>Buddy's storage</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>available</Key>
+					<BaseValue>available</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>system</Key>
+					<BaseValue>system</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>applications</Key>
+					<BaseValue>applications</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>selectall</Key>
+					<BaseValue>select all</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>shareselected</Key>
+					<BaseValue>share selected</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>trashselected</Key>
+					<BaseValue>trash selected</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>loading</Key>
+					<BaseValue>loading</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>defaultsettingstitle</Key>
+					<BaseValue>Your app's settings</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>account</Key>
+					<BaseValue>Account</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>exploreraccountdesc</Key>
+					<BaseValue>Your account settings</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>hello</Key>
+					<BaseValue>Hello</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>loggedaccount</Key>
+					<BaseValue>Logged account</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>availableaccount</Key>
+					<BaseValue>Available account(s)</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>create</Key>
+					<BaseValue>Create</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>new</Key>
+					<BaseValue>New</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>accountcreation</Key>
+					<BaseValue>Account creation</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>firstname</Key>
+					<BaseValue>Firstname</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>lastname</Key>
+					<BaseValue>Lastname</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>email</Key>
+					<BaseValue>E-mail</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>gender</Key>
+					<BaseValue>Gender</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>password</Key>
+					<BaseValue>Password</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>accountsesstype</Key>
+					<BaseValue>Session type</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>acnamealreadyexists</Key>
+					<BaseValue>An account with the same name already exists</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>admin</Key>
+					<BaseValue>administrator</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>user</Key>
+					<BaseValue>User</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>guest</Key>
+					<BaseValue>Guest</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>male</Key>
+					<BaseValue>Male</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>female</Key>
+					<BaseValue>Female</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>installapp</Key>
+					<BaseValue>Install Apps</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>removeapp</Key>
+					<BaseValue>Remove App</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>allappaccess</Key>
+					<BaseValue>All app access</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>socialnetwork</Key>
+					<BaseValue>Social networks</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>createaccount</Key>
+					<BaseValue>Create account</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>deleteaccount</Key>
+					<BaseValue>Delete account</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>editownaccount</Key>
+					<BaseValue>Edit own account</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>editaccounts</Key>
+					<BaseValue>Edit accounts</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>errorpermuninstallapp</Key>
+					<BaseValue>You have not the permission to uninstall app</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>errorperminstallapp</Key>
+					<BaseValue>You have not the permission to install this app</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>appinstalled</Key>
+					<BaseValue>is fully installed</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>availableappupdate</Key>
+					<BaseValue>An app update is available, would you like to install it ?</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>proceedappupdate</Key>
+					<BaseValue>(1) apps updates have been proceed</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>myaccount</Key>
+					<BaseValue>My account</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>update</Key>
+					<BaseValue>Updates</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>auto</Key>
+					<BaseValue>Auto</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>search</Key>
+					<BaseValue>Search</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>online</Key>
+					<BaseValue>Online</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>cancel</Key>
+					<BaseValue>Cancel</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>back</Key>
+					<BaseValue>Back</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>goodpwd</Key>
+					<BaseValue>Good password !</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>wrongpwd</Key>
+					<BaseValue>Bad password</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>pleasewait</Key>
+					<BaseValue>Please wait...</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>yourid</Key>
+					<BaseValue>Your identifier</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>yourpwd</Key>
+					<BaseValue>Your password</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>confirmquitapp</Key>
+					<BaseValue>Do you really want to leave the current app ?</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>robot</Key>
+					<BaseValue>Robot</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>appuninstalled</Key>
+					<BaseValue>Application completely removed</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>reboot</Key>
+					<BaseValue>Reboot Buddy</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>enablelockscreen</Key>
+					<BaseValue>Enable lock screen everywhere</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>lockscreentimer</Key>
+					<BaseValue>Lock screen timer</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>defaultapps</Key>
+					<BaseValue>Default apps</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>acnullvalues</Key>
+					<BaseValue>Some fields aren't filled</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>acemailalreadyexists</Key>
+					<BaseValue>An account with the same email already exists</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>refresh</Key>
+					<BaseValue>Refresh</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>confirmremoveapp</Key>
+					<BaseValue>Remove app (1) ?</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>connect</Key>
+					<BaseValue>Connect</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>currentrobotpin</Key>
+					<BaseValue>Current Buddy PIN</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>newrobotpin</Key>
+					<BaseValue>New Buddy PIN (4 digits)</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>confirmrobotpin</Key>
+					<BaseValue>Confirm new Buddy PIN</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>bootopt</Key>
+					<BaseValue>Boot settings</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>changepassword</Key>
+					<BaseValue>Change password</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>newrobotpinset</Key>
+					<BaseValue>New security PIN correctly established !</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>italian</Key>
+					<BaseValue>Italian</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>dutch</Key>
+					<BaseValue>Dutch</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>german</Key>
+					<BaseValue>German</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>japanese</Key>
+					<BaseValue>Japanese</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>korean</Key>
+					<BaseValue>Korean</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>hourlyeventearly</Key>
+					<BaseValue>It's still early</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>hourlyeventmidday</Key>
+					<BaseValue>It's mid-day</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>hourlyeventsleep</Key>
+					<BaseValue>It's nearly time to go to sleep</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>hourlyeventnight</Key>
+					<BaseValue>It's night-time</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>dayeventweekend</Key>
+					<BaseValue>I love week-ends</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>dayeventmonday</Key>
+					<BaseValue>I don't like Mondays. I can't wait for the week-end to come</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>dayeventfriday</Key>
+					<BaseValue>Tomorrow is the week-end</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>remindersay</Key>
+					<BaseValue>I have a %0 notification</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>for</Key>
+					<BaseValue>for</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string />
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>youmoved</Key>
+					<BaseValue>Too bad, you moved [250], You will do better next time</BaseValue>
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string>Too bad, you moved [250], You will do better next time</string>
+					</RandomValues>
+				</DictionaryEntry>
+				<DictionaryEntry>
+					<Key>testvoice</Key>
+					<BaseValue />
+					<ClosePhoneticValues>
+						<string />
+					</ClosePhoneticValues>
+					<RandomValues>
+						<string>Here a little sentence to hear my sweet voice.</string>
+					</RandomValues>
+				</DictionaryEntry>
+			</Entries>
 </LanguageThesaurus>

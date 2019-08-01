@@ -194,7 +194,7 @@ namespace BuddyApp.Guardian
             if (!IsDetectingFire)
                 return;
 
-            if (mFireDetection.GetHottestTemp() > DetectionManager.MAX_TEMPERATURE_THRESHOLD)
+            if (mFireDetection.GetHottestTemperature() > DetectionManager.MAX_TEMPERATURE_THRESHOLD)
             {
                 Detected = Alert.FIRE;
                 mAnimator.SetTrigger("Alert");

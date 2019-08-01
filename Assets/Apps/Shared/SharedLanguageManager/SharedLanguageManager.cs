@@ -17,7 +17,7 @@ namespace BuddyApp.Shared
         public SharedLanguageManager (Dictionary<ISO6391Code, T> iDictionary)
         {
             mLanguages = iDictionary;
-            SetLanguage(Buddy.Platform.Language.SystemInputLanguage.ISO6391Code);
+            SetLanguage(Buddy.Platform.Language.InputLanguage.ISO6391Code);
         }
 
         public T GetLanguage()
@@ -27,9 +27,9 @@ namespace BuddyApp.Shared
 
         public bool SetLanguage(ISO6391Code iInput)
         {
-            if (mLanguages.ContainsKey(Buddy.Platform.Language.SystemInputLanguage.ISO6391Code))
+            if (mLanguages.ContainsKey(Buddy.Platform.Language.InputLanguage.ISO6391Code))
             {
-                mCurrentLanguage = mLanguages[Buddy.Platform.Language.SystemInputLanguage.ISO6391Code];
+                mCurrentLanguage = mLanguages[Buddy.Platform.Language.InputLanguage.ISO6391Code];
                 return true;
             }
 

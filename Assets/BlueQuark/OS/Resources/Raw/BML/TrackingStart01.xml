@@ -1,0 +1,92 @@
+<?xml version="1.0" ?>
+  <BehaviourAlgorithm xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <Instructions>
+      <!-- START TRAKING -->
+      <ABehaviourInstruction xsi:type="LookAtBehaviourInstruction">
+        <Delay>
+          <Value>0</Value>
+        </Delay>
+        <IsBlocking>
+          <Value>true</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <Position>
+          <Value>LEFT</Value>
+          <Name>eyepos</Name>
+        </Position>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
+        <Delay>
+          <Value>0</Value>
+        </Delay>
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <CustomMove>
+          <Value>true</Value>
+        </CustomMove>
+        <YesAngle>
+          <Value>20.0</Value>
+          <Name>yespos</Name>
+        </YesAngle>
+        <YesSpeed>
+          <Value>50</Value>
+        </YesSpeed>
+        <NoAngle>
+          <Value>-45.0</Value>
+          <Name>nopos</Name>
+        </NoAngle>
+        <NoSpeed>
+          <Value>50</Value>
+        </NoSpeed>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="PlayFacialEventBehaviourInstruction">
+        <Delay>
+          <Value>0.25</Value>
+        </Delay>
+        <IsBlocking>
+          <Value>true</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <FacialEvent>
+          <Value>BLINK_EYES</Value>
+        </FacialEvent>
+      </ABehaviourInstruction>
+      <!-- DO SMILE -->
+      <ABehaviourInstruction xsi:type="PlaySoundBehaviourInstruction">
+        <Delay>
+          <Value>0</Value>
+        </Delay>
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <SoundSample>
+          <Value>RANDOM_LAUGH</Value>
+        </SoundSample>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="PlayFacialEventBehaviourInstruction">
+        <Delay>
+          <Value>0.25</Value>
+        </Delay>
+        <IsBlocking>
+          <Value>true</Value>
+        </IsBlocking>
+        <IsRequired>
+          <Value>false</Value>
+        </IsRequired>
+        <FacialEvent>
+          <Value>SMILE</Value>
+        </FacialEvent>
+      </ABehaviourInstruction>
+    </Instructions>
+  </BehaviourAlgorithm>

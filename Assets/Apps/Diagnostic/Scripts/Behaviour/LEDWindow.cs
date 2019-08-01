@@ -314,7 +314,7 @@ namespace BuddyApp.Diagnostic
         private IEnumerator DelayedFlash()
         {
             float lTime = int.Parse(TextSliderFlashDelay.text) / 1000F;
-            Buddy.Actuators.LEDs.DimmableFlash = int.Parse(TextSliderFlashValue.text) / 100F;
+            Buddy.Actuators.LEDs.FlashIntensity = int.Parse(TextSliderFlashValue.text) / 100F;
            
             mStatus = true;
             mFlash.GetComponentsInChildren<Text>()[0].text = "TURN OFF FLASH";

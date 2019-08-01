@@ -3,17 +3,50 @@
 Shader "Custom/BLUR" {
 	Properties{
 		_Color("Main Color", Color) = (1,1,1,1)
-		_BumpAmt("Distortion", Range(0,128)) = 10
 		_MainTex("Tint Color (RGB)", 2D) = "white" {}
-		_BumpMap("Normalmap", 2D) = "bump" {}
 		_Size("Size", Range(0, 20)) = 1
+		_Downsample("Downsample", Range(0.0001, 0.05)) = 0.001
 	}
 
 		Category{
 			Tags{ "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Opaque" }
 			SubShader{
 				Tags{"Background" = "_GrabTexture" }
-				GrabPass{
+			/*
+				GrabPass { "_PixelationGrabTexture"}
+			Pass {
+			CGPROGRAM
+				#pragma vertex vert
+				#pragma fragment frag
+				#pragma shader_feature TO_DOWNSAMPLE
+				#include "UnityCG.cginc"
+
+				struct v2f {
+					float4 pos : SV_POSITION;
+					float4 grabUV : TEXCOORD0;
+				};
+				
+				float _Downsample;
+
+				v2f vert(appdata_base v) {
+					v2f o;
+					o.pos = UnityObjectToClipPos(v.vertex);
+					o.grabUV = ComputeGrabScreenPos(o.pos);
+					return o;
+				}
+
+				sampler2D _PixelationGrabTexture;
+
+				float4 frag(v2f IN) : COLOR {
+					float2 steppedUV = IN.grabUV.xy / IN.grabUV.w;
+					steppedUV /= (_Downsample * 1.6, _Downsample);
+					steppedUV = round(steppedUV);
+					steppedUV *= (_Downsample * 1.6, _Downsample);
+					return tex2D(_PixelationGrabTexture, steppedUV);
+				}
+			ENDCG
+		}*/
+			GrabPass{
 					//"_GrabTexture"
 					Tags{ "LightMode" = "Always" }
 				}

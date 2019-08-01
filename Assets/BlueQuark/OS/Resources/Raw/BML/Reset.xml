@@ -1,0 +1,86 @@
+<?xml version="1.0" ?>
+<BehaviourAlgorithm xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Instructions>
+		<ABehaviourInstruction xsi:type="SetMoodBehaviourInstruction">
+			<IsBlocking>
+				<Value>false</Value>
+			</IsBlocking>
+			<IsRequired>
+				<Value>false</Value>
+			</IsRequired>
+			<Mood>
+				<Value>NEUTRAL</Value>
+			</Mood>
+		</ABehaviourInstruction>
+		<ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
+			<IsBlocking>
+				<Value>true</Value>
+			</IsBlocking>
+			<IsRequired>
+				<Value>false</Value>
+			</IsRequired>
+			<CustomMove>
+				<Value>true</Value>
+			</CustomMove>
+			<NoAngle>
+				<Value>0</Value>
+			</NoAngle>
+			<NoSpeed>
+				<Value>60</Value>
+			</NoSpeed>
+		</ABehaviourInstruction>
+		<ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
+			<IsBlocking>
+				<Value>true</Value>
+			</IsBlocking>
+			<IsRequired>
+				<Value>false</Value>
+			</IsRequired>
+			<CustomMove>
+				<Value>true</Value>
+			</CustomMove>
+			<YesAngle>
+				<Value>25</Value>
+			</YesAngle>
+			<YesSpeed>
+				<Value>60</Value>
+			</YesSpeed>
+		</ABehaviourInstruction>
+		<ABehaviourInstruction xsi:type="SetLightBehaviourInstruction">
+			<Duration>
+				<Value>2</Value>
+			</Duration>
+			<IsBlocking>
+				<Value>false</Value>
+			</IsBlocking>
+			<IsRequired>
+				<Value>false</Value>
+			</IsRequired>
+			<Color>
+				<Value>BLUE_NEUTRAL</Value>
+			</Color>
+		</ABehaviourInstruction>
+		<ABehaviourInstruction xsi:type="LookAtBehaviourInstruction">
+			<IsBlocking>
+				<Value>false</Value>
+			</IsBlocking>
+			<IsRequired>
+				<Value>false</Value>
+			</IsRequired>
+			<Position>
+				<Value>CENTER</Value>
+			</Position>
+		</ABehaviourInstruction>
+		<ABehaviourInstruction xsi:type="PlayFacialEventBehaviourInstruction">
+			<IsBlocking>
+				<Value>true</Value>
+			</IsBlocking>
+			<IsRequired>
+				<Value>false</Value>
+			</IsRequired>
+			<FacialEvent>
+				<Value>OPEN_EYES</Value>
+			</FacialEvent>
+		</ABehaviourInstruction>
+	</Instructions>
+</BehaviourAlgorithm>

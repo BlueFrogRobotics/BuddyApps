@@ -17,18 +17,11 @@
         <YesSpeed>
           <Value>20</Value>
         </YesSpeed>
-      </ABehaviourInstruction>
-      <ABehaviourInstruction xsi:type="LookAtBehaviourInstruction">
-        <IsBlocking>
-          <Value>false</Value>
-        </IsBlocking>
-        <IsRequired>
-          <Value>false</Value>
-        </IsRequired>
         <Position>
           <Value>TOP_RIGHT</Value>
         </Position>
       </ABehaviourInstruction>
+
       <ABehaviourInstruction xsi:type="PlayFacialEventBehaviourInstruction">
         <Delay>
           <Value>0.5</Value>
@@ -52,8 +45,10 @@
         </IsBlocking>
         <Sound>
           <Value>RANDOM_CURIOUS</Value>
+          <Name>randomsound</Name>
         </Sound>
       </ABehaviourInstruction>
+
       <ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
         <Delay>
           <Value>0.75</Value>
@@ -73,17 +68,6 @@
         <YesSpeed>
           <Value>20</Value>
         </YesSpeed>
-      </ABehaviourInstruction>
-      <ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
-        <Delay>
-          <Value>0.75</Value>
-        </Delay>
-        <IsBlocking>
-          <Value>false</Value>
-        </IsBlocking>
-        <CustomMove>
-          <Value>true</Value>
-        </CustomMove>
         <NoAngle>
           <Value>20.0</Value>
         </NoAngle>
@@ -105,12 +89,25 @@
           <Value>OPEN_RIGHT_EYE</Value>
         </FacialEvent>
       </ABehaviourInstruction>
-      <ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
+
+      <ABehaviourInstruction xsi:type="SayBehaviourInstruction">
         <Delay>
-          <Value>1</Value>
+          <Value>0</Value>
         </Delay>
         <IsBlocking>
           <Value>false</Value>
+        </IsBlocking>
+        <Utterance>
+          <Value></Value>
+          <Name>sayevent</Name>
+        </Utterance>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
+        <Delay>
+          <Value>0</Value>
+        </Delay>
+        <IsBlocking>
+          <Value>true</Value>
         </IsBlocking>
         <IsRequired>
           <Value>false</Value>
@@ -124,34 +121,12 @@
         <YesSpeed>
           <Value>20</Value>
         </YesSpeed>
-      </ABehaviourInstruction>
-      <ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
-        <Delay>
-          <Value>1</Value>
-        </Delay>
-        <IsBlocking>
-          <Value>false</Value>
-        </IsBlocking>
-        <CustomMove>
-          <Value>true</Value>
-        </CustomMove>
         <NoAngle>
           <Value>0</Value>
         </NoAngle>
         <NoSpeed>
           <Value>20</Value>
         </NoSpeed>
-      </ABehaviourInstruction>
-      <ABehaviourInstruction xsi:type="LookAtBehaviourInstruction">
-        <Delay>
-          <Value>1</Value>
-        </Delay>
-        <IsBlocking>
-          <Value>false</Value>
-        </IsBlocking>
-        <IsRequired>
-          <Value>false</Value>
-        </IsRequired>
         <Position>
           <Value>CENTER</Value>
         </Position>

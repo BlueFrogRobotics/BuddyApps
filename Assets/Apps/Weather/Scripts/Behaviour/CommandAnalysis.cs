@@ -32,7 +32,7 @@ namespace BuddyApp.Weather
         {
             Debug.Log("VocalRequest : " + WeatherData.Instance.VocalRequest);
             string vocalRequest = "What's the weather like";
-            if (Buddy.Platform.Language.SystemInputLanguage.ISO6391Code == ISO6391Code.FR)            
+            if (Buddy.Platform.Language.InputLanguage.ISO6391Code == ISO6391Code.FR)            
                 vocalRequest = "Quel temps fait-il";
 
             if (WeatherData.Instance.VocalRequest != "")

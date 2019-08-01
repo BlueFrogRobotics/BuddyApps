@@ -38,7 +38,6 @@ GameObject:
   - component: {fileID: 224233284815325480}
   - component: {fileID: 114545028172370274}
   - component: {fileID: 114471520192091902}
-  - component: {fileID: 114532212971241266}
   - component: {fileID: 61682455581634220}
   m_Layer: 0
   m_Name: os_explorer_sealed_AppIcon
@@ -180,37 +179,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 114670137307727960}
   label: {fileID: 114081117101944766}
---- !u!114 &114532212971241266
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1388593636786538}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 3
-    callback:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  - eventID: 2
-    callback:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  delegates: []
 --- !u!114 &114545028172370274
 MonoBehaviour:
   m_ObjectHideFlags: 1
