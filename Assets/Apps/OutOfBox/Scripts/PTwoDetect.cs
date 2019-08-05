@@ -17,7 +17,7 @@ namespace BuddyApp.OutOfBox
         private bool mFirstStep;
         private float mTimer;
         private int mNumberOfDetect;
-
+        private float mRotation = 30F;
 
 
         public override void Start()
@@ -46,43 +46,74 @@ namespace BuddyApp.OutOfBox
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            //OutOfBoxUtils.DebugColor("ANGLE ODOM Z : " + Buddy.Actuators.Wheels.Angle, "red");
             mTimer += Time.deltaTime;
             if (mTimer > 2.5F && !mFirstStep)
             {
                 mFirstStep = true;
-                Buddy.Actuators.Head.No.SetPosition(-90F, 45F, (iOut) => { StartDetect(); });
+                mTotalAngle = 0F;
+                Buddy.Actuators.Head.No.SetPosition(-90F, 45F, (iOut) => { Buddy.Actuators.Head.No.SetPosition(90F, 45F, (iSpeechOut) => { StartDetect(); }); });
             }
 
             //add angle to the global angle to know if it > 360°
-            if (mTotalAngle < 360F && mTotalAngle >= 0F)
+            if (mTotalAngle < 325F/* && mTotalAngle >= 0F*/)
             {
                 mTotalAngle += Math.Abs(OutOfBoxUtils.WrapAngle(Buddy.Actuators.Wheels.Angle - mAngleSequence));
                 mAngleSequence = Buddy.Actuators.Wheels.Angle;
-                OutOfBoxUtils.DebugColor("TOTAL ANGLE : " + mTotalAngle, "blue");
+                //OutOfBoxUtils.DebugColor("TOTAL ANGLE : " + mTotalAngle, "blue");
             }
             else
             {
-                mHumanDetectEnabled = false;
-                mDetectEnabled = false;
                 Buddy.Actuators.Wheels.Stop();
                 Buddy.Navigation.Stop();
-                StopAllCoroutines();
                 Buddy.Actuators.Head.No.ResetPosition();
+                OutOfBoxUtils.DebugColor("PHASE DONE ", "blue");
+                mHumanDetectEnabled = false;
+                mDetectEnabled = false;
+
                 mTotalAngle = -1000F;
                 if (mNumberOfDetect > 0)
                 {
-                    mBehaviour.PhaseDropDown.value = 2;
-                    Buddy.Vocal.SayKey("phasetwoend", (iOut) => { if (!iOut.IsInterrupted) Trigger("Base"); });
-
+                    Buddy.Vocal.SayKey("phasetwoend", (iOut) => {
+                        StartCoroutine(WaitTimeBeforeChangingstate());
+                        if (!iOut.IsInterrupted)
+                            mBehaviour.PhaseDropDown.value = 2;
+                    });
                 }
                 else if (mNumberOfDetect == 0)
                 {
-                    mBehaviour.PhaseDropDown.value = 2;
-                    Buddy.Vocal.SayKey("phasetwonodetection", (iOut) => { if(!iOut.IsInterrupted) Trigger("Base"); }); 
-
-                }
+                    Buddy.Vocal.SayKey("phasetwonodetection", (iOut) => {
+                        StartCoroutine(WaitTimeBeforeChangingstate());
+                        if (!iOut.IsInterrupted)
+                            mBehaviour.PhaseDropDown.value = 2;
+                    });
+                    
+                }               
             }
         }
+
+        public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            StopAllCoroutines();
+            
+        }
+
+        //private IEnumerator ChangeState()
+        //{
+        //    yield return new WaitForSeconds(0.5F);
+        //    if (mNumberOfDetect > 0)
+        //    {
+        //        mBehaviour.PhaseDropDown.value = 2;
+        //        Buddy.Vocal.SayKey("phasetwoend", (iOut) => { StartCoroutine(WaitTimeBeforeChangingstate()); if (!iOut.IsInterrupted) Trigger("Base"); });
+
+        //    }
+        //    else if (mNumberOfDetect == 0)
+        //    {
+        //        mBehaviour.PhaseDropDown.value = 2;
+        //        Buddy.Vocal.SayKey("phasetwonodetection", (iOut) => { StartCoroutine(WaitTimeBeforeChangingstate()); if (!iOut.IsInterrupted) Trigger("Base"); });
+
+        //    }
+        //}
 
         private void HeadPositionDetect()
         {
@@ -100,23 +131,21 @@ namespace BuddyApp.OutOfBox
             if (mHumanDetected)
             {
                 mHumanDetected = false;
-                float lRotation = 30F;
-                Buddy.Actuators.Head.No.SetPosition(iAngle, 45F);
-                if ((mTotalAngle + lRotation) > 360F)
+
+                Buddy.Actuators.Head.No.SetPosition(iAngle, 45F, (iFloat) =>
                 {
-                    lRotation = 360 - mTotalAngle;
-                    
-                }
-                StartCoroutine(OutOfBoxUtils.WaitTimeAsync(0.100F, () =>
-                {
-                    Buddy.Navigation.Run<DisplacementStrategy>().Rotate(lRotation, 70F, () =>
+                    if ((mTotalAngle + mRotation) > 325F)
                     {
-                        mTotalAngle -= Mathf.Abs(lRotation);
-                        StartCoroutine(OutOfBoxUtils.WaitTimeAsync(0.150F, () => { Buddy.Actuators.Wheels.SetVelocities(0F, 70F); }));
-                        mDetectEnabled = true;
-                        mHumanDetectEnabled = true;
-                    });
-                }));
+                        mRotation = 325F - mTotalAngle;
+                    }
+                    //Buddy.Navigation.Run<DisplacementStrategy>().Rotate(mRotation, 70F, () =>
+                    //{
+                    //    mTotalAngle -= Mathf.Abs(mRotation);
+                        StartCoroutine(WaitTimeStartDetect());
+                    //    mDetectEnabled = true;
+                    //    mHumanDetectEnabled = true;
+                    //});
+                });
             }
             else
             {
@@ -127,6 +156,7 @@ namespace BuddyApp.OutOfBox
                 
             }
         }
+        
 
         private bool OnHumanDetect(HumanEntity[] iHumanEntity)
         {
@@ -135,8 +165,8 @@ namespace BuddyApp.OutOfBox
                 mFirstStep = true;
                 StartCoroutine(OutOfBoxUtils.PlayBIAsync(() =>
                 {
-                    Buddy.Actuators.Head.No.SetPosition(-90F, 45F, (iOut) => { StartDetect(); });
-                     
+                    Buddy.Actuators.Head.No.SetPosition(-90F, 45F, (iOut) => { Buddy.Actuators.Head.No.SetPosition(90F, 45F, (iSpeechOut) => { StartDetect(); }); });
+
                 }));
                 return true;
             }
@@ -151,7 +181,7 @@ namespace BuddyApp.OutOfBox
             float lHorizontalRatio = (float)(lBiggestHuman.Center.x / Buddy.Sensors.RGBCamera.Width) - 0.5F;
             if (lHorizontalRatio > -0.2F && lHorizontalRatio < 0.2F)
             {
-                mNumberOfDetect++;
+                //mNumberOfDetect++;
                 PauseDetect();
                 //store the value of the angle No to move the body to it
                 float lHeadLastAngle = Buddy.Actuators.Head.No.Angle;
@@ -159,30 +189,33 @@ namespace BuddyApp.OutOfBox
                 Buddy.Navigation.Run<DisplacementStrategy>().Rotate(lHeadLastAngle, 70F, () => {
                     StartCoroutine(OutOfBoxUtils.PlayBIAsync(() =>
                     {
-                        if (lHeadLastAngle > 0)
-                        {
-                            mTotalAngle -= lHeadLastAngle;
-                        }
-                        else
-                        {
-                            mTotalAngle += Mathf.Abs(lHeadLastAngle);
-                        }
+                        //if (lHeadLastAngle > 0)
+                        //{
+                        //    OutOfBoxUtils.DebugColor("1 : mtotal angle : " + mTotalAngle +  " lheadlastangle : " + lHeadLastAngle + " mTotalAngle -= lHeadLastAngle : " + (mTotalAngle -= lHeadLastAngle), "red");
+                        //    mTotalAngle -= lHeadLastAngle;
+                        //}
+                        //else
+                        //{
+                        //    OutOfBoxUtils.DebugColor("2 : mtotal angle : " + mTotalAngle + " lheadlastangle : " + lHeadLastAngle + " mTotalAngle += Mathf.Abs(lHeadLastAngle) : " + (mTotalAngle += Mathf.Abs(lHeadLastAngle)), "red");
+                        //    mTotalAngle += Mathf.Abs(lHeadLastAngle);
+                        //}
                         mHumanDetected = true;
-                        StartDetect(-80F);
+                        StartDetect(90F);
                     }));
                 });
                 StartCoroutine(WaitTimeAndResetNo());
             }
+            mNumberOfDetect++;
             OutOfBoxUtils.DebugColor("Human detected", "blue");
             return true;
         }
 
-        private void EndPhaseDetect()
-        {
-            Buddy.Vocal.SayKey("phasetwoend");
-            mBehaviour.PhaseDropDown.value = 2;
-            Trigger("Base");
-        }
+        //private void EndPhaseDetect()
+        //{
+        //    Buddy.Vocal.SayKey("phasetwoend");
+        //    mBehaviour.PhaseDropDown.value = 2;
+        //    Trigger("Base");
+        //}
 
         private void PauseDetect()
         {
@@ -191,12 +224,37 @@ namespace BuddyApp.OutOfBox
             mDetectEnabled = false;
         }
 
+        //Couldn't use the WaitTimeAsync from OutOfBoxutils, don't know why so we did 4 similar function, waiting for more tests about WaitTimeAsync
+        //before deleting those 4 similars function
         private IEnumerator WaitTimeAndResetNo()
         {
             yield return new WaitForSeconds(0.1F);
             Buddy.Actuators.Head.No.ResetPosition();
         }
 
+        private IEnumerator WaitTimeStartDetect()
+        {
+            yield return new WaitForSeconds(0.1F);
+            Buddy.Navigation.Run<DisplacementStrategy>().Rotate(mRotation, 70F, () =>
+            {
+                //mTotalAngle -= Mathf.Abs(mRotation);
+               
+                StartCoroutine(WaitTime());
+                mDetectEnabled = true;
+                mHumanDetectEnabled = true;
+            });
+        }
+
+        private IEnumerator WaitTime()
+        {
+            yield return new WaitForSeconds(0.15F);
+            Buddy.Actuators.Wheels.SetVelocities(0F, 70F);
+        }
+
+        private IEnumerator WaitTimeBeforeChangingstate()
+        {
+            yield return new WaitForSeconds(3F);
+        }
     }
 
 }

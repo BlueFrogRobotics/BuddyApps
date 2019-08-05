@@ -29,6 +29,10 @@ namespace BuddyApp.OutOfBox
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
         {
+            Buddy.Actuators.Head.No.ResetPosition();
+            Buddy.Actuators.Wheels.Stop();
+            Buddy.Navigation.Stop();
+            Buddy.Actuators.Head.Yes.ResetPosition();
             Buddy.Sensors.Microphones.SoundLocalizationParameters = new SoundLocalizationParameters(Buddy.Sensors.Microphones.SoundLocalizationParameters.Resolution, 75);
             mTimer = 0F;
             mRotateDone = false;

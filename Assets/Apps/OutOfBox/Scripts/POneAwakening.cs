@@ -26,26 +26,29 @@ namespace BuddyApp.OutOfBox
                 // Asleep
                 Buddy.Behaviour.Face.PlayEvent(FacialEvent.FALL_ASLEEP, false);
 
-                StartCoroutine(OutOfBoxUtils.WaitTimeAsync(2F, () =>
-                {
-                    // Lifting head
-                    Buddy.Actuators.Head.Yes.SetPosition(5F, 45F);
+                StartCoroutine(WaitTime());
+            });
+            
+        }
+        private IEnumerator WaitTime()
+        {
+            yield return new WaitForSeconds(2F);
+            Buddy.Actuators.Head.Yes.SetPosition(5F, 45F);
 
-                    Buddy.Behaviour.Face.PlayEvent(FacialEvent.AWAKE, null, (iFacialEvent) =>
+            Buddy.Behaviour.Face.PlayEvent(FacialEvent.AWAKE, null, (iFacialEvent) =>
+            {
+                Buddy.Vocal.SayKey("phaseonenewfriend", (iSpeechOutput) =>
+                {
+                    // Play BI here
+                    StartCoroutine(OutOfBoxUtils.PlayBIAsync(() =>
                     {
-                        Buddy.Vocal.Say(Buddy.Resources.GetString("phaseonenewfriend"), (iSpeechOutput) =>
-                        {
-                            // Play BI here
-                            StartCoroutine(OutOfBoxUtils.PlayBIAsync(() =>
-                            {
-                                // Run discovering after speech
-                                Buddy.Vocal.Say(Buddy.Resources.GetString("phaseonearound"), (iOut) => {
-                                    mBehaviour.PhaseDropDown.value = 1;
-                                    Trigger("Base");});
-                            }));
+                        // Run discovering after speech
+                        Buddy.Vocal.SayKey("phaseonearound", (iOut) => {
+                            mBehaviour.PhaseDropDown.value = 1;
+                            Trigger("Base");
                         });
-                    });
-                }));
+                    }));
+                });
             });
         }
     }
