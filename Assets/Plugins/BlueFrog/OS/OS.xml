@@ -1879,7 +1879,7 @@
             Class used by the detectors using yolo algorithm.
             </summary>
         </member>
-        <member name="M:BlueQuark.Internal.YOLODetector.#ctor(BlueQuark.TinyYOLO3Model[],System.Int32,System.Int32)">
+        <member name="M:BlueQuark.Internal.YOLODetector.#ctor(BlueQuark.Internal.TinyYOLO3Model[],System.Int32,System.Int32)">
             <summary>
             Creates a yolo detector using the tiny yolo v3 model with 80 classes.
             </summary>
@@ -1887,7 +1887,7 @@
             <param name="iConfidence">int (range 1:1:10) which determines the confidence threshold for detection acceptation.</param>
             <param name="iSize">The size of the meshing, should be a multiple of 32.</param>
         </member>
-        <member name="M:BlueQuark.Internal.YOLODetector.#ctor(BlueQuark.TinyYOLO3FaceModel[],System.Int32,System.Int32)">
+        <member name="M:BlueQuark.Internal.YOLODetector.#ctor(BlueQuark.Internal.TinyYOLO3FaceModel[],System.Int32,System.Int32)">
             <summary>
             Creates a yolo detector using the tiny yolo v3 model for face detection.
             </summary>
@@ -1905,6 +1905,36 @@
         <member name="M:BlueQuark.Internal.YOLODetector.Dispose">
             <summary>
             Free the resources used by the detector.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.TinyYOLO3FaceModel">
+            <summary>
+            Enumerate the class that can be detected using the tiny yolo v3 face model.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.TinyYOLO3Model">
+            <summary>
+            Enumeration of the 80 classes that can be detected using the tiny yolo v3 model.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.YOLOEntity">
+            <summary>
+            Represents a yolo entity.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.YOLOEntity.ID">
+            <summary>
+            The id of the class detected with yolo.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.YOLOEntity.BoundingBox">
+            <summary>
+            The bounding box of the object detected in the picture.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.YOLOEntity.Center">
+            <summary>
+            The center of the object detected in the picture.
             </summary>
         </member>
         <member name="F:BlueQuark.Internal.Licenses.READSPEAKER_TTS_LICENSE_KEY">
@@ -6486,7 +6516,7 @@
             Plays the given sound.
             </summary>
             <param name="iSound">The already loaded sound to play.</param>
-            <param name="iVolume">Volume between 0 and 1</param>
+            <param name="iVolume">Volume between 0 and 1.</param>
             <seealso cref="T:BlueQuark.SoundSample"/>
         </member>
         <member name="M:BlueQuark.ASoundChannel`2.Play(UnityEngine.AudioClip)">
@@ -6500,7 +6530,7 @@
             Plays the specified sound.
             </summary>
             <param name="iClip">The audioclip to play. Cannot be null.</param>
-            <param name="iVolume">Volume between 0 and 1</param>
+            <param name="iVolume">Volume between 0 and 1.</param>
         </member>
         <member name="M:BlueQuark.ASoundChannel`2.Pause">
             <summary>
@@ -9610,36 +9640,6 @@
             </summary>
         </member>
         <!-- Badly formed XML comment ignored for member "M:BlueQuark.ThermalMotionParameters.#ctor(System.Single,System.Single,System.Single,System.Int32)" -->
-        <member name="T:BlueQuark.TinyYOLO3FaceModel">
-            <summary>
-            Enumerate the class that can be detected using the tiny yolo v3 face model.
-            </summary>
-        </member>
-        <member name="T:BlueQuark.TinyYOLO3Model">
-            <summary>
-            Enumeration of the 80 classes that can be detected using the tiny yolo v3 model.
-            </summary>
-        </member>
-        <member name="T:BlueQuark.YOLOEntity">
-            <summary>
-            Represents a yolo entity.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.YOLOEntity.ID">
-            <summary>
-            The id of the class detected with yolo.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.YOLOEntity.BoundingBox">
-            <summary>
-            The bounding box of the object detected in the picture.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.YOLOEntity.Center">
-            <summary>
-            The center of the object detected in the picture.
-            </summary>
-        </member>
         <member name="T:BlueQuark.GlobalPosition">
             <summary>
             Represents a global position on Earth.
@@ -14644,12 +14644,17 @@
         </member>
         <member name="P:BlueQuark.LEDs.Flash">
             <summary>
-            Powers On/Off the frontal flash light of the robot.
+            Powers On/Off the frontal flash light of the robot with full intensity. Same as FlashIntensity = 0 or 1.
             </summary>
         </member>
         <member name="P:BlueQuark.LEDs.FlashIntensity">
             <summary>
-            Powers On/Off the frontal flash light of the robot. 0 means no light, 1 means full light.
+            Powers On/Off the frontal flash light of the robot with specific intensity. 0 means no light, 1 means full light.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.LEDs.FlashDuration">
+            <summary>
+            Duration in seconds of the Flash LED when activated. 0 means infinity. Max is 60secs. Applied for the next Flash[Intensity] method call.
             </summary>
         </member>
         <member name="M:BlueQuark.LEDs.SetBodyLights(BlueQuark.HSVColor)">
