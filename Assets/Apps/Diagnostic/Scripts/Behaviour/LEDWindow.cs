@@ -110,12 +110,15 @@ namespace BuddyApp.Diagnostic
             mDropDownSequence.AddOptions(new List<string>(Enum.GetNames(typeof(LEDPulsePattern))));
             mDropDownSequence.onValueChanged.AddListener(OnPatternChanged);
 
+            EventDropDown.options.Add(new Dropdown.OptionData("LED EVENT"));
             EventDropDown.AddOptions(new List<string>(Enum.GetNames(typeof(LEDEvent))));
             EventDropDown.onValueChanged.AddListener((iInput) => {
-                Buddy.Actuators.LEDs.PlayEvent((LEDEvent)Enum.Parse(typeof(LEDEvent), EventDropDown.captionText.text));
-                EventDropDown.GetComponentsInChildren<Image>()[1].sprite = mArrow;
-                mDropDownSequence.GetComponentsInChildren<Image>()[1].sprite = mPlay;
-                StartCoroutine(StopEvent());
+                if (EventDropDown.captionText.text != "LED EVENT") {
+                    Buddy.Actuators.LEDs.PlayEvent((LEDEvent)Enum.Parse(typeof(LEDEvent), EventDropDown.captionText.text));
+                    EventDropDown.GetComponentsInChildren<Image>()[1].sprite = mArrow;
+                    mDropDownSequence.GetComponentsInChildren<Image>()[1].sprite = mPlay;
+                    StartCoroutine(StopEvent());
+                }
             });
 
             sliderH.wholeNumbers = true;
@@ -206,6 +209,7 @@ namespace BuddyApp.Diagnostic
                 case "HEART":
                     Buddy.Actuators.LEDs.SetHeartPattern((LEDPulsePattern)Enum.Parse(typeof(LEDPulsePattern), mDropDownSequence.captionText.text));
                     break;
+
                 case "SHOULDER":
                     Buddy.Actuators.LEDs.SetShouldersPattern((LEDPulsePattern)Enum.Parse(typeof(LEDPulsePattern), mDropDownSequence.captionText.text));
                     break;
@@ -220,10 +224,13 @@ namespace BuddyApp.Diagnostic
 
         private IEnumerator StopEvent()
         {
-            yield return new WaitForSeconds(3F);
+            yield return new WaitForSeconds(5F);
 
+            EventDropDown.value = 0;
             EventDropDown.GetComponentsInChildren<Image>()[1].sprite = mPlay;
-            Buddy.Actuators.LEDs.PlayEvent(0);
+
+            // Reset event for priority
+            Buddy.Actuators.LEDs.PlayEvent(LEDEvent.IDLE);
             SetColor();
         }
 
@@ -232,11 +239,6 @@ namespace BuddyApp.Diagnostic
         {
             EventDropDown.GetComponentsInChildren<Image>()[1].sprite = mPlay;
             mDropDownSequence.GetComponentsInChildren<Image>()[1].sprite = mPlay;
-
-            Debug.Log("Set color to " +
-                    FloatToUShort(sliderH.value) + " " +
-                    FloatToByte(sliderS.value) + " " +
-                    FloatToByte(sliderV.value));
 
             switch (mDropDown.options[mDropDown.value].text) {
                 case "HEART":
@@ -259,18 +261,6 @@ namespace BuddyApp.Diagnostic
 
         private void SetColorHeart()
         {
-            Debug.Log("Set heart color to " +
-                    FloatToUShort(sliderH.value) + " " +
-                    FloatToByte(sliderS.value) + " " +
-                    FloatToByte(sliderV.value));
-
-            Debug.Log("Set heart pattern to " +
-                byte.Parse(textLowLevel.text) + " " +
-                ushort.Parse(textOnDuration.text) + " " +
-                ushort.Parse(textOffDuration.text) + " " +
-                byte.Parse(textUpSlope.text) + " " +
-                byte.Parse(textDownSlope.text));
-
             Buddy.Actuators.LEDs.SetHeartLight(
                 FloatToUShort(sliderH.value),
                 FloatToByte(sliderS.value),
@@ -315,7 +305,7 @@ namespace BuddyApp.Diagnostic
         {
             float lTime = int.Parse(TextSliderFlashDelay.text) / 1000F;
             Buddy.Actuators.LEDs.FlashIntensity = int.Parse(TextSliderFlashValue.text) / 100F;
-           
+
             mStatus = true;
             mFlash.GetComponentsInChildren<Text>()[0].text = "TURN OFF FLASH";
             mFlash.GetComponentsInChildren<Image>()[1].sprite = mStop;
@@ -330,7 +320,7 @@ namespace BuddyApp.Diagnostic
                 mFlash.GetComponentsInChildren<Image>()[1].sprite = mPlay;
             }
         }
-        
+
         private byte FloatToByte(float iFloat)
         {
             return Convert.ToByte(iFloat);

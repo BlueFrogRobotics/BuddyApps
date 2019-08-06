@@ -100,8 +100,14 @@ namespace BuddyApp.Diagnostic
             ButtonResetRainette.onClick.AddListener(ResetRainette);
             ButtonResetAudio.onClick.AddListener(ResetAudio);
 
+            AmplifierSlider.value = 2 - (int)Buddy.Actuators.Speakers.Gain;
             AmplifierSlider.onValueChanged.AddListener((iInput) => OnSliderAmplifierChanger(iInput));
-            StatusBatteryTop.text = "NOT AVAILABLE";
+
+
+            if (Buddy.Sensors.Battery.IsJackPlugged)
+                StatusBatteryTop.text = "JACK PLUGGED";
+            else
+                StatusBatteryTop.text = "JACK UNPLUGGED";
         }
 
         // Update is called once per frame
@@ -132,6 +138,11 @@ namespace BuddyApp.Diagnostic
                 BatteryStatus.text = "Not charging";
             else if (Buddy.Sensors.Battery.ChargingStatus == BatteryChargingStatus.FULLY_CHARGED)
                 BatteryStatus.text = "Fully charged";
+
+            if (Buddy.Sensors.Battery.IsJackPlugged)
+                StatusBatteryTop.text = "JACK PLUGGED";
+            else
+                StatusBatteryTop.text = "JACK UNPLUGGED";
         }
 
         public void ReadStatus()
@@ -181,13 +192,7 @@ namespace BuddyApp.Diagnostic
 
         public void OnSliderAmplifierChanger(float iInput)
         {
-            int mSliderValue = (int)iInput;
-            if (mSliderValue == 0)
-                Buddy.Actuators.Speakers.Gain = AudioGain.LOW;
-            else if (mSliderValue == 1)
-                Buddy.Actuators.Speakers.Gain = AudioGain.MEDIUM;
-            else if (mSliderValue == 2)
-                Buddy.Actuators.Speakers.Gain = AudioGain.HIGH;
+            Buddy.Actuators.Speakers.Gain = (AudioGain) (2 - AmplifierSlider.value);
         }
     }
 

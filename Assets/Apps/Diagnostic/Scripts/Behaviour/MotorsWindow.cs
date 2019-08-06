@@ -123,7 +123,7 @@ namespace BuddyApp.Diagnostic
 
             yesHingeAngleSetter.wholeNumbers = true;
             yesHingeAngleSetter.value = 0F;
-            yesHingeAngleSetter.minValue = -50F;
+            yesHingeAngleSetter.minValue = -10F;
             yesHingeAngleSetter.maxValue = 37F;
 
             noHingeAngleSetter.wholeNumbers = true;
