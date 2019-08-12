@@ -295,7 +295,19 @@ namespace BuddyApp.Diagnostic
         private void SetFlash()
         {
             if (mStatus == false) {
-                StartCoroutine(DelayedFlash());
+                float lTime = int.Parse(TextSliderFlashDelay.text) / 1000F;
+                Buddy.Actuators.LEDs.FlashDuration = lTime;
+                Buddy.Actuators.LEDs.FlashIntensity = int.Parse(TextSliderFlashValue.text) / 100F;
+
+                if (int.Parse(TextSliderFlashDelay.text) != 0)
+                    StartCoroutine(EndFlash(lTime));
+
+                mStatus = true;
+                mFlash.GetComponentsInChildren<Text>()[0].text = "TURN OFF FLASH";
+                mFlash.GetComponentsInChildren<Image>()[1].sprite = mStop;
+
+
+
             } else {
                 Buddy.Actuators.LEDs.Flash = false;
                 mStatus = false;
@@ -304,92 +316,91 @@ namespace BuddyApp.Diagnostic
             }
         }
 
-        private IEnumerator DelayedFlash()
+        private IEnumerator EndFlash(float iTime)
         {
-            float lTime = int.Parse(TextSliderFlashDelay.text) / 1000F;
-            Buddy.Actuators.LEDs.FlashIntensity = int.Parse(TextSliderFlashValue.text) / 100F;
+            //float lTime = int.Parse(TextSliderFlashDelay.text) / 1000F;
+            //Buddy.Actuators.LEDs.FlashIntensity = int.Parse(TextSliderFlashValue.text) / 100F;
 
-            mStatus = true;
-            mFlash.GetComponentsInChildren<Text>()[0].text = "TURN OFF FLASH";
-            mFlash.GetComponentsInChildren<Image>()[1].sprite = mStop;
+            //mStatus = true;
+            //mFlash.GetComponentsInChildren<Text>()[0].text = "TURN OFF FLASH";
+            //mFlash.GetComponentsInChildren<Image>()[1].sprite = mStop;
 
             // turn off at the end of the timer
-            if (lTime != 0F) {
-                yield return new WaitForSeconds(lTime);
+            yield return new WaitForSeconds(iTime);
 
-                Buddy.Actuators.LEDs.Flash = false;
-                mStatus = false;
-                mFlash.GetComponentsInChildren<Text>()[0].text = "TURN ON FLASH";
-                mFlash.GetComponentsInChildren<Image>()[1].sprite = mPlay;
-            }
-        }
-
-        private byte FloatToByte(float iFloat)
-        {
-            return Convert.ToByte(iFloat);
-        }
-
-        private ushort FloatToUShort(float iFloat)
-        {
-            return Convert.ToUInt16(iFloat);
-        }
-
-        private double FloatToDouble(float iFloat)
-        {
-            return Convert.ToDouble(iFloat);
-        }
-
-        private void OnChangeH()
-        {
-            textH.text = sliderH.value.ToString();
-            SetColor();
-        }
-
-        private void OnChangeS()
-        {
-            textS.text = sliderS.value.ToString();
-            SetColor();
-        }
-
-        private void OnChangeV()
-        {
-            textV.text = sliderV.value.ToString();
-            SetColor();
-        }
-
-        private void OnChangeLowLevel()
-        {
-            textLowLevel.text = sliderLowLevel.value.ToString();
-            textDownSlope.text = mDownValue.ToString("0") + "  (" + (mDownValue * (100 - sliderLowLevel.value)).ToString("0") + " ms)";
-            textUpSlope.text = mUpValue.ToString("0") + "  (" + (mUpValue * (100 - sliderLowLevel.value)).ToString("0") + " ms)";
-            SetColor();
-        }
-
-        private void OnChangeOnDuration(float iInput)
-        {
-            textOnDuration.text = mDiagBehaviour.ExpScale(FloatToDouble(iInput / 10000f), 1000d, 10000d).ToString("0");
-            SetColor();
-        }
-
-        private void OnChangeOffDuration(float iInput)
-        {
-            textOffDuration.text = mDiagBehaviour.ExpScale(FloatToDouble(iInput / 10000f), 1000d, 10000d).ToString("0");
-            SetColor();
-        }
-
-        private void OnChangeUpSlope(float iInput)
-        {
-            mUpValue = Math.Round(mDiagBehaviour.ExpScale(FloatToDouble(iInput / 100f), 25d, 100d));
-            textUpSlope.text = mUpValue.ToString("0") + "  (" + (mUpValue * (100 - sliderLowLevel.value)).ToString("0") + " ms)";
-            SetColor();
-        }
-
-        private void OnChangeDownSlope(float iInput)
-        {
-            mDownValue = Math.Round(mDiagBehaviour.ExpScale(FloatToDouble(iInput / 100f), 25d, 100d));
-            textDownSlope.text = mDownValue.ToString("0") + "  (" + (mDownValue * (100 - sliderLowLevel.value)).ToString("0") + " ms)";
-            SetColor();
-        }
-
+            Buddy.Actuators.LEDs.Flash = false;
+            mStatus = false;
+            mFlash.GetComponentsInChildren<Text>()[0].text = "TURN ON FLASH";
+            mFlash.GetComponentsInChildren<Image>()[1].sprite = mPlay;
+        //}
     }
+
+    private byte FloatToByte(float iFloat)
+    {
+        return Convert.ToByte(iFloat);
+    }
+
+    private ushort FloatToUShort(float iFloat)
+    {
+        return Convert.ToUInt16(iFloat);
+    }
+
+    private double FloatToDouble(float iFloat)
+    {
+        return Convert.ToDouble(iFloat);
+    }
+
+    private void OnChangeH()
+    {
+        textH.text = sliderH.value.ToString();
+        SetColor();
+    }
+
+    private void OnChangeS()
+    {
+        textS.text = sliderS.value.ToString();
+        SetColor();
+    }
+
+    private void OnChangeV()
+    {
+        textV.text = sliderV.value.ToString();
+        SetColor();
+    }
+
+    private void OnChangeLowLevel()
+    {
+        textLowLevel.text = sliderLowLevel.value.ToString();
+        textDownSlope.text = mDownValue.ToString("0") + "  (" + (mDownValue * (100 - sliderLowLevel.value)).ToString("0") + " ms)";
+        textUpSlope.text = mUpValue.ToString("0") + "  (" + (mUpValue * (100 - sliderLowLevel.value)).ToString("0") + " ms)";
+        SetColor();
+    }
+
+    private void OnChangeOnDuration(float iInput)
+    {
+        textOnDuration.text = mDiagBehaviour.ExpScale(FloatToDouble(iInput / 10000f), 1000d, 10000d).ToString("0");
+        SetColor();
+    }
+
+    private void OnChangeOffDuration(float iInput)
+    {
+        textOffDuration.text = mDiagBehaviour.ExpScale(FloatToDouble(iInput / 10000f), 1000d, 10000d).ToString("0");
+        SetColor();
+    }
+
+    private void OnChangeUpSlope(float iInput)
+    {
+        mUpValue = Math.Round(mDiagBehaviour.ExpScale(FloatToDouble(iInput / 100f), 25d, 100d));
+        textUpSlope.text = mUpValue.ToString("0") + "  (" + (mUpValue * (100 - sliderLowLevel.value)).ToString("0") + " ms)";
+        SetColor();
+    }
+
+    private void OnChangeDownSlope(float iInput)
+    {
+        mDownValue = Math.Round(mDiagBehaviour.ExpScale(FloatToDouble(iInput / 100f), 25d, 100d));
+        textDownSlope.text = mDownValue.ToString("0") + "  (" + (mDownValue * (100 - sliderLowLevel.value)).ToString("0") + " ms)";
+        SetColor();
+    }
+
+}
 }
