@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using BlueQuark;
+using System;
 
 namespace BuddyApp.Diagnostic
 {
@@ -87,11 +88,11 @@ namespace BuddyApp.Diagnostic
             AudioVersion.text = Buddy.Boards.Head.AudioµC.Version;
 
             //Status : 
-            HemiseStatus.text = Buddy.Boards.Body.BodyµC.Status.ToString("X");
-            MotionStatus.text = Buddy.Boards.Body.WheelsµC.Status.ToString("X");
-            HeadStatus.text = Buddy.Boards.Head.HeadµC.Status.ToString("X");
-            RainetteStatus.text = Buddy.Boards.Head.Status.ToString("X");
-            AudioStatus.text = Buddy.Boards.Head.AudioµC.Status.ToString("X");
+            HemiseStatus.text = "x" + Buddy.Boards.Body.BodyµC.Status.ToString("X");
+            MotionStatus.text = "x" + Buddy.Boards.Body.WheelsµC.Status.ToString("X");
+            HeadStatus.text = "x" + Buddy.Boards.Head.HeadµC.Status.ToString("X");
+            RainetteStatus.text = "x" + Buddy.Boards.Head.Status.ToString("X");
+            AudioStatus.text = "x" + Buddy.Boards.Head.AudioµC.Status.ToString("X");
 
             //ResetButton :
             ButtonResetHemise.onClick.AddListener(ResetHemise);
@@ -147,11 +148,25 @@ namespace BuddyApp.Diagnostic
 
         public void ReadStatus()
         {
+            HemiseVersion.text = "--";
+            MotionVersion.text = "--";
+            HeadVersion.text = "--";
+            RainetteVersion.text = "--";
+            AudioVersion.text = "--";
+
+            StartCoroutine(WaitAndReset());
+        }
+
+        private IEnumerator WaitAndReset()
+        {
+
             ResetHemise();
             ResetMotion();
             ResetHead();
             ResetRainette();
             ResetAudio();
+
+            yield return new WaitForSeconds(0.4F);
 
             HemiseVersion.text = Buddy.Boards.Body.BodyµC.Version;
             MotionVersion.text = Buddy.Boards.Body.WheelsµC.Version;
@@ -162,32 +177,67 @@ namespace BuddyApp.Diagnostic
 
         public void ResetHemise()
         {
+            HemiseStatus.text = "--";
+            StartCoroutine(WaitAndResetHemise());
+        }
+
+        private IEnumerator WaitAndResetHemise()
+        {
+            yield return new WaitForSeconds(0.4F);
             Buddy.Boards.Body.ResetStatus();
-            HemiseStatus.text = Buddy.Boards.Body.Status.ToString("X");
+            HemiseStatus.text = "x" + Buddy.Boards.Body.Status.ToString("X");
         }
 
         public void ResetMotion()
         {
+            MotionStatus.text = "--";
+            StartCoroutine(WaitAndResetMotion());
+        }
+
+        private IEnumerator WaitAndResetMotion()
+        {
+            yield return new WaitForSeconds(0.4F);
             Buddy.Boards.Body.WheelsµC.ResetStatus();
-            MotionStatus.text = Buddy.Boards.Body.WheelsµC.Status.ToString("X");
+            MotionStatus.text = "x" + Buddy.Boards.Body.WheelsµC.Status.ToString("X");
         }
 
         public void ResetHead()
         {
+            HeadStatus.text = "--";
+            StartCoroutine(WaitAndResetHead());
+        }
+
+        private IEnumerator WaitAndResetHead()
+        {
+            yield return new WaitForSeconds(0.4F);
             Buddy.Boards.Head.HeadµC.ResetStatus();
-            HeadStatus.text = Buddy.Boards.Head.HeadµC.Status.ToString("X");
+            HeadStatus.text = "x" + Buddy.Boards.Head.HeadµC.Status.ToString("X");
         }
 
         public void ResetRainette()
         {
+            RainetteStatus.text = "--";
+            StartCoroutine(WaitAndResetRainette());
+        }
+
+        private IEnumerator WaitAndResetRainette()
+        {
+            yield return new WaitForSeconds(0.4F);
             Buddy.Boards.Head.ResetStatus();
-            RainetteStatus.text = Buddy.Boards.Head.Status.ToString("X");
+            RainetteStatus.text = "x" + Buddy.Boards.Head.Status.ToString("X");
         }
 
         public void ResetAudio()
         {
+            AudioStatus.text = "--";
+            StartCoroutine(WaitAndResetAudio());
+        }
+
+        private IEnumerator WaitAndResetAudio()
+        {
+            yield return new WaitForSeconds(0.4F);
             Buddy.Boards.Head.AudioµC.ResetStatus();
-            AudioStatus.text = Buddy.Boards.Head.AudioµC.Status.ToString("X");
+            AudioStatus.text = "x" + Buddy.Boards.Head.AudioµC.Status.ToString("X");
         }
 
         public void OnSliderAmplifierChanger(float iInput)
