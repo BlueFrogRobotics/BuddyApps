@@ -33,7 +33,7 @@ namespace BuddyApp.OutOfBox
             Buddy.Actuators.Wheels.Stop();
             Buddy.Navigation.Stop();
             Buddy.Actuators.Head.Yes.ResetPosition();
-            Buddy.Sensors.Microphones.SoundLocalizationParameters = new SoundLocalizationParameters(Buddy.Sensors.Microphones.SoundLocalizationParameters.Resolution, 75);
+            Buddy.Sensors.Microphones.SoundLocalizationParameters = new SoundLocalizationParameters(Buddy.Sensors.Microphones.SoundLocalizationParameters.Resolution, 40);
             mTimer = 0F;
             mRotateDone = false;
             mHumanDetected = false;
@@ -54,7 +54,6 @@ namespace BuddyApp.OutOfBox
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
         {
-            OutOfBoxUtils.DebugColor("START SL : " + mStartSL, "blue");
             if (mRotateDone)
                 mTimer += Time.deltaTime;
 
@@ -78,16 +77,20 @@ namespace BuddyApp.OutOfBox
             } else if (mTimer > 12F && mSoundLocEnabled) {
                 //Passer à la suite ou stop l'app parce que plus personne n'est devant le robot
                 mSoundLocEnabled = false;
+                Buddy.Navigation.Run<DisplacementStrategy>().Rotate(180F, 80F);
+                Buddy.Behaviour.Face.PlayEvent(FacialEvent.OPEN_EYES, false);
                 //QuitApp();
-                Trigger("Base");
+                //Trigger("Base");
             }
 
             if (mHumanDetected) {
-                Buddy.Vocal.SayKey("pthreevoila");
-                Trigger("Base");
+                Buddy.Perception.HumanDetector.OnDetect.RemoveP(OnHumanDetect);
+                Buddy.Vocal.SayKey("pthreevoila", (iOut) => { if(!iOut.IsInterrupted) Trigger("Base"); });
+                
             } else if (!mHumanDetected && mTimer > 15F && !mSoundLocEnabled) {
-                Buddy.Vocal.SayKey("pthreedobetter");
-                Trigger("Base");
+                Buddy.Perception.HumanDetector.OnDetect.RemoveP(OnHumanDetect);
+                Buddy.Vocal.SayKey("pthreedobetter", (iOut) => { if (!iOut.IsInterrupted) Trigger("Base"); });
+                
             }
         }
 
@@ -95,7 +98,6 @@ namespace BuddyApp.OutOfBox
         {
             Buddy.Sensors.Microphones.SoundLocalizationParameters = null;
             mBehaviour.PhaseDropDown.value = 3;
-            Buddy.Perception.HumanDetector.OnDetect.RemoveP(OnHumanDetect);
         }
 
         private void StartSourceLoc()

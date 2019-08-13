@@ -31,7 +31,6 @@ namespace BuddyApp.OutOfBox
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            OutOfBoxUtils.DebugColor("SECOND PHASE : ", "blue");
             mNumberOfDetect = 0;
             mHumanDetectEnabled = false;
             mFirstStep = false;
@@ -56,7 +55,7 @@ namespace BuddyApp.OutOfBox
             }
 
             //add angle to the global angle to know if it > 360°
-            if (mTotalAngle < 325F/* && mTotalAngle >= 0F*/)
+            if (mTotalAngle < 359F/* && mTotalAngle >= 0F*/)
             {
                 mTotalAngle += Math.Abs(OutOfBoxUtils.WrapAngle(Buddy.Actuators.Wheels.Angle - mAngleSequence));
                 mAngleSequence = Buddy.Actuators.Wheels.Angle;
@@ -134,9 +133,9 @@ namespace BuddyApp.OutOfBox
 
                 Buddy.Actuators.Head.No.SetPosition(iAngle, 45F, (iFloat) =>
                 {
-                    if ((mTotalAngle + mRotation) > 325F)
+                    if ((mTotalAngle + mRotation) > 359F)
                     {
-                        mRotation = 325F - mTotalAngle;
+                        mRotation = 359F - mTotalAngle;
                     }
                     //Buddy.Navigation.Run<DisplacementStrategy>().Rotate(mRotation, 70F, () =>
                     //{

@@ -51,6 +51,7 @@ namespace BuddyApp.OutOfBox
                 });
             });
         }
+
     }
 }
 
