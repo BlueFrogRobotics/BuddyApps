@@ -21,6 +21,7 @@ namespace BuddyApp.OutOfBox
         {
             Buddy.Navigation.Stop();
             Buddy.Actuators.Wheels.Stop();
+            Buddy.Actuators.Head.Stop();
             Buddy.Behaviour.Stop();
             Buddy.Vocal.StopAndClear();
             Buddy.Behaviour.ResetMood();

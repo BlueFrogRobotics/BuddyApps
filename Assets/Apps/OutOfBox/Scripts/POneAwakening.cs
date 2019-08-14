@@ -30,6 +30,19 @@ namespace BuddyApp.OutOfBox
             });
             
         }
+
+
+        public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            StopAllCoroutines();
+            Buddy.Navigation.Stop();
+            Buddy.Actuators.Wheels.Stop();
+            Buddy.Actuators.Head.Stop();
+            Buddy.Behaviour.Stop();
+            Buddy.Vocal.StopAndClear();
+            Buddy.Behaviour.ResetMood();
+        }
+
         private IEnumerator WaitTime()
         {
             yield return new WaitForSeconds(2F);

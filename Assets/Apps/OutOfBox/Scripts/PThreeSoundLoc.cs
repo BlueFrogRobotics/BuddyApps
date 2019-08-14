@@ -85,19 +85,29 @@ namespace BuddyApp.OutOfBox
 
             if (mHumanDetected) {
                 Buddy.Perception.HumanDetector.OnDetect.RemoveP(OnHumanDetect);
-                Buddy.Vocal.SayKey("pthreevoila", (iOut) => { if(!iOut.IsInterrupted) Trigger("Base"); });
+                Buddy.Vocal.SayKey("pthreevoila", (iOut) => { if(!iOut.IsInterrupted)
+                        mBehaviour.PhaseDropDown.value = 3;
+                });
                 
             } else if (!mHumanDetected && mTimer > 15F && !mSoundLocEnabled) {
                 Buddy.Perception.HumanDetector.OnDetect.RemoveP(OnHumanDetect);
-                Buddy.Vocal.SayKey("pthreedobetter", (iOut) => { if (!iOut.IsInterrupted) Trigger("Base"); });
+                Buddy.Vocal.SayKey("pthreedobetter", (iOut) => { if (!iOut.IsInterrupted)
+                        mBehaviour.PhaseDropDown.value = 3;
+                });
                 
             }
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
         {
+            StopAllCoroutines();
+            Buddy.Navigation.Stop();
+            Buddy.Actuators.Wheels.Stop();
+            Buddy.Actuators.Head.Stop();
+            Buddy.Behaviour.Stop();
+            Buddy.Vocal.StopAndClear();
+            Buddy.Behaviour.ResetMood();
             Buddy.Sensors.Microphones.SoundLocalizationParameters = null;
-            mBehaviour.PhaseDropDown.value = 3;
         }
 
         private void StartSourceLoc()
