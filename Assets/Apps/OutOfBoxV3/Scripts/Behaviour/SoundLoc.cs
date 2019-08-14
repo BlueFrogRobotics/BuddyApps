@@ -97,7 +97,7 @@ namespace BuddyApp.OutOfBoxV3
         public override void OnStateExit(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
         {
             Buddy.Sensors.Microphones.SoundLocalizationParameters = null;
-            mBehaviour.PhaseDropDown.value = 3;
+            mBehaviour.PhaseDropDown.value = 4;
         }
 
         private void StartSourceLoc()
