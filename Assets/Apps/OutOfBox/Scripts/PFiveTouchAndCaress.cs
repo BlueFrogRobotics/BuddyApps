@@ -87,7 +87,6 @@ namespace BuddyApp.OutOfBox
                             Debug.LogWarning("end of speech ");
                             if (!iOutSpeech.IsInterrupted) {
                                 mBehaviour.PhaseDropDown.value = 5;
-                                Trigger("Base");
                             }
                         });
                     })

@@ -34,7 +34,6 @@ namespace BuddyApp.OutOfBox
                                                     Buddy.Navigation.Run<DisplacementStrategy>().Rotate(-60F, 70F, () => {
                                                         StartCoroutine(OutOfBoxUtils.PlayBIAsync(() => {
                                                             mBehaviour.PhaseDropDown.value = 4;
-                                                            Trigger("Base");
                                                         }));
                                                     });
                                                 }));

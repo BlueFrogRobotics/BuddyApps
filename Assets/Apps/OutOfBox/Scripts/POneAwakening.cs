@@ -45,7 +45,6 @@ namespace BuddyApp.OutOfBox
                         // Run discovering after speech
                         Buddy.Vocal.SayKey("phaseonearound", (iOut) => {
                             mBehaviour.PhaseDropDown.value = 1;
-                            Trigger("Base");
                         });
                     }));
                 });
