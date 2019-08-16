@@ -19,23 +19,29 @@ namespace BuddyApp.AudioBehavior
 		ThermalDetector mThermalDetector;
 
 		private AudioBehaviorData mAppData;
-		private float mLastSoundLocTime;
+
+		private bool mThermal;
+		private bool mHumanTracking;
+		private bool mNewTrigger;
+		private bool mGoTowardHuman;
+		private bool mYolo;
+
 		private int mSoundLoc;
 		private int mLastAverageAmbiant;
-		private List<int> mAverageAmbiant;
+		private int mRotation;
+		private int mMotion;
+
+		private const float ROTATION_VELOCITY = 30F;
+
 		private float mLastTime;
 		private float mTimeHumanDetected;
 		private float mAngleLastDetect;
-		private bool mGoTowardHuman;
-		private bool mYolo;
+		private float mLastSoundLocTime;
 		private float mAngleAtTrigger;
 		private float mTimeTrigger;
-		private int mRotation;
 		private float mTargetOdom;
-		private bool mThermal;
-		private bool mHumanTracking;
-		private int mMotion;
-		private bool mNewTrigger;
+
+		private List<int> mAverageAmbiant;
 
 		public void ToggleYolo()
 		{
@@ -44,7 +50,7 @@ namespace BuddyApp.AudioBehavior
 			if (mYolo)
 			{
 				mThermal = false;
-				Buddy.Actuators.Head.Yes.SetPosition(5F);
+				Buddy.Actuators.Head.Yes.SetPosition(1F);
 				// Creation & Settings of parameters that will be used in detection
 				Buddy.Perception.HumanDetector.OnDetect.Add(OnHumanDetect,
 					new HumanDetectorParameter
@@ -138,13 +144,13 @@ namespace BuddyApp.AudioBehavior
 				{
 					Debug.LogWarning("turn 45 human is at: " + lCentered);
 					mMotion = 1;
-					Buddy.Actuators.Wheels.SetVelocities(0F, 45F);
+					Buddy.Actuators.Wheels.SetVelocities(0F, ROTATION_VELOCITY);
 				}
 				else if (lCentered > 0.5 && mMotion != 2)
 				{
 					Debug.LogWarning("turn -45 human is at: " + lCentered);
 					mMotion = 2;
-					Buddy.Actuators.Wheels.SetVelocities(0F, -45F);
+					Buddy.Actuators.Wheels.SetVelocities(0F, -ROTATION_VELOCITY);
 				}
 
 				// If we find human before sound loc destination, stop navigation and center on human
@@ -185,14 +191,16 @@ namespace BuddyApp.AudioBehavior
 			//    );
 			//}
 
-			Debug.LogWarning("my angle " + mSoundLoc);
+			Debug.LogWarning("my angle " + mSoundLoc + " my time" + (Time.time - mLastSoundLocTime));
 			Debug.LogWarning("os angle " + iHotWord.SoundLocalization);
 			Debug.LogWarning("reco score " + iHotWord.RecognitionScore);
 			Debug.LogWarning("angle at trigger " + mAngleAtTrigger);
 			Debug.LogWarning("time " + DateTime.Now.ToString());
 
+
+			Debug.LogWarning("Last human time!!!! " + (Time.time - mTimeHumanDetected));
 			// Check if human already present, then just stay in front.
-			if (Time.time - mTimeHumanDetected < 0.5F /*&& Math.Abs(iHotWord.SoundLocalization) < 40*/)
+			if (Time.time - mTimeHumanDetected < 0.8F && (Math.Abs(iHotWord.SoundLocalization) < 40 || iHotWord.SoundLocalization == Microphones.NO_SOUND_LOCALIZATION))
 			{
 				mGoTowardHuman = true;
 				OnEndSearch();
@@ -204,7 +212,7 @@ namespace BuddyApp.AudioBehavior
 				mGoTowardHuman = false;
 				Buddy.Actuators.Wheels.Stop();
 				Debug.LogWarning("motion to last sound loc : " + iHotWord.SoundLocalization);
-				Buddy.Navigation.Run<DisplacementStrategy>().Rotate(iHotWord.SoundLocalization, 80F, OnEndMoveSoundLoc);
+				Buddy.Navigation.Run<DisplacementStrategy>().Rotate(iHotWord.SoundLocalization, ROTATION_VELOCITY * 2, OnEndMoveSoundLoc);
 				mRotation = iHotWord.SoundLocalization;
 				mTargetOdom = iHotWord.SoundLocalization + mAngleAtTrigger;
 
@@ -227,7 +235,7 @@ namespace BuddyApp.AudioBehavior
 				// TODO find with thermal?
 				if (mYolo)
 				{
-					Buddy.Actuators.Wheels.SetVelocities(0F, 45F);
+					Buddy.Actuators.Wheels.SetVelocities(0F, 35F);
 					mGoTowardHuman = true;
 					Buddy.Perception.HumanDetector.OnDetect.Add(OnHumanFound,
 					new HumanDetectorParameter
@@ -253,7 +261,7 @@ namespace BuddyApp.AudioBehavior
 		{
 			Debug.LogWarning("End motion of soundloc ");
 			mGoTowardHuman = true;
-			if (Time.time - mTimeHumanDetected < 0.3F || !mYolo && !mThermal)
+			if (Time.time - mTimeHumanDetected < 0.2F || !mYolo && !mThermal)
 			{
 				Debug.LogWarning("End motion of soundloc and human seen ");
 				OnEndSearch();
@@ -273,14 +281,14 @@ namespace BuddyApp.AudioBehavior
 						(Math.Abs(mRotation) - (Math.Abs(Buddy.Actuators.Wheels.Odometry.AngleDeg() - mAngleLastDetect) % 360)));
 
 					Debug.LogWarning("human seen, rotate to " + mAngleLastDetect);
-					Buddy.Navigation.Run<DisplacementStrategy>().RotateTo(mAngleLastDetect, 80F, (Action<Vector3>) OnEndSearch);
+					Buddy.Navigation.Run<DisplacementStrategy>().RotateTo(mAngleLastDetect, 80F, (Action<Vector3>)OnEndSearch);
 				}
 				else
 				{
 					if (mYolo)
 					{
 						// Keep turning the same way
-						Debug.LogWarning("no human try to find with yolo, turn " + (-Math.Sign(mRotation)) * 45F);
+						Debug.LogWarning("no human try to find with yolo, turn " + (-Math.Sign(mRotation)) * ROTATION_VELOCITY);
 						// Wait for stop navigation strategy before rotation
 						StartCoroutine("DelayedRotate");
 						Buddy.Perception.HumanDetector.OnDetect.Add(OnHumanFound,
@@ -308,7 +316,7 @@ namespace BuddyApp.AudioBehavior
 		private IEnumerator DelayedRotate()
 		{
 			yield return new WaitForSeconds(0.1F);
-			Buddy.Actuators.Wheels.SetVelocities(0F, (Math.Sign(mRotation)) * 45F);
+			Buddy.Actuators.Wheels.SetVelocities(0F, (Math.Sign(mRotation)) * ROTATION_VELOCITY);
 		}
 
 		private void OnEndSearch(Vector3 obj)
@@ -328,14 +336,14 @@ namespace BuddyApp.AudioBehavior
 
 			Buddy.Behaviour.SetMood(Mood.NEUTRAL);
 
-			Buddy.Navigation.Run<DisplacementStrategy>().RotateTo(mAngleAtTrigger, 80F, (Action<Vector3>) OnEndSearch);
+			Buddy.Navigation.Run<DisplacementStrategy>().RotateTo(mAngleAtTrigger, 80F, (Action<Vector3>)OnEndSearch);
 		}
 
 		private void OnHumanFound(HumanEntity[] obj)
 		{
 			if (mNewTrigger)
 			{
-				Buddy.Actuators.Wheels.Stop();
+				Buddy.Actuators.Wheels.ImmediateStop();
 				mNewTrigger = false;
 				Debug.LogWarning("On Human found nb callbacks " + Buddy.Perception.HumanDetector.OnDetect.Count);
 				Buddy.Perception.HumanDetector.OnDetect.Remove(OnHumanFound);
@@ -401,7 +409,7 @@ namespace BuddyApp.AudioBehavior
 				Debug.LogWarning("BeamForming Anabled ");
 
 				if (mYolo)
-					Buddy.Actuators.Head.Yes.SetPosition(5F);
+					Buddy.Actuators.Head.Yes.SetPosition(1F);
 				else
 					Buddy.Actuators.Head.Yes.SetPosition(-9.9F);
 			}
@@ -418,9 +426,9 @@ namespace BuddyApp.AudioBehavior
 				mAverageAmbiant.Clear();
 
 				// Change soundloc threshold with ambiant: 55 -> 40, 35 -> 30, 75 -> 55
-				//lThresh = (mLastAverageAmbiant - 60) / 2 + 40;
+				int lThresh = (int)Math.Pow(mLastAverageAmbiant, 3) / 3700;
 				Buddy.Sensors.Microphones.SoundLocalizationParameters = new SoundLocalizationParameters(
-				Buddy.Sensors.Microphones.SoundLocalizationParameters.Resolution, (int)1000000);
+				Buddy.Sensors.Microphones.SoundLocalizationParameters.Resolution, lThresh);
 				Debug.LogWarning("New SoundLoc threshold: " + Math.Pow(mLastAverageAmbiant, 3) / 3700);
 			}
 			else if (Time.time - mLastTime > 1F)
@@ -437,8 +445,8 @@ namespace BuddyApp.AudioBehavior
 				{
 					Debug.LogWarning("New sound loc " + Buddy.Sensors.Microphones.SoundLocalization + "  " + DateTime.Now.ToString());
 					mSoundLoc = Buddy.Sensors.Microphones.SoundLocalization;
+					mLastSoundLocTime = Time.time;
 				}
-				mLastSoundLocTime = Time.time;
 			}
 		}
 	}
