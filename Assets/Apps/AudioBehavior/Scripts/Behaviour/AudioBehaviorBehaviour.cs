@@ -200,7 +200,7 @@ namespace BuddyApp.AudioBehavior
 
 			Debug.LogWarning("Last human time!!!! " + (Time.time - mTimeHumanDetected));
 			// Check if human already present, then just stay in front.
-			if (Time.time - mTimeHumanDetected < 0.8F && (Math.Abs(iHotWord.SoundLocalization) < 40 || iHotWord.SoundLocalization == Microphones.NO_SOUND_LOCALIZATION))
+			if (Time.time - mTimeHumanDetected < 0.8F && (Math.Abs(iHotWord.SoundLocalization) < 60 || iHotWord.SoundLocalization == Microphones.NO_SOUND_LOCALIZATION /* TODO NEED FIX TOF || Buddy.Sensors.TimeOfFlightSensors.Back.FilteredValue < 1300F*/))
 			{
 				mGoTowardHuman = true;
 				OnEndSearch();
@@ -425,11 +425,21 @@ namespace BuddyApp.AudioBehavior
 				// Remove values to update every 15 seconds
 				mAverageAmbiant.Clear();
 
-				// Change soundloc threshold with ambiant: 55 -> 40, 35 -> 30, 75 -> 55
-				int lThresh = (int)Math.Pow(mLastAverageAmbiant, 3) / 3700;
+				// Change soundloc threshold with ambiant: 55 -> 65, 35 -> 10, 75 -> 85
+
+				int lThresh;
+				if (mLastAverageAmbiant < 40)
+					lThresh = mLastAverageAmbiant - 10;
+				else
+					lThresh = mLastAverageAmbiant + 25;
+
 				Buddy.Sensors.Microphones.SoundLocalizationParameters = new SoundLocalizationParameters(
-				Buddy.Sensors.Microphones.SoundLocalizationParameters.Resolution, lThresh);
-				Debug.LogWarning("New SoundLoc threshold: " + Math.Pow(mLastAverageAmbiant, 3) / 3700);
+					Buddy.Sensors.Microphones.SoundLocalizationParameters.Resolution, lThresh);
+
+				//int lThresh = (int)Math.Pow(mLastAverageAmbiant, 3) / 3000;
+				//Buddy.Sensors.Microphones.SoundLocalizationParameters = new SoundLocalizationParameters(
+				//Buddy.Sensors.Microphones.SoundLocalizationParameters.Resolution, lThresh);
+				Debug.LogWarning("New SoundLoc threshold: " + lThresh);
 			}
 			else if (Time.time - mLastTime > 1F)
 			{
