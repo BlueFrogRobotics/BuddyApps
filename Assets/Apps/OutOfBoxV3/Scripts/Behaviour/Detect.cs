@@ -19,6 +19,9 @@ namespace BuddyApp.OutOfBoxV3
         private int mNumberOfDetect;
         private float mRotation = 30F;
 
+        //Takephoto variable test
+        private int mPhotoTakenCount;
+        private Sprite mPhotoSprite;
 
         public override void Start()
         {
@@ -31,6 +34,7 @@ namespace BuddyApp.OutOfBoxV3
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            mPhotoTakenCount = 0;
             mNumberOfDetect = 0;
             mHumanDetectEnabled = false;
             mFirstStep = false;
@@ -97,23 +101,6 @@ namespace BuddyApp.OutOfBoxV3
             
         }
 
-        //private IEnumerator ChangeState()
-        //{
-        //    yield return new WaitForSeconds(0.5F);
-        //    if (mNumberOfDetect > 0)
-        //    {
-        //        mBehaviour.PhaseDropDown.value = 2;
-        //        Buddy.Vocal.SayKey("phasetwoend", (iOut) => { StartCoroutine(WaitTimeBeforeChangingstate()); if (!iOut.IsInterrupted) Trigger("TRANSITION"); });
-
-        //    }
-        //    else if (mNumberOfDetect == 0)
-        //    {
-        //        mBehaviour.PhaseDropDown.value = 2;
-        //        Buddy.Vocal.SayKey("phasetwonodetection", (iOut) => { StartCoroutine(WaitTimeBeforeChangingstate()); if (!iOut.IsInterrupted) Trigger("TRANSITION"); });
-
-        //    }
-        //}
-
         private void HeadPositionDetect()
         {
             if (Buddy.Actuators.Head.No.Angle != 0F)
@@ -162,6 +149,8 @@ namespace BuddyApp.OutOfBoxV3
             if(!mFirstStep)
             {
                 mFirstStep = true;
+                if (Buddy.Sensors.RGBCamera.Width > 0)
+                    Buddy.Sensors.RGBCamera.TakePhotograph(TakePhoto, false, true);
                 StartCoroutine(OutOfBoxUtils.PlayBIAsync(() =>
                 {
                     Buddy.Actuators.Head.No.SetPosition(-90F, 45F, (iOut) => { Buddy.Actuators.Head.No.SetPosition(90F, 45F, (iSpeechOut) => { StartDetect(); }); });
@@ -186,6 +175,8 @@ namespace BuddyApp.OutOfBoxV3
                 float lHeadLastAngle = Buddy.Actuators.Head.No.Angle;
                 // Alignement with detected human
                 Buddy.Navigation.Run<DisplacementStrategy>().Rotate(lHeadLastAngle, 70F, () => {
+                    if (Buddy.Sensors.RGBCamera.Width > 0)
+                        Buddy.Sensors.RGBCamera.TakePhotograph(TakePhoto, false, true);
                     StartCoroutine(OutOfBoxUtils.PlayBIAsync(() =>
                     {
                         //if (lHeadLastAngle > 0)
@@ -208,14 +199,7 @@ namespace BuddyApp.OutOfBoxV3
             OutOfBoxUtils.DebugColor("Human detected", "blue");
             return true;
         }
-
-        //private void EndPhaseDetect()
-        //{
-        //    Buddy.Vocal.SayKey("phasetwoend");
-        //    mBehaviour.PhaseDropDown.value = 2;
-        //    Trigger("TRANSITION");
-        //}
-
+        
         private void PauseDetect()
         {
             Buddy.Actuators.Wheels.Stop();
@@ -254,6 +238,19 @@ namespace BuddyApp.OutOfBoxV3
         {
             yield return new WaitForSeconds(3F);
         }
+
+        private void TakePhoto(Photograph iMyPhoto)
+        {
+            mPhotoSprite = iMyPhoto.Image;
+            iMyPhoto.Save();
+        }
     }
 
 }
+
+                        //if (Buddy.Sensors.RGBCamera.Width > 0)
+                        //{
+                        //    mPictureSound.Play();
+                        //    Buddy.Sensors.RGBCamera.TakePhotograph(OnFinish, false, true);
+                        //    mPhotoTaken = true; 
+                        //}
