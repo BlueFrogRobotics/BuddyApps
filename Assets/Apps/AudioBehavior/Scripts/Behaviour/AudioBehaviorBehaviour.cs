@@ -50,7 +50,7 @@ namespace BuddyApp.AudioBehavior
 			if (mYolo)
 			{
 				mThermal = false;
-				Buddy.Actuators.Head.Yes.SetPosition(1F);
+				Buddy.Actuators.Head.Yes.SetPosition(3F);
 				// Creation & Settings of parameters that will be used in detection
 				Buddy.Perception.HumanDetector.OnDetect.Add(OnHumanDetect,
 					new HumanDetectorParameter
@@ -93,30 +93,34 @@ namespace BuddyApp.AudioBehavior
 		void Start()
 		{
 
-			//mThermalDetector = new ThermalDetector();
+            //mThermalDetector = new ThermalDetector();
 
-			/*
+            /*
 			* You can setup your App activity here.
 			*/
-			AudioBehaviorActivity.Init(null);
-			mNewTrigger = false;
+            AudioBehaviorActivity.Init(null);
+            mNewTrigger = false;
 			mHumanTracking = false;
-			ToggleYolo();
 			mGoTowardHuman = false;
 			Buddy.Vocal.EnableTrigger = true;
-			Buddy.Sensors.Microphones.EnableEchoCancellation = false;
+            
+            Buddy.Sensors.Microphones.EnableEchoCancellation = false;
 			Buddy.Sensors.Microphones.EnableSoundLocalization = true;
-			mAverageAmbiant = new List<int>();
-			Buddy.Sensors.Microphones.SoundLocalizationParameters = new SoundLocalizationParameters(
-				//    Buddy.Sensors.Microphones.SoundLocalizationParameters.Algorithm,
-				Buddy.Sensors.Microphones.SoundLocalizationParameters.Resolution,
+            
+            mAverageAmbiant = new List<int>();
+            
+            Buddy.Sensors.Microphones.SoundLocalizationParameters = new SoundLocalizationParameters(
+                //    Buddy.Sensors.Microphones.SoundLocalizationParameters.Algorithm,
+                SoundLocalizationParameters.DEFAULT_RESOLUTION,
 				40);
-			Buddy.Sensors.Microphones.BeamformingParameters = new BeamformingParameters(6);
+            
+            Buddy.Sensors.Microphones.BeamformingParameters = new BeamformingParameters(6);
 			Debug.LogError("Nb callbacks before clear " + Buddy.Vocal.OnCompleteTrigger.Count);
 			Buddy.Vocal.OnCompleteTrigger.Clear();
 			Buddy.Vocal.OnCompleteTrigger.Add(BuddyTrigged);
-			Buddy.Actuators.Head.Yes.SetPosition(-9.9F);
-		}
+            ToggleYolo();
+            //Buddy.Actuators.Head.Yes.SetPosition(-9.9F);
+        }
 
 		/*
        *   On a human detection this function is called.
@@ -203,7 +207,9 @@ namespace BuddyApp.AudioBehavior
 			if (Time.time - mTimeHumanDetected < 0.8F && (Math.Abs(iHotWord.SoundLocalization) < 60 || iHotWord.SoundLocalization == Microphones.NO_SOUND_LOCALIZATION /* TODO NEED FIX TOF || Buddy.Sensors.TimeOfFlightSensors.Back.FilteredValue < 1300F*/))
 			{
 				mGoTowardHuman = true;
-				OnEndSearch();
+
+                Buddy.Vocal.Say("Je t'aicoute "/*temps " + lTime*/);
+                OnEndSearch();
 
 				// Check if soundloc ok
 			}
@@ -228,14 +234,14 @@ namespace BuddyApp.AudioBehavior
 				Buddy.Behaviour.SetMood(Mood.THINKING);
 				float lTime = Time.time - mTimeTrigger;
 				Debug.LogWarning("No motion temps " + lTime);
-				Buddy.Vocal.Say("Je ne te vois pas temps " + lTime);
+				Buddy.Vocal.Say("Je te cherche "/*temps " + lTime*/);
 				Debug.LogWarning("No motion bcs last sound loc too old: " + Time.time + " " + mLastSoundLocTime + " = " + (Time.time - mLastSoundLocTime));
 
 				// find human
 				// TODO find with thermal?
 				if (mYolo)
 				{
-					Buddy.Actuators.Wheels.SetVelocities(0F, 35F);
+					Buddy.Actuators.Wheels.SetVelocities(0F, ROTATION_VELOCITY);
 					mGoTowardHuman = true;
 					Buddy.Perception.HumanDetector.OnDetect.Add(OnHumanFound,
 					new HumanDetectorParameter
@@ -329,10 +335,10 @@ namespace BuddyApp.AudioBehavior
 		{
 			Buddy.Perception.HumanDetector.OnDetect.Remove(OnHumanFound);
 
-			Debug.LogWarning("We did not found a human!!");
+			Debug.LogWarning("We did not find a human!!");
 			float lTime = Time.time - mTimeTrigger;
 			Debug.LogWarning("No motion temps " + lTime);
-			Buddy.Vocal.Say("Je ne t'ai pas trouvai mais je t'aicoute temps " + lTime);
+			Buddy.Vocal.Say("Je ne t'ai pas trouvai mais je t'aicoute ");
 
 			Buddy.Behaviour.SetMood(Mood.NEUTRAL);
 
@@ -352,7 +358,7 @@ namespace BuddyApp.AudioBehavior
 
 				float lTime = Time.time - mTimeTrigger;
 				Debug.LogWarning("Ha te voila! Je t'aicoute " + lTime);
-				Buddy.Vocal.Say("Ha te voila! Je t'aicoute temps " + lTime);
+				Buddy.Vocal.Say("Ha te voila! Je t'aicoute "/*temps " + lTime*/);
 				//if (mThermal)
 				//    mThermalDetector.mCallback = OnHumanDetect;
 				Buddy.Behaviour.SetMood(Mood.HAPPY, 2F);
@@ -386,11 +392,11 @@ namespace BuddyApp.AudioBehavior
 
 			if (/*!iObj.IsInterrupted*/ true)
 			{
-				Buddy.Sensors.Microphones.EnableSoundLocalization = false;
-				Buddy.Sensors.Microphones.EnableBeamforming = false;
-				Buddy.Sensors.Microphones.EnableEchoCancellation = true;
+				//Buddy.Sensors.Microphones.EnableSoundLocalization = false;
+				//Buddy.Sensors.Microphones.EnableBeamforming = false;
+				//Buddy.Sensors.Microphones.EnableEchoCancellation = true;
 				float lTime = Time.time - mTimeTrigger;
-				Buddy.Vocal.Say("Je te raiponds aprais t'avoir aicoutai temps " + lTime, EndSpeaking);
+				Buddy.Vocal.Say("J'ai fini l'aicoute "/*temps " + lTime*/, EndSpeaking);
 			}
 		}
 
@@ -403,13 +409,13 @@ namespace BuddyApp.AudioBehavior
 				Buddy.Actuators.Wheels.Stop();
 
 				Buddy.Behaviour.SetMood(Mood.NEUTRAL);
-				Buddy.Sensors.Microphones.EnableEchoCancellation = false;
-				Buddy.Sensors.Microphones.EnableSoundLocalization = true;
-				Buddy.Sensors.Microphones.EnableBeamforming = true;
-				Debug.LogWarning("BeamForming Anabled ");
+				//Buddy.Sensors.Microphones.EnableEchoCancellation = false;
+				//Buddy.Sensors.Microphones.EnableSoundLocalization = true;
+				//Buddy.Sensors.Microphones.EnableBeamforming = true;
+				Debug.LogWarning("BeamForming enabled ");
 
 				if (mYolo)
-					Buddy.Actuators.Head.Yes.SetPosition(1F);
+					Buddy.Actuators.Head.Yes.SetPosition(3F);
 				else
 					Buddy.Actuators.Head.Yes.SetPosition(-9.9F);
 			}
@@ -427,14 +433,17 @@ namespace BuddyApp.AudioBehavior
 
 				// Change soundloc threshold with ambiant: 55 -> 65, 35 -> 10, 75 -> 85
 
-				int lThresh;
-				if (mLastAverageAmbiant < 40)
-					lThresh = mLastAverageAmbiant - 10;
-				else
-					lThresh = mLastAverageAmbiant + 25;
+				int lThresh = 10;
+				//if (mLastAverageAmbiant < 62)
+				//	lThresh = mLastAverageAmbiant - 10;
+    //            else if (mLastAverageAmbiant < 70)
+    //                lThresh = mLastAverageAmbiant;
+    //            else
+    //                lThresh = mLastAverageAmbiant + 20;
 
-				Buddy.Sensors.Microphones.SoundLocalizationParameters = new SoundLocalizationParameters(
-					Buddy.Sensors.Microphones.SoundLocalizationParameters.Resolution, lThresh);
+
+                Buddy.Sensors.Microphones.SoundLocalizationParameters = new SoundLocalizationParameters(
+					SoundLocalizationParameters.DEFAULT_RESOLUTION, lThresh);
 
 				//int lThresh = (int)Math.Pow(mLastAverageAmbiant, 3) / 3000;
 				//Buddy.Sensors.Microphones.SoundLocalizationParameters = new SoundLocalizationParameters(
