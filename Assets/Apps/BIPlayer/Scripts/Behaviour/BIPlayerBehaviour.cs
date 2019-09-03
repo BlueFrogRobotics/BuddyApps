@@ -13,6 +13,9 @@ namespace BuddyApp.BIPlayer
     public class BIPlayerBehaviour : MonoBehaviour
     {
         [SerializeField]
+        Text RunningBi;
+
+        [SerializeField]
         private InputField biName;
 
         [SerializeField]
@@ -41,15 +44,31 @@ namespace BuddyApp.BIPlayer
                 return;
             }
 
-            if (!Buddy.Behaviour.Interpreter.Run(biName.text))
-                Buddy.Vocal.Say("Je n'ai pas su trouvé le BI " + biName.text);
+
+            Debug.LogWarning("Try to run " + biName.text);
+            if (!Buddy.Behaviour.Interpreter.Run(biName.text, () => Buddy.Vocal.Say("fini"))) {
+                Debug.LogWarning("no BI with name " + biName.text);
+                if (!Buddy.Behaviour.Interpreter.RunRandom(biName.text, OnEndRun)) {
+                    runRandomLoopToggle.isOn = false;
+                    Buddy.Behaviour.Interpreter.StopAndClear();
+                    Debug.Log("no BI category with name " + biName.text);
+                }
+            }
         }
 
         public void RunRandomBI()
         {
             if (string.IsNullOrWhiteSpace(MoodDropdown.captionText.text)) {
-                Debug.Log("RunRandom with no mood => Neutral");
-                Buddy.Behaviour.Interpreter.RunRandom(Mood.NEUTRAL, OnEndRun);
+                Debug.Log("RunRandom with no mood => category");
+                if (!Buddy.Behaviour.Interpreter.RunRandom(biName.text, OnEndRun)) {
+                    Debug.Log("RunRandom with no category => Run Random Neutral");
+                    runRandomLoopToggle.isOn = false;
+                    Buddy.Behaviour.Interpreter.StopAndClear();
+                } else {
+                    MoodDropdown.value = 0;
+                    BehaviourMovementPatternDropdown.value = 0;
+                    BehaviourCommitmentDropdown.value = 0;
+                }
             } else {
                 if (string.IsNullOrWhiteSpace(BehaviourMovementPatternDropdown.captionText.text)) {
                     Debug.Log("RunRandom with mood");
@@ -92,6 +111,14 @@ namespace BuddyApp.BIPlayer
             MoodDropdown.gameObject.SetActive(!MoodDropdown.isActiveAndEnabled);
             BehaviourCommitmentDropdown.gameObject.SetActive(!BehaviourCommitmentDropdown.isActiveAndEnabled);
             BehaviourMovementPatternDropdown.gameObject.SetActive(!BehaviourMovementPatternDropdown.isActiveAndEnabled);
+        }
+
+        void Update()
+        {
+            if (!string.IsNullOrEmpty(Buddy.Behaviour.Interpreter.CurrentBehaviourAlgorithmFilename))
+                RunningBi.text = Buddy.Behaviour.Interpreter.CurrentBehaviourAlgorithmFilename;
+            else
+                RunningBi.text = "NO BI RUNNING!";
         }
 
         void Start()
