@@ -211,5 +211,26 @@
                 <string />
             </RandomValues>
         </DictionaryEntry>
+			<DictionaryEntry>
+				<Key>givehour</Key>
+				<BaseValue>Il est actuellement [hour] heure et [minute] minute</BaseValue>
+				<ClosePhoneticValues>
+				</ClosePhoneticValues>
+				<RandomValues>
+					<string>Il est actuellement [hour] heure et [minute] minute</string>
+					<string>Il est [hour] heure [minute]</string>
+					<string>à ma montre à quartz, il est exactement [hour] heure et [minute] minute</string>
+				</RandomValues>
+			</DictionaryEntry>
+			<DictionaryEntry>
+				<Key>givedate</Key>
+				<BaseValue>Aujourd'hui nous sommes [weekday] [day] [month] [year]</BaseValue>
+				<ClosePhoneticValues>
+				</ClosePhoneticValues>
+				<RandomValues>
+					<string>Aujourd'hui nous sommes [weekday] [day] [month] [year]</string>
+					<string>[weekday] [day] [month] [year]</string>
+				</RandomValues>
+			</DictionaryEntry>
     </Entries>
 </LanguageThesaurus>
