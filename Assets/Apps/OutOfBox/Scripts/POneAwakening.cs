@@ -7,6 +7,7 @@ namespace BuddyApp.OutOfBox
 {
     public class POneAwakening : AStateMachineBehaviour
     {
+        private bool mExit;
 
         public override void Start()
         {
@@ -19,21 +20,22 @@ namespace BuddyApp.OutOfBox
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            mExit = false;
             OutOfBoxUtils.DebugColor("FIRST PHASE : ", "blue");
             Buddy.Actuators.Head.No.ResetPosition();
-            Buddy.Actuators.Head.Yes.SetPosition(-9F, 45F , (iPos) =>
-            {
+            Buddy.Actuators.Head.Yes.SetPosition(-9F, 45F, (iPos) => {
                 // Asleep
                 Buddy.Behaviour.Face.PlayEvent(FacialEvent.FALL_ASLEEP, false);
 
                 StartCoroutine(WaitTime());
             });
-            
+
         }
 
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            mExit = true;
             StopAllCoroutines();
             Buddy.Navigation.Stop();
             Buddy.Actuators.Wheels.Stop();
@@ -46,22 +48,24 @@ namespace BuddyApp.OutOfBox
         private IEnumerator WaitTime()
         {
             yield return new WaitForSeconds(2F);
-            Buddy.Actuators.Head.Yes.SetPosition(5F, 45F);
-
-            Buddy.Behaviour.Face.PlayEvent(FacialEvent.AWAKE, null, (iFacialEvent) =>
-            {
-                Buddy.Vocal.SayKey("phaseonenewfriend", (iSpeechOutput) =>
-                {
-                    // Play BI here
-                    StartCoroutine(OutOfBoxUtils.PlayBIAsync(() =>
-                    {
-                        // Run discovering after speech
-                        Buddy.Vocal.SayKey("phaseonearound", (iOut) => {
-                            mBehaviour.PhaseDropDown.value = 1;
-                        });
-                    }));
+            if (!mExit) {
+                Buddy.Actuators.Head.Yes.SetPosition(5F, 45F);
+                Buddy.Behaviour.Face.PlayEvent(FacialEvent.AWAKE, null, (iFacialEvent) => {
+                    Buddy.Vocal.SayKey("phaseonenewfriend", (iSpeechOutput) => {
+                        if (!mExit) {
+                            // Play BI here
+                            StartCoroutine(OutOfBoxUtils.PlayBIAsync(() => {
+                                if (!mExit) {
+                                    // Run discovering after speech
+                                    Buddy.Vocal.SayKey("phaseonearound", (iOut) => {
+                                        mBehaviour.PhaseDropDown.value = 1;
+                                    });
+                                }
+                            }));
+                        }
+                    });
                 });
-            });
+            }
         }
 
     }
