@@ -163,7 +163,7 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>psixokbuddy</Key>
-            <BaseValue>Now say [100] Ok Buddy!</BaseValue>
+            <BaseValue>Now say [100] OK Buddy!</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -173,7 +173,7 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>psixseeheart</Key>
-            <BaseValue>Great, have you seen that my heart lights up in green?</BaseValue>
+            <BaseValue>Great, after you call me, my heart will turn read when I listen.</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -211,26 +211,26 @@
                 <string />
             </RandomValues>
         </DictionaryEntry>
-			<DictionaryEntry>
-				<Key>givehour</Key>
-				<BaseValue>It's [minutes]</BaseValue>
-				<ClosePhoneticValues>
-					<string />
-				</ClosePhoneticValues>
-				<RandomValues>
-					<string>It's [minutes] [50] [hour]</string>
-					<string>It's [Hour] [50] [Minutes] [Meridiem]</string>
-				</RandomValues>
-			</DictionaryEntry>
-			<DictionaryEntry>
-				<Key>givedate</Key>
-				<BaseValue>Today is [weekday] [day] [month] [year]</BaseValue>
-				<ClosePhoneticValues>
-					<string />
-				</ClosePhoneticValues>
-				<RandomValues>
-					<string>Today is [weekday] [day] [month] [year]</string>
-				</RandomValues>
-			</DictionaryEntry>
+        <DictionaryEntry>
+            <Key>givehour</Key>
+            <BaseValue>It's [minutes]</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>It's [minutes] [50] [hour]</string>
+                <string>It's [Hour] [50] [Minutes] [Meridiem]</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>givedate</Key>
+            <BaseValue>Today is [weekday] [day] [month] [year]</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Today is [weekday] [day] [month] [year]</string>
+            </RandomValues>
+        </DictionaryEntry>
     </Entries>
 </LanguageThesaurus>

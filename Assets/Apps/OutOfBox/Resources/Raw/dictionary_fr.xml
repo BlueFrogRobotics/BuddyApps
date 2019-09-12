@@ -163,7 +163,7 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>psixokbuddy</Key>
-            <BaseValue>Maintenant dit [100] Ok Buddy!</BaseValue>
+            <BaseValue>Maintenant dit [100] OK Buddy!</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -173,7 +173,7 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>psixseeheart</Key>
-            <BaseValue>Super, tu as vu que mon coeur s'allume en vert?</BaseValue>
+            <BaseValue>Super, quand tu m'appelles, mon coeur passe en vert lorsque je t'écoute.</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -211,26 +211,24 @@
                 <string />
             </RandomValues>
         </DictionaryEntry>
-			<DictionaryEntry>
-				<Key>givehour</Key>
-				<BaseValue>Il est actuellement [hour] heure et [minute] minute</BaseValue>
-				<ClosePhoneticValues>
-				</ClosePhoneticValues>
-				<RandomValues>
-					<string>Il est actuellement [hour] heure et [minute] minute</string>
-					<string>Il est [hour] heure [minute]</string>
-					<string>à ma montre à quartz, il est exactement [hour] heure et [minute] minute</string>
-				</RandomValues>
-			</DictionaryEntry>
-			<DictionaryEntry>
-				<Key>givedate</Key>
-				<BaseValue>Aujourd'hui nous sommes [weekday] [day] [month] [year]</BaseValue>
-				<ClosePhoneticValues>
-				</ClosePhoneticValues>
-				<RandomValues>
-					<string>Aujourd'hui nous sommes [weekday] [day] [month] [year]</string>
-					<string>[weekday] [day] [month] [year]</string>
-				</RandomValues>
-			</DictionaryEntry>
+        <DictionaryEntry>
+            <Key>givehour</Key>
+            <BaseValue>Il est actuellement [hour] heure et [minute] minute</BaseValue>
+            <ClosePhoneticValues />
+            <RandomValues>
+                <string>Il est actuellement [hour] heure et [minute] minute</string>
+                <string>Il est [hour] heure [minute]</string>
+                <string>à ma montre à quartz, il est exactement [hour] heure et [minute] minute</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>givedate</Key>
+            <BaseValue>Aujourd'hui nous sommes [weekday] [day] [month] [year]</BaseValue>
+            <ClosePhoneticValues />
+            <RandomValues>
+                <string>Aujourd'hui nous sommes [weekday] [day] [month] [year]</string>
+                <string>[weekday] [day] [month] [year]</string>
+            </RandomValues>
+        </DictionaryEntry>
     </Entries>
 </LanguageThesaurus>

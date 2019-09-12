@@ -13,27 +13,27 @@ namespace BuddyApp.OutOfBox
         private bool mTransitionEnd;
         public override void OnStateEnter(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
         {
+            Buddy.Vocal.OnListeningStatus.Add((iStatus) => Debug.LogWarning(iStatus.ToString()));
             mTransitionEnd = false;
             Buddy.Vocal.SayKey("psixintro", (iOut) => {
                 if (!iOut.IsInterrupted)
-                    Buddy.GUI.Toaster.Display<ParameterToast>().With((iOnBuild) => {
-                        iOnBuild.CreateWidget<TText>().SetLabel("Ok Buddy");
-                    }, () => {
-                        StartCoroutine(OutOfBoxUtils.WaitTimeAsync(2F, () => {
-                            Buddy.GUI.Toaster.Hide();
+                    Buddy.Vocal.SayKey("psixunderstand", (iSpeechOut) => {
+                        if (!iSpeechOut.IsInterrupted) {
+                            Buddy.Vocal.EnableTrigger = true;
+                            StartCoroutine(OutOfBoxUtils.WaitTimeAsync(1F, () => {
+                                Buddy.Vocal.SayKey("psixokbuddy",
+                                    (iOutPut) => {
+                                        if (!iOut.IsInterrupted)
+                                            Buddy.GUI.Toaster.Display<ParameterToast>().With((iOnBuild) => {
+                                                iOnBuild.CreateWidget<TText>().SetLabel("OK Buddy");
+                                            });
+                                    });
 
-                        }));
-                    }, () => {
-                        Buddy.Vocal.SayKey("psixunderstand", (iSpeechOut) => {
-                            if (!iSpeechOut.IsInterrupted)
-                                StartCoroutine(OutOfBoxUtils.WaitTimeAsync(1F, () => {
-                                    Buddy.Vocal.SayKey("psixokbuddy");
-                                    Buddy.Vocal.EnableTrigger = true;
-                                    Buddy.Vocal.ListenOnTrigger = true;
-                                    Buddy.Vocal.OnTrigger.Add(BuddyTrigged);
-                                    mTimer = 0F;
-                                }));
-                        });
+                                Buddy.Vocal.ListenOnTrigger = false;
+                                Buddy.Vocal.OnTrigger.Add(BuddyTrigged);
+                                mTimer = 0F;
+                            }));
+                        }
                     });
             });
         }
@@ -51,6 +51,7 @@ namespace BuddyApp.OutOfBox
 
         private void BuddyTrigged(SpeechHotword iHotWord)
         {
+            Buddy.Vocal.EnableTrigger = false;
             mTransitionEnd = true;
             Buddy.GUI.Toaster.Hide();
             Buddy.Vocal.SayKey("psixseeheart", (iSpeech) => { if (!iSpeech.IsInterrupted) TransitionToEnd(); });
@@ -59,33 +60,40 @@ namespace BuddyApp.OutOfBox
         private void TransitionToEnd()
         {
             Buddy.GUI.Toaster.Hide();
+            Debug.LogWarning("Transition to end");
             Buddy.Vocal.SayKey("psixask", (iOut) => {
+                Debug.LogWarning("psixask");
                 if (!iOut.IsInterrupted)
-                    Buddy.Vocal.Listen((iListen) => {
-                        string lAnswer = "";
-                        if (iListen.Rule.Contains("date")) {
-                            lAnswer = Buddy.Resources.GetRandomString("givedate").Replace("[weekday]", DateTime.Now.ToString("dddd", new CultureInfo(Buddy.Platform.Language.OutputLanguage.BCP47Code)));
-                            lAnswer = lAnswer.Replace("[month]", "" + DateTime.Now.ToString("MMMM", new CultureInfo(Buddy.Platform.Language.OutputLanguage.BCP47Code)));
+                    Buddy.Vocal.Listen("outofbox",
+                        (iListen) => {
+                            Debug.LogWarning("listen");
+                            string lAnswer = "";
+                            if (iListen.Rule != null)
+                                if (iListen.Rule.Contains("date")) {
+                                    Debug.LogWarning("date");
+                                    lAnswer = Buddy.Resources.GetRandomString("givedate").Replace("[weekday]", DateTime.Now.ToString("dddd", new CultureInfo(Buddy.Platform.Language.OutputLanguage.BCP47Code)));
+                                    lAnswer = lAnswer.Replace("[month]", "" + DateTime.Now.ToString("MMMM", new CultureInfo(Buddy.Platform.Language.OutputLanguage.BCP47Code)));
 
-                            lAnswer = lAnswer.Replace("[day]", "" + DateTime.Now.Day);
-                            lAnswer = lAnswer.Replace("[year]", "" + DateTime.Now.Year);
-                        } else if (iListen.Rule.Contains("hour")) {
-                            if (Buddy.Platform.Language.OutputLanguage.ISO6391Code == ISO6391Code.EN) {
-                                lAnswer = GiveHourInEnglish();
-                            } else {
-                                lAnswer = Buddy.Resources.GetRandomString("givehour").Replace("[hour]", DateTime.Now.Hour.ToString());
-                                lAnswer = lAnswer.Replace("[minute]", "" + DateTime.Now.Minute);
-                            }
-                        } else if (iListen.Rule.Contains("calcul")) {
-                            lAnswer = "18";
+                                    lAnswer = lAnswer.Replace("[day]", "" + DateTime.Now.Day);
+                                    lAnswer = lAnswer.Replace("[year]", "" + DateTime.Now.Year);
+                                } else if (iListen.Rule.Contains("hour")) {
+                                    Debug.LogWarning("hour");
+                                    if (Buddy.Platform.Language.OutputLanguage.ISO6391Code == ISO6391Code.EN) {
+                                        lAnswer = GiveHourInEnglish();
+                                    } else {
+                                        lAnswer = Buddy.Resources.GetRandomString("givehour").Replace("[hour]", DateTime.Now.Hour.ToString());
+                                        lAnswer = lAnswer.Replace("[minute]", "" + DateTime.Now.Minute);
+                                    }
+                                } else if (iListen.Rule.Contains("calcul")) {
+                                    Debug.LogWarning("calcul");
+                                    lAnswer = "18";
+                                }
+
+                            Debug.LogWarning("say answer " + lAnswer);
+                            Buddy.Vocal.Say(lAnswer, Ending);
+                            Debug.LogWarning("say answer " + lAnswer);
                         }
-
-                        Buddy.Vocal.Say(lAnswer, Ending);
-
-
-
-
-                    }
+                        , SpeechRecognitionMode.GRAMMAR_ONLY
                  );
             }
             );
