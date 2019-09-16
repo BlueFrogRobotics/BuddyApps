@@ -36,7 +36,7 @@ namespace BuddyApp.OutOfBoxV3
             Buddy.Sensors.TouchSensors.Heart.OnTouch.Add(OnTouchHeart);
 
             Buddy.Vocal.OnTrigger.AddP(WakeUp);
-            OutOfBoxUtils.DebugColor("AWAKENING : ", "blue");
+            OutOfBoxUtilsVThree.DebugColor("AWAKENING : ", "blue");
             Buddy.Actuators.Head.No.ResetPosition();
             Buddy.Actuators.Head.Yes.SetPosition(-9F, 45F , (iPos) =>
             {
@@ -47,12 +47,12 @@ namespace BuddyApp.OutOfBoxV3
         }
 
         private bool WakeUp(SpeechHotword HotWord = null)
-        {
+        { 
             mWokeUp = true;
-            Buddy.Actuators.Head.Yes.SetPosition(5F, 45F);
 
             Buddy.Behaviour.Face.PlayEvent(FacialEvent.AWAKE, null, (iFacialEvent) =>
             {
+                Buddy.Actuators.Head.Yes.SetPosition(5F, 45F);
                 Buddy.Vocal.SayKey("awakegrumpy", (iSpeechOutput) =>
                 {
                     // TODO Play BI grumpy
@@ -133,12 +133,34 @@ namespace BuddyApp.OutOfBoxV3
 
         private void RobotTouched()
         {
-            if(!mWokeUp)
+            OutOfBoxUtilsVThree.DebugColor("INTERNAL STATE PLEASURE : " + Buddy.Cognitive.InternalState.Pleasure, "blue");
+            if (!mWokeUp)
                 WakeUp();
             else if(Buddy.Cognitive.InternalState.Pleasure > 0)
+            {
+                OutOfBoxUtilsVThree.DebugColor("AWAKENING CHANGE STATE: ", "blue");
+                RemoveListener();
                 Buddy.Vocal.SayKey("awakefeelbetter", (iSpeechOutput) => {
+                    OutOfBoxUtilsVThree.DebugColor("AWAKENING CHANGE STATE AFTER SPEAKING : ", "blue");
                     mBehaviour.PhaseDropDown.value = 1;
                 });
+            }
+                
+        }
+
+        private void RemoveListener()
+        {
+            Buddy.Behaviour.Face.OnTouchLeftEye.Remove(OnLeftEyeClicked);
+            Buddy.Behaviour.Face.OnTouchRightEye.Remove(OnRightEyeClicked);
+            Buddy.Behaviour.Face.OnTouchMouth.Remove(OnMouthClicked);
+            Buddy.Behaviour.Face.OnTouchSkin.Remove(OnSkinClicked);
+
+            Buddy.Sensors.TouchSensors.BackHead.OnTouch.Remove(OnTouchBackHead);
+            Buddy.Sensors.TouchSensors.LeftHead.OnTouch.Remove(OnTouchLeftHead);
+            Buddy.Sensors.TouchSensors.RightHead.OnTouch.Remove(OnTouchRightHead);
+            Buddy.Sensors.TouchSensors.LeftShoulder.OnTouch.Remove(OnTouchLeftShoulder);
+            Buddy.Sensors.TouchSensors.RightShoulder.OnTouch.Remove(OnTouchRightShoulder);
+            Buddy.Sensors.TouchSensors.Heart.OnTouch.Remove(OnTouchHeart);
         }
     }
 }

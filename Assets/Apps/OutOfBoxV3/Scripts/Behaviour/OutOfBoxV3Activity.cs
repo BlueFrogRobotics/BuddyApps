@@ -34,6 +34,7 @@ namespace BuddyApp.OutOfBoxV3
         public override void OnStart()
         {
             ExtLog.I(ExtLogModule.APP, typeof(OutOfBoxV3Activity), LogStatus.SUCCESS, LogInfo.LOADING, "On start...");
+            OutOfBoxUtilsVThree.Init();
         }
 
 		/*

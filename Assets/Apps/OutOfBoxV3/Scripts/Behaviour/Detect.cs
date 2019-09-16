@@ -34,6 +34,8 @@ namespace BuddyApp.OutOfBoxV3
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            OutOfBoxUtilsVThree.DebugColor("START DETECT STATE ", "blue");
+            Buddy.Vocal.SayKey("whoisaround");
             mPhotoTakenCount = 0;
             mNumberOfDetect = 0;
             mHumanDetectEnabled = false;
@@ -61,7 +63,7 @@ namespace BuddyApp.OutOfBoxV3
             //add angle to the global angle to know if it > 360°
             if (mTotalAngle < 359F/* && mTotalAngle >= 0F*/)
             {
-                mTotalAngle += Math.Abs(OutOfBoxUtils.WrapAngle(Buddy.Actuators.Wheels.Angle - mAngleSequence));
+                mTotalAngle += Math.Abs(OutOfBoxUtilsVThree.WrapAngle(Buddy.Actuators.Wheels.Angle - mAngleSequence));
                 mAngleSequence = Buddy.Actuators.Wheels.Angle;
                 //OutOfBoxUtils.DebugColor("TOTAL ANGLE : " + mTotalAngle, "blue");
             }
@@ -70,7 +72,7 @@ namespace BuddyApp.OutOfBoxV3
                 Buddy.Actuators.Wheels.Stop();
                 Buddy.Navigation.Stop();
                 Buddy.Actuators.Head.No.ResetPosition();
-                OutOfBoxUtils.DebugColor("PHASE DONE ", "blue");
+                OutOfBoxUtilsVThree.DebugColor("PHASE DONE ", "blue");
                 mHumanDetectEnabled = false;
                 mDetectEnabled = false;
 
@@ -146,12 +148,12 @@ namespace BuddyApp.OutOfBoxV3
 
         private bool OnHumanDetect(HumanEntity[] iHumanEntity)
         {
-            if(!mFirstStep)
+            if (!mFirstStep)
             {
                 mFirstStep = true;
                 if (Buddy.Sensors.RGBCamera.Width > 0)
                     Buddy.Sensors.RGBCamera.TakePhotograph(TakePhoto, false, true);
-                StartCoroutine(OutOfBoxUtils.PlayBIAsync(() =>
+                StartCoroutine(OutOfBoxUtilsVThree.PlayBIAsync(() =>
                 {
                     Buddy.Actuators.Head.No.SetPosition(-90F, 45F, (iOut) => { Buddy.Actuators.Head.No.SetPosition(90F, 45F, (iSpeechOut) => { StartDetect(); }); });
 
@@ -177,7 +179,8 @@ namespace BuddyApp.OutOfBoxV3
                 Buddy.Navigation.Run<DisplacementStrategy>().Rotate(lHeadLastAngle, 70F, () => {
                     if (Buddy.Sensors.RGBCamera.Width > 0)
                         Buddy.Sensors.RGBCamera.TakePhotograph(TakePhoto, false, true);
-                    StartCoroutine(OutOfBoxUtils.PlayBIAsync(() =>
+                    Buddy.Vocal.SayKey("humandetected");
+                    StartCoroutine(OutOfBoxUtilsVThree.PlayBIAsync(() =>
                     {
                         //if (lHeadLastAngle > 0)
                         //{
@@ -196,7 +199,7 @@ namespace BuddyApp.OutOfBoxV3
                 StartCoroutine(WaitTimeAndResetNo());
             }
             mNumberOfDetect++;
-            OutOfBoxUtils.DebugColor("Human detected", "blue");
+            OutOfBoxUtilsVThree.DebugColor("Human detected", "blue");
             return true;
         }
         

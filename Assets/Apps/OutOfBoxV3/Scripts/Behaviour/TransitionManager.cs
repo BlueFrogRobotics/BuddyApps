@@ -19,6 +19,7 @@ namespace BuddyApp.OutOfBoxV3
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
         {
+            OutOfBoxUtilsVThree.DebugColor("TRANSITION MANAGER : " + mBehaviour.PhaseDropDown.captionText.text.ToUpper(), "blue");
             Buddy.Navigation.Stop();
             Buddy.Actuators.Wheels.Stop();
             Buddy.Actuators.Head.Stop();
@@ -26,7 +27,7 @@ namespace BuddyApp.OutOfBoxV3
             Buddy.Behaviour.ResetMood();
             Buddy.Vocal.StopAndClear();
             
-            Trigger(mBehaviour.PhaseDropDown.captionText.text);
+            Trigger(mBehaviour.PhaseDropDown.captionText.text.ToUpper());
         }
     }
 }

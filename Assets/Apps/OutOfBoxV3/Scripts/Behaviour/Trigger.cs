@@ -17,14 +17,14 @@ namespace BuddyApp.OutOfBoxV3
                     Buddy.GUI.Toaster.Display<ParameterToast>().With((iOnBuild) => {
                         iOnBuild.CreateWidget<TText>().SetLabel("OK Buddy");
                     }, () => {
-                        StartCoroutine(OutOfBoxUtils.WaitTimeAsync(2F, () => {
+                        StartCoroutine(OutOfBoxUtilsVThree.WaitTimeAsync(2F, () => {
                             Buddy.GUI.Toaster.Hide();
 
                         }));
                     }, () => {
                         Buddy.Vocal.SayKey("psixunderstand", (iSpeechOut) => {
                             if (!iSpeechOut.IsInterrupted)
-                                StartCoroutine(OutOfBoxUtils.WaitTimeAsync(1F, () => {
+                                StartCoroutine(OutOfBoxUtilsVThree.WaitTimeAsync(1F, () => {
                                     Buddy.Vocal.SayKey("psixokbuddy");
                                     Buddy.Vocal.EnableTrigger = true;
                                     Buddy.Vocal.ListenOnTrigger = true;
@@ -58,7 +58,7 @@ namespace BuddyApp.OutOfBoxV3
             Buddy.Vocal.SayKey("psixask", (iOut) => {
                 if (!iOut.IsInterrupted)
                     Buddy.Vocal.Listen((iListen) => {
-                        StartCoroutine(OutOfBoxUtils.PlayBIAsync(() => Buddy.Vocal.Say(Buddy.Resources.GetString("psixthanks"), (iSpeech) => {
+                        StartCoroutine(OutOfBoxUtilsVThree.PlayBIAsync(() => Buddy.Vocal.Say(Buddy.Resources.GetString("psixthanks"), (iSpeech) => {
                             //Launch diagnostic
                             Buddy.Platform.Application.StartApp("Diagnostic");
                         })));

@@ -27,7 +27,7 @@ namespace BuddyApp.OutOfBoxV3
             Buddy.Vocal.SayKey("pfivelovecaress", (iOut) => {
                 if (!iOut.IsInterrupted) {
                     Buddy.Behaviour.SetMood(Mood.ANGRY, false);
-                    StartCoroutine(OutOfBoxUtils.WaitTimeAsync(1F, () => {
+                    StartCoroutine(OutOfBoxUtilsVThree.WaitTimeAsync(1F, () => {
                         Buddy.Vocal.SayKey("pfivedontlovecaress", (iOutTwo) => {
                             if (!iOutTwo.IsInterrupted) {
                                 Buddy.Behaviour.ResetMood();
@@ -48,40 +48,40 @@ namespace BuddyApp.OutOfBoxV3
         {
             if (mActiveTimer && mTimer < 11F) {
                 mTimer += Time.deltaTime;
-                OutOfBoxUtils.DebugColor("TIMER P FIVE : " + mTimer, "blue");
+                OutOfBoxUtilsVThree.DebugColor("TIMER P FIVE : " + mTimer, "blue");
                 if (!Buddy.Behaviour.Interpreter.IsBusy) {
                     if (Buddy.Sensors.TouchSensors.BackHead.Value) {
                         mTimer = 0F;
-                        OutOfBoxUtils.DebugColor("BACKHEAD", "blue");
+                        OutOfBoxUtilsVThree.DebugColor("BACKHEAD", "blue");
                         Buddy.Behaviour.Interpreter.Run("CenterHead01", () => { Buddy.Behaviour.SetMood(Mood.NEUTRAL); });
                     } else if (Buddy.Sensors.TouchSensors.Heart.Value) {
                         mTimer = 0F;
-                        OutOfBoxUtils.DebugColor("Heart", "blue");
+                        OutOfBoxUtilsVThree.DebugColor("Heart", "blue");
                         Buddy.Behaviour.Interpreter.Run("CenterHeart01", () => { Buddy.Behaviour.SetMood(Mood.NEUTRAL); });
                     } else if (Buddy.Sensors.TouchSensors.LeftHead.Value) {
                         mTimer = 0F;
-                        OutOfBoxUtils.DebugColor("LeftHead", "blue");
+                        OutOfBoxUtilsVThree.DebugColor("LeftHead", "blue");
                         Buddy.Behaviour.Interpreter.Run("LeftHead01", () => { Buddy.Behaviour.SetMood(Mood.NEUTRAL); });
                     } else if (Buddy.Sensors.TouchSensors.LeftShoulder.Value) {
                         mTimer = 0F;
-                        OutOfBoxUtils.DebugColor("LeftShoulder", "blue");
+                        OutOfBoxUtilsVThree.DebugColor("LeftShoulder", "blue");
                         Buddy.Behaviour.Interpreter.Run("LeftShoulder01", () => { Buddy.Behaviour.SetMood(Mood.NEUTRAL); });
                     } else if (Buddy.Sensors.TouchSensors.RightHead.Value) {
                         mTimer = 0F;
-                        OutOfBoxUtils.DebugColor("RightHead", "blue");
+                        OutOfBoxUtilsVThree.DebugColor("RightHead", "blue");
                         Buddy.Behaviour.Interpreter.Run("RightHead01", () => { Buddy.Behaviour.SetMood(Mood.NEUTRAL); });
                     } else if (Buddy.Sensors.TouchSensors.RightShoulder.Value) {
                         mTimer = 0F;
-                        OutOfBoxUtils.DebugColor("RightShoulder", "blue");
+                        OutOfBoxUtilsVThree.DebugColor("RightShoulder", "blue");
                         Buddy.Behaviour.Interpreter.Run("RightShoulder01", () => { Buddy.Behaviour.SetMood(Mood.NEUTRAL); });
                     }
                 }
 
                 if (mTimer > 10F && !mEnded) {
                     mEnded = true;
-                    OutOfBoxUtils.DebugColor("TIMER FINI ", "blue");
+                    OutOfBoxUtilsVThree.DebugColor("TIMER FINI ", "blue");
                     Debug.LogWarning("Timer fini 2 ");
-                    StartCoroutine(OutOfBoxUtils.PlayBIAsync(() => {
+                    StartCoroutine(OutOfBoxUtilsVThree.PlayBIAsync(() => {
                         Debug.LogWarning("BI callback ");
                         Buddy.Vocal.SayKey("pfivetooshy", (iOutSpeech) => {
                             Debug.LogWarning("end of speech ");
@@ -97,7 +97,7 @@ namespace BuddyApp.OutOfBoxV3
 
         private void OnFaceTouched(FacialPart iFacial)
         {
-            OutOfBoxUtils.DebugColor("Face touched : ", "blue");
+            OutOfBoxUtilsVThree.DebugColor("Face touched : ", "blue");
             mTimer = 0F;
             if (iFacial == FacialPart.LEFT_EYE || iFacial == FacialPart.RIGHT_EYE) {
                 Buddy.Behaviour.Interpreter.StopAndClear();
