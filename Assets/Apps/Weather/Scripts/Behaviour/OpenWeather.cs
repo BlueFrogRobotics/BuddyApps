@@ -114,6 +114,22 @@ namespace BuddyApp.Weather
 
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(lXMLData);
+
+            // Get shift from UTC
+            int secondsFromUTC = 0; // shift in seconds from UTC 
+            XmlNodeList locationNodes = doc.DocumentElement.GetElementsByTagName("location");
+            if (locationNodes.Count != 0)
+            {
+                foreach (XmlNode node in locationNodes[0].ChildNodes)
+                {
+                    if (node.Name == "timezone")
+                    {
+                        int.TryParse(node.InnerText, out secondsFromUTC);
+                        Debug.Log("Shift in seconds from UTC time :" + secondsFromUTC);
+                    }
+                }
+            }
+
             XmlNodeList list = doc.DocumentElement.GetElementsByTagName("forecast");
             if (list.Count == 0)
                 yield break;
@@ -132,11 +148,14 @@ namespace BuddyApp.Weather
                     double windDirection = 0.0f; // degrees
                     WeatherType weatherType = WeatherType.UNKNOWN;
 
-                    if (node.Attributes["from"] != null)
+                    if (node.Attributes["to"] != null)
                     {
-                        if (DateTime.TryParseExact(node.Attributes["from"].InnerText, "yyyy-MM-ddTHH:mm:ss", null, System.Globalization.DateTimeStyles.None, out dt))
+                        string dateStr = node.Attributes["to"].InnerText;
+                        if (DateTime.TryParseExact(dateStr, "yyyy-MM-ddTHH:mm:ss", null, System.Globalization.DateTimeStyles.AdjustToUniversal, out dt))
                         {
-                            Debug.Log("Date " + node.Attributes["from"].InnerText + " " + dt.ToShortDateString() + " " + dt.ToShortTimeString() + "\n");
+                            dt = dt.AddSeconds(secondsFromUTC);
+
+                            Debug.Log("Date " + dateStr + " " + dt.ToShortDateString() + " " + dt.ToShortTimeString() + "\n");
                         }
                     }
 

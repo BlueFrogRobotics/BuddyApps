@@ -19,7 +19,7 @@ namespace BuddyApp.Weather
         private WeatherMan mMan;
 
         private const int NB_DATA_IN_DAY = 8;
-        private const int FIRST_HOUR = 8;
+        private const int FIRST_HOUR = 6;
 
         #region Unity Methods
 
@@ -115,7 +115,7 @@ namespace BuddyApp.Weather
                 }
                 else
                 {
-                    string lNoAnswer = Buddy.Resources.GetRandomString("no") + " "
+                    string lNoAnswer = Buddy.Resources.GetRandomString("no") + ", "
                     + Buddy.Resources.GetRandomString((iWeatherInfo.Type.ToString().ToLower()).Replace("_", "")) + " " + lDayString + " " + Buddy.Resources.GetRandomString("at") + " " + EnglishHour(iWeatherInfo.Hour);
                     string lYesAnswer = Buddy.Resources.GetRandomString("yes") + " "
                         + Buddy.Resources.GetRandomString((iWeatherInfo.Type.ToString().ToLower()).Replace("_", "")) + " " + lDayString + " " + Buddy.Resources.GetRandomString("at") + " " + EnglishHour(iWeatherInfo.Hour);

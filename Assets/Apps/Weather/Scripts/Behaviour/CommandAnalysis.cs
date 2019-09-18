@@ -31,15 +31,16 @@ namespace BuddyApp.Weather
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             Debug.Log("VocalRequest : " + WeatherData.Instance.VocalRequest);
-            string vocalRequest = "What's the weather like";
-            if (Buddy.Platform.Language.InputLanguage.ISO6391Code == ISO6391Code.FR)            
-                vocalRequest = "Quel temps fait-il";
 
             if (WeatherData.Instance.VocalRequest != "")
                 StringAnalysis(WeatherData.Instance.VocalRequest);
             else
+            {
+                string vocalRequest = "What's the weather like";
+                if (Buddy.Platform.Language.InputLanguage.ISO6391Code == ISO6391Code.FR)
+                    vocalRequest = "Quel temps fait-il ";
                 StringAnalysis(vocalRequest);
-
+            }
 
             Trigger("Request");
         }
@@ -48,7 +49,7 @@ namespace BuddyApp.Weather
         {
             // Analyse string to find parameters (place, date ...)
             ExtractLocation(iVocalRequest);
-            iVocalRequest.ToLower();
+            iVocalRequest = iVocalRequest.ToLower();
             if (ContainsOneOf(iVocalRequest, Buddy.Resources.GetPhoneticStrings("when")))
                 mWeatherB.mWhen = true;
             mWeatherB.mWeekend = false;
