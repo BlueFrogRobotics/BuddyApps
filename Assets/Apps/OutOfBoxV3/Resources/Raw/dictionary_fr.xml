@@ -43,42 +43,43 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>pthreefirststep</Key>
-            <BaseValue>Maintenant je vais vous montrer que j'arrive à localiser les bruits ou la direction de celui qui m'apelle.</BaseValue>
+            <BaseValue />
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>Maintenant je vais vous montrer que j'arrive à localiser les bruits ou la direction de celui qui m'apelle.</string>
+                <string>On va maintenant faire un petit jeu : [200] je vais fermer les yeux et ouvrir mes oreilles.  </string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>pthreesecondstep</Key>
-            <BaseValue>Je vais me retourner et vous pouvez m'appeler ou frapper dans vos mains par exemple.</BaseValue>
+            <BaseValue />
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>Je vais me retourner et vous pouvez m'appeler ou frapper dans vos mains par exemple.</string>
+                <string>[200] Je vais essayer de te retrouver juste avec le bruit que tu fais </string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>pthreewhostart</Key>
-            <BaseValue>Qui commence le premier?</BaseValue>
+            <BaseValue />
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string />
+                <string>Je suis prêt, j'ai fermé mes yeux, appelle-moi!</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>pthreevoila</Key>
-            <BaseValue>Voilà!</BaseValue>
+            <BaseValue />
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string />
+                <string>Je t'ai retrouvé, les yeux fermés! Trop fort! </string>
+                <string> Hey, tu es la [200] Salut!</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -143,7 +144,7 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>psixintro</Key>
-            <BaseValue>Tu sais je n'écoute pas toutes les conversations mais pour me parler il faut d'abord dire le mot magique [200] OK Buddy!</BaseValue>
+            <BaseValue>Je te propose maintenant d’apprendre à parler avec moi ! [200]  Pour cela, il faut que tu utilises le mot magique OK Buddy </BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -183,12 +184,12 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>psixmouth</Key>
-            <BaseValue>Tu peux aussi déclencher l'écoute en appuyant sur la bouche.</BaseValue>
+            <BaseValue />
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string />
+                <string>Je n'ai rien entendu, dommage je vais faire autre chose du coup.</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -256,6 +257,26 @@
                 <string>Bonjour bonjour!</string>
                 <string>Tiens, une nouvelle tête!</string>
                 <string>Coucou!</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>listenaftertrigger</Key>
+            <BaseValue />
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Super ! Tu as bien prononcé le mot magique !  [500] Quand tu dis le mot magique, [200] ensuite je t’écoute. Tu peux voir mon cœur passer en vert quand je t’écoute. Mon coeur repasse en bleu quand j'ai fini de t'écouter. Maintenant essaye de m'appeler avec le mot magique, puis tu peux me demander quelque chose.</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>showsomething</Key>
+            <BaseValue>Montre-moi un (chien)</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
             </RandomValues>
         </DictionaryEntry>
     </Entries>

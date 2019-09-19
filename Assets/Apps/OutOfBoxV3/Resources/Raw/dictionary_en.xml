@@ -43,42 +43,43 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>pthreefirststep</Key>
-            <BaseValue>Now I'll show you how I can locate sounds or the direction from the person who calls me.</BaseValue>
+            <BaseValue />
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>Now I'll show you how I can locate sounds or the direction from the person who calls me.</string>
+                <string>Now we will play a little game : [200] I will close my eyes and listen carefully</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>pthreesecondstep</Key>
-            <BaseValue>I will turn around and you can call me or do some noises with your hand.</BaseValue>
+            <BaseValue />
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>I will turn around and you can call me or do some noises with your hand.</string>
+                <string>[200] I will try to find you with the noise you will do</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>pthreewhostart</Key>
-            <BaseValue>Who start first?</BaseValue>
+            <BaseValue />
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string />
+                <string>I am ready, I closed my eyes, call me!</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>pthreevoila</Key>
-            <BaseValue>That's it!</BaseValue>
+            <BaseValue />
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string />
+                <string>I found you with my eyes closed! I am too strong! </string>
+                <string> Hey you are here [200] Hello!</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -143,7 +144,7 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>psixintro</Key>
-            <BaseValue>You know I do not listen to all the conversations but to talk to me, you have to say first the magical word [200] OK Buddy!</BaseValue>
+            <BaseValue>I will teach you how to speak with me! [200] You have to use the magic word OK Buddy</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -183,12 +184,12 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>psixmouth</Key>
-            <BaseValue>You also can trigger the listen if you click on my mouth.</BaseValue>
+            <BaseValue />
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string />
+                <string>I heard nothing, I will do other activities.</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -254,6 +255,26 @@
             <RandomValues>
                 <string>Hello hello!</string>
                 <string>Hello you!</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>listenaftertrigger</Key>
+            <BaseValue />
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Great, you have pronounced well the magic word ! [500] When you say the magic word, [200] then I listen to you. You can see my heart becoming green when I listen to you. My heart changes to blue when I am done listening to you. Now try to call me with the magic word and ask me something!</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>showsomething</Key>
+            <BaseValue>Show me a (dog)</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
             </RandomValues>
         </DictionaryEntry>
     </Entries>

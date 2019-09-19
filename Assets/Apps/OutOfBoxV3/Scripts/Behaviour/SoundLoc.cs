@@ -88,8 +88,10 @@ namespace BuddyApp.OutOfBoxV3
                 Buddy.Vocal.SayKey("pthreevoila", (iOut) => { if(!iOut.IsInterrupted) Trigger("TRANSITION"); });
                 
             } else if (!mHumanDetected && mTimer > 15F && !mSoundLocEnabled) {
+
                 Buddy.Perception.HumanDetector.OnDetect.RemoveP(OnHumanDetect);
-                Buddy.Vocal.SayKey("pthreedobetter", (iOut) => { if (!iOut.IsInterrupted) Trigger("TRANSITION"); });
+                Buddy.Behaviour.Mood = Mood.THINKING;
+                Buddy.Vocal.SayKey("pthreedobetter", (iOut) => { Buddy.Behaviour.Mood = Mood.NEUTRAL; if (!iOut.IsInterrupted) Trigger("TRANSITION"); });
                 
             }
         }
