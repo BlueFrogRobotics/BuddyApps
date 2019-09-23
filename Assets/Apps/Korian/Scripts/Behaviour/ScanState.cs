@@ -19,7 +19,7 @@ namespace BuddyApp.Korian
             Buddy.Perception.HumanDetector.OnDetect.AddP(OnHumanDetect,
                 new HumanDetectorParameter
                 {
-                    SensorMode = SensorMode.VISION,
+                    HumanDetectionMode = HumanDetectionMode.VISION,
                 }
             );
 

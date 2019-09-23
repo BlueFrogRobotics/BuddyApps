@@ -905,6 +905,127 @@
             Hide the blurred background.
             </summary>
         </member>
+        <member name="T:BlueQuark.Internal.DictionaryEntry">
+            <summary>
+            Key-value dictionary base entry
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.DictionaryEntry.Key">
+            <summary>
+            Key of the value.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.DictionaryEntry.BaseValue">
+            <summary>
+            Display purpose value.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.DictionaryEntry.ClosePhoneticValues">
+            <summary>
+            Listen list for STT input processing.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.DictionaryEntry.RandomValues">
+            <summary>
+            Say list containing value that will be choosen randomly.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.DictionaryEntryType.BASE">
+            <summary>
+            Unique value for UI display purpose.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.DictionaryEntryType.CLOSE_PHONETIC">
+            <summary>
+            Dictionary entry for STT purpose mainly.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.DictionaryEntryType.RANDOM">
+            <summary>
+            Dictionary entry for TTS purpose mainly.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.LanguageThesaurus">
+            <summary>
+            Language dictionary storage. Contains key-value entries for one language
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.LanguageThesaurus.Entries">
+            <summary>
+            All key-value entries of the thesaurus
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.LanguageThesaurus.#ctor">
+            <summary>
+            Represents all the dictionary entries
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.LanguageThesaurus.ContainsKey(System.String)">
+            <summary>
+            Check existing key in existing entries
+            </summary>
+            <param name="iKey">Key to check</param>
+            <returns>True if the key already exists in Entries</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Thesaurus.Contains(System.String,BlueQuark.Context)">
+            <summary>
+            Checks if a specified key-value pair is contained in the dictionary.
+            Lookup speed in Th(iKey.Length).
+            </summary>
+            <param name="iKey">The key word to check</param>
+            <param name="iContext">The context corresponding to the dictionary to use</param>
+            <returns>True if the key is stored inside the dictionary</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Thesaurus.GetBase(System.String,BlueQuark.Context,BlueQuark.ISO6391Code)">
+            <summary>
+            Retrieves the corresponding word from the input key word. Checks first in app dict if exists, if not checks in native dict.
+            Lookup speed in Th(iKey.Length).
+            </summary>
+            <param name="iKey">The key word corresponding to the wished word</param>
+            <param name="iContext">The context corresponding to the dictionary to use</param>
+            <param name="iLanguage">Reference language.</param>
+            <returns>The word in the current language, empty if not found</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Thesaurus.GetBase(System.String,BlueQuark.Context)">
+            <summary>
+            Retrieves the corresponding word from the input key word. Checks first in app dict if exists, if not checks in native dict.
+            Lookup speed in Th(iKey.Length).
+            </summary>
+            <param name="iKey">The key word corresponding to the wished word</param>
+            <param name="iContext">The context corresponding to the dictionary to use</param>
+            <returns>The word in the current language, empty if not found</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Thesaurus.GetRandom(System.String,BlueQuark.Context)">
+            <summary>
+            Retrieves a random word from the input key word. Checks first in app dict if exists, if not checks in native dict.
+            Lookup speed in Th(iKey.Length).
+            </summary>
+            <param name="iKey">The key word corresponding to the wished random word</param>
+            <param name="iContext">The context corresponding to the dictionary to use</param>
+            <returns>The word in the current language, empty if not found</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Thesaurus.GetPhonetics(System.String,BlueQuark.Context)">
+            <summary>
+            Retrieves the corresponding list to the input iKey. Useful for multiple response handling with the SpeechToText
+            </summary>
+            <param name="iKey">The key corresponding to the wished list</param>
+            <param name="iContext">The context corresponding to the dictionary to use</param>
+            <returns>List of strings that must sound similar</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Thesaurus.ContainsPhonetic(System.String,System.String,BlueQuark.Context)">
+            <summary>
+            Proceed to a GetPhoneticsStrings(iKey, iContext = APP) and checks if one element on the closephonetic array is contained in iRef
+            </summary>
+            <param name="iRef">The sentence to compare to each word into the list</param>
+            <param name="iKey">The key corresponding to the wished list</param>
+            <param name="iContext">The context corresponding to the dictionary to use</param>
+            <returns>True if the one element of the closephonetic array in contained in iRef sentence (not null and not empty), false otherwise</returns>
+        </member>
+        <member name="T:BlueQuark.Internal.UpQuark">
+            <summary>
+            Operating system package manager.
+            </summary>
+        </member>
         <member name="P:BlueQuark.Internal.LayerStack`1.Previous">
             <summary>
             Get the layer that is directly underneath the current.
@@ -1213,6 +1334,16 @@
             All info of the µC.
             </summary>
         </member>
+        <member name="M:BlueQuark.Internal.LookAroundSubStrategy.With(System.Single,System.Single,System.Single,System.Action)">
+            <summary>
+            Start a look around movement.
+            Angles must be positive, or 0 if no movement needed.
+            </summary>
+            <param name="iHeadNoRotationAngle">Rotation angle for Head no axis.</param>
+            <param name="iBodyRotationAngle">Rotation angle for wheels.</param>
+            <param name="iVelocity">Velocity for all movement.</param>
+            <param name="iOnEnd">Action to do when LookAround ends.</param>
+        </member>
         <member name="T:BlueQuark.Internal.AMovementController">
             <summary>
             Define the minimum implementation for a controller.
@@ -1429,7 +1560,8 @@
         <member name="M:BlueQuark.Internal.TrackingController.SupervisingControllerAsync">
             <summary>
             This function control Head and Wheels through time.
-            Head move according to the eyes position and Wheels move according to the Head position. 
+            Head move according to the eyes position and Wheels move according to the Head position.
+            To check if an actuator can move, we only check if it's controller is not null.
             </summary>
             <returns></returns>
         </member>
@@ -1503,6 +1635,21 @@
             Can be static (on place) or dynamic (follow user).
             </summary>
         </member>
+        <member name="T:BlueQuark.Internal.HumanTrackSubStrategy.BehaviourOnNoDetection">
+            <summary>
+            Behaviour to adopt when no target found during research movement.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.HumanTrackSubStrategy.BehaviourOnNoDetection.STOP">
+            <summary>
+            Stop the strategy.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.HumanTrackSubStrategy.BehaviourOnNoDetection.CONTINUE">
+            <summary>
+            Continue the strategy.
+            </summary>
+        </member>
         <member name="F:BlueQuark.Internal.HumanTrackSubStrategy.OBSTACLE_MEASURE_NUMBER">
             <summary>
             Define the number of frame to use, to detect an obstacle.
@@ -1521,9 +1668,37 @@
             Pick the closest human first, then it track the human with the
             least displacement since the last frame.
             </summary>
-            <param name="iHumans">List of detected humans</param>
-            <param name="iPoint">Represent the position of the human. [-1 ; 1]</param>
-            <returns></returns>
+            <param name="iHumans">List of detected humans.</param>
+            <param name="iPoint">Represent the position of the human.</param>
+            <returns>On success return true, false otherwise.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HumanTrackSubStrategy.ComputeSkeletonRelativePosition(BlueQuark.SkeletonEntity[],UnityEngine.Vector3@)">
+            <summary>
+            Retrieve the relative position of the targeted skeleton.
+            Pick the firest detected skeleton at the beginning, then it track the skeleton with the
+            least displacement since the last frame.
+            </summary>
+            <param name="iSkeletons">List of detected skeleton.</param>
+            <param name="iPoint">Represent the position of the human.</param>
+            <returns>On success return true, false otherwise.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HumanTrackSubStrategy.SkeletonToTarget(BlueQuark.SkeletonEntity)">
+            <summary>
+            Compute center point that represent the skeleton on 2D picture,
+            taking into account depth position.
+            </summary>
+            <param name="iSkeleton">Skeleton to use.</param>
+            <returns>The center of the skeleton, on the picture.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HumanTrackSubStrategy.ComputeThermalHumanRelativePosition(BlueQuark.ThermalEntity[],UnityEngine.Vector2@)">
+            <summary>
+            Retrieve the relative position of the targeted human.
+            Pick the firt detected human at the beginning, then it track the human with the
+            least displacement since the last frame.
+            </summary>
+            <param name="iHumans">List of detected humans.</param>
+            <param name="iPoint">Represent the position of the human.</param>
+            <returns>On success return true, false otherwise.</returns>
         </member>
         <member name="M:BlueQuark.Internal.HumanTrackSubStrategy.CheckObstaclePresence">
             <summary>
@@ -1546,6 +1721,53 @@
             <param name="iNewPoint"></param>
             <param name="iLastPoint"></param>
             <returns></returns>
+        </member>
+        <member name="T:BlueQuark.Internal.ID3FaceRecognizer">
+            <summary>
+            Provides face recognition using ID3 library.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.ID3FaceRecognizer.IsBusy">
+            <summary>
+            True if a request is processing.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.ID3FaceRecognizer.DetectFaceCloud(OpenCVUnity.Mat,System.Action{BlueQuark.Internal.ID3FaceEntity[],System.Boolean},System.Boolean)">
+            <summary>
+            Detect faces in a mat and return the face ids using the callback.
+            </summary>
+            <param name="iImage">The mat of the picture.</param>
+            <param name="iOnRecognized">The callback with the list of face ids found in the picture.</param>
+            <param name="iStore">True if the face should be saved on the server.</param>
+        </member>
+        <member name="M:BlueQuark.Internal.ID3FaceRecognizer.FaceMatching(System.String,System.String,System.Action{System.Boolean,System.String,System.Boolean})">
+            <summary>
+            Performs a match between two face by using their ids.
+            </summary>
+            <param name="iIdProbe">Face id to check.</param>
+            <param name="iIdRef">Face id of reference.</param>
+            <param name="iOnMatched">Callback which has two parameters: the first one is true if the faces are the same, the second return the face ids of reference.</param>
+        </member>
+        <member name="M:BlueQuark.Internal.ID3FaceRecognizer.DeleteFaceId(System.String)">
+            <summary>
+            Performs a match between two face by using their ids.
+            </summary>
+            <param name="iId">Face id to check.</param>
+        </member>
+        <member name="T:BlueQuark.Internal.ID3FaceEntity">
+            <summary>
+            Represents a face detected using the id3 library.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.ID3FaceEntity.BoundingBox">
+            <summary>
+            The bouding box where the face is detected.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.ID3FaceEntity.CroppingBoundingBox">
+            <summary>
+            The bouding box where the face is detected.
+            </summary>
         </member>
         <member name="T:BlueQuark.Internal.AThermalAlgorithm">
             <summary>
@@ -1892,7 +2114,7 @@
             Creates a yolo detector using the tiny yolo v3 model for face detection.
             </summary>
             <param name="iClassesToDetect">The array of the classes that we want to detect.</param>
-            <param name="iConfidence">int (range 1:1:10) which determines the confidence threshold for detection acceptation.</param>
+            <param name="iConfidence">int (range 1:1:100) which determines the confidence threshold for detection acceptation.</param>
             <param name="iSize">The size of the meshing, should be a multiple of 32.</param>
         </member>
         <member name="M:BlueQuark.Internal.YOLODetector.Detect(OpenCVUnity.Mat)">
@@ -2163,6 +2385,11 @@
             Store and send log to BFR servers.
             </summary>
         </member>
+        <member name="M:BlueQuark.Internal.Reporter.DumpLog">
+            <summary>
+            Ask Java to dump log into a file.
+            </summary>
+        </member>
         <member name="T:BlueQuark.Internal.SerializableDictionary`2">
             <summary>
             Serializable Dictionary
@@ -2428,7 +2655,7 @@
             This state is to manage all type of vocal commands from user
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:BlueQuark.Internal.VocalCommandState.SortQuestionType(BlueQuark.SpeechInput)" -->
+        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.Internal.VocalCommandState.SortQuestionType(BlueQuark.SpeechInput)" -->
         <member name="M:BlueQuark.Internal.VocalCommandState.GiveHourInEnglish">
             <summary>
             Give The Hour in English
@@ -3622,7 +3849,7 @@
         </member>
         <member name="T:BlueQuark.Internal.UnitTestAttribute">
             <summary>
-            Attribute that signal to the metric suite engine that to tagged method as [UnitTest] should be ran.
+            Attribute that signal to the metric suite engine that to tagged method as [UnitTest] must be ran.
             </summary>
         </member>
         <member name="P:BlueQuark.Internal.UnitTestAttribute.Iterations">
@@ -3836,122 +4063,6 @@
             <summary>
             Default constructor
             </summary>
-        </member>
-        <member name="T:BlueQuark.Internal.LanguageThesaurus">
-            <summary>
-            Language dictionary storage. Contains key-value entries for one language
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Internal.LanguageThesaurus.Entries">
-            <summary>
-            All key-value entries of the thesaurus
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.LanguageThesaurus.#ctor">
-            <summary>
-            Represents all the dictionary entries
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.LanguageThesaurus.ContainsKey(System.String)">
-            <summary>
-            Check existing key in existing entries
-            </summary>
-            <param name="iKey">Key to check</param>
-            <returns>True if the key already exists in Entries</returns>
-        </member>
-        <member name="F:BlueQuark.Internal.DictionaryEntryType.BASE">
-            <summary>
-            Unique value for UI display purpose.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Internal.DictionaryEntryType.CLOSE_PHONETIC">
-            <summary>
-            Dictionary entry for STT purpose mainly.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Internal.DictionaryEntryType.RANDOM">
-            <summary>
-            Dictionary entry for TTS purpose mainly.
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Internal.DictionaryEntry">
-            <summary>
-            Key-value dictionary base entry
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Internal.DictionaryEntry.Key">
-            <summary>
-            Key of the value.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Internal.DictionaryEntry.BaseValue">
-            <summary>
-            Display purpose value.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Internal.DictionaryEntry.ClosePhoneticValues">
-            <summary>
-            Listen list for STT input processing.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Internal.DictionaryEntry.RandomValues">
-            <summary>
-            Say list containing value that will be choosen randomly.
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.StringDictionary.Contains(System.String,BlueQuark.Context)">
-            <summary>
-            Checks if a specified key-value pair is contained in the dictionary.
-            Lookup speed in Th(iKey.Length).
-            </summary>
-            <param name="iKey">The key word to check</param>
-            <param name="iContext">The context corresponding to the dictionary to use</param>
-            <returns>True if the key is stored inside the dictionary</returns>
-        </member>
-        <member name="M:BlueQuark.Internal.StringDictionary.GetBase(System.String,BlueQuark.Context,BlueQuark.ISO6391Code)">
-            <summary>
-            Retrieves the corresponding word from the input key word. Checks first in app dict if exists, if not checks in native dict.
-            Lookup speed in Th(iKey.Length).
-            </summary>
-            <param name="iKey">The key word corresponding to the wished word</param>
-            <param name="iContext">The context corresponding to the dictionary to use</param>
-            <param name="iLanguage">Reference language.</param>
-            <returns>The word in the current language, empty if not found</returns>
-        </member>
-        <member name="M:BlueQuark.Internal.StringDictionary.GetBase(System.String,BlueQuark.Context)">
-            <summary>
-            Retrieves the corresponding word from the input key word. Checks first in app dict if exists, if not checks in native dict.
-            Lookup speed in Th(iKey.Length).
-            </summary>
-            <param name="iKey">The key word corresponding to the wished word</param>
-            <param name="iContext">The context corresponding to the dictionary to use</param>
-            <returns>The word in the current language, empty if not found</returns>
-        </member>
-        <member name="M:BlueQuark.Internal.StringDictionary.GetRandom(System.String,BlueQuark.Context)">
-            <summary>
-            Retrieves a random word from the input key word. Checks first in app dict if exists, if not checks in native dict.
-            Lookup speed in Th(iKey.Length).
-            </summary>
-            <param name="iKey">The key word corresponding to the wished random word</param>
-            <param name="iContext">The context corresponding to the dictionary to use</param>
-            <returns>The word in the current language, empty if not found</returns>
-        </member>
-        <member name="M:BlueQuark.Internal.StringDictionary.GetPhonetics(System.String,BlueQuark.Context)">
-            <summary>
-            Retrieves the corresponding list to the input iKey. Useful for multiple response handling with the SpeechToText
-            </summary>
-            <param name="iKey">The key corresponding to the wished list</param>
-            <param name="iContext">The context corresponding to the dictionary to use</param>
-            <returns>List of strings that must sound similar</returns>
-        </member>
-        <member name="M:BlueQuark.Internal.StringDictionary.ContainsPhonetic(System.String,System.String,BlueQuark.Context)">
-            <summary>
-            Proceed to a GetPhoneticsStrings(iKey, iContext = APP) and checks if one element on the closephonetic array is contained in iRef
-            </summary>
-            <param name="iRef">The sentence to compare to each word into the list</param>
-            <param name="iKey">The key corresponding to the wished list</param>
-            <param name="iContext">The context corresponding to the dictionary to use</param>
-            <returns>True if the one element of the closephonetic array in contained in iRef sentence (not null and not empty), false otherwise</returns>
         </member>
         <member name="T:BlueQuark.Internal.IBinarySensor">
             <summary>
@@ -5377,7 +5488,7 @@
             Error returned by the remote API.
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "F:BlueQuark.Internal.GoogleSpeechStatus.AUDIO_FILE_NOT_FOUND" -->
+        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.Internal.GoogleSpeechStatus.AUDIO_FILE_NOT_FOUND" -->
         <member name="F:BlueQuark.Internal.GoogleSpeechStatus.BUSY">
             <summary>
             Google speech is busy.
@@ -6773,6 +6884,16 @@
             Returns Null if no BA is running. Returns "PBAO" (provided behavour algorithm object) if BA was not provided from file.
             </summary>
         </member>
+        <member name="P:BlueQuark.BehaviourInterpreter.LocalBehaviourAlgorithmCategories">
+            <summary>
+            Gets all findable categories (in lower case) of local algorithms.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.BehaviourInterpreter.LocalBehaviourAlgorithms">
+            <summary>
+            Gets the Behaviour algorithms file name (in lower case and without extension) provided by the system.
+            </summary>
+        </member>
         <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String)">
             <summary>
             Runs the behaviour algorithm contained at the specified filepath.
@@ -8147,7 +8268,7 @@
             Represents a behaviour instruction to make the robot speak.
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "P:BlueQuark.SayBehaviourInstruction.Key" -->
+        <!-- Commentaire XML incorrect pour le membre "P:BlueQuark.SayBehaviourInstruction.Key" -->
         <member name="P:BlueQuark.SayBehaviourInstruction.Utterance">
             <summary>
             Litteral utterance to say.
@@ -9432,6 +9553,54 @@
             Gets the audio microcontroller.
             </summary>
         </member>
+        <member name="T:BlueQuark.HumanSearchParameters">
+            <summary>
+            Parameters for HumanSearchStrategy.
+            Timer field is not set, by default.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.HumanSearchParameters.OnDetect">
+            <summary>
+            Called when the HumanTrackStrategy detect someone.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.HumanSearchParameters.OnEnd">
+            <summary>
+            Called when the HumanSearchStrategy end.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.HumanSearchParameters.OnFound">
+            <summary>
+            Called when the HumanSearchStrategy found someone.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.HumanSearchParameters.HumanDetectionMode">
+            <summary>
+            Determine what technology to use for human detection.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.HumanSearchParameters.#ctor">
+            <summary>
+            Create parameters for HumanSearchStrategy with default values.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.HumanSearchParameters.#ctor(System.Single,System.Action,System.Action{BlueQuark.HumanEntity},System.Action{BlueQuark.HumanEntity},System.Single,BlueQuark.HumanDetectionMode)">
+            <summary>
+            Create parameters for HumanSearchStrategy with given values.
+            </summary>
+            <param name="iTimer">It's possible to specify a duration for the search.</param>
+            <param name="iOnEnd">Callback called when HumanSearchStrategy end.</param>
+            <param name="iOnFound">Callback called when a human is found.</param>
+            <param name="iOnDetect">Callback when a human is detected.</param>
+            <param name="iStoppingDistance"> Distance in meters to stop in front of human.</param>
+            <param name="iSensorMode">Sensor to use for the tracking.</param>
+        </member>
+        <member name="P:BlueQuark.HumanSearchParameters.SearchTime">
+            <summary>
+            The search will stop when the search time is up.
+            Used only if callback condition is missing.
+            </summary>
+        </member>
         <member name="T:BlueQuark.HumanTrackParameters">
             <summary>
             Parameters for HumanTrackingStrategy implementation.
@@ -9467,7 +9636,7 @@
             Create parameters for HumanTracking with default values.
             </summary>
         </member>
-        <member name="M:BlueQuark.HumanTrackParameters.#ctor(System.Action{BlueQuark.HumanEntity},System.Action{BlueQuark.HumanEntity},System.Action,BlueQuark.BehaviourMovementPattern,BlueQuark.SensorMode)">
+        <member name="M:BlueQuark.HumanTrackParameters.#ctor(System.Action{BlueQuark.HumanEntity},System.Action{BlueQuark.HumanEntity},System.Action,BlueQuark.BehaviourMovementPattern,BlueQuark.HumanDetectionMode)">
             <summary>
             Create parameters for HumanTracking with given values.
             </summary>
@@ -9503,7 +9672,7 @@
             <param name="iOnDetect">What to do with the currently tracking human.</param>
             <param name="iMotionFreedom">Which parts of the robot will move.</param>
         </member>
-        <member name="M:BlueQuark.HumanTrackStrategy.StaticTracking(System.Predicate{BlueQuark.HumanEntity},System.Action{BlueQuark.HumanEntity},BlueQuark.BehaviourMovementPattern,BlueQuark.SensorMode)">
+        <member name="M:BlueQuark.HumanTrackStrategy.StaticTracking(System.Predicate{BlueQuark.HumanEntity},System.Action{BlueQuark.HumanEntity},BlueQuark.BehaviourMovementPattern,BlueQuark.HumanDetectionMode)">
             <summary>
             Starts a static human tracking with different options for moving parts. 
             </summary>
@@ -9527,7 +9696,7 @@
             <param name="iOnFront">Call when stopping in front of human.</param>
             <param name="iOnDetect">What to do with the currently tracking human.</param>
         </member>
-        <member name="M:BlueQuark.HumanTrackStrategy.DynamicTracking(System.Predicate{BlueQuark.HumanEntity},System.Action{BlueQuark.HumanEntity},System.Action{BlueQuark.HumanEntity},BlueQuark.SensorMode)">
+        <member name="M:BlueQuark.HumanTrackStrategy.DynamicTracking(System.Predicate{BlueQuark.HumanEntity},System.Action{BlueQuark.HumanEntity},System.Action{BlueQuark.HumanEntity},BlueQuark.HumanDetectionMode)">
             <summary>
             Start a dynamic human tracking. The robot will follow the user.
             </summary>
@@ -9542,6 +9711,26 @@
             </summary>
             <param name="iWhileCondition"></param>
             <param name="iParameters"></param>
+        </member>
+        <member name="T:BlueQuark.FaceRecognitionError">
+            <summary>
+            Error occuring during a step of the face recognizer.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.FaceRecognitionError.NO_FACE_DETECTED">
+            <summary>
+            No face have been detected in the picture.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.FaceRecognitionError.NOT_RECOGNIZED">
+            <summary>
+            No face have been recognized.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.FaceRecognitionError.CONNEXION_ERROR">
+            <summary>
+            Connexion issue during the web request.
+            </summary>
         </member>
         <member name="T:BlueQuark.AThermalAlgorithmParameters">
             <summary>
@@ -9639,7 +9828,7 @@
             Create parameters for Thermal motion detection, with default values.
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:BlueQuark.ThermalMotionParameters.#ctor(System.Single,System.Single,System.Single,System.Int32)" -->
+        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.ThermalMotionParameters.#ctor(System.Single,System.Single,System.Single,System.Int32)" -->
         <member name="T:BlueQuark.GlobalPosition">
             <summary>
             Represents a global position on Earth.
@@ -10590,22 +10779,22 @@
             <param name="iResolution">Angle resolution in degrees.</param>
             <param name="iThreshold">A lower threshold will tolerate more input.</param>
         </member>
-        <member name="T:BlueQuark.SensorMode">
+        <member name="T:BlueQuark.HumanDetectionMode">
             <summary>
             Sensors to be used for tracking. The thermal sensor is always used.
             </summary>
         </member>
-        <member name="F:BlueQuark.SensorMode.THERMAL">
+        <member name="F:BlueQuark.HumanDetectionMode.THERMAL">
             <summary>
             Thermal camera.
             </summary>
         </member>
-        <member name="F:BlueQuark.SensorMode.VISION">
+        <member name="F:BlueQuark.HumanDetectionMode.VISION">
             <summary>
             RGB camera with thermal.
             </summary>
         </member>
-        <member name="F:BlueQuark.SensorMode.SKELETON">
+        <member name="F:BlueQuark.HumanDetectionMode.SKELETON">
             <summary>
             Using depth-based skeleton detection with thermal. 
             </summary>
@@ -10911,7 +11100,7 @@
             Parameters for HumanDetector: which sensor to use. If using VISION, can further configure YOLOParameters.
             </summary>
         </member>
-        <member name="P:BlueQuark.HumanDetectorParameter.SensorMode">
+        <member name="P:BlueQuark.HumanDetectorParameter.HumanDetectionMode">
             <summary>
             Using skeleton or vision. Thermal is always used.
             </summary>
@@ -10955,6 +11144,11 @@
             <summary>
             Size of meshing. The higher it is the more accurate the detection will be but will be slower.
             Must be a multiple of 32.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.YOLOParameter.ConfidenceThreshold">
+            <summary>
+            Represents the confidence threshold. Value in percentage.
             </summary>
         </member>
         <member name="T:BlueQuark.Map">
@@ -11891,27 +12085,22 @@
             <summary>
             The Generic Image Camera Output Container.
             It contains a Texture2D and/or a Mat.
-            Each Camera possesses only one CameraFrame;
-            </summary>
-        </member>
-        <member name="P:BlueQuark.ACameraFrame.TextureImpl">
-            <summary>
-            Current frame's Texture (can return null)
-            </summary>
-        </member>
-        <member name="P:BlueQuark.ACameraFrame.MatImpl">
-            <summary>
-            Current frame's CVMat (can return null)
+            Each Camera possesses only one CameraFrame.
             </summary>
         </member>
         <member name="P:BlueQuark.ACameraFrame.Texture">
             <summary>
-            Current frame's Texture
+            Current frame's Texture.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.ACameraFrame.MirroredTexture">
+            <summary>
+            Gets the mirrored FrameTexture
             </summary>
         </member>
         <member name="P:BlueQuark.ACameraFrame.Mat">
             <summary>
-            Current frame's CVMat
+            Current frame's CVMat.
             </summary>
         </member>
         <member name="P:BlueQuark.ACameraFrame.ID">
@@ -11937,11 +12126,6 @@
         <member name="P:BlueQuark.ACameraFrame.UpdatesMat">
             <summary>
             Tells if CameraFrame updates its Mat.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.ACameraFrame.MirroredTexture">
-            <summary>
-            Gets the mirrored FrameTexture
             </summary>
         </member>
         <member name="T:BlueQuark.DepthCameraFrame">
@@ -13836,11 +14020,6 @@
             Human detection algorithm.
             </summary>
         </member>
-        <member name="P:BlueQuark.HumanDetector.RGBCameraMode">
-            <summary>
-            RGB Camera mode used by human detector.
-            </summary>
-        </member>
         <member name="P:BlueQuark.HumanDetector.OnDetect">
             <summary>
             Called when a face is detected. Remove all callback to stop the algorithm.
@@ -13861,34 +14040,45 @@
             Facial recognition component.
             </summary>
         </member>
-        <member name="M:BlueQuark.FaceRecognizer.Recognize(OpenCVUnity.Mat,OpenCVUnity.Mat,BlueQuark.FaceEntity)">
+        <member name="P:BlueQuark.FaceRecognizer.IsBusy">
+            <summary>
+            True if a request is processing.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.FaceRecognizer.Recognize(OpenCVUnity.Mat,System.Action{BlueQuark.FaceEntity[]},System.Action{BlueQuark.FaceRecognitionError})">
             <summary>
             Asks for a facial recognition.
             </summary>
-            <param name="iDepthMat">Gray depth matrix where the face is present. Must be sync with the iRGBMat.</param>
-            <param name="iRGBMat">RGB matrix where the face is present. Must be sync with the iDepthMat.</param>
-            <param name="iFace">Face entity parameters.</param>
-            <returns>Label of the recognize people.</returns>
+            <param name="iRGBMat">RGB matrix where the face is present.</param>
+            <param name="iOnRecognized">The callback that returns the list of the recognized users.</param>
+            <param name="iOnRecoError">The callback to a possible error occuring during recognition.</param>
         </member>
-        <member name="M:BlueQuark.FaceRecognizer.AddFace(OpenCVUnity.Mat,OpenCVUnity.Mat,BlueQuark.FaceEntity,System.String)">
+        <member name="M:BlueQuark.FaceRecognizer.Recognize(OpenCVUnity.Mat,System.Action{BlueQuark.FaceEntity[]})">
+            <summary>
+            Asks for a facial recognition.
+            </summary>
+            <param name="iRGBMat">RGB matrix where the face is present.</param>
+            <param name="iOnRecognized">The callback that returns the list of the recognized users.</param>
+        </member>
+        <member name="M:BlueQuark.FaceRecognizer.AddFace(OpenCVUnity.Mat,System.String)">
             <summary>
             Adds a new labeled face. Should be conclued by a Train() call.
             </summary>
-            <param name="iDepthMat">Gray depth matrix where the face is present. Must be sync with the iRGBMat.</param>
             <param name="iRGBMat">RGB matrix where the face is present. Must be sync with the iDepthMat.</param>
-            <param name="iFace">Face entity parameters.</param>
             <param name="iName">Label to add.</param>
         </member>
-        <member name="M:BlueQuark.FaceRecognizer.Train">
+        <member name="M:BlueQuark.FaceRecognizer.Train(System.Action{BlueQuark.FaceEntity[]},System.Action{BlueQuark.FaceRecognitionError})">
             <summary>
             Creates a new model based on current added faces.
             </summary>
+            <param name="iOnEndTraining">Called when the training has ended. Returns the list of the users whom faces have been detected and saved to database. </param>
+            <param name="iOnRecoError">The callback to a possible error occuring during training.</param>
         </member>
-        <member name="M:BlueQuark.FaceRecognizer.ForgetFace(System.String)">
+        <member name="M:BlueQuark.FaceRecognizer.Train(System.Action{BlueQuark.FaceEntity[]})">
             <summary>
-            Removes the wished label.
+            Creates a new model based on current added faces.
             </summary>
-            <param name="iName">The label to forget.</param>
+            <param name="iOnEndTraining">Called when the training has ended. Returns the list of the users whom faces have been detected and saved to database. </param>
         </member>
         <member name="T:BlueQuark.HandWavingEntity">
             <summary>
@@ -13972,7 +14162,7 @@
             <param name="iEnd">Index of end landmark</param>
             <returns>Found path index</returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:BlueQuark.RoomDetector.FacingWall(OpenCVUnity.Mat)" -->
+        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.RoomDetector.FacingWall(OpenCVUnity.Mat)" -->
         <member name="M:BlueQuark.RoomDetector.JITInitialize(BlueQuark.Map,System.Boolean)">
             <summary>
             Initialize model by deserialization two config files
@@ -14155,6 +14345,11 @@
             </summary>
             <seealso cref="T:BlueQuark.HumanFacePosition"/>
         </member>
+        <member name="P:BlueQuark.FaceEntity.Label">
+            <summary>
+            Label of the face recognized.
+            </summary>
+        </member>
         <member name="T:BlueQuark.AprilTagEntity">
             <summary>
             April tag detected via AprilTagDetector.
@@ -14174,6 +14369,11 @@
         <member name="T:BlueQuark.FaceDetector">
             <summary>
             Face detection algorithm.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.FaceDetector.ConfidenceThreshold">
+            <summary>
+            Threshold of the confidence in %
             </summary>
         </member>
         <member name="P:BlueQuark.FaceDetector.OnDetect">
@@ -15003,7 +15203,7 @@
         </member>
         <member name="P:BlueQuark.Wheels.TravelledDistance">
             <summary>
-            Traveled distance from first robot boot. Value in meters per second.
+            Traveled distance from first robot boot. Value in meters.
             </summary>
         </member>
         <member name="P:BlueQuark.Wheels.LeftCurrent">
@@ -16424,26 +16624,59 @@
             Searching human strategy in the known environment.
             </summary>
         </member>
+        <member name="F:BlueQuark.HumanSearchStrategy.HEAD_YES_POSITIVE_AMPLITUDE">
+            <summary>
+            Amplitude of the positive range for yes axis.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.HumanSearchStrategy.OrientHeadYesAxis(BlueQuark.HumanEntity,BlueQuark.Range{System.Single})">
+            <summary>
+            Compute point around chest of the HumanEntity.
+            Orient head yes axis using this point.
+            Only use in Vision mode for now, because BoundingBox is null in Skeleton and too small in Thermal.
+            </summary>
+            <param name="iHuman">The human target to use.</param>
+            <param name="iHeadYesAxisAuthorizedRange">The authorized range for yes axis. (Degree)</param>
+        </member>
+        <member name="M:BlueQuark.HumanSearchStrategy.StartHumanTrack">
+            <summary>
+            Recenter in direction of detected target, then run HumanTrackStrategy.
+            </summary>
+        </member>
         <member name="M:BlueQuark.HumanSearchStrategy.While(System.Predicate{UnityEngine.Vector3})">
             <summary>
-            Starts a human search inside the known environment while the condition is true.
+            Starts a human search while the condition is true.
             </summary>
             <param name="iCondition">The while condition. Cannot be null.</param>
         </member>
         <member name="M:BlueQuark.HumanSearchStrategy.While(System.Predicate{UnityEngine.Vector3},System.Action{BlueQuark.HumanEntity})">
             <summary>
-            Starts a human search inside the known environment while the condition is true.
+            Starts a human search while the condition is true.
             </summary>
             <param name="iCondition">The while condition. Cannot be null.</param>
             <param name="iOnFound">Action to do when human is found.</param>
         </member>
         <member name="M:BlueQuark.HumanSearchStrategy.While(System.Single,System.Action,System.Action{BlueQuark.HumanEntity})">
             <summary>
-            Starts a human search inside the known environment while the condition is true.
+            Starts a human search during a given time.
             </summary>
-            <param name="iTimeout">Search only for a certain time.</param>
+            <param name="iTimeout">Search time, strictly greater than 0.</param>
             <param name="iOnEnd">Action when searching ends.</param>
             <param name="iOnFound">Action to do when human is found.</param>
+        </member>
+        <member name="M:BlueQuark.HumanSearchStrategy.While(System.Predicate{UnityEngine.Vector3},BlueQuark.HumanSearchParameters)">
+            <summary>
+            Starts a human search while the condition is true.
+            </summary>
+            <param name="iCondition">The while condition. Cannot be null.</param>
+            <param name="iParameters">The parameters to use for the search.</param>
+        </member>
+        <member name="M:BlueQuark.HumanSearchStrategy.While(System.Single,BlueQuark.HumanSearchParameters)">
+            <summary>
+            Starts a human search during a given time.
+            </summary>
+            <param name="iTimeout">Search time, strictly greater than 0.</param>
+            <param name="iParameters">The parameters to use for the search.</param>
         </member>
         <member name="T:BlueQuark.Navigation">
             <summary>
@@ -17015,7 +17248,7 @@
             Human entity detected.
             </summary>
         </member>
-        <member name="P:BlueQuark.HumanEntity.SensorMode">
+        <member name="P:BlueQuark.HumanEntity.HumanDetectionMode">
             <summary>
             Human detected by VISION or by SKELETON.
             </summary>
@@ -20585,7 +20818,7 @@
             Creates / scales the input texture accordingly from the input mat.
             </summary>
             <param name="iMat">Input matrix, only the size will be considered.</param>
-            <param name="iTexture">The created/resized texture.</param>
+            <param name="ioTexture">The created/resized texture.</param>
             <returns>The created/resized texture.</returns>
         </member>
         <member name="M:BlueQuark.Utils.Save(System.String,OpenCVUnity.Mat[],System.Single)">
@@ -21534,8 +21767,8 @@
             <param name="iB">Point of the line.</param>
             <returns>The projection.</returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:BlueQuark.Utils.CloseTo(System.Single,System.Single,System.Single)" -->
-        <!-- Badly formed XML comment ignored for member "M:BlueQuark.Utils.CloseTo(System.Double,System.Double,System.Double)" -->
+        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.Utils.CloseTo(System.Single,System.Single,System.Single)" -->
+        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.Utils.CloseTo(System.Double,System.Double,System.Double)" -->
         <member name="M:BlueQuark.Utils.GetLocalIPAddress">
             <summary>
             Retrieves the local IP address.

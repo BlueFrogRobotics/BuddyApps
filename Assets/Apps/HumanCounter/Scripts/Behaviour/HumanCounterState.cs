@@ -105,7 +105,7 @@ namespace BuddyApp.HumanCounter
                 mHumanDetectEnable = true;
                 // Creation & Settings of parameters that will be used in detection
                 HumanDetectorParameter lParameters = new HumanDetectorParameter();
-                lParameters.SensorMode = SensorMode.VISION;
+                lParameters.HumanDetectionMode = HumanDetectionMode.VISION;
                 lParameters.YOLO = new YOLOParameter();
                 // Region of Interest for the tracking, 0 rectangle will use all the field of view.
                 lParameters.YOLO.RegionOfInterest = new OpenCVUnity.Rect(0, 0, 0, 0); ;

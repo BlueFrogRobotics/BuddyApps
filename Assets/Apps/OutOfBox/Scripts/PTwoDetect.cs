@@ -39,7 +39,7 @@ namespace BuddyApp.OutOfBox
             mDetectEnabled = false;
             mHumanDetected = false;
             Buddy.Perception.HumanDetector.OnDetect.AddP(OnHumanDetect,
-            new HumanDetectorParameter { SensorMode = SensorMode.VISION });
+            new HumanDetectorParameter { HumanDetectionMode = HumanDetectionMode.VISION });
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

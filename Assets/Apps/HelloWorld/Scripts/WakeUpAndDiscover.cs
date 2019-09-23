@@ -39,7 +39,7 @@ namespace BuddyApp.HelloWorld
 
             // Creation & Settings of parameters that will be used in detection
             Buddy.Perception.HumanDetector.OnDetect.AddP(OnHumanDetect,
-                new HumanDetectorParameter { SensorMode = SensorMode.VISION });
+                new HumanDetectorParameter { HumanDetectionMode = HumanDetectionMode.VISION });
 
             // Head to the ground
             Debug.LogError("-- ASK HEAD NO RESET");

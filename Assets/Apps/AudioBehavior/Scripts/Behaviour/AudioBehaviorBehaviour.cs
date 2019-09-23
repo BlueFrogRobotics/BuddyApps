@@ -55,7 +55,7 @@ namespace BuddyApp.AudioBehavior
 				Buddy.Perception.HumanDetector.OnDetect.Add(OnHumanDetect,
 					new HumanDetectorParameter
 					{
-						SensorMode = SensorMode.VISION,
+						HumanDetectionMode = HumanDetectionMode.VISION,
 					}
 				);
 			}
@@ -246,7 +246,7 @@ namespace BuddyApp.AudioBehavior
 					Buddy.Perception.HumanDetector.OnDetect.Add(OnHumanFound,
 					new HumanDetectorParameter
 					{
-						SensorMode = SensorMode.VISION,
+                        HumanDetectionMode = HumanDetectionMode.VISION,
 					}
 				);
 
@@ -300,7 +300,7 @@ namespace BuddyApp.AudioBehavior
 						Buddy.Perception.HumanDetector.OnDetect.Add(OnHumanFound,
 						new HumanDetectorParameter
 						{
-							SensorMode = SensorMode.VISION,
+                            HumanDetectionMode = HumanDetectionMode.VISION,
 						}
 						);
 						//} else if (mThermal) {

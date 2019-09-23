@@ -33,7 +33,7 @@ namespace BuddyApp.HelloWorld
 
             // Setting up human detector
             Buddy.Perception.HumanDetector.OnDetect.AddP(OnHumanDetect,
-                new HumanDetectorParameter { SensorMode = SensorMode.VISION });
+                new HumanDetectorParameter { HumanDetectionMode = HumanDetectionMode.VISION });
 
             // Starting this state
             Buddy.Vocal.Say(Buddy.Resources.GetString("asksound"), (iSpeechOutput) =>

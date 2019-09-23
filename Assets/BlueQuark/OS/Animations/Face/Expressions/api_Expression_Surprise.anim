@@ -1111,6 +1111,22 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     path: Empty_Full_Eye_L/Full_Eye_L/Empty_Eye_L/Empty_Eye_BG_L/Eye_BG_L
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: {x: 0, y: 0, z: 0}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Empty_Mouth/Tongue
   m_PositionCurves: []
   m_ScaleCurves: []
   m_FloatCurves:
@@ -5927,8 +5943,6 @@ AnimationClip:
       value: {fileID: 21300016, guid: 47d14b4b225586f48bfc024f4a8bd77f, type: 3}
     - time: 1.75
       value: {fileID: 21300034, guid: a434339c6151bf54699066f082fa68c5, type: 3}
-    - time: 1.8333334
-      value: {fileID: 21300002, guid: a434339c6151bf54699066f082fa68c5, type: 3}
     attribute: m_Sprite
     path: Empty_Mouth/Mouth
     classID: 114
@@ -6409,6 +6423,13 @@ AnimationClip:
       customType: 4
       isPPtrCurve: 0
     - serializedVersion: 2
+      path: 4262108499
+      attribute: 4
+      script: {fileID: 0}
+      typeID: 4
+      customType: 4
+      isPPtrCurve: 0
+    - serializedVersion: 2
       path: 1774709390
       attribute: 1460864421
       script: {fileID: 0}
@@ -6645,7 +6666,6 @@ AnimationClip:
     - {fileID: 21300016, guid: 47d14b4b225586f48bfc024f4a8bd77f, type: 3}
     - {fileID: 21300016, guid: 47d14b4b225586f48bfc024f4a8bd77f, type: 3}
     - {fileID: 21300034, guid: a434339c6151bf54699066f082fa68c5, type: 3}
-    - {fileID: 21300002, guid: a434339c6151bf54699066f082fa68c5, type: 3}
     - {fileID: 0}
     - {fileID: 21300030, guid: 47d14b4b225586f48bfc024f4a8bd77f, type: 3}
     - {fileID: 21300030, guid: 47d14b4b225586f48bfc024f4a8bd77f, type: 3}
@@ -14890,6 +14910,63 @@ AnimationClip:
     path: Empty_Mouth/Tongue
     classID: 114
     script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: localEulerAnglesRaw.x
+    path: Empty_Mouth/Tongue
+    classID: 224
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: localEulerAnglesRaw.y
+    path: Empty_Mouth/Tongue
+    classID: 224
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: localEulerAnglesRaw.z
+    path: Empty_Mouth/Tongue
+    classID: 224
+    script: {fileID: 0}
   m_EulerEditorCurves:
   - curve:
       serializedVersion: 2
@@ -15429,6 +15506,36 @@ AnimationClip:
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
     path: Empty_Mouth/Mouth
+    classID: 224
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalEulerAngles.x
+    path: Empty_Mouth/Tongue
+    classID: 224
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalEulerAngles.y
+    path: Empty_Mouth/Tongue
+    classID: 224
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalEulerAngles.z
+    path: Empty_Mouth/Tongue
     classID: 224
     script: {fileID: 0}
   m_HasGenericRootTransform: 0

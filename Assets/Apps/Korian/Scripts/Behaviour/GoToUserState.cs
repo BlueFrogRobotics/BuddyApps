@@ -33,7 +33,7 @@ namespace BuddyApp.Korian
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Buddy.Perception.HumanDetector.OnDetect.Add(OnHumanDetect,
-                new HumanDetectorParameter { SensorMode = SensorMode.VISION });
+                new HumanDetectorParameter { HumanDetectionMode = HumanDetectionMode.VISION });
 
             mMeasure = 0;
             mTimeHumanDetected = Time.time;

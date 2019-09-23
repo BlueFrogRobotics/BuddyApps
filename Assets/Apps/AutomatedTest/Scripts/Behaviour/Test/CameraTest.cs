@@ -225,7 +225,7 @@ namespace BuddyApp.AutomatedTest
             // Setting of the callback to use camera data
             Buddy.Sensors.RGBCamera.OnNewFrame.Add((iInput) => OnFrameCaptured(iInput));
             HumanDetectorParameter lParameters = new HumanDetectorParameter();
-            lParameters.SensorMode = SensorMode.VISION;
+            lParameters.HumanDetectionMode = HumanDetectionMode.VISION;
             lParameters.YOLO = new YOLOParameter();
             // Region of Interest for the tracking, 0 rectangle will use all the field of view.
             lParameters.YOLO.RegionOfInterest = new OpenCVUnity.Rect(0, 0, 0, 0); ;

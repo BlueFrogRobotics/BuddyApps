@@ -41,7 +41,7 @@ namespace BuddyApp.OutOfBoxV3
             mHumanDetectEnabled = false;
             mStartSL = false;
 
-            Buddy.Perception.HumanDetector.OnDetect.AddP(OnHumanDetect, new HumanDetectorParameter { SensorMode = SensorMode.VISION });
+            Buddy.Perception.HumanDetector.OnDetect.AddP(OnHumanDetect, new HumanDetectorParameter { HumanDetectionMode = HumanDetectionMode.VISION });
             Buddy.Vocal.SayKey("pthreefirststep", (iOut) => {
                 if (!iOut.IsInterrupted)
                     Buddy.Vocal.SayKey("pthreesecondstep",
