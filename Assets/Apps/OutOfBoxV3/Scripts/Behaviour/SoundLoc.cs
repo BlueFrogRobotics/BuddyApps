@@ -41,10 +41,10 @@ namespace BuddyApp.OutOfBoxV3
             mHumanDetectEnabled = false;
             mStartSL = false;
 
-            Buddy.Perception.HumanDetector.OnDetect.AddP(OnHumanDetect, new HumanDetectorParameter { HumanDetectionMode = HumanDetectionMode.VISION });
-            Buddy.Vocal.SayKey("pthreefirststep", (iOut) => {
+            Buddy.Perception.HumanDetector.OnDetect.AddP(OnHumanDetect, new HumanDetectorParameter { SensorMode = SensorMode.VISION });
+            Buddy.Vocal.SayKey("soundlocintro", (iOut) => {
                 if (!iOut.IsInterrupted)
-                    Buddy.Vocal.SayKey("pthreesecondstep",
+                    Buddy.Vocal.SayKey("soundloctest",
                         (iOutLoc) => {
                             if (!iOutLoc.IsInterrupted)
                                 StartSourceLoc();
@@ -60,7 +60,7 @@ namespace BuddyApp.OutOfBoxV3
             if (mStartSL) {
                 mStartSL = false;
                 Buddy.Sensors.Microphones.EnableSoundLocalization = true;
-                Buddy.Vocal.SayKey("pthreewhostart");
+                Buddy.Vocal.SayKey("imready");
                 mSoundLocEnabled = true;
             }
 
@@ -85,13 +85,13 @@ namespace BuddyApp.OutOfBoxV3
 
             if (mHumanDetected) {
                 Buddy.Perception.HumanDetector.OnDetect.RemoveP(OnHumanDetect);
-                Buddy.Vocal.SayKey("pthreevoila", (iOut) => { if(!iOut.IsInterrupted) Trigger("TRANSITION"); });
+                Buddy.Vocal.SayKey("ifoundyou", (iOut) => { if(!iOut.IsInterrupted) Trigger("TRANSITION"); });
                 
             } else if (!mHumanDetected && mTimer > 15F && !mSoundLocEnabled) {
 
                 Buddy.Perception.HumanDetector.OnDetect.RemoveP(OnHumanDetect);
                 Buddy.Behaviour.Mood = Mood.THINKING;
-                Buddy.Vocal.SayKey("pthreedobetter", (iOut) => { Buddy.Behaviour.Mood = Mood.NEUTRAL; if (!iOut.IsInterrupted) Trigger("TRANSITION"); });
+                Buddy.Vocal.SayKey("ihearnoisehere", (iOut) => { Buddy.Behaviour.Mood = Mood.NEUTRAL; if (!iOut.IsInterrupted) Trigger("TRANSITION"); });
                 
             }
         }

@@ -79,7 +79,7 @@ namespace BuddyApp.OutOfBoxV3
                 mTotalAngle = -1000F;
                 if (mNumberOfDetect > 0)
                 {
-                    Buddy.Vocal.SayKey("phasetwoend", (iOut) => {
+                    Buddy.Vocal.SayKey("peoplearound", (iOut) => {
                         StartCoroutine(WaitTimeBeforeChangingstate());
                         if (!iOut.IsInterrupted)
                             mBehaviour.PhaseDropDown.value = 2;
@@ -178,7 +178,11 @@ namespace BuddyApp.OutOfBoxV3
                 // Alignement with detected human
                 Buddy.Navigation.Run<DisplacementStrategy>().Rotate(lHeadLastAngle, 70F, () => {
                     if (Buddy.Sensors.RGBCamera.Width > 0)
+                    {
+                        OutOfBoxUtilsVThree.DebugColor("PHOTO TAKEN", "blue");
                         Buddy.Sensors.RGBCamera.TakePhotograph(TakePhoto, false, true);
+                    }
+                        
                     Buddy.Vocal.SayKey("humandetected");
                     StartCoroutine(OutOfBoxUtilsVThree.PlayBIAsync(() =>
                     {

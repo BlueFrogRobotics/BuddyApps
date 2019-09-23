@@ -12,12 +12,12 @@ namespace BuddyApp.OutOfBoxV3
         private bool mTransitionEnd;
         private bool mFirstTrigger;
         private bool mSecondStep;
-        private int mNumberOfListen;
+        //private int mNumberOfListen;
         private System.Action<SpeechInput> SearchImageAsync;
         public override void OnStateEnter(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
         {
             SearchImageAsync += SearchImage;
-            mNumberOfListen = 0;
+            //mNumberOfListen = 0;
             mSecondStep = false;
             mFirstTrigger = false;
             mTransitionEnd = false;
@@ -66,7 +66,7 @@ namespace BuddyApp.OutOfBoxV3
 
 
             }
-            if(!Buddy.Vocal.IsListening && mNumberOfListen < 2)
+            if(!Buddy.Vocal.IsListening/* && mNumberOfListen < 2*/)
             {
                 Buddy.Vocal.Listen(SearchImageAsync);
             }
@@ -122,23 +122,30 @@ namespace BuddyApp.OutOfBoxV3
 
         private void SearchImage(SpeechInput iSpeech)
         {
-            mNumberOfListen++;
+            Buddy.GUI.Toaster.Hide();
+            //mNumberOfListen++;
             if (!Buddy.WebServices.HasInternetAccess)
                 Debug.Log("Not connected");
             //Buddy.Vocal.SayKey("notconnected");
             else
             {
                 string[] lListWords = iSpeech.Utterance.Split(' ', '-');
-                string lRequest = "";
-                for (int i = 2; i < lListWords.Length; ++i)
-                    lRequest += lListWords[i];
-                if (string.IsNullOrWhiteSpace(lRequest))
-                    Debug.Log("Not Understand");
-                //Buddy.Vocal.SayKey("notunderstand");
-                else
+                string lRule = Utils.GetRule(iSpeech);
+                if (lRule == "showme")
                 {
-                    StartCoroutine(GetImageUrlAsync(lRequest));
+                    string lRequest = "";
+                    for (int i = 2; i < lListWords.Length; ++i)
+                        lRequest += lListWords[i];
+                    if (string.IsNullOrWhiteSpace(lRequest))
+                        Debug.Log("Not Understand");
+                    //Buddy.Vocal.SayKey("notunderstand");
+                    else
+                    {
+                        StartCoroutine(GetImageUrlAsync(lRequest));
+                    }
                 }
+                else
+                    ShowDogGUI();
             }
         }
 
