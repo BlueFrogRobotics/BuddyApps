@@ -144,8 +144,8 @@ namespace BuddyApp.OutOfBoxV3
                         StartCoroutine(GetImageUrlAsync(lRequest));
                     }
                 }
-                else
-                    ShowDogGUI();
+                //else
+                //    ShowDogGUI();
             }
         }
 

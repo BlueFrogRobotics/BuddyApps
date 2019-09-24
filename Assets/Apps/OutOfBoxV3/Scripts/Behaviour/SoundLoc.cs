@@ -29,6 +29,7 @@ namespace BuddyApp.OutOfBoxV3
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
         {
+            OutOfBoxUtilsVThree.DebugColor("SOUNDLOC OOBV3", "red");
             Buddy.Actuators.Head.No.ResetPosition();
             Buddy.Actuators.Wheels.Stop();
             Buddy.Navigation.Stop();
