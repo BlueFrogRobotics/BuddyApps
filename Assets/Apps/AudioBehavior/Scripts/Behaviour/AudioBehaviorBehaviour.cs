@@ -80,9 +80,11 @@ namespace BuddyApp.AudioBehavior
             if (mYolo) {
                 Buddy.Actuators.Head.Yes.SetPosition(3F);
                 // Creation & Settings of parameters that will be used in detection
+
+                Debug.LogWarning("Test yolo 1");
                 Buddy.Perception.HumanDetector.OnDetect.Add(OnHumanDetect,
                     new HumanDetectorParameter {
-                        HumanMode = HumanMode.VISION,
+                        HumanDetectionMode = HumanDetectionMode.VISION,
                         YOLO = new YOLOParameter() {
                             RegionOfInterest = new OpenCVUnity.Rect(0, 0, 320, int.Parse(Heigh.text)),
                             UseThermal = false,
@@ -94,6 +96,7 @@ namespace BuddyApp.AudioBehavior
                         }
                     }
                 );
+                Debug.LogWarning("test yolo2");
             } else {
                 Buddy.Perception.HumanDetector.OnDetect.Clear();
                 Buddy.Actuators.Head.Yes.SetPosition(-9.9F);
@@ -114,6 +117,12 @@ namespace BuddyApp.AudioBehavior
 
         void Start()
         {
+            Heigh.text = "" + 240;
+            ImageSize.text = "" + 32;
+            DownSample.text = "" + 1;
+            ConfidenceThreshold.text = "" + 70;
+
+
             HideButtons.onClick.AddListener(() => Yolo.gameObject.SetActive(!Yolo.gameObject.activeSelf));
             HideButtons.onClick.AddListener(() => Display.gameObject.SetActive(!Display.gameObject.activeSelf));
             HideButtons.onClick.AddListener(() => Tracking.gameObject.SetActive(!Tracking.gameObject.activeSelf));
@@ -135,14 +144,19 @@ namespace BuddyApp.AudioBehavior
                 SoundLocalizationParameters.DEFAULT_RESOLUTION,
                 40);
 
-            Debug.LogError("Nb callbacks before clear " + Buddy.Vocal.OnCompleteTrigger.Count);
+            Debug.LogWarning("Test 1");
 
             Buddy.Vocal.OnCompleteTrigger.Clear();
             Buddy.Vocal.OnCompleteTrigger.Add(BuddyTrigged);
 
+
+
             Buddy.Actuators.Head.No.ResetPosition();
+
+            Debug.LogWarning("Test 2");
             ToggleYolo();
 
+            Debug.LogWarning("Test 3");
             mCamView = new Texture2D(Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height);
             // Setting of the callback to use camera data
             Buddy.Sensors.RGBCamera.OnNewFrame.Add((iInput) => OnFrameCaptured(iInput));
@@ -257,7 +271,7 @@ namespace BuddyApp.AudioBehavior
                     mGoTowardHuman = true;
                     Buddy.Perception.HumanDetector.OnDetect.Add(OnHumanFound,
                             new HumanDetectorParameter {
-                                HumanMode = HumanMode.VISION,
+                                HumanDetectionMode = HumanDetectionMode.VISION,
                                 YOLO = new YOLOParameter() {
                                     RegionOfInterest = new OpenCVUnity.Rect(0, 0, 320, int.Parse(Heigh.text)),
                                     UseThermal = false,
@@ -309,7 +323,7 @@ namespace BuddyApp.AudioBehavior
                         Buddy.Actuators.Wheels.SetVelocities(0F, (Math.Sign(mRotation)) * ROTATION_VELOCITY);
 
                         Buddy.Perception.HumanDetector.OnDetect.Add(OnHumanFound, new HumanDetectorParameter {
-                            HumanMode = HumanMode.VISION,
+                            HumanDetectionMode = HumanDetectionMode.VISION,
                             YOLO = new YOLOParameter() {
                                 RegionOfInterest = new OpenCVUnity.Rect(0, 0, 320, int.Parse(Heigh.text)),
                                 UseThermal = false,
