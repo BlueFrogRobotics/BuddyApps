@@ -18,6 +18,8 @@ namespace BuddyApp.OutOfBoxV3
         private float mTimer;
         private int mNumberOfDetect;
         private float mRotation = 30F;
+        private List<String> mNameOfPhotoTaken;
+        private OutOfBoxV3Data mOutOfBoxDataInstance;
 
         //Takephoto variable test
         private int mPhotoTakenCount;
@@ -99,6 +101,7 @@ namespace BuddyApp.OutOfBoxV3
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            mOutOfBoxDataInstance.NameOfPhotoTaken = mNameOfPhotoTaken;
             StopAllCoroutines();
             
         }
@@ -248,7 +251,8 @@ namespace BuddyApp.OutOfBoxV3
 
         private void TakePhoto(Photograph iMyPhoto)
         {
-            mPhotoSprite = iMyPhoto.Image;
+            //mPhotoSprite = iMyPhoto.Image;
+            mNameOfPhotoTaken.Add(iMyPhoto.Name);
             iMyPhoto.Save();
         }
     }

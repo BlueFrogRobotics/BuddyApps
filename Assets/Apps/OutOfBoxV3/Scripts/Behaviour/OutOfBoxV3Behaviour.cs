@@ -17,6 +17,8 @@ namespace BuddyApp.OutOfBoxV3
         [SerializeField]
         private Button HideDropDown;
 
+
+
         /*
          * Data of the application. Save on disc when app is quitted
          */

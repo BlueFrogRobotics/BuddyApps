@@ -1,4 +1,7 @@
 using BlueQuark;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace BuddyApp.OutOfBoxV3
 {
@@ -8,7 +11,18 @@ namespace BuddyApp.OutOfBoxV3
         /*
          * Data getters / setters
          */
-        public int MyValue { get; set; }
+        private List<String> nameOfPhotoTaken;
+        public List<String> NameOfPhotoTaken
+        {
+            get
+            {
+                return nameOfPhotoTaken;
+            }
+            set
+            {
+                nameOfPhotoTaken = value;
+            }
+        }
 
         /*
          * Data singleton access

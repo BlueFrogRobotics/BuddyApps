@@ -42,6 +42,8 @@ namespace BuddyApp.OutOfBoxV3
 		*/
         public override void OnQuit()
         {
+            OutOfBoxV3Data.Instance.NameOfPhotoTaken = null;
+            
             ExtLog.I(ExtLogModule.APP, typeof(OutOfBoxV3Activity), LogStatus.START, LogInfo.STOPPING, "On quit...");
         }
 
