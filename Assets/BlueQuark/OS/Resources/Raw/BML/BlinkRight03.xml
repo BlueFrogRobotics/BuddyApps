@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BehaviourAlgorithmStorage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Settings>
+		<Category>BlinkRight</Category>
+    <Mood>NEUTRAL</Mood>
+    <Commitment>NOT_ENGAGED</Commitment>
+    <MovementPattern>COMPLETE_FREEDOM</MovementPattern>
+  </Settings>
+  <Algorithm>
+    <Instructions>
+      <ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <CustomMove>
+          <Value>true</Value>
+        </CustomMove>
+        <NoAngle>
+          <Value>-20</Value>
+        </NoAngle>
+        <NoSpeed>
+          <Value>40</Value>
+        </NoSpeed>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="MoveBodyBehaviourInstruction">
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <Angle>
+          <Value>20</Value>
+        </Angle>
+        <Speed>
+          <Value>100</Value>
+        </Speed>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="PlayFacialEventBehaviourInstruction">
+        <Delay>
+          <Value>0.25</Value>
+        </Delay>
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <FacialEvent>
+          <Value>BLINK_RIGHT_EYE</Value>
+        </FacialEvent>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
+        <Delay>
+          <Value>0.5</Value>
+        </Delay>
+        <IsBlocking>
+          <Value>false</Value>
+        </IsBlocking>
+        <CustomMove>
+          <Value>true</Value>
+        </CustomMove>
+        <NoAngle>
+          <Value>0</Value>
+        </NoAngle>
+        <NoSpeed>
+          <Value>20</Value>
+        </NoSpeed>
+      </ABehaviourInstruction>
+      <ABehaviourInstruction xsi:type="MoveBodyBehaviourInstruction">
+        <Delay>
+          <Value>1</Value>
+        </Delay>
+        <IsBlocking>
+          <Value>true</Value>
+        </IsBlocking>
+        <Angle>
+          <Value>-20</Value>
+        </Angle>
+        <Speed>
+          <Value>100</Value>
+        </Speed>
+      </ABehaviourInstruction>
+    </Instructions>
+  </Algorithm>
+</BehaviourAlgorithmStorage>

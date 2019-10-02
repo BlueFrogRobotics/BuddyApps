@@ -46,6 +46,7 @@
 !start <photo>;
 !start <play>;
 //!start <pose>;
+!start <profilingwhoami>;
 //!start <profilingwholikes>;
 //!start <profilingwhoisborn>;
 //!start <profilingnextbirthday>;
@@ -68,7 +69,7 @@
 !start <wikipedia>;
 !start <sick>;
 !start <sad>;
-!start <lovely>;
+!start <love>;
 !start <happy>;
 !start <tired>;
 !start <angry>;
@@ -80,12 +81,13 @@
 !start <operationagain>;
 //!start <cancel>;
 !start <accraactivity>;
-!start <quit>;
+//!start <quit>;
+!start <stoplisten>;
 !import <numbers#nb>;
 //!import <names#anyname>;
 
-!start <weather>;
-!import <weather_en#weather>;
+//!start <weather>;
+//!import <weather_en#weather>;
 
 <asklaunch> : [<canyou>] (open | launch | play) [[the] application];
 <asktell> : [<canyou>] (tell | find | give) [me | us] | I want to hear;
@@ -128,7 +130,7 @@
 <iot_blinds> : (open | close | lower | raise) (the blind [(of | in) the (living | office) room] | all the blinds);
 <iot_music> : (play | stop | (turn (on | off))) ([my | the | some] music (on sonos [speaker] | in the living room) | the speaker (of | in) the living room) | [put | set] [the] (next | previous) song [in the living room];
 <iot_music_volume> : (set the music volume to <numbers#nb> | turn up the music (volume | sound) | turn the music (volume | sound) up) [in the living room];
-<joke> : [<asktell>] (a joke | a funny story | something funny);
+<joke> : [<asktell>] ( (a | an other) joke | (a | an other) funny story | something funny);
 //<jukebox> : jukebox | music application | play music; 
 <kissme> : kiss me |  I want a kiss | give me a kiss;
 //<lookatme> : look (at me | over there);
@@ -142,6 +144,7 @@
 <nap> : (take a nap | go to sleep) [during <delai>];
 <photo> : [[can you | let's] take] (a photo | a picture | pictures | photos);
 //<pose> : (can I take | I would like) a (picture | photo) with you | (can we take | let's take) (a selfie | a (picture | photo) together);
+<profilingwhoami> : who am I | what is my name | do you know who am I | Say my name | tell me what is my name;  
 //<profilingwholikes> : [<asktell>] who likes (<colour> | <sport> | <colour> and <sport> | <sport> and <colour>);
 //<profilingwhoisborn> : [<asktell>] who is born (after | before | in) <numbers#nb>;
 //<profilingnextbirthday> : [<asktell>] (when | who | what) is the next birthday;
@@ -167,7 +170,7 @@
 <show> : show [me | us] when you are | be;
 <sick> : <show> sick;
 <sad> : <show> sad;
-<lovely> : <show> (lovely | in love);
+<love> : <show> (lovely | in love);
 <happy> : <show> (happy | joy | joyful);
 <tired> : <show> tired;
 <angry> : <show> excited;
@@ -179,8 +182,9 @@
 <radioname> : RTL2 | France Maghreb 2 | Virgin Radio | RMC | Radio Nova | Radio Meuh | Fun Radio | Tropiques FM | FIP | Jazz Radio | Europe 1 | Djam Radio | Chérie | Hotmixradio 80 | RTL | Rire et Chansons | Latina | Radio Public Santé | franceinfo | Chante France | Skyrock | La Grosse Radio | Beur FM | RFM | NRJ | Africa numéro 1 | Alouette | Sud Radio | OUI FM | M Radio | Radio Orient | Nostalgie | RADIO FG | BFM Business | France Culture | Voltage | France Bleu Paris | France Inter | Radio Classique | France Musique;
 <radio> : [<asklaunch> | start] ([the] radio | [[the] radio] <radioname>);
 <operation> : [(how much are | what is)] <numbers#nb> (plus | minus | divided by | multiplied by | times) <numbers#nb>;
-<operationagain> :  (plus | minus | divided by | multiplied by | times) <numbers#nb>;
+<operationagain> :  (plus | add | minus | divided by | multiplied by | times) <numbers#nb>;
 //<cancel> : (cancel | delete) [all] the timer;
 <accraactivity> : [<canyou> | (I | we) (want to | would like [you] to) | can I] (launch | start | do | make) (an exercice | an activity | a session);
-<quit> : quit | cancel | stop | exit | that's all | back | end | leave | stop;
-<weather> : <weather_en#weather>;
+//<quit> : quit | cancel | stop | exit | that's all | back | end | leave | stop;
+<stoplisten> : stop listening | stop listening me | don't listen;
+//<weather> : <weather_en#weather>;

@@ -1,5 +1,12 @@
-<?xml version="1.0" ?>
-  <BehaviourAlgorithm xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<?xml version="1.0" encoding="utf-8"?>
+<BehaviourAlgorithmStorage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Settings>
+    <Category>DetectSound</Category>
+    <Mood>NEUTRAL</Mood>
+    <Commitment>NOT_ENGAGED</Commitment>
+    <MovementPattern>COMPLETE_FREEDOM</MovementPattern>
+  </Settings>
+  <Algorithm>
     <Instructions>
       <!-- START REACTION -->
       <ABehaviourInstruction xsi:type="PlaySoundBehaviourInstruction">
@@ -169,3 +176,4 @@
       </ABehaviourInstruction>
     </Instructions>
   </BehaviourAlgorithm>
+</BehaviourAlgorithmStorage>

@@ -1,0 +1,14 @@
+#BNF+EMV2.1;
+!grammar <GRAMMAR_NAME>_en;
+!start <yes>;
+!start <no>;
+!start <quit>;
+!start <play>;
+!start <parameters>;
+!start <didntunderstand>;
+<yes> : (ok | okay | yes | yep | sure | agreed | yeah  | understood | very well | sure | affirmative) | ([I] (agree | confirm | got it | accept | validate | understand));
+<no> : no | nope | disagree | cancel | I don't want | no need | negative;
+<quit> : quit | cancel | stop | exit | that's all | that's it | nothing | back | end | leave;
+<play> : play;
+<parameters> : parameters | configure | configuration;
+<didntunderstand> : [I didn't (get it | understand)] (could | can) you (repeat | say it again);

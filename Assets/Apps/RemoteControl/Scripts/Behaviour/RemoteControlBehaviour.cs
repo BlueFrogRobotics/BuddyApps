@@ -1,15 +1,13 @@
 using BlueQuark;
-
 using BlueQuark.Remote;
 
+using Newtonsoft.Json.Linq;
+
 using UnityEngine;
-
 using UnityEngine.UI;
-
 using UnityEngine.Networking;
 
 using System;
-
 using System.Collections;
 
 namespace BuddyApp.RemoteControl
@@ -78,8 +76,7 @@ namespace BuddyApp.RemoteControl
             mCallStoped = false;
 
             // CallView in custom toast
-            if (!CallView)
-            {
+            if (!CallView) {
                 Debug.LogError("Please add reference to CallView_customToast");
                 return;
             }
@@ -96,18 +93,15 @@ namespace BuddyApp.RemoteControl
             // Display the custom prefab to manage the call
 
             Buddy.GUI.Toaster.Display<CustomToast>().With(CallView,
-            () =>
-            {
+            () => {
                 // On Display, Launch the display animation of the custom toast
-                if (RemoteControlData.Instance.RemoteMode == RemoteControlData.AvailableRemoteMode.REMOTE_CONTROL)
-                {
+                if (RemoteControlData.Instance.RemoteMode == RemoteControlData.AvailableRemoteMode.REMOTE_CONTROL) {
                     if ((mCallViewManager = CallView.GetComponent<CallViewManager>()))
                         mCallViewManager.DisplayVolumeSlider();
                     else
                         Debug.LogWarning("---- CallManager not found on CallView ----");
                     CallView.GetComponent<Animator>().SetTrigger("Open_WCall");
-                }
-                else if (RemoteControlData.Instance.RemoteMode == RemoteControlData.AvailableRemoteMode.TAKE_CONTROL)
+                } else if (RemoteControlData.Instance.RemoteMode == RemoteControlData.AvailableRemoteMode.TAKE_CONTROL)
                     CallView.GetComponent<Animator>().SetTrigger("Open_WCall");
             }, null);
         }
@@ -160,27 +154,21 @@ namespace BuddyApp.RemoteControl
 
         public IEnumerator Call()
         {
-            if (!RemoteControlData.Instance.DiscreteMode)
-            {
+            if (!RemoteControlData.Instance.DiscreteMode) {
                 yield return new WaitForSeconds(1.5F);
                 string lReceiver = "";
                 UserAccount[] lUsers = Buddy.Platform.Users.GetUsers();
-                foreach (UserAccount lUser in lUsers)
-                {
-                    if (WebRTCListener.RemoteID.Trim() == lUser.Email)
-                    {
+                foreach (UserAccount lUser in lUsers) {
+                    if (WebRTCListener.RemoteID.Trim() == lUser.Email) {
                         lReceiver = lUser.FirstName;
                     }
                 }
                 string lTextToSay = "[user]";
-                if (string.IsNullOrEmpty(lReceiver))
-                {
+                if (string.IsNullOrEmpty(lReceiver)) {
                     lTextToSay = lTextToSay.Replace("[user]", WebRTCListener.RemoteID);
                     if (UserCalling)
                         UserCalling.text = WebRTCListener.RemoteID;
-                }
-                else
-                {
+                } else {
                     lTextToSay = lTextToSay.Replace("[user]", lReceiver);
                     if (UserCalling)
                         UserCalling.text = lReceiver;
@@ -195,12 +183,12 @@ namespace BuddyApp.RemoteControl
         public void SendMessageFirebase()
         {
             Debug.Log("Send message");
-            JSONNode lNode = new JSONObject();
+            JObject lNode = new JObject();
 
             ///It's the key of the firebase server
             string lServerKey = "dZ416EcYA0s:APA91bFeYlrC6h5ykx6HN7cvYaDllWvaB_ZF5Iu7eHnZ48Vv4008x0293SQEnPbc8Eu54xYPPr3ynhcYce1XcZCFQSrIUJxZefukCTCXxMsmGKgE0-EG4t7f-0k8pePgsNXLMGHL2Fdw";
             lNode.Add("to", lServerKey);
-            JSONNode lNotification = new JSONObject();
+            JObject lNotification = new JObject();
             lNotification.Add("title", "le titre");
             lNotification.Add("body", "le contenu");
             lNode.Add("notification", lNotification);
@@ -229,7 +217,7 @@ namespace BuddyApp.RemoteControl
             request.SetRequestHeader("Content-Type", "application/json");
             request.SetRequestHeader("Authorization", "key=" + iDeviceToken);
 
-            yield return request.Send();
+            yield return request.SendWebRequest();
 
             Debug.Log("Response: " + request.downloadHandler.text);
         }

@@ -1,11 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using BlueQuark;
+
 using UnityEngine;
 
-using System.Linq;
-using BlueQuark;
-using OpenCVUnity;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BuddyApp.Korian
 {
@@ -45,7 +45,6 @@ namespace BuddyApp.Korian
             Buddy.Actuators.Head.Yes.SetPosition(2);
 
             MoveToward(0F);
-
         }
 
         private void MoveToward(float iDirection)
@@ -120,7 +119,6 @@ namespace BuddyApp.Korian
                 lScore++;
             return ((float)lScore / 7F);
         }
-
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

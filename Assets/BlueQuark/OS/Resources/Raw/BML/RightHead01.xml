@@ -1,6 +1,13 @@
-<?xml version="1.0" ?>
-  <BehaviourAlgorithm xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <Instructions>
+<?xml version="1.0" encoding="utf-8"?>
+<BehaviourAlgorithmStorage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Settings>
+		<Category>RightHead</Category>
+		<Mood>NEUTRAL</Mood>
+		<Commitment>NOT_ENGAGED</Commitment>
+		<MovementPattern>COMPLETE_FREEDOM</MovementPattern>
+	</Settings>
+	<Algorithm>
+		<Instructions>
       <ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
         <IsBlocking>
           <Value>false</Value>
@@ -131,5 +138,6 @@
           <Value>CENTER</Value>
         </Position>
       </ABehaviourInstruction>
-    </Instructions>
-  </BehaviourAlgorithm>
+		</Instructions>
+	</Algorithm>
+</BehaviourAlgorithmStorage>

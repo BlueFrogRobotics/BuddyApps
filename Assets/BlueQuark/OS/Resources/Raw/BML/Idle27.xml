@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BehaviourAlgorithmStorage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <Settings>
+        <Category>Idle_ANGRY</Category>
+        <Mood>NEUTRAL</Mood>
+        <Commitment>NOT_ENGAGED</Commitment>
+        <MovementPattern>COMPLETE_FREEDOM</MovementPattern>
+    </Settings>
+    <Algorithm>
+        <Instructions>
+            <ABehaviourInstruction xsi:type="SetMoodBehaviourInstruction">
+                <IsBlocking>
+                    <Value>false</Value>
+                </IsBlocking>
+                <IsRequired>
+                    <Value>false</Value>
+                </IsRequired>
+                <Delay>
+                    <Value>0</Value>
+                </Delay>
+                <Mood>
+                    <Value>NEUTRAL</Value>
+                </Mood>
+                <Duration>
+                    <Value>0</Value>
+                </Duration>
+            </ABehaviourInstruction>
+            <ABehaviourInstruction xsi:type="MoveBodyBehaviourInstruction">
+                <Delay>
+                  <Value>0</Value>
+                </Delay>
+                <IsBlocking>
+                  <Value>false</Value>
+                </IsBlocking>
+                <IsRequired>
+                  <Value>false</Value>
+                </IsRequired>
+                <Angle>
+                  <Value>30</Value>
+                </Angle>
+                <Speed>
+                  <Value>100</Value>
+                </Speed>
+            </ABehaviourInstruction>
+            <ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
+                <IsBlocking>
+                    <Value>true</Value>
+                </IsBlocking>
+                <IsRequired>
+                    <Value>false</Value>
+                </IsRequired>
+                <Delay>
+                    <Value>0</Value>
+                </Delay>
+                <Position>
+                    <Value>RIGHT</Value>
+                </Position>
+                <CustomMove>
+                    <Value>true</Value>
+                </CustomMove>
+                <YesAngle>
+                    <Value>-20</Value>
+                </YesAngle>
+                <NoAngle>
+                    <Value>50</Value>
+                </NoAngle>
+                <YesSpeed>
+                    <Value>100</Value>
+                </YesSpeed>
+                <NoSpeed>
+                    <Value>100</Value>
+                </NoSpeed>
+            </ABehaviourInstruction>
+
+            <ABehaviourInstruction xsi:type="SetLightBehaviourInstruction">
+                <IsBlocking>
+                    <Value>false</Value>
+                </IsBlocking>
+                <IsRequired>
+                    <Value>false</Value>
+                </IsRequired>
+                <Delay>
+                    <Value>0.5</Value>
+                </Delay>
+                <Color>
+                    <Value>ORANGE_HAPPY</Value>
+                </Color>
+            </ABehaviourInstruction>
+
+            <ABehaviourInstruction xsi:type="SetLightBehaviourInstruction">
+                <IsBlocking>
+                    <Value>false</Value>
+                </IsBlocking>
+                <IsRequired>
+                    <Value>false</Value>
+                </IsRequired>
+                <Delay>
+                    <Value>1.5</Value>
+                </Delay>
+                <Color>
+                    <Value>RED_ANGRY</Value>
+                </Color>
+            </ABehaviourInstruction>
+
+            <ABehaviourInstruction xsi:type="SetLightBehaviourInstruction">
+                <IsBlocking>
+                    <Value>false</Value>
+                </IsBlocking>
+                <IsRequired>
+                    <Value>false</Value>
+                </IsRequired>
+                <Delay>
+                    <Value>2.5</Value>
+                </Delay>
+                <Color>
+                    <Value>PURPLE_GRUMPY</Value>
+                </Color>
+            </ABehaviourInstruction>
+
+            <ABehaviourInstruction xsi:type="PlayFacialEventBehaviourInstruction">
+                <IsBlocking>
+                    <Value>false</Value>
+                </IsBlocking>
+                <IsRequired>
+                    <Value>false</Value>
+                </IsRequired>
+                <Delay>
+                    <Value>3.5</Value>
+                </Delay>
+                <FacialEvent>
+                    <Value>DOUBTFUL</Value>
+                </FacialEvent>
+            </ABehaviourInstruction>
+
+            <ABehaviourInstruction xsi:type="SetLightBehaviourInstruction">
+                <IsBlocking>
+                    <Value>false</Value>
+                </IsBlocking>
+                <IsRequired>
+                    <Value>false</Value>
+                </IsRequired>
+                <Delay>
+                    <Value>3.5</Value>
+                </Delay>
+                <Color>
+                    <Value>PINK_SAD</Value>
+                </Color>
+            </ABehaviourInstruction>
+
+            <ABehaviourInstruction xsi:type="SetLightBehaviourInstruction">
+                <IsBlocking>
+                    <Value>false</Value>
+                </IsBlocking>
+                <IsRequired>
+                    <Value>false</Value>
+                </IsRequired>
+                <Delay>
+                    <Value>4.5</Value>
+                </Delay>
+                <Color>
+                    <Value>BLUE_NEUTRAL</Value>
+                </Color>
+            </ABehaviourInstruction>
+            <ABehaviourInstruction xsi:type="MoveBodyBehaviourInstruction">
+                <Delay>
+                  <Value>5.5</Value>
+                </Delay>
+                <IsBlocking>
+                  <Value>true</Value>
+                </IsBlocking>
+                <IsRequired>
+                  <Value>false</Value>
+                </IsRequired>
+                <Angle>
+                  <Value>-30</Value>
+                </Angle>
+                <Speed>
+                  <Value>100</Value>
+                </Speed>
+            </ABehaviourInstruction>
+            <ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
+                <IsBlocking>
+                    <Value>true</Value>
+                </IsBlocking>
+                <IsRequired>
+                    <Value>false</Value>
+                </IsRequired>
+                <Delay>
+                    <Value>0</Value>
+                </Delay>
+                <Position>
+                    <Value>CENTER</Value>
+                </Position>
+                <CustomMove>
+                    <Value>true</Value>
+                </CustomMove>
+                <YesAngle>
+                    <Value>20</Value>
+                </YesAngle>
+                <NoAngle>
+                    <Value>-50</Value>
+                </NoAngle>
+                <YesSpeed>
+                    <Value>100</Value>
+                </YesSpeed>
+                <NoSpeed>
+                    <Value>100</Value>
+                </NoSpeed>
+            </ABehaviourInstruction>
+        </Instructions>
+    </Algorithm>
+</BehaviourAlgorithmStorage>

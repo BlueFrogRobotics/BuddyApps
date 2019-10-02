@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BehaviourAlgorithmStorage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Settings>
+		<Category>CenterHeart</Category>
+		<Mood>NEUTRAL</Mood>
+		<Commitment>NOT_ENGAGED</Commitment>
+		<MovementPattern>COMPLETE_FREEDOM</MovementPattern>
+	</Settings>
+	<Algorithm>
+		<Instructions>
+			<ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
+				<IsBlocking>
+					<Value>false</Value>
+				</IsBlocking>
+				<CustomMove>
+					<Value>true</Value>
+				</CustomMove>
+				<YesAngle>
+					<Value>-10</Value>
+				</YesAngle>
+				<YesSpeed>
+					<Value>20</Value>
+				</YesSpeed>
+			</ABehaviourInstruction>
+			<ABehaviourInstruction xsi:type="PlayFacialEventBehaviourInstruction">
+				<IsBlocking>
+					<Value>false</Value>
+				</IsBlocking>
+				<FacialEvent>
+					<Value>SUSPICIOUS</Value>
+				</FacialEvent>
+			</ABehaviourInstruction>
+
+			<ABehaviourInstruction xsi:type="PlayFacialEventBehaviourInstruction">
+				<Delay>
+					<Value>2</Value>
+				</Delay>
+				<IsBlocking>
+					<Value>false</Value>
+				</IsBlocking>
+				<FacialEvent>
+					<Value>TEASE</Value>
+				</FacialEvent>
+			</ABehaviourInstruction>
+			<ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
+				<Delay>
+					<Value>2</Value>
+				</Delay>
+				<IsBlocking>
+					<Value>false</Value>
+				</IsBlocking>
+				<CustomMove>
+					<Value>true</Value>
+				</CustomMove>
+				<YesAngle>
+					<Value>30</Value>
+				</YesAngle>
+				<YesSpeed>
+					<Value>20</Value>
+				</YesSpeed>
+			</ABehaviourInstruction>
+			<ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
+				<Delay>
+					<Value>2</Value>
+				</Delay>
+				<IsBlocking>
+					<Value>false</Value>
+				</IsBlocking>
+				<CustomMove>
+					<Value>true</Value>
+				</CustomMove>
+				<NoAngle>
+					<Value>40</Value>
+				</NoAngle>
+				<NoSpeed>
+					<Value>50</Value>
+				</NoSpeed>
+			</ABehaviourInstruction>
+
+			<ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
+				<Delay>
+					<Value>3</Value>
+				</Delay>
+				<IsBlocking>
+					<Value>false</Value>
+				</IsBlocking>
+				<CustomMove>
+					<Value>true</Value>
+				</CustomMove>
+				<NoAngle>
+					<Value>0</Value>
+				</NoAngle>
+				<NoSpeed>
+					<Value>50</Value>
+				</NoSpeed>
+			</ABehaviourInstruction>
+			<ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
+				<Delay>
+					<Value>3</Value>
+				</Delay>
+				<IsBlocking>
+					<Value>true</Value>
+				</IsBlocking>
+				<CustomMove>
+					<Value>true</Value>
+				</CustomMove>
+				<YesAngle>
+					<Value>10</Value>
+				</YesAngle>
+				<YesSpeed>
+					<Value>20</Value>
+				</YesSpeed>
+			</ABehaviourInstruction>
+		</Instructions>
+	</Algorithm>
+</BehaviourAlgorithmStorage>

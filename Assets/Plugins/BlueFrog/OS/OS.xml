@@ -462,7 +462,7 @@
         </member>
         <member name="T:BlueQuark.Internal.AULink">
             <summary>
-            Unity Link is the BlueQuark interface between a logical class aa nd Unity Monobehaviour class.
+            Unity Link is the BlueQuark interface between a logical class and Unity Monobehaviour class.
             Useful for display, Editor interaction, Android plugin, coroutine system, or callback purposes.
             </summary>
         </member>
@@ -866,6 +866,12 @@
             This state is called when Buddy is looking for a/any user
             </summary>
         </member>
+        <member name="T:BlueQuark.Internal.MonitorAppState">
+            <summary>
+            This is the state we use when an app is launched.
+            Buddy shouldn't behave anymore....
+            </summary>
+        </member>
         <member name="T:BlueQuark.Internal.TestAudioState">
             <summary>
             This state is used when Buddy wants to move and decides to dance
@@ -881,6 +887,11 @@
             This function is called when an answer is received from the user
             </summary>
             <param name="iInput">User speech input</param>
+        </member>
+        <member name="T:BlueQuark.Internal.AudioBehaviourState">
+            <summary>
+            This state is used when Buddy detects a cliff
+            </summary>
         </member>
         <member name="T:BlueQuark.Internal.Blurer">
             <summary>
@@ -1151,13 +1162,13 @@
             <summary>
             Adds a widget on the right side of the board. The board must be dislayed.
             </summary>
-            <typeparam name="N">Type of the widget.</typeparam>
+            <typeparam name="MW">Type of the widget.</typeparam>
         </member>
         <member name="M:BlueQuark.Internal.MetricBoard.RemoveLateralWidget``1(``0)">
             <summary>
             Removes a lateral widget. 
             </summary>
-            <typeparam name="N">Type of the widget.</typeparam>
+            <typeparam name="MW">Type of the widget.</typeparam>
             <param name="iWidget">The widget to remove.</param>
         </member>
         <member name="M:BlueQuark.Internal.MetricBoard.Hide">
@@ -1254,6 +1265,122 @@
             Sets the text.
             </summary>
             <param name="iText">The text to display.</param>
+        </member>
+        <member name="T:BlueQuark.Internal.HardwareCommand">
+            <summary>
+            Represents an array of byte that is used to communicate with the hardware side.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.HardwareCommand.Code">
+            <summary>
+            Code of the command. Read by the hardware side to process a specific need.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.HardwareCommand.Progress">
+            <summary>
+            Progress handler of the command.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.HardwareCommand.Payload">
+            <summary>
+            Complete payload of the command.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCommand.ToString">
+            <summary>
+            To string overriding.
+            </summary>
+            <returns>String of the command.</returns>
+        </member>
+        <member name="T:BlueQuark.Internal.HardwareCommandStatus">
+            <summary>
+            Represents the status of an hardware command.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.HardwareCommandStatus.CREATED">
+            <summary>
+            The command is just created.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.HardwareCommandStatus.QUEUED">
+            <summary>
+            The command is queued for further process.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.HardwareCommandStatus.MERGING_FROM">
+            <summary>
+            Command parameters / OnProgress were replaced with a new command. 
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.HardwareCommandStatus.MERGING_TO">
+            <summary>
+            Command parameters / OnProgress were copied into exisint queued command.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.HardwareCommandStatus.ABORTED">
+            <summary>
+            The command has been fully aborted.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.HardwareCommandStatus.SENT">
+            <summary>
+            The command is queued for further process.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.HardwareCommandStatus.NOT_SENT">
+            <summary>
+            The command was not sent.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.HardwareCommandStatus.BAD_ACKNOWLEDGE">
+            <summary>
+            The command was sent but the acknowledment is bad.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.HardwareCommandStatus.SUCCESS">
+            <summary>
+            The command was sent and detected has successful.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.HardwareCommandProgress">
+            <summary>
+            Represents the progress of an hardware command.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.HardwareCommandProgress.IsSucceed">
+            <summary>
+            Is the command well acknowledged without error ?
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.HardwareCommandProgress.IsDone">
+            <summary>
+            Is the command fully acknowledged ?
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.HardwareCommandProgress.IsInterrupted">
+            <summary>
+            True if the command was not sent or abort in any way. See Status and Error for more info.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.HardwareCommandProgress.Status">
+            <summary>
+            Current status of the command.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.HardwareCommandProgress.Error">
+            <summary>
+            Error code. 0 if not error.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.HardwareCommandProgress.FrameID">
+            <summary>
+            ID of the communication frame. -1 if not sent.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.HardwareCommandProgress.Acknowledgment">
+            <summary>
+            Byte array containing the full acknowledgment of the command. Null if not done.
+            </summary>
         </member>
         <member name="T:BlueQuark.Internal.AMotherboard`2">
             <summary>
@@ -1653,6 +1780,13 @@
         <member name="F:BlueQuark.Internal.HumanTrackSubStrategy.OBSTACLE_MEASURE_NUMBER">
             <summary>
             Define the number of frame to use, to detect an obstacle.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.HumanTrackSubStrategy.ANGULAR_SPEED">
+            <summary>
+            Angular speed seems too high when it's using in the search movement.
+            Sometimes, during the rotate sub strategy, when a detection occure, there is a little lag between detection
+            and wheels stop. Consequence: The direction is already outdated when it start to move.
             </summary>
         </member>
         <member name="F:BlueQuark.Internal.HumanTrackSubStrategy.BOX_AREA_STANDARD_FOR_METER">
@@ -2098,7 +2232,7 @@
         </member>
         <member name="T:BlueQuark.Internal.YOLODetector">
             <summary>
-            Class used by the detectors using yolo algorithm.
+            Class used by the detectors using You Only Look Once (YOLO) algorithm.
             </summary>
         </member>
         <member name="M:BlueQuark.Internal.YOLODetector.#ctor(BlueQuark.Internal.TinyYOLO3Model[],System.Int32,System.Int32)">
@@ -2183,6 +2317,11 @@
         <member name="F:BlueQuark.Internal.Licenses.IP_DATA_API_KEY">
             <summary>
             Unique API key for geolocalization from IP adress. More info at https://ipdata.co/index.html.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.Licenses.ID3_CLOUD_KEY">
+            <summary>
+            Api key for the dedicated id3 demo cloud api.
             </summary>
         </member>
         <member name="T:BlueQuark.Internal.MusicType">
@@ -2688,12 +2827,6 @@
             </summary>
             <param name="iTimeInSeconds">time in seconds</param>
             <returns>Array of int with 0 : hour, 1 : minutes, 2 : seconds</returns>
-        </member>
-        <member name="M:BlueQuark.Internal.VocalCommandState.IsWifiEnabledAndConnectedAsync(System.Action{System.Boolean})">
-            <summary>
-            Verify if the wifi is enabled in Buddy and check after if Buddy is connected to a wifi
-            </summary>
-            <returns></returns>
         </member>
         <member name="T:BlueQuark.Internal.BuddyInArmsState">
             <summary>
@@ -3926,6 +4059,439 @@
             <summary>
             Represents a timestamp data
             </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.HardwareCom">
+            <summary>
+            Hardware communication with the Hemise board.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.HardwareCom.EnableDebugMode">
+            <summary>
+            Enables/Disables hardware debug mode.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.HardwareCom.OnCommandProgress">
+            <summary>
+            Called on each hardware command progression.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.HardwareCom.OnNewDataFrame">
+            <summary>
+            Called on each new spontaneous data frame from the Hemise board. About every 50 milliseconds.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.HardwareCom.OnNewErrSysFrame">
+            <summary>
+            Called when a new error system frame is received from the Hemise board. Payload only.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.HardwareCom.OnNewSyncDataFrame">
+            <summary>
+            Called when a new synchronization data frame is received from the Hemise board. Payload only.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.HardwareCom.OnNewDebugFrame">
+            <summary>
+            Called when a new debug frame is received from the Hemise board. Payload only.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.HardwareCom.OnNewFixDataFrame">
+            <summary>
+            Called when a new system data frame is received from the Hemise board. Payload only.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.HardwareCom.OnNewEEPFrame">
+            <summary>
+            Called when a new EEP frame is received from the Hemise board. Payload only.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.HardwareCom.OnNewAckFrame">
+            <summary>
+            Called when a new acknowledge frame is received from the Hemise board. Payload only.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.HardwareCom.OnSendCommand">
+            <summary>
+            Called when a command is sent to the Hemise board. Payload only.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.HardwareCom.OnPlug">
+            <summary>
+            Called when the cable is plugged. Should never happened on real circumstances.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.HardwareCom.OnUnplug">
+            <summary>
+            Called when the cable is unplugged. Should never happened on real circumstances.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.SendCommand(System.Byte[],System.Action{BlueQuark.Internal.HardwareCommandProgress})">
+            <summary>
+            Send the specified full payload (with command code) to the Hemise board. Commands are queued and proceed one by one. 
+            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
+            </summary>
+            <param name="iPayload">The payload to send</param>
+            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
+            <returns>The error code. 0 if no error.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.SendCommand(System.Byte[],System.Boolean,System.Action{BlueQuark.Internal.HardwareCommandProgress})">
+            <summary>
+            Send the specified full payload (with command code) to the Hemise board. Commands are queued and proceed one by one. 
+            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
+            </summary>
+            <param name="iPayload">The payload to send</param>
+            <param name="iForceEnqueue">If true, the command will be added as it. If false, any same command will be replaced by new provided parameters.</param>
+            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
+            <returns>The error code. 0 if no error.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.SendCommand(System.Byte,System.Byte,System.Action{BlueQuark.Internal.HardwareCommandProgress})">
+            <summary>
+            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
+            </summary>
+            <param name="iCode">The command code.</param>
+            <param name="iVal0">First value to store.</param>
+            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
+            <returns>The error code. 0 if no error.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.SendCommand(System.Byte,System.Byte,System.Boolean,System.Action{BlueQuark.Internal.HardwareCommandProgress})">
+            <summary>
+            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
+            </summary>
+            <param name="iCode">The command code.</param>
+            <param name="iVal0">First value to store.</param>
+            <param name="iForceEnqueue">If true, the command will be added as it. If false, any same command will be replaced by new provided parameters.</param>
+            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
+            <returns>The error code. 0 if no error.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Action{BlueQuark.Internal.HardwareCommandProgress})">
+            <summary>
+            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
+            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
+            </summary>
+            <param name="iCode">The command code.</param>
+            <param name="iVal0">First value to store.</param>
+            <param name="iVal1">Second value to store.</param>        
+            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
+            <returns>The error code. 0 if no error.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Boolean,System.Action{BlueQuark.Internal.HardwareCommandProgress})">
+            <summary>
+            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
+            </summary>
+            <param name="iCode">The command code.</param>
+            <param name="iVal0">First value to store.</param>
+            <param name="iVal1">Second value to store.</param>
+            <param name="iForceEnqueue">If true, the command will be added as it. If false, any same command will be replaced by new provided parameters.</param>      
+            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
+            <returns>The error code. 0 if no error.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Byte,System.Action{BlueQuark.Internal.HardwareCommandProgress})">
+            <summary>
+            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
+            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
+            </summary>
+            <param name="iCode">The command code.</param>
+            <param name="iVal0">First value to store.</param>
+            <param name="iVal1">Second value to store.</param>
+            <param name="iVal2">Third value to store.</param>
+            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
+            <returns>The error code. 0 if no error.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Byte,System.Boolean,System.Action{BlueQuark.Internal.HardwareCommandProgress})">
+            <summary>
+            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
+            </summary>
+            <param name="iCode">The command code.</param>
+            <param name="iVal0">First value to store.</param>
+            <param name="iVal1">Second value to store.</param>
+            <param name="iVal2">Third value to store.</param>
+            <param name="iForceEnqueue">If true, the command will be added as it. If false, any same command will be replaced by new provided parameters.</param>
+            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
+            <returns>The error code. 0 if no error.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Action{BlueQuark.Internal.HardwareCommandProgress})">
+            <summary>
+            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
+            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
+            </summary>
+            <param name="iCode">The command code.</param>
+            <param name="iVal0">First value to store.</param>
+            <param name="iVal1">Second value to store.</param>
+            <param name="iVal2">Third value to store.</param>
+            <param name="iVal3">Fourths value to store.</param>
+            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
+            <returns>The error code. 0 if no error.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Boolean,System.Action{BlueQuark.Internal.HardwareCommandProgress})">
+            <summary>
+            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
+            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
+            </summary>
+            <param name="iCode">The command code.</param>
+            <param name="iVal0">First value to store.</param>
+            <param name="iVal1">Second value to store.</param>
+            <param name="iVal2">Third value to store.</param>
+            <param name="iVal3">Fourths value to store.</param>
+            <param name="iForceEnqueue">If true, the command will be added as it. If false, any same command will be replaced by new provided parameters.</param>
+            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
+            <returns>The error code. 0 if no error.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Action{BlueQuark.Internal.HardwareCommandProgress})">
+            <summary>
+            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
+            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
+            </summary>
+            <param name="iCode">The command code.</param>
+            <param name="iVal0">First value to store.</param>
+            <param name="iVal1">Second value to store.</param>
+            <param name="iVal2">Third value to store.</param>
+            <param name="iVal3">Fourths value to store.</param>
+            <param name="iVal4">Fifth value to store.</param>
+            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
+            <returns>The error code. 0 if no error.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Boolean,System.Action{BlueQuark.Internal.HardwareCommandProgress})">
+            <summary>
+            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
+            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
+            </summary>
+            <param name="iCode">The command code.</param>
+            <param name="iVal0">First value to store.</param>
+            <param name="iVal1">Second value to store.</param>
+            <param name="iVal2">Third value to store.</param>
+            <param name="iVal3">Fourths value to store.</param>
+            <param name="iVal4">Fifth value to store.</param>
+            <param name="iForceEnqueue">If true, the command will be added as it. If false, any same command will be replaced by new provided parameters.</param>
+            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
+            <returns>The error code. 0 if no error.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Action{BlueQuark.Internal.HardwareCommandProgress})">
+            <summary>
+            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
+            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
+            </summary>
+            <param name="iCode">The command code.</param>
+            <param name="iVal0">First value to store.</param>
+            <param name="iVal1">Second value to store.</param>
+            <param name="iVal2">Third value to store.</param>
+            <param name="iVal3">Fourths value to store.</param>
+            <param name="iVal4">Fifth value to store.</param>
+            <param name="iVal5">Sixth value to store.</param>
+            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
+            <returns>The error code. 0 if no error.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Boolean,System.Action{BlueQuark.Internal.HardwareCommandProgress})">
+            <summary>
+            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
+            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
+            </summary>
+            <param name="iCode">The command code.</param>
+            <param name="iVal0">First value to store.</param>
+            <param name="iVal1">Second value to store.</param>
+            <param name="iVal2">Third value to store.</param>
+            <param name="iVal3">Fourths value to store.</param>
+            <param name="iVal4">Fifth value to store.</param>
+            <param name="iVal5">Sixth value to store.</param>
+            <param name="iForceEnqueue">If true, the command will be added as it. If false, any same command will be replaced by new provided parameters.</param>
+            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
+            <returns>The error code. 0 if no error.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Action{BlueQuark.Internal.HardwareCommandProgress})">
+            <summary>
+            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
+            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
+            </summary>
+            <param name="iCode">The command code.</param>
+            <param name="iVal0">First value to store.</param>
+            <param name="iVal1">Second value to store.</param>
+            <param name="iVal2">Third value to store.</param>
+            <param name="iVal3">Fourths value to store.</param>
+            <param name="iVal4">Fifth value to store.</param>
+            <param name="iVal5">Sixth value to store.</param>
+            <param name="iVal6">Seventh value to store.</param>
+            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
+            <returns>The error code. 0 if no error.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Boolean,System.Action{BlueQuark.Internal.HardwareCommandProgress})">
+            <summary>
+            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
+            </summary>
+            <param name="iCode">The command code.</param>
+            <param name="iVal0">First value to store.</param>
+            <param name="iVal1">Second value to store.</param>
+            <param name="iVal2">Third value to store.</param>
+            <param name="iVal3">Fourths value to store.</param>
+            <param name="iVal4">Fifth value to store.</param>
+            <param name="iVal5">Sixth value to store.</param>
+            <param name="iVal6">Seventh value to store.</param>
+            <param name="iForceEnqueue">If true, the command will be added as it. If false, any same command will be replaced by new provided parameters.</param>
+            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
+            <returns>The error code. 0 if no error.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Action{BlueQuark.Internal.HardwareCommandProgress})">
+            <summary>
+            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
+            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
+            </summary>
+            <param name="iCode">The command code.</param>
+            <param name="iVal0">First value to store.</param>
+            <param name="iVal1">Second value to store.</param>
+            <param name="iVal2">Third value to store.</param>
+            <param name="iVal3">Fourths value to store.</param>
+            <param name="iVal4">Fifth value to store.</param>
+            <param name="iVal5">Sixth value to store.</param>
+            <param name="iVal6">Seventh value to store.</param>
+            <param name="iVal7">Eighth value to store.</param>
+            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
+            <returns>The error code. 0 if no error.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Boolean,System.Action{BlueQuark.Internal.HardwareCommandProgress})">
+            <summary>
+            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
+            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
+            </summary>
+            <param name="iCode">The command code.</param>
+            <param name="iVal0">First value to store.</param>
+            <param name="iVal1">Second value to store.</param>
+            <param name="iVal2">Third value to store.</param>
+            <param name="iVal3">Fourths value to store.</param>
+            <param name="iVal4">Fifth value to store.</param>
+            <param name="iVal5">Sixth value to store.</param>
+            <param name="iVal6">Seventh value to store.</param>
+            <param name="iVal7">Eighth value to store.</param>
+            <param name="iForceEnqueue">If true, the command will be added as it. If false, any same command will be replaced by new provided parameters.</param>
+            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
+            <returns>The error code. 0 if no error.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Boolean,System.Action{BlueQuark.Internal.HardwareCommandProgress})">
+            <summary>
+            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
+            </summary>
+            <param name="iCode">The command code.</param>
+            <param name="iVal0">First value to store.</param>
+            <param name="iVal1">Second value to store.</param>
+            <param name="iVal2">Third value to store.</param>
+            <param name="iVal3">Fourths value to store.</param>
+            <param name="iVal4">Fifth value to store.</param>
+            <param name="iVal5">Sixth value to store.</param>
+            <param name="iVal6">Seventh value to store.</param>
+            <param name="iVal7">Eighth value to store.</param>
+            <param name="iVal8">Nineth value to store.</param>
+            <param name="iForceEnqueue">If true, the command will be added as it. If false, any same command will be replaced by new provided parameters.</param>
+            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
+            <returns>The error code. 0 if no error.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Action{BlueQuark.Internal.HardwareCommandProgress})">
+            <summary>
+            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
+            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
+            </summary>
+            <param name="iCode">The command code.</param>
+            <param name="iVal0">First value to store.</param>
+            <param name="iVal1">Second value to store.</param>
+            <param name="iVal2">Third value to store.</param>
+            <param name="iVal3">Fourths value to store.</param>
+            <param name="iVal4">Fifth value to store.</param>
+            <param name="iVal5">Sixth value to store.</param>
+            <param name="iVal6">Seventh value to store.</param>
+            <param name="iVal7">Eighth value to store.</param>
+            <param name="iVal8">Nineth value to store.</param>
+            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
+            <returns>The error code. 0 if no error.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Action{BlueQuark.Internal.HardwareCommandProgress})">
+            <summary>
+            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
+            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
+            </summary>
+            <param name="iCode">The command code.</param>
+            <param name="iVal0">First value to store.</param>
+            <param name="iVal1">Second value to store.</param>
+            <param name="iVal2">Third value to store.</param>
+            <param name="iVal3">Fourths value to store.</param>
+            <param name="iVal4">Fifth value to store.</param>
+            <param name="iVal5">Sixth value to store.</param>
+            <param name="iVal6">Seventh value to store.</param>
+            <param name="iVal7">Eighth value to store.</param>
+            <param name="iVal8">Nineth value to store.</param>
+            <param name="iVal9">Tenth value to store.</param>
+            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
+            <returns>The error code. 0 if no error.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Boolean,System.Action{BlueQuark.Internal.HardwareCommandProgress})">
+            <summary>
+            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
+            </summary>
+            <param name="iCode">The command code.</param>
+            <param name="iVal0">First value to store.</param>
+            <param name="iVal1">Second value to store.</param>
+            <param name="iVal2">Third value to store.</param>
+            <param name="iVal3">Fourths value to store.</param>
+            <param name="iVal4">Fifth value to store.</param>
+            <param name="iVal5">Sixth value to store.</param>
+            <param name="iVal6">Seventh value to store.</param>
+            <param name="iVal7">Eighth value to store.</param>
+            <param name="iVal8">Nineth value to store.</param>
+            <param name="iVal9">Tenth value to store.</param>
+            <param name="iForceEnqueue">If true, the command will be added as it. If false, any same command will be replaced by new provided parameters.</param>
+            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
+            <returns>The error code. 0 if no error.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.SendCommand(System.Byte,System.Action{BlueQuark.Internal.HardwareCommandProgress})">
+            <summary>
+            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
+            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
+            </summary>
+            <param name="iCode">The command code.</param>
+            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
+            <returns>The error code. 0 if no error.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.SendCommand(System.Byte,System.Boolean,System.Action{BlueQuark.Internal.HardwareCommandProgress})">
+            <summary>
+            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
+            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
+            </summary>
+            <param name="iCode">The command code.</param>
+            <param name="iForceEnqueue">If true, the command will be added as it. If false, any same command will be replaced by new provided parameters.</param>
+            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
+            <returns>The error code. 0 if no error.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.SendCommand(System.Byte,System.Byte[],System.Action{BlueQuark.Internal.HardwareCommandProgress})">
+            <summary>
+            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
+            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
+            </summary>
+            <param name="iCode">The command code.</param>
+            <param name="iPayload">The payload to send</param>
+            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
+            <returns>The error code. 0 if no error.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.SendCommand(System.Byte,System.Byte[],System.Boolean,System.Action{BlueQuark.Internal.HardwareCommandProgress})">
+            <summary>
+            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
+            </summary>
+            <param name="iCode">The command code.</param>
+            <param name="iPayload">The payload to send</param>
+            <param name="iForceEnqueue">If true, the command will be added as it. If false, any same command will be replaced by new provided parameters.</param>
+            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
+            <returns>The error code. 0 if no error.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.AbortAllCommands">
+            <summary>
+            Remove from the queue all no processed commands.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.AbortCommand">
+            <summary>
+            The current command won't be acknowledge anymore.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.AbortCommand(System.Byte)">
+            <summary>
+            Abort a not sent command matching with the command code.
+            </summary>
+            <param name="iCode"></param>
+            <returns>True if a matching command has been correctly removed from the queue.</returns>
         </member>
         <member name="T:BlueQuark.Internal.GPIO">
             <summary>
@@ -6906,7 +7472,7 @@
             Runs the behaviour algorithm contained at the specified filepath.
             </summary>
             <param name="iFilePath">File contening the algorithm. Can be stored in Raw/ or full path. Cannot be null.</param>
-            <param name="iConsidereInternalMood">If true, movement instructions will take care of the internal mood.</param>
+            <param name="iConsidereInternalMood">If true, movement instructions will take into account the internal mood.</param>
             <returns>True if the algorithm is correctly loaded, false otherwise.</returns>
         </member>
         <member name="M:BlueQuark.BehaviourInterpreter.Run(System.String,System.Action{BlueQuark.ABehaviourInstruction})">
@@ -9341,122 +9907,6 @@
             Selects the dot navigation dot at the given index. Starts at 0. Unselects the current selected dot.
             </summary>
             <returns>Index of the dot to select.</returns>
-        </member>
-        <member name="T:BlueQuark.HardwareCommand">
-            <summary>
-            Represents an array of byte that is used to communicate with the hardware side.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.HardwareCommand.Code">
-            <summary>
-            Code of the command. Read by the hardware side to process a specific need.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.HardwareCommand.Progress">
-            <summary>
-            Progress handler of the command.
-            </summary>
-        </member>
-        <member name="M:BlueQuark.HardwareCommand.ToString">
-            <summary>
-            To string overriding.
-            </summary>
-            <returns>String of the command.</returns>
-        </member>
-        <member name="P:BlueQuark.HardwareCommand.Payload">
-            <summary>
-            Complete payload of the command.
-            </summary>
-        </member>
-        <member name="T:BlueQuark.HardwareCommandStatus">
-            <summary>
-            Represents the status of an hardware command.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.HardwareCommandStatus.CREATED">
-            <summary>
-            The command is just created.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.HardwareCommandStatus.QUEUED">
-            <summary>
-            The command is queued for further process.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.HardwareCommandStatus.MERGING_FROM">
-            <summary>
-            Command parameters / OnProgress were replaced with a new command. 
-            </summary>
-        </member>
-        <member name="F:BlueQuark.HardwareCommandStatus.MERGING_TO">
-            <summary>
-            Command parameters / OnProgress were copied into exisint queued command.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.HardwareCommandStatus.ABORTED">
-            <summary>
-            The command has been fully aborted.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.HardwareCommandStatus.SENT">
-            <summary>
-            The command is queued for further process.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.HardwareCommandStatus.NOT_SENT">
-            <summary>
-            The command was not sent.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.HardwareCommandStatus.BAD_ACKNOWLEDGE">
-            <summary>
-            The command was sent but the acknowledment is bad.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.HardwareCommandStatus.SUCCESS">
-            <summary>
-            The command was sent and detected has successful.
-            </summary>
-        </member>
-        <member name="T:BlueQuark.HardwareCommandProgress">
-            <summary>
-            Represents the progress of an hardware command.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.HardwareCommandProgress.IsSuccess">
-            <summary>
-            Is the command well acknowledged without error ?
-            </summary>
-        </member>
-        <member name="P:BlueQuark.HardwareCommandProgress.IsDone">
-            <summary>
-            Is the command fully acknowledged ?
-            </summary>
-        </member>
-        <member name="P:BlueQuark.HardwareCommandProgress.IsInterrupted">
-            <summary>
-            True if the command was not sent or abort in any way. See Status and Error for more info.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.HardwareCommandProgress.Status">
-            <summary>
-            Current status of the command.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.HardwareCommandProgress.Error">
-            <summary>
-            Error code. 0 if not error.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.HardwareCommandProgress.FrameID">
-            <summary>
-            ID of the communication frame. -1 if not sent.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.HardwareCommandProgress.Acknowledgment">
-            <summary>
-            Byte array containing the full acknowledgment of the command. Null if not done.
-            </summary>
         </member>
         <member name="T:BlueQuark.USBDrive">
             <summary>
@@ -12409,7 +12859,7 @@
         </member>
         <member name="F:BlueQuark.InternalMood.GRUMPY">
             <summary>
-            Grumphy.
+            Grumpy.
             </summary>
         </member>
         <member name="F:BlueQuark.InternalMood.BITTER">
@@ -14912,6 +15362,16 @@
             <param name="iOnDuration">Duration when the led is on. Value in milliseconds.</param>
             <param name="iOffDuration">Duration when the led is off. Value in milliseconds.</param>
             <param name="iLowLevel">This is the minimum light in %. Relative to maximum light.</param>
+            <param name="iUpSlope">Speed to on phase. Value in milliseconds/%.</param>
+            <param name="iDownSlope">Speed to off phase. Value in milliseconds/%.</param>
+        </member>
+        <member name="M:BlueQuark.LEDs.SetBodyPatternTimeSlope(System.Byte,System.UInt16,System.UInt16,System.Int32,System.Int32)">
+            <summary>
+            Sets all lights (shoulders + heart) to the wished pulse.
+            </summary>
+            <param name="iOnDuration">Duration when the led is on. Value in milliseconds.</param>
+            <param name="iOffDuration">Duration when the led is off. Value in milliseconds.</param>
+            <param name="iLowLevel">This is the minimum light in %. Relative to maximum light.</param>
             <param name="iUpSlope">Speed to on phase. Value in milliseconds.</param>
             <param name="iDownSlope">Speed to off phase. Value in milliseconds.</param>
         </member>
@@ -14928,8 +15388,18 @@
             <param name="iOnDuration">Duration when the led is on. Value in milliseconds.</param>
             <param name="iOffDuration">Duration when the led is off. Value in milliseconds.</param>
             <param name="iLowLevel">This is the minimum light in %. Relative to maximum light.</param>
-            <param name="iUpSlope">Speed to on phase. Value in milliseconds.</param>
-            <param name="iDownSlope">Speed to off phase. Value in milliseconds.</param>
+            <param name="iUpSlope">Speed to on phase. Value in milliseconds/%, from 0 to 100ms/%</param>
+            <param name="iDownSlope">Speed to off phase. Value in milliseconds/%, from 0 to 100ms/%.</param>
+        </member>
+        <member name="M:BlueQuark.LEDs.SetHeartPatternTimeSlope(System.Byte,System.UInt16,System.UInt16,System.Int32,System.Int32)">
+            <summary>
+            Sets the heart light to the wished pulse.
+            </summary>
+            <param name="iOnDuration">Duration when the led is on. Value in milliseconds.</param>
+            <param name="iOffDuration">Duration when the led is off. Value in milliseconds.</param>
+            <param name="iLowLevel">This is the minimum light in %. Relative to maximum light.</param>
+            <param name="iUpSlope">Speed to on phase. Value in milliseconds, from 0 to 10 000ms.</param>
+            <param name="iDownSlope">Speed to off phase. Value in milliseconds, from 0 to 10 000ms.</param>
         </member>
         <member name="M:BlueQuark.LEDs.SetShouldersPattern(BlueQuark.PulsePattern)">
             <summary>
@@ -14938,6 +15408,16 @@
             <param name="iPattern">Pattern to display on LED.</param>
         </member>
         <member name="M:BlueQuark.LEDs.SetShouldersPattern(System.Byte,System.UInt16,System.UInt16,System.Byte,System.Byte)">
+            <summary>
+            Change the light pattern.
+            </summary>
+            <param name="iOnDuration">Duration when the led is on. Value in milliseconds.</param>
+            <param name="iOffDuration">Duration when the led is off. Value in milliseconds.</param>
+            <param name="iLowLevel">This is the minimum light in %. Relative to maximum light.</param>
+            <param name="iUpSlope">Speed to on phase. Value in milliseconds/%.</param>
+            <param name="iDownSlope">Speed to off phase. Value in milliseconds/%.</param>
+        </member>
+        <member name="M:BlueQuark.LEDs.SetShouldersPatternTimeSlope(System.Byte,System.UInt16,System.UInt16,System.Int32,System.Int32)">
             <summary>
             Change the light pattern.
             </summary>
@@ -15128,7 +15608,7 @@
         </member>
         <member name="F:BlueQuark.Wheels.RADIUS">
             <summary>
-            Radius of one wheels in meters.
+            Radius of one wheel in meters.
             </summary>
         </member>
         <member name="F:BlueQuark.Wheels.MAX_LIN_VELOCITY">
@@ -15563,6 +16043,11 @@
             The string that will be displayed in the menu / loading.
             </summary>
         </member>
+        <member name="P:BlueQuark.AppInfo.ShortDescription">
+            <summary>
+            The description string that will be displayed in the menu.
+            </summary>
+        </member>
         <member name="P:BlueQuark.AppInfo.MainScene">
             <summary>
             Application main scene (entrypoint). Error if NULL.
@@ -15645,6 +16130,12 @@
             <param name="iIdentifier">The app's scene, id, shortname, commercialname.</param>
             <param name="iAppParameters">The app's parameters. Will be given to the AppActivity at start.</param>
             <returns>The application category.</returns>
+        </member>
+        <member name="M:BlueQuark.AppManager.OpenContextMenu(BlueQuark.AppInfo)">
+            <summary>
+            Opens context menu for application icon
+            </summary>
+            <param name="iAppInfo"></param>
         </member>
         <member name="M:BlueQuark.AppManager.Stop">
             <summary>
@@ -15838,439 +16329,6 @@
             Send a messaga to Core.
             </summary>
             <param name="iMessage"></param>
-        </member>
-        <member name="T:BlueQuark.HardwareCom">
-            <summary>
-            Hardware communication with the Hemise board.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.HardwareCom.EnableDebugMode">
-            <summary>
-            Enables/Disables hardware debug mode.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.HardwareCom.OnCommandProgress">
-            <summary>
-            Called on each hardware command progression.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.HardwareCom.OnNewDataFrame">
-            <summary>
-            Called on each new spontaneous data frame from the Hemise board. About every 50 milliseconds.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.HardwareCom.OnNewErrSysFrame">
-            <summary>
-            Called when a new error system frame is received from the Hemise board. Payload only.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.HardwareCom.OnNewSyncDataFrame">
-            <summary>
-            Called when a new synchronization data frame is received from the Hemise board. Payload only.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.HardwareCom.OnNewDebugFrame">
-            <summary>
-            Called when a new debug frame is received from the Hemise board. Payload only.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.HardwareCom.OnNewFixDataFrame">
-            <summary>
-            Called when a new system data frame is received from the Hemise board. Payload only.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.HardwareCom.OnNewEEPFrame">
-            <summary>
-            Called when a new EEP frame is received from the Hemise board. Payload only.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.HardwareCom.OnNewAckFrame">
-            <summary>
-            Called when a new acknowledge frame is received from the Hemise board. Payload only.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.HardwareCom.OnSendCommand">
-            <summary>
-            Called when a command is sent to the Hemise board. Payload only.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.HardwareCom.OnPlug">
-            <summary>
-            Called when the cable is plugged. Should never happened on real circumstances.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.HardwareCom.OnUnplug">
-            <summary>
-            Called when the cable is unplugged. Should never happened on real circumstances.
-            </summary>
-        </member>
-        <member name="M:BlueQuark.HardwareCom.SendCommand(System.Byte[],System.Action{BlueQuark.HardwareCommandProgress})">
-            <summary>
-            Send the specified full payload (with command code) to the Hemise board. Commands are queued and proceed one by one. 
-            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
-            </summary>
-            <param name="iPayload">The payload to send</param>
-            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
-            <returns>The error code. 0 if no error.</returns>
-        </member>
-        <member name="M:BlueQuark.HardwareCom.SendCommand(System.Byte[],System.Boolean,System.Action{BlueQuark.HardwareCommandProgress})">
-            <summary>
-            Send the specified full payload (with command code) to the Hemise board. Commands are queued and proceed one by one. 
-            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
-            </summary>
-            <param name="iPayload">The payload to send</param>
-            <param name="iForceEnqueue">If true, the command will be added as it. If false, any same command will be replaced by new provided parameters.</param>
-            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
-            <returns>The error code. 0 if no error.</returns>
-        </member>
-        <member name="M:BlueQuark.HardwareCom.SendCommand(System.Byte,System.Byte,System.Action{BlueQuark.HardwareCommandProgress})">
-            <summary>
-            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
-            </summary>
-            <param name="iCode">The command code.</param>
-            <param name="iVal0">First value to store.</param>
-            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
-            <returns>The error code. 0 if no error.</returns>
-        </member>
-        <member name="M:BlueQuark.HardwareCom.SendCommand(System.Byte,System.Byte,System.Boolean,System.Action{BlueQuark.HardwareCommandProgress})">
-            <summary>
-            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
-            </summary>
-            <param name="iCode">The command code.</param>
-            <param name="iVal0">First value to store.</param>
-            <param name="iForceEnqueue">If true, the command will be added as it. If false, any same command will be replaced by new provided parameters.</param>
-            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
-            <returns>The error code. 0 if no error.</returns>
-        </member>
-        <member name="M:BlueQuark.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Action{BlueQuark.HardwareCommandProgress})">
-            <summary>
-            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
-            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
-            </summary>
-            <param name="iCode">The command code.</param>
-            <param name="iVal0">First value to store.</param>
-            <param name="iVal1">Second value to store.</param>        
-            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
-            <returns>The error code. 0 if no error.</returns>
-        </member>
-        <member name="M:BlueQuark.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Boolean,System.Action{BlueQuark.HardwareCommandProgress})">
-            <summary>
-            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
-            </summary>
-            <param name="iCode">The command code.</param>
-            <param name="iVal0">First value to store.</param>
-            <param name="iVal1">Second value to store.</param>
-            <param name="iForceEnqueue">If true, the command will be added as it. If false, any same command will be replaced by new provided parameters.</param>      
-            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
-            <returns>The error code. 0 if no error.</returns>
-        </member>
-        <member name="M:BlueQuark.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Byte,System.Action{BlueQuark.HardwareCommandProgress})">
-            <summary>
-            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
-            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
-            </summary>
-            <param name="iCode">The command code.</param>
-            <param name="iVal0">First value to store.</param>
-            <param name="iVal1">Second value to store.</param>
-            <param name="iVal2">Third value to store.</param>
-            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
-            <returns>The error code. 0 if no error.</returns>
-        </member>
-        <member name="M:BlueQuark.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Byte,System.Boolean,System.Action{BlueQuark.HardwareCommandProgress})">
-            <summary>
-            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
-            </summary>
-            <param name="iCode">The command code.</param>
-            <param name="iVal0">First value to store.</param>
-            <param name="iVal1">Second value to store.</param>
-            <param name="iVal2">Third value to store.</param>
-            <param name="iForceEnqueue">If true, the command will be added as it. If false, any same command will be replaced by new provided parameters.</param>
-            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
-            <returns>The error code. 0 if no error.</returns>
-        </member>
-        <member name="M:BlueQuark.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Action{BlueQuark.HardwareCommandProgress})">
-            <summary>
-            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
-            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
-            </summary>
-            <param name="iCode">The command code.</param>
-            <param name="iVal0">First value to store.</param>
-            <param name="iVal1">Second value to store.</param>
-            <param name="iVal2">Third value to store.</param>
-            <param name="iVal3">Fourths value to store.</param>
-            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
-            <returns>The error code. 0 if no error.</returns>
-        </member>
-        <member name="M:BlueQuark.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Boolean,System.Action{BlueQuark.HardwareCommandProgress})">
-            <summary>
-            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
-            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
-            </summary>
-            <param name="iCode">The command code.</param>
-            <param name="iVal0">First value to store.</param>
-            <param name="iVal1">Second value to store.</param>
-            <param name="iVal2">Third value to store.</param>
-            <param name="iVal3">Fourths value to store.</param>
-            <param name="iForceEnqueue">If true, the command will be added as it. If false, any same command will be replaced by new provided parameters.</param>
-            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
-            <returns>The error code. 0 if no error.</returns>
-        </member>
-        <member name="M:BlueQuark.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Action{BlueQuark.HardwareCommandProgress})">
-            <summary>
-            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
-            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
-            </summary>
-            <param name="iCode">The command code.</param>
-            <param name="iVal0">First value to store.</param>
-            <param name="iVal1">Second value to store.</param>
-            <param name="iVal2">Third value to store.</param>
-            <param name="iVal3">Fourths value to store.</param>
-            <param name="iVal4">Fifth value to store.</param>
-            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
-            <returns>The error code. 0 if no error.</returns>
-        </member>
-        <member name="M:BlueQuark.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Boolean,System.Action{BlueQuark.HardwareCommandProgress})">
-            <summary>
-            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
-            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
-            </summary>
-            <param name="iCode">The command code.</param>
-            <param name="iVal0">First value to store.</param>
-            <param name="iVal1">Second value to store.</param>
-            <param name="iVal2">Third value to store.</param>
-            <param name="iVal3">Fourths value to store.</param>
-            <param name="iVal4">Fifth value to store.</param>
-            <param name="iForceEnqueue">If true, the command will be added as it. If false, any same command will be replaced by new provided parameters.</param>
-            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
-            <returns>The error code. 0 if no error.</returns>
-        </member>
-        <member name="M:BlueQuark.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Action{BlueQuark.HardwareCommandProgress})">
-            <summary>
-            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
-            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
-            </summary>
-            <param name="iCode">The command code.</param>
-            <param name="iVal0">First value to store.</param>
-            <param name="iVal1">Second value to store.</param>
-            <param name="iVal2">Third value to store.</param>
-            <param name="iVal3">Fourths value to store.</param>
-            <param name="iVal4">Fifth value to store.</param>
-            <param name="iVal5">Sixth value to store.</param>
-            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
-            <returns>The error code. 0 if no error.</returns>
-        </member>
-        <member name="M:BlueQuark.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Boolean,System.Action{BlueQuark.HardwareCommandProgress})">
-            <summary>
-            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
-            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
-            </summary>
-            <param name="iCode">The command code.</param>
-            <param name="iVal0">First value to store.</param>
-            <param name="iVal1">Second value to store.</param>
-            <param name="iVal2">Third value to store.</param>
-            <param name="iVal3">Fourths value to store.</param>
-            <param name="iVal4">Fifth value to store.</param>
-            <param name="iVal5">Sixth value to store.</param>
-            <param name="iForceEnqueue">If true, the command will be added as it. If false, any same command will be replaced by new provided parameters.</param>
-            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
-            <returns>The error code. 0 if no error.</returns>
-        </member>
-        <member name="M:BlueQuark.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Action{BlueQuark.HardwareCommandProgress})">
-            <summary>
-            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
-            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
-            </summary>
-            <param name="iCode">The command code.</param>
-            <param name="iVal0">First value to store.</param>
-            <param name="iVal1">Second value to store.</param>
-            <param name="iVal2">Third value to store.</param>
-            <param name="iVal3">Fourths value to store.</param>
-            <param name="iVal4">Fifth value to store.</param>
-            <param name="iVal5">Sixth value to store.</param>
-            <param name="iVal6">Seventh value to store.</param>
-            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
-            <returns>The error code. 0 if no error.</returns>
-        </member>
-        <member name="M:BlueQuark.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Boolean,System.Action{BlueQuark.HardwareCommandProgress})">
-            <summary>
-            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
-            </summary>
-            <param name="iCode">The command code.</param>
-            <param name="iVal0">First value to store.</param>
-            <param name="iVal1">Second value to store.</param>
-            <param name="iVal2">Third value to store.</param>
-            <param name="iVal3">Fourths value to store.</param>
-            <param name="iVal4">Fifth value to store.</param>
-            <param name="iVal5">Sixth value to store.</param>
-            <param name="iVal6">Seventh value to store.</param>
-            <param name="iForceEnqueue">If true, the command will be added as it. If false, any same command will be replaced by new provided parameters.</param>
-            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
-            <returns>The error code. 0 if no error.</returns>
-        </member>
-        <member name="M:BlueQuark.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Action{BlueQuark.HardwareCommandProgress})">
-            <summary>
-            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
-            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
-            </summary>
-            <param name="iCode">The command code.</param>
-            <param name="iVal0">First value to store.</param>
-            <param name="iVal1">Second value to store.</param>
-            <param name="iVal2">Third value to store.</param>
-            <param name="iVal3">Fourths value to store.</param>
-            <param name="iVal4">Fifth value to store.</param>
-            <param name="iVal5">Sixth value to store.</param>
-            <param name="iVal6">Seventh value to store.</param>
-            <param name="iVal7">Eighth value to store.</param>
-            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
-            <returns>The error code. 0 if no error.</returns>
-        </member>
-        <member name="M:BlueQuark.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Boolean,System.Action{BlueQuark.HardwareCommandProgress})">
-            <summary>
-            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
-            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
-            </summary>
-            <param name="iCode">The command code.</param>
-            <param name="iVal0">First value to store.</param>
-            <param name="iVal1">Second value to store.</param>
-            <param name="iVal2">Third value to store.</param>
-            <param name="iVal3">Fourths value to store.</param>
-            <param name="iVal4">Fifth value to store.</param>
-            <param name="iVal5">Sixth value to store.</param>
-            <param name="iVal6">Seventh value to store.</param>
-            <param name="iVal7">Eighth value to store.</param>
-            <param name="iForceEnqueue">If true, the command will be added as it. If false, any same command will be replaced by new provided parameters.</param>
-            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
-            <returns>The error code. 0 if no error.</returns>
-        </member>
-        <member name="M:BlueQuark.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Boolean,System.Action{BlueQuark.HardwareCommandProgress})">
-            <summary>
-            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
-            </summary>
-            <param name="iCode">The command code.</param>
-            <param name="iVal0">First value to store.</param>
-            <param name="iVal1">Second value to store.</param>
-            <param name="iVal2">Third value to store.</param>
-            <param name="iVal3">Fourths value to store.</param>
-            <param name="iVal4">Fifth value to store.</param>
-            <param name="iVal5">Sixth value to store.</param>
-            <param name="iVal6">Seventh value to store.</param>
-            <param name="iVal7">Eighth value to store.</param>
-            <param name="iVal8">Nineth value to store.</param>
-            <param name="iForceEnqueue">If true, the command will be added as it. If false, any same command will be replaced by new provided parameters.</param>
-            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
-            <returns>The error code. 0 if no error.</returns>
-        </member>
-        <member name="M:BlueQuark.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Action{BlueQuark.HardwareCommandProgress})">
-            <summary>
-            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
-            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
-            </summary>
-            <param name="iCode">The command code.</param>
-            <param name="iVal0">First value to store.</param>
-            <param name="iVal1">Second value to store.</param>
-            <param name="iVal2">Third value to store.</param>
-            <param name="iVal3">Fourths value to store.</param>
-            <param name="iVal4">Fifth value to store.</param>
-            <param name="iVal5">Sixth value to store.</param>
-            <param name="iVal6">Seventh value to store.</param>
-            <param name="iVal7">Eighth value to store.</param>
-            <param name="iVal8">Nineth value to store.</param>
-            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
-            <returns>The error code. 0 if no error.</returns>
-        </member>
-        <member name="M:BlueQuark.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Action{BlueQuark.HardwareCommandProgress})">
-            <summary>
-            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
-            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
-            </summary>
-            <param name="iCode">The command code.</param>
-            <param name="iVal0">First value to store.</param>
-            <param name="iVal1">Second value to store.</param>
-            <param name="iVal2">Third value to store.</param>
-            <param name="iVal3">Fourths value to store.</param>
-            <param name="iVal4">Fifth value to store.</param>
-            <param name="iVal5">Sixth value to store.</param>
-            <param name="iVal6">Seventh value to store.</param>
-            <param name="iVal7">Eighth value to store.</param>
-            <param name="iVal8">Nineth value to store.</param>
-            <param name="iVal9">Tenth value to store.</param>
-            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
-            <returns>The error code. 0 if no error.</returns>
-        </member>
-        <member name="M:BlueQuark.HardwareCom.SendCommand(System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Byte,System.Boolean,System.Action{BlueQuark.HardwareCommandProgress})">
-            <summary>
-            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
-            </summary>
-            <param name="iCode">The command code.</param>
-            <param name="iVal0">First value to store.</param>
-            <param name="iVal1">Second value to store.</param>
-            <param name="iVal2">Third value to store.</param>
-            <param name="iVal3">Fourths value to store.</param>
-            <param name="iVal4">Fifth value to store.</param>
-            <param name="iVal5">Sixth value to store.</param>
-            <param name="iVal6">Seventh value to store.</param>
-            <param name="iVal7">Eighth value to store.</param>
-            <param name="iVal8">Nineth value to store.</param>
-            <param name="iVal9">Tenth value to store.</param>
-            <param name="iForceEnqueue">If true, the command will be added as it. If false, any same command will be replaced by new provided parameters.</param>
-            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
-            <returns>The error code. 0 if no error.</returns>
-        </member>
-        <member name="M:BlueQuark.HardwareCom.SendCommand(System.Byte,System.Action{BlueQuark.HardwareCommandProgress})">
-            <summary>
-            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
-            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
-            </summary>
-            <param name="iCode">The command code.</param>
-            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
-            <returns>The error code. 0 if no error.</returns>
-        </member>
-        <member name="M:BlueQuark.HardwareCom.SendCommand(System.Byte,System.Boolean,System.Action{BlueQuark.HardwareCommandProgress})">
-            <summary>
-            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
-            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
-            </summary>
-            <param name="iCode">The command code.</param>
-            <param name="iForceEnqueue">If true, the command will be added as it. If false, any same command will be replaced by new provided parameters.</param>
-            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
-            <returns>The error code. 0 if no error.</returns>
-        </member>
-        <member name="M:BlueQuark.HardwareCom.SendCommand(System.Byte,System.Byte[],System.Action{BlueQuark.HardwareCommandProgress})">
-            <summary>
-            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
-            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
-            </summary>
-            <param name="iCode">The command code.</param>
-            <param name="iPayload">The payload to send</param>
-            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
-            <returns>The error code. 0 if no error.</returns>
-        </member>
-        <member name="M:BlueQuark.HardwareCom.SendCommand(System.Byte,System.Byte[],System.Boolean,System.Action{BlueQuark.HardwareCommandProgress})">
-            <summary>
-            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
-            </summary>
-            <param name="iCode">The command code.</param>
-            <param name="iPayload">The payload to send</param>
-            <param name="iForceEnqueue">If true, the command will be added as it. If false, any same command will be replaced by new provided parameters.</param>
-            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
-            <returns>The error code. 0 if no error.</returns>
-        </member>
-        <member name="M:BlueQuark.HardwareCom.AbortAllCommands">
-            <summary>
-            Remove from the queue all no processed commands.
-            </summary>
-        </member>
-        <member name="M:BlueQuark.HardwareCom.AbortCommand">
-            <summary>
-            The current command won't be acknowledge anymore.
-            </summary>
-        </member>
-        <member name="M:BlueQuark.HardwareCom.AbortCommand(System.Byte)">
-            <summary>
-            Abort a not sent command matching with the command code.
-            </summary>
-            <param name="iCode"></param>
-            <returns>True if a matching command has been correctly removed from the queue.</returns>
         </member>
         <member name="T:BlueQuark.Bluetooth">
             <summary>
@@ -20196,51 +20254,6 @@
             Trigger all callbacks.
             </summary>
         </member>
-        <member name="T:BlueQuark.JSONNodeType">
-            <summary>
-            Represents a json node type.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.JSONNodeType.Array">
-            <summary>
-            Array.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.JSONNodeType.Object">
-            <summary>
-            Object.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.JSONNodeType.String">
-            <summary>
-            String.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.JSONNodeType.Number">
-            <summary>
-            Number.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.JSONNodeType.NullValue">
-            <summary>
-            Null value.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.JSONNodeType.Boolean">
-            <summary>
-            Boolean.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.JSONNodeType.None">
-            <summary>
-            /None.
-            </summary>
-        </member>
-        <member name="T:BlueQuark.JSONNode">
-            <summary>
-            Represents a base json node class.
-            </summary>
-        </member>
         <member name="T:BlueQuark.LogInfo">
             <summary>
             Represents a kind of log error/event
@@ -20429,6 +20442,31 @@
         <member name="F:BlueQuark.LogStatus.FAILURE">
             <summary>
             The log signals that a process cannot be done due to some error.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.LogKind">
+            <summary>
+            Represents the status of the log situation
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogKind.INFO">
+            <summary>
+            The log is just a basic info.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogKind.WARNING">
+            <summary>
+            The log signals that something is wrong, but passable.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogKind.ERROR">
+            <summary>
+            The log signals that a process cannot be done due to some error.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.LogKind.CRITICAL_ERROR">
+            <summary>
+            The log signals that a process cannot be done due to a critical error.
             </summary>
         </member>
         <member name="T:BlueQuark.ExtLogModule">
@@ -20890,6 +20928,14 @@
             </summary>
             <typeparam name="T">Type of the objet to deserialize.</typeparam>
             <param name="iPath">Path to the file. Cannot be empty.</param>
+            <returns>The created object from the XML. Null if unexisting/bad file format or bad filename.</returns>
+        </member>
+        <member name="M:BlueQuark.Utils.UnserializeXMLString``1(System.String)">
+            <summary>
+            Deserializes an xml string into an object.
+            </summary>
+            <typeparam name="T">Type of the objet to deserialize.</typeparam>
+            <param name="iData">String representation of the XML. Cannot be empty.</param>
             <returns>The created object from the XML. Null if unexisting/bad file format or bad filename.</returns>
         </member>
         <member name="M:BlueQuark.Utils.UnserializePartialXML``1(System.String,System.String)">
@@ -22020,6 +22066,18 @@
             </summary>
             <returns>Object of provided type.</returns>
         </member>
+        <member name="M:BlueQuark.Utils.DeserializeJSONtoObject(System.String)">
+            <summary>
+            Deserializes JSON object from JSON string.
+            </summary>
+            <returns>Object of provided type.</returns>
+        </member>
+        <member name="M:BlueQuark.Utils.DeserializeJSONtoArray(System.String)">
+            <summary>
+            Deserializes JSON array from JSON string.
+            </summary>
+            <returns>Object of provided type.</returns>
+        </member>
         <member name="M:BlueQuark.Utils.StandardDeviation(BlueQuark.Internal.BoundedQueue{System.Single})">
             <summary>
             Standard deviation
@@ -22130,7 +22188,7 @@
         </member>
         <member name="P:BlueQuark.SpeechInputParameters.RecognitionThreshold">
             <summary>
-            If revelant (offline), the grammar recognition confidence. From 0 to 10000. Default is 4300.
+            If revelant (offline), the grammar recognition confidence. From 0 to 10000. Default is 4700.
             </summary>
         </member>
         <member name="P:BlueQuark.SpeechInputParameters.LeadingSilenceTimeOut">

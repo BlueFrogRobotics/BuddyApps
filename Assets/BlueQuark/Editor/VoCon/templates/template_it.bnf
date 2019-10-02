@@ -1,0 +1,10 @@
+#BNF+EMV2.1;
+!grammar common_it;
+!start <yes>;
+!start <no>;
+!start <quit>;
+!start <didntunderstand>;
+<yes> : si  | affermativo | ok | sono d'accordo | confermato | corso di validita;
+<no> : no | non sono d'accordo | non voglio | non serve | negativo;
+<quit> : annulla | stop | uscire | finitura | cancella | lasciare | azienda | stop | sarà tutto | niente | fine;
+<didntunderstand> : [non ho capito] puoi ripetere;

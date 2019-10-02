@@ -1,8 +1,11 @@
-﻿using System;
+﻿using BlueQuark;
+
+using Newtonsoft.Json.Linq;
+
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-using BlueQuark;
 
 namespace BuddyApp.ExperienceCenter {
 	public class JSONBuilder
@@ -31,9 +34,9 @@ namespace BuddyApp.ExperienceCenter {
             //    return null;
         }
 
-		public JSONObject CreateAction(string iDeviceName, string iCommandName, List<string> iParameters)
+		public JObject CreateAction(string iDeviceName, string iCommandName, List<string> iParameters)
 		{
-			JSONObject lJson = new JSONObject();
+            JObject lJson = new JObject();
             Debug.Log("[JSON] create action with device name " + iDeviceName + " and command " + iCommandName);
 			// Fill first fields with empty data
 			lJson.Add("label", iDeviceName + "_" + iCommandName);
@@ -43,16 +46,16 @@ namespace BuddyApp.ExperienceCenter {
 			lJson.Add("notificationCondition", "ALWAYS");
 			lJson.Add("notificationText", iCommandName + iParameters.ToString());
 			lJson.Add("notificationTitle", iDeviceName);
-			lJson.Add("targetEmailAddresses", new JSONArray());
-			lJson.Add("targetPhoneNumbers", new JSONArray());
-			lJson.Add("targetPushSubscriptions", new JSONArray());
+			lJson.Add("targetEmailAddresses", new JArray());
+			lJson.Add("targetPhoneNumbers", new JArray());
+			lJson.Add("targetPushSubscriptions", new JArray());
 
-			JSONArray lActions = new JSONArray();
-			JSONObject lAction = new JSONObject();
-			JSONArray lCommands = new JSONArray();
-			JSONObject lCommand = new JSONObject();
+            JArray lActions = new JArray();
+            JObject lAction = new JObject();
+            JArray lCommands = new JArray();
+            JObject lCommand = new JObject();
 
-			JSONArray lJsonParameters = new JSONArray();
+            JArray lJsonParameters = new JArray();
 			foreach (string param in iParameters)
 				lJsonParameters.Add(param);
 

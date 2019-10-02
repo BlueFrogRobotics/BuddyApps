@@ -46,6 +46,7 @@
 !start <photo>;
 !start <play>;
 //!start <pose>;
+!start <profilingwhoami>;
 //!start <profilingwholikes>;
 //!start <profilingwhoisborn>;
 //!start <profilingnextbirthday>;
@@ -67,7 +68,7 @@
 !start <wikipedia>;
 !start <sick>;
 !start <sad>;
-!start <lovely>;
+!start <love>;
 !start <happy>;
 !start <tired>;
 !start <angry>;
@@ -79,12 +80,13 @@
 !start <operationagain>;
 //!start <cancel>;
 !start <accraactivity>;
-!start <quit>;
+//!start <quit>;
+!start <stoplisten>;
 !import <numbers#nb>;
 //!import <names#anyname>;
 
-!start <weather>;
-!import <weather_fr#weather>;
+//!start <weather>;
+//!import <weather_fr#weather>;
 
 <asklaunch> : ((ouvre | lance ) | (<canyou> (ouvrir | lancer)) | je voudrais [utiliser | jouer à | que tu (ouvres | lances)]) [[l'] application ];
 <askgive> : (<canyou> [me | nous] (donner | dire)) | ((donne | dis) [moi | nous]) | (je (veux | voudrais) que tu [me | nous] (donnes | dises)) ;
@@ -96,7 +98,7 @@
 <battery> : [<askgive> | quel est] [[ton | le] niveau de [ta]] batterie;
 <buddylab> : [<asklaunch>] ( buddylab | [le] lab | buddy lab | [le] laboratoire);
 //<calculationgame> : [<asklaunch>] ([de] calcul | [le] jeu de calcul | playmath);
-<calendar> : ( [ <asklaunch> | (montre | affiche) [moi] [mes| les | le | mon] ] (calendrier | agenda) ) | ( (montre | affiche) [moi] [mes| les | le | mon] rappel);
+<calendar> : ( [ <asklaunch> | (montre | affiche) [moi] (mes | les | le | mon) ] (calendrier | agenda) ) | ( (montre | affiche) [moi] [mes| les | le | mon] rappel);
 <canmove> : tu peux bouger;
 //<colour> : bleu | blanc | rouge | vert | jaune | noire | marron | orange | violet | gris | beige | rose;
 <colourseen> : de quel couleur est cet objet;
@@ -127,9 +129,9 @@
 <iot_temperature> : (monte | descend | augmente | baisse) ([la] température | le thermostat) [de <numbers#nb> degrés] | (règle | mets) (la température | le thermostat) (à | sur) <numbers#nb> degrés | quelle est la température dans (la maison | le salon);
 <iot_lights> : (allume | éteins | allumer | éteindre) [la | toutes les] (lumière | prise) [du (salon | bureau)];
 <iot_blinds> : (ouvre | ferme | monte | baisse) (le store [du (salon | bureau)] | tous les stores);
-<iot_music> : (joue | mets | stop | arrête | lance | allume) (([de] la | ma) musique ((sur [l'enceinte] sonos | du salon) | dans le salon) | l'enceinte du salon) | [mets | passe à] ([le] morceau (suivant | précédent) | [la] chanson (suivante | précédente)) [dans le salon];
+<iot_music> : (joue | mets | stop | arrête | lance | allume | éteint) (([de] la | ma) musique ((sur [l'enceinte] sonos | du salon) | dans le salon) | l'enceinte du salon) | [mets | passe à] ([le] morceau (suivant | précédent) | [la] chanson (suivante | précédente)) [dans le salon];
 <iot_music_volume> : met le volume de la musique à <numbers#nb> [dans le salon] | (monte | baisse) [le (volume | son) de] la musique [(dans le | du) salon];
-<joke> : <asktell> (une blague | une histoire (drôle | amusante | marrante) | quelque chose (de drôle | d'amusant | de marrant));
+<joke> : <asktell> (une [autre] blague | une [autre] histoire (drôle | amusante | marrante) | quelque chose (de drôle | d'amusant | de marrant));
 //<jukebox> : [<asklaunch>] (jukebox | [la] musique); 
 <kissme> : embrasse moi | [fais moi | je veux] (un | des) bisou | bisou | embrassons nous;
 //<lookatme> : regarde (moi | par ici);
@@ -144,6 +146,7 @@
 <photo> : [<asktake>] [en | une] photo;
 <play> : je (veux | voudrais) jouer | (<canyou> [me] proposer | propose [moi] | faisons) un jeu | jouons;
 //<pose> : ([<asktake>] (un selfie | une photo avec toi | une photo ensemble)) | prend la pose;
+<profilingwhoami> : qui suis-je | quel est mon nom | comment je m'appelle | tu me reconnais | est-ce que tu me reconnais | dis mon nom;  
 //<profilingwholikes> : [<asktell>] qui aime le (<colour> | <sport> | <colour> et le <sport> | <sport> et le <colour>);
 //<profilingwhoisborn> : [<asktell>] qui est né (après | avant | en) <numbers#nb>;
 //<profilingnextbirthday> : [<asktell>] ( (quel | quand | qui) est le prochain | qui fêtera prochainement son) anniversaire;
@@ -161,13 +164,13 @@
 <volume> : (quel est | donne [moi | nous]) le [niveau (de | du)] volume;
 <volumedown> : ((descend | diminue | baisse | baisser | diminuer | descendre) [le] (volume | son)) [de <numbers#nb>] | (mets [le] (volume | son) moins fort) | (parle moins fort);
 <volumeup> : ((augmenter | augmente | monte | monter) [le] (volume | son)) [de <numbers#nb>] | (mets [le] (volume | son) plus fort) | (parle plus fort);
-<wander> : [va te] (balader | promener) | va t'en | pars | (balade | promène) [toi];
+<wander> : [va te] (balader | promener) | va t'en | (balade | promène) [toi];
 <welcome> : bienvenue;
 <wikipedia> : [<asklaunch>] wikipedia | définition;
 <show> : montre [moi | nous] quand tu es | sois;
 <sick> : <show> malade;
 <sad> : <show> triste;
-<lovely> : <show> (adorable | amoureux);
+<love> : <show> (adorable | amoureux);
 <happy> : <show> (heureux | joyeux | content);
 <tired> : <show> fatigué;
 <angry> : <show> énervé;
@@ -179,9 +182,9 @@
 <radioname> : RTL2 | France Maghreb 2 | Virgin Radio | RMC | Radio Nova | Radio Meuh | Fun Radio | Tropiques FM | FIP | Jazz Radio | Europe 1 | Djam Radio | Chérie FM | Hotmixradio 80 | RTL | Rire et Chansons | Latina | Radio Public Santé | franceinfo | Chante France | Skyrock | La Grosse Radio | Beur FM | RFM | NRJ | Africa numéro 1 | Alouette | Sud Radio | OUI FM | M Radio | Radio Orient | Nostalgie | RADIO FG | BFM Business | France Culture | Voltage | France Bleu Paris | France Inter | Radio Classique | France Musique;
 <radio> : [<asklaunch> | mets] [la] radio [<radioname>];
 <operation> : [combien (font | ça fait)]  <numbers#nb> (plus | moins | divisé par | multiplié par | fois) <numbers#nb>;
-<operationagain> : (plus | moins | divisé par | multiplié par | fois) <numbers#nb>;
+<operationagain> : (plus | ajoute | moins | divisé par | multiplié par | fois) <numbers#nb>;
 //<cancel> : (supprime | enlève) [tous] les (minuteur | décompte | compte à rebours | timer);
 <accraactivity> : (([<canyou> | je (veux | voudrais | peux) | puis-je | on (veut | voudrait)] (lancer | faire | démarrer)) | (lance | fait | démarre)) (un exercice | une activité | une séance);
-<quit> : quitter | annuler | arrêter | sortir | terminer | annule | quitte | ferme | arrête | arrêt | ce sera tout | stop;
-
-<weather> : <weather_fr#weather>;
+//<quit> : quitter | annuler | arrêter | sortir | terminer | annule | quitte | ferme | arrête | arrêt | ce sera tout | stop;
+<stoplisten> : arrête de m'écouter | arrête d'écouter | stop l'écoute;
+//<weather> : <weather_fr#weather>;
