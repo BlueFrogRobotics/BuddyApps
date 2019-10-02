@@ -374,7 +374,7 @@ namespace BuddyApp.Somfy
         public IOTSomfyDeviceCollection(string iJson)
         {
             //Debug.Log("le json d origin: " + iJson);
-            JObject lJsonNode = Utils.DeserializeJSONtoObject(iJson);
+            JObject lJsonNode = Utils.UnserializeJSONtoObject(iJson);
             JArray lJArray = (JArray)lJsonNode["devices"];
             //Debug.Log("le json d apres: " + lJsonNode.ToString());
             devices = new IOTSomfyDevice[lJArray.Count];

@@ -299,7 +299,7 @@ namespace BuddyApp.ExperienceCenter
             if (request.isNetworkError)
                 Debug.LogErrorFormat("[EXCENTER] Failed {0} request : {1}", apiEntry, request.error);
             else {
-                JObject response = Utils.DeserializeJSONtoObject(request.downloadHandler.text);
+                JObject response = Utils.UnserializeJSONtoObject(request.downloadHandler.text);
                 if (onResponse != null)
                     onResponse(response, request.responseCode);
             }
@@ -327,7 +327,7 @@ namespace BuddyApp.ExperienceCenter
                         mCookie = responseHeaders["Set-Cookie"];
                 }
 
-                JObject response = Utils.DeserializeJSONtoObject(request.downloadHandler.text);
+                JObject response = Utils.UnserializeJSONtoObject(request.downloadHandler.text);
                 Debug.Log(response.ToString());
                 if (onResponse != null)
                     onResponse(response, request.responseCode);
@@ -350,7 +350,7 @@ namespace BuddyApp.ExperienceCenter
                 Debug.LogErrorFormat("[EXCENTER] Failed {0} request : {1}", apiEntry, request.error);
             else {
                 Debug.Log("avant cast");
-                JArray response = Utils.DeserializeJSONtoArray(request.downloadHandler.text);
+                JArray response = Utils.UnserializeJSONtoArray(request.downloadHandler.text);
                 //response.Add(JSON.Parse(request.downloadHandler.text));
                 Debug.Log("apres cast");
                 if (onResponse != null)

@@ -16961,7 +16961,7 @@
         </member>
         <member name="P:BlueQuark.Perception.FaceRecognizer">
             <summary>
-            Feature to detect short range Waving.
+            Feature to recognized recorded human faces.
             </summary>
         </member>
         <member name="P:BlueQuark.Perception.HumanDetector">
@@ -22060,19 +22060,19 @@
             </summary>
             <returns>JSON string.</returns>
         </member>
-        <member name="M:BlueQuark.Utils.DeserializeJSON``1(System.String)">
+        <member name="M:BlueQuark.Utils.UnserializeJSON``1(System.String)">
             <summary>
             Deserializes object from JSON string.
             </summary>
             <returns>Object of provided type.</returns>
         </member>
-        <member name="M:BlueQuark.Utils.DeserializeJSONtoObject(System.String)">
+        <member name="M:BlueQuark.Utils.UnserializeJSONtoObject(System.String)">
             <summary>
             Deserializes JSON object from JSON string.
             </summary>
             <returns>Object of provided type.</returns>
         </member>
-        <member name="M:BlueQuark.Utils.DeserializeJSONtoArray(System.String)">
+        <member name="M:BlueQuark.Utils.UnserializeJSONtoArray(System.String)">
             <summary>
             Deserializes JSON array from JSON string.
             </summary>
