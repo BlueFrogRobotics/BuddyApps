@@ -11,18 +11,9 @@ namespace BuddyApp.OutOfBoxV3
         /*
          * Data getters / setters
          */
-        private List<String> nameOfPhotoTaken;
-        public List<String> NameOfPhotoTaken
-        {
-            get
-            {
-                return nameOfPhotoTaken;
-            }
-            set
-            {
-                nameOfPhotoTaken = value;
-            }
-        }
+        //private List<String> nameOfPhotoTaken;
+        public List<String> NameOfPhotoTaken { get; set; }
+
 
         /*
          * Data singleton access

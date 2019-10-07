@@ -9,6 +9,7 @@ namespace BuddyApp.OutOfBoxV3
     public class Awakening : AStateMachineBehaviour
     {
         private bool mWokeUp;
+        private bool mNextStep;
 
         public override void Start()
         {
@@ -22,6 +23,7 @@ namespace BuddyApp.OutOfBoxV3
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mWokeUp = false;
+            mNextStep = false;
 
             Buddy.Behaviour.Face.OnTouchLeftEye.Add(OnLeftEyeClicked);
             Buddy.Behaviour.Face.OnTouchRightEye.Add(OnRightEyeClicked);
@@ -35,6 +37,8 @@ namespace BuddyApp.OutOfBoxV3
             Buddy.Sensors.TouchSensors.RightShoulder.OnTouch.Add(OnTouchRightShoulder);
             Buddy.Sensors.TouchSensors.Heart.OnTouch.Add(OnTouchHeart);
 
+            Buddy.Vocal.EnableTrigger = true;
+            Buddy.Vocal.ListenOnTrigger = false;
             Buddy.Vocal.OnTrigger.AddP(WakeUp);
             OutOfBoxUtilsVThree.DebugColor("AWAKENING : ", "blue");
             Buddy.Actuators.Head.No.ResetPosition();
@@ -136,16 +140,25 @@ namespace BuddyApp.OutOfBoxV3
             OutOfBoxUtilsVThree.DebugColor("INTERNAL STATE PLEASURE : " + Buddy.Cognitive.InternalState.Pleasure, "blue");
             if (!mWokeUp)
                 WakeUp();
-            else if(Buddy.Cognitive.InternalState.Pleasure > 0)
+            else if (Buddy.Cognitive.InternalState.Pleasure > 0)
             {
                 OutOfBoxUtilsVThree.DebugColor("AWAKENING CHANGE STATE: ", "blue");
                 RemoveListener();
                 Buddy.Vocal.SayKey("awakefeelbetter", (iSpeechOutput) => {
                     OutOfBoxUtilsVThree.DebugColor("AWAKENING CHANGE STATE AFTER SPEAKING : ", "blue");
-                    mBehaviour.PhaseDropDown.value = 1;
+                    mNextStep = true;
+                    Buddy.Behaviour.Interpreter.RunRandom(Mood.HAPPY, ResetMood);
                 });
             }
-                
+            else
+                Buddy.Behaviour.Interpreter.RunRandom(Mood.ANGRY, ResetMood);
+        }
+
+        private void ResetMood()
+        {
+            Buddy.Behaviour.SetMood(Mood.NEUTRAL); 
+            if(mNextStep)
+                mBehaviour.PhaseDropDown.value = 1;
         }
 
         private void RemoveListener()
@@ -161,6 +174,9 @@ namespace BuddyApp.OutOfBoxV3
             Buddy.Sensors.TouchSensors.LeftShoulder.OnTouch.Remove(OnTouchLeftShoulder);
             Buddy.Sensors.TouchSensors.RightShoulder.OnTouch.Remove(OnTouchRightShoulder);
             Buddy.Sensors.TouchSensors.Heart.OnTouch.Remove(OnTouchHeart);
+
+            Buddy.Vocal.EnableTrigger = false;
+            Buddy.Vocal.OnTrigger.RemoveP(WakeUp);
         }
     }
 }
