@@ -1658,7 +1658,7 @@
         </member>
         <member name="M:BlueQuark.Internal.TrackingController.Stop">
             <summary>
-            Stop the controller
+            Stop the controller.
             </summary>
         </member>
         <member name="M:BlueQuark.Internal.TrackingController.SetActive(System.Boolean)">
@@ -1684,20 +1684,18 @@
             Dispose function
             </summary>
         </member>
-        <member name="M:BlueQuark.Internal.TrackingController.SupervisingControllerAsync">
+        <member name="M:BlueQuark.Internal.TrackingController.ControlMotorsAsync">
             <summary>
             This function control Head and Wheels through time.
             Head move according to the eyes position and Wheels move according to the Head position.
             To check if an actuator can move, we only check if it's controller is not null.
             </summary>
-            <returns></returns>
         </member>
-        <member name="M:BlueQuark.Internal.TrackingController.WheelsSupervisingAsync(System.Single)">
+        <member name="M:BlueQuark.Internal.TrackingController.ControlWheelsAsync(System.Single)">
             <summary>
             This function update wheels control at each frame with the stored target point.
             </summary>
             <param name="iDuration">Duration of wheel control.</param>
-            <returns></returns>
         </member>
         <member name="T:BlueQuark.Internal.WheelsController">
             <summary>
@@ -1846,15 +1844,11 @@
             Obstacle detection need at least: Front TOF sensors, or Right and Left TOF sensors.
             Otherwise, the obstacle detection will be ineffective.
             </summary>
-            <returns></returns>
         </member>
         <member name="M:BlueQuark.Internal.HumanTrackSubStrategy.PointDisplacement(OpenCVUnity.Point,OpenCVUnity.Point)">
             <summary>
             Compute distance between two human entity, using their center point.
             </summary>
-            <param name="iNewPoint"></param>
-            <param name="iLastPoint"></param>
-            <returns></returns>
         </member>
         <member name="T:BlueQuark.Internal.ID3FaceRecognizer">
             <summary>
@@ -11028,7 +11022,7 @@
             BF algorithm.
             </summary>
         </member>
-        <member name="F:BlueQuark.BeamformingParameters.ALGORITHM_ASR_READ">
+        <member name="F:BlueQuark.BeamformingParameters.ALGORITHM_ASR_READY">
             <summary>
             BF algorithm.
             </summary>

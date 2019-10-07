@@ -42,8 +42,14 @@
 !start <qgoodnight>;
 !start <qgoodday>;
 !start <qgoodbye>;
-!start <qwhoisobama>;
-!start <qwhoismbouygues>;
+//!start <qwherearewe>;
+//!start <qwhatareyoudoing>;
+//!start <qfriends>;
+!start <qavatarion>;
+!start <qswizz>;
+!start <qwtcanyoudoelderly>;
+!start <qwtcanyoudochildren>;
+!start <qwhyinvest>;
 
 <qhello> : (hello | hi | hey) [buddy];
 <qhappy> : are you happy [to be (here | with us)];
@@ -87,5 +93,11 @@
 <qgoodnight> : good night;
 <qgoodday> : have a good day;
 <qgoodbye> : goodbye | see you soon;
-<qwhoisobama> : who is Barack Obama;
-<qwhoismbouygues> : who is Martin Bouygues;
+//<qwherearewe> : where are we;
+//<qwhatareyoudoing> : what are you doing here;
+//<qfriends> : (who are your | do you have [any]) friends;
+<qavatarion> : [tell me] (who is | do you know) Avatarion;
+<qswizz> : (what do you like about | do you like) Switzerland;
+<qwtcanyoudoelderly> : what can you do for elder care | could you help senior | are you a good companion for (elders | elderly);
+<qwtcanyoudochildren> : (what can you do for | could you help | are you a good companion for) (children | kids);
+<qwhyinvest> : why invest in (Buddy | Blue Frog Robotics);

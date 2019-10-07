@@ -6,6 +6,9 @@
 			<BaseValue>Quel est le point commun entre un robot et une sauce napolitaine? [1000] J'ose à peine le dire. [666] Ils sont tous les deux automates.</BaseValue>
 			<ClosePhoneticValues>
 				<string>une blague</string>
+				<string>une autre blague</string>
+				<string>raconte-moi une autre</string>
+				<string>raconte une autre</string>
 				<string>des blagues</string>
 				<string>histoires drôles</string>
 				<string>histoire drôle</string>
@@ -781,7 +784,11 @@
 			<Key>moveright</Key>
 			<BaseValue>OK, je tourne à droite</BaseValue>
 			<ClosePhoneticValues>
+				<string>va vers la droite</string>
+				<string>pivoter à droite</string>
+				<string>pivote à droite</string>
 				<string>tourne à droite</string>
+				<string>tourner à droite</string>
 				<string>va à droite</string>
 			</ClosePhoneticValues>
 			<RandomValues>
@@ -794,6 +801,10 @@
 			<Key>moveleft</Key>
 			<BaseValue>OK, je tourne à gauche</BaseValue>
 			<ClosePhoneticValues>
+				<string>va vers la gauche</string>
+				<string>pivoter à gauche</string>
+				<string>pivote à gauche</string>
+				<string>tourner à gauche</string>
 				<string>tourne à gauche</string>
 				<string>va à gauche</string>
 			</ClosePhoneticValues>
@@ -1211,6 +1222,37 @@
 				<string>photo avec toi</string>
 				<string>photo ensemble</string>
 				<string>prend la pose</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>radio</Key>
+			<BaseValue>radio</BaseValue>
+			<ClosePhoneticValues>
+				<string>la radio</string>
+				<string>mets radio</string>
+				<string>lance radio</string>
+				<string>une radio</string>
+				<string>application radio</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>quizz</Key>
+			<BaseValue>quizz</BaseValue>
+			<ClosePhoneticValues>
+				<string>faire un quizz</string>
+				<string>jouer au quizz</string>
+				<string>quiz</string>
+				<string>lance quizz</string>
+				<string>lancer le quizz</string>
+				<string>lancer un quizz</string>
+				<string>lance le quiz</string>
+				<string>lance quiz</string>
+				<string>lancer le quiz</string>
+				<string>lancer un quiz</string>
 			</ClosePhoneticValues>
 			<RandomValues>
 			</RandomValues>
@@ -1940,6 +1982,9 @@
 			<Key>thank</Key>
 			<BaseValue>merci</BaseValue>
 			<ClosePhoneticValues>
+				<string>merci</string>
+				<string>merci bien</string>
+				<string>merci beaucoup</string>
 			</ClosePhoneticValues>
 			<RandomValues>
 				<string>merci</string>
@@ -2124,6 +2169,8 @@
 			<Key>iloveyou</Key>
 			<BaseValue>Je t'aime comme tu es</BaseValue>
 			<ClosePhoneticValues>
+				<string>bravo</string>
+				<string>bien</string>
 				<string>Je t'aime</string>
 				<string> Je t'adore</string>
 				<string> je t'apprécie</string>
@@ -4475,8 +4522,8 @@
 			<RandomValues>
 				<string>Bonjour [name]</string>
 				<string>Salut [name], comment tu vas?</string>
-				<string>Salut [name], Je suis content de te voir</string>
-				<string>Je suis content de te voir [name]</string>
+				<string>Salut [name], Je suis contant de te voir</string>
+				<string>Je suis contant de te voir [name]</string>
 				<string>Je te connais, tu es [name]</string>
 				<string>[name], j'aime la douce mélodie de ce nom. [500] [name] [200] [name]</string>
 				<string>tu t'appelles [name]</string>
@@ -5683,6 +5730,17 @@
 			</ClosePhoneticValues>
 			<RandomValues>
 				<string>Voici une phrase pour vous faire écouter ma douce voix.</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>qthankyou</Key>
+			<BaseValue/>
+			<ClosePhoneticValues>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>De rien</string>
+				<string>Avec plaisir</string>
+				<string>Pas de problème</string>
 			</RandomValues>
 		</DictionaryEntry>
 	</Entries>

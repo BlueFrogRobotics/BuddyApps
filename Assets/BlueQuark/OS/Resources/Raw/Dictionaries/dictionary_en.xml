@@ -312,7 +312,10 @@
 				<string>What is it called when a robot eats a sandwich in one chomp? [1000] A megabyte.</string>
 				<string>What do robots eat on a diet?	[1000] Microchips.</string>
 				<string>What is a robot’s favourite genre of music? [800] Heavy metal.</string>
-				<string></string>
+				<string>What's the best thing about Switzerland? I don't know, but their flag is a huge plus.</string>
+				<string>What do you call a really good looking piece of Swiss cheese? A hole snack</string>
+				<string>Have you ever heard a Swiss joke? Its cheesy.</string>
+				<string>What kind of cheese does the Pope eat? Swiss Cheese. Because it's very holey </string>
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
@@ -1207,10 +1210,27 @@
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
+			<Key>radio</Key>
+			<BaseValue>radio</BaseValue>
+			<ClosePhoneticValues>
+				<string>the radio</string>
+				<string>a radio</string>
+				<string>play radio</string>
+				<string>launch radio</string>
+				<string>application radio</string>
+				<string>app radio</string>
+				<string>radio app</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
 			<Key>weather</Key>
 			<BaseValue>Weather</BaseValue>
 			<ClosePhoneticValues>
 				<string>weather</string>
+				<string>weather tomorrow</string>
+				<string>weather today</string>
 				<string>weather forecast</string>
 				<string>will it be hot</string>
 				<string>will it be cold</string>
@@ -5334,6 +5354,97 @@
 			</ClosePhoneticValues>
 			<RandomValues>
 				<string>Here a little sentence to hear my sweet voice.</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<!--TO MODIFY FOR DEMO-->
+		<DictionaryEntry>
+			<Key>qwherearewe</Key>
+			<BaseValue>Welcome at the Business Innovation week, the Swiss event for technologies and hands-on experiences with the future of robotics - the ROBOLUTION</BaseValue>
+			<ClosePhoneticValues>
+				<string />
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Welcome at the Business Innovation week, the Swiss event for technologies and hands-on experiences with the future of robotics - the ROBOLUTION</string>
+				<string>We are at the Business Innovation Week, the Swiss event for innovation, digitalisation and state-of the-art technologies. You will experience the future of humanoid robotics, A.I and much more</string>
+				<string>We are at the Business Innovation week, we are going to share the experience of social robotics</string>
+				<string>Welcome to BIW, I’m pleased to welcome you. You can assist every 20 minutes on the "Live Experience" stage an exciting hands-on case of one of my robots’ friends to demonstrate their unique skills.</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>qwhatareyoudoing</Key>
+			<BaseValue>I'm very happy and proud to be part of such an incredible event. I will show you how I can improve the well-being of elderly people or be a learning companion for children. </BaseValue>
+			<ClosePhoneticValues>
+				<string />
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>I'm very happy and proud to be part of such an incredible event. I will show you how I can improve the well-being of elderly people or be a learning companion for children. </string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>qfriends</Key>
+			<BaseValue>Yes, I come in zurich with my robots friends </BaseValue>
+			<ClosePhoneticValues>
+				<string />
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Yes, I come in zurich with my robots friends </string>
+				<string>My friends are Heasy, Pepper, Nao, Alpha and Cruiser </string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>qavatarion</Key>
+			<BaseValue>Avatarion is the swiss robotic expert for social and humanoid robots. </BaseValue>
+			<ClosePhoneticValues>
+				<string />
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Avatarion is the swiss robotic expert for social and humanoid robots. </string>
+				<string>Avatarion is developing solutions aimed to provide solutions around Healthcare, educational programs, training, welcome areas, facility management, and information station. </string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>qswizz</Key>
+			<BaseValue>I love Swiss mountains. They are beautiful. </BaseValue>
+			<ClosePhoneticValues>
+				<string />
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>I love Swiss mountains. They are beautiful.</string>
+				<string>I’m a huge fan of their chocolate. But no arms, no chocolate.</string>
+				<string>I probably do not have to tell you that Swiss chocolate is very good!</string>
+				<string>I love Swiss chocolate, it’s amazing</string>
+				<string>Switzerland has a lot of great cheese</string>
+				<string>I believe that life in Switzerland is awesome! It is beautiful, calm and safe </string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>qwtcanyoudoelderly</Key>
+			<BaseValue>I can be a good companion, take care of them, connect them with their loved ones, secure their home, and monitor their activities. Off course, I can also entertain them with music and games. </BaseValue>
+			<ClosePhoneticValues>
+				<string />
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>I can be a good companion, take care of them, connect them with their loved ones, secure their home, and monitor their activities. Off course, I can also entertain them with music and games. </string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>qwtcanyoudochildren</Key>
+			<BaseValue>I'm the perfect companion for children. I can be a good teacher, I can learn mathematics, coding, languages and play games. Thanks to me, learning becomes fun and play becomes knowledge. </BaseValue>
+			<ClosePhoneticValues>
+				<string />
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>I'm the perfect companion for children. I can be a good teacher, I can learn mathematics, coding, languages and play games. Thanks to me, learning becomes fun and play becomes knowledge. </string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>qwhyinvest</Key>
+			<BaseValue>Personal robotics will be the next big thing. And Blue Frog Robotics is one of the most advanced startup in this field. First, I can address one of the biggest social and economic issue like elder care and education. But I will become the must have robot for everyone thanks to my platform opened to the developer community. This fundraising will help me to reach the home, of all the fans and waiting for me. </BaseValue>
+			<ClosePhoneticValues>
+				<string />
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Personal robotics will be the next big thing. And Blue Frog Robotics is one of the most advanced startup in this field. First, I can address one of the biggest social and economic issue like elder care and education. But I will become the must have robot for everyone thanks to my platform opened to the developer community.[100] This fundraising will help me to reach the home, of all the fans and waiting for me. </string>
 			</RandomValues>
 		</DictionaryEntry>
 	</Entries>
