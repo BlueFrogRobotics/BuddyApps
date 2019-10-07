@@ -183,7 +183,7 @@ namespace BuddyApp.Wikipedia
                       {
 
                         Buddy.Behaviour.SetMood(Mood.NEUTRAL);
-                        Debug.LogWarning("ANSWER: " + lRequest.downloadHandler.text);
+                        //Debug.LogWarning("ANSWER: " + lRequest.downloadHandler.text);
 
                         string lRes = "";
 
@@ -195,11 +195,12 @@ namespace BuddyApp.Wikipedia
 
                         // Get the correct answer from wikipedia
                         for (int i = 0; i < lFragmant.Length; ++i) {
-                            if (lFragmant[i] == "],[") {
+                            if (lFragmant[i] == "],[" && string.IsNullOrEmpty(lRes)) {
+                                //Debug.LogWarning("Detected ],[ " + lFragmant[i] + " at fragmant " + i);
                                 lRes = lFragmant[i + 1];
-                                Debug.Log(lRes);
+                                //Debug.LogWarning("Raw Sentence to answer" + lRes);
                             } else if (lFragmant[i].Contains("https://")) {
-                                Debug.LogWarning("page url " + lFragmant[i]);
+                                //Debug.LogWarning("page url " + lFragmant[i]);
                                 StartCoroutine(DisplayImageUrl(lFragmant[i]));
                                 break;
                             }
@@ -214,6 +215,7 @@ namespace BuddyApp.Wikipedia
                             string lRegex = "(\\[.*\\])";
                             lRes = Regex.Replace(lRes, lRegex, "");
 
+                            //Debug.LogWarning("Sentence to answer" + lRes);
                             if (!string.IsNullOrEmpty(WikipediaData.Instance.Utterance))
                                 Buddy.Vocal.Say(lRes, (iSpeechOutput) => {
                                     Buddy.GUI.Toaster.Hide();
@@ -281,13 +283,13 @@ namespace BuddyApp.Wikipedia
 
             WWW lWww = new WWW(iUrl, null, lHeaders);
 
-            Debug.LogWarning("pre yield ");
+            //Debug.LogWarning("pre yield ");
             yield return lWww;
 
             string lOutput = lWww.text;
             string lImgUrl = GetUrlImageFromWikiPage(lOutput);
 
-            Debug.LogWarning("image url " + lImgUrl);
+            //Debug.LogWarning("image url " + lImgUrl);
 
             if (!string.IsNullOrEmpty(lImgUrl))
                 StartCoroutine(DisplayImage(lImgUrl));
@@ -309,7 +311,7 @@ namespace BuddyApp.Wikipedia
                 //    iImgUrls.RemoveAt(lRand);
                 //    StartCoroutine(DisplayRandomImage(iImgUrls, iRequest));
                 //} else {
-                Debug.LogWarning("size " + lTexture.width + "x" + lTexture.height);
+                //Debug.LogWarning("size " + lTexture.width + "x" + lTexture.height);
                 Sprite lSprite = Sprite.Create(lTexture, new Rect(0.0f, 0.0f, lTexture.width, lTexture.height), new Vector2(0.5f, 0.5f), 100.0f);
                 Buddy.GUI.Toaster.Display<PictureToast>().With(lSprite);
 
@@ -321,7 +323,7 @@ namespace BuddyApp.Wikipedia
         private string GetUrlImageFromWikiPage(string iUrl)
         {
             int lIndex = iUrl.IndexOf("og:image", StringComparison.Ordinal);
-            Debug.LogWarning("index found is " + lIndex);
+            //Debug.LogWarning("index found is " + lIndex);
 
             if (lIndex >= 0) {
                 lIndex = iUrl.IndexOf("\"", lIndex + 12, StringComparison.Ordinal);
