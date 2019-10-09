@@ -38,6 +38,7 @@ namespace BuddyApp.OutOfBoxV3
         {
             OutOfBoxUtilsVThree.DebugColor("START DETECT STATE ", "blue");
             Buddy.Vocal.SayKey("whoisaround");
+            mOutOfBoxDataInstance.NameOfPhotoTaken = new List<string>();
             mPhotoTakenCount = 0;
             mNumberOfDetect = 0;
             mHumanDetectEnabled = false;
@@ -67,7 +68,7 @@ namespace BuddyApp.OutOfBoxV3
             {
                 mTotalAngle += Math.Abs(OutOfBoxUtilsVThree.WrapAngle(Buddy.Actuators.Wheels.Angle - mAngleSequence));
                 mAngleSequence = Buddy.Actuators.Wheels.Angle;
-                //OutOfBoxUtils.DebugColor("TOTAL ANGLE : " + mTotalAngle, "blue");
+                OutOfBoxUtilsVThree.DebugColor("TOTAL ANGLE : " + mTotalAngle, "blue");
             }
             else
             {
@@ -256,12 +257,4 @@ namespace BuddyApp.OutOfBoxV3
             iMyPhoto.Save();
         }
     }
-
 }
-
-                        //if (Buddy.Sensors.RGBCamera.Width > 0)
-                        //{
-                        //    mPictureSound.Play();
-                        //    Buddy.Sensors.RGBCamera.TakePhotograph(OnFinish, false, true);
-                        //    mPhotoTaken = true; 
-                        //}

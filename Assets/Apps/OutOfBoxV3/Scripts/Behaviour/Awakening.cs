@@ -10,6 +10,7 @@ namespace BuddyApp.OutOfBoxV3
     {
         private bool mWokeUp;
         private bool mNextStep;
+        private float mTimer;
 
         public override void Start()
         {
@@ -24,6 +25,7 @@ namespace BuddyApp.OutOfBoxV3
         {
             mWokeUp = false;
             mNextStep = false;
+            mTimer = 0F;
 
             Buddy.Behaviour.Face.OnTouchLeftEye.Add(OnLeftEyeClicked);
             Buddy.Behaviour.Face.OnTouchRightEye.Add(OnRightEyeClicked);
@@ -48,6 +50,11 @@ namespace BuddyApp.OutOfBoxV3
                 Buddy.Behaviour.Face.PlayEvent(FacialEvent.FALL_ASLEEP, false);
             });
             
+        }
+
+        public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            mTimer += Time.deltaTime;
         }
 
         private bool WakeUp(SpeechHotword HotWord = null)
@@ -147,11 +154,16 @@ namespace BuddyApp.OutOfBoxV3
                 Buddy.Vocal.SayKey("awakefeelbetter", (iSpeechOutput) => {
                     OutOfBoxUtilsVThree.DebugColor("AWAKENING CHANGE STATE AFTER SPEAKING : ", "blue");
                     mNextStep = true;
-                    Buddy.Behaviour.Interpreter.RunRandom(Mood.HAPPY, ResetMood);
+
+                    Buddy.Behaviour.Interpreter.RunRandom("Happy", ResetMood);
                 });
             }
-            else
-                Buddy.Behaviour.Interpreter.RunRandom(Mood.ANGRY, ResetMood);
+            else if(mTimer > 3F)
+            {
+                mTimer = 0F;
+                Buddy.Behaviour.Interpreter.RunRandom("Angry", ResetMood);
+            }
+                
         }
 
         private void ResetMood()
