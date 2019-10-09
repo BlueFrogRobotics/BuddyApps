@@ -66,11 +66,10 @@ namespace BuddyApp.Weather
 
             if (mTimeout >= 3)
             {                
-                mTimeout = 0;
-                mQuit = true;
                 Buddy.Vocal.SayKey("requestfailed", (iOutput) => {
+                    QuitApp();
                     return;
-                });                
+                });
             }
             if (iError != WeatherError.NONE)
             {

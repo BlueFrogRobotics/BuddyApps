@@ -38,7 +38,7 @@ namespace BuddyApp.Weather
             {
                 string vocalRequest = "What's the weather like";
                 if (Buddy.Platform.Language.InputLanguage.ISO6391Code == ISO6391Code.FR)
-                    vocalRequest = "Quel temps fait-il ";
+                    vocalRequest = "Quel temps fait-il";
                 StringAnalysis(vocalRequest);
             }
 
@@ -50,7 +50,7 @@ namespace BuddyApp.Weather
             // Analyse string to find parameters (place, date ...)
             ExtractLocation(iVocalRequest);
             iVocalRequest = iVocalRequest.ToLower();
-            if (ContainsOneOf(iVocalRequest, Buddy.Resources.GetPhoneticStrings("when")))
+            if (Buddy.Resources.ContainsPhonetic(iVocalRequest, "when"))
                 mWeatherB.mWhen = true;
             mWeatherB.mWeekend = false;
             ExtractDate(iVocalRequest);
@@ -62,18 +62,18 @@ namespace BuddyApp.Weather
 
         private void ExtractDate(string iSpeech)
         {
-            if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("today")))
+            if (Buddy.Resources.ContainsPhonetic(iSpeech, "today"))
                 mWeatherB.mDate = 0;
-            else if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("dayaftertomorrow")))
+            else if (Buddy.Resources.ContainsPhonetic(iSpeech, "dayaftertomorrow"))
                 mWeatherB.mDate = 2;
-            else if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("tomorrow")))
+            else if (Buddy.Resources.ContainsPhonetic(iSpeech, "tomorrow"))
                 mWeatherB.mDate = 1;
-            else if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("weekend")))
+            else if (Buddy.Resources.ContainsPhonetic(iSpeech, "weekend"))
             {
                 mWeatherB.mDate = 6 - (int)DateTime.Now.DayOfWeek;
                 mWeatherB.mWeekend = true;
             }
-            else if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("intime")) && ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("day")))
+            else if (Buddy.Resources.ContainsPhonetic(iSpeech, "intime") && Buddy.Resources.ContainsPhonetic(iSpeech, "day"))
             {
                 int nbDay = 0;
                 string[] words = iSpeech.Split(' ');
@@ -81,7 +81,7 @@ namespace BuddyApp.Weather
                 {
                     if (words[iw].ToLower() == Buddy.Resources.GetString("intime") && iw + 2 < words.Length)
                     {
-                        if (Int32.TryParse(words[iw + 1], out nbDay) && ContainsOneOf(words[iw + 2], Buddy.Resources.GetPhoneticStrings("day")))
+                        if (Int32.TryParse(words[iw + 1], out nbDay) && Buddy.Resources.ContainsPhonetic(words[iw + 2], "day"))
                         {
                             mWeatherB.mDate = nbDay;
                             break;
@@ -95,7 +95,7 @@ namespace BuddyApp.Weather
                 for (int i=0; i<7; i++)
                 {
                     DayOfWeek d = (DayOfWeek)i;
-                    if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings(d.ToString().ToLower())))
+                    if (Buddy.Resources.ContainsPhonetic(iSpeech, d.ToString().ToLower()))
                     {
                         int dnow = (int)DateTime.Now.DayOfWeek;
                         mWeatherB.mDate = (i >= dnow) ? i - dnow : (7 + i) - dnow;
@@ -104,9 +104,9 @@ namespace BuddyApp.Weather
 
             }
 
-            if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("min")))
+            if (Buddy.Resources.ContainsPhonetic(iSpeech, "min"))
                 mWeatherB.mCommand = WeatherBehaviour.WeatherCommand.MIN;
-            else if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("max")))
+            else if (Buddy.Resources.ContainsPhonetic(iSpeech, "max"))
                 mWeatherB.mCommand = WeatherBehaviour.WeatherCommand.MAX;
             else
             {
@@ -118,45 +118,45 @@ namespace BuddyApp.Weather
         private void ExtractForecast(string iSpeech)
         {
             iSpeech = iSpeech.ToLower();
-            if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("chanceflurries")))
+            if (Buddy.Resources.ContainsPhonetic(iSpeech, "chanceflurries"))
                 mWeatherB.mForecast = WeatherType.CHANCE_FLURRIES;
-            else if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("chanceofrain")))
+            else if (Buddy.Resources.ContainsPhonetic(iSpeech, "chanceofrain"))
                 mWeatherB.mForecast = WeatherType.CHANCE_OF_RAIN;
-            else if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("chancesleet")))
+            else if (Buddy.Resources.ContainsPhonetic(iSpeech, "chancesleet"))
                 mWeatherB.mForecast = WeatherType.CHANCE_SLEET;
-            else if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("chancesnow")))
+            else if (Buddy.Resources.ContainsPhonetic(iSpeech, "chancesnow"))
                 mWeatherB.mForecast = WeatherType.CHANCE_SNOW;
-            else if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("chancestorms")))
+            else if (Buddy.Resources.ContainsPhonetic(iSpeech, "chancestorms"))
                 mWeatherB.mForecast = WeatherType.CHANCE_STORMS;
-            else if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("clear")))
+            else if (Buddy.Resources.ContainsPhonetic(iSpeech, "clear"))
                 mWeatherB.mForecast = WeatherType.CLEAR;
-            else if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("cloudy")))
+            else if (Buddy.Resources.ContainsPhonetic(iSpeech, "cloudy"))
                 mWeatherB.mForecast = WeatherType.CLOUDY;
-            else if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("flurries")))
+            else if (Buddy.Resources.ContainsPhonetic(iSpeech, "flurries"))
                 mWeatherB.mForecast = WeatherType.FLURRIES;
-            else if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("fog")))
+            else if (Buddy.Resources.ContainsPhonetic(iSpeech, "fog"))
                 mWeatherB.mForecast = WeatherType.FOG;
-            else if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("hazy")))
+            else if (Buddy.Resources.ContainsPhonetic(iSpeech, "hazy"))
                 mWeatherB.mForecast = WeatherType.HAZY;
-            else if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("mostlycloudy")))
+            else if (Buddy.Resources.ContainsPhonetic(iSpeech, "mostlycloudy"))
                 mWeatherB.mForecast = WeatherType.MOSTLY_CLOUDY;
-            else if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("mostlysunny")))
+            else if (Buddy.Resources.ContainsPhonetic(iSpeech, "mostlysunny"))
                 mWeatherB.mForecast = WeatherType.MOSTLY_SUNNY;
-            else if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("overcast")))
+            else if (Buddy.Resources.ContainsPhonetic(iSpeech, "overcast"))
                 mWeatherB.mForecast = WeatherType.OVERCAST;
-            else if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("partlycloudy")))
+            else if (Buddy.Resources.ContainsPhonetic(iSpeech, "partlycloudy"))
                 mWeatherB.mForecast = WeatherType.PARTLY_CLOUDY;
-            else if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("partlysunny")))
+            else if (Buddy.Resources.ContainsPhonetic(iSpeech, "partlysunny"))
                 mWeatherB.mForecast = WeatherType.PARTLY_SUNNY;
-            else if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("rainy")))
+            else if (Buddy.Resources.ContainsPhonetic(iSpeech, "rainy"))
                 mWeatherB.mForecast = WeatherType.RAIN;
-            else if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("sleet")))
+            else if (Buddy.Resources.ContainsPhonetic(iSpeech, "sleet"))
                 mWeatherB.mForecast = WeatherType.SLEET;
-            else if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("snow")))
+            else if (Buddy.Resources.ContainsPhonetic(iSpeech, "snow"))
                 mWeatherB.mForecast = WeatherType.SNOW;
-            else if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("sun")))
+            else if (Buddy.Resources.ContainsPhonetic(iSpeech, "sun"))
                 mWeatherB.mForecast = WeatherType.SUNNY;
-            else if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("thunder")))
+            else if (Buddy.Resources.ContainsPhonetic(iSpeech, "thunder"))
                 mWeatherB.mForecast = WeatherType.THUNDERSTORMS;
 
         }
@@ -215,39 +215,39 @@ namespace BuddyApp.Weather
                 mWeatherB.mHour = lHour[0];
             }
 
-            if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("morning")) || ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("am")))
+            if (Buddy.Resources.ContainsPhonetic(iSpeech, "morning") || Buddy.Resources.ContainsPhonetic(iSpeech, "am"))
             {
                 if (mWeatherB.mHour == -1)
                     mWeatherB.mHour = 8;
 
                 mWeatherB.mWeatherTime = WeatherBehaviour.WeatherMoment.MORNING;
             }
-            else if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("noon")) || ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("am")))
+            else if (Buddy.Resources.ContainsPhonetic(iSpeech, "noon") || Buddy.Resources.ContainsPhonetic(iSpeech, "am"))
             {
                 if (mWeatherB.mHour == -1)
                     mWeatherB.mHour = 12;
                 mWeatherB.mWeatherTime = WeatherBehaviour.WeatherMoment.NOON;
 
             }
-            else if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("afternoon")) || ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("pm")))
+            else if (Buddy.Resources.ContainsPhonetic(iSpeech, "afternoon") || Buddy.Resources.ContainsPhonetic(iSpeech, "pm"))
             {
                 if (mWeatherB.mHour == -1)
                     mWeatherB.mHour = 16;
                 mWeatherB.mWeatherTime = WeatherBehaviour.WeatherMoment.AFTERNOON;
             }
-            else if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("midnight")))
+            else if (Buddy.Resources.ContainsPhonetic(iSpeech, "midnight"))
             {
                 if (mWeatherB.mHour == -1)
                     mWeatherB.mHour = 20;
                 mWeatherB.mWeatherTime = WeatherBehaviour.WeatherMoment.NONE;
             }
-            else if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("evening")))
+            else if (Buddy.Resources.ContainsPhonetic(iSpeech, "evening"))
             {
                 if (mWeatherB.mHour == -1)
                     mWeatherB.mHour = 20;
                 mWeatherB.mWeatherTime = WeatherBehaviour.WeatherMoment.EVENING;
             }
-            else if (ContainsOneOf(iSpeech, Buddy.Resources.GetPhoneticStrings("night")))
+            else if (Buddy.Resources.ContainsPhonetic(iSpeech, "night"))
             {
                 if (mWeatherB.mHour == -1)
                     mWeatherB.mHour = 20;
@@ -266,43 +266,21 @@ namespace BuddyApp.Weather
             string[] words = iSpeech.Split(' ');
             for (int iw = 0; iw < words.Length; ++iw)
             {
-                for (int i = 0; i < 24; ++i)
+                if (!string.IsNullOrEmpty(words[iw].Trim()))
                 {
-                    if (words[iw].ToLower() == i.ToString() + "h")
-                        result.Add(i);
-                    else if (ContainsOneOf(words[iw].ToLower(), Buddy.Resources.GetPhoneticStrings("hour")))
+                    for (int i = 0; i < 24; ++i)
                     {
-                        if (words[iw - 1] == i.ToString())
+                        if (words[iw].ToLower() == i.ToString() + "h")
                             result.Add(i);
+                        else if (Buddy.Resources.ContainsPhonetic(words[iw].ToLower(), "hour"))
+                        {
+                            if (words[iw - 1] == i.ToString())
+                                result.Add(i);
+                        }
                     }
                 }
             }
             return result;
-        }
-
-
-
-        private bool ContainsOneOf(string iSpeech, string[] iListSpeech)
-        {
-            iSpeech = iSpeech.ToLower();
-            for (int i = 0; i < iListSpeech.Length; ++i)
-            {
-                string[] words = iListSpeech[i].Split(' ');
-                if (words.Length < 2)
-                {
-                    words = iSpeech.Split(' ');
-                    foreach (string word in words)
-                    {
-                        if (word == iListSpeech[i].ToLower())
-                        {
-                            return true;
-                        }
-                    }
-                }
-                else if (iSpeech.ToLower().Contains(iListSpeech[i].ToLower()))
-                    return true;
-            }
-            return false;
         }
     }
 }
