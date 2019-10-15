@@ -19,7 +19,6 @@ namespace BuddyApp.OutOfBoxV3
         private int mNumberOfDetect;
         private float mRotation = 30F;
         private List<String> mNameOfPhotoTaken;
-        private OutOfBoxV3Data mOutOfBoxDataInstance;
 
         //Takephoto variable test
         private int mPhotoTakenCount;
@@ -35,10 +34,8 @@ namespace BuddyApp.OutOfBoxV3
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-            OutOfBoxUtilsVThree.DebugColor("START DETECT STATE ", "blue");
+        { 
             Buddy.Vocal.SayKey("whoisaround");
-            mOutOfBoxDataInstance.NameOfPhotoTaken = new List<string>();
             mPhotoTakenCount = 0;
             mNumberOfDetect = 0;
             mHumanDetectEnabled = false;
@@ -68,7 +65,7 @@ namespace BuddyApp.OutOfBoxV3
             {
                 mTotalAngle += Math.Abs(OutOfBoxUtilsVThree.WrapAngle(Buddy.Actuators.Wheels.Angle - mAngleSequence));
                 mAngleSequence = Buddy.Actuators.Wheels.Angle;
-                OutOfBoxUtilsVThree.DebugColor("TOTAL ANGLE : " + mTotalAngle, "blue");
+                //OutOfBoxUtilsVThree.DebugColor("TOTAL ANGLE : " + mTotalAngle, "blue");
             }
             else
             {
@@ -102,7 +99,7 @@ namespace BuddyApp.OutOfBoxV3
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            mOutOfBoxDataInstance.NameOfPhotoTaken = mNameOfPhotoTaken;
+            OutOfBoxV3Data.Instance.NameOfPhotoTaken = mNameOfPhotoTaken;
             StopAllCoroutines();
             
         }

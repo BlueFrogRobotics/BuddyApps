@@ -4,6 +4,7 @@ using UnityEngine;
 using BlueQuark;
 using System;
 
+
 namespace BuddyApp.OutOfBoxV3
 {
     public class Awakening : AStateMachineBehaviour
@@ -61,6 +62,7 @@ namespace BuddyApp.OutOfBoxV3
         { 
             mWokeUp = true;
 
+            Buddy.Behaviour.SetMood(Mood.TIRED);
             Buddy.Behaviour.Face.PlayEvent(FacialEvent.AWAKE, null, (iFacialEvent) =>
             {
                 Buddy.Actuators.Head.Yes.SetPosition(5F, 45F);
@@ -147,7 +149,7 @@ namespace BuddyApp.OutOfBoxV3
             OutOfBoxUtilsVThree.DebugColor("INTERNAL STATE PLEASURE : " + Buddy.Cognitive.InternalState.Pleasure, "blue");
             if (!mWokeUp)
                 WakeUp();
-            else if (Buddy.Cognitive.InternalState.Pleasure > 0)
+            else if (Buddy.Cognitive.InternalState.Pleasure > 0 && !Buddy.Behaviour.Interpreter.IsBusy)
             {
                 OutOfBoxUtilsVThree.DebugColor("AWAKENING CHANGE STATE: ", "blue");
                 RemoveListener();
