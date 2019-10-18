@@ -11,8 +11,11 @@ namespace BuddyApp.OutOfBox
     {
         private float mTimer = -1000F;
         private bool mTransitionEnd;
+        private int mNumberListen;
+
         public override void OnStateEnter(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
         {
+            mNumberListen = 0;
             Buddy.Vocal.OnListeningStatus.Add((iStatus) => Debug.LogWarning(iStatus.ToString()));
             mTransitionEnd = false;
             Buddy.Vocal.SayKey("psixintro", (iOut) => {
@@ -69,26 +72,44 @@ namespace BuddyApp.OutOfBox
                             Debug.LogWarning("listen");
                             string lAnswer = "";
                             if (iListen.Rule != null)
-                                if (iListen.Rule.Contains("date")) {
+                            {
+                                if (iListen.Rule.Contains("date"))
+                                {
                                     Debug.LogWarning("date");
                                     lAnswer = Buddy.Resources.GetRandomString("givedate").Replace("[weekday]", DateTime.Now.ToString("dddd", new CultureInfo(Buddy.Platform.Language.OutputLanguage.BCP47Code)));
                                     lAnswer = lAnswer.Replace("[month]", "" + DateTime.Now.ToString("MMMM", new CultureInfo(Buddy.Platform.Language.OutputLanguage.BCP47Code)));
 
                                     lAnswer = lAnswer.Replace("[day]", "" + DateTime.Now.Day);
                                     lAnswer = lAnswer.Replace("[year]", "" + DateTime.Now.Year);
-                                } else if (iListen.Rule.Contains("hour")) {
+                                }
+                                else if (iListen.Rule.Contains("hour"))
+                                {
                                     Debug.LogWarning("hour");
-                                    if (Buddy.Platform.Language.OutputLanguage.ISO6391Code == ISO6391Code.EN) {
+                                    if (Buddy.Platform.Language.OutputLanguage.ISO6391Code == ISO6391Code.EN)
+                                    {
                                         lAnswer = GiveHourInEnglish();
-                                    } else {
+                                    }
+                                    else
+                                    {
                                         lAnswer = Buddy.Resources.GetRandomString("givehour").Replace("[hour]", DateTime.Now.Hour.ToString());
                                         lAnswer = lAnswer.Replace("[minute]", "" + DateTime.Now.Minute);
                                     }
-                                } else if (iListen.Rule.Contains("calcul")) {
+                                }
+                                else if (iListen.Rule.Contains("calcul"))
+                                {
                                     Debug.LogWarning("calcul");
                                     lAnswer = "18";
                                 }
-
+                            }                                
+                            else if (mNumberListen <= 3 && iListen.Rule == null)
+                            {
+                                mNumberListen++;
+                                Buddy.Vocal.SayKey("psixididnthear", (iSpeech) => { if (!iSpeech.IsInterrupted) TransitionToEnd(); });
+                            }
+                            else if (mNumberListen > 3)
+                            {
+                                Buddy.Platform.Application.StartApp("Diagnostic");
+                            }
                             Debug.LogWarning("say answer " + lAnswer);
                             Buddy.Vocal.Say(lAnswer, Ending);
                             Debug.LogWarning("say answer " + lAnswer);

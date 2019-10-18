@@ -133,7 +133,7 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>pfivetooshy</Key>
-            <BaseValue>Ok vous êtes trop timide pour avoir un robot compagnon. Si on ne s'occupe pas de moi alors je suis triste.</BaseValue>
+            <BaseValue>OK vous êtes trop timide pour avoir un robot compagnon. Si on ne s'occupe pas de moi alors je suis triste.</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -214,7 +214,9 @@
         <DictionaryEntry>
             <Key>givehour</Key>
             <BaseValue>Il est actuellement [hour] heure et [minute] minute</BaseValue>
-            <ClosePhoneticValues />
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
             <RandomValues>
                 <string>Il est actuellement [hour] heure et [minute] minute</string>
                 <string>Il est [hour] heure [minute]</string>
@@ -224,10 +226,22 @@
         <DictionaryEntry>
             <Key>givedate</Key>
             <BaseValue>Aujourd'hui nous sommes [weekday] [day] [month] [year]</BaseValue>
-            <ClosePhoneticValues />
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
             <RandomValues>
                 <string>Aujourd'hui nous sommes [weekday] [day] [month] [year]</string>
                 <string>[weekday] [day] [month] [year]</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>psixididnthear</Key>
+            <BaseValue>Je n'ai rien entendu, essayes encore une fois!</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
             </RandomValues>
         </DictionaryEntry>
     </Entries>

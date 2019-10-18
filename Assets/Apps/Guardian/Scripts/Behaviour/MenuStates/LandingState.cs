@@ -20,12 +20,10 @@ namespace BuddyApp.Guardian
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             if (GuardianData.Instance.FirstRun)
-            {
                 Trigger("Parameter");
-            }
             else
                 Trigger("NextStep");
-        }
+        } 
 
         public override void OnStateUpdate(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {

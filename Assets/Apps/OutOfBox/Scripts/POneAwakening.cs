@@ -12,7 +12,7 @@ namespace BuddyApp.OutOfBox
         public override void Start()
         {
             base.Start();
-
+            Buddy.Actuators.Speakers.Volume = 1F;
             mBehaviour = GetComponent<OutOfBoxBehaviour>();
             mBehaviour.PhaseDropDown.onValueChanged.AddListener((iInput) => Trigger("Base"));
         }

@@ -124,7 +124,7 @@ namespace BuddyApp.OutOfBox
             if (Buddy.Actuators.Head.No.Angle != 0F)
                 Buddy.Actuators.Head.No.ResetPosition();
             if(Buddy.Actuators.Head.Yes.Angle != 5F)
-                Buddy.Actuators.Head.Yes.SetPosition(5F, 45F);
+                Buddy.Actuators.Head.Yes.SetPosition(25F, 75F);
         }
 
         private void StartDetect(float iAngle = 0F)

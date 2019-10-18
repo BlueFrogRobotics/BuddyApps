@@ -71,6 +71,7 @@ namespace BuddyApp.OutOfBox
             if (mSoundLocEnabled && mTimer < 12F && mLastSoundLoc > 0.200F && (Time.time - mLastSoundLoc) < 1.2F) {
                 Buddy.Sensors.Microphones.EnableSoundLocalization = false;
                 Buddy.Behaviour.Face.PlayEvent(FacialEvent.OPEN_EYES, false);
+                Buddy.Actuators.Head.Yes.SetPosition(25F, 75F);
                 Buddy.Navigation.Run<DisplacementStrategy>().Rotate(mSoundLoc, 80F, () => { mHumanDetectEnabled = true; });
                 mSoundLocEnabled = false;
             } else if (mTimer > 12F && mSoundLocEnabled) {
