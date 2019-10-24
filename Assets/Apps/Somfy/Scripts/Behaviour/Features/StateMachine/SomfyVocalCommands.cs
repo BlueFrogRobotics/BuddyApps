@@ -94,6 +94,19 @@ namespace BuddyApp.Somfy
 
         private void ParseText(string iText)
         {
+            Debug.Log("IOT request " + iText);
+            iText = iText.ToLower();
+            if (Buddy.Resources.ContainsPhonetic(iText, "launchscenario"))
+            {
+                string lParse = iText;
+                foreach (string lPhonetic in Buddy.Resources.GetPhoneticStrings("launchscenario"))
+                {
+                    lParse = lParse.Replace(lPhonetic, "");
+                }
+                Debug.Log("Launch scenario " + lParse);
+                mSomfyBehaviour.ExecuteScenario(lParse.Trim());
+                return;
+            }
 
             if (Buddy.Resources.ContainsPhonetic(iText, "on") && Buddy.Resources.ContainsPhonetic(iText, "light") && !Buddy.Resources.ContainsPhonetic(iText, "officeroom") && !Buddy.Resources.ContainsPhonetic(iText, "all"))
             {
@@ -222,7 +235,8 @@ namespace BuddyApp.Somfy
         {
             //string vocalRequest = "mets la musique dans le salon";
             //Debug.Log("vocal request: " + SomfyData.Instance.VocalRequest);
-            while (mSomfyBehaviour.Box.Devices.Count == 0)
+            while (mSomfyBehaviour.Box.Devices.Count == 0
+                && mSomfyBehaviour.Box.Scenarios.Count == 0)
                 yield return null;
             //mSomfyBehaviour.GetMonitoredDevices();
             ParseText(SomfyData.Instance.VocalRequest);

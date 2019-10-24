@@ -43,7 +43,8 @@ namespace BuddyApp.Somfy
             mNode.Add("name", name);
 
             JArray lArrayFloat = new JArray();
-            if (parameters != null) {
+            if (parameters != null)
+            {
                 foreach (object param in parameters)
                     lArrayFloat.Add(param);
             }
@@ -74,8 +75,10 @@ namespace BuddyApp.Somfy
             mNode.Add("deviceURL", deviceURL);
 
             JArray lArrayCommands = new JArray();
-            if (commands != null) {
-                foreach (IOTSomfyActionCommandsJSON command in commands) {
+            if (commands != null)
+            {
+                foreach (IOTSomfyActionCommandsJSON command in commands)
+                {
                     lArrayCommands.Add(command.GetNode());
                 }
             }
@@ -157,7 +160,8 @@ namespace BuddyApp.Somfy
 
         public IOTSomfyDevice(IOTSomfyDevice iObject) : base()
         {
-            if (iObject != null) {
+            if (iObject != null)
+            {
                 creationTime = iObject.creationTime;
                 lastUpdateTime = iObject.lastUpdateTime;
                 label = iObject.label;
@@ -185,6 +189,14 @@ namespace BuddyApp.Somfy
             return mHasFinishedCommand;
         }
 
+        public virtual void ExecuteCommand(string command, int? iParam = null)
+        {
+            if (iParam != null)
+                PostAction(command, new object[] { iParam.Value });
+            else
+                PostAction(command);
+        }
+
         protected void PostAction(string iCommand, object[] iParams = null)
         {
             string lUrl = SomfyData.Instance.URL_API + "/exec/apply";
@@ -194,14 +206,11 @@ namespace BuddyApp.Somfy
             if (iParams != null && iParams.Length > 0)
                 Debug.Log(iParams[0]);
             lCommands[0] = new IOTSomfyActionCommandsJSON(1, iCommand, iParams);
-            //Debug.Log("l url du device: " + deviceURL);
             IOTSomfyActionJSON[] lApply = new IOTSomfyActionJSON[1];
             lApply[0] = new IOTSomfyActionJSON(deviceURL, lCommands);
             lApply[0].deviceURL = deviceURL;
             IOTSomfyJSONApply lJson = new IOTSomfyJSONApply(creationTime, lastUpdateTime, "switchAction", lApply);
-            //Debug.Log("url du json: " + lJson.actions[0].deviceURL);
-            //Request lRequest = new Request("POST", lUrl, Encoding.Default.GetBytes(JsonUtility.ToJson(lJson)));
-
+            Debug.Log(lJson.GetNode().ToString());
             ///
             byte[] bytePostData = Encoding.UTF8.GetBytes(lJson.GetNode().ToString());
             UnityWebRequest request = UnityWebRequest.Put(lUrl, bytePostData); //use PUT method to send simple stream of bytes
@@ -248,12 +257,14 @@ namespace BuddyApp.Somfy
 
             IOTSomfyStateJSON lState = null;
             lRequest.Send(lUrl, (lResult) => {
-                if (lResult == null) {
+                if (lResult == null)
+                {
                     Debug.Log("Couldn't get state");
                     return;
                 }
                 lState = JsonUtility.FromJson<IOTSomfyStateJSON>(lResult.response.Text);
-                for (int i = 0; i < states.Length; ++i) {
+                for (int i = 0; i < states.Length; ++i)
+                {
                     if (states[i].name == lStateName)
                         states[i] = lState;
                 }
@@ -277,7 +288,8 @@ namespace BuddyApp.Somfy
             lRequest.SetHeader("cookie", mSessionID);
             lRequest.Send((lResult) => {
                 Debug.Log(lResult.response.Text);
-                if (lResult == null) {
+                if (lResult == null)
+                {
                     Debug.LogError("Couldn't change name");
                     return;
                 }
@@ -343,8 +355,10 @@ namespace BuddyApp.Somfy
             mNode.Add("targetPhoneNumbers", new JArray());
             mNode.Add("targetPushSubsciptions", new JArray());
             JArray lArrayActions = new JArray();
-            if (actions != null) {
-                foreach (IOTSomfyActionJSON action in actions) {
+            if (actions != null)
+            {
+                foreach (IOTSomfyActionJSON action in actions)
+                {
                     lArrayActions.Add(action.GetNode());
                 }
             }
@@ -379,26 +393,30 @@ namespace BuddyApp.Somfy
             //Debug.Log("le json d apres: " + lJsonNode.ToString());
             devices = new IOTSomfyDevice[lJArray.Count];
             //Debug.Log("device count " + lJArray.Count);
-            for (int i = 0; i < lJArray.Count; i++) {
+            for (int i = 0; i < lJArray.Count; i++)
+            {
                 devices[i] = new IOTSomfyDevice();
                 long.TryParse((string)lJArray[i]["creationTime"], out devices[i].creationTime);
                 long.TryParse((string)lJArray[i]["lastUpdateTime"], out devices[i].lastUpdateTime);
-                //Debug.Log("1");
-                devices[i].label = (string)lJArray[i]["label"];
-                //Debug.Log("device: " + lJArray[i]["label"].Value);
-                devices[i].deviceURL = (string)lJArray[i]["deviceURL"];
+                devices[i].label = lJArray[i].Value<string>("label");
+                //Debug.Log("device: " + lJArray[i]["label"]);
+                devices[i].deviceURL = lJArray[i].Value<string>("deviceURL");
                 bool.TryParse((string)lJArray[i]["shortcut"], out devices[i].shortcut);
-                devices[i].uiClass = (string)lJArray[i]["uiClass"];
-                //Debug.Log("un device: "+lJArray[i]["states"][0]["name"].ToString());
-                JArray lStatesArray = (JArray)lJArray[i]["states"];
-                devices[i].states = new IOTSomfyStateJSON[lStatesArray.Count];
-                //Debug.Log("state lenght: "+devices[i].states.Length);
-                for (int j = 0; j < lStatesArray.Count; j++) {
-                    devices[i].states[j] = new IOTSomfyStateJSON();
-                    //Debug.Log("le name : " + lJArray[i]["states"][j]["name"].Value);
-                    devices[i].states[j].name = (string)lStatesArray[j]["name"];
-                    //int.TryParse(lJArray[i]["states"][j]["type"].Value, out devices[i].states[j].type);
-                    devices[i].states[j].value = (string)lStatesArray[j]["value"];
+                bool.TryParse((string)lJArray[i]["available"], out devices[i].available);
+                devices[i].uiClass = lJArray[i].Value<string>("uiClass");
+                JArray lStatesArray = lJArray[i].Value<JArray>("states");
+                if (lStatesArray != null)
+                {
+                    devices[i].states = new IOTSomfyStateJSON[lStatesArray.Count];
+                    Debug.Log("state lenght: " + devices[i].states.Length);
+                    for (int j = 0; j < lStatesArray.Count; j++)
+                    {
+                        devices[i].states[j] = new IOTSomfyStateJSON();
+                        //Debug.Log("le name : " + lJArray[i]["states"][j]["name"].Value);
+                        devices[i].states[j].name = (string)lStatesArray[j]["name"];
+                        //int.TryParse(lJArray[i]["states"][j]["type"].Value, out devices[i].states[j].type);
+                        devices[i].states[j].value = (string)lStatesArray[j]["value"];
+                    }
                 }
             }
         }

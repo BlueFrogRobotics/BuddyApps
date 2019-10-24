@@ -10,6 +10,8 @@ using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
 using System;
+
+using Newtonsoft.Json.Linq;
 //using System.Web; 
 
 namespace BuddyApp.Somfy
@@ -175,6 +177,73 @@ namespace BuddyApp.Somfy
                 }
             }
         }
+
+        /// <summary>
+        /// Gets all scenarios.
+        /// </summary>
+        /// <returns></returns>
+        public override IEnumerator GetScenarios()
+        {
+            string url = SomfyData.Instance.URL_API + "/actionGroups";
+
+            using (UnityWebRequest www = UnityWebRequest.Get(url))
+            {
+                // Cookie header already set on runtime
+                if (Application.platform == RuntimePlatform.WindowsEditor)
+                    www.SetRequestHeader("Cookie", "JSESSIONID=" + System.Uri.EscapeDataString(mSessionID));
+
+                yield return www.SendWebRequest();
+                if (www.isHttpError || www.isNetworkError)
+                {
+                    Debug.Log("Get scenarios error " + www.error + " " + www.downloadHandler.text);
+                }
+                else
+                {
+                    Debug.Log("Get scenarios upload complete!" + www.downloadHandler.text);
+                    string response = "{\"scenarios\" :" + www.downloadHandler.text + "}";
+                    JObject lJsonNode = Utils.UnserializeJSONtoObject(response);
+                    JArray lJArray = (JArray)lJsonNode["scenarios"];
+                    //Debug.Log("device count " + lJArray.Count);
+                    for (int i = 0; i < lJArray.Count; i++)
+                    {
+                        string label = lJArray[i].Value<string>("label");
+                        string oid = lJArray[i].Value<string>("oid");
+                        if (!string.IsNullOrEmpty(label)
+                            && !string.IsNullOrEmpty(oid))
+                        {
+                            mScenarios.Add(label.ToLower(), oid);
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Launch a scenario.
+        /// </summary>
+        /// <returns></returns>
+        public override IEnumerator LaunchScenario(string oid)
+        {
+            string url = SomfyData.Instance.URL_API + "/exec/" + oid;
+            WWWForm form = new WWWForm();
+            using (UnityWebRequest www = UnityWebRequest.Post(url, form))
+            {
+                // Cookie header already set on runtime
+                if (Application.platform == RuntimePlatform.WindowsEditor)
+                    www.SetRequestHeader("Cookie", "JSESSIONID=" + System.Uri.EscapeDataString(mSessionID));
+
+                yield return www.SendWebRequest();
+                if (www.isHttpError || www.isNetworkError)
+                {
+                    Debug.Log("Launch Scenario error " + www.error + " " + www.downloadHandler.text);
+                }
+                else
+                {
+                    Debug.Log("Launch Scenario complete!" + www.downloadHandler.text);
+                }
+            }
+        }
+
 
         //public override void GetDevices()
         //{

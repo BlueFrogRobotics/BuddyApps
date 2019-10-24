@@ -63,7 +63,11 @@ namespace BuddyApp.Somfy
         /// <returns></returns>
         public IEnumerator CollectConnectedDevices()
         {
-            return Box.GetTheDevices();
+            yield return Box.GetTheDevices();
+
+            yield return new WaitForSeconds(1);
+
+            yield return Box.GetScenarios();
         }
 
         /// <summary>
@@ -135,6 +139,22 @@ namespace BuddyApp.Somfy
                 {
                     Debug.Log("Sonos connected " + lDevice.Name);
                     mSonos = (IOTSomfyDevice)lDevice;
+                }
+            }
+        }
+
+        public void ExecuteScenario(string label)
+        {
+            foreach (string name in Box.Scenarios.Keys)
+            {
+                Debug.Log("scenario " + name + " " + label);
+                if (label == name)
+                {
+                    Buddy.Vocal.Say("OK");
+                    Buddy.Vocal.Say(Buddy.Resources.GetRandomString("launchscenario") + " " + label);
+
+                    StartCoroutine(Box.LaunchScenario(Box.Scenarios[name]));
+                    return;
                 }
             }
         }

@@ -10,6 +10,9 @@ namespace BuddyApp.Somfy
         protected List<IOTDevices> mDevices = new List<IOTDevices>();
         public List<IOTDevices> Devices { get { return mDevices; } }
 
+        protected Dictionary<string, string> mScenarios = new Dictionary<string, string>();
+        public Dictionary<string, string> Scenarios { get { return mScenarios; } }
+
         //public virtual void Creation()
         //{
         //    mListIntantParams.Clear();
@@ -38,6 +41,16 @@ namespace BuddyApp.Somfy
         //}
 
         public virtual IEnumerator GetTheDevices()
+        {
+            yield return null;
+        }
+
+        public virtual IEnumerator GetScenarios()
+        {
+            yield return null;
+        }
+
+        public virtual IEnumerator LaunchScenario(string oid)
         {
             yield return null;
         }
