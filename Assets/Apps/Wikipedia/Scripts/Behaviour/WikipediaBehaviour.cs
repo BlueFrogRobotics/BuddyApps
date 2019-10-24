@@ -163,10 +163,10 @@ namespace BuddyApp.Wikipedia
                 string lRequestUriString = "";
                 // check language to request the correct wikipedia webpage
                 if (Buddy.Platform.Language.OutputLanguage == Buddy.Platform.Language.GetLanguageFromISOCode(ISO6391Code.FR))
-                    lRequestUriString = string.Format("https://fr.wikipedia.org/w/api.php?format=json&action=opensearch&search="
+                    lRequestUriString = string.Format("https://fr.wikipedia.org/w/api.php?format=json&redirects=resolve&action=opensearch&search="
                         + Uri.EscapeUriString(iDefinition) + "&limit=1&profile=fuzzy");
                 else
-                    lRequestUriString = string.Format("https://en.wikipedia.org/w/api.php?format=json&action=opensearch&search="
+                    lRequestUriString = string.Format("https://en.wikipedia.org/w/api.php?format=json&redirects=resolve&action=opensearch&search="
                         + Uri.EscapeUriString(iDefinition) + "&limit=1&profile=fuzzy");
 
                 Debug.Log(lRequestUriString);
@@ -198,6 +198,7 @@ namespace BuddyApp.Wikipedia
                             if (lFragmant[i] == "],[" && string.IsNullOrEmpty(lRes)) {
                                 //Debug.LogWarning("Detected ],[ " + lFragmant[i] + " at fragmant " + i);
                                 lRes = lFragmant[i + 1];
+
                                 //Debug.LogWarning("Raw Sentence to answer" + lRes);
                             } else if (lFragmant[i].Contains("https://")) {
                                 //Debug.LogWarning("page url " + lFragmant[i]);
@@ -212,10 +213,11 @@ namespace BuddyApp.Wikipedia
                             SayAndListen(lRes, false);
                         } else {
                             // Remove phonetics
-                            string lRegex = "(\\[.*\\])";
-                            lRes = Regex.Replace(lRes, lRegex, "");
+                            lRes = Regex.Replace(lRes, "(\\[.*\\])", string.Empty);
+                            lRes = Regex.Replace(lRes, "/.*?/", string.Empty);
 
-                            //Debug.LogWarning("Sentence to answer" + lRes);
+
+                            Debug.LogWarning("Sentence to answer" + lRes);
                             if (!string.IsNullOrEmpty(WikipediaData.Instance.Utterance))
                                 Buddy.Vocal.Say(lRes, (iSpeechOutput) => {
                                     Buddy.GUI.Toaster.Hide();
