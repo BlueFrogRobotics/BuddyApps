@@ -7,7 +7,7 @@ namespace BuddyApp.TakePhoto
     public sealed class LookForUser : AStateMachineBehaviour
     {
         private float mTimer;
-
+        private bool mMoving;
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
@@ -18,9 +18,9 @@ namespace BuddyApp.TakePhoto
 
         private void HumanDetected(HumanEntity[] iHumanEntities)
         {
-            if (iHumanEntities.Length > 0) {
-                Buddy.Perception.HumanDetector.OnDetect.Remove(HumanDetected);
-                mTimer = 0F;
+            if (iHumanEntities.Length > 0 && !mMoving) {
+                //Buddy.Perception.HumanDetector.OnDetect.Remove(HumanDetected);
+                mMoving = true;
 
                 // Get the biggest area
                 double lMaxArea = 0;
@@ -53,11 +53,17 @@ namespace BuddyApp.TakePhoto
                 lMeanX /= lNbHumans;
                 lMeanY /= lNbHumans;
 
+                Debug.LogWarning("Takephoto focusing ratio X " + lMeanX);
+                Debug.LogWarning("Takephoto focusing ratio Y " + lMeanY);
 
-                float lNoAngle = Buddy.Actuators.Head.No.Angle + ((float)lMeanX - 0.5F) * 60F;
-                float lYesAngle = Buddy.Actuators.Head.Yes.Angle + ((float)lMeanY - 0.5F) * 49.5F;
-                Buddy.Actuators.Head.SetPosition((float)lMeanX, (float)lMeanY);
-                Trigger("Photo");
+
+                Debug.LogWarning("Takephoto SetAngle X " + (Buddy.Actuators.Head.No.Angle - ((float)lMeanX - 0.5F) * 60F));
+                Debug.LogWarning("Takephoto SetAngle Y " + (Buddy.Actuators.Head.Yes.Angle - ((float)lMeanY - 0.5F) * 49.5F));
+
+                float lNoAngle = Buddy.Actuators.Head.No.Angle - ((float)lMeanX - 0.5F) * 60F;
+                float lYesAngle = Buddy.Actuators.Head.Yes.Angle - ((float)lMeanY - 0.5F) * 49.5F;
+
+                Buddy.Actuators.Head.SetPosition(lNoAngle, lYesAngle, (lAngleNo, lAngleYes) =>  mMoving = false );
 
             }
         }
@@ -66,8 +72,8 @@ namespace BuddyApp.TakePhoto
         {
             mTimer += Time.deltaTime;
 
-            if (mTimer > 2F)
-                Trigger("Photo");
+            //if (mTimer > 10F)
+            //    Trigger("Photo");
 
         }
 

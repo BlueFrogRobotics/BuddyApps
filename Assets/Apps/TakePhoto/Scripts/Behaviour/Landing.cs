@@ -14,7 +14,9 @@ namespace BuddyApp.TakePhoto
             //Set the recognition threshold for the app
             Buddy.Vocal.DefaultInputParameters = new SpeechInputParameters();
             Buddy.Vocal.DefaultInputParameters.RecognitionThreshold = 6000;
-            Trigger("LookForUser");
+            //Trigger("LookForUser");
+
+            Trigger("Photo");
 
         }
 
