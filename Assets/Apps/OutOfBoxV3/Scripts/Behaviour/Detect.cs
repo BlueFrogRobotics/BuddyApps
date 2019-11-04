@@ -34,7 +34,13 @@ namespace BuddyApp.OutOfBoxV3
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        { 
+        {
+            if(OutOfBoxV3Data.Instance.NameOfPhotoTaken == null)
+            {
+                OutOfBoxUtilsVThree.DebugColor("CREATE LIST", "red");
+                OutOfBoxV3Data.Instance.NameOfPhotoTaken = new List<string>();
+            }
+            
             Buddy.Vocal.SayKey("whoisaround");
             mPhotoTakenCount = 0;
             mNumberOfDetect = 0;
@@ -149,11 +155,12 @@ namespace BuddyApp.OutOfBoxV3
 
         private bool OnHumanDetect(HumanEntity[] iHumanEntity)
         {
+            OutOfBoxUtilsVThree.DebugColor("----------------HUMAN DETECTED", "red");
             if (!mFirstStep)
             {
                 mFirstStep = true;
-                if (Buddy.Sensors.RGBCamera.Width > 0)
-                    Buddy.Sensors.RGBCamera.TakePhotograph(TakePhoto, false, true);
+                //if (Buddy.Sensors.RGBCamera.Width > 0)
+                //    Buddy.Sensors.RGBCamera.TakePhotograph(TakePhoto, false, true);
                 StartCoroutine(OutOfBoxUtilsVThree.PlayBIAsync(() =>
                 {
                     Buddy.Actuators.Head.No.SetPosition(-90F, 45F, (iOut) => { Buddy.Actuators.Head.No.SetPosition(90F, 45F, (iSpeechOut) => { StartDetect(); }); });
@@ -249,6 +256,10 @@ namespace BuddyApp.OutOfBoxV3
 
         private void TakePhoto(Photograph iMyPhoto)
         {
+            if(!string.IsNullOrEmpty( iMyPhoto.FullPath))
+            {
+                OutOfBoxUtilsVThree.DebugColor("path of the photo : "  + iMyPhoto.FullPath, "red");
+            }
             //mPhotoSprite = iMyPhoto.Image;
             mNameOfPhotoTaken.Add(iMyPhoto.Name);
             iMyPhoto.Save();

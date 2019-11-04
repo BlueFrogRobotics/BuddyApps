@@ -77,23 +77,23 @@ namespace BuddyApp.Guardian
 
         private void OnNewFrame(ThermalCameraFrame iFrame)
         {
-            Debug.Log("new thermal frame");
             float[] lThermicValues = new float[8 * 8];
 
             iFrame.Mat.get(0, 0, lThermicValues);
             mShowTemp.FillTemperature(lThermicValues);
             mMatSrc = mShowTemp.TemperatureToColorMat();
-            Core.flip(mMatSrc, mMatSrc, 0);
+            Core.flip(mMatSrc, mMatSrc, -1);
             Utils.MatToTexture2D(mMatSrc, mTexture);
-            if(mFireDetection.GetHottestTemperature()> DetectionManager.MAX_TEMPERATURE_THRESHOLD)
-            {
-                Buddy.Actuators.Speakers.Media.Play(SoundSample.BEEP_1);
-            }
+           
         }
 
         private void OnThermalDetected(ThermalEntity iThermalEntity)
         {
-            Buddy.Actuators.Speakers.Media.Play(SoundSample.BEEP_1);
+
+            if (mFireDetection.GetHottestTemperature() > DetectionManager.MAX_TEMPERATURE_THRESHOLD && !Buddy.Actuators.Speakers.IsBusy)
+                Buddy.Actuators.Speakers.Media.Play(SoundSample.BEEP_1);
+            else
+                Buddy.Actuators.Speakers.Media.Stop();
         }
 
         /// <summary>

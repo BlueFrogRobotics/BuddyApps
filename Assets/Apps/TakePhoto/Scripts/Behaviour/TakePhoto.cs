@@ -37,8 +37,11 @@ namespace BuddyApp.TakePhoto
         private const int MAXLISTENNINGITER = 3;
         private int mNumberListen;
 
+        private bool mStartTracking;
+
         public override void Start()
 		{
+            mStartTracking = false;
             mNumberListen = 0;
             mIsFrameCaptured = false;
 			mVideo = GetComponentInGameObject<RawImage>(0);
@@ -125,6 +128,11 @@ namespace BuddyApp.TakePhoto
                     if (mTimer > 0.5F)
                         if (mSpeechId < 3)
                         {
+                            if(!mStartTracking)
+                            {
+                                mStartTracking = true;
+                                Buddy.Navigation.Run<HumanTrackStrategy>().StaticTracking(tracking => true, null, BehaviourMovementPattern.EYES | BehaviourMovementPattern.HEAD);
+                            }
                             Buddy.Vocal.Say((3 - mSpeechId).ToString(), true);
                             if (mSpeechId == 2)
                                 Buddy.Vocal.SayKey("cheese", true);
@@ -136,8 +144,10 @@ namespace BuddyApp.TakePhoto
                         //Take the picture.
                         if (Buddy.Sensors.RGBCamera.Width > 0)
                         {
-                            mPictureSound.Play();
-                            Buddy.Sensors.RGBCamera.TakePhotograph(OnFinish, false, true);
+                                mStartTracking = false;
+                                Buddy.Navigation.Stop();
+                                //mPictureSound.Play();
+                                Buddy.Sensors.RGBCamera.TakePhotograph(OnFinish, true, true);
                             mPhotoTaken = true; 
                         }
                         else
@@ -163,6 +173,7 @@ namespace BuddyApp.TakePhoto
             //Add the overlay to the picture taken.
             if (TakePhotoData.Instance.Overlay)
             {
+                Debug.LogWarning("<color= red>+++++++++++++++++++OVERLAY+++++++++++++++</color>");
                 var cols1 = mOverlayTexture.GetPixels();
                 var cols2 = iMyPhoto.Image.texture.GetPixels();
                 // We scale the overlay and put it on top of the picture
@@ -186,6 +197,7 @@ namespace BuddyApp.TakePhoto
             }
             else
             {
+                Debug.LogWarning("<color= red>+++++++++++++++++++NO          OVERLAY+++++++++++++++</color>");
                 mPhotoSprite = iMyPhoto.Image; 
             }
             iMyPhoto.Save();

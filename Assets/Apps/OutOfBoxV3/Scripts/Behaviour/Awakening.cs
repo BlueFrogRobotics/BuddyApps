@@ -24,6 +24,7 @@ namespace BuddyApp.OutOfBoxV3
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            OutOfBoxUtilsVThree.DebugColor("FIRST ELEM : " + OutOfBoxV3Data.Instance.NameOfPhotoTaken[0], "green");
             mWokeUp = false;
             mNextStep = false;
             mTimer = 0F;
@@ -73,6 +74,12 @@ namespace BuddyApp.OutOfBoxV3
                 });
             });
             return false;
+        }
+
+        public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            Buddy.Behaviour.SetMood(Mood.NEUTRAL);
+            RemoveListener();
         }
 
 
@@ -170,7 +177,7 @@ namespace BuddyApp.OutOfBoxV3
 
         private void ResetMood()
         {
-            Buddy.Behaviour.SetMood(Mood.NEUTRAL); 
+            //Buddy.Behaviour.SetMood(Mood.NEUTRAL); 
             if(mNextStep)
                 mBehaviour.PhaseDropDown.value = 1;
         }
