@@ -145,7 +145,7 @@ namespace BuddyApp.TakePhoto
                         if (Buddy.Sensors.RGBCamera.Width > 0)
                         {
                                 mStartTracking = false;
-                                Buddy.Navigation.Stop();
+                                //Buddy.Navigation.Stop();
                                 //mPictureSound.Play();
                                 Buddy.Sensors.RGBCamera.TakePhotograph(OnFinish, true, true);
                             mPhotoTaken = true; 
@@ -166,9 +166,11 @@ namespace BuddyApp.TakePhoto
         private void OnFinish(Photograph iMyPhoto)
 		{
             Buddy.Sensors.RGBCamera.Close();
-
-			mVideo.gameObject.SetActive(false);
+            
+            mVideo.gameObject.SetActive(false);
 			mOverlay.gameObject.SetActive(false);
+
+            Buddy.Navigation.Stop();
 
             //Add the overlay to the picture taken.
             if (TakePhotoData.Instance.Overlay)
