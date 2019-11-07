@@ -26,11 +26,14 @@ namespace BuddyApp.Weather
             TOO_FAR
         }
 
-        internal enum WeatherCommand : int
+        public enum WeatherCommand : int
         {
             NONE = 0,
-            MIN = 1,
-            MAX = 2
+            WHEN = 1,
+            NOW = 2,
+            DAY = 3,
+            MIN = 4,
+            MAX = 5
         }
 
         internal enum WeatherMoment

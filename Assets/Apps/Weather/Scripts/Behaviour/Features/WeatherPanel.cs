@@ -13,13 +13,12 @@ namespace BuddyApp.Weather
 
     public sealed class WeatherPanel : MonoBehaviour
     {
-
-        private Image myImage;
-        internal Animator anim;
         [SerializeField]
-        internal GameObject gm;
+        internal GameObject PanelGO;
         [SerializeField]
-        internal Text text;
+        internal Text Temperature;
+        [SerializeField]
+        internal Text Wind;
         [SerializeField]
         internal Text Moment;
         [SerializeField]
@@ -64,10 +63,19 @@ namespace BuddyApp.Weather
         internal GameObject lmoon;
         [SerializeField]
         internal GameObject bmoon;
-        //Sprite[] allSprites;
+
+        public PanelInfo BottomInfo = null;
 
         [SerializeField]
         private Image image;
+
+        // Coeff to convert m/s to km/h
+        private const float SPEED_CONVERSION_COEFF = 3.6f;
+
+        void Awake()
+        {
+            PanelGO.GetComponent<Animator>().SetTrigger("open");
+        }
 
         public void SetSun()
         {
@@ -146,27 +154,41 @@ namespace BuddyApp.Weather
 
         public void SetText(string degree)
         {
-            text.text = degree;
+            Temperature.text = degree;
+        }
+
+        public void SetTime(int value)
+        {
+            if (BottomInfo)
+                BottomInfo.SetTime(value);
+        }
+
+        public void SetWind(float value)
+        {
+            float wind = value * SPEED_CONVERSION_COEFF;
+            Wind.text = Math.Round(wind).ToString() + " Km/h";
         }
 
         public void SetMoment(string moment)
         {
-            Moment.text = moment;
+            // Moment is not displayed to keep a lighter UI
+            if (Moment)
+                Moment.text = "";// moment;
         }
 
         public void ChangeTextColor(Color NewColor)
         {
-            text.color = NewColor;
+            Temperature.color = NewColor;
         }
 
         public void ChangeMomentColor(Color NewColor)
         {
-            Moment.color = NewColor;
+            //Moment.color = NewColor;
         }
 
         public void Open()
         {
-            gm.GetComponent<Animator>().SetTrigger("open");
+            PanelGO.GetComponent<Animator>().SetTrigger("open");
         }
 
         public void blackBG()
@@ -179,6 +201,15 @@ namespace BuddyApp.Weather
         public void Cancel()
         {
             Close();
+
+            Desactivate();
+
+            ChangeMomentColor(Color.black);
+            ChangeTextColor(Color.black);
+        }
+
+        public void Desactivate()
+        {
             cs.SetActive(false);
             css.SetActive(false);
             cm.SetActive(false);
@@ -200,20 +231,15 @@ namespace BuddyApp.Weather
             bmoon.SetActive(false);
             frost.SetActive(false);
             rain.SetActive(false);
-
-            ChangeMomentColor(Color.black);
-            ChangeTextColor(Color.black);
         }
 
         public void Close()
         {
-            gm.GetComponent<Animator>().SetTrigger("close");
+            PanelGO.GetComponent<Animator>().SetTrigger("close");
         }
 
         public void Morning()
         {
-            //A voir le fonctionnement par rapport a avant
-            //image.sprite = Buddy.Resources.Get<Sprite>("BG_Morning", "Atlas_Meteo");
             image.sprite = Buddy.Resources.Get<Sprite>("Weather_BG_Morning");
         }
 

@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections;
+using System.Globalization;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,11 +16,10 @@ namespace BuddyApp.Weather
     {
         private float mTimer;
 
-        private List<WeatherPanel> mTrip;
         private WeatherMan mMan;
 
         private const int NB_DATA_IN_DAY = 8;
-        private const int FIRST_HOUR = 6;
+        public const int FIRST_HOUR = 6;
 
         #region Unity Methods
 
@@ -40,7 +40,6 @@ namespace BuddyApp.Weather
         {
             mWeatherB.mIsOk = true;
 
-            mTrip = mMan.block;
             mTimer = 0F;
 
             if (!CheckDataForRequestedDate(mWeatherB.mWeatherInfos))
@@ -48,8 +47,10 @@ namespace BuddyApp.Weather
                 Buddy.Vocal.SayKey("unknowndate");
             }
             else
-            {
-                if (mWeatherB.mCommand == WeatherBehaviour.WeatherCommand.NONE)
+            {                
+                Debug.Log("mWeatherB.mCommand " + mWeatherB.mCommand);
+                if (mWeatherB.mCommand != WeatherBehaviour.WeatherCommand.MIN
+                    && mWeatherB.mCommand != WeatherBehaviour.WeatherCommand.MAX)
                     StartCoroutine(DisplayToaster(mWeatherB.mWeatherInfos));
                 else
                     ExecuteCommand(mWeatherB.mWeatherInfos);
@@ -232,6 +233,7 @@ namespace BuddyApp.Weather
                 lAnswer = lAnswer.Replace("[date]", iDayString + " " + Buddy.Resources.GetRandomString("inlocation") + " " + mWeatherB.mName);
                 lAnswer = lAnswer.Replace("[time]", Buddy.Resources.GetRandomString(mWeatherB.mWeatherTime.ToString().ToLower()));
                 lAnswer = lAnswer.Replace("[degree]", iWeatherInfo.MinTemperature.ToString());
+                lAnswer = lAnswer.Replace("[forecast]", Buddy.Resources.GetRandomString((iWeatherInfo.Type.ToString().ToLower()).Replace("_", "")));
             }            
             return (lAnswer);
         }
@@ -242,9 +244,6 @@ namespace BuddyApp.Weather
             if (mWeatherB.mDate > 0)
                 lTime = lTime.AddDays(mWeatherB.mDate);
 
-            if (iWeatherInfo.Length == 0)
-                return false;
-
             for (int i = 0; i < iWeatherInfo.Length; i++)
             {
                 if (iWeatherInfo[i].Day == lTime.Day && iWeatherInfo[i].Hour > FIRST_HOUR)
@@ -253,6 +252,12 @@ namespace BuddyApp.Weather
                     return true;
                 }
             }
+
+            // Ok if weather info is available later than the requested day
+            if (iWeatherInfo.Length > 0
+                && iWeatherInfo[0].Day >= lTime.Day)
+                return true;
+
             return false;
         }
 
@@ -512,79 +517,37 @@ namespace BuddyApp.Weather
             for (int d = 0; d <= lNbDays; d++)
             {
                 int indice = mWeatherB.mIndice + NB_DATA_IN_DAY * d;
+                // If no specific time returns first weather info
+                if (indice < 0) indice = 0;
+
+                if (mWeatherB.mCommand == WeatherBehaviour.WeatherCommand.DAY)
+                {
+                    // Gives weather for a day starting in the morning
+                    while (indice < mWeatherB.mWeatherInfos.Length && mWeatherB.mWeatherInfos[indice].Hour < 8)
+                        indice++;
+                }
 
                 if (indice >= 0 && indice < mWeatherB.mWeatherInfos.Length)
+                {
                     SayWeather(mWeatherB.mWeatherInfos[indice], mWeatherB.mWeekend);
-                else if (d==0 && mWeatherB.mWeatherInfos.Length > 0)
-                    SayWeather(mWeatherB.mWeatherInfos[0]);
+                    WeatherBehaviour.WeatherCommand cmdType = mWeatherB.mCommand;
+                    if ((indice + mMan.GetNbPanels(mWeatherB.mCommand)) > mWeatherB.mWeatherInfos.Length)
+                    {
+                        // If there is not enough data to show all the needed panels, show only one
+                        cmdType = WeatherBehaviour.WeatherCommand.WHEN;
+                    }
+                    mMan.DisplayPanels(cmdType);
 
-                yield return new WaitForSeconds(3f);
+                    for (int i = 0; i < mMan.PanelsList.Count; i++)
+                    {
+                        SetPanel(mMan.PanelsList[i], iWeatherInfo[indice + i], true);
+                    }
+                }                
+
+                yield return new WaitForSeconds(4f);
 
                 while (Buddy.Vocal.IsSpeaking)
                     yield return null;
-
-                //if (mWeatherB.mWeekend)
-                //{
-                //    SayWeather(mWeatherB.mWeatherInfos[mWeatherB.mIndice + 4 * d], true);
-                //}
-                //else
-                //{
-                //    if ((mWeatherB.mIndice + 4 * d) == -1)
-                //        SayWeather(mWeatherB.mWeatherInfos[0]);
-                //    else
-                //        SayWeather(mWeatherB.mWeatherInfos[mWeatherB.mIndice + 4 * d]);
-                //}
-
-                //float num = 0.1f;
-                //int j = 0;
-
-                ////Toaster.Display<BackgroundToast>().With();
-                ////Buddy.GUI.Toaster.Display<CustomToast>();
-
-                //mWeatherB.mIsOk = false;
-                //if (mWeatherB.mDate >= 1)
-                //{
-                //    for (int k = 0; k < mWeatherB.mDate + d; k++)
-                //    {
-                //        j++;
-                //        while (iWeatherInfo[j].Hour != 9)
-                //            j++;
-                //    }
-                //}
-
-                //for (int i = 0; i < 8; i++)
-                //{
-                //    //if (i >= 4)
-                //    //{
-                //    //    j++;
-                //    //    while (iWeatherInfo[j].Hour != 12)
-                //    //        j++;
-                //    //    SetPanel(mTrip[i], iWeatherInfo[j], true);
-
-                //    //}
-
-                //    if (i < 4)
-                //    {
-                //        SetPanel(mTrip[i], iWeatherInfo[j], false);
-                //        j++;
-                //    }
-                //    yield return new WaitForSeconds(num);
-                //}
-
-                //if (lNbDays == 0)
-                //    yield return new WaitForSeconds(6f);
-                //else
-                //    yield return new WaitForSeconds(3f);
-
-                //while (Buddy.Vocal.IsSpeaking)
-                //    yield return null;
-
-                //for (int i = 3; i >= 0; i--)
-                //{
-                //    mTrip[i].Cancel();
-                //    yield return new WaitForSeconds(num);
-                //}
-                //Buddy.GUI.Toaster.Hide();
             }
             mWeatherB.mIsOk = true;
         }
@@ -601,41 +564,47 @@ namespace BuddyApp.Weather
         /// <param name="iDisplayDayOfWeek">if true, display days; if false, opposite</param>
         public void SetPanel(WeatherPanel iTrip, WeatherInfo iWeatherInfo, bool iDisplayDayOfWeek)
         {
-            Debug.Log("SETPANEL 1");
+            //Debug.Log("SETPANEL 1 " + iWeatherInfo.Hour);
             string[] date = iWeatherInfo.Date.Split('-');
             DateTime dt = new DateTime(Int32.Parse(date[0]), Int32.Parse(date[1]), Int32.Parse(date[2]));
-            Debug.Log("SETPANEL 2");
+            mMan.SetDate(dt.ToString("dd/MM/yy"));
+            mMan.SetLocation(iWeatherInfo.Location.City, iWeatherInfo.Location.Country);
+            mMan.SetTime(iWeatherInfo.Hour.ToString("00"));
+            iTrip.Desactivate();
+            //Debug.Log("SETPANEL 2");
             if (iWeatherInfo.MinTemperature <= 0)
                 iTrip.SetFrost();
-            Debug.Log("SETPANEL 3");
+            //Debug.Log("SETPANEL 3");
+            iTrip.SetTime(iWeatherInfo.Hour);
             iTrip.SetText(iWeatherInfo.MinTemperature.ToString() + "°C");
-            Debug.Log("SETPANEL 3.1");
+            iTrip.SetWind(iWeatherInfo.AverageWindSpeed);
+            //Debug.Log("SETPANEL 3.1");
             if (iWeatherInfo.Hour >= 8 && iWeatherInfo.Hour < 12)
             {
-                Debug.Log("SETPANEL 4");
+                //Debug.Log("SETPANEL 4");
                 iTrip.Morning();
-                Debug.Log("SETPANEL 4.1");
+                //Debug.Log("SETPANEL 4.1");
                 iTrip.SetMoment(Buddy.Resources.GetRandomString("morning").ToUpper());
-                Debug.Log("SETPANEL 4.2");
+                //Debug.Log("SETPANEL 4.2");
             }
             else if (iWeatherInfo.Hour >= 12 && iWeatherInfo.Hour < 16)
             {
-                Debug.Log("SETPANEL 5");
+                //Debug.Log("SETPANEL 5");
                 iTrip.Noon();
-                if (iDisplayDayOfWeek)
-                    iTrip.SetMoment(Buddy.Resources.GetRandomString(dt.DayOfWeek.ToString().ToLower()).ToUpper());
-                else
+                //if (iDisplayDayOfWeek)
+                //    iTrip.SetMoment(Buddy.Resources.GetRandomString(dt.DayOfWeek.ToString().ToLower()).ToUpper());
+                //else
                     iTrip.SetMoment(Buddy.Resources.GetRandomString("noon").ToUpper());
             }
-            else if (iWeatherInfo.Hour >= 16 && iWeatherInfo.Hour < 20)
+            else if (iWeatherInfo.Hour >= 16 && iWeatherInfo.Hour < 19)
             {
-                Debug.Log("SETPANEL 6");
+                //Debug.Log("SETPANEL 6");
                 iTrip.After_Noon();
                 iTrip.SetMoment(Buddy.Resources.GetRandomString("afternoon").ToUpper());
             }
             else
             {
-                Debug.Log("SETPANEL 7");
+                //Debug.Log("SETPANEL 7");
                 iTrip.Evening();
                 iTrip.ChangeMomentColor(Color.white);
                 iTrip.ChangeTextColor(Color.white);
@@ -646,7 +615,7 @@ namespace BuddyApp.Weather
             else
                 iTrip.SetMoon();
 
-            Debug.Log("SETPANEL 8");
+            //Debug.Log("SETPANEL 8");
             switch (iWeatherInfo.Type)
             {
                 case WeatherType.CHANCE_FLURRIES:
@@ -723,7 +692,7 @@ namespace BuddyApp.Weather
                 default:
                     break;
             }
-            Debug.Log("SETPANEL 9");
+            //Debug.Log("SETPANEL 9");
             iTrip.Open();
         }
 
