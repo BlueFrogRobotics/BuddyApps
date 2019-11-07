@@ -22,6 +22,10 @@ namespace BuddyApp.Weather
 
         private bool mProcessing;
 
+        private CitiesCoordManager mCitiesCoordManager;
+
+        public const int DELTA_HOUR = 3;
+
         // Use this for initialization
         void Awake()
         {
@@ -69,6 +73,8 @@ namespace BuddyApp.Weather
                 }
             }
             Debug.Log("Number registered Weather types :" + mOWWeatherTypes.Count);
+
+            mCitiesCoordManager = GetComponent<CitiesCoordManager>();
         }
 
 
@@ -99,8 +105,14 @@ namespace BuddyApp.Weather
 
         private IEnumerator RequestWeatherAsync(string location, Action<WeatherInfo[], WeatherError> iCallback)
         {
-            string url_weather_localisation = URL_WEATHER_OPENWEATHER + "&q=" + location;
-            Console.WriteLine(url_weather_localisation);
+            string url_weather_localisation = URL_WEATHER_OPENWEATHER;
+            double latitude = 0.0f;
+            double longitude = 0.0F;
+            if (mCitiesCoordManager.GetCoordinates(location.Trim(), out latitude, out longitude))
+                url_weather_localisation += "&lat=" + latitude.ToString() + "&lon=" + longitude.ToString();
+            else
+                url_weather_localisation += "&q=" + location;
+            Debug.Log(url_weather_localisation);
 
             string lXMLData = string.Empty;
             yield return StartCoroutine(RequestAsync(url_weather_localisation, value => lXMLData = value));
@@ -117,6 +129,7 @@ namespace BuddyApp.Weather
 
             // Get shift from UTC
             int secondsFromUTC = 0; // shift in seconds from UTC 
+            string country = "";
             XmlNodeList locationNodes = doc.DocumentElement.GetElementsByTagName("location");
             if (locationNodes.Count != 0)
             {
@@ -126,6 +139,15 @@ namespace BuddyApp.Weather
                     {
                         int.TryParse(node.InnerText, out secondsFromUTC);
                         Debug.Log("Shift in seconds from UTC time :" + secondsFromUTC);
+                    }
+                    if (node.Name == "country")
+                    {
+                        string countryCode = node.InnerText;
+                        if (!string.IsNullOrEmpty(countryCode))
+                        {
+                            RegionInfo cultureInfo = new RegionInfo(countryCode);
+                            country = cultureInfo.EnglishName;
+                        }
                     }
                 }
             }
@@ -207,11 +229,12 @@ namespace BuddyApp.Weather
                                 }
                             }
                         }
-                    }
+                    }                    
 
                     WeatherLoc lLocation = new WeatherLoc()
                     {
-                        City = location
+                        City = location,
+                        Country = country
                     };
 
                     lInfos.Add(new WeatherInfo
