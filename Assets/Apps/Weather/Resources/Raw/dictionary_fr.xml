@@ -319,7 +319,6 @@
             <BaseValue>heure</BaseValue>
             <ClosePhoneticValues>
                 <string>heure</string>
-                <string>h</string>
                 <string>heures</string>
             </ClosePhoneticValues>
             <RandomValues>
@@ -722,12 +721,12 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>restraintrestitution</Key>
-            <BaseValue>[date] la température sera de [degree] degrés le [time]</BaseValue>
+            <BaseValue>[date] la température sera de [degree] degrés le [time] et [forecast]</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>[date] la température sera de [degree] degrés le [time]</string>
+                <string>[date] la température sera de [degree] degrés le [time] et [forecast]</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>

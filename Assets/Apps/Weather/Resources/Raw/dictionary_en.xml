@@ -302,7 +302,6 @@
             <ClosePhoneticValues>
                 <string>hour</string>
                 <string>hours</string>
-                <string>h</string>
             </ClosePhoneticValues>
             <RandomValues>
                 <string>hour</string>
@@ -419,7 +418,7 @@
                 <string>perhaps rainy</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string>there will be perhaps rainy</string>
+                <string>it may be raining</string>
                 <string>there will be possibility of rain</string>
             </RandomValues>
         </DictionaryEntry>
@@ -699,12 +698,12 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>restraintrestitution</Key>
-            <BaseValue>[date] in the [time] [300] the temperature will be [degree] degree</BaseValue>
+            <BaseValue>[date] in the [time] [300] the temperature will be [degree] degree and [forecast]</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
             <RandomValues>
-                <string>[date] in the [time] [300] the temperature will be [degree] degree</string>
+                <string>[date] in the [time] [300] the temperature will be [degree] degree and [forecast]</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>

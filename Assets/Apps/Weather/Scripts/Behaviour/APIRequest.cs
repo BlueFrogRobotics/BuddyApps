@@ -19,6 +19,8 @@ namespace BuddyApp.Weather
         private bool mQuit;
         private int mTimeout;
         private OpenWeather mOpenWeather;
+        private const int MID_DAY = 12;
+        private const int LAST_HOUR = 24;
 
         public override void Start()
         {
@@ -157,26 +159,33 @@ namespace BuddyApp.Weather
                 }
                 else
                 {
-
-                    int lHour = 0;
+                    int lFirstHour = 0;
+                    int lLasttHour = 0;
                     int lDay = 0;
 
                     // Set the date
-                    if (mWeatherB.mDate < 0)
-                        lDay = DateTime.Now.Day;
-                    else
-                        lDay = mWeatherB.mDate;
+                    lDay = DateTime.Now.Day;
+                    if (mWeatherB.mDate > 0)
+                        lDay = DateTime.Now.AddDays(mWeatherB.mDate).Day;
 
                     // Set the hour
                     if (mWeatherB.mHour == -1)
-                        lHour = DateTime.Now.Hour;
+                    {
+                        lFirstHour = Restitution.FIRST_HOUR;
+                        lLasttHour = LAST_HOUR;
+                    }
                     else
-                        lHour = mWeatherB.mHour;
+                    {
+                        lFirstHour = mWeatherB.mHour - OpenWeather.DELTA_HOUR;
+                        lLasttHour = mWeatherB.mHour + OpenWeather.DELTA_HOUR;
+                    }
 
                     for (int i = 0; i < iWeather.Length; ++i)
                     {
                         if (iWeather[i].Day == lDay && ((iWeather[i].Type == WeatherType.CHANCE_OF_RAIN && iWeatherType == WeatherType.RAIN) || (iWeather[i].Type == WeatherType.RAIN && iWeatherType == WeatherType.CHANCE_OF_RAIN)
-                            || iWeather[i].Type == iWeatherType))
+                            || iWeather[i].Type == iWeatherType)
+                            && iWeather[i].Hour > lFirstHour
+                            && iWeather[i].Hour <= lLasttHour)
                         {
                             mWeatherB.mIndice = i;
                             lFound = true;
@@ -185,9 +194,11 @@ namespace BuddyApp.Weather
                     }
                     if (!lFound)
                     {
+                        int resultHour = mWeatherB.mHour == -1 ? MID_DAY : mWeatherB.mHour;
                         for (int i = 0; i < iWeather.Length; ++i)
                         {
-                            if (iWeather[i].Hour > lHour)
+                            if (iWeather[i].Day == lDay 
+                                && iWeather[i].Hour >=  resultHour)
                             {
                                 mWeatherB.mIndice = i;
                                 mWeatherB.mRequestError = WeatherBehaviour.WeatherRequestError.NONE;
@@ -214,7 +225,8 @@ namespace BuddyApp.Weather
 
                         for (int i = 0; i < iWeather.Length; ++i)
                         {
-                            if (mWeatherB.mHour == iWeather[i].Hour)
+                            if (mWeatherB.mHour <= iWeather[i].Hour
+                                && mWeatherB.mHour > (iWeather[i].Hour - OpenWeather.DELTA_HOUR))
                             {
                                 mWeatherB.mIndice = i;
                                 lFound = true;
@@ -253,7 +265,8 @@ namespace BuddyApp.Weather
                     {
                         for (int i = 0; i < iWeather.Length; ++i)
                         {
-                            if ((mWeatherB.mHour == iWeather[i].Hour &&
+                            if (((mWeatherB.mHour <= iWeather[i].Hour
+                                && mWeatherB.mHour > (iWeather[i].Hour - OpenWeather.DELTA_HOUR)) &&
                                 iWeather[i].Day - lDay == mWeatherB.mDate) || ((iWeather[i].Day - lDay) - mWeatherB.mDate > 0))
                             {
                                 mWeatherB.mIndice = i;
