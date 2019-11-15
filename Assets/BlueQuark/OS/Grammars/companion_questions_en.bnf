@@ -50,6 +50,9 @@
 !start <qwtcanyoudoelderly>;
 !start <qwtcanyoudochildren>;
 !start <qwhyinvest>;
+!start <qokaybuddy>;
+!start <qokaygoogle>;
+!start <qheyalexa>;
 
 <qhello> : (hello | hi | hey) [buddy];
 <qhappy> : are you happy [to be (here | with us)];
@@ -101,3 +104,6 @@
 <qwtcanyoudoelderly> : what can you do for elder care | could you help senior | are you a good companion for (elders | elderly);
 <qwtcanyoudochildren> : (what can you do for | could you help | are you a good companion for) (children | kids);
 <qwhyinvest> : why invest in (Buddy | Blue Frog Robotics);
+<qokaybuddy>:okay buddy;
+<qokaygoogle>:okay google;
+<qheyalexa>:hey alexa;

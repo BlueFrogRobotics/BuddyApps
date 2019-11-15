@@ -117,8 +117,7 @@ namespace BuddyApp.Diagnostic
             mTimer += Time.deltaTime;
             if (mTimer > DiagnosticBehaviour.REFRESH_TIMER) {
                 mTimer = 0F;
-                TextVoltage.text = Buddy.Sensors.Battery.AverageLevel.ToString("D") + "mV";
-
+                TextVoltage.text = Buddy.Sensors.Battery.AverageValue.ToString("D") + "mV";
             }
 
             mBatteryLevel = SystemInfo.batteryLevel * 100F;
@@ -137,8 +136,6 @@ namespace BuddyApp.Diagnostic
                 BatteryStatus.text = "Charge in progress";
             else if (Buddy.Sensors.Battery.ChargingStatus == BatteryChargingStatus.NOT_CHARGING)
                 BatteryStatus.text = "Not charging";
-            else if (Buddy.Sensors.Battery.ChargingStatus == BatteryChargingStatus.FULLY_CHARGED)
-                BatteryStatus.text = "Fully charged";
 
             if (Buddy.Sensors.Battery.IsJackPlugged)
                 StatusBatteryTop.text = "JACK PLUGGED";

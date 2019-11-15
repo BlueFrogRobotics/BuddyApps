@@ -6,7 +6,7 @@
 //!start <calculationgame>;
 !start <calendar>;
 !start <canmove>;
-//!start <colourseen>;
+!start <colourseen>;
 //!start <copy>;
 !start <dance>;
 !start <date>;
@@ -32,11 +32,12 @@
 //!start <installallapp>;
 !start <iot>;
 !start <joke>;
+!start <listenjoke>;
 //!start <jukebox>;
 !start <kissme>;
 //!start <lookatme>;
 //!start <memorygame>;
-//!start <mirror>;
+!start <mirror>;
 !start <mood>;
 !start <movebackward>;
 !start <moveforward>;
@@ -75,7 +76,7 @@
 !start <angry>;
 !start <grumpy>;
 !start <scared>;
-//!start <knockknock>;
+!start <knockknock>;
 !start <operation>;
 //!start <radio>;
 !start <operationagain>;
@@ -101,7 +102,7 @@
 <calendar> : ( [ <asklaunch> | (show | display | print) [my | the] ] (calendar | agenda | schedule) ) | ( (show | display | print) [my | the] reminders);
 <canmove> : you can move;
 //<colour> : blue | white | red | green | yellow | black | brown | orange | purple | grey | pink | cyan | magenta;
-//<colourseen> : what is the (color | colour) of this object;
+<colourseen> : what is the (color | colour) of this object;
 //<copy> : copy (my moves | my movements | my move | my movement);
 <dance> : [can you | I want you to | let's] dance;
 <date> : what (day | date) are we | [what is | give me] the date;
@@ -132,11 +133,12 @@
 <iot_music> : (play | stop | (turn (on | off))) ([my | the | some] music (on sonos [speaker] | in the living room) | the speaker (of | in) the living room) | [put | set] [the] (next | previous) song [in the living room];
 <iot_music_volume> : (set the music volume to <numbers#nb> | turn up the music (volume | sound) | turn the music (volume | sound) up) [in the living room];
 <joke> : [<asktell>] ( (a | an other) joke | (a | an other) funny story | something funny);
+<listenjoke> : (I want | I would like) to tell [you] ( (a | an other) joke | (a | an other) funny story | something funny);
 //<jukebox> : jukebox | music application | play music; 
 <kissme> : kiss me |  I want a kiss | give me a kiss;
 //<lookatme> : look (at me | over there);
 //<memorygame> : [<asklaunch>] memory (game | application);
-//<mirror> : show me what you see | mirror;
+<mirror> : show me what you see | mirror;
 <mood> : [what is | what's] [your] mood;
 <movebackward> : ((go | move) [<numbers#nb> meters] backward | step back);
 <moveforward> : ((go | move) [<numbers#nb> meters] forward | go straight);
@@ -159,7 +161,7 @@
 //<rlgl> : [<asklaunch>] (red light green light);
 //<sport> : (basket | basetball) | (foot | football) | handball | rugby | tennis | ping pong | table tennis | cricket | swimming | running | archery | fencing | curling | climbing;
 //<story> : [<asktell>] a story;
-<tellsomething> : tell me something | [tell me a] fun fact;
+<tellsomething> : tell (me | us) something | [tell (me | us) a] fun fact;
 //<timer> : set a (timer | countdown) [of <delai>];
 <volume> : (what is | what's | give [me | us]) the volume [level];
 <volumeset> : (put | set) the (volume | sound) to <numbers#nb>;
@@ -177,7 +179,7 @@
 <angry> : <show> excited;
 <grumpy> : <show> grumpy;
 <scared> : <show> scared;
-//<knockknock> : knock knock;
+<knockknock> : knock knock;
 <delai> : <numbers#nb> (seconds | minutes | hours);
 <rotationangle> : <numbers#nb> degrees;
 //<radioname> : RTL2 | France Maghreb 2 | Virgin Radio | RMC | Radio Nova | Radio Meuh | Fun Radio | Tropiques FM | FIP | Jazz Radio | Europe 1 | Djam Radio | Chérie | Hotmixradio 80 | RTL | Rire et Chansons | Latina | Radio Public Santé | franceinfo | Chante France | Skyrock | La Grosse Radio | Beur FM | RFM | NRJ | Africa numéro 1 | Alouette | Sud Radio | OUI FM | M Radio | Radio Orient | Nostalgie | RADIO FG | BFM Business | France Culture | Voltage | France Bleu Paris | France Inter | Radio Classique | France Musique;

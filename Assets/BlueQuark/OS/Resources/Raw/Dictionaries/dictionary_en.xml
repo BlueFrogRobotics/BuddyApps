@@ -319,6 +319,24 @@
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
+			<Key>spell</Key>
+			<BaseValue>Can you spell</BaseValue>
+			<ClosePhoneticValues>
+				<string>you spell</string>
+				<string>please spell</string>
+				<string>the spelling</string>
+				<string>how do you spell</string>
+				<string>how do you write</string>
+				<string>spelling for</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>[word] is spelled [answer]</string>
+				<string>the spelling of [word] is [answer]</string>
+				<string>[word] is spelled as [answer]</string>
+				<string>[answer]</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
 			<Key>letsgo</Key>
 			<BaseValue>let's go</BaseValue>
 			<ClosePhoneticValues>
@@ -598,6 +616,51 @@
 				<string>Just for you, I would follow blindly</string>
 				<string>Be careful, I'll stick to your shoes!</string>
 				<string>Okay, I'll try to follow you without losing myself</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>qokaybuddy</Key>
+			<BaseValue>Okay Buddy</BaseValue>
+			<ClosePhoneticValues>
+				<string>okay buddy</string>
+				<string>ok buddy</string>
+				<string>buddy</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Okay human!</string>
+				<string>I was already listening, [200] when my heart is green, I listen to you!</string>
+				<string>You don't need to call me, [100] when my heart is green, I'm listening!</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>qokaygoogle</Key>
+			<BaseValue>Okay Google</BaseValue>
+			<ClosePhoneticValues>
+				<string>okay google</string>
+				<string>ok google</string>
+				<string>google</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Okay human!</string>
+				<string>I am not google! My name is buddy!</string>
+				<string>Are you talking to another speech device? [200] Am I not enough for you?</string>
+				<string>Okay Google? [200] Am I a joke for you?</string>
+				<string>okay google, [150] sing me a song</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>qheyalexa</Key>
+			<BaseValue>hey Alexa</BaseValue>
+			<ClosePhoneticValues>
+				<string>hey Alexa</string>
+				<string>Alexa</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Hey human!</string>
+				<string>I am not Alexa! My name is buddy!</string>
+				<string>Are you talking to another speech device? [200] Am I not enough for you?</string>
+				<string>Alexa? [200] Am I a joke for you?</string>
+				<string>hey Alexa, [150] sing me a song</string>
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
@@ -1149,6 +1212,9 @@
 			<BaseValue>IOT</BaseValue>
 			<ClosePhoneticValues>
 				<string>IOT</string>
+				<string>play the scenario</string>
+				<string>launch the scenario</string>
+				<string>trigger the scenario</string>
 				<string>connected objects</string>
 				<string>connected object</string>
 				<string>smart house</string>
@@ -1855,6 +1921,21 @@
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
+			<Key>listenjoke</Key>
+			<BaseValue>Tell me a joke</BaseValue>
+			<ClosePhoneticValues>
+				<string>tell you a joke</string>
+				<string>I want to tell a joke</string>
+				<string>tell a funny story</string>
+				<string>I want to crack a joke</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Tell me the joke</string>
+				<string>I'm listenning</string>
+				<string>Go ahead, Crack your joke!</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
 			<Key>whoisthere</Key>
 			<BaseValue>who is there?</BaseValue>
 			<ClosePhoneticValues>
@@ -2212,6 +2293,8 @@
 			<ClosePhoneticValues>
 				<string>tell me something</string>
 				<string>tell me a fun fact</string>
+				<string>tell us something</string>
+				<string>tell us a fun fact</string>
 				<string>fun fact</string>
 			</ClosePhoneticValues>
 			<RandomValues>
@@ -2385,6 +2468,20 @@
 			<RandomValues>
 				<string>Here is the French for [request] : </string>
 				<string>[request] in French is</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>translateenglish</Key>
+			<BaseValue>translate in English</BaseValue>
+			<ClosePhoneticValues>
+				<string>translate in English</string>
+				<string>translate into English</string>
+				<string>What's the English for</string>
+				<string>What is the English for</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Here is the English for [request] : </string>
+				<string>[request] in English is</string>
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
@@ -3281,7 +3378,8 @@
 			<Key>qwtcanyoudo</Key>
 			<BaseValue>I can take care of you, I can improve connecting you with your relatives. [333] I am unable to cook, but I can help you follow a recipe, [333] I will do everything it takes to make you feel good and help you.</BaseValue>
 			<ClosePhoneticValues>
-				<string />
+				<string>what can you do</string>
+				<string>what you can do</string>
 			</ClosePhoneticValues>
 			<RandomValues>
 				<string>I can take care of you, I can improve connecting you with your relatives. [333] I am unable to cook, but I can help you follow a recipe, [333] I will do everything it takes to make you feel good and help you.</string>
@@ -3327,7 +3425,9 @@
 			<Key>qhowareyou</Key>
 			<BaseValue>I am fine thank you. I hope that you are having a lovely day! [500] but you how are you</BaseValue>
 			<ClosePhoneticValues>
-				<string />
+				<string>how are you</string>
+				<string>how do you do</string>
+				<string>what's up</string>
 			</ClosePhoneticValues>
 			<RandomValues>
 				<string>I am fine thank you. I hope that you are having a lovely day! [500] but you how are you</string>

@@ -205,6 +205,13 @@
             A metric test suite class is used by each ABasePresenter class to test itself.
             </summary>
         </member>
+        <member name="M:BlueQuark.Internal.AMetricSuite.DisplayTexture(BlueQuark.Internal.ICamera)">
+            <summary>
+            Display a stream texture on the lateral right side. Stay until test is validate.
+            </summary>
+            <param name="iCamera">Camera to display.</param>
+            <returns>True if everything was right. False otherwise.</returns>
+        </member>
         <member name="M:BlueQuark.Internal.AMetricSuite.DisplayTexture(UnityEngine.Texture)">
             <summary>
             Display a texture on the lateral right side. Stay until test is validate.
@@ -622,9 +629,14 @@
             </summary>
             <param name="iOnSet">Callback called when the set is done.</param>
         </member>
+        <member name="P:BlueQuark.Internal.AHeadHinge`2.LockedByVocal">
+            <summary>
+            Is the robot currently locked because it is listening ?
+            </summary>
+        </member>
         <member name="P:BlueQuark.Internal.AHeadHinge`2.LockedByGUI">
             <summary>
-            Currently locked because important GUI elements are displayed.
+            Is the robot currently locked because important GUI elements are displayed ?
             </summary>
         </member>
         <member name="P:BlueQuark.Internal.AHeadHinge`2.LockedByUser">
@@ -893,6 +905,26 @@
             This state is used when Buddy detects a cliff
             </summary>
         </member>
+        <member name="T:BlueQuark.Internal.Unlocker">
+            <summary>
+            Manages the front locking windows when lock by screen.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.Unlocker.IsBusy">
+            <summary>
+            Returns true if the Dialoger is currently displaying something.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.Unlocker.Display(System.Action,System.Action,System.Action)">
+            <summary>
+            Display the unlock numeric pad.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.Unlocker.Hide">
+            <summary>
+            Hide the displayed dialog.
+            </summary>
+        </member>
         <member name="T:BlueQuark.Internal.Blurer">
             <summary>
             GUI component handling the background blur.
@@ -914,6 +946,21 @@
         <member name="M:BlueQuark.Internal.Blurer.Hide(System.Int32)">
             <summary>
             Hide the blurred background.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.BRECom">
+            <summary>
+            Communication component between the Core application and the BYFW (BYFW side).
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.CSOACom">
+            <summary>
+            Communication component for the Rana board (Compute-Service-Oriented Architecture Communication).
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.CameraStreamCom">
+            <summary>
+            Camera stream communication from Compute board.
             </summary>
         </member>
         <member name="T:BlueQuark.Internal.DictionaryEntry">
@@ -1255,6 +1302,12 @@
             </summary>
             <param name="iTexture">The sprite to display. Cannot be null.</param>
         </member>
+        <member name="M:BlueQuark.Internal.MVideoStream.SetCameraStream(BlueQuark.Internal.ICamera)">
+            <summary>
+            Set the main image stream from camera.
+            </summary>
+            <param name="iCamera">The camera device to display. Cannot be null.</param>
+        </member>
         <member name="T:BlueQuark.Internal.MText">
             <summary>
             Represents a simple text to display inside for test suite.
@@ -1334,7 +1387,7 @@
         </member>
         <member name="F:BlueQuark.Internal.HardwareCommandStatus.BAD_ACKNOWLEDGE">
             <summary>
-            The command was sent but the acknowledment is bad.
+            The command was sent but the acknowledgment is bad.
             </summary>
         </member>
         <member name="F:BlueQuark.Internal.HardwareCommandStatus.SUCCESS">
@@ -1775,11 +1828,6 @@
             Continue the strategy.
             </summary>
         </member>
-        <member name="F:BlueQuark.Internal.HumanTrackSubStrategy.OBSTACLE_MEASURE_NUMBER">
-            <summary>
-            Define the number of frame to use, to detect an obstacle.
-            </summary>
-        </member>
         <member name="F:BlueQuark.Internal.HumanTrackSubStrategy.ANGULAR_SPEED">
             <summary>
             Angular speed seems too high when it's using in the search movement.
@@ -1832,7 +1880,7 @@
             <param name="iPoint">Represent the position of the human.</param>
             <returns>On success return true, false otherwise.</returns>
         </member>
-        <member name="M:BlueQuark.Internal.HumanTrackSubStrategy.CheckObstaclePresence">
+        <member name="M:BlueQuark.Internal.HumanTrackSubStrategy.ObstacleDetected">
             <summary>
             Measure distance with sensors, and compute a score according to values.
             All value has been found empirically, to have stop distance of 0.5 meter to the target.
@@ -2313,7 +2361,7 @@
             Unique API key for geolocalization from IP adress. More info at https://ipdata.co/index.html.
             </summary>
         </member>
-        <member name="F:BlueQuark.Internal.Licenses.ID3_CLOUD_KEY">
+        <member name="F:BlueQuark.Internal.Licenses.ID3_FACE_REC_API_KEY">
             <summary>
             Api key for the dedicated id3 demo cloud api.
             </summary>
@@ -2964,6 +3012,12 @@
             Set the main image.
             </summary>
             <param name="iTexture">The sprite to display. Cannot be null.</param>
+        </member>
+        <member name="M:BlueQuark.Internal.TVideoStream.SetCameraStream(BlueQuark.Internal.ICamera)">
+            <summary>
+            Set the main image stream from camera.
+            </summary>
+            <param name="iCamera">The camera device to display. Cannot be null.</param>
         </member>
         <member name="T:BlueQuark.Internal.AUIFactory`2">
             <summary>
@@ -4054,9 +4108,30 @@
             Represents a timestamp data
             </summary>
         </member>
+        <member name="M:BlueQuark.Internal.APlatformULink.WaitForPendingComponentsAsync">
+            <summary>
+            Coroutine that will wait until all IsSomethingPending of IQueueSystem OS components return false.
+            </summary>
+            <seealso cref="T:BlueQuark.Internal.IQueueSystem"/>>
+        </member>
         <member name="T:BlueQuark.Internal.HardwareCom">
             <summary>
             Hardware communication with the Hemise board.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.HardwareCom.IsBusy">
+            <summary>
+            Is a command is currently processing ?
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.HardwareCom.PendingCount">
+            <summary>
+            Size of the inner queue.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.HardwareCom.IsSomethingPending">
+            <summary>
+            True if there is at least one query in the inner queue.
             </summary>
         </member>
         <member name="P:BlueQuark.Internal.HardwareCom.EnableDebugMode">
@@ -4124,7 +4199,17 @@
             Send the specified full payload (with command code) to the Hemise board. Commands are queued and proceed one by one. 
             If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
             </summary>
-            <param name="iPayload">The payload to send</param>
+            <param name="iPayload">The payload to send.</param>
+            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
+            <returns>The error code. 0 if no error.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.SendCommand(System.Byte[],System.Int32,System.Action{BlueQuark.Internal.HardwareCommandProgress})">
+            <summary>
+            Send the specified full payload (with command code) to the Hemise board. Commands are queued and proceed one by one. 
+            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
+            </summary>
+            <param name="iPayload">The payload to send.</param>
+            <param name="iPriority">Priority of the command.</param>
             <param name="iOnProgress">Optional callback called when the status command is changed.</param>
             <returns>The error code. 0 if no error.</returns>
         </member>
@@ -4133,8 +4218,19 @@
             Send the specified full payload (with command code) to the Hemise board. Commands are queued and proceed one by one. 
             If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
             </summary>
-            <param name="iPayload">The payload to send</param>
+            <param name="iPayload">The payload to send.</param>
             <param name="iForceEnqueue">If true, the command will be added as it. If false, any same command will be replaced by new provided parameters.</param>
+            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
+            <returns>The error code. 0 if no error.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.SendCommand(System.Byte[],System.Boolean,System.Int32,System.Action{BlueQuark.Internal.HardwareCommandProgress})">
+            <summary>
+            Send the specified full payload (with command code) to the Hemise board. Commands are queued and proceed one by one. 
+            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
+            </summary>
+            <param name="iPayload">The payload to send.</param>
+            <param name="iForceEnqueue">If true, the command will be added as it. If false, any same command will be replaced by new provided parameters.</param>
+            <param name="iPriority">Priority of the command.</param>
             <param name="iOnProgress">Optional callback called when the status command is changed.</param>
             <returns>The error code. 0 if no error.</returns>
         </member>
@@ -4154,6 +4250,17 @@
             <param name="iCode">The command code.</param>
             <param name="iVal0">First value to store.</param>
             <param name="iForceEnqueue">If true, the command will be added as it. If false, any same command will be replaced by new provided parameters.</param>
+            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
+            <returns>The error code. 0 if no error.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.SendCommand(System.Byte,System.Byte,System.Boolean,System.Int32,System.Action{BlueQuark.Internal.HardwareCommandProgress})">
+            <summary>
+            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
+            </summary>
+            <param name="iCode">The command code.</param>
+            <param name="iVal0">First value to store.</param>
+            <param name="iForceEnqueue">If true, the command will be added as it. If false, any same command will be replaced by new provided parameters.</param>
+            <param name="iPriority">Priority of the command.</param>
             <param name="iOnProgress">Optional callback called when the status command is changed.</param>
             <returns>The error code. 0 if no error.</returns>
         </member>
@@ -4456,7 +4563,18 @@
             If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
             </summary>
             <param name="iCode">The command code.</param>
-            <param name="iPayload">The payload to send</param>
+            <param name="iPayload">The payload to send.</param>
+            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
+            <returns>The error code. 0 if no error.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.SendCommand(System.Byte,System.Byte[],System.Int32,System.Action{BlueQuark.Internal.HardwareCommandProgress})">
+            <summary>
+            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
+            If commands with same code are queued simultaneously, the parameters of the last queued command will be copied into the first queued command.
+            </summary>
+            <param name="iCode">The command code.</param>
+            <param name="iPayload">The payload to send.</param>
+            <param name="iPriority">Priority of the command. Higher the priority, faster it will be considered.</param>
             <param name="iOnProgress">Optional callback called when the status command is changed.</param>
             <returns>The error code. 0 if no error.</returns>
         </member>
@@ -4465,8 +4583,19 @@
             Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
             </summary>
             <param name="iCode">The command code.</param>
-            <param name="iPayload">The payload to send</param>
+            <param name="iPayload">The payload to send.</param>
             <param name="iForceEnqueue">If true, the command will be added as it. If false, any same command will be replaced by new provided parameters.</param>
+            <param name="iOnProgress">Optional callback called when the status command is changed.</param>
+            <returns>The error code. 0 if no error.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.SendCommand(System.Byte,System.Byte[],System.Boolean,System.Int32,System.Action{BlueQuark.Internal.HardwareCommandProgress})">
+            <summary>
+            Send the specified payload to the Hemise board. Commands are queued and proceed one by one. 
+            </summary>
+            <param name="iCode">The command code.</param>
+            <param name="iPayload">The payload to send.</param>
+            <param name="iForceEnqueue">If true, the command will be added as it. If false, any same command will be replaced by new provided parameters.</param>
+            <param name="iPriority">Priority of the command. Higher the priority, faster the command will be considered.</param>
             <param name="iOnProgress">Optional callback called when the status command is changed.</param>
             <returns>The error code. 0 if no error.</returns>
         </member>
@@ -4486,6 +4615,11 @@
             </summary>
             <param name="iCode"></param>
             <returns>True if a matching command has been correctly removed from the queue.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.HardwareCom.ClearPending">
+            <summary>
+            Clear the inner queue.
+            </summary>
         </member>
         <member name="T:BlueQuark.Internal.GPIO">
             <summary>
@@ -4634,6 +4768,11 @@
             Current value of the sensor.
             </summary>
         </member>
+        <member name="T:BlueQuark.Internal.ICamera">
+            <summary>
+            Base interface for camera sensor.
+            </summary>
+        </member>
         <member name="T:BlueQuark.Internal.ICamera`1">
             <summary>
             Base interface for camera sensor.
@@ -4719,7 +4858,7 @@
         </member>
         <member name="P:BlueQuark.Internal.IApertureSensor.VerticalFOV">
             <summary>
-            The vertical field of view of the sensor . Value in degrees.
+            The vertical field of view of the sensor. Value in degrees.
             </summary>
         </member>
         <member name="T:BlueQuark.Internal.IOrientedSensor">
@@ -4758,26 +4897,55 @@
             It contains RGB + Depth + Infrared camera components.
             </summary>
         </member>
+        <member name="P:BlueQuark.Internal.AstraCamera.IsOpen">
+            <summary>
+            Returns true if at least one stream of the camera is open.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.AstraCamera.PendingCount">
+            <summary>
+            Size of the inner queue.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.AstraCamera.IsSomethingPending">
+            <summary>
+            True if there is at least one query in the inner queue.
+            </summary>
+        </member>
         <member name="P:BlueQuark.Internal.AstraCamera.IsBusy">
             <summary>
-            Returns true if the camera is used in any mode.
+            Returns true if the camera is opening or closing a stream. False otherwise.
             </summary>
         </member>
         <member name="M:BlueQuark.Internal.AstraCamera.SubscribeStream``1(System.EventHandler{Astra.FrameReadyEventArgs})">
             <summary>
             Subscribes to a camera input stream.
             </summary>
-            <typeparam name="S">Type of the stream to retrieve</typeparam>
-            <param name="iOnNewFrame">The event handler to subscribe to the camera</param>
+            <typeparam name="S">Type of the stream to retrieve.</typeparam>
+            <param name="iOnNewFrame">The event handler to subscribe to the camera.</param>
+            <returns>Stream to open / close</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.AstraCamera.SubscribeStream``1(System.EventHandler{Astra.FrameReadyEventArgs},System.Action{``0})">
+            <summary>
+            Subscribes to a camera input stream.
+            </summary>
+            <typeparam name="S">Type of the stream to retrieve.</typeparam>
+            <param name="iOnNewFrame">The event handler to subscribe to the camera.</param>
+            <param name="iOnEnd">Callback called when the opening process is ended.</param>
             <returns>Stream to open / close</returns>
         </member>
         <member name="M:BlueQuark.Internal.AstraCamera.UnsubscribeStream``1(System.EventHandler{Astra.FrameReadyEventArgs})">
             <summary>
             Removes a subscription from a stream.
             </summary>
-            <typeparam name="S">Type of the stream</typeparam>
-            <param name="iOnNewFrame">The event handler to remove</param>
-            <returns>True if the unsubscription was effective</returns>
+            <typeparam name="S">Type of the stream.</typeparam>
+            <param name="iOnNewFrame">The event handler to remove.</param>
+            <returns>True if the unsubscription was effective.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.AstraCamera.ClearPending">
+            <summary>
+            Clear the inner queue.
+            </summary>
         </member>
         <member name="T:BlueQuark.Internal.ILayoutExplorerWidget">
             <summary>
@@ -5974,15 +6142,16 @@
             Note : It will save nothing when using ListenFromFile().
             </summary>
         </member>
-        <member name="M:BlueQuark.Internal.GoogleSpeech.Listen(System.Single,System.Single,System.Boolean)">
+        <member name="M:BlueQuark.Internal.GoogleSpeech.Listen(System.Single,System.Single,System.Single,System.Boolean)">
             <summary>
             Starts a listening request.
             </summary>
             <param name="iTimeOut">Tolerated silence time in seconds before a timeout is throw.</param>
             <param name="iLeadingSilenceTimeOut">Tolerated silence time in seconds before detected speech.</param>
+            <param name="iTrailingSilenceTimeOut">Tolerated silence time in seconds at end of speech.</param>
             <param name="iListenUntilSilence">If true, the listen will stop at the end of the first sentence.</param>
         </member>
-        <member name="M:BlueQuark.Internal.GoogleSpeech.Listen(System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.Internal.GoogleSpeechStatus},System.Single,System.Single,System.Boolean)">
+        <member name="M:BlueQuark.Internal.GoogleSpeech.Listen(System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.Internal.GoogleSpeechStatus},System.Single,System.Single,System.Single,System.Boolean)">
             <summary>
             Starts a listening request.
             </summary>
@@ -5991,6 +6160,7 @@
             <param name="iOnGoogleSpeechStatus">Callback called at the end of the recognition.</param>
             <param name="iTimeOut">Tolerated silence time in seconds before a timeout is throw.</param>
             <param name="iLeadingSilenceTimeOut">Tolerated silence time in seconds before detected speech.</param>
+            <param name="iTrailingSilenceTimeOut">Tolerated silence time in seconds at end of speech.</param>
             <param name="iListenUntilSilence">If true, the listen will stop at the end of the first sentence.</param>
         </member>
         <member name="M:BlueQuark.Internal.GoogleSpeech.RecognizeFromFile(System.String,System.Action{BlueQuark.SpeechInput},System.Action{BlueQuark.Internal.GoogleSpeechStatus})">
@@ -6056,7 +6226,12 @@
         </member>
         <member name="F:BlueQuark.Internal.GoogleSpeechStatus.TIME_OUT">
             <summary>
-            Google speech timeout
+            Google speech timeout.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.GoogleSpeechStatus.END_OF_SPEECH">
+            <summary>
+            Occur after trailing silence.
             </summary>
         </member>
         <member name="M:BlueQuark.Internal.OutputVoice.op_Equality(BlueQuark.Internal.OutputVoice,BlueQuark.Internal.OutputVoice)">
@@ -6137,7 +6312,7 @@
         </member>
         <member name="T:BlueQuark.Internal.VoConSpeech">
             <summary>
-            VoCon API interface component.
+            VoCon (by Nuance) API interface component.
             </summary>
         </member>
         <member name="P:BlueQuark.Internal.VoConSpeech.IsBusy">
@@ -6153,6 +6328,11 @@
         <member name="P:BlueQuark.Internal.VoConSpeech.IsSomethingPending">
             <summary>
             True if there is at least one query in the inner queue.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.VoConSpeech.LocalGrammars">
+            <summary>
+            Returns OS provided grammars in the current InputLanguage.
             </summary>
         </member>
         <member name="P:BlueQuark.Internal.VoConSpeech.OnEndListening">
@@ -6180,15 +6360,16 @@
             Gets the path of the file containing the recorded audio.
             </summary>
         </member>
-        <member name="M:BlueQuark.Internal.VoConSpeech.Listen(System.Int32,System.Single,System.Single)">
+        <member name="M:BlueQuark.Internal.VoConSpeech.Listen(System.Int32,System.Single,System.Single,System.Single)">
             <summary>
             Starts a listening request.
             </summary>
             <param name="iConfidenceThreshold">Confidence threshold for acceptance. From 1 to 9999.</param>
             <param name="iTimeOut">Tolerated silence time in seconds before a timeout is throw.</param>
             <param name="iLeadingSilenceTimeOut">Tolerated silence time in seconds before detected speech.</param>
+            <param name="iTrailingSilenceTimeOut">Tolerated silence time in seconds at end of speech.</param>
         </member>
-        <member name="M:BlueQuark.Internal.VoConSpeech.Listen(System.Action{BlueQuark.Internal.VoConResult},System.Action{BlueQuark.Internal.VoConStatus},System.Int32,System.Single,System.Single)">
+        <member name="M:BlueQuark.Internal.VoConSpeech.Listen(System.Action{BlueQuark.Internal.VoConResult},System.Action{BlueQuark.Internal.VoConStatus},System.Int32,System.Single,System.Single,System.Single)">
             <summary>
             Start the Vocon recognition engine.
             </summary>
@@ -6197,8 +6378,9 @@
             <param name="iConfidenceThreshold">Under this threshold, other results won't be given (values between 1 and 9999).</param>
             <param name="iTimeOut">Tolerated silence time in seconds before a timeout is throw.</param>
             <param name="iLeadingSilenceTimeOut">Tolerated silence time in seconds before detected speech.</param>
+            <param name="iTrailingSilenceTimeOut">Tolerated silence time in seconds at end of speech.</param>
         </member>
-        <member name="M:BlueQuark.Internal.VoConSpeech.Listen(System.String,System.Int32,System.Single,System.Single)">
+        <member name="M:BlueQuark.Internal.VoConSpeech.Listen(System.String,System.Int32,System.Single,System.Single,System.Single)">
             <summary>
             Start the Vocon recognition engine.
             </summary>
@@ -6206,8 +6388,9 @@
             <param name="iConfidenceThreshold">Under this threshold, other results won't be given (values between 1 and 9999).</param>
             <param name="iTimeOut">Tolerated silence time in seconds before a timeout is throw.</param>
             <param name="iLeadingSilenceTimeOut">Tolerated silence time in seconds before detected speech.</param>
+            <param name="iTrailingSilenceTimeOut">Tolerated silence time in seconds at end of speech.</param>
         </member>
-        <member name="M:BlueQuark.Internal.VoConSpeech.Listen(System.String,System.Action{BlueQuark.Internal.VoConResult},System.Action{BlueQuark.Internal.VoConStatus},System.Int32,System.Single,System.Single)">
+        <member name="M:BlueQuark.Internal.VoConSpeech.Listen(System.String,System.Action{BlueQuark.Internal.VoConResult},System.Action{BlueQuark.Internal.VoConStatus},System.Int32,System.Single,System.Single,System.Single)">
             <summary>
             Start the Vocon recognition engine.
             </summary>
@@ -6217,8 +6400,9 @@
             <param name="iConfidenceThreshold">Under this threshold, other results won't be given (values between 1 and 9999).</param>
             <param name="iTimeOut">Tolerated silence time in seconds before a timeout is throw.</param>
             <param name="iLeadingSilenceTimeOut">Tolerated silence time in seconds before detected speech.</param>
+            <param name="iTrailingSilenceTimeOut">Tolerated silence time in seconds at end of speech.</param>
         </member>
-        <member name="M:BlueQuark.Internal.VoConSpeech.Listen(System.String[],System.Int32,System.Single,System.Single)">
+        <member name="M:BlueQuark.Internal.VoConSpeech.Listen(System.String[],System.Int32,System.Single,System.Single,System.Single)">
             <summary>
             Start the Vocon recognition engine.
             </summary>
@@ -6226,8 +6410,9 @@
             <param name="iConfidenceThreshold">Under this threshold, other results won't be given (values between 1 and 9999).</param>
             <param name="iTimeOut">Tolerated silence time in seconds before a timeout is throw.</param>
             <param name="iLeadingSilenceTimeOut">Tolerated silence time in seconds before detected speech.</param>
+            <param name="iTrailingSilenceTimeOut">Tolerated silence time in seconds at end of speech.</param>
         </member>
-        <member name="M:BlueQuark.Internal.VoConSpeech.Listen(System.String[],System.Action{BlueQuark.Internal.VoConResult},System.Action{BlueQuark.Internal.VoConStatus},System.Int32,System.Single,System.Single)">
+        <member name="M:BlueQuark.Internal.VoConSpeech.Listen(System.String[],System.Action{BlueQuark.Internal.VoConResult},System.Action{BlueQuark.Internal.VoConStatus},System.Int32,System.Single,System.Single,System.Single)">
             <summary>
             Start the Vocon recognition engine.
             </summary>
@@ -6237,6 +6422,7 @@
             <param name="iConfidenceThreshold">Under this threshold, other results won't be given (values between 1 and 9999).</param>
             <param name="iTimeOut">Tolerated silence time in seconds before a timeout is throw.</param>
             <param name="iLeadingSilenceTimeOut">Tolerated silence time in seconds before detected speech.</param>
+            <param name="iTrailingSilenceTimeOut">Tolerated silence time in seconds at end of speech.</param>
         </member>
         <member name="M:BlueQuark.Internal.VoConSpeech.ClearPending">
             <summary>
@@ -9844,6 +10030,11 @@
             In love !
             </summary>
         </member>
+        <member name="T:BlueQuark.ComputeMotherboard">
+            <summary>
+            Represents the motherboard for high complexity algorithms.
+            </summary>
+        </member>
         <member name="T:BlueQuark.FDotNavigation">
             <summary>
             Dot navigation bar for Footer GUI component.
@@ -9927,6 +10118,11 @@
             Gets the main Android device.
             </summary>
         </member>
+        <member name="P:BlueQuark.Boards.Compute">
+            <summary>
+            Gets the main device for compute purposes.
+            </summary>
+        </member>
         <member name="P:BlueQuark.MainMotherboard.Temperature">
             <summary>
             CPU temperature of the Android board.
@@ -9965,6 +10161,47 @@
         <member name="M:BlueQuark.MainMotherboard.ForceShutdown">
             <summary>
             Force power off the Android board. Terminal function.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.MainMotherboard.MemoryUsage">
+            <summary>
+            Used RAM in % (1 is full).
+            </summary>
+        </member>
+        <member name="P:BlueQuark.MainMotherboard.CPUUsage">
+            <summary>
+            Used CPU in % (1 is full).
+            </summary>
+        </member>
+        <member name="P:BlueQuark.MainMotherboard.GCMemory">
+            <summary>
+            Memory handle by the dot net garbage collector. Value in Mbyte.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.MainMotherboard.VirtualMemory">
+            <summary>
+            The Private Bytes, plus the space shared with other processes for loaded DLLs, etc. 
+            VirtualMemorySize measures all of the virtual memory that your process uses. 
+            Which includes the pages shared by all other processes on your machine. 
+            Which in a .NET program includes the operating system, CLR, jitter and the ngen-ed Framework assemblies.
+            Value in Mbyte.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.MainMotherboard.PhysicalMemory">
+            <summary>
+            The portion of ALL the memory of my process that has not been paged to disk. So the amount paged to disk should be (Virtual - Working Set).
+            Value in Mbyte.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.MainMotherboard.PrivateMemory">
+            <summary>
+            The Memory the process has requested to store data. Some of it may be paged to disk or not.
+            Value in Mbyte.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.MainMotherboard.JavaMemory">
+            <summary>
+            Memory currently managed by the Java side. Value in Mbyte.
             </summary>
         </member>
         <member name="T:BlueQuark.BodyMotherboard">
@@ -10124,6 +10361,12 @@
             <param name="iOnDetect">What to do with the currently tracking human.</param>
             <param name="iMotionFreedom">Which parts of the robot will move.</param>
             <param name="iSensorMode">Using vision(RGB) or depth camera.</param>
+        </member>
+        <member name="M:BlueQuark.HumanTrackStrategy.DynamicTracking(System.Predicate{BlueQuark.HumanEntity})">
+            <summary>
+            Start a dynamic human tracking. The robot will follow the user.
+            </summary>
+            <param name="iWhileCondition">Continue tracking human while this condition is true.</param>
         </member>
         <member name="M:BlueQuark.HumanTrackStrategy.DynamicTracking(System.Predicate{BlueQuark.HumanEntity},System.Action{BlueQuark.HumanEntity})">
             <summary>
@@ -10745,11 +10988,6 @@
         <member name="F:BlueQuark.BatteryChargingStatus.CHARGING">
             <summary>
             The robot is currently charging.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.BatteryChargingStatus.FULLY_CHARGED">
-            <summary>
-            The robot is fully charged after a charging station.
             </summary>
         </member>
         <member name="T:BlueQuark.EchoCancellationParameters">
@@ -12245,6 +12483,11 @@
             Represents the english name of the language.
             </summary>
         </member>
+        <member name="P:BlueQuark.Language.Culture">
+            <summary>
+            The culture info related to the language.
+            </summary>
+        </member>
         <member name="M:BlueQuark.Language.op_Equality(BlueQuark.Language,BlueQuark.Language)">
             <summary>
             Checks if two languages are the same.
@@ -12436,7 +12679,7 @@
         </member>
         <member name="M:BlueQuark.Photograph.SaveBytes(System.Byte[])">
             <summary>
-            Save a byte array as a photograph. The location will be choosen regarding the running app and the current user.
+            Save a byte array as a photograph. The location is chosen according to the running app and the current user.
             </summary>
             <param name="iData">Byte array of the sprite.</param>
             <returns>The fullpath to the saved photograph.</returns>
@@ -13025,6 +13268,42 @@
             <param name="iOnSideClick">Callback called when the user click on the side during toast display.</param>
             <returns>The toast GUID.</returns>
         </member>
+        <member name="M:BlueQuark.VideoStreamToast.With(BlueQuark.Internal.ICamera)">
+            <summary>
+            Sets toast parameters.
+            </summary>
+            <param name="iCamera">The texture stream to display. Cannot be null.</param>
+            <returns>The toast GUID.</returns>
+        </member>
+        <member name="M:BlueQuark.VideoStreamToast.With(BlueQuark.Internal.ICamera,System.Action)">
+            <summary>
+            Sets toast parameters.
+            </summary>
+            <param name="iCamera">The texture stream to display. Cannot be null.</param>
+            <param name="iOnClick">Called when the image is clicked.</param>
+            <returns>The toast GUID.</returns>
+        </member>
+        <member name="M:BlueQuark.VideoStreamToast.With(BlueQuark.Internal.ICamera,System.Action,System.Action,System.Action)">
+            <summary>
+            Sets toast parameters.
+            </summary>
+            <param name="iCamera">The texture stream to display. Cannot be null.</param>
+            <param name="iOnClick">Called when the image is clicked.</param>
+            <param name="iOnDisplay">Callback called when the toast is displayed.</param>
+            <param name="iOnHide">Callback called when the toast is hidden.</param>
+            <returns>The toast GUID.</returns>
+        </member>
+        <member name="M:BlueQuark.VideoStreamToast.With(BlueQuark.Internal.ICamera,System.Action,System.Action,System.Action,System.Action)">
+            <summary>
+            Sets toast parameters.
+            </summary>
+            <param name="iCamera">The texture stream to display. Cannot be null.</param>
+            <param name="iOnClick">Called when the image is clicked.</param>
+            <param name="iOnDisplay">Callback called when the toast is displayed.</param>
+            <param name="iOnHide">Callback called when the toast is hidden.</param>
+            <param name="iOnSideClick">Callback called when the user click on the side during toast display.</param>
+            <returns>The toast GUID.</returns>
+        </member>
         <member name="T:BlueQuark.TSliderToggle">
             <summary>
             Toggable slider sealed widget for Explorer GUI component with a left label.
@@ -13214,11 +13493,6 @@
         <member name="T:BlueQuark.Screen">
             <summary>
             Screen component of the robot. Handle miscellaneous data and locking system.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Screen.IsBusy">
-            <summary>
-            True if the locking toast is displayed.
             </summary>
         </member>
         <member name="P:BlueQuark.Screen.Height">
@@ -14281,11 +14555,6 @@
             Max distance that can be done in one move instruction. Value in meters.
             </summary>
         </member>
-        <member name="F:BlueQuark.DisplacementStrategy.MAX_ROTATION_ANGLE">
-            <summary>
-            Max angle that can be rotate in one rotation instruction. Value in degrees.
-            </summary>
-        </member>
         <member name="M:BlueQuark.DisplacementStrategy.Move(System.Single,BlueQuark.ObstacleAvoidanceType)">
             <summary>
             Moves forward or backward to the given distance.
@@ -14378,6 +14647,14 @@
             <param name="iAngle">Target angle in degrees.</param>
             <param name="iAngularVelocity">Target speed in degrees per second. Negative speed will invert the rotation.</param>
         </member>
+        <member name="M:BlueQuark.DisplacementStrategy.Rotate(System.Single,System.Action)">
+            <summary>
+            Turns the robot's body by a given angle.
+            Positive angles to turn counterclockwise, negative to turn clockwise.
+            </summary>
+            <param name="iAngle">Target angle in degrees.</param>
+            <param name="iOnEndMove">Callback called at the end of the course.</param>
+        </member>
         <member name="M:BlueQuark.DisplacementStrategy.Rotate(System.Single,System.Single,System.Action)">
             <summary>
             Turns the robot's body by a given angle.
@@ -14408,6 +14685,13 @@
             </summary>
             <param name="iAngle">Target angle in degrees.</param>
             <param name="iAngularVelocity">Target speed in degrees per second. Negative speed will invert the rotation.</param>
+        </member>
+        <member name="M:BlueQuark.DisplacementStrategy.RotateTo(System.Single,System.Action)">
+            <summary>
+            Turns the robot's body to the given angle (absolute).
+            </summary>
+            <param name="iAngle">Target angle in degrees.</param>
+            <param name="iOnEndMove">Callback called at the end of the course.</param>
         </member>
         <member name="M:BlueQuark.DisplacementStrategy.RotateTo(System.Single,System.Single,System.Action)">
             <summary>
@@ -14926,7 +15210,7 @@
         </member>
         <member name="T:BlueQuark.Dialoger">
             <summary>
-            Dialogers are like Toasters but works on a different layer (over the Toasters)
+            Dialogers are like Toasters but works on a different layer (over the Toaster).
             </summary>
             <seealso cref="T:BlueQuark.Toaster"/>>
         </member>
@@ -16127,7 +16411,7 @@
         </member>
         <member name="M:BlueQuark.AppManager.OpenContextMenu(BlueQuark.AppInfo)">
             <summary>
-            Opens context menu for application icon
+            Opens context menu for application icon.
             </summary>
             <param name="iAppInfo"></param>
         </member>
@@ -16233,6 +16517,11 @@
             The module handling all embedded electronic boards. BlueFrog access reserved.
             </summary>
         </member>
+        <member name="P:BlueQuark.Buddy.Instance">
+            <summary>
+            Instance of the unique Buddy object. Be /!\ VERY /!\ careful with this instance. /!\ ONLY /!\ process /!\ READONLY /!\ action.
+            </summary>
+        </member>
         <member name="T:BlueQuark.Platform">
             <summary>
             Module containing all meta data of the operating system.
@@ -16310,12 +16599,37 @@
         </member>
         <member name="M:BlueQuark.Platform.RestartBRE">
             <summary>
-            Restarts the core application.
+            Restarts the Core Android application.
             </summary>
         </member>
         <member name="M:BlueQuark.Platform.Shutdown">
             <summary>
             Stops the core application.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Platform.ForceShutdown">
+            <summary>
+            Forces stop the core application.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Platform.DisposeOS">
+            <summary>
+            Dispose the operating system.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Platform.DisposeOS(System.Action)">
+            <summary>
+            Dispose the operating system.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Platform.ResetOS">
+            <summary>
+            Reset the operating system.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Platform.ResetOS(System.Action)">
+            <summary>
+            Reset the operating system.
             </summary>
         </member>
         <member name="M:BlueQuark.Platform.SendMessageToCore(System.String)">
@@ -16533,9 +16847,24 @@
             Wireless technology to connect with other close devices.
             </summary>
         </member>
+        <member name="P:BlueQuark.IO.BRECommunication">
+            <summary>
+            Communication component with the Core application.
+            </summary>
+        </member>
         <member name="P:BlueQuark.IO.HardwareCommunication">
             <summary>
             Communication component with the Hemise board.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.IO.CameraStreamCommunication">
+            <summary>
+            Communication component with the Rana board for video stream.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.IO.CSOACommunication">
+            <summary>
+            Communication component with the Rana board.
             </summary>
         </member>
         <member name="P:BlueQuark.IO.GPIO">
@@ -17724,6 +18053,466 @@
             The module in charge of handling all application assets (sprites, raw files path, sounds ...).
             </summary>
         </member>
+        <member name="F:BlueQuark.Resources.BFR_FONT_NAME">
+            <summary>
+            Shortcut const value to a font name. Use that with Font font = Buddy.Resources.Get[FONT](FONT_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.GOTHIC_FONT_NAME">
+            <summary>
+            Shortcut const value to a font name. Use that with Font font = Buddy.Resources.Get[FONT](FONT_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.SPLASHSCREEN_BACKGROUND_IMG_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.SMALL_CIRCLE_IMG_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.DEFAULT_APP_IMG_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.BLUEFROG_LOGO_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.ASLEEP_BUDDY_IMG_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.BLUE_STAR_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.GREY_STAR_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.ZOOM_IN_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.ZOOM_OUT_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.WRENCH_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.WIND_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.WIFI_OFF_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.WIFI_0_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.WIFI_1_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.WIFI_2_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.WIFI_3_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.WIFI_4_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.VIDEO_ON_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.VIDEO_OFF_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.USERS_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.USER_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.TV_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.TRASH_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.HOURGLASS_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.THERMOMETER_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.STOP_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.BIG_SPINNING_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.TABLET_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.SOUND_ON_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.SOUND_OFF_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.DOWN_TRIANGLE_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.UP_TRIANGLE_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.CART_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.BAG_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.SHIELD_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.SHARE_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.SEARCH_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.RELOAD_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.REPEAT_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.REPLY_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.REDO_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.SHUFFLE_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.QRCODE_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.PLUS_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.PLAY_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.SEND_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.PICTURE_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.CAMERA_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.PHONE_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.PAUSE_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.MUSIC_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.MOBILE_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.MINUS_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.MICRO_ON_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.MICRO_OFF_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.BURGER_MENU_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.MAIL_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.LOCK_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.SMALL_SPINNING_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.LANGUAGE_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.INFO_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.HOME_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.HELP_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.FORWARD_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.FOLDER_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.FILTER_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.FAST_FORWARD_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.FAST_BACKWARD_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.EYE_ON_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.EYE_OFF_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.EDIT_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.DOWNLOAD_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.DOTS_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.DEFAULT_APP_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.COGS_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.COG_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.DEV_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.CLOSE_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.VALIDATE_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.CLOCK_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.INCOGNITO_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.AGENDA_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.ALARM_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.ARROW_LEFT_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.ARROW_RIGHT_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.FORBIDDEN_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.BACKWARD_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.BUBBLE_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.KEYBOARD_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Resources.HINT_ICON_NAME">
+            <summary>
+            Shortcut const value to a image name. Use that with Sprite sprite = Buddy.Resources.Get[Sprite](ICON_NAME);
+            </summary>
+        </member>
         <member name="P:BlueQuark.Resources.Item(System.String)">
             <summary>
             Retrieves the corresponding word from the input key word. Checks first in app dict if exists, if not checks in native dict.
@@ -17909,17 +18698,32 @@
             Battery component of the robot. Its autonomy is about 4-8 hours.
             </summary>
         </member>
+        <member name="P:BlueQuark.Battery.OnLevelChange">
+            <summary>
+            Callback called when battery level changed.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Battery.OnStatusChange">
+            <summary>
+            Callback called when charging status changed.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Battery.Level">
+            <summary>
+            Battery value, between 0 (empty) and 1 (full).
+            </summary>
+        </member>
         <member name="P:BlueQuark.Battery.IsJackPlugged">
             <summary>
             Is the battery cable is currently plugged ?
             </summary>
         </member>
-        <member name="P:BlueQuark.Battery.Level">
+        <member name="P:BlueQuark.Battery.Value">
             <summary>
             Current voltage of the battery. Value in milli volt.
             </summary>
         </member>
-        <member name="P:BlueQuark.Battery.AverageLevel">
+        <member name="P:BlueQuark.Battery.AverageValue">
             <summary>
             Average voltage of the battery. Value in milli volt.
             </summary>
@@ -18006,6 +18810,16 @@
             See InfraredCameraMode enumeration for more precision about resolution.
             </summary>
         </member>
+        <member name="P:BlueQuark.InfraredCamera.PendingCount">
+            <summary>
+            Size of the inner queue.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.InfraredCamera.IsSomethingPending">
+            <summary>
+            True if there is at least one query in the inner queue.
+            </summary>
+        </member>
         <member name="P:BlueQuark.InfraredCamera.OnOpen">
             <summary>
             Called when the camera is opened.
@@ -18073,6 +18887,11 @@
             Closes the device. May take a certain time.
             </summary>
         </member>
+        <member name="M:BlueQuark.InfraredCamera.ClearPending">
+            <summary>
+            Clear the inner queue.
+            </summary>
+        </member>
         <member name="M:BlueQuark.InfraredCamera.ForceClose">
             <summary>
             Force to close the device despite any other component or app is using it.
@@ -18083,6 +18902,16 @@
             The robot Red-Green-Blue camera. Can be easily opened with the Open() method.
             It automatically be Close() when quitting an application.
             See RGBCameraMode enumeration for more precision about resolution.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.RGBCamera.PendingCount">
+            <summary>
+            Size of the inner queue.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.RGBCamera.IsSomethingPending">
+            <summary>
+            True if there is at least one query in the inner queue.
             </summary>
         </member>
         <member name="P:BlueQuark.RGBCamera.OnOpen">
@@ -18152,6 +18981,11 @@
             Closes the device. May take a certain time.
             </summary>
         </member>
+        <member name="M:BlueQuark.RGBCamera.ClearPending">
+            <summary>
+            Clear the inner queue.
+            </summary>
+        </member>
         <member name="M:BlueQuark.RGBCamera.TakePhotograph(System.Action{BlueQuark.Photograph},System.Boolean,System.Boolean,BlueQuark.FlashLightMode)">
             <summary>
             Asynchrone take photo feature with an high definiton.
@@ -18176,6 +19010,16 @@
             Depth camera device component of the robot. Can be easily opened with the Open() method.
             It automatically be Close() when quitting an application.
             See DepthCameraMode enumeration for more precision about resolution.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.DepthCamera.PendingCount">
+            <summary>
+            Size of the inner queue.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.DepthCamera.IsSomethingPending">
+            <summary>
+            True if there is at least one query in the inner queue.
             </summary>
         </member>
         <member name="P:BlueQuark.DepthCamera.OnOpen">
@@ -18243,6 +19087,11 @@
         <member name="M:BlueQuark.DepthCamera.Close">
             <summary>
             Closes the device. May take a certain time.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.DepthCamera.ClearPending">
+            <summary>
+            Clear the inner queue.
             </summary>
         </member>
         <member name="M:BlueQuark.DepthCamera.ForceClose">
@@ -18336,6 +19185,21 @@
             Default value if no source sound is recorded.
             </summary>
         </member>
+        <member name="P:BlueQuark.Microphones.PendingCount">
+            <summary>
+            Size of the inner queue.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Microphones.IsSomethingPending">
+            <summary>
+            True if there is at least one query in the inner queue.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Microphones.SamplingRate">
+            <summary>
+            Gets the sample rate in Hz of the robot's microphones.
+            </summary>
+        </member>
         <member name="P:BlueQuark.Microphones.IsBusy">
             <summary>
             Returns true if the microphones are processing a change, like enable/disable an option or setting new parameters. False otherwise.
@@ -18355,6 +19219,11 @@
         <member name="P:BlueQuark.Microphones.Error">
             <summary>
             Error code. 0 is not error.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Microphones.IsRecording">
+            <summary>
+            Returns true if the device is currently recording. False otherwise.
             </summary>
         </member>
         <member name="P:BlueQuark.Microphones.EnableSoundLocalization">
@@ -18387,6 +19256,22 @@
             Beamforming microphones parameters. Set null to restore default parameters.
             </summary>
         </member>
+        <member name="M:BlueQuark.Microphones.ClearPending">
+            <summary>
+            Clear the inner queue.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Microphones.StartRecording">
+            <summary>
+            Starts recording microphones input until : StopRecording() is call OR 30sec are reached OR StartRecording() is call again (erase previous started record). Sampling rate at Microphones.SamplingRate.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Microphones.StopRecording">
+            <summary>
+            Stops any current record and returns the recorded audioclip. Any other StopRecording() after the first StopRecording() will return null.
+            </summary>
+            <returns>The recorded audio clip. Null if no Start record or call after the first StopRecord().</returns>
+        </member>
         <member name="M:BlueQuark.Microphones.ToString">
             <summary>
             Serializes in string the current microphones state.
@@ -18415,12 +19300,12 @@
         </member>
         <member name="P:BlueQuark.TimeOfFlightSensor.Value">
             <summary>
-            Current value of the sensor. Value in millimeters.
+            Current value of the sensor. Range [30, 1000]. Value in millimeters.
             </summary>
         </member>
         <member name="P:BlueQuark.TimeOfFlightSensor.FilteredValue">
             <summary>
-            Current filtered value of the sensor. Value in millimeters.
+            Current filtered value of the sensor. Range [30, 1000]. Value in millimeters. Returns -1 if to cannot reach any detection (too far).
             </summary>
         </member>
         <member name="P:BlueQuark.TimeOfFlightSensor.Orientation">
@@ -18490,6 +19375,16 @@
             See HDCameraMode enumeration for more precision about resolution.
             </summary>
         </member>
+        <member name="P:BlueQuark.HDCamera.PendingCount">
+            <summary>
+            Size of the inner queue.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.HDCamera.IsSomethingPending">
+            <summary>
+            True if there is at least one query in the inner queue.
+            </summary>
+        </member>
         <member name="P:BlueQuark.HDCamera.OnOpen">
             <summary>
             Called when the camera is opened.
@@ -18555,6 +19450,11 @@
         <member name="M:BlueQuark.HDCamera.Close">
             <summary>
             Closes the device. May take a certain time.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.HDCamera.ClearPending">
+            <summary>
+            Clear the inner queue.
             </summary>
         </member>
         <member name="M:BlueQuark.HDCamera.TakePhotograph(System.Action{BlueQuark.Photograph},System.Boolean,System.Boolean,BlueQuark.FlashLightMode)">
@@ -18764,12 +19664,12 @@
         </member>
         <member name="P:BlueQuark.UltrasonicSensor.Value">
             <summary>
-            Current value of the sensor. Value in millimeters.
+            Current value of the sensor. Range [150, 7999]. Value in millimeters. 
             </summary>
         </member>
         <member name="P:BlueQuark.UltrasonicSensor.FilteredValue">
             <summary>
-            Current filtered value of the sensor. Value in millimeters.
+            Current filtered value of the sensor. Range [150, 7999]. Value in millimeters. Returns -1 if to cannot reach any detection (too far).
             </summary>
         </member>
         <member name="P:BlueQuark.UltrasonicSensor.Orientation">
@@ -19108,9 +20008,6 @@
             <param name="iColor">The color to set</param>
         </member>
         <member name="T:BlueQuark.Header">
-            <summary>
-            Utility toolbar on the top of the robot screen
-            </summary>
             <summary>
             The footer is a UI component handle top screen display.
             </summary>
@@ -19463,7 +20360,7 @@
         </member>
         <member name="T:BlueQuark.ParameterToast">
             <summary>
-            Represents a toast composed by an horizontal capsule with many paramters.
+            Represents a toast composed by an horizontal capsule with many parameters.
             </summary>
         </member>
         <member name="M:BlueQuark.ParameterToast.With(System.Action{BlueQuark.ParameterToast})">
@@ -19941,7 +20838,12 @@
         </member>
         <member name="P:BlueQuark.GUI.Blurer">
             <summary>
-            Background blur controller.
+            Background blur controller. Auto adaptative layer.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.GUI.Unlocker">
+            <summary>
+            Most-foreground layer to display an unlock GUI.
             </summary>
         </member>
         <member name="T:BlueQuark.CallbackParamArray`1">
@@ -20622,7 +21524,7 @@
             Check if the bit of the input byte in set to 1. Position 0 is least significant bit, position 7 is most.
             </summary>
             <param name="iByte">Byte containing the bit to check.</param>
-            <param name="iPosition">Position of the bit to check. Position 0 is least significant bit, position 7 is most.</param>
+            <param name="iIndex">Position of the bit to check. Position 0 is least significant bit, position 7 is most.</param>
             <returns>True if the bit is set to 1.</returns>
         </member>
         <member name="M:BlueQuark.Utils.IsBitSet(System.Int16,System.Int32)">
@@ -20630,7 +21532,7 @@
             Check if the bit of the input byte in set to 1. Position 0 is least significant bit, position 15 is most.
             </summary>
             <param name="iShort">Short containing the bit to check.</param>
-            <param name="iPosition">Position of the bit to check. Position 0 is least significant bit, position 15 is most.</param>
+            <param name="iIndex">Position of the bit to check. Position 0 is least significant bit, position 15 is most.</param>
             <returns>True if the bit is set to 1.</returns>
         </member>
         <member name="P:BlueQuark.Utils.JCodecProgression">
@@ -20991,6 +21893,15 @@
             <param name="iTexts">The list of speech.</param>
             <returns>True if the given speech is in the speech list.</returns>
         </member>
+        <member name="M:BlueQuark.Utils.ContainsOneOf(System.String,System.String[],System.Boolean)">
+            <summary>
+            Tells if iSpeech contains one of iListSpeech element.
+            </summary>
+            <param name="iText">The speech.</param>
+            <param name="iTexts">The list of speech.</param>
+            <param name="iUnicWordSecurity">If true, when the string in iKey has a unic word, check that the iText is equal to this word</param>
+            <returns>True if the given speech is in the speech list.</returns>
+        </member>
         <member name="M:BlueQuark.Utils.ContainsOneOf(System.String,System.Collections.Generic.List{System.String})">
             <summary>
             Tells if given speech list contains one of iListSpeech element.
@@ -20999,12 +21910,30 @@
             <param name="iTexts">The list of speech.</param>
             <returns>True if the given speech is in the speech list.</returns>
         </member>
+        <member name="M:BlueQuark.Utils.ContainsOneOf(System.String,System.Collections.Generic.List{System.String},System.Boolean)">
+            <summary>
+            Tells if given speech list contains one of iListSpeech element.
+            </summary>
+            <param name="iText">The speech.</param>
+            <param name="iTexts">The list of speech.</param>
+            <param name="iUnicWordSecurity">If true, when the string in iKey has a unic word, check that the iText is equal to this word</param>
+            <returns>True if the given speech is in the speech list.</returns>
+        </member>
         <member name="M:BlueQuark.Utils.ContainsOneOf(System.String,System.String)">
             <summary>
             Tells if iSpeech contains one of Phonetics from the dico value given by the key iKey.
             </summary>
             <param name="iText">The speech.</param>
             <param name="iKey">The keyspeech.</param>
+            <returns>True if the speech contains one of phonetics from the keyspeech.</returns>
+        </member>
+        <member name="M:BlueQuark.Utils.ContainsOneOf(System.String,System.String,System.Boolean)">
+            <summary>
+            Tells if iSpeech contains one of Phonetics from the dico value given by the key iKey.
+            </summary>
+            <param name="iText">The speech.</param>
+            <param name="iKey">The keyspeech.</param>
+            <param name="iUnicWordSecurity">If true, when the string in iKey has a unic word, check that the iText is equal to this word</param>
             <returns>True if the speech contains one of phonetics from the keyspeech.</returns>
         </member>
         <member name="M:BlueQuark.Utils.GetRealStartRule(System.String)">
@@ -22072,7 +23001,14 @@
             </summary>
             <returns>Object of provided type.</returns>
         </member>
-        <member name="M:BlueQuark.Utils.StandardDeviation(BlueQuark.Internal.BoundedQueue{System.Single})">
+        <member name="M:BlueQuark.Utils.GetBasePresenterFields(System.Object)">
+            <summary>
+            Retrieve object fields that extend from ABasePresenter.
+            </summary>
+            <param name="iObjectToReflect">The object to reflect.</param>
+            <returns>Array of field info that extends from ABasePresenter.</returns>
+        </member>
+        <member name="M:BlueQuark.Utils.StandartDeviation(System.Collections.Generic.List{System.Single})">
             <summary>
             Standard deviation
             </summary>
@@ -22145,6 +23081,21 @@
             Default silence time before timeout. Value in seconds.
             </summary>
         </member>
+        <member name="F:BlueQuark.SpeechInputParameters.MIN_TRAILING_SILENCE_TIME_OUT">
+            <summary>
+            Minimal silence time before timeout. Value in seconds.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.SpeechInputParameters.MAX_TRAILING_SILENCE_TIME_OUT">
+            <summary>
+            Maximal silence time before timeout. Value in seconds.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.SpeechInputParameters.DEFAULT_TRAILING_SILENCE_TIME_OUT">
+            <summary>
+            Default silence time at end of speech before timeout. Value in seconds.
+            </summary>
+        </member>
         <member name="F:BlueQuark.SpeechInputParameters.MIN_TIME_OUT">
             <summary>
             Minimal tolerated timeout in seconds for the whole listening speech process.
@@ -22183,6 +23134,11 @@
         <member name="P:BlueQuark.SpeechInputParameters.RecognitionThreshold">
             <summary>
             If revelant (offline), the grammar recognition confidence. From 0 to 10000. Default is 4700.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.SpeechInputParameters.TrailingSilenceTimeOut">
+            <summary>
+            Tolerated silence time in seconds at end detected speech. If occured, the speech is considered as ended. Default is 1. 
             </summary>
         </member>
         <member name="P:BlueQuark.SpeechInputParameters.LeadingSilenceTimeOut">
@@ -22629,7 +23585,12 @@
         </member>
         <member name="P:BlueQuark.Vocal.IsBusy">
             <summary>
-            Does the vocal module is processing something ?.
+            Does the vocal module is telling or listening something ?
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Vocal.LocalGrammars">
+            <summary>
+            Returns OS provided grammars in the current InputLanguage.
             </summary>
         </member>
         <member name="M:BlueQuark.Vocal.CompileGrammar(System.String)">
@@ -24235,9 +25196,6 @@
             <param name="iOnEndSending">Callback called on end of message sending.</param>
         </member>
         <member name="T:BlueQuark.Weather">
-            <summary>
-            Weather API of the wished location
-            </summary>
             <summary>
             Weather API of the wished location.
             </summary>

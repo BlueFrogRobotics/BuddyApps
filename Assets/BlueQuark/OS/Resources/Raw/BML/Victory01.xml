@@ -72,7 +72,7 @@
 							<Value>0</Value>
 						</Delay>
 						<Position>
-							<Value>UP</Value>
+							<Value>TOP</Value>
 						</Position>
 						<CustomMove>
 							<Value>true</Value>
@@ -109,7 +109,6 @@
 					</ABehaviourInstruction>
 				</SubInstructions>
 			</ABehaviourInstruction>
-
 			<ABehaviourInstruction xsi:type="SynchronizedBlockBehaviourInstruction">
 	            <IsBlocking>
 	                <Value>true</Value>
@@ -129,7 +128,7 @@
 							<Value>0</Value>
 						</Delay>
 						<Position>
-							<Value>DOWN</Value>
+							<Value>BOTTOM</Value>
 						</Position>
 						<CustomMove>
 							<Value>true</Value>
@@ -166,7 +165,6 @@
 					</ABehaviourInstruction>
 				</SubInstructions>
 			</ABehaviourInstruction>
-
 			<ABehaviourInstruction xsi:type="SynchronizedBlockBehaviourInstruction">
 	            <IsBlocking>
 	                <Value>true</Value>

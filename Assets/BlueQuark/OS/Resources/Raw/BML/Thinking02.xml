@@ -44,7 +44,7 @@
 							<Value>0</Value>
 						</Delay>
 						<FacialEvent>
-							<Value>CLOSE_EYES</Value>
+							<Value>BLINK_EYES</Value>
 						</FacialEvent>
 					</ABehaviourInstruction>
 					<ABehaviourInstruction xsi:type="PlaySoundBehaviourInstruction">
@@ -57,7 +57,7 @@
 						<Delay>
 							<Value>0</Value>
 						</Delay>
-						<FileName />
+						<FileName/>
 						<SoundSample>
 							<Value>RANDOM_CURIOUS</Value>
 						</SoundSample>
@@ -73,7 +73,7 @@
 							<Value>false</Value>
 						</IsRequired>
 						<Position>
-							<Value>DOWN_LEFT</Value>
+							<Value>BOTTOM_LEFT</Value>
 						</Position>
 						<CustomMove>
 							<Value>true</Value>
@@ -93,7 +93,6 @@
 					</ABehaviourInstruction>
 				</SubInstructions>
 			</ABehaviourInstruction>
-
 			<ABehaviourInstruction xsi:type="SynchronizedBlockBehaviourInstruction">
 	            <IsBlocking>
 	                <Value>true</Value>
@@ -128,7 +127,7 @@
 							<Value>false</Value>
 						</IsRequired>
 						<Position>
-							<Value>DOWN_LEFT</Value>
+							<Value>BOTTOM_LEFT</Value>
 						</Position>
 						<CustomMove>
 							<Value>true</Value>
@@ -157,7 +156,7 @@
 							<Value>false</Value>
 						</IsRequired>
 						<Position>
-							<Value>DOWN_LEFT</Value>
+							<Value>BOTTOM_LEFT</Value>
 						</Position>
 						<CustomMove>
 							<Value>true</Value>
@@ -177,7 +176,6 @@
 					</ABehaviourInstruction>
 				</SubInstructions>
 			</ABehaviourInstruction>
-
 			<ABehaviourInstruction xsi:type="SynchronizedBlockBehaviourInstruction">
 	            <IsBlocking>
 	                <Value>true</Value>

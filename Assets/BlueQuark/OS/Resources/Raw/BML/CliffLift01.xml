@@ -8,7 +8,6 @@
   </Settings>
   <Algorithm>
     <Instructions>
-      <!-- START REACTION SURPRISE -->
       <ABehaviourInstruction xsi:type="PlaySoundBehaviourInstruction">
         <Delay>
           <Value>0</Value>
@@ -71,8 +70,6 @@
           <Value>BLINK_EYES</Value>
         </FacialEvent>
       </ABehaviourInstruction>
-
-      <!-- DEPEND ON BUDDY'S MOOD HAPPY / GRUMPY -->
       <ABehaviourInstruction xsi:type="PlaySoundBehaviourInstruction">
         <Delay>
           <Value>0</Value>
@@ -115,7 +112,6 @@
           <Name>sayevent</Name>
         </Utterance>
       </ABehaviourInstruction>
-
     </Instructions>
-  </BehaviourAlgorithm>
+  </Algorithm>
   </BehaviourAlgorithmStorage>

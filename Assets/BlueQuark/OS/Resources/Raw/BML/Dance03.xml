@@ -39,9 +39,6 @@
 					<Value>os_dance_01</Value>
 					<Name>filename</Name>
 				</FileName>
-				<SoundSample>
-					<Value></Value>
-				</SoundSample>
 			</ABehaviourInstruction>
 			<ABehaviourInstruction xsi:type="PlayFacialEventBehaviourInstruction">
 				<IsBlocking>
@@ -86,7 +83,6 @@
 					<Value>20</Value>
 				</NoSpeed>
 			</ABehaviourInstruction>
-
 			<ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
 				<IsBlocking>
 					<Value>false</Value>
@@ -133,7 +129,6 @@
 					<Value>20</Value>
 				</Speed>
 			</ABehaviourInstruction>
-
 			<ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
 				<IsBlocking>
 					<Value>false</Value>
@@ -180,7 +175,6 @@
 					<Value>20</Value>
 				</Speed>
 			</ABehaviourInstruction>
-
 			<ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
 				<IsBlocking>
 					<Value>false</Value>
@@ -227,7 +221,6 @@
 					<Value>20</Value>
 				</Speed>
 			</ABehaviourInstruction>
-
 			<ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
 				<IsBlocking>
 					<Value>false</Value>
@@ -288,7 +281,6 @@
 					<Value>CLOSE_EYES</Value>
 				</FacialEvent>
 			</ABehaviourInstruction>
-
 			<ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
 				<IsBlocking>
 					<Value>false</Value>
@@ -309,7 +301,7 @@
 					<Value>-30</Value>
 				</YesAngle>
 				<NoAngle>
-					<Value></Value>
+					<Value>0</Value>
 				</NoAngle>
 				<YesSpeed>
 					<Value>30</Value>
@@ -318,7 +310,6 @@
 					<Value>0</Value>
 				</NoSpeed>
 			</ABehaviourInstruction>
-
 			<ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
 				<IsBlocking>
 					<Value>false</Value>
@@ -339,7 +330,7 @@
 					<Value>30</Value>
 				</YesAngle>
 				<NoAngle>
-					<Value></Value>
+					<Value>0</Value>
 				</NoAngle>
 				<YesSpeed>
 					<Value>30</Value>
@@ -348,7 +339,6 @@
 					<Value>0</Value>
 				</NoSpeed>
 			</ABehaviourInstruction>
-
 			<ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
 				<IsBlocking>
 					<Value>false</Value>
@@ -369,7 +359,7 @@
 					<Value>-30</Value>
 				</YesAngle>
 				<NoAngle>
-					<Value></Value>
+					<Value>0</Value>
 				</NoAngle>
 				<YesSpeed>
 					<Value>30</Value>
@@ -378,7 +368,6 @@
 					<Value>0</Value>
 				</NoSpeed>
 			</ABehaviourInstruction>
-
 			<ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
 				<IsBlocking>
 					<Value>false</Value>
@@ -399,7 +388,7 @@
 					<Value>10</Value>
 				</YesAngle>
 				<NoAngle>
-					<Value></Value>
+					<Value>0</Value>
 				</NoAngle>
 				<YesSpeed>
 					<Value>10</Value>
@@ -422,7 +411,6 @@
 					<Value>OPEN_EYES</Value>
 				</FacialEvent>
 			</ABehaviourInstruction>
-
 			<ABehaviourInstruction xsi:type="PlayFacialEventBehaviourInstruction">
 				<IsBlocking>
 					<Value>false</Value>

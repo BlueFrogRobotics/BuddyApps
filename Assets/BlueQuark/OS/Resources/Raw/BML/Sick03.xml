@@ -63,8 +63,7 @@
 						</NoSpeed>
 					</ABehaviourInstruction>
 				</SubInstructions>
-			</ABehaviourInstruction xsi:type="BehaviourInstructions">
-
+			</ABehaviourInstruction>
 			<ABehaviourInstruction xsi:type="SynchronizedBlockBehaviourInstruction">
 	            <IsBlocking>
 	                <Value>true</Value>
@@ -117,9 +116,7 @@
 						</NoSpeed>
 					</ABehaviourInstruction>
 				</SubInstructions>
-			</ABehaviourInstruction>
-            
-
+			</ABehaviourInstruction>           
 			<ABehaviourInstruction xsi:type="SynchronizedBlockBehaviourInstruction">
 	            <IsBlocking>
 	                <Value>true</Value>
@@ -171,7 +168,7 @@
 							<Value>BLINK_EYES</Value>
 						</FacialEvent>
 					</ABehaviourInstruction>
-				<SubInstructions>
+				</SubInstructions>
 			</ABehaviourInstruction>
 		</Instructions>
 	</Algorithm>

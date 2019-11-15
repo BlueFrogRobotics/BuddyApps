@@ -8,7 +8,6 @@
   </Settings>
   <Algorithm>
     <Instructions>
-      <!-- START REACTION SURPRISE -->
       <ABehaviourInstruction xsi:type="PlaySoundBehaviourInstruction">
         <Delay>
           <Value>0</Value>
@@ -37,7 +36,7 @@
           <Value>true</Value>
         </CustomMove>
         <YesAngle>
-          <Value>30.0</Value>
+          <Value>30</Value>
         </YesAngle>
         <YesSpeed>
           <Value>30</Value>
@@ -75,7 +74,6 @@
           <Value>LEFT</Value>
         </Position>
       </ABehaviourInstruction>
-
       <ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
         <Delay>
           <Value>0</Value>
@@ -119,7 +117,6 @@
           <Value>0</Value>
         </Distance>
       </ABehaviourInstruction>
-
       <ABehaviourInstruction xsi:type="PlayFacialEventBehaviourInstruction">
         <Delay>
           <Value>0</Value>
@@ -134,7 +131,6 @@
           <Value>BLINK_EYES</Value>
         </FacialEvent>
       </ABehaviourInstruction>
-
       <ABehaviourInstruction xsi:type="PlaySoundBehaviourInstruction">
         <Delay>
           <Value>0</Value>
@@ -165,7 +161,6 @@
           <Name>faceevent</Name>
         </FacialEvent>
       </ABehaviourInstruction>
-
     </Instructions>
-  </BehaviourAlgorithm>
+  </Algorithm>
 </BehaviourAlgorithmStorage>

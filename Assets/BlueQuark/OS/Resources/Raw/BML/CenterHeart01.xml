@@ -6,7 +6,7 @@
 		<Commitment>NOT_ENGAGED</Commitment>
 		<MovementPattern>COMPLETE_FREEDOM</MovementPattern>
 	</Settings>
-  <BehaviourAlgorithm xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Algorithm>
     <Instructions>
       <ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
         <IsBlocking>
@@ -31,7 +31,6 @@
           <Value>50</Value>
         </NoSpeed>
       </ABehaviourInstruction>
-
       <ABehaviourInstruction xsi:type="PlaySoundBehaviourInstruction">
         <IsBlocking>
           <Value>false</Value>
@@ -185,5 +184,5 @@
         </FacialEvent>
       </ABehaviourInstruction>
     </Instructions>
-  </BehaviourAlgorithm>
+  </Algorithm>
 </BehaviourAlgorithmStorage>

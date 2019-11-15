@@ -95,7 +95,6 @@
 					</ABehaviourInstruction>
 				</SubInstructions>
 			</ABehaviourInstruction>
-
 			<ABehaviourInstruction xsi:type="MoveHeadBehaviourInstruction">
 				<IsBlocking>
 					<Value>false</Value>
@@ -125,7 +124,6 @@
 					<Value>80</Value>
 				</NoSpeed>
 			</ABehaviourInstruction>
-
 			<ABehaviourInstruction xsi:type="SynchronizedBlockBehaviourInstruction">
 	            <IsBlocking>
 	                <Value>true</Value>
@@ -202,7 +200,7 @@
 							<Value>-20</Value>
 						</YesAngle>
 						<NoAngle>
-							<Value></Value>
+							<Value>0</Value>
 						</NoAngle>
 						<YesSpeed>
 							<Value>60</Value>

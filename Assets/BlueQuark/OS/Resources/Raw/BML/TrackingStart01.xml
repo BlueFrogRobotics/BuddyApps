@@ -8,7 +8,6 @@
   </Settings>
   <Algorithm>
     <Instructions>
-      <!-- START TRAKING -->
       <ABehaviourInstruction xsi:type="LookAtBehaviourInstruction">
         <Delay>
           <Value>0</Value>
@@ -66,7 +65,6 @@
           <Value>BLINK_EYES</Value>
         </FacialEvent>
       </ABehaviourInstruction>
-      <!-- DO SMILE -->
       <ABehaviourInstruction xsi:type="PlaySoundBehaviourInstruction">
         <Delay>
           <Value>0</Value>
@@ -96,5 +94,5 @@
         </FacialEvent>
       </ABehaviourInstruction>
     </Instructions>
-  </BehaviourAlgorithm>
+  </Algorithm>
 </BehaviourAlgorithmStorage>

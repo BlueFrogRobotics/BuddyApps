@@ -52,7 +52,7 @@
 				<string>Que dit une imprimante dans l'eau ? [1200] J’ai papier</string>
 				<string>Comment est-ce que les abeilles communiquent entre elles ? [1200] Par e-miel</string>
 				<string>Qu'est ce qu'un cadeau qui s'en va ?[1200] Une surprise party</string>
-				<string>Comment savoir qu'un rat est content ? [1200] Il souris</string>
+				<string>Comment savoir qu'un rat est contant ? [1200] Il souris</string>
 				<string>Quel est le réseau préféré des pêcheurs ? [1200] Truiteur</string>
 				<string>Qu'est-ce qui est vert et qui se déplace sous l'eau ? [1200] Un chou marin</string>
 				<string>Comment appelle t-on un boomerang qui ne revient pas ? [1200] Un bâton</string>
@@ -65,6 +65,27 @@
 				<string>Qu'est-ce qui est vert et qui pousse derrière un arbre?[1200] Un scout aux toilettes</string>
 				<string>Qu’est-ce qui est jaune et qui court vite?[1200] Un citron pressé</string>
 				<string>Pourquoi n’y a-t-il plus de mammouths ? [1200] Parce qu'il n'y a plus de papoute</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>spell</Key>
+			<BaseValue>peux-tu épeler</BaseValue>
+			<ClosePhoneticValues>
+				<string>peux-tu épeler</string>
+				<string>pouvez-vous épeler</string>
+				<string>est l'orthographe</string>
+				<string>comment écrit-on</string>
+				<string>comment s'écrit</string>
+				<string>comment tu écris</string>
+				<string>comment écris-tu</string>
+				<string>épelle-moi</string>
+				<string>donne-moi l'othographe</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>[word] s'écrit [answer]</string>
+				<string>L'orthographe de [word] est [answer]</string>
+				<string>[word] s'épelle [answer]</string>
+				<string>[answer]</string>
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
@@ -109,6 +130,11 @@
 			<BaseValue>Pour les plus curieux, vous pourrez apprendre à me programmer grâce à l’application Buddylab</BaseValue>
 			<ClosePhoneticValues>
 				<string>Buddylab</string>
+				<string>Bodylab</string>
+				<string>lance Buddylab</string>
+				<string>lance Bodylab</string>
+				<string>allume Buddylab</string>
+				<string>allume Bodylab</string>
 				<string>lab</string>
 				<string>Buddy lab</string>
 				<string>laboratoire</string>
@@ -619,7 +645,7 @@
 			<Key>follow</Key>
 			<BaseValue>OK, je te suis!</BaseValue>
 			<ClosePhoneticValues>
-				<string>suis moi</string>
+				<string>suis-moi</string>
 				<string>marche avec moi</string>
 				<string>viens à moi</string>
 				<string>suis mes pas</string>
@@ -630,6 +656,49 @@
 				<string>OK, je te suis!</string>
 				<string>Je te suis</string>
 				<string>OK, montre moi la route!</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>qokaybuddy</Key>
+			<BaseValue>Okay Buddy</BaseValue>
+			<ClosePhoneticValues>
+				<string>okay buddy</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Okay humain!</string>
+				<string>Je t'écoute</string>
+				<string>Je t'écoute déjà, [200] quand mon coeur est vert, tu peux me parler! [200] Vas-y, je t'écoute.</string>
+				<string>Pas la peine de m'appeler si mon coeur est déjà vert! [200] Je t'écoute.</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>qokaygoogle</Key>
+			<BaseValue>Okay Google</BaseValue>
+			<ClosePhoneticValues>
+				<string>okay google</string>
+				<string>google</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Okay human!</string>
+				<string>I am not google! My name is buddy!</string>
+				<string>Are you talking to another speech device? [200] Am I not enough for you?</string>
+				<string>Okay Google? [200] Am I a joke for you?</string>
+				<string>okay google, [150] sing me a song</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>qheyalexa</Key>
+			<BaseValue>hey Alexa</BaseValue>
+			<ClosePhoneticValues>
+				<string>hey Alexa</string>
+				<string>Alexa</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Hey human!</string>
+				<string>I am not Alexa! My name is buddy!</string>
+				<string>Are you talking to another speech device? [200] Am I not enough for you?</string>
+				<string>Alexa? [200] Am I a joke for you?</string>
+				<string>hey Alexa, [150] sing me a song</string>
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
@@ -781,6 +850,22 @@
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
+			<Key>lookatme</Key>
+			<BaseValue>regarde moi</BaseValue>
+			<ClosePhoneticValues>
+				<string>regarde moi</string>
+				<string>regarde vers moi</string>
+				<string>regarde devant</string>
+				<string>regarde tout droit</string>
+				<string>regarde en face</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>OK, je regarde devant moi</string>
+				<string>je regarde decant</string>
+				<string>Je vais [degrees] degrés sur la droite</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
 			<Key>moveright</Key>
 			<BaseValue>OK, je tourne à droite</BaseValue>
 			<ClosePhoneticValues>
@@ -820,6 +905,12 @@
 			<ClosePhoneticValues>
 				<string>augmente le volume</string>
 				<string>monte le volume</string>
+				<string>monte le son</string>
+				<string>augmente le son</string>
+				<string>augmente encore le volume</string>
+				<string>monte encore le volume</string>
+				<string>monte encore le son</string>
+				<string>augmente encore le son</string>
 				<string>plus fort</string>
 			</ClosePhoneticValues>
 			<RandomValues>
@@ -1149,6 +1240,9 @@
 			<BaseValue>gardien</BaseValue>
 			<ClosePhoneticValues>
 				<string>gardien</string>
+				<string>l'ange gardien</string>
+				<string>lance gardien</string>
+				<string>commence la surveillance</string>
 				<string>application surveillance</string>
 			</ClosePhoneticValues>
 			<RandomValues>
@@ -1159,17 +1253,35 @@
 			<BaseValue>IOT</BaseValue>
 			<ClosePhoneticValues>
 				<string>IOT</string>
+				<string>lance le scénario</string>
+				<string>déclenche le scénario</string>
+				<string>enclenche le scénario</string>
+				<string>joue le scénario</string>
 				<string>objets connectés</string>
 				<string>objet connecté</string>
 				<string>maison intelligente</string>
 				<string>température</string>
 				<string>températures</string>
-				<string>allume</string>
-				<string>éteins</string>
-				<string>allumer</string>
-				<string>éteindre</string>
+				<string>allume la</string>
+				<string>allume le</string>
+				<string>allume les</string>
+				<string>allume toutes les</string>
+				<string>allume touts les</string>
+				<string>éteins la</string>
+				<string>éteins les</string>
+				<string>éteins le</string>
+				<string>allumer la</string>
+				<string>allumer le</string>
+				<string>allumer les</string>
+				<string>éteindre la</string>
+				<string>éteindre le</string>
+				<string>éteindre les</string>
 				<string>ouvre le store</string>
 				<string>ferme le store</string>
+				<string>mets la musique</string>
+				<string>mets de la musique</string>
+				<string>volume de la musique</string>
+				<string>volume de musique</string>
 			</ClosePhoneticValues>
 			<RandomValues>
 			</RandomValues>
@@ -1922,6 +2034,22 @@
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
+			<Key>listenjoke</Key>
+			<BaseValue>Raconte moi une histoire</BaseValue>
+			<ClosePhoneticValues>
+				<string>te raconter une histoire drôle</string>
+				<string>te raconter une blague</string>
+				<string>te dire une histoire drôle</string>
+				<string>te dire une blague</string>
+				<string>te faire une blague</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Raconte-moi ta blague!</string>
+				<string>Je t'écoute!</string>
+				<string>Ok, j'écoute ta blague</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
 			<Key>whoisthere</Key>
 			<BaseValue>qui est là?</BaseValue>
 			<ClosePhoneticValues>
@@ -2272,11 +2400,15 @@
 			<Key>tellsomething</Key>
 			<BaseValue>Dis moi quelque chose</BaseValue>
 			<ClosePhoneticValues>
+				<string>raconte quelque chose</string>
+				<string>raconte-moi quelque chose</string>
+				<string>raconte un truc</string>
+				<string>raconte-moi un truc</string>
 				<string>Apprend-moi un truc</string>
+				<string>Apprend-moi quelque chose</string>
 				<string>fais amusant</string>
 				<string>Dis-moi un truc</string>
 				<string>Dis-moi quelque chose</string>
-				<string>fais amusant</string>
 				<string>fait amusant</string>
 				<string>dis un truc</string>
 				<string>dis quelque chose</string>
@@ -2463,6 +2595,20 @@
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
+			<Key>translateFrench</Key>
+			<BaseValue>traduis en français</BaseValue>
+			<ClosePhoneticValues>
+				<string>traduis en français</string>
+				<string>traduisez en français</string>
+				<string>traduire en français</string>
+				<string>comment dit-on en français</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>voilà la traduction de [request] : </string>
+				<string>[request] en français se dit</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
 			<Key>calculation</Key>
 			<BaseValue>application de calcul</BaseValue>
 			<ClosePhoneticValues>
@@ -2604,10 +2750,12 @@
 			<BaseValue>la couleur de cet objet est [colour]</BaseValue>
 			<ClosePhoneticValues>
 				<string>couleur de cet objet</string>
+				<string>couleur de l'objet</string>
+				<string>couleur vois-tu</string>
 				<string>couleur</string>
 			</ClosePhoneticValues>
 			<RandomValues>
-				<string>la couleur de cet objet est [colour]</string>
+				<string>la couleur de cet objet [100] est [colour]</string>
 				<string>Je crois que je vois du [colour]</string>
 				<string>Il me semble que je vois du [colour]</string>
 			</RandomValues>
@@ -3141,6 +3289,25 @@
 			<Key>reminder</Key>
 			<BaseValue>rappel</BaseValue>
 			<ClosePhoneticValues>
+				<string>ajoute un rappel</string>
+				<string>ajoute un reminder</string>
+				<string>ajoute le rappel</string>
+				<string>ajoute rappel</string>
+				<string>ajouter rappel</string>
+				<string>mets un reminder</string>
+				<string>mets un rappel</string>
+				<string>mets le rappel</string>
+				<string>mets rappel</string>
+				<string>enregistre rappel</string>
+				<string>enregistre un rappel</string>
+				<string>enregistre le rappel</string>
+				<string>enregistrer rappel</string>
+				<string>enregistrer un rappel</string>
+				<string>enregistrer le rappel</string>
+				<string>application rappel</string>
+				<string>application reminder</string>
+				<string>l'application rappel</string>
+				<string>l'application reminder</string>
 				<string>rappel</string>
 			</ClosePhoneticValues>
 			<RandomValues>
@@ -3305,11 +3472,11 @@
 		</DictionaryEntry>
 		<DictionaryEntry>
 			<Key>qhappy</Key>
-			<BaseValue>Oui, je suis très content d'être parmi vous, j'aime bien me faire de nouvelles connaissances</BaseValue>
+			<BaseValue>Oui, je suis très contant d'être parmi vous, j'aime bien me faire de nouvelles connaissances</BaseValue>
 			<ClosePhoneticValues>
 			</ClosePhoneticValues>
 			<RandomValues>
-				<string>Oui, je suis très content d'être parmi vous, j'aime bien me faire de nouvelles connaissances</string>
+				<string>Oui, je suis très contant d'être parmi vous, j'aime bien me faire de nouvelles connaissances</string>
 				<string>Oui, je suis heureux, en plus tu es la, [1000] alors tout va bien.</string>
 			</RandomValues>
 		</DictionaryEntry>
@@ -3317,6 +3484,10 @@
 			<Key>qwtcanyoudo</Key>
 			<BaseValue>Je sais faire pleins de choses, entre autres, t'aider à cuisiner en dictant une recette, donner la météo, jouer avec les enfants, leur raconter une histoire, et aider les séniors en leur rappelant la prise de médicament. Je suis un vrai compagnon qui t'accompagne au quotidien.</BaseValue>
 			<ClosePhoneticValues>
+				<string>que sais-tu faire</string>
+				<string>ce que tu sais faire</string>
+				<string>qu'est-ce que tu sais faire</string>
+				<string>tu sais faire quoi</string>
 			</ClosePhoneticValues>
 			<RandomValues>
 				<string>Je sais faire pleins de choses, entre autres, t'aider à cuisiner en dictant une recette, donner la météo, jouer avec les enfants, leur raconter une histoire, et aider les séniors en leur rappelant la prise de médicament. Je suis un vrai compagnon qui t'accompagne au quotidien.</string>
@@ -3361,6 +3532,10 @@
 			<Key>qhowareyou</Key>
 			<BaseValue>Je vais bien merci ! J'espère que vous passez une agréable journée</BaseValue>
 			<ClosePhoneticValues>
+				<string>Comment vas-tu</string>
+				<string>comment tu vas</string>
+				<string>Tu vas bien</string>
+				<string>ça va</string>
 			</ClosePhoneticValues>
 			<RandomValues>
 				<string>Je vais bien merci ! J'espère que vous passez une agréable journée</string>
@@ -3493,6 +3668,8 @@
 			<Key>qmimicdog</Key>
 			<BaseValue>Wouah wahF wahF!</BaseValue>
 			<ClosePhoneticValues>
+				<string>fais le chien</string>
+				<string>imite le chien</string>
 			</ClosePhoneticValues>
 			<RandomValues>
 				<string>Wouah wahF wahF!</string>
@@ -3502,6 +3679,8 @@
 			<Key>qmimiccat</Key>
 			<BaseValue>Miaou ! Miaou ! Miaou !</BaseValue>
 			<ClosePhoneticValues>
+				<string>fais le chat</string>
+				<string>imite le chat</string>
 			</ClosePhoneticValues>
 			<RandomValues>
 				<string>Miaou ! Miaou ! Miaou !</string>
@@ -3678,6 +3857,18 @@
 				<string>Très bien, merci.</string>
 				<string>Super ces cool.</string>
 				<string>OK, on est au top!</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>qworks</Key>
+			<BaseValue>ça marche</BaseValue>
+			<ClosePhoneticValues>
+				<string>ça marche</string>
+				<string>tu marches</string>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>ça marche</string>
+				<string>non, ça roule</string>
 			</RandomValues>
 		</DictionaryEntry>
 		<DictionaryEntry>
@@ -3933,6 +4124,7 @@
 				<string>répétez s'il vous plaît</string>
 				<string>répète s'il te plaît</string>
 				<string>redis s'il te plaît</string>
+				<string>peux-tu répéter</string>
 				<string>répéter</string>
 				<string>répètez</string>
 				<string>répète</string>
