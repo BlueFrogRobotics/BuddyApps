@@ -86,14 +86,24 @@ namespace BuddyApp.FreezeDance
 
             mPlayerList.List.Sort((x, y) => x.Score.CompareTo(y.Score));
             mPlayerList.List.Reverse();
-
-            string lDirectoryPath = Buddy.Resources.AppRawDataPath + "scores.xml";
+            
             //Directory.CreateDirectory(lDirectoryPath);
             //Utils.SerializeCSV(lDirectoryPath, "truc", "machin");
             //ClearRanking();
             //UpdateRanking();
             mLastRank = mPlayerList.List.IndexOf(lPlayer);
+            SaveScores();
+        }
 
+        public void RemovePlayer(PlayerScore lPlayer)
+        {
+            mPlayerList.List.Remove(lPlayer);
+            SaveScores();
+        }
+
+        private void SaveScores()
+        {
+            string lDirectoryPath = Buddy.Resources.AppRawDataPath + "scores.xml";
             Utils.SerializeXML<PlayerList>(mPlayerList, lDirectoryPath);
         }
 
@@ -149,8 +159,7 @@ namespace BuddyApp.FreezeDance
             //ClearRanking();
             //UpdateRanking();
             Debug.Log("reset: " + mPlayerList.List.Count);
-            string lDirectoryPath = Buddy.Resources.AppRawDataPath + "scores.xml";
-            Utils.SerializeXML<PlayerList>(mPlayerList, lDirectoryPath);
+            SaveScores();
         }
 
         //private void UpdateRanking()

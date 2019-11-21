@@ -40,6 +40,14 @@ namespace BuddyApp.FreezeDance
                 Replay();
             });
 
+            // Display clear score button
+            FButton clearButton = Buddy.GUI.Footer.CreateOnLeft<FButton>();
+            clearButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_trash", Context.OS));
+            clearButton.OnClick.Add(() => {
+                mRanking.ResetRanking();
+                Buddy.GUI.Toaster.Hide();
+            });
+
 
             Buddy.GUI.Toaster.Display<VerticalListToast>().With((iBuilder) =>
             {
@@ -58,6 +66,14 @@ namespace BuddyApp.FreezeDance
                         TRightSideButton scoreButton = lBox.CreateRightButton();
                         scoreButton.SetLabel(lScore.Score.ToString());
                         scoreButton.SetIconColor(Color.red);
+
+                        TRightSideButton delButton = lBox.CreateRightButton();
+                        delButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_trash", Context.OS));
+                        delButton.OnClick.Add(() => {
+                            iBuilder.Remove(lBox);
+                            mRanking.RemovePlayer(lScore);
+                        });
+
                         i++;
                     }
                 }
