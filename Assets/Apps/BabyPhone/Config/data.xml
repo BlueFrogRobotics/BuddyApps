@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BabyPhoneData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <Angle>0</Angle>
+    <FirstRunParam>false</FirstRunParam>
+    <FirstRun>true</FirstRun>
+    <MovementDetectionThreshold>39</MovementDetectionThreshold>
+    <SoundDetectionThreshold>65</SoundDetectionThreshold>
+    <MovementDetection>false</MovementDetection>
+    <SoundDetection>true</SoundDetection>
+    <SendMail>true</SendMail>
+    <HeadOrientation>false</HeadOrientation>
+    <MovementDebug>false</MovementDebug>
+    <SoundDebug>false</SoundDebug>
+    <AddContact>false</AddContact>
+    <Contact>
+        <ID>2</ID>
+        <Email>buddy@bluefrogrobotics.com</Email>
+        <FirstName>Buddy</FirstName>
+        <LastName>Robichon</LastName>
+        <Gender>MALE</Gender>
+        <BirthDate>0001-01-01T00:00:00</BirthDate>
+        <Password>123456</Password>
+        <Session>USER</Session>
+        <Permissions />
+    </Contact>
+    <ContactId>0</ContactId>
+    <BabyName>Léo</BabyName>
+    <PlayLullaby>false</PlayLullaby>
+    <LullabyDuration>0.2</LullabyDuration>
+    <ReplayOnDetection>true</ReplayOnDetection>
+</BabyPhoneData>
