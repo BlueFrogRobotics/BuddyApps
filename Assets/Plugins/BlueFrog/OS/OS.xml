@@ -29,13 +29,6 @@
             <seealso cref="T:BlueQuark.Internal.Looper"/>
             <returns>True if the unsubscribtion has been recorded.</returns>
         </member>
-        <member name="M:BlueQuark.Internal.AComponent.IsFromMSCoreLib(System.Reflection.Assembly)">
-            <summary>
-            Checks if the input assembly is mscorlib.
-            </summary>
-            <param name="iCtorCallAssembly">The assembly to check.</param>
-            <returns>True if the assembly is mscorlib.dll.</returns>
-        </member>
         <member name="P:BlueQuark.Internal.AComponent.IsLooping">
             <summary>
             True if the component is registered to Looper.
@@ -207,28 +200,28 @@
         </member>
         <member name="M:BlueQuark.Internal.AMetricSuite.DisplayTexture(BlueQuark.Internal.ICamera)">
             <summary>
-            Display a stream texture on the lateral right side. Stay until test is validate.
+            Display a stream texture on the lateral right side. Stay until test is passed.
             </summary>
             <param name="iCamera">Camera to display.</param>
             <returns>True if everything was right. False otherwise.</returns>
         </member>
         <member name="M:BlueQuark.Internal.AMetricSuite.DisplayTexture(UnityEngine.Texture)">
             <summary>
-            Display a texture on the lateral right side. Stay until test is validate.
+            Display a texture on the lateral right side. Stays until test is passed.
             </summary>
             <param name="iTexture">Texture to display.</param>
             <returns>True if everything was right. False otherwise.</returns>
         </member>
         <member name="M:BlueQuark.Internal.AMetricSuite.DisplayImage(UnityEngine.Sprite)">
             <summary>
-            Display an image on the lateral right side. Stay until test is validate.
+            Display an image on the lateral right side. Stays until test is passed.
             </summary>
             <param name="iSprite">Sprite to display.</param>
             <returns>True if everything was right. False otherwise.</returns>
         </member>
         <member name="M:BlueQuark.Internal.AMetricSuite.DisplayText(System.String)">
             <summary>
-            Display a text on the lateral right side. Stay until test is validate.
+            Display a text on the lateral right side. Stays until test is passed.
             </summary>
             <param name="iText">Text to display.</param>
         </member>
@@ -483,6 +476,22 @@
             Logical class of the current Unity Link. Use it to forward Unity callbacks.
             </summary>
         </member>
+        <member name="F:BlueQuark.Internal.AULink.mPlatformType">
+            <summary>
+            Platform specialization type of the ULink.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.AULink.Type">
+            <summary>
+            Gets the platform type of the Unity Link.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.AULink.Setup(BlueQuark.Internal.ULinkPlatformType)">
+            <summary>
+            First method call after the ULink ctor.
+            </summary>
+            <param name="iPlatformType">The specialization type of the ULink.</param>
+        </member>
         <member name="M:BlueQuark.Internal.AULink.Setup(System.Object)">
             <summary>
             Called after ctor to setup base dependencies.
@@ -516,7 +525,7 @@
             <summary>
             Calls a method in the presenter part with the same name of the calling method with the suffix "Impl". Use that method to forward an Unity event to the Presenter Impl side.
             </summary>
-            <param name="iArg">Optional arg that will be forward to the Presenter method</param>
+            <param name="iObject">Optional argument that will be forwarded to the Presenter method.</param>
         </member>
         <member name="T:BlueQuark.Internal.DefaultULink">
             <summary>
@@ -757,7 +766,7 @@
             Most nested loop. Null if top layer.
             </summary>
         </member>
-        <member name="F:BlueQuark.Internal.RunBehaviourStructureVisitor.mAbort">
+        <member name="F:BlueQuark.Internal.RunBehaviourStructureVisitor.mToAbort">
             <summary>
             The visitor process must abort.
             </summary>
@@ -1084,6 +1093,160 @@
             Operating system package manager.
             </summary>
         </member>
+        <member name="M:BlueQuark.Internal.Guard.AssertIsNumber(System.Double)">
+            <summary>
+            Check if the input val is a correct number and not infinity.
+            </summary>
+            <param name="iVal">The value to check.</param>
+            <returns>True if not infinity or NaN.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Guard.AssertIsNumber(System.Single)">
+            <summary>
+            Check if the input val is a correct number and not infinity.
+            </summary>
+            <param name="iVal">The value to check.</param>
+            <returns>True if not infinity or NaN.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Guard.AssertIsNaN(System.Double)">
+            <summary>
+            Check if the input val is not a number or infinity.
+            </summary>
+            <param name="iVal">The value to check.</param>
+            <returns>True if infinity or NaN.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Guard.AssertIsNaN(System.Single)">
+            <summary>
+            Check if the input val is not a number or infinity.
+            </summary>
+            <param name="iVal">The value to check.</param>
+            <returns>True if infinity or NaN.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Guard.AssertIsPositive(System.Double,System.Boolean)">
+            <summary>
+            Checks if the value is >= 0 or > 0 if strict.
+            </summary>
+            <param name="iVal">The value to check.</param>
+            <param name="iStrict">The value to check.</param>
+            <returns>Return true if the value is >= 0, or > 0 if strict.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Guard.AssertIsNegative(System.Double,System.Boolean)">
+            <summary>
+            Checks if the value is >= 0 or > 0 if strict.
+            </summary>
+            <param name="iVal">The value to check.</param>
+            <param name="iStrict">The value to check.</param>
+            <returns>Return true if the value is >= 0, or > 0 if strict.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Guard.AssertIsInRange(System.Double,System.Double,System.Double)">
+            <summary>
+            Checks if a value is in range between two values.
+            </summary>
+            <param name="iVal">The value to check.</param>
+            <param name="iLowerRange">The lower range.</param>
+            <param name="iUpperRange">The upper range.</param>
+            <returns>Returns true if strictly lower than lower range or strictly highier than upper range</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Guard.AssertIsAmong(System.Double,System.Double,System.Double,System.Double[])">
+            <summary>
+            Check if a value is contained among provided numbers.
+            </summary>
+            <param name="iVal">The value to check.</param>
+            <param name="iRangeVal1">Mandatory comparative value.</param>
+            <param name="iRangeVal2">Mandatory comparative value.</param>
+            <param name="iRange">Dynamic comparative values.</param>
+            <returns>Returns true if the value is among the provided numbers.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Guard.AssertIsNotEmpty(System.String)">
+            <summary>
+            Checks if the string is not null, empty, or only contains whitespace.
+            </summary>
+            <param name="iString">String to check.</param>
+            <returns>Returns true if the string is null, empty, or only contains whitespace.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Guard.AssertIsEmpty(System.String)">
+            <summary>
+            Checks if the string is null, empty, or only contains whitespace.
+            </summary>
+            <param name="iString">String to check.</param>
+            <returns>Returns true if the string is null, empty, or only contains whitespace.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Guard.AssertIsNotEmpty``1(``0[])">
+            <summary>
+            Checks if the array is not null or empty.
+            </summary>
+            <param name="iArray">Array to check.</param>
+            <returns>Returns true if the array is null or empty.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Guard.AssertIsEmpty``1(``0[])">
+            <summary>
+            Checks if the array is null or empty.
+            </summary>
+            <param name="iArray">Array to check.</param>
+            <returns>Returns true if the array is null or empty.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Guard.AssertIsNotEmpty``1(System.Collections.Generic.ICollection{``0})">
+            <summary>
+            Checks if the array is null or empty.
+            </summary>
+            <param name="iArray">Array to check.</param>
+            <returns>Returns true if the array is null or empty.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Guard.AssertIsEmpty``1(System.Collections.Generic.ICollection{``0})">
+            <summary>
+            Checks if the array is not null or empty.
+            </summary>
+            <param name="iArray">Array to check.</param>
+            <returns>Returns true if the array is null or empty.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Guard.AssertIsEmpty(OpenCVUnity.Mat)">
+            <summary>
+            Checks if the OpenCVUnity matrix is not null or empty.
+            </summary>
+            <param name="iMat">Matrix to check.</param>
+            <returns>Returns true if the matrix is null or empty.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Guard.AssertIsEmpty(UnityEngine.Texture)">
+            <summary>
+            Checks if the Unity texture is not null or empty.
+            </summary>
+            <param name="iTexture">Texture to check.</param>
+            <returns>Returns true if the texture is null or empty.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Guard.AssertIsNotEmpty(UnityEngine.Texture)">
+            <summary>
+            Checks if the Unity texture is not null or empty.
+            </summary>
+            <param name="iTexture">Texture to check.</param>
+            <returns>Returns true if the texture is null or empty.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Guard.AssertIsEmpty(UnityEngine.Sprite)">
+            <summary>
+            Checks if the Unity sprite is not null or empty.
+            </summary>
+            <param name="iSprite">Sprite to check.</param>
+            <returns>Returns true if the sprite and its texture is null or empty.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Guard.AssertIsNotEmpty(UnityEngine.Sprite)">
+            <summary>
+            Checks if the Unity sprite is not null or empty.
+            </summary>
+            <param name="iSprite">Sprite to check.</param>
+            <returns>Returns true if the sprite and its texture is null or empty.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Guard.AssertIsNotNull(System.Object)">
+            <summary>
+            Checks if the reference of an object is not null.
+            </summary>
+            <param name="iObject">The referennce of the object to check.</param>
+            <returns>Returns true if the object</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Guard.AssertIsNull(System.Object)">
+            <summary>
+            Checks if the reference of an object is null.
+            </summary>
+            <param name="iObject">The referennce of the object to check.</param>
+            <returns>Returns true if the object</returns>
+        </member>
         <member name="P:BlueQuark.Internal.LayerStack`1.Previous">
             <summary>
             Get the layer that is directly underneath the current.
@@ -1400,7 +1563,7 @@
             Represents the progress of an hardware command.
             </summary>
         </member>
-        <member name="P:BlueQuark.Internal.HardwareCommandProgress.IsSucceed">
+        <member name="P:BlueQuark.Internal.HardwareCommandProgress.IsSucceeded">
             <summary>
             Is the command well acknowledged without error ?
             </summary>
@@ -3611,15 +3774,15 @@
             <summary>
             Removes the specified widgets.
             </summary>
-            <typeparam name="W">The type of widget to remove.</typeparam>
-            <param name="iWidgets">The widgets to removes.</param>
+            <typeparam name="W">The type of widget to be removed.</typeparam>
+            <param name="iWidgets">The widgets to be removed.</param>
         </member>
         <member name="M:BlueQuark.Internal.AELayoutContentWidget`1.RemoveWidget``1(``0)">
             <summary>
             Removes the specified widgets.
             </summary>
-            <typeparam name="W">The type of widget to remove.</typeparam>
-            <param name="iWidget">The widgets to removes.</param>
+            <typeparam name="W">The type of widget to be removed.</typeparam>
+            <param name="iWidget">The widgets to be removed.</param>
         </member>
         <member name="T:BlueQuark.Internal.AESealedContentWidget`1">
             <summary>
@@ -3671,17 +3834,17 @@
             Provides an instance of the wished type. UniqueComponent can be instantiate ONLY ONCE. 
             Any request to a already intantiate UniqueComponent will returns a null.
             </summary>
-            <typeparam name="C">Type of the component to instantiate</typeparam>
-            <returns>The new component, null if already instantiate or error</returns>
+            <typeparam name="C">Type of the component to instantiate.</typeparam>
+            <returns>The new component, null if it already instantiate or error.</returns>
             <seealso cref="T:BlueQuark.Internal.IUniqueComponent"/>
         </member>
         <member name="M:BlueQuark.Internal.Injector.Provide``1(System.Int32)">
             <summary>
-            Provides an instance of th wished type. A ULink must be present in the scene. Regular component can be instantiate many times.
+            Provides an instance of the wished type. A ULink must be present in the scene. Regular component can be instantiate many times.
             Use this method to create indexable regular component. For GUI Widget, use UIFactory instead.
             </summary>
-            <typeparam name="C">Type of the component to instantiate</typeparam>
-            <param name="iIndex">Index of the component to retrieve in the scene</param>
+            <typeparam name="C">Type of the component to instantiate.</typeparam>
+            <param name="iIndex">Index of the component to retrieve in the scene.</param>
             <returns>The new component, null if error</returns>
             <seealso cref="T:BlueQuark.Internal.IRegularComponent"/>
         </member>
@@ -3690,6 +3853,36 @@
             Provides a basic instance of a ULink. Use it for class that need access to sandboxed Unity coroutines.
             </summary>
             <returns>Instance of a new ULink. Must be Dispose() when no need anymore.</returns>
+        </member>
+        <member name="T:BlueQuark.Internal.ULinkPlatformType">
+            <summary>
+            ULink specialization for multiplatform purpose.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.ULinkPlatformType.CROSS_PLATFORM">
+            <summary>
+            Can be run on any platform. EG : Completely software independant. Basically : GUI or empty ULink.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.ULinkPlatformType.EMBEDDED">
+            <summary>
+            Can be run only in Embedded mode (now Android). EG : Hardware component or software that only can be ran on Android.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.ULinkPlatformType.DISTRIBUTED">
+            <summary>
+            Can be run only in Embedded mode (now Android) with a Jetson Nano board plugged.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.ULinkPlatformType.WINDOWS">
+            <summary>
+            Can be run only in Windows platform (in Editor). EG : Software platform dependant platform.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.ULinkPlatformType.SIMULATED">
+            <summary>
+            Simulated version of an Hardware component. Can only be run on Editor.
+            </summary>
         </member>
         <member name="T:BlueQuark.Internal.EventBus">
             <summary>
@@ -3990,28 +4183,28 @@
             <summary>
             Adds a component to update at each frame.
             </summary>
-            <param name="iToUpdate">The component to subscribe for an update system.</param>
+            <param name="iToUpdate">The component to subscribe to the update system.</param>
             <returns>True if the subscription is effective, false otherwise.</returns>
         </member>
         <member name="M:BlueQuark.Internal.Looper.Unsubscribe(BlueQuark.Internal.AComponent)">
             <summary>
             Removes a component to update.
             </summary>
-            <param name="iToUpdate">The component to subscribe for an update system.</param>
+            <param name="iToRemove">The component to unsubscribe to the update system.</param>
             <returns>True if the unsubscription is effective, false otherwise.</returns>
         </member>
         <member name="M:BlueQuark.Internal.Looper.Subscribe(BlueQuark.Internal.APresenterULink)">
             <summary>
             Adds a component to update at each frame.
             </summary>
-            <param name="iToUpdate">The ULink to subscribe for an update system.</param>
+            <param name="iToUpdate">The ULink to subscribe from the update system.</param>
             <returns>True if the subscription is effective, false otherwise.</returns>
         </member>
         <member name="M:BlueQuark.Internal.Looper.Unsubscribe(BlueQuark.Internal.APresenterULink)">
             <summary>
             Removes a component to update.
             </summary>
-            <param name="iToUpdate">The ULink to subscribe for an update system.</param>
+            <param name="iToRemove">The ULink to unsubscribe from the update system.</param>
             <returns>True if the unsubscription is effective, false otherwise.</returns>
         </member>
         <member name="T:BlueQuark.Internal.IRegularComponent">
@@ -4086,7 +4279,9 @@
         </member>
         <member name="T:BlueQuark.Internal.Main">
             <summary>
-            Entry point of the BlueQuark operating system. Initialization order : Looper > EventBus > Injector > Main 
+            Entry point of the BlueQuark operating system. 
+            Initialization (Awake) order : Looper > EventBus > Injector > Main 
+            Call order : Main > Injector > EventBus + Looper
             </summary>
             <seealso cref="T:BlueQuark.Internal.Injector"/>
             <seealso cref="T:BlueQuark.Internal.EventBus"/>
@@ -5952,35 +6147,35 @@
             </summary>
             <seealso cref="T:BlueQuark.Internal.AState"/>>
         </member>
-        <member name="M:BlueQuark.Internal.Guard.AssertIsNumber(System.Double)">
+        <member name="M:BlueQuark.Internal.APIGuard.AssertIsNumber(System.Double)">
             <summary>
             Check if the input val is a correct number and not infinity. Log error if false.
             </summary>
             <param name="iVal">The value to check.</param>
             <returns>True if not infinity or NaN.</returns>
         </member>
-        <member name="M:BlueQuark.Internal.Guard.AssertIsNumber(System.Single)">
+        <member name="M:BlueQuark.Internal.APIGuard.AssertIsNumber(System.Single)">
             <summary>
             Check if the input val is a correct number and not infinity. Log error if false.
             </summary>
             <param name="iVal">The value to check.</param>
             <returns>True if not infinity or NaN.</returns>
         </member>
-        <member name="M:BlueQuark.Internal.Guard.AssertIsNaN(System.Double)">
+        <member name="M:BlueQuark.Internal.APIGuard.AssertIsNaN(System.Double)">
             <summary>
             Check if the input val is not a number or infinity. Log error if true.
             </summary>
             <param name="iVal">The value to check.</param>
             <returns>True if infinity or NaN.</returns>
         </member>
-        <member name="M:BlueQuark.Internal.Guard.AssertIsNaN(System.Single)">
+        <member name="M:BlueQuark.Internal.APIGuard.AssertIsNaN(System.Single)">
             <summary>
             Check if the input val is not a number or infinity. Log error if true.
             </summary>
             <param name="iVal">The value to check.</param>
             <returns>True if infinity or NaN.</returns>
         </member>
-        <member name="M:BlueQuark.Internal.Guard.AssertIsPositive(System.Double,System.Boolean)">
+        <member name="M:BlueQuark.Internal.APIGuard.AssertIsPositive(System.Double,System.Boolean)">
             <summary>
             Checks if the value is >= 0 or > 0 if strict. Log error if false.
             </summary>
@@ -5988,7 +6183,7 @@
             <param name="iStrict">The value to check.</param>
             <returns>Return true if the value is >= 0, or > 0 if strict.</returns>
         </member>
-        <member name="M:BlueQuark.Internal.Guard.AssertIsNegative(System.Double,System.Boolean)">
+        <member name="M:BlueQuark.Internal.APIGuard.AssertIsNegative(System.Double,System.Boolean)">
             <summary>
             Checks if the value is >= 0 or > 0 if strict. Log error if false.
             </summary>
@@ -5996,7 +6191,7 @@
             <param name="iStrict">The value to check.</param>
             <returns>Return true if the value is >= 0, or > 0 if strict.</returns>
         </member>
-        <member name="M:BlueQuark.Internal.Guard.AssertIsInRange(System.Double,System.Double,System.Double)">
+        <member name="M:BlueQuark.Internal.APIGuard.AssertIsInRange(System.Double,System.Double,System.Double)">
             <summary>
             Checks if a value is in range between two values. Log error if false.
             </summary>
@@ -6005,7 +6200,7 @@
             <param name="iUpperRange">The upper range.</param>
             <returns>Returns true if strictly lower than lower range or strictly highier than upper range</returns>
         </member>
-        <member name="M:BlueQuark.Internal.Guard.AssertIsAmong(System.Double,System.Double,System.Double,System.Double[])">
+        <member name="M:BlueQuark.Internal.APIGuard.AssertIsAmong(System.Double,System.Double,System.Double,System.Double[])">
             <summary>
             Check if a value is contained among provided numbers. Log error if false.
             </summary>
@@ -6015,77 +6210,84 @@
             <param name="iRange">Dynamic comparative values.</param>
             <returns>Returns true if the value is among the provided numbers.</returns>
         </member>
-        <member name="M:BlueQuark.Internal.Guard.AssertIsNotEmpty(System.String)">
+        <member name="M:BlueQuark.Internal.APIGuard.AssertIsNotEmpty(System.String)">
             <summary>
             Checks if the string is not null, empty, or only contains whitespace. Log error if false.
             </summary>
-            <param name="iString">String to checks.</param>
+            <param name="iString">String to check.</param>
             <returns>Returns true if the string is null, empty, or only contains whitespace.</returns>
         </member>
-        <member name="M:BlueQuark.Internal.Guard.AssertIsEmpty(System.String)">
+        <member name="M:BlueQuark.Internal.APIGuard.AssertIsEmpty(System.String)">
             <summary>
             Checks if the string is null, empty, or only contains whitespace. Log error if true.
             </summary>
-            <param name="iString">String to checks.</param>
+            <param name="iString">String to check.</param>
             <returns>Returns true if the string is null, empty, or only contains whitespace.</returns>
         </member>
-        <member name="M:BlueQuark.Internal.Guard.AssertIsNotEmpty``1(``0[])">
+        <member name="M:BlueQuark.Internal.APIGuard.AssertIsNotEmpty``1(``0[])">
             <summary>
             Checks if the array is not null or empty. Log error if false.
             </summary>
-            <param name="iArray">Array to checks.</param>
+            <param name="iArray">Array to check.</param>
             <returns>Returns true if the array is null or empty.</returns>
         </member>
-        <member name="M:BlueQuark.Internal.Guard.AssertIsEmpty``1(``0[])">
+        <member name="M:BlueQuark.Internal.APIGuard.AssertIsEmpty``1(``0[])">
             <summary>
             Checks if the array is null or empty. Log error if true.
             </summary>
-            <param name="iArray">Array to checks.</param>
+            <param name="iArray">Array to check.</param>
             <returns>Returns true if the array is null or empty.</returns>
         </member>
-        <member name="M:BlueQuark.Internal.Guard.AssertIsNotEmpty``1(System.Collections.Generic.ICollection{``0})">
+        <member name="M:BlueQuark.Internal.APIGuard.AssertIsNotEmpty``1(System.Collections.Generic.ICollection{``0})">
             <summary>
             Checks if the array is null or empty. Log error if false.
             </summary>
-            <param name="iArray">Array to checks.</param>
+            <param name="iArray">Array to check.</param>
             <returns>Returns true if the array is null or empty.</returns>
         </member>
-        <member name="M:BlueQuark.Internal.Guard.AssertIsEmpty``1(System.Collections.Generic.ICollection{``0})">
+        <member name="M:BlueQuark.Internal.APIGuard.AssertIsEmpty``1(System.Collections.Generic.ICollection{``0})">
             <summary>
             Checks if the array is not null or empty. Log error if true.
             </summary>
-            <param name="iArray">Array to checks.</param>
+            <param name="iArray">Array to check.</param>
             <returns>Returns true if the array is null or empty.</returns>
         </member>
-        <member name="M:BlueQuark.Internal.Guard.AssertIsEmpty(OpenCVUnity.Mat)">
+        <member name="M:BlueQuark.Internal.APIGuard.AssertIsEmpty(OpenCVUnity.Mat)">
             <summary>
             Checks if the OpenCVUnity matrix is not null or empty. Log error if true.
             </summary>
-            <param name="iMat">Matrix to checks.</param>
+            <param name="iMat">Matrix to check.</param>
             <returns>Returns true if the matrix is null or empty.</returns>
         </member>
-        <member name="M:BlueQuark.Internal.Guard.AssertIsEmpty(UnityEngine.Texture)">
+        <member name="M:BlueQuark.Internal.APIGuard.AssertIsEmpty(UnityEngine.Texture)">
             <summary>
             Checks if the Unity texture is not null or empty. Log error if true.
             </summary>
-            <param name="iTexture">Texture to checks.</param>
-            <returns>Returns true if the matrix is null or empty.</returns>
+            <param name="iTexture">Texture to check.</param>
+            <returns>Returns true if the texture is null or empty.</returns>
         </member>
-        <member name="M:BlueQuark.Internal.Guard.AssertIsNotNull(System.Object)">
+        <member name="M:BlueQuark.Internal.APIGuard.AssertIsEmpty(UnityEngine.Sprite)">
+            <summary>
+            Checks if the Unity sprite is not null or empty. Log error if true.
+            </summary>
+            <param name="iSprite">Sprite to check.</param>
+            <returns>Returns true if the sprite or its texture is null or empty.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.APIGuard.AssertIsNotNull(System.Object)">
             <summary>
             Checks if the reference of an object is not null. Log error if false.
             </summary>
             <param name="iObject">The referennce of the object to check.</param>
             <returns>Returns true if the object</returns>
         </member>
-        <member name="M:BlueQuark.Internal.Guard.AssertIsNull(System.Object)">
+        <member name="M:BlueQuark.Internal.APIGuard.AssertIsNull(System.Object)">
             <summary>
             Checks if the reference of an object is null. Log error if true.
             </summary>
             <param name="iObject">The referennce of the object to check.</param>
             <returns>Returns true if the object</returns>
         </member>
-        <member name="M:BlueQuark.Internal.Guard.GetCallingMethodName">
+        <member name="M:BlueQuark.Internal.APIGuard.GetCallingMethodName">
             <summary>
             Gets the absolute name of calling method, must be called from an assert method guard.
             </summary>
@@ -9530,14 +9732,14 @@
         </member>
         <member name="M:BlueQuark.Face.PlayEvent(BlueQuark.FacialEvent,System.Boolean)">
             <summary>
-            Buddy will make a mouth event. Last until MouthEvent.NONE or speak.
+            Buddy will make a facial event.
             </summary>
             <param name="iFacialEvent">The mouth event.</param>
             <param name="iEnqueue">If false, the queue will be clear and the current query will be immediately considered.</param>
         </member>
         <member name="M:BlueQuark.Face.PlayEvent(BlueQuark.FacialEvent,System.Action{BlueQuark.FacialEvent},System.Boolean)">
             <summary>
-            Buddy will make a mouth event.
+            Buddy will make a facial event.
             </summary>
             <param name="iFacialEvent">The mouth event.</param>
             <param name="iOnStartEvent">Callback called at the beginning of the event.</param>
@@ -9545,7 +9747,7 @@
         </member>
         <member name="M:BlueQuark.Face.PlayEvent(BlueQuark.FacialEvent,System.Action{BlueQuark.FacialEvent},System.Action{BlueQuark.FacialEvent},System.Boolean)">
             <summary>
-            Buddy will make a mouth event.
+            Buddy will make a facial event.
             </summary>
             <param name="iFacialEvent">The mouth event.</param>
             <param name="iOnStartEvent">Callback called at the beginning of the event.</param>
@@ -9717,7 +9919,7 @@
         </member>
         <member name="T:BlueQuark.FacialEvent">
             <summary>
-            Mouth and eye events that Buddy face can desplay.
+            Possible Buddy facial expressions. Mouth and eye events.
             </summary>
         </member>
         <member name="F:BlueQuark.FacialEvent.SMILE">
@@ -10165,12 +10367,12 @@
         </member>
         <member name="P:BlueQuark.MainMotherboard.MemoryUsage">
             <summary>
-            Used RAM in % (1 is full).
+            RAM used by the CPU (1 is full).
             </summary>
         </member>
         <member name="P:BlueQuark.MainMotherboard.CPUUsage">
             <summary>
-            Used CPU in % (1 is full).
+            CPU used by the current program (1 is full).
             </summary>
         </member>
         <member name="P:BlueQuark.MainMotherboard.GCMemory">
@@ -12624,6 +12826,11 @@
             Full path of the photograph.
             </summary>
         </member>
+        <member name="M:BlueQuark.Photograph.Dispose">
+            <summary>
+            Disposes the object and its inner texture. Does not delete the image if stored in disk.
+            </summary>
+        </member>
         <member name="M:BlueQuark.Photograph.Update(UnityEngine.Sprite)">
             <summary>
             Update the stored image. Must be saved for permanent effect.
@@ -12647,13 +12854,13 @@
         </member>
         <member name="M:BlueQuark.Photograph.Save">
             <summary>
-            Save the image on HDD. The Photo will be readable only for the running App.
+            Saves the image on disk. The Photo will be readable only for the running App.
             </summary>
             <returns>The fullpath to the saved photograph.</returns>
         </member>
         <member name="M:BlueQuark.Photograph.Delete">
             <summary>
-            Delete the local version of the photo
+            Deletes the local version of the photo.
             </summary>
             <returns>True if the deletion was successful, false otherwise.</returns>
         </member>
@@ -18961,7 +19168,7 @@
         </member>
         <member name="P:BlueQuark.RGBCamera.VerticalFOV">
             <summary>
-            The vertical field of view of the sensor . Value in degrees.
+            The vertical field of view of the sensor. Value in degrees.
             </summary>
         </member>
         <member name="P:BlueQuark.RGBCamera.Mode">
@@ -18974,7 +19181,7 @@
             <summary>
             Opens the device. May take a certain time.
             </summary>
-            <param name="iMode">Mode to apply for the opening</param>
+            <param name="iMode">Mode to apply for the opening.</param>
         </member>
         <member name="M:BlueQuark.RGBCamera.Close">
             <summary>
@@ -18988,12 +19195,12 @@
         </member>
         <member name="M:BlueQuark.RGBCamera.TakePhotograph(System.Action{BlueQuark.Photograph},System.Boolean,System.Boolean,BlueQuark.FlashLightMode)">
             <summary>
-            Asynchrone take photo feature with an high definiton.
+            Async take photo feature with an high definiton.
             </summary>
-            <param name="iOnEndTakePhoto">The callback with the taken photo. The photo is null if the operation was not successful</param>
-            <param name="iMakeSound">Set as false to make a silent photo. Default to true</param>
-            <param name="iMirrored">Does the photograph must be mirrored ?</param>
-            <param name="iFlashMode">Set the flash mode. Will be supported on the next version</param>
+            <param name="iOnEndTakePhoto">The callback with the taken photo. The photo is null if the operation was not successful.</param>
+            <param name="iMakeSound">Set as false to make a silent photo. Default to true.</param>
+            <param name="iMirrored">Does the picture must be mirrored ?</param>
+            <param name="iFlashMode">Set the flash mode. Will be supported on the next version.</param>
         </member>
         <member name="M:BlueQuark.RGBCamera.ForceClose">
             <summary>
@@ -19305,7 +19512,7 @@
         </member>
         <member name="P:BlueQuark.TimeOfFlightSensor.FilteredValue">
             <summary>
-            Current filtered value of the sensor. Range [30, 1000]. Value in millimeters. Returns -1 if to cannot reach any detection (too far).
+            Current filtered value of the sensor. Range [30, 1000]. Value in millimeters. Returns -1 if cannot detect anything (too far).
             </summary>
         </member>
         <member name="P:BlueQuark.TimeOfFlightSensor.Orientation">
@@ -19459,7 +19666,7 @@
         </member>
         <member name="M:BlueQuark.HDCamera.TakePhotograph(System.Action{BlueQuark.Photograph},System.Boolean,System.Boolean,BlueQuark.FlashLightMode)">
             <summary>
-            Asynchrone take photo feature with an high definiton.
+            Async take photo feature with an high definiton.
             </summary>
             <param name="iOnEndTakePhoto">The callback with the taken photo. The photo is null if the operation was not successful</param>
             <param name="iMakeSound">Set as false to make a silent photo. Default to true</param>
@@ -19669,7 +19876,7 @@
         </member>
         <member name="P:BlueQuark.UltrasonicSensor.FilteredValue">
             <summary>
-            Current filtered value of the sensor. Range [150, 7999]. Value in millimeters. Returns -1 if to cannot reach any detection (too far).
+            Current filtered value of the sensor. Range [150, 7999]. Value in millimeters. Returns -1 if cannot detect anything (too far).
             </summary>
         </member>
         <member name="P:BlueQuark.UltrasonicSensor.Orientation">
@@ -21425,32 +21632,32 @@
             Gray color used in UI.
             </summary>
         </member>
-        <member name="F:BlueQuark.Utils.SECOND_IN_MILLISECOND">
+        <member name="F:BlueQuark.Utils.SECOND_IN_MILLISECONDS">
             <summary>
             1000.
             </summary>
         </member>
-        <member name="F:BlueQuark.Utils.MINUTE_IN_MILLISECOND">
+        <member name="F:BlueQuark.Utils.MINUTE_IN_MILLISECONDS">
             <summary>
             60 * 1000.
             </summary>
         </member>
-        <member name="F:BlueQuark.Utils.MINUTE_IN_SECOND">
+        <member name="F:BlueQuark.Utils.MINUTE_IN_SECONDS">
             <summary>
             60.
             </summary>
         </member>
-        <member name="F:BlueQuark.Utils.HOUR_IN_SECOND">
+        <member name="F:BlueQuark.Utils.HOUR_IN_SECONDS">
             <summary>
             60 * 60.
             </summary>
         </member>
-        <member name="F:BlueQuark.Utils.DAY_IN_SECOND">
+        <member name="F:BlueQuark.Utils.DAY_IN_SECONDS">
             <summary>
             24 * 60 * 60.
             </summary>
         </member>
-        <member name="F:BlueQuark.Utils.WEEK_IN_SECOND">
+        <member name="F:BlueQuark.Utils.WEEK_IN_SECONDS">
             <summary>
             7 * 24 * 60 * 60.
             </summary>
@@ -21482,6 +21689,21 @@
             </summary>
             <param name="iArithmeticExpression">The expression to parse. Cannot be null or empty.</param>
             <returns>Mathematical result of the expression. 0 if problem occured.</returns>
+        </member>
+        <member name="M:BlueQuark.Utils.WaitParallelTask(System.Action)">
+            <summary>
+            Starts an async task (Cannot use Unity API) and wait util completed.
+            </summary>
+            <param name="iAction">Delegate to invoke async.</param>
+            <returns>Enumerator to yield.</returns>
+        </member>
+        <member name="M:BlueQuark.Utils.WaitParallelTask(System.Action,System.Action)">
+            <summary>
+            Starts an async task (Cannot use Unity API) and wait util completed.
+            </summary>
+            <param name="iAction">Delegate to invoke async.</param>
+            <param name="iOnEnd">Delegate to invoke at the end of the async task.</param>
+            <returns>Enumerator to yield.</returns>
         </member>
         <member name="M:BlueQuark.Utils.WaitUntil(System.Func{System.Boolean},System.Single)">
             <summary>
@@ -22736,6 +22958,7 @@
             <param name="iB">Point of the line.</param>
             <returns>The projection.</returns>
         </member>
+        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.Utils.CloseTo(System.Int32,System.Int32,System.Int32)" -->
         <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.Utils.CloseTo(System.Single,System.Single,System.Single)" -->
         <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.Utils.CloseTo(System.Double,System.Double,System.Double)" -->
         <member name="M:BlueQuark.Utils.GetLocalIPAddress">
@@ -22818,6 +23041,13 @@
             </summary>
             <param name="iElement">The enum element.</param>
             <returns>The name of the enum element in a string.</returns>
+        </member>
+        <member name="M:BlueQuark.Utils.SetTexture(UnityEngine.UI.RawImage,UnityEngine.Texture)">
+            <summary>
+            Destroys the old texture and sets a new texture to the raw image.
+            </summary>
+            <param name="iImage">The current raw image.</param>
+            <param name="iTexture">The texture to assign.</param>
         </member>
         <member name="M:BlueQuark.Utils.Clear(System.Int32[])">
             <summary>
@@ -23000,6 +23230,46 @@
             Deserializes JSON array from JSON string.
             </summary>
             <returns>Object of provided type.</returns>
+        </member>
+        <member name="M:BlueQuark.Utils.Divide(System.Int32,System.Int32)">
+            <summary>
+            Divide X by Y. If Y == 0, returns 0.
+            </summary>
+            <param name="iX">Dividend.</param>
+            <param name="iY">Divider.</param>
+            <returns>if Y != 0 => X / Y, else 0.</returns>
+        </member>
+        <member name="M:BlueQuark.Utils.Divide(System.Single,System.Int32)">
+            <summary>
+            Divide X by Y. If Y == 0, returns 0.
+            </summary>
+            <param name="iX">Dividend.</param>
+            <param name="iY">Divider.</param>
+            <returns>if Y != 0 => X / Y, else 0.</returns>
+        </member>
+        <member name="M:BlueQuark.Utils.Divide(System.Single,System.Single)">
+            <summary>
+            Divide X by Y. If Y == 0, returns 0.
+            </summary>
+            <param name="iX">Dividend.</param>
+            <param name="iY">Divider.</param>
+            <returns>if Y != 0 => X / Y, else 0.</returns>
+        </member>
+        <member name="M:BlueQuark.Utils.Divide(System.Double,System.Double)">
+            <summary>
+            Divide X by Y. If Y == 0, returns 0.
+            </summary>
+            <param name="iX">Dividend.</param>
+            <param name="iY">Divider.</param>
+            <returns>if Y != 0 => X / Y, else 0.</returns>
+        </member>
+        <member name="M:BlueQuark.Utils.Divide(System.Double,System.Int32)">
+            <summary>
+            Divide X by Y. If Y == 0, returns 0.
+            </summary>
+            <param name="iX">Dividend.</param>
+            <param name="iY">Divider.</param>
+            <returns>if Y != 0 => X / Y, else 0.</returns>
         </member>
         <member name="M:BlueQuark.Utils.GetBasePresenterFields(System.Object)">
             <summary>
@@ -24772,7 +25042,7 @@
         </member>
         <member name="T:BlueQuark.Radio">
             <summary>
-            Contains the methods to search and play a radio stream.
+            Radio stream searcher and player.
             Every radio is identified by a permalink.
             </summary>
         </member>
