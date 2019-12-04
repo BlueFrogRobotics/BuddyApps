@@ -155,7 +155,7 @@ namespace BuddyApp.OutOfBoxV3
 
         private bool OnHumanDetect(HumanEntity[] iHumanEntity)
         {
-            OutOfBoxUtilsVThree.DebugColor("----------------HUMAN DETECTED", "red");
+            OutOfBoxUtilsVThree.DebugColor("----------------HUMAN DETECTED : " + iHumanEntity.Length, "red");
             if (!mFirstStep)
             {
                 mFirstStep = true;

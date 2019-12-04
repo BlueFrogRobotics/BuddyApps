@@ -24,7 +24,8 @@ namespace BuddyApp.OutOfBoxV3
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            OutOfBoxUtilsVThree.DebugColor("FIRST ELEM : " + OutOfBoxV3Data.Instance.NameOfPhotoTaken[0], "green");
+            if(OutOfBoxV3Data.Instance.NameOfPhotoTaken.Count > 0)
+             OutOfBoxUtilsVThree.DebugColor("FIRST ELEM : " + OutOfBoxV3Data.Instance.NameOfPhotoTaken[0], "green");
             mWokeUp = false;
             mNextStep = false;
             mTimer = 0F;
