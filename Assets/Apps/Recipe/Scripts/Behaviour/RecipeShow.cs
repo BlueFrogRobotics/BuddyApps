@@ -31,9 +31,9 @@ namespace BuddyApp.Recipe
             //montrer etape avec texte + image + vocal qui dit la phrase et en meme temps avoir un listen pour si le user dit suivant / précédent / redire 
             Buddy.Vocal.Say(RecipeData.Instance.mRootObject.analyzedInstructions[0].steps[iIndexStep].step);
             Buddy.GUI.Toaster.Display<CustomToast>().With(GetGameObject(1));
-            //GetGameObject(1).transform.GetChild(0).GetComponent<Text>().text = RecipeData.Instance.mRootObject.analyzedInstructions[0].steps[iIndexStep].step;
-            //GetGameObject(1).transform.GetChild(0).GetComponent<Text>().fontSize = 60;
-            //GetGameObject(1).transform.GetChild(0).GetComponent<Text>().color = new Color(1F,1F,1F);
+            GetGameObject(1).transform.GetChild(0).GetComponent<Text>().text = RecipeData.Instance.mRootObject.analyzedInstructions[0].steps[iIndexStep].step;
+            GetGameObject(1).transform.GetChild(0).GetComponent<Text>().fontSize = 40;
+            GetGameObject(1).transform.GetChild(0).GetComponent<Text>().color = new Color(1F, 1F, 1F);
         }
 
         private void OnEndListening(SpeechInput iSpeechInput)
