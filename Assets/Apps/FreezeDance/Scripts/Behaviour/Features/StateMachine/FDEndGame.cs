@@ -29,11 +29,11 @@ namespace BuddyApp.FreezeDance
             try
             {
                 mPlayerNamesData = Utils.UnserializeXML<PlayerNamesData>(playerFileName);
-                Debug.Log("QuizzApp: success parsing file " + playerFileName);
+                Debug.Log("FreezeDance: success parsing file " + playerFileName);
             }
             catch (NullReferenceException e)
             {
-                Debug.LogError("QuizzApp: error parsing file " + playerFileName + " : " + e.Message);
+                Debug.LogError("FreezeDance: error parsing file " + playerFileName + " : " + e.Message);
             }
         }
 
@@ -43,17 +43,25 @@ namespace BuddyApp.FreezeDance
             mNbListen = 0;
             mScore = (int)mScoreManager.Score;
             string txt = string.Format(Buddy.Resources.GetRandomString("gameisover"), mScore);
+
+            if (Buddy.WebServices.HasInternetAccess)
+            {
+                Buddy.Vocal.StopAndClear();
+                Buddy.Vocal.OnEndListening.Clear();
+                Buddy.Vocal.OnEndListening.Add(RegisterPlayerName);
+                Buddy.Vocal.DefaultInputParameters = new SpeechInputParameters()
+                {
+                    Credentials = mGoogleCredentials,
+                    RecognitionMode = SpeechRecognitionMode.FREESPEECH_ONLY
+                };
+                Buddy.Behaviour.SetMood(Mood.THINKING);
+                txt += "[200]" + Buddy.Resources.GetRandomString("whatsyourname");
+            }
             Buddy.Vocal.Say(txt, (iOutput) =>
             {
                 if (Buddy.WebServices.HasInternetAccess)
                 {
-                    Buddy.Behaviour.SetMood(Mood.THINKING);
-                    Buddy.Vocal.SayKey("whatsyourname");
-                    Buddy.Vocal.Listen(RegisterPlayerName,  new SpeechInputParameters()
-                    {
-                        Credentials = mGoogleCredentials, // here your credentials
-                        RecognitionMode = SpeechRecognitionMode.FREESPEECH_ONLY // Default mode is Grammar, you have to specify the free speech mode
-                    });
+                    Buddy.Vocal.Listen();
                 }
                 else
                 {
@@ -69,8 +77,8 @@ namespace BuddyApp.FreezeDance
             int lId = random.Next(mPlayerNamesData.Names.Count);
             string name = mPlayerNamesData.Names[lId];
 
-            string txt = Buddy.Resources.GetRandomString("givename");
-            Buddy.Vocal.Say(string.Format(txt, name), (iOutput) =>
+            string txt = string.Format(Buddy.Resources.GetRandomString("givename"), name);
+            Buddy.Vocal.Say(txt, (iOutput) =>
             {
                 AddPlayer(name, mScore);
             });
@@ -98,11 +106,7 @@ namespace BuddyApp.FreezeDance
                 if (mNbListen < NBLISTENMAX)
                 {
                     mNbListen++;
-                    Buddy.Vocal.Listen(RegisterPlayerName, new SpeechInputParameters()
-                    {
-                        Credentials = mGoogleCredentials, // here your credentials
-                        RecognitionMode = SpeechRecognitionMode.FREESPEECH_ONLY // Default mode is Grammar, you have to specify the free speech mode
-                    });
+                    Buddy.Vocal.Listen();
                 }
                 else
                 {
@@ -111,6 +115,8 @@ namespace BuddyApp.FreezeDance
 
                 return;
             }
+            Buddy.Vocal.StopAndClear();
+            Buddy.Vocal.OnEndListening.Clear();
             Buddy.Behaviour.SetMood(Mood.NEUTRAL);
             string name = iSpeech.Utterance;
             AddPlayer(name, mScore);

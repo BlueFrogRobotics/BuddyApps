@@ -56,7 +56,7 @@ namespace BuddyApp.FreezeDance
             if (!mLost && mTime > mTimerPause) {
                 mLost = true;
                 Buddy.GUI.Toaster.Hide();
-                Trigger("Detection");
+                Trigger("Move");
             }
         }
 

@@ -15,9 +15,12 @@ namespace BuddyApp.FreezeDance
         private bool mChangeMusic;
         public bool ChangeMusic { get { return mChangeMusic; } set { mChangeMusic = value; } }
 
+        public int NbPause { get; set; }
+
         void Awake()
         {
             mChangeMusic = true;
+            NbPause = 0;
         }
 
         /*

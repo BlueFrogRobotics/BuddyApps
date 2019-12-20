@@ -6,9 +6,14 @@ namespace BuddyApp.FreezeDance
     public class FreezeDanceData : AAppData
     {
         /*
-         * Data getters / setters
+         * Number of music pauses before Buddy starts moving
          */
-        public int MyValue { get; set; }
+        public int NbPauseBeforeMvt { get; set; }
+
+        /*
+         * Number of music pauses before Buddy starts moving its head
+         */
+        public int NbPauseBeforeHeadMvt { get; set; }
 
         /*
          * Data singleton access

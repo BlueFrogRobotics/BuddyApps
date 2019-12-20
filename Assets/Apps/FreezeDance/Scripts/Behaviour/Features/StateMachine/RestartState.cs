@@ -66,6 +66,7 @@ namespace BuddyApp.FreezeDance
         private void Restart()
         {
             mMusicPlayer.Restart();
+            GetComponent<FreezeDanceBehaviour>().NbPause = 0;
             Trigger("Start");
         }
 

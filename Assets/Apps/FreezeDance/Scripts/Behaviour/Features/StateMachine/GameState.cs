@@ -77,27 +77,24 @@ namespace BuddyApp.FreezeDance
                 if (lTime - mTime > 3.5f && !mHasDetected && !mHasTalked)
                 {
                     //Buddy.Behaviour.SetMood(Mood.ANGRY);
-                    Buddy.Vocal.Say(Buddy.Resources.GetRandomString("move"));
+                    //Buddy.Vocal.Say(Buddy.Resources.GetRandomString("move"));
                     mHasTalked = true;
                 }
-
-
                 if (mTimer > 0.25f && mHasDetected)
                 {
                     mScoreManager.WinLife();
                     mTimer = 0.0f;
                     mHasDetected = false;
                 }
-
                 if (mTimer > 0.5f && !mHasDetected)
                 {
                     mTimer = 0.0f;
                     mScoreManager.LoseLife();
                 }
-                //Debug.Log("!!!!!!time " + (lTime - mTime)+" random: "+ mRandomStopDelay);
                 if (!mEnd && lTime - mTime > mRandomStopDelay)
                 {
                     mEnd = true;
+                    mFreezeBehaviour.NbPause++;
                     mMusicPlayer.Pause(Buddy.Resources.GetString("dontmove"));
                     Trigger("Detection");
                 }
