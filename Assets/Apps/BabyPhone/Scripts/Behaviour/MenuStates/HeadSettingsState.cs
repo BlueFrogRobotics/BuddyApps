@@ -84,9 +84,6 @@ namespace BuddyApp.BabyPhone
             mCamView = Utils.ScaleTexture2DFromMat(lMatSrc, mCamView);
             // Use matrice to fill the texture.
             Utils.MatToTexture2D(lMatSrc, mCamView);
-            // Delete previous texture
-            if (mCam.texture != null)
-                UnityEngine.Object.DestroyImmediate(mCam.texture);
             mCam.texture = mCamView;
         }
     }
