@@ -41,9 +41,11 @@ namespace BuddyApp.Recipe
                 yield return www;
                 if (www.error == null)
                 {
-                    RecipeData.Instance.mRootObjectList = JsonUtility.FromJson<RootObjectList>(www.text); 
+                    RecipeUtils.DebugColor("SALUT GREGOIRE 1 : " ,"blue");
+                    RecipeData.Instance.mRootObjectList = JsonUtility.FromJson<RootObjectList>(www.text.Trim());
+                    RecipeUtils.DebugColor("SALUT GREGOIRE 2 : ", "blue");
                     //RootObject lRootOjectJson = JsonUtility.FromJson<RootObject>(www.text);
-                    if(RecipeData.Instance.mRootObjectList.results.Count == 0)
+                    if (RecipeData.Instance.mRootObjectList.results.Count == 0)
                     {
                         //N'a rien trouvé
                         Buddy.Vocal.SayAndListen("reciperequestfailed", null, OnEndListenning, null, SpeechRecognitionMode.FREESPEECH_ONLY);
@@ -65,7 +67,7 @@ namespace BuddyApp.Recipe
                             for(int i = 0; i < RecipeData.Instance.mRootObjectList.results.Count; ++i)
                             {
                                 TVerticalListBox lBox = iBuilder.CreateBox();
-                                lBox.SetLabel(RecipeData.Instance.mRootObjectList.results[i].title, Buddy.Resources.GetString( "recipepreparationtime") + RecipeData.Instance.mRootObjectList.results[i].readyInMinutes + "min / "  + RecipeData.Instance.mRootObjectList.results[i].servings + Buddy.Resources.GetString("recipeserving"));
+                                lBox.SetLabel(RecipeData.Instance.mRootObjectList.results[i].title, Buddy.Resources.GetString( "recipepreparationtime") + RecipeData.Instance.mRootObjectList.results[i].readyInMinutes + "min / " +  Buddy.Resources.GetString("recipeserving") + RecipeData.Instance.mRootObjectList.results[i].servings);
                                 TRightSideButton lRammsteinPlayButton = lBox.CreateRightButton();
                                 lRammsteinPlayButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_play", Context.OS));
                                 //lBox.LeftButton.Hide();

@@ -159,6 +159,7 @@ namespace BuddyApp.Recipe
         public List<String> mListIngredient { get; set; }
         public string mGoogleCredentials { get; set; }
         public int mIndexStep { get; set; }
+        public bool mUserWantMovingBuddy { get { return mUserWantMovingBuddy; } set { this.mUserWantMovingBuddy = true; } }
         /*
          * Data singleton access
          */

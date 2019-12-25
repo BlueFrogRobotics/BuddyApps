@@ -43,24 +43,26 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>recipeyes</Key>
-            <BaseValue />
+            <BaseValue>oui/wai/ouais</BaseValue>
             <ClosePhoneticValues>
                 <string>oui</string>
                 <string>wai</string>
                 <string>ouais</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string />
+                <string>oui</string>
+                <string>wai</string>
+                <string>ouais</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>recipeno</Key>
-            <BaseValue />
+            <BaseValue>non</BaseValue>
             <ClosePhoneticValues>
                 <string>non</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string />
+                <string>non</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -191,6 +193,46 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string>Ok on peut commencer la recette! C'est parti!</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>recipeprevious</Key>
+            <BaseValue>précédent</BaseValue>
+            <ClosePhoneticValues>
+                <string>précédent</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>précédent</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>recipenext</Key>
+            <BaseValue>suivant</BaseValue>
+            <ClosePhoneticValues>
+                <string>suivant</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>suivant</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>reciperepeat</Key>
+            <BaseValue>répète</BaseValue>
+            <ClosePhoneticValues>
+                <string>répète</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>répète</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>recipestopmoving</Key>
+            <BaseValue>arrête de bouger</BaseValue>
+            <ClosePhoneticValues>
+                <string>arrête de bouger</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>arrête de bouger</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

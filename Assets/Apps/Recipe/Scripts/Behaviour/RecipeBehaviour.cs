@@ -112,5 +112,7 @@ namespace BuddyApp.Recipe
                 Debug.Log("<color=red>CREDENTIAL : </color>" + lQuery.text + " lol : " + RecipeData.Instance.mGoogleCredentials);
             }
         }
+
+
     }
 }

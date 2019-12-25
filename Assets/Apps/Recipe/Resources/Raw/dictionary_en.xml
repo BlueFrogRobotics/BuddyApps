@@ -43,22 +43,22 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>recipeyes</Key>
-            <BaseValue />
+            <BaseValue>yes</BaseValue>
             <ClosePhoneticValues>
                 <string>yes</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string />
+                <string>yes</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>recipeno</Key>
-            <BaseValue />
+            <BaseValue>no</BaseValue>
             <ClosePhoneticValues>
                 <string>no</string>
             </ClosePhoneticValues>
             <RandomValues>
-                <string />
+                <string>no</string>
             </RandomValues>
         </DictionaryEntry>
         <DictionaryEntry>
@@ -189,6 +189,46 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string>Ok we can start the recipe! Let's go!</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>recipeprevious</Key>
+            <BaseValue>previous</BaseValue>
+            <ClosePhoneticValues>
+                <string>previous</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>previous</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>recipenext</Key>
+            <BaseValue>next</BaseValue>
+            <ClosePhoneticValues>
+                <string>next</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>next</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>reciperepeat</Key>
+            <BaseValue>repeat</BaseValue>
+            <ClosePhoneticValues>
+                <string>repeat</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>repeat</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>recipestopmoving</Key>
+            <BaseValue>stop moving</BaseValue>
+            <ClosePhoneticValues>
+                <string>stop moving</string>
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>stop moving</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>

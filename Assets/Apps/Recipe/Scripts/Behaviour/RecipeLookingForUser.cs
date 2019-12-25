@@ -54,19 +54,19 @@ namespace BuddyApp.Recipe
         {
             Debug.Log("OnEndListenning " + iSpeechInput.Utterance);
 
-            if (!iSpeechInput.IsInterrupted)
-            {
-                if (!string.IsNullOrEmpty(iSpeechInput.Utterance) && Utils.ContainsOneOf(iSpeechInput.Utterance, "recipeyes"))
+            //if (!iSpeechInput.IsInterrupted)
+            //{
+                if (!string.IsNullOrEmpty(iSpeechInput.Utterance) && Utils.ContainsOneOf(iSpeechInput.Utterance, Buddy.Resources.GetString("recipeyes")))
                 {
                     Buddy.Navigation.Stop();
                     Trigger("HEAD_POSITION_DONE");
                 }
-                else if ((!string.IsNullOrEmpty(iSpeechInput.Utterance) && Utils.ContainsOneOf(iSpeechInput.Utterance, "recipeno")) && mTimer >= 12F)
+                else if ((!string.IsNullOrEmpty(iSpeechInput.Utterance) && Utils.ContainsOneOf(iSpeechInput.Utterance, Buddy.Resources.GetString("recipeno"))) && mTimer >= 12F)
                 {
                     mTimer = 0F;
                     Buddy.Vocal.SayKeyAndListen("firstareyouready", null, OnEndListenning, null, SpeechRecognitionMode.FREESPEECH_ONLY);
                 }
-            }
+            //}
                 
 
                 
