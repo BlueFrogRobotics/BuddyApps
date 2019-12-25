@@ -1,0 +1,605 @@
+﻿<?xml version="1.0" ?>
+<LanguageThesaurus xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Entries>
+		<DictionaryEntry>
+			<Key>when</Key>
+			<BaseValue>Wat is de datum van de herinnering?</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Wat is de datum van de herinnering?</string>
+				<string>Kun je eerst de datum aangeven van de herinnering?</string>
+				<string>op welke datum moet de herinnering gegeven worden?</string>
+				<string>wanneer moet de herinnering gegeven worden?</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>srynotunderstand</Key>
+			<BaseValue>Sorry, ik begreep het niet</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Sorry, ik begreep het niet</string>
+				<string>Sorry, ik begreep je niet</string>
+				<string>Sorry, ik snapte het niet</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>recurrence</Key>
+			<BaseValue>Wil je de herinnering elke dag, elke week of elke maand ontvangen? </BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Wil je de herinnering elke dag, elke week of elke maand ontvangen?</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>record</Key>
+			<BaseValue>Na de piep [100] kun je mij een bericht geven </BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Spreek nu het bericht in</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>today</Key>
+			<BaseValue>vandaag</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>vandaag</string>
+				<string>deze dag</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>tomorrow</Key>
+			<BaseValue>morgen</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>morgen</string>
+				<string>de volgende dag</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>dayaftertomorrow</Key>
+			<BaseValue>overmorgen</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>overmorgen</string>
+				<string>over 2 dagen</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>weekdays</Key>
+			<BaseValue>dagen</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>dagen</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>the</Key>
+			<BaseValue>de</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>de</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>allmonth</Key>
+			<BaseValue>maand</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>maand</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>next</Key>
+			<BaseValue>volgende</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>volgende</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>intime</Key>
+			<BaseValue>over</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>over</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>day</Key>
+			<BaseValue>dag</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>dag</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>year</Key>
+			<BaseValue>jaar</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>jaar</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>month</Key>
+			<BaseValue>maand</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>maand</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>setupdate</Key>
+			<BaseValue>Datum instellen</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Datum instellen</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>bye</Key>
+			<BaseValue>Tot ziens</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Tot ziens</string>
+				<string>Dag</string>
+				<string>Tot de volgende keer!</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>whours</Key>
+			<BaseValue>Hoe laat is je herinnering ? </BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Hoe laat is je herinnering ?</string>
+				<string>Hoe laat moet ik de herinnering geven?</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>setuptime</Key>
+			<BaseValue>Tijd instellen</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Tijd instellen</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>steps</Key>
+			<BaseValue>STEPS</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>STEPS</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>cancel</Key>
+			<BaseValue>Annuleer</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Annuleer</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>eared</Key>
+			<BaseValue>ik heb het gehoord </BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>ik heb het gehoord</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>now</Key>
+			<BaseValue>nu</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>nu</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>midnight</Key>
+			<BaseValue>middernacht</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>middernacht</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>noon</Key>
+			<BaseValue>12 uur</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>12 uur</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>morning</Key>
+			<BaseValue>ochtend</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>ochtend</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>evening</Key>
+			<BaseValue>evening</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>evening</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>afternoon</Key>
+			<BaseValue>avond</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>avond</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>half</Key>
+			<BaseValue>half</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>half</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>quarter</Key>
+			<BaseValue>kwart</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>kwart</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>quarterto</Key>
+			<BaseValue>kwart voor</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>kwart voor</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>to</Key>
+			<BaseValue>voor</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>voor</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>oclock</Key>
+			<BaseValue>uur</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>uur</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>hour</Key>
+			<BaseValue>uur</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>uur</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>pasthour</Key>
+			<BaseValue>uur</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>uur</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>minute</Key>
+			<BaseValue>minuut</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>minuut</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>modify</Key>
+			<BaseValue>fout</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>fout</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>inc</Key>
+			<BaseValue>Hoger</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Hoger</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>dec</Key>
+			<BaseValue>Lager</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Lager</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>datesetto</Key>
+			<BaseValue>Datum staat op: </BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Datum staat op:</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>second</Key>
+			<BaseValue>seconde</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>seconde</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>hoursetto</Key>
+			<BaseValue>Uur ingesteld op: </BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Uur ingesteld op:</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>reminderok</Key>
+			<BaseValue>Je herinnering is opgeslagen !</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Je herinnering is opgeslagen !</string>
+				<string>Ik heb je herinnering opgeslagen !</string>
+				<string>Ik heb je herinnering bewaard !</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>hereisthemsg</Key>
+			<BaseValue>Hier is het bericht</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Hier is het bericht</string>
+				<string>Nu komt het bericht</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>validateormodify</Key>
+			<BaseValue>Ik wil het nu opslaan. Is deze herinnering goed?</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Ik wil het nu opslaan. Is deze herinnering goed?</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>message</Key>
+			<BaseValue>Bericht</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Bericht</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>validate</Key>
+			<BaseValue>Goed</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Goed</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>no</Key>
+			<BaseValue>Nee</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Nee</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>enteryourmsg</Key>
+			<BaseValue>Voer je bericht in</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Voer je bericht in</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>sryemptymsg</Key>
+			<BaseValue>Sorry, maar je bericht is leeg</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Sorry, maar je bericht is leeg</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>howoften</Key>
+			<BaseValue>Hoe vaak wil je dat ik jou hieraan herinner ?</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Hoe vaak wil je dat ik jou hieraan herinner ?</string>
+				<string>Hoe vaak wil je hieraan herinnerd worden ?</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>setuprecurrence</Key>
+			<BaseValue>Instellen herhaling</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Instellen herhaling</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>once</Key>
+			<BaseValue>Niet </BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Niet</string>
+				<string>een keer</string>
+				<string>alleen deze keer</string>
+				<string>eenmalig</string>
+				<string>alleen nu</string>
+				<string>het hoeft niet herhaald</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>dayly</Key>
+			<BaseValue>Dagelijks</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Dagelijks</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>weekly</Key>
+			<BaseValue>Wekelijks</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Wekelijks</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>everytwoweeks</Key>
+			<BaseValue>Om de week</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Om de week</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>monthly</Key>
+			<BaseValue>Maandelijks</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Maandelijks</string>
+			</RandomValues>
+		</DictionaryEntry>
+		<DictionaryEntry>
+			<Key>annual</Key>
+			<BaseValue>Jaarlijks</BaseValue>
+			<ClosePhoneticValues>
+				<string/>
+			</ClosePhoneticValues>
+			<RandomValues>
+				<string>Jaarlijks</string>
+			</RandomValues>
+		</DictionaryEntry>
+	</Entries>
+</LanguageThesaurus>

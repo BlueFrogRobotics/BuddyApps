@@ -1,0 +1,108 @@
+#BNF+EMV2.1;
+!grammar reminder_date_hour_en;
+
+/*
+**	Timespan rules
+*/
+
+!import <timespan_en#in_days>;
+!import <timespan_en#in_weeks>;
+!import <timespan_en#in_months>;
+!import <timespan_en#in_years>;
+!import <timespan_en#in_hoursandminutes>;
+!import <timespan_en#in_hours>;
+!import <timespan_en#in_minutes>;
+
+/*
+**	Hour rules
+*/
+
+!import <hour_en#atnoon>;
+!import <hour_en#atprenoon>;
+!import <hour_en#atpostnoon>;
+!import <hour_en#atmidnight>;
+!import <hour_en#atpremidnight>;
+!import <hour_en#atpostmidnight>;
+!import <hour_en#athours>;
+!import <hour_en#atprehours>;
+!import <hour_en#atposthours>;
+!import <hour_en#atamhours>;
+!import <hour_en#atpreamhours>;
+!import <hour_en#atpostamhours>;
+!import <hour_en#atpmhours>;
+!import <hour_en#atprepmhours>;
+!import <hour_en#atpostpmhours>;
+
+/*
+**	Date rules
+*/
+
+!import <date_en#today>;
+!import <date_en#tomorrow>;
+!import <date_en#dayaftertomorrow>;
+!import <date_en#nextdayofweek>;
+!import <date_en#nextweek>;
+!import <date_en#nextmonth>;
+!import <date_en#nextyear>;
+!import <date_en#nextday>;
+!import <date_en#nextdate>;
+!import <date_en#fulldate>;
+
+/*
+**	Rules that can be recognize
+*/
+
+!start <reminder_date_hour>;
+
+/*
+**	Final rules to add reminder with a date and an hour
+*/
+
+<reminder_date_hour> : <add_reminder> [<date_entry>] [<hour_entry>];
+
+/*
+**	All rules for date, with tag.
+*/
+
+<date_entry> : !tag(TODAY, <date_en#today>)
+				| !tag(TOMORROW, <date_en#tomorrow>)
+				| !tag(DAYFTERTOMORROW, <date_en#dayaftertomorrow>)
+				| !tag(NEXTDAYOFWEEK, <date_en#nextdayofweek>)
+				| !tag(NEXTWEEK, <date_en#nextweek>)
+				| !tag(NEXTMONTH, <date_en#nextmonth>)
+				| !tag(NEXTYEAR, <date_en#nextyear>)
+				| !tag(NEXTDAY, <date_en#nextday>)
+				| !tag(NEXTDATE, <date_en#nextdate>)
+				| !tag(FULLDATE, <date_en#fulldate>)
+				| !tag(INYEARS, <timespan_en#in_years>)
+				| !tag(INMONTHS, <timespan_en#in_months>)
+				| !tag(INWEEKS, <timespan_en#in_months>)
+				| !tag(INDAYS, <timespan_en#in_days>);
+
+/*
+**	All rules for hour, with tag.
+*/
+
+<hour_entry> : !tag(ATNOON, <hour_en#atnoon>)
+				| !tag(ATPRENOON, <hour_en#atprenoon>)
+				| !tag(ATPOSTNOON, <hour_en#atpostnoon>)
+				| !tag(ATMIDNIGHT, <hour_en#atmidnight>)
+				| !tag(ATPREMIDNIGHT, <hour_en#atpremidnight>)
+				| !tag(ATPOSTMIDNIGHT, <hour_en#atpostmidnight>)
+				| !tag(ATHOURS, <hour_en#athours>)
+				| !tag(ATPREHOURS, <hour_en#atprehours>)
+				| !tag(ATPOSTHOURS, <hour_en#atposthours>)
+				| !tag(ATAMHOURS, <hour_en#atamhours>)
+				| !tag(ATPREAMHOURS, <hour_en#atpreamhours>)
+				| !tag(ATPOSTAMHOURS, <hour_en#atpostamhours>)
+				| !tag(ATPMHOURS, <hour_en#atpmhours>)
+				| !tag(ATPREPMHOURS, <hour_en#atprepmhours>)
+				| !tag(ATPOSTPMHOURS, <hour_en#atpostpmhours>)
+				| !tag(INHOURS, <timespan_en#in_hours>)
+				| !tag(INMINUTES, <timespan_en#in_minutes>)
+				| !tag(INHOURSANDMINUTES, <timespan_en#in_hoursandminutes>);
+/*
+**	Key sequence
+*/
+
+<add_reminder> : Add a reminder | Remind me;
