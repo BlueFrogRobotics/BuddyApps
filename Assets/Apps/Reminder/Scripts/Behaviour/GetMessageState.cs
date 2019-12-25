@@ -254,7 +254,7 @@ namespace BuddyApp.Reminder
         private void QuitReminder()
         {
             mBIgnoreOnEndListening = true;
-            Trigger("ExitReminder");
+            Trigger("Exit");
         }	
 		
 		private void SayMessageAndListen()

@@ -230,7 +230,7 @@ namespace BuddyApp.Reminder
 
         private void QuitReminder()
         {
-            Trigger("ExitReminder");
+            Trigger("Exit");
         }
 
         private void GoToPreviousState()
