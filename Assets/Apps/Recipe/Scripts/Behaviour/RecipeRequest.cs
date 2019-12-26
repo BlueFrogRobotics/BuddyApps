@@ -56,7 +56,7 @@ namespace BuddyApp.Recipe
                         {
                             Buddy.Vocal.SayKey("recipeonefound");
                         }
-                        else
+                        else 
                         {
                             //voici ce que j'ai trouvé
                             Buddy.Vocal.SayKey("recipelistfound");
