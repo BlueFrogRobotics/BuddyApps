@@ -118,6 +118,7 @@ namespace BuddyApp.Diagnostic
             if (mTimer > DiagnosticBehaviour.REFRESH_TIMER) {
                 mTimer = 0F;
                 TextVoltage.text = Buddy.Sensors.Battery.AverageValue.ToString("D") + "mV";
+
             }
 
             mBatteryLevel = SystemInfo.batteryLevel * 100F;
