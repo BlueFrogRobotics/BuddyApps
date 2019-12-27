@@ -93,9 +93,10 @@ namespace BuddyApp.Scheduler
             Font lHeaderFont = Buddy.Resources.Get<Font>("os_awesome");
             lHeaderFont.material.color = new Color(0, 0, 0);
             Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont);
-            
-            // Setting of Vocon param
-            Buddy.Vocal.DefaultInputParameters.Grammars = new string[] { "date", "timespan", "common" };
+
+			// Setting of Vocon param
+			Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
+			Buddy.Vocal.DefaultInputParameters.Grammars = new string[] { "date", "timespan", "common" };
             Buddy.Vocal.OnEndListening.Clear();
             Buddy.Vocal.OnEndListening.Add(OnEndListening);
             

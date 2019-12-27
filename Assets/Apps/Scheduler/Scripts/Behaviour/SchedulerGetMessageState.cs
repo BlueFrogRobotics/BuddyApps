@@ -236,6 +236,7 @@ namespace BuddyApp.Scheduler
 				{
 					Buddy.Vocal.OnEndListening.Clear();
 					Buddy.Vocal.OnEndListening.Add(VoconResult);
+					Buddy.Vocal.DefaultInputParameters.Grammars = new string[] { "reminder", "common" };
 					Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
 					Buddy.Vocal.SayKeyAndListen("sryemptymsg");
 				}
@@ -252,6 +253,7 @@ namespace BuddyApp.Scheduler
 			{
 				Buddy.Vocal.OnEndListening.Clear();
 				Buddy.Vocal.OnEndListening.Add(VoconResult);
+				Buddy.Vocal.DefaultInputParameters.Grammars = new string[] { "reminder", "common" };
 				Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
 				Buddy.Vocal.SayKeyAndListen(SchedulerDateManager.STR_SORRY);
 			}
@@ -269,6 +271,7 @@ namespace BuddyApp.Scheduler
 			Buddy.Vocal.StopAndClear();
 			// Launch Vocon - Validation/or/Modify
 			Buddy.Vocal.OnEndListening.Add(VoconResult);
+			Buddy.Vocal.DefaultInputParameters.Grammars = new string[] { "reminder", "common" };
 			Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
 
 			string msg = Buddy.Resources.GetString("hereisthemsg");

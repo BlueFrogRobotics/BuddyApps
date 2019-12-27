@@ -93,6 +93,7 @@ namespace BuddyApp.Scheduler
 
 			// Setting of Vocon param
 			Buddy.Vocal.DefaultInputParameters.Grammars = new string[] { "hour", "timespan", "common" };
+			Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
 			Buddy.Vocal.OnEndListening.Clear();
 			Buddy.Vocal.OnEndListening.Add(OnEndListening);
 
