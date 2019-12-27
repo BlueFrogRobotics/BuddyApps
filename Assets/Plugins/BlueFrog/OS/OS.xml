@@ -80,7 +80,7 @@
             </summary>
             <seealso cref="T:BlueQuark.Internal.EventBus"/>
         </member>
-        <member name="F:BlueQuark.Internal.ABindedComponent.mEventbus">
+        <member name="F:BlueQuark.Internal.ABindedComponent.mEventBus">
             <summary>
             The event bus system. Allow to subscribe and unsubscribe from events. Also used to fire events.
             </summary>
@@ -521,11 +521,11 @@
             <typeparam name="T">The type of the Unity component to add</typeparam>
             <returns>The added Unity component</returns>
         </member>
-        <member name="M:BlueQuark.Internal.AULink.ForwardUnityCallback(System.Object)">
+        <member name="M:BlueQuark.Internal.AULink.ForwardToUmpl(System.Object)">
             <summary>
-            Calls a method in the presenter part with the same name of the calling method with the suffix "Impl". Use that method to forward an Unity event to the Presenter Impl side.
+            Calls a method in the presenter part with the same name of the calling method with the suffix "Umpl". Use that method to forward an Unity event/callback to the Presenter Umpl side.
             </summary>
-            <param name="iObject">Optional argument that will be forwarded to the Presenter method.</param>
+            <param name="iObject">Optional argument that will be forwarded to the Umpl Presenter method.</param>
         </member>
         <member name="T:BlueQuark.Internal.DefaultULink">
             <summary>
@@ -548,7 +548,7 @@
             Hinge component of the robot neck. 
             </summary>
         </member>
-        <member name="M:BlueQuark.Internal.AHeadHinge`2.SetPositionAndWait(System.Single,System.Single,BlueQuark.AccDecMode,System.Single,System.Action{System.Single})">
+        <member name="M:BlueQuark.Internal.AHeadHinge`2.OfferQuery(System.Single,System.Single,BlueQuark.AccDecMode,System.Single,System.Action{System.Single})">
             <summary>
             Starts the set position of the hinges.
             </summary>
@@ -2999,7 +2999,12 @@
             This state is to manage all type of vocal commands from user
             </summary>
         </member>
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.Internal.VocalCommandState.SortQuestionType(BlueQuark.SpeechInput)" -->
+        <member name="M:BlueQuark.Internal.VocalCommandState.SortQuestionType(BlueQuark.SpeechInput)">
+            <summary>
+            Sort the type of the question returned by STT.
+            It either corresponds to vocal orders, motion or launch application
+            </summary>
+        </member>
         <member name="M:BlueQuark.Internal.VocalCommandState.GiveHourInEnglish">
             <summary>
             Give The Hour in English
@@ -6573,7 +6578,7 @@
         </member>
         <member name="M:BlueQuark.Internal.VoConSpeech.Listen(System.Action{BlueQuark.Internal.VoConResult},System.Action{BlueQuark.Internal.VoConStatus},System.Int32,System.Single,System.Single,System.Single)">
             <summary>
-            Start the Vocon recognition engine.
+            Starts the Vocon recognition engine.
             </summary>
             <param name="iOnEndListening">Callback called at the end of the request</param>
             <param name="iOnListeningEvent">Callback called at any input speech event</param>
@@ -6584,7 +6589,7 @@
         </member>
         <member name="M:BlueQuark.Internal.VoConSpeech.Listen(System.String,System.Int32,System.Single,System.Single,System.Single)">
             <summary>
-            Start the Vocon recognition engine.
+            Starts the Vocon recognition engine.
             </summary>
             <param name="iGrammar">The grammar that will be used.</param>
             <param name="iConfidenceThreshold">Under this threshold, other results won't be given (values between 1 and 9999).</param>
@@ -6594,7 +6599,7 @@
         </member>
         <member name="M:BlueQuark.Internal.VoConSpeech.Listen(System.String,System.Action{BlueQuark.Internal.VoConResult},System.Action{BlueQuark.Internal.VoConStatus},System.Int32,System.Single,System.Single,System.Single)">
             <summary>
-            Start the Vocon recognition engine.
+            Starts the Vocon recognition engine.
             </summary>
             <param name="iGrammar">The grammar that will be used.</param>
             <param name="iOnEndListening">Callback called at the end of the request</param>
@@ -6606,7 +6611,7 @@
         </member>
         <member name="M:BlueQuark.Internal.VoConSpeech.Listen(System.String[],System.Int32,System.Single,System.Single,System.Single)">
             <summary>
-            Start the Vocon recognition engine.
+            Starts the Vocon recognition engine.
             </summary>
             <param name="iGrammars">The grammar that will be used.</param>
             <param name="iConfidenceThreshold">Under this threshold, other results won't be given (values between 1 and 9999).</param>
@@ -6616,7 +6621,7 @@
         </member>
         <member name="M:BlueQuark.Internal.VoConSpeech.Listen(System.String[],System.Action{BlueQuark.Internal.VoConResult},System.Action{BlueQuark.Internal.VoConStatus},System.Int32,System.Single,System.Single,System.Single)">
             <summary>
-            Start the Vocon recognition engine.
+            Starts the Vocon recognition engine.
             </summary>
             <param name="iGrammars">The grammar that will be used.</param>
             <param name="iOnEndListening">Callback called at the end of the request</param>
@@ -6651,7 +6656,7 @@
         <member name="P:BlueQuark.Internal.EmbeddedVoConSpeechULink.OutputFilePath">
             <summary>
             Sets the OutputFilePath.
-            Note : The OutputFilePath is passed to vocon after an initASR.
+            Note : The OutputFilePath is passed to VoCon after an initASR.
             </summary>
             <seealso cref="P:BlueQuark.Internal.EmbeddedVoConSpeechULink.Language"/>
         </member>
@@ -7732,14 +7737,29 @@
             </summary>
         </member>
         <member name="F:BlueQuark.SoundSample.BEEP_3">
-             <summary>
-            beep beep.
-             </summary>
+            <summary>
+            Beep beep.
+            </summary>
         </member>
         <member name="F:BlueQuark.SoundSample.BEEP_4">
-             <summary>
-            beep beep.
-             </summary>
+            <summary>
+            Small beep.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.SoundSample.RANDOM_SONG">
+            <summary>
+            Random song accapella.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.SoundSample.SONG_1">
+            <summary>
+            accapella song.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.SoundSample.SONG_2">
+            <summary>
+            accapella song.
+            </summary>
         </member>
         <member name="T:BlueQuark.ChannelStatus">
             <summary>
@@ -7779,6 +7799,16 @@
         <member name="F:BlueQuark.AudioGain.LOW">
             <summary>
             20 dB.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.RelativeOdometry.Landmark">
+            <summary>
+            Landmark value of the object.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.RelativeOdometry.Value">
+            <summary>
+            Odometry value relative to the landmark.
             </summary>
         </member>
         <member name="T:BlueQuark.FacialPart">
@@ -10237,6 +10267,39 @@
             Represents the motherboard for high complexity algorithms.
             </summary>
         </member>
+        <member name="T:BlueQuark.ScheduledTask">
+            <summary>
+            Represents a base scheduled reminder.
+            </summary>
+            <seealso cref="T:BlueQuark.AReminder"/>
+        </member>
+        <member name="P:BlueQuark.ScheduledTask.ReminderTime">
+            <summary>
+            Date of the reminder.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.ScheduledTask.RepetitionDays">
+            <summary>
+            Repetition of the reminder by week.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.ScheduledTask.Rule">
+            <summary>
+            Rule of the task.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.ScheduledTask.#ctor(System.String,System.String,System.DateTime,System.String,System.Collections.Generic.List{BlueQuark.UserAccount},System.Collections.Generic.List{System.DayOfWeek},BlueQuark.ReminderState)">
+            <summary>
+            Creates a base scheduled reminder. 
+            </summary>
+            <param name="iContent">Content of the scheduled reminder.</param>
+            <param name="iRule">Rule for the task to execute</param>
+            <param name="iReminderTime">Date of the reminder.</param>
+            <param name="iReminderNotifContent">Reminder notif content.</param>
+            <param name="iTargets">The users concerned by the reminder.</param>
+            <param name="iRepetitionDays">Repetition of the reminder by week.</param>
+            <param name="iReminderState">State of the reminder.</param>
+        </member>
         <member name="T:BlueQuark.FDotNavigation">
             <summary>
             Dot navigation bar for Footer GUI component.
@@ -12319,6 +12382,12 @@
             </summary>
             <param name="iPlannedAlarm">The planned alarm.</param>
         </member>
+        <member name="M:BlueQuark.CalendarManager.Add(BlueQuark.ScheduledTask)">
+            <summary>
+            Adds a planned alarm to the list.
+            </summary>
+            <param name="iScheduledTask">The Scheduled task.</param>
+        </member>
         <member name="M:BlueQuark.CalendarManager.Remove(BlueQuark.DiaryEventReminder)">
             <summary>
             Removes a given diary event from the active list.
@@ -12336,6 +12405,12 @@
             Removes a planned alarm from the active list.
             </summary>
             <param name="iPlannedAlarm">The planned alarm.</param>
+        </member>
+        <member name="M:BlueQuark.CalendarManager.Remove(BlueQuark.ScheduledTask)">
+            <summary>
+            Removes a scheduled task from the active list.
+            </summary>
+            <param name="iScheduledTask">The scheduled task.</param>
         </member>
         <member name="M:BlueQuark.CalendarManager.AddNotifFromReminder(BlueQuark.AReminder,System.Action,System.Action)">
             <summary>
@@ -12362,7 +12437,7 @@
         </member>
         <member name="P:BlueQuark.AReminder.ReminderContent">
             <summary>
-            Represents the conetnt of the reminder.
+            Represents the content of the reminder.
             </summary>
         </member>
         <member name="P:BlueQuark.AReminder.ReminderState">
@@ -13025,6 +13100,11 @@
         <member name="T:BlueQuark.DepthCameraFrame">
             <summary>
             The DepthCamera specialized frame
+            </summary>
+        </member>
+        <member name="P:BlueQuark.DepthCameraFrame.DepthFrameData">
+            <summary>
+            Raw depth values in mm
             </summary>
         </member>
         <member name="T:BlueQuark.HDCameraFrame">
@@ -16245,6 +16325,19 @@
             Process an urgent stop.
             </summary>
         </member>
+        <member name="M:BlueQuark.Wheels.CreateRelativeOdometry">
+            <summary>
+            Creates a relative odometry with the current position as the landmark.
+            </summary>
+            <returns>The relative odometry.</returns>
+        </member>
+        <member name="M:BlueQuark.Wheels.CreateRelativeOdometry(UnityEngine.Vector3)">
+            <summary>
+            Creates a relative odometry with the provided landmark.
+            </summary>
+            <param name="iLandmark">The landmark which will be used as the relative reference.</param>
+            <returns>The relative odometry.</returns>
+        </member>
         <member name="P:BlueQuark.Wheels.LinearPID">
             <summary>
             Current PID of the linear.
@@ -16277,11 +16370,6 @@
             </summary>
             <param name="iLinearPID">Current PID of the motor.</param>
             <param name="iAngularPID">Current PID of the motor.</param>
-        </member>
-        <member name="M:BlueQuark.Wheels.ResetOdometry">
-            <summary>
-            Resets the robot's odometry.
-            </summary>
         </member>
         <member name="P:BlueQuark.Wheels.LockedByGUI">
             <summary>
@@ -16831,12 +16919,12 @@
         </member>
         <member name="M:BlueQuark.Platform.ResetOS">
             <summary>
-            Reset the operating system.
+            Reset the operating system and the whole API.
             </summary>
         </member>
         <member name="M:BlueQuark.Platform.ResetOS(System.Action)">
             <summary>
-            Reset the operating system.
+            Reset the operating system and the whole API.
             </summary>
         </member>
         <member name="M:BlueQuark.Platform.SendMessageToCore(System.String)">
@@ -21692,14 +21780,14 @@
         </member>
         <member name="M:BlueQuark.Utils.WaitParallelTask(System.Action)">
             <summary>
-            Starts an async task (Cannot use Unity API) and wait util completed.
+            Starts an async task (Cannot use Unity API) and wait until completed.
             </summary>
             <param name="iAction">Delegate to invoke async.</param>
             <returns>Enumerator to yield.</returns>
         </member>
         <member name="M:BlueQuark.Utils.WaitParallelTask(System.Action,System.Action)">
             <summary>
-            Starts an async task (Cannot use Unity API) and wait util completed.
+            Starts an async task (Cannot use Unity API) and wait until completed.
             </summary>
             <param name="iAction">Delegate to invoke async.</param>
             <param name="iOnEnd">Delegate to invoke at the end of the async task.</param>
@@ -22171,6 +22259,13 @@
             </summary>
             <param name="iSpeechInput">Old format.</param>
             <returns>New format.</returns>
+        </member>
+        <member name="M:BlueQuark.Utils.GetRuleFromUtterance(System.String)">
+            <summary>
+            Compute rule from string
+            </summary>
+            <param name="iSpeech"></param>
+            <returns></returns>
         </member>
         <member name="M:BlueQuark.Utils.WordIndexOfOneOf(System.String,System.String)">
             <summary>
