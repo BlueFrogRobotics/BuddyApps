@@ -16,6 +16,11 @@ namespace BuddyApp.Recipe
         public int servings;
         public string image;
         public List<string> imageUrls;
+
+        public Result()
+        {
+            imageUrls = new List<string>();
+        }
     }
     [Serializable]
     public class RootObjectList
@@ -27,6 +32,11 @@ namespace BuddyApp.Recipe
         public int totalResults;
         public int processingTimeMs;
         public long expires;
+
+        public RootObjectList()
+        {
+            results = new List<Result>();
+        }
     }
     [Serializable]
     public class Us
@@ -64,6 +74,12 @@ namespace BuddyApp.Recipe
         public List<object> meta;
         public List<object> metaInformation;
         public Measures measures;
+
+        public ExtendedIngredient()
+        {
+            meta = new List<object>();
+            metaInformation = new List<object>();
+        }
     }
     [Serializable]
     public class ProductMatch
@@ -84,6 +100,12 @@ namespace BuddyApp.Recipe
         public List<string> pairedWines;
         public string pairingText;
         public List<ProductMatch> productMatches;
+
+        public WinePairing()
+        {
+            pairedWines = new List<string>();
+            productMatches = new List<ProductMatch>();
+        }
     }
     [Serializable]
     public class Length
@@ -99,12 +121,23 @@ namespace BuddyApp.Recipe
         public List<object> ingredients;
         public List<object> equipment;
         public Length length;
+
+        public Step()
+        {
+            ingredients = new List<object>();
+            equipment = new List<object>();
+        }
     }
     [Serializable]
     public class AnalyzedInstruction
     {
         public string name;
         public List<Step> steps;
+
+        public AnalyzedInstruction()
+        {
+            steps = new List<Step>();
+        }
     }
     [Serializable]
     public class RootObject
@@ -145,7 +178,17 @@ namespace BuddyApp.Recipe
         public List<object> occasions;
         public WinePairing winePairing;
         public string instructions;
-        public List<AnalyzedInstruction> analyzedInstructions;
+        public List<AnalyzedInstruction> analyzedInstructions*;
+
+        public RootObject()
+        {
+            extendedIngredients = new List<ExtendedIngredient>();
+            cuisines = new List<string>();
+            dishTypes = new List<string>();
+            diets = new List<object>();
+            occasions = new List<object>();
+            analyzedInstructions = new List<AnalyzedInstruction>();
+        }
     }
 
     /* Data are stored in xml file for persistent data purpose */

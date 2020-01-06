@@ -45,14 +45,14 @@ namespace BuddyApp.Recipe
                     RecipeData.Instance.mRootObjectList = JsonUtility.FromJson<RootObjectList>(www.text.Trim());
                     RecipeUtils.DebugColor("SALUT GREGOIRE 2 : ", "blue");
                     //RootObject lRootOjectJson = JsonUtility.FromJson<RootObject>(www.text);
-                    if (RecipeData.Instance.mRootObjectList.results.Count == 0)
+                    if (RecipeData.Instance.mRootObjectList.totalResults == 0)
                     {
                         //N'a rien trouvé
                         Buddy.Vocal.SayAndListen("reciperequestfailed", null, OnEndListenning, null, SpeechRecognitionMode.FREESPEECH_ONLY);
                     }
                     else
                     {
-                        if(RecipeData.Instance.mRootObjectList.results.Count == 1)
+                        if(RecipeData.Instance.mRootObjectList.totalResults == 1)
                         {
                             Buddy.Vocal.SayKey("recipeonefound");
                         }
@@ -63,13 +63,17 @@ namespace BuddyApp.Recipe
                         }
                         
                         Buddy.GUI.Toaster.Display<VerticalListToast>().With((iBuilder) => {
-
-                            for(int i = 0; i < RecipeData.Instance.mRootObjectList.results.Count; ++i)
+                            RecipeUtils.DebugColor("SALUT GREGOIRE 3 : ", "blue");
+                            for (int i = 0; i < RecipeData.Instance.mRootObjectList.totalResults; ++i)
                             {
+                                RecipeUtils.DebugColor("SALUT GREGOIRE 4 : ", "blue");
                                 TVerticalListBox lBox = iBuilder.CreateBox();
+                                RecipeUtils.DebugColor("SALUT GREGOIRE 5 : ", "blue");
                                 lBox.SetLabel(RecipeData.Instance.mRootObjectList.results[i].title, Buddy.Resources.GetString( "recipepreparationtime") + RecipeData.Instance.mRootObjectList.results[i].readyInMinutes + "min / " +  Buddy.Resources.GetString("recipeserving") + RecipeData.Instance.mRootObjectList.results[i].servings);
+                                RecipeUtils.DebugColor("SALUT GREGOIRE 6 : ", "blue");
                                 TRightSideButton lRammsteinPlayButton = lBox.CreateRightButton();
                                 lRammsteinPlayButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_play", Context.OS));
+                                RecipeUtils.DebugColor("SALUT GREGOIRE 7 : ", "blue");
                                 //lBox.LeftButton.Hide();
                                 //Can't use i directly in lambda expression, see the closure problem
                                 int lindex = i;
@@ -79,6 +83,7 @@ namespace BuddyApp.Recipe
                                     ButtonClicked(RecipeData.Instance.mRootObjectList.results[lindex].id);
                                     Debug.Log("Launch Recipe " + RecipeData.Instance.mRootObjectList.results[lindex].title);
                                 });
+                                RecipeUtils.DebugColor("SALUT GREGOIRE 8 : ", "blue");
                             }
 
                             TVerticalListBox lBoxBack = iBuilder.CreateBox();
