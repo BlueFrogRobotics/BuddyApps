@@ -27,8 +27,6 @@ namespace BuddyApp.BabyPhone
 
         public Action OnFilesSaved;
 
-        private int mFPS = 20;
-
         /// <summary>
         /// number of seconds of video and audio before an alert
         /// </summary>
@@ -43,7 +41,8 @@ namespace BuddyApp.BabyPhone
 
         private State mState;
 
-        private Queue<byte[]> mListFrame;
+        private Queue<byte[]> mQueueFrames;
+        private List<byte[]> mListFrames;
         private Queue<AudioClip> mListAudio;
 
         private byte[] mActualFrame;
@@ -53,6 +52,7 @@ namespace BuddyApp.BabyPhone
 
         private NoiseDetector mNoiseDetection;
         private float mTime = 0.0f;
+        private float mVideoTime;
 
         private EMail mMail;
 
@@ -63,9 +63,10 @@ namespace BuddyApp.BabyPhone
         void Start()
         {
             mState = State.DEFAULT;
-            mListFrame = new Queue<byte[]>();
+            mQueueFrames = new Queue<byte[]>();
             mListAudio = new Queue<AudioClip>();
             mTime = 0.0f;
+            mVideoTime = 0.0f;
             mCam = Buddy.Sensors.RGBCamera;
             mNoiseDetection = Buddy.Perception.NoiseDetector;
             mNewFrame = true;
@@ -125,10 +126,11 @@ namespace BuddyApp.BabyPhone
         /// Function that will be called by the android plugin when the video encoding is over
         /// </summary>
         /// <param name="message">the message sent from android plugin</param>
-        public void VideoSaved(string message)
+        public void VideoSaved(bool res, string message)
         {
-            mListFrame.Clear();
+            mQueueFrames.Clear();
             mListAudio.Clear();
+            mListFrames.Clear();
             mState = State.FILES_SAVED;
             //currentActivity.Call("clearPicture");
             mNewFrame = true;
@@ -142,9 +144,11 @@ namespace BuddyApp.BabyPhone
             if (mCam.IsOpen)
             {
                 mActualFrame = mCam.Frame.Texture.EncodeToPNG(); 
-                mListFrame.Enqueue(mCam.Frame.Texture.EncodeToPNG());
-                if (mListFrame.Count > mFPS * mNbSecBefore)
-                    mListFrame.Dequeue();
+                mQueueFrames.Enqueue(mCam.Frame.Texture.EncodeToPNG());
+                if (mVideoTime > mNbSecBefore)
+                    mQueueFrames.Dequeue();
+                else
+                    mVideoTime += Time.deltaTime;
             }
             FillAudioBuffer(1);
 
@@ -156,10 +160,11 @@ namespace BuddyApp.BabyPhone
         private void FillNextBuffer()
         {
             if (mCam.IsOpen) {
-                mListFrame.Enqueue(mCam.Frame.Texture.EncodeToPNG());
+                mQueueFrames.Enqueue(mCam.Frame.Texture.EncodeToPNG());
             }
 
             mTime += Time.deltaTime;
+            mVideoTime += Time.deltaTime;
             FillAudioBuffer(4);
             
             if (mTime > mNbSecAfter)
@@ -194,18 +199,16 @@ namespace BuddyApp.BabyPhone
         /// </summary>
         private void SaveFiles()
         {
-            //List<byte[]> lListFrames = new List<byte[]>(mListFrame);
+            mListFrames = new List<byte[]>(mQueueFrames);
 
             //string lDirectoryPath = Path.GetDirectoryName(Buddy.Resources.GetRawFullPath("monitoring.mp4"));
             //Directory.CreateDirectory(lDirectoryPath);
 
-            mFPS = mListFrame.Count / (mNbSecAfter + mNbSecBefore);
-
-            ///TODO: save the video
-            //currentActivity.Call("saveVideo", mFPS, Buddy.Resources.GetRawFullPath("monitoring.mp4"), "AIBehaviour", "VideoSaved");
-            //Utils.CreateJCodecVideoFromPictures(Buddy.Resources.GetRawFullPath("monitoring.mp4"), mFPS, lListFrames, VideoSaved);
+            int fps = (int)Math.Round(((float) mQueueFrames.Count) / mVideoTime);
+            Debug.Log("Video creation with " + mQueueFrames.Count + " frames and fps " + fps);
+            Utils.CreateJCodecVideoFromPictures(Buddy.Resources.GetRawFullPath("monitoring.mp4"), fps, mListFrames, VideoSaved);
             Utils.Save(Buddy.Resources.GetRawFullPath("audio.wav"), Utils.Combine(mListAudio.ToArray()));
-            File.WriteAllBytes(Buddy.Resources.GetRawFullPath("picture.png"), mActualFrame);///will be replaced by video once jcodec is integrated
+            //File.WriteAllBytes(Buddy.Resources.GetRawFullPath("picture.png"), mActualFrame);///will be replaced by video once jcodec is integrated
             mState = State.WAIT_SAVE;
         }
 
@@ -214,7 +217,7 @@ namespace BuddyApp.BabyPhone
         /// </summary>
         private void WaitForSave()
         {
-            mState = State.FILES_SAVED;
+            //mState = State.FILES_SAVED;
         }
 
         /// <summary>
@@ -230,11 +233,8 @@ namespace BuddyApp.BabyPhone
         /// </summary>
         private void StartSendmail()
         {
-
-            /// TODO: add the video file
-            //mMail.AddFile(Buddy.Resources.GetRawFullPath("monitoring.mp4"));
+            mMail.AddFile(Buddy.Resources.GetRawFullPath("monitoring.mp4"));
             mMail.AddFile(Buddy.Resources.GetRawFullPath("audio.wav"));
-            mMail.AddFile(Buddy.Resources.GetRawFullPath("picture.png"));
 
             Buddy.WebServices.EMailSender.Send("notif.buddy@gmail.com", "autruchemagiquebuddy", SMTP.GMAIL, mMail, OnMailSent);
             
@@ -251,6 +251,7 @@ namespace BuddyApp.BabyPhone
             mState = State.DEFAULT;
             //BYOS.Instance.WebService.EMailSender.enabled = false;
             mMail = null;
+            mVideoTime = 0.0f;
         }
     }
 }
