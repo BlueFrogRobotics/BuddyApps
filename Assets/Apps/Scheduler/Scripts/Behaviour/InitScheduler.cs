@@ -14,6 +14,7 @@ namespace BuddyApp.Scheduler
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+
             // ReminderDateManager was initialized in the OnLoading function.
             // Setting of Header
             Buddy.GUI.Header.DisplayParametersButton(false);
@@ -54,9 +55,9 @@ namespace BuddyApp.Scheduler
             
             Debug.Log("----- REMINDER WILL START -----");
             if (SchedulerDateManager.GetInstance().CompanionInput != null)
-                Trigger("StartReminder");   // Replace by "PreProcessing" when tag are available
+                Trigger("Start");   // Replace by "PreProcessing" when tag are available
             else
-                Trigger("StartReminder");   
+                Trigger("Start");
         }
     }
 }
