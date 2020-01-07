@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using BlueQuark;
 using UnityEngine.UI;
-
+using Newtonsoft.Json.Linq;
 namespace BuddyApp.Recipe
 {
     public class RecipeRequest : AStateMachineBehaviour
@@ -41,18 +41,31 @@ namespace BuddyApp.Recipe
                 yield return www;
                 if (www.error == null)
                 {
-                    RecipeUtils.DebugColor("SALUT GREGOIRE 1 : " ,"blue");
-                    RecipeData.Instance.mRootObjectList = JsonUtility.FromJson<RootObjectList>(www.text.Trim());
-                    RecipeUtils.DebugColor("SALUT GREGOIRE 2 : ", "blue");
+                    //JObject ObjectRequest = Utils.UnserializeJSONtoObject(www.text);
+                    //byte[] bytes = System.Text.Encoding.UTF8.GetBytes(www.text);
+                    //Utils.CreateFile(Buddy.Resources.AppRawDataPath + "Recipe.json");
+                    //RecipeUtils.DebugColor("SALUT GREGOIRE 1 : " + Buddy.Resources.AppRawDataPath + "Recipe.json", "blue");
+                    //System.IO.File.WriteAllBytes(Buddy.Resources.GetRawFullPath(Buddy.Resources.AppRawDataPath + "Recipe.json"), bytes);
+                    ////TextAsset textAsset = Buddy.Resources.GetRawFullPath(Buddy.Resources.AppRawDataPath + "Recipe.json") as TextAsset;
+                    ////RootObjectList test1 = new RootObjectList();
+                    //test1 = JsonUtility.FromJson<RootObjectList>(System.Text.Encoding.UTF8.GetString(bytes));
+                    //string test = JsonUtility.ToJson(test1);
+                    //RecipeUtils.DebugColor("SALUT GREGOIRE 1 : " + test ,"blue");
+                    //RecipeData.Instance.mRootObjectList = JsonUtility.FromJson<RootObjectList>(test);
+                    //RecipeUtils.DebugColor("SALUT GREGOIRE 2 : ", "blue");
                     //RootObject lRootOjectJson = JsonUtility.FromJson<RootObject>(www.text);
-                    if (RecipeData.Instance.mRootObjectList.totalResults == 0)
+
+                    RecipeData.Instance.mRootObjectList = Utils.UnserializeJSON<RootObjectList>(www.text);
+                    RecipeUtils.DebugColor("SALUT GREGOIRE 1 : " + RecipeData.Instance.mRootObjectList.results.Count, "blue");
+
+                    if (RecipeData.Instance.mRootObjectList.results.Count == 0)
                     {
                         //N'a rien trouvé
                         Buddy.Vocal.SayAndListen("reciperequestfailed", null, OnEndListenning, null, SpeechRecognitionMode.FREESPEECH_ONLY);
                     }
                     else
                     {
-                        if(RecipeData.Instance.mRootObjectList.totalResults == 1)
+                        if(RecipeData.Instance.mRootObjectList.results.Count == 1)
                         {
                             Buddy.Vocal.SayKey("recipeonefound");
                         }
@@ -62,9 +75,10 @@ namespace BuddyApp.Recipe
                             Buddy.Vocal.SayKey("recipelistfound");
                         }
                         
+                        
                         Buddy.GUI.Toaster.Display<VerticalListToast>().With((iBuilder) => {
-                            RecipeUtils.DebugColor("SALUT GREGOIRE 3 : ", "blue");
-                            for (int i = 0; i < RecipeData.Instance.mRootObjectList.totalResults; ++i)
+                            RecipeUtils.DebugColor("SALUT GREGOIRE 3 : " + RecipeData.Instance.mRootObjectList.totalResults, "blue");
+                            for (int i = 0; i < RecipeData.Instance.mRootObjectList.results.Count; ++i)
                             {
                                 RecipeUtils.DebugColor("SALUT GREGOIRE 4 : ", "blue");
                                 TVerticalListBox lBox = iBuilder.CreateBox();

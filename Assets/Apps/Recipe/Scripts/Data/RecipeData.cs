@@ -178,7 +178,7 @@ namespace BuddyApp.Recipe
         public List<object> occasions;
         public WinePairing winePairing;
         public string instructions;
-        public List<AnalyzedInstruction> analyzedInstructions*;
+        public List<AnalyzedInstruction> analyzedInstructions;
 
         public RootObject()
         {
