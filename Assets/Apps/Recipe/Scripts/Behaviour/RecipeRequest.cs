@@ -125,7 +125,8 @@ namespace BuddyApp.Recipe
                 yield return www;
                 if (www.error == null)
                 {
-                    RecipeData.Instance.mRootObject = JsonUtility.FromJson<RootObject>(www.text);
+                    RecipeData.Instance.mRootObject = Utils.UnserializeJSON<RootObject>(www.text);
+                    //RecipeData.Instance.mRootObject = JsonUtility.FromJson<RootObject>(www.text);
                     RecipeUtils.DebugColor("BEFORE REQUEST DONE 1 : " + RecipeData.Instance.mRootObject.title);
                     //RecipeUtils.DebugColor("BEFORE REQUEST DONE : " + RecipeData.Instance.mRootObjectStep.result[0].steps[0].ingredients.Count.ToString());
                     //RecipeUtils.DebugColor("DEUXIEME REQUEST : " + RecipeData.Instance.mRootObjectStep.result[0].steps[0].step, "blue");
