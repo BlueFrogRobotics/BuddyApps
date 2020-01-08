@@ -53,7 +53,7 @@ namespace BuddyApp.Scheduler
 
 			SchedulerLanguageManager.GetInstance().Initialize(lDictionaryDate, lDictionaryHour, lDictionaryRecurrence);
             
-            Debug.Log("----- REMINDER WILL START -----");
+            Debug.Log("----- Scheduler  WILL START -----");
             if (SchedulerDateManager.GetInstance().CompanionInput != null)
                 Trigger("Start");   // Replace by "PreProcessing" when tag are available
             else

@@ -92,6 +92,7 @@ namespace BuddyApp.Reminder
             Buddy.GUI.Screen.OnTouch.Add((iInput) => { Buddy.Vocal.StopListening(); });
 
             // Setting of Vocon param
+            Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
             Buddy.Vocal.DefaultInputParameters.Grammars = new string[] { "hour", "timespan", "common" };
             Buddy.Vocal.OnEndListening.Clear();
             Buddy.Vocal.OnEndListening.Add(OnEndListening);
@@ -135,6 +136,7 @@ namespace BuddyApp.Reminder
 
         private void OnEndListening(SpeechInput iSpeechInput)
         {
+
             if (iSpeechInput.IsInterrupted)
             {
                 if (HourStatus.E_UI_DISPLAY != mHourStatus)
