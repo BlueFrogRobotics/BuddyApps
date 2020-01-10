@@ -243,20 +243,6 @@ namespace BuddyApp.Calendar
                         );
                     });
 
-
-                    TRightSideButton lAlarmButton = lBox.CreateRightButton();
-
-                    if (lTask.ReminderState == ReminderState.VALIDATED)
-                        lAlarmButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_eye_on", Context.OS));
-                   
-
-                    lAlarmButton.SetIconColor(Color.red);
-                    lAlarmButton.OnClick.Add(() => {
-                        if (lTask.ReminderState == ReminderState.VALIDATED)
-                            lAlarmButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_eye_on", Context.OS));                        
-                    });
-
-
                     lBox.LeftButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_agenda_check", Context.OS));
 
 
