@@ -12364,6 +12364,11 @@
             List of all active diary events.
             </summary>
         </member>
+        <member name="P:BlueQuark.CalendarManager.ScheduledTasks">
+            <summary>
+            List of all tasks of the system.
+            </summary>
+        </member>
         <member name="M:BlueQuark.CalendarManager.Add(BlueQuark.DiaryEventReminder)">
             <summary>
             Adds an issued event to the current list.
@@ -21760,6 +21765,11 @@
             PI.
             </summary>
         </member>
+        <member name="F:BlueQuark.Utils.DEFAULT_VALUE_FLOAT">
+            <summary>
+            DEFAULT_VALUE_FLOAT for error return
+            </summary>
+        </member>
         <member name="M:BlueQuark.Utils.EvaluateExpression(System.String)">
             <summary>
             Parse and evaluate the input expression. The parser can parse a mathematical expression into a simple custom
@@ -22265,7 +22275,7 @@
             Compute rule from string
             </summary>
             <param name="iSpeech"></param>
-            <returns></returns>
+            <returns>Rule</returns>
         </member>
         <member name="M:BlueQuark.Utils.WordIndexOfOneOf(System.String,System.String)">
             <summary>
