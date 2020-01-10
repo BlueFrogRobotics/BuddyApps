@@ -26,7 +26,7 @@
         </DictionaryEntry>
         <DictionaryEntry>
             <Key>noreminders</Key>
-            <BaseValue>No Reminders</BaseValue>
+            <BaseValue>No Reminder</BaseValue>
             <ClosePhoneticValues>
                 <string />
             </ClosePhoneticValues>
@@ -42,6 +42,38 @@
             </ClosePhoneticValues>
             <RandomValues>
                 <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>mytasks</Key>
+            <BaseValue>Scheduled Tasks</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>notasks</Key>
+            <BaseValue>No Scheduled Task</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>taskdeleted</Key>
+            <BaseValue>Task deleted</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>Okay, I delete the task</string>
+                <string> Okay, I did it</string>
+                <string>Task successfuly deleted</string>
             </RandomValues>
         </DictionaryEntry>
     </Entries>
