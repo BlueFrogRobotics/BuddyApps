@@ -78,7 +78,9 @@ namespace BuddyApp.Recipe
                         Buddy.GUI.Toaster.Display<VerticalListToast>().With((iBuilder) => {
                             for (int i = 0; i < RecipeData.Instance.mRootObjectList.results.Count; ++i)
                             {
+                                
                                 TVerticalListBox lBox = iBuilder.CreateBox();
+                                lBox.LeftButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_check", Context.OS));
                                 lBox.SetLabel(RecipeData.Instance.mRootObjectList.results[i].title, Buddy.Resources.GetString( "recipepreparationtime") + RecipeData.Instance.mRootObjectList.results[i].readyInMinutes + "min / " +  Buddy.Resources.GetString("recipeserving") + RecipeData.Instance.mRootObjectList.results[i].servings);
                                 
                                 TRightSideButton lRammsteinPlayButton = lBox.CreateRightButton();
@@ -94,13 +96,14 @@ namespace BuddyApp.Recipe
                                 });
                             }
 
-                            TVerticalListBox lBoxBack = iBuilder.CreateBox();
-                            lBoxBack.SetLabel(Buddy.Resources.GetString("recipeback"));
-                            lBoxBack.OnClick.Add(() =>
-                            {
+                            FButton lButton2 = Buddy.GUI.Footer.CreateOnLeft<FButton>();
+                            lButton2.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_arrow_left", Context.OS));
+                            lButton2.OnClick.Add(() => {
                                 Buddy.GUI.Toaster.Hide();
+                                Buddy.GUI.Footer.Hide();
                                 Trigger("REQUEST_FAILED");
                             });
+
                         });
                     }
                 }
@@ -114,6 +117,7 @@ namespace BuddyApp.Recipe
         private IEnumerator GetStepFromRequest(string iId)
         {
             RecipeUtils.DebugColor(mURLCore + iId + "/analyzedInstructions?" + mKeyDev, "red");
+            RecipeUtils.DebugColor("KIKKOKOKOKO : " + mURLCore + iId + "/" + mULRRequestAllInformations + "?" + mKeyDev);
             using (WWW www = new WWW(mURLCore + iId + "/" + mULRRequestAllInformations + "?" + mKeyDev))
             {
                 yield return www;

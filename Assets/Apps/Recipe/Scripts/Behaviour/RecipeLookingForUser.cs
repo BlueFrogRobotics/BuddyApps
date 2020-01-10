@@ -54,8 +54,8 @@ namespace BuddyApp.Recipe
         {
             Debug.Log("OnEndListenning " + iSpeechInput.Utterance);
 
-            //if (!iSpeechInput.IsInterrupted)
-            //{
+            if (!iSpeechInput.IsInterrupted)
+            {
                 if (!string.IsNullOrEmpty(iSpeechInput.Utterance) && Utils.ContainsOneOf(iSpeechInput.Utterance, Buddy.Resources.GetString("recipeyes")))
                 {
                     Buddy.Navigation.Stop();
@@ -66,10 +66,10 @@ namespace BuddyApp.Recipe
                     mTimer = 0F;
                     Buddy.Vocal.SayKeyAndListen("firstareyouready", null, OnEndListenning, null, SpeechRecognitionMode.FREESPEECH_ONLY);
                 }
-            //}
-                
+            }
 
-                
+
+
         }
     }
 }

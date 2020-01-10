@@ -13,10 +13,14 @@ namespace BuddyApp.Recipe
         private bool mHideDone;
         public override void OnStateEnter(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
         {
+            RecipeUtils.DebugColor("ON STATE ENTER SHOW RESULT 1 ");
             RecipeUtils.DebugColor("ON STATE ENTER SHOW RESULT : " + RecipeData.Instance.mRootObject.title);
+            RecipeUtils.DebugColor("ON STATE ENTER SHOW RESULT 2 ");
             mTimer = 0F;
             mHideDone = false;
-            RecipeUtils.DebugColor("ON STATE ENTER SHOW RESULT : " + RecipeData.Instance.mRootObject.analyzedInstructions[0].steps.Count);
+            RecipeUtils.DebugColor("ON STATE ENTER SHOW RESULT 3 ");
+           // RecipeUtils.DebugColor("ON STATE ENTER SHOW RESULT : " + RecipeData.Instance.mRootObject.analyzedInstructions[0].steps.Count);
+            RecipeUtils.DebugColor("ON STATE ENTER SHOW RESULT 4 ");
             RecipeData.Instance.mListIngredient = new List<string>();
             //for (int i = 0; i < RecipeData.Instance.mRootObjectStep.result[0].steps.Count; ++i)
             //{
@@ -31,10 +35,12 @@ namespace BuddyApp.Recipe
             //    }
 
             //}
-
+            RecipeUtils.DebugColor("ON STATE ENTER SHOW RESULT 5 ");
             if (!string.IsNullOrEmpty(RecipeData.Instance.mRootObject.image))
             {
+                RecipeUtils.DebugColor("ON STATE ENTER SHOW RESULT 5.1 ");
                 StartCoroutine(DownloadImage(RecipeData.Instance.mRootObject.image));
+                RecipeUtils.DebugColor("ON STATE ENTER SHOW RESULT 5.2 ");
                 RecipeUtils.DebugColor("URL IMG : " + RecipeData.Instance.mRootObject.image, "blue");
 
             }
