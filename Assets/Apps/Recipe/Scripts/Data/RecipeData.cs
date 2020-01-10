@@ -118,16 +118,24 @@ namespace BuddyApp.Recipe
     {
         public int number;
         public string step;
-        public List<object> ingredients;
-        public List<object> equipment;
+        public List<Ent> ingredients;
+        public List<Ent> equipment;
         public Length length;
 
         public Step()
         {
-            ingredients = new List<object>();
-            equipment = new List<object>();
+            ingredients = new List<Ent>();
+            equipment = new List<Ent>();
         }
     }
+    [Serializable]
+    public class Ent
+    {
+        public int Id;
+        public string name;
+        public string image;
+    }
+
     [Serializable]
     public class AnalyzedInstruction
     {

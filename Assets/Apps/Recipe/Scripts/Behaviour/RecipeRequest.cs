@@ -56,7 +56,6 @@ namespace BuddyApp.Recipe
                     //RootObject lRootOjectJson = JsonUtility.FromJson<RootObject>(www.text);
 
                     RecipeData.Instance.mRootObjectList = Utils.UnserializeJSON<RootObjectList>(www.text);
-                    RecipeUtils.DebugColor("SALUT GREGOIRE 1 : " + RecipeData.Instance.mRootObjectList.results.Count, "blue");
 
                     if (RecipeData.Instance.mRootObjectList.results.Count == 0)
                     {
@@ -77,17 +76,13 @@ namespace BuddyApp.Recipe
                         
                         
                         Buddy.GUI.Toaster.Display<VerticalListToast>().With((iBuilder) => {
-                            RecipeUtils.DebugColor("SALUT GREGOIRE 3 : " + RecipeData.Instance.mRootObjectList.totalResults, "blue");
                             for (int i = 0; i < RecipeData.Instance.mRootObjectList.results.Count; ++i)
                             {
-                                RecipeUtils.DebugColor("SALUT GREGOIRE 4 : ", "blue");
                                 TVerticalListBox lBox = iBuilder.CreateBox();
-                                RecipeUtils.DebugColor("SALUT GREGOIRE 5 : ", "blue");
                                 lBox.SetLabel(RecipeData.Instance.mRootObjectList.results[i].title, Buddy.Resources.GetString( "recipepreparationtime") + RecipeData.Instance.mRootObjectList.results[i].readyInMinutes + "min / " +  Buddy.Resources.GetString("recipeserving") + RecipeData.Instance.mRootObjectList.results[i].servings);
-                                RecipeUtils.DebugColor("SALUT GREGOIRE 6 : ", "blue");
+                                
                                 TRightSideButton lRammsteinPlayButton = lBox.CreateRightButton();
                                 lRammsteinPlayButton.SetIcon(Buddy.Resources.Get<Sprite>("os_icon_play", Context.OS));
-                                RecipeUtils.DebugColor("SALUT GREGOIRE 7 : ", "blue");
                                 //lBox.LeftButton.Hide();
                                 //Can't use i directly in lambda expression, see the closure problem
                                 int lindex = i;
@@ -97,7 +92,6 @@ namespace BuddyApp.Recipe
                                     ButtonClicked(RecipeData.Instance.mRootObjectList.results[lindex].id);
                                     Debug.Log("Launch Recipe " + RecipeData.Instance.mRootObjectList.results[lindex].title);
                                 });
-                                RecipeUtils.DebugColor("SALUT GREGOIRE 8 : ", "blue");
                             }
 
                             TVerticalListBox lBoxBack = iBuilder.CreateBox();

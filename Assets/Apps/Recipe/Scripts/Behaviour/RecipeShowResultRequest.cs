@@ -1,17 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using BlueQuark;
 
 namespace BuddyApp.Recipe
 {
     public class RecipeShowResultRequest : AStateMachineBehaviour
     {
-        
+        private Sprite mSprite;
+        private float mTimer;
+        private bool mHideDone;
         public override void OnStateEnter(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
         {
             RecipeUtils.DebugColor("ON STATE ENTER SHOW RESULT : " + RecipeData.Instance.mRootObject.title);
-
+            mTimer = 0F;
+            mHideDone = false;
             RecipeUtils.DebugColor("ON STATE ENTER SHOW RESULT : " + RecipeData.Instance.mRootObject.analyzedInstructions[0].steps.Count);
             RecipeData.Instance.mListIngredient = new List<string>();
             //for (int i = 0; i < RecipeData.Instance.mRootObjectStep.result[0].steps.Count; ++i)
@@ -25,19 +29,53 @@ namespace BuddyApp.Recipe
             //            RecipeData.Instance.mListIngredient.Add(RecipeData.Instance.mRootObjectStep.result[0].steps[i].ingredients[j].name);
             //        }
             //    }
-                
+
             //}
-            ShowOverallInfos();
+
+            if (!string.IsNullOrEmpty(RecipeData.Instance.mRootObject.image))
+            {
+                StartCoroutine(DownloadImage(RecipeData.Instance.mRootObject.image));
+                RecipeUtils.DebugColor("URL IMG : " + RecipeData.Instance.mRootObject.image, "blue");
+
+            }
+            else
+                ShowOverallInfos();
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
         {
+            mTimer += Time.deltaTime;
+            if (mTimer > 5F && !Buddy.Vocal.IsBusy && !mHideDone)
+            {
+                mHideDone = true;
+                Buddy.GUI.Toaster.Hide();
 
+            }
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
         {
 
+        }
+
+
+        private IEnumerator DownloadImage(string iUri)
+        {
+            using (WWW www = new WWW(iUri))
+            {
+                yield return www;
+
+                if (www.error == null)
+                {
+                    mSprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f));
+                    Buddy.GUI.Toaster.Display<CustomToast>().With(GetGameObject(2), () => { Buddy.Vocal.SayKey("recipeshowimg"); }, () => { ShowOverallInfos(); });
+                    GetGameObject(2).GetComponent<Image>().sprite = mSprite;
+                }
+                else
+                {
+                    RecipeUtils.DebugColor("WWW Error: " + www.error, "blue");
+                }
+            }
         }
 
         private void ShowOverallInfos()
@@ -60,12 +98,12 @@ namespace BuddyApp.Recipe
                 lVegan.SetLabel("Vegan : " + RecipeData.Instance.mRootObject.vegan);
             }, () =>
             {
-                Debug.Log("Cancel");
+                RecipeUtils.DebugColor("CANCELLLLL", "blue");
                 Buddy.GUI.Toaster.Hide();
             }, "CHOOSE ANOTHER RECIPE",
             () =>
             {
-                Debug.Log("OK");
+                RecipeUtils.DebugColor("OKKKKKKKKK", "blue");
                 Buddy.GUI.Toaster.Hide();
             }, "START",
             null,

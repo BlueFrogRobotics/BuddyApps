@@ -28,7 +28,7 @@ namespace BuddyApp.Recipe
         {
             mTimer = 0F;
             mNbListening = 0;
-            Buddy.Vocal.SayKeyAndListen("secondwhatrecipe",null, OnEndListenning, null, SpeechRecognitionMode.FREESPEECH_ONLY);
+            Buddy.Vocal.SayKeyAndListen("secondwhatrecipe", null, OnEndListening, null, SpeechRecognitionMode.FREESPEECH_ONLY);
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
@@ -43,7 +43,7 @@ namespace BuddyApp.Recipe
         }
 
 
-        private void OnEndListenning(SpeechInput iSpeechInput)
+        private void OnEndListening(SpeechInput iSpeechInput)
         {
             mNbListening++;
             Debug.Log("OnEndListenning " + iSpeechInput.Utterance);
@@ -64,7 +64,7 @@ namespace BuddyApp.Recipe
                     {
                         RecipeUtils.DebugColor("4", "red");
                         mTimer = 0F;
-                        Buddy.Vocal.SayKeyAndListen("secondwhatrecipe", null, OnEndListenning, null, SpeechRecognitionMode.FREESPEECH_ONLY);
+                        Buddy.Vocal.SayKeyAndListen("secondwhatrecipe", null, OnEndListening, null, SpeechRecognitionMode.FREESPEECH_ONLY);
                     }
                 }
                 else
