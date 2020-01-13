@@ -11,6 +11,7 @@ namespace BuddyApp.Recipe
         private bool mIsUserClicked;
         private float mTimer;
         private bool mTrackingDone;
+        private bool mIsHumanDetected;
         //pas de detection il demande a lutilisateur de bien le placer 
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -22,6 +23,7 @@ namespace BuddyApp.Recipe
             mTrackingDone = false;
             GetGameObject(0).SetActive(true);
             mIsUserClicked = false;
+            mIsHumanDetected = false;
             Buddy.Navigation.Run<HumanTrackStrategy>().StaticTracking(tracking => true, OnTrackingDone, BehaviourMovementPattern.HEAD | BehaviourMovementPattern.BODY_ROTATION);
         }
 
@@ -44,29 +46,46 @@ namespace BuddyApp.Recipe
             mTimer = 0F;
             if (!mTrackingDone)
             {
-                Buddy.Vocal.SayKeyAndListen("firstareyouready", null, OnEndListenning, null, SpeechRecognitionMode.FREESPEECH_ONLY);
+                Buddy.Vocal.SayKeyAndListen("firstareyouready", null, OnEndListenning, null, SpeechRecognitionMode.FREESPEECH_ONLY); 
                 mTrackingDone = true;
+                Buddy.Perception.HumanDetector.OnDetect.Add(OnHumanDetect, new HumanDetectorParameter
+                {
+                    HumanDetectionMode = HumanDetectionMode.VISION
+                }
+                );
             }
         }
 
+        private void OnHumanDetect(HumanEntity[] iHuman)
+        {
+            mIsHumanDetected = true;
+        }
 
         private void OnEndListenning(SpeechInput iSpeechInput)
         {
-            Debug.Log("OnEndListenning " + iSpeechInput.Utterance);
+           RecipeUtils.DebugColor("OnEndListenning " + iSpeechInput.Utterance, "red");
 
-            if (!iSpeechInput.IsInterrupted)
+            //if (!iSpeechInput.IsInterrupted)
+            //{
+            if (!string.IsNullOrEmpty(iSpeechInput.Utterance) && Utils.ContainsOneOf(iSpeechInput.Utterance, "recipeyes"))
             {
-                if (!string.IsNullOrEmpty(iSpeechInput.Utterance) && Utils.ContainsOneOf(iSpeechInput.Utterance, Buddy.Resources.GetString("recipeyes")))
-                {
-                    Buddy.Navigation.Stop();
-                    Trigger("HEAD_POSITION_DONE");
-                }
-                else if ((!string.IsNullOrEmpty(iSpeechInput.Utterance) && Utils.ContainsOneOf(iSpeechInput.Utterance, Buddy.Resources.GetString("recipeno"))) && mTimer >= 12F)
-                {
-                    mTimer = 0F;
-                    Buddy.Vocal.SayKeyAndListen("firstareyouready", null, OnEndListenning, null, SpeechRecognitionMode.FREESPEECH_ONLY);
-                }
+                mIsHumanDetected = false;
+                Buddy.Navigation.Stop();
+                Trigger("HEAD_POSITION_DONE");
             }
+            else if ((!string.IsNullOrEmpty(iSpeechInput.Utterance) && Utils.ContainsOneOf(iSpeechInput.Utterance, "recipeno")) && mTimer >= 12F)
+            {
+                mIsHumanDetected = false;
+                mTimer = 0F;
+                Buddy.Vocal.SayKeyAndListen("firstareyouready", null, OnEndListenning, null, SpeechRecognitionMode.FREESPEECH_ONLY);
+            }
+            else if ((string.IsNullOrEmpty(iSpeechInput.Utterance)))
+            {
+                Buddy.Vocal.SayKeyAndListen("firstareyouready", null, OnEndListenning, null, SpeechRecognitionMode.FREESPEECH_ONLY);
+            }
+                
+            
+            //}
 
 
 

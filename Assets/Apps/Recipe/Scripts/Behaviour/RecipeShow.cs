@@ -76,19 +76,19 @@ namespace BuddyApp.Recipe
             RecipeUtils.DebugColor("ONENDLISTENING : " + iSpeechInput + " " + Buddy.Resources.GetString("recipeprevious") + " " + Buddy.Resources.GetString("recipenext"), "red");
             //if (!iSpeechInput.IsInterrupted)
             //{
-            if (!string.IsNullOrEmpty(iSpeechInput.Utterance) && Utils.ContainsOneOf(iSpeechInput.Utterance, Buddy.Resources.GetString("recipeprevious")))
+            if (!string.IsNullOrEmpty(iSpeechInput.Utterance) && Utils.ContainsOneOf(iSpeechInput.Utterance, "recipeprevious"))
             {
                 ButtonPrevious();
             }
-            else if ((!string.IsNullOrEmpty(iSpeechInput.Utterance) && Utils.ContainsOneOf(iSpeechInput.Utterance, Buddy.Resources.GetString("recipenext"))))
+            else if ((!string.IsNullOrEmpty(iSpeechInput.Utterance) && Utils.ContainsOneOf(iSpeechInput.Utterance, "recipenext")))
             {
                 ButtonNext();
             }
-            else if ((!string.IsNullOrEmpty(iSpeechInput.Utterance) && Utils.ContainsOneOf(iSpeechInput.Utterance, Buddy.Resources.GetString("reciperepeat"))))
+            else if ((!string.IsNullOrEmpty(iSpeechInput.Utterance) && Utils.ContainsOneOf(iSpeechInput.Utterance, "reciperepeat")))
             {
                 
             }
-            else if ((!string.IsNullOrEmpty(iSpeechInput.Utterance) && Utils.ContainsOneOf(iSpeechInput.Utterance, Buddy.Resources.GetString("recipestopmoving"))))
+            else if ((!string.IsNullOrEmpty(iSpeechInput.Utterance) && Utils.ContainsOneOf(iSpeechInput.Utterance, "recipestopmoving")))
             {
                 RecipeData.Instance.mUserWantMovingBuddy = false;
                 Buddy.Navigation.Stop();
@@ -138,6 +138,8 @@ namespace BuddyApp.Recipe
             else
             {
                 Buddy.Vocal.SayKey("recipedone", (iSpeechoutput) => { Trigger("RECO_QUESTION"); });
+                Buddy.GUI.Toaster.Hide();
+                Trigger("REDO_RECIPE");
             }
             RecipeUtils.DebugColor("NEXT : " + RecipeData.Instance.mIndexStep, "red");
             //GetGameObject(1).transform.GetChild(2).GetComponent<Button>().onClick.RemoveListener(ButtonNext);

@@ -48,8 +48,8 @@ namespace BuddyApp.Recipe
             mNbListening++;
             Debug.Log("OnEndListenning " + iSpeechInput.Utterance);
 
-            if (iSpeechInput.IsInterrupted)
-            {
+            //if (iSpeechInput.IsInterrupted)
+            //{
                 RecipeUtils.DebugColor("1", "red");
                 if(mNbListening < NB_MAX_LISTENING)
                 {
@@ -73,7 +73,7 @@ namespace BuddyApp.Recipe
                     QuitApp();
                 }
 
-        }
+        //}
     }
 
 

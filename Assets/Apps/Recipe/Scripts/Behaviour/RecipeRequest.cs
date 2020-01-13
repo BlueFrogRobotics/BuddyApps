@@ -68,7 +68,7 @@ namespace BuddyApp.Recipe
                         {
                             Buddy.Vocal.SayKey("recipeonefound");
                         }
-                        else 
+                        else  
                         {
                             //voici ce que j'ai trouvé
                             Buddy.Vocal.SayKey("recipelistfound");
@@ -141,8 +141,8 @@ namespace BuddyApp.Recipe
         {
             Debug.Log("OnEndListenning " + iSpeechInput.Utterance);
 
-            if (!iSpeechInput.IsInterrupted)
-            {
+            //if (!iSpeechInput.IsInterrupted)
+            //{
                 if (!string.IsNullOrEmpty(iSpeechInput.Utterance) && Utils.ContainsOneOf(iSpeechInput.Utterance, "recipeyes"))
                 {
                     Trigger("REQUEST_FAILED");
@@ -151,7 +151,11 @@ namespace BuddyApp.Recipe
                 {
                     QuitApp();
                 }
-            }
+                else if(string.IsNullOrEmpty(iSpeechInput.Utterance))
+                {
+                    Buddy.Vocal.SayAndListen("reciperequestfailed", null, OnEndListenning, null, SpeechRecognitionMode.FREESPEECH_ONLY);
+                }
+            //}
         }
 
         private void ButtonClicked(int iIndexRecipe)

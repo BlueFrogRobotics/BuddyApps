@@ -34,18 +34,18 @@ namespace BuddyApp.Recipe
             mNbListening++;
             Debug.Log("OnEndListenning " + iSpeechInput.Utterance);
 
-            if (iSpeechInput.IsInterrupted)
-            {
+            //if (iSpeechInput.IsInterrupted)
+            //{
                 RecipeUtils.DebugColor("1", "red");
             if (mNbListening < NB_MAX_LISTENING)
             {
                 RecipeUtils.DebugColor("2", "red");
-                if (!string.IsNullOrEmpty(iSpeechInput.Utterance) && Utils.ContainsOneOf(iSpeechInput.Utterance, Buddy.Resources.GetString("recipeyes")))
+                if (!string.IsNullOrEmpty(iSpeechInput.Utterance) && Utils.ContainsOneOf(iSpeechInput.Utterance, "recipeyes"))
                 {
                     RecipeUtils.DebugColor("3", "red");
                     Trigger("REDO_RECIPE");
                 }
-                else if (!(string.IsNullOrEmpty(iSpeechInput.Utterance) && Utils.ContainsOneOf(iSpeechInput.Utterance, Buddy.Resources.GetString("recipeno"))))
+                else if (!(string.IsNullOrEmpty(iSpeechInput.Utterance) && Utils.ContainsOneOf(iSpeechInput.Utterance, "recipeno")))
                 {
                     RecipeUtils.DebugColor("4", "red");
                     QuitApp();
@@ -62,7 +62,7 @@ namespace BuddyApp.Recipe
                 QuitApp();
             }
 
-        }
+        //}
     }
     }
 }
