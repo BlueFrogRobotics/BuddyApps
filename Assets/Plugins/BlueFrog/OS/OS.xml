@@ -608,11 +608,12 @@
             Current PID.
             </summary>
         </member>
-        <member name="P:BlueQuark.Internal.AHeadHinge`2.Strength">
+        <member name="P:BlueQuark.Internal.AHeadHinge`2.TorqueThreshold">
             <summary>
-            Strength (couple) of the motor. Value in mA.
+            Maximal authorized threshold in percent before the motor is stopped by the torque control system.
             </summary>
         </member>
+        <!-- Commentaire XML incorrect pour le membre "P:BlueQuark.Internal.AHeadHinge`2.EnableTorqueControl" -->
         <member name="M:BlueQuark.Internal.AHeadHinge`2.SetPID(System.Single,System.Single,System.Single)">
             <summary>
             Sets the proportional–integral–derivative controller. It is a control loop feedback mechanism.
@@ -1427,6 +1428,11 @@
             Called when the line is clicked.
             </summary>
         </member>
+        <member name="P:BlueQuark.Internal.MBox.Position">
+            <summary>
+            Position in the content scroll rect.
+            </summary>
+        </member>
         <member name="M:BlueQuark.Internal.MBox.SetTest(BlueQuark.Internal.MethodUnitTest)">
             <summary>
             Sets the test to display, the properties will be auto updated on test status changes.
@@ -2071,7 +2077,17 @@
             True if a request is processing.
             </summary>
         </member>
-        <member name="M:BlueQuark.Internal.ID3FaceRecognizer.DetectFaceCloud(OpenCVUnity.Mat,System.Action{BlueQuark.Internal.ID3FaceEntity[],System.Boolean},System.Boolean)">
+        <member name="P:BlueQuark.Internal.ID3FaceRecognizer.PendingCount">
+            <summary>
+            Size of the inner queue.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.ID3FaceRecognizer.IsSomethingPending">
+            <summary>
+            True if there is at least one query in the inner queue.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.ID3FaceRecognizer.DetectFaceOnline(OpenCVUnity.Mat,System.Action{BlueQuark.Internal.ID3FaceEntity[],System.Boolean},System.Boolean)">
             <summary>
             Detect faces in a mat and return the face ids using the callback.
             </summary>
@@ -2079,19 +2095,24 @@
             <param name="iOnRecognized">The callback with the list of face ids found in the picture.</param>
             <param name="iStore">True if the face should be saved on the server.</param>
         </member>
-        <member name="M:BlueQuark.Internal.ID3FaceRecognizer.FaceMatching(System.String,System.String,System.Action{System.Boolean,System.String,System.Boolean})">
+        <member name="M:BlueQuark.Internal.ID3FaceRecognizer.MatchFaceOnline(System.String,System.String,System.Action{System.Boolean,System.String,System.Boolean})">
             <summary>
             Performs a match between two face by using their ids.
             </summary>
-            <param name="iIdProbe">Face id to check.</param>
-            <param name="iIdRef">Face id of reference.</param>
+            <param name="iIDProbe">Face id to check.</param>
+            <param name="iIDRef">Face id of reference.</param>
             <param name="iOnMatched">Callback which has two parameters: the first one is true if the faces are the same, the second return the face ids of reference.</param>
         </member>
-        <member name="M:BlueQuark.Internal.ID3FaceRecognizer.DeleteFaceId(System.String)">
+        <member name="M:BlueQuark.Internal.ID3FaceRecognizer.DeleteFaceOnline(System.String)">
             <summary>
             Performs a match between two face by using their ids.
             </summary>
-            <param name="iId">Face id to check.</param>
+            <param name="iID">Face id to check.</param>
+        </member>
+        <member name="M:BlueQuark.Internal.ID3FaceRecognizer.ClearPending">
+            <summary>
+            Clear the inner queue.
+            </summary>
         </member>
         <member name="T:BlueQuark.Internal.ID3FaceEntity">
             <summary>
@@ -2440,7 +2461,7 @@
             Class used by the detectors using You Only Look Once (YOLO) algorithm.
             </summary>
         </member>
-        <member name="M:BlueQuark.Internal.YOLODetector.#ctor(BlueQuark.Internal.TinyYOLO3Model[],System.Int32,System.Int32)">
+        <member name="M:BlueQuark.Internal.YOLODetector.#ctor(BlueQuark.TinyYOLO3Model[],System.Int32,System.Int32)">
             <summary>
             Creates a yolo detector using the tiny yolo v3 model with 80 classes.
             </summary>
@@ -2451,6 +2472,14 @@
         <member name="M:BlueQuark.Internal.YOLODetector.#ctor(BlueQuark.Internal.TinyYOLO3FaceModel[],System.Int32,System.Int32)">
             <summary>
             Creates a yolo detector using the tiny yolo v3 model for face detection.
+            </summary>
+            <param name="iClassesToDetect">The array of the classes that we want to detect.</param>
+            <param name="iConfidence">int (range 1:1:100) which determines the confidence threshold for detection acceptation.</param>
+            <param name="iSize">The size of the meshing, should be a multiple of 32.</param>
+        </member>
+        <member name="M:BlueQuark.Internal.YOLODetector.#ctor(BlueQuark.TinyYOLOVOCModel[],System.Int32,System.Int32)">
+            <summary>
+            Creates a yolo detector using the tiny yolo v3 voc model for face detection.
             </summary>
             <param name="iClassesToDetect">The array of the classes that we want to detect.</param>
             <param name="iConfidence">int (range 1:1:100) which determines the confidence threshold for detection acceptation.</param>
@@ -2471,11 +2500,6 @@
         <member name="T:BlueQuark.Internal.TinyYOLO3FaceModel">
             <summary>
             Enumerate the class that can be detected using the tiny yolo v3 face model.
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Internal.TinyYOLO3Model">
-            <summary>
-            Enumeration of the 80 classes that can be detected using the tiny yolo v3 model.
             </summary>
         </member>
         <member name="T:BlueQuark.Internal.YOLOEntity">
@@ -4236,6 +4260,11 @@
             Number of iteration the test must be done.
             </summary>
         </member>
+        <member name="P:BlueQuark.Internal.UnitTestAttribute.Dependancies">
+            <summary>
+            Method test name that depends on the current method test.
+            </summary>
+        </member>
         <member name="M:BlueQuark.Internal.UnitTestAttribute.#ctor">
             <summary>
             Default constructor.
@@ -4267,11 +4296,8 @@
             Enables/Disables the lock of the component. A locked motor cannot move.
             </summary>
         </member>
-        <member name="P:BlueQuark.Internal.IMotor.Strength">
-            <summary>
-            Strength (couple) of the motor. Value in mA.
-            </summary>
-        </member>
+        <!-- Commentaire XML incorrect pour le membre "P:BlueQuark.Internal.IMotor.TorqueThreshold" -->
+        <!-- Commentaire XML incorrect pour le membre "P:BlueQuark.Internal.IMotor.EnableTorqueControl" -->
         <member name="T:BlueQuark.Internal.AppSandbox">
             <summary>
             Loads, unloads apps and store transited data.
@@ -7285,7 +7311,7 @@
             Smooth speed mode.
             </summary>
         </member>
-        <member name="F:BlueQuark.AccDecMode.MAX">
+        <member name="F:BlueQuark.AccDecMode.HIGH">
             <summary>
             Max speed mode.
             </summary>
@@ -10267,6 +10293,111 @@
             Represents the motherboard for high complexity algorithms.
             </summary>
         </member>
+        <member name="T:BlueQuark.HumanSearchResult">
+            <summary>
+            The results of a human search.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.HumanSearchResult.Name">
+            <summary>
+            The label of a recognized face.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.HumanSearchResult.IsGoal">
+            <summary>
+            Is the human is the one we searched for.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.HumanSearchResult.IsKnown">
+            <summary>
+            Is the human is present in the database.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.YOLOParameter">
+            <summary>
+            Parameters for YOLO.
+            </summary> 
+        </member>
+        <member name="P:BlueQuark.YOLOParameter.RegionOfInterest">
+            <summary>
+            Represents the region of interest.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.YOLOParameter.UseThermal">
+            <summary>
+            If we use the thermal mode.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.YOLOParameter.ThermalThreshold">
+            <summary>
+            Represents the thermal threshold.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.YOLOParameter.DetectFallenHuman">
+            <summary>
+            If we detect fallen humans.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.YOLOParameter.DownSample">
+            <summary>
+            Represents the down sample.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.YOLOParameter.ImageSize">
+            <summary>
+            Size of meshing. The higher it is the more accurate the detection will be but will be slower.
+            Must be a multiple of 32.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.YOLOParameter.ConfidenceThreshold">
+            <summary>
+            Represents the confidence threshold. Value in percentage.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.ObjectDetector">
+            <summary>
+            Human detection algorithm.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.ObjectDetector.IsBusy">
+            <summary>
+            Returns true if the algorithm is active.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.ObjectDetector.IsSomethingPending">
+            <summary>
+            True if there is at least one query in the inner queue.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.ObjectDetector.PendingCount">
+            <summary>
+            Size of the inner queue.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.ObjectDetector.ClearPending">
+            <summary>
+            Clear the inner queue.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.ObjectDetector.OnDetect">
+            <summary>
+            Called when a face is detected. Remove all callback to stop the algorithm.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.ObjectDetector.Detect(OpenCVUnity.Mat,BlueQuark.ObjectDetectorParameter,System.Action{BlueQuark.ObjectEntity[]},System.Boolean)">
+            <summary>
+            Does a one time object detection.
+            </summary>
+            <param name="iFrame">The mat in which the detection will be done.</param>
+            <param name="iParam">The parameters of the detection.</param>
+            <param name="iOnDetect">The callback with the detected objects.</param>
+            <param name="iEnqueue">If false, the queue will be cleared and the current query will be immediately considered.</param>
+        </member>
+        <member name="T:BlueQuark.TinyYOLOVOCModel">
+            <summary>
+            Enumeration of the 20 classes that can be detected using the tiny yolo v3 voc model.
+            </summary>
+        </member>
         <member name="T:BlueQuark.ScheduledTask">
             <summary>
             Represents a base scheduled reminder.
@@ -10520,9 +10651,19 @@
             Called when the HumanSearchStrategy found someone.
             </summary>
         </member>
+        <member name="P:BlueQuark.HumanSearchParameters.OnFoundFace">
+            <summary>
+            Called when the HumanSearchStrategy found someone with face detection.
+            </summary>
+        </member>
         <member name="P:BlueQuark.HumanSearchParameters.HumanDetectionMode">
             <summary>
             Determine what technology to use for human detection.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.HumanSearchParameters.HumansToFind">
+            <summary>
+            Names of humans to find.
             </summary>
         </member>
         <member name="M:BlueQuark.HumanSearchParameters.#ctor">
@@ -10679,7 +10820,7 @@
             No face have been recognized.
             </summary>
         </member>
-        <member name="F:BlueQuark.FaceRecognitionError.CONNEXION_ERROR">
+        <member name="F:BlueQuark.FaceRecognitionError.CONNECTION_ERROR">
             <summary>
             Connexion issue during the web request.
             </summary>
@@ -10781,6 +10922,11 @@
             </summary>
         </member>
         <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.ThermalMotionParameters.#ctor(System.Single,System.Single,System.Single,System.Int32)" -->
+        <member name="T:BlueQuark.TinyYOLO3Model">
+            <summary>
+            Enumeration of the 80 classes that can be detected using the tiny yolo v3 model.
+            </summary>
+        </member>
         <member name="T:BlueQuark.GlobalPosition">
             <summary>
             Represents a global position on Earth.
@@ -12057,47 +12203,6 @@
             Represents the yolo parameters.
             </summary>
         </member>
-        <member name="T:BlueQuark.YOLOParameter">
-            <summary>
-            Parameters for YOLO.
-            </summary> 
-        </member>
-        <member name="P:BlueQuark.YOLOParameter.RegionOfInterest">
-            <summary>
-            Represents the region of interest.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.YOLOParameter.UseThermal">
-            <summary>
-            If we use the thermal mode.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.YOLOParameter.ThermalThreshold">
-            <summary>
-            Represents the thermal threshold.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.YOLOParameter.DetectFallenHuman">
-            <summary>
-            If we detect fallen humans.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.YOLOParameter.DownSample">
-            <summary>
-            Represents the down sample.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.YOLOParameter.ImageSize">
-            <summary>
-            Size of meshing. The higher it is the more accurate the detection will be but will be slower.
-            Must be a multiple of 32.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.YOLOParameter.ConfidenceThreshold">
-            <summary>
-            Represents the confidence threshold. Value in percentage.
-            </summary>
-        </member>
         <member name="T:BlueQuark.Map">
             <summary>
             Map data class used by Mapper
@@ -13219,6 +13324,13 @@
             Returns the internal state.
             </summary>
             <seealso cref="P:BlueQuark.Cognitive.InternalState"/>
+        </member>
+        <member name="M:BlueQuark.Cognitive.UserExists(System.String)">
+            <summary>
+            If the list of users registered with the companion contain the provided name.
+            </summary>
+            <param name="iUserName">The name to search for in the user list.</param>
+            <returns>True if user is registered with the companion.</returns>
         </member>
         <member name="T:BlueQuark.InternalState">
             <summary>
@@ -14969,27 +15081,27 @@
             <summary>
             Turns the robot's body to the given angle (absolute).
             </summary>
-            <param name="iAngle">Target angle in degrees.</param>
+            <param name="iAngle">Target angle in degrees. Must be between [-180, 180].</param>
         </member>
         <member name="M:BlueQuark.DisplacementStrategy.RotateTo(System.Single,System.Single)">
             <summary>
             Turns the robot's body to the given angle (absolute).
             </summary>
-            <param name="iAngle">Target angle in degrees.</param>
+            <param name="iAngle">Target angle in degrees. Must be between [-180, 180].</param>
             <param name="iAngularVelocity">Target speed in degrees per second. Negative speed will invert the rotation.</param>
         </member>
         <member name="M:BlueQuark.DisplacementStrategy.RotateTo(System.Single,System.Action)">
             <summary>
             Turns the robot's body to the given angle (absolute).
             </summary>
-            <param name="iAngle">Target angle in degrees.</param>
+            <param name="iAngle">Target angle in degrees. Must be between [-180, 180].</param>
             <param name="iOnEndMove">Callback called at the end of the course.</param>
         </member>
         <member name="M:BlueQuark.DisplacementStrategy.RotateTo(System.Single,System.Single,System.Action)">
             <summary>
             Turns the robot's body to the given angle (absolute).
             </summary>
-            <param name="iAngle">Target angle in degrees.</param>
+            <param name="iAngle">Target angle in degrees. Must be between [-180, 180].</param>
             <param name="iAngularVelocity">Target speed in degrees per second. Negative speed will invert the rotation.</param>
             <param name="iOnEndMove">Callback called at the end of the course.</param>
         </member>
@@ -14997,7 +15109,7 @@
             <summary>
             Turns the robot's body to the given angle (absolute).
             </summary>
-            <param name="iAngle">Target angle in degrees.</param>
+            <param name="iAngle">Target angle in degrees. Must be between [-180, 180].</param>
             <param name="iAngularVelocity">Target speed in degrees per second. Negative speed will invert the rotation.</param>
             <param name="iOnEndMove">Callback called at the end of the course.</param>
         </member>
@@ -15065,6 +15177,16 @@
             True if a request is processing.
             </summary>
         </member>
+        <member name="P:BlueQuark.FaceRecognizer.PendingCount">
+            <summary>
+            Size of the inner queue.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.FaceRecognizer.IsSomethingPending">
+            <summary>
+            True if there is at least one query in the inner queue.
+            </summary>
+        </member>
         <member name="M:BlueQuark.FaceRecognizer.Recognize(OpenCVUnity.Mat,System.Action{BlueQuark.FaceEntity[]},System.Action{BlueQuark.FaceRecognitionError})">
             <summary>
             Asks for a facial recognition.
@@ -15099,6 +15221,16 @@
             Creates a new model based on current added faces.
             </summary>
             <param name="iOnEndTraining">Called when the training has ended. Returns the list of the users whom faces have been detected and saved to database. </param>
+        </member>
+        <member name="M:BlueQuark.FaceRecognizer.ClearTraining">
+            <summary>
+            Clear the untrained training data. Useless if Train() has been called before.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.FaceRecognizer.ClearPending">
+            <summary>
+            Clear the inner queue.
+            </summary>
         </member>
         <member name="T:BlueQuark.HandWavingEntity">
             <summary>
@@ -16201,6 +16333,31 @@
             Default angular velocity for wheels asserv. Degrees per seconds.
             </summary>
         </member>
+        <member name="F:BlueQuark.Wheels.DEFAULT_SMOOTH_ACCELERATION">
+            <summary>
+            Default smooth acceleration / deceleration value for wheels starting/stopping. Represents the speed that can be reached in 1 second. Value in meters per second.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Wheels.DEFAULT_NORMAL_ACCELERATION">
+            <summary>
+            Default normal acceleration / deceleration value for wheels starting/stopping. Represents the speed that can be reached in 1 second. Value in meters per second.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Wheels.DEFAULT_HIGH_ACCELERATION">
+            <summary>
+            Default high acceleration / deceleration value for wheels starting/stopping. Represents the speed that can be reached in 1 second. Value in meters per second.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Wheels.MIN_TORQUE_THRESHOLD">
+            <summary>
+            Minimal tolerated threshold for the torque control system. Value in percent.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Wheels.MAX_TORQUE_THRESHOLD">
+            <summary>
+            Maximal tolerated threshold for the torque control system. Value in percent.
+            </summary>
+        </member>
         <member name="P:BlueQuark.Wheels.IsBusy">
             <summary>
             Returns true if the wheels are moving (controlled or pushed in any way).
@@ -16214,6 +16371,11 @@
         <member name="P:BlueQuark.Wheels.Odometry">
             <summary>
             X,Y,TH computed position of the robot since last boot. Values in meters and degrees (-180° to 180°).
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Wheels.CumulativeOdometry">
+            <summary>
+            X,Y,TH computed position of the robot since last boot. Values in meters and degrees (min float° to max float°).
             </summary>
         </member>
         <member name="P:BlueQuark.Wheels.Error">
@@ -16256,9 +16418,19 @@
             Traveled distance from first robot boot. Value in meters.
             </summary>
         </member>
+        <member name="P:BlueQuark.Wheels.LeftAverageCurrent">
+            <summary>
+            Average (500ms window) current applied current on the left wheel. Value in milli ampere.
+            </summary>
+        </member>
         <member name="P:BlueQuark.Wheels.LeftCurrent">
             <summary>
             Current applied current on the left wheel. Value in milli ampere.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Wheels.RightAverageCurrent">
+            <summary>
+            Average (500ms window) current applied current on the right wheel. Value in milli ampere.
             </summary>
         </member>
         <member name="P:BlueQuark.Wheels.RightCurrent">
@@ -16285,8 +16457,18 @@
             <summary>
             Sets robot linear (meters / s) and angular (deg / s) velocities.
             </summary>
-            <param name="iLinearVelocity">Rate of change (in meters per second) of an object position with in a certain time range<see href="https://en.wikipedia.org/wiki/Angular_velocity">Article</see>.</param>
+            <param name="iLinearVelocity">Rate of change (in meters per second) of an object position within a certain time range<see href="https://en.wikipedia.org/wiki/Angular_velocity">Article</see>.</param>
             <param name="iAngularVelocity">Rate (in degrees per second) at which it rotates around a chosen center point: that is, the time rate of change of its angular displacement relative to the origin<see href="https://physics.tutorvista.com/motion/linear-velocity.html">Article</see>.</param>
+            <seealso cref="F:BlueQuark.Wheels.MAX_LIN_VELOCITY"/>
+            <seealso cref="F:BlueQuark.Wheels.MAX_ANG_VELOCITY"/>
+        </member>
+        <member name="M:BlueQuark.Wheels.SetVelocities(System.Single,System.Single,System.Action)">
+            <summary>
+            Sets robot linear (meters / s) and angular (deg / s) velocities.
+            </summary>
+            <param name="iLinearVelocity">Rate of change (in meters per second) of an object position within a certain time range<see href="https://en.wikipedia.org/wiki/Angular_velocity">Article</see>.</param>
+            <param name="iAngularVelocity">Rate (in degrees per second) at which it rotates around a chosen center point: that is, the time rate of change of its angular displacement relative to the origin<see href="https://physics.tutorvista.com/motion/linear-velocity.html">Article</see>.</param>
+            <param name="iOnEndAcc">Callback called when the motion has finished to change.</param>
             <seealso cref="F:BlueQuark.Wheels.MAX_LIN_VELOCITY"/>
             <seealso cref="F:BlueQuark.Wheels.MAX_ANG_VELOCITY"/>
         </member>
@@ -16294,26 +16476,70 @@
             <summary>
             Sets robot linear (meters / s) and angular (deg / s) velocities.
             </summary>
-            <param name="iLinearVelocity">Rate of change (in meters per second) of an object position with in a certain time range<see href="https://en.wikipedia.org/wiki/Angular_velocity">Article</see>.</param>
+            <param name="iLinearVelocity">Rate of change (in meters per second) of an object position within a certain time range<see href="https://en.wikipedia.org/wiki/Angular_velocity">Article</see>.</param>
             <param name="iAngularVelocity">Rate (in degrees per second) at which it rotates around a chosen center point: that is, the time rate of change of its angular displacement relative to the origin<see href="https://physics.tutorvista.com/motion/linear-velocity.html">Article</see>.</param>
             <param name="iMode">Acceleration/deceleration mode.</param>
             <seealso cref="F:BlueQuark.Wheels.MAX_LIN_VELOCITY"/>
             <seealso cref="F:BlueQuark.Wheels.MAX_ANG_VELOCITY"/>
         </member>
-        <member name="M:BlueQuark.Wheels.SetSpeedsRPM(System.Single,System.Single)">
+        <member name="M:BlueQuark.Wheels.SetVelocities(System.Single,System.Single,BlueQuark.AccDecMode,System.Action)">
             <summary>
-            Sets both left and right wheels speed (in revolution per minute, rpm).
+            Sets robot linear (meters / s) and angular (deg / s) velocities.
             </summary>
-            <param name="iLeftSpeed">Left wheel speed, value in rpm.</param>
-            <param name="iRightSpeed">Right wheel speed, value in rpm.</param>
-        </member>
-        <member name="M:BlueQuark.Wheels.SetSpeedsRPM(System.Single,System.Single,BlueQuark.AccDecMode)">
-            <summary>
-            Sets both left and right wheels speed (in revolution per minute, rpm).
-            </summary>
-            <param name="iLeftSpeed">Left wheel speed, value in rpm.</param>
-            <param name="iRightSpeed">Right wheel speed, value in rpm.</param>
+            <param name="iLinearVelocity">Rate of change (in meters per second) of an object position within a certain time range<see href="https://en.wikipedia.org/wiki/Angular_velocity">Article</see>.</param>
+            <param name="iAngularVelocity">Rate (in degrees per second) at which it rotates around a chosen center point: that is, the time rate of change of its angular displacement relative to the origin<see href="https://physics.tutorvista.com/motion/linear-velocity.html">Article</see>.</param>
             <param name="iMode">Acceleration/deceleration mode.</param>
+            <param name="iOnEndAcc">Callback called when the motion has finished to change.</param>
+            <seealso cref="F:BlueQuark.Wheels.MAX_LIN_VELOCITY"/>
+            <seealso cref="F:BlueQuark.Wheels.MAX_ANG_VELOCITY"/>
+        </member>
+        <member name="M:BlueQuark.Wheels.SetVelocities(System.Single,System.Single,BlueQuark.AccDecMode,System.Single)">
+            <summary>
+            Sets robot linear (meters / s) and angular (deg / s) velocities.
+            </summary>
+            <param name="iLinearVelocity">Rate of change (in meters per second) of an object position within a certain time range<see href="https://en.wikipedia.org/wiki/Angular_velocity">Article</see>.</param>
+            <param name="iAngularVelocity">Rate (in degrees per second) at which it rotates around a chosen center point: that is, the time rate of change of its angular displacement relative to the origin<see href="https://physics.tutorvista.com/motion/linear-velocity.html">Article</see>.</param>
+            <param name="iMode">Acceleration/deceleration mode.</param>
+            <param name="iDistance">Distance to travel in meters.</param>
+            <seealso cref="F:BlueQuark.Wheels.MAX_LIN_VELOCITY"/>
+            <seealso cref="F:BlueQuark.Wheels.MAX_ANG_VELOCITY"/>
+        </member>
+        <member name="M:BlueQuark.Wheels.SetVelocities(System.Single,System.Single,BlueQuark.AccDecMode,System.Single,System.Action)">
+            <summary>
+            Sets robot linear (meters / s) and angular (deg / s) velocities.
+            </summary>
+            <param name="iLinearVelocity">Rate of change (in meters per second) of an object position within a certain time range<see href="https://en.wikipedia.org/wiki/Angular_velocity">Article</see>.</param>
+            <param name="iAngularVelocity">Rate (in degrees per second) at which it rotates around a chosen center point: that is, the time rate of change of its angular displacement relative to the origin<see href="https://physics.tutorvista.com/motion/linear-velocity.html">Article</see>.</param>
+            <param name="iMode">Acceleration/deceleration mode.</param>
+            <param name="iDistance">Distance to travel in meters.</param>
+            <param name="iOnEndAcc">Callback called when the motion has finished to change.</param>
+            <seealso cref="F:BlueQuark.Wheels.MAX_LIN_VELOCITY"/>
+            <seealso cref="F:BlueQuark.Wheels.MAX_ANG_VELOCITY"/>
+        </member>
+        <member name="M:BlueQuark.Wheels.SetVelocities(System.Single,System.Single,BlueQuark.AccDecMode,System.Single,System.Single)">
+            <summary>
+            Sets robot linear (meters / s) and angular (deg / s) velocities.
+            </summary>
+            <param name="iLinearVelocity">Rate of change (in meters per second) of an object position within a certain time range<see href="https://en.wikipedia.org/wiki/Angular_velocity">Article</see>.</param>
+            <param name="iAngularVelocity">Rate (in degrees per second) at which it rotates around a chosen center point: that is, the time rate of change of its angular displacement relative to the origin<see href="https://physics.tutorvista.com/motion/linear-velocity.html">Article</see>.</param>
+            <param name="iMode">Acceleration/deceleration mode.</param>
+            <param name="iDistance">Distance to travel in meters.</param>
+            <param name="iAngle">Rotation to perform in degrees.</param>
+            <seealso cref="F:BlueQuark.Wheels.MAX_LIN_VELOCITY"/>
+            <seealso cref="F:BlueQuark.Wheels.MAX_ANG_VELOCITY"/>
+        </member>
+        <member name="M:BlueQuark.Wheels.SetVelocities(System.Single,System.Single,BlueQuark.AccDecMode,System.Single,System.Single,System.Action)">
+            <summary>
+            Sets robot linear (meters / s) and angular (deg / s) velocities.
+            </summary>
+            <param name="iLinearVelocity">Rate of change (in meters per second) of an object position within a certain time range<see href="https://en.wikipedia.org/wiki/Angular_velocity">Article</see>.</param>
+            <param name="iAngularVelocity">Rate (in degrees per second) at which it rotates around a chosen center point: that is, the time rate of change of its angular displacement relative to the origin<see href="https://physics.tutorvista.com/motion/linear-velocity.html">Article</see>.</param>
+            <param name="iMode">Acceleration/deceleration mode.</param>
+            <param name="iDistance">Distance to travel in meters.</param>
+            <param name="iAngle">Rotation to perform in degrees.</param>
+            <param name="iOnEndAcc">Callback called when the motion has finished to change.</param>
+            <seealso cref="F:BlueQuark.Wheels.MAX_LIN_VELOCITY"/>
+            <seealso cref="F:BlueQuark.Wheels.MAX_ANG_VELOCITY"/>
         </member>
         <member name="M:BlueQuark.Wheels.Stop">
             <summary>
@@ -16353,11 +16579,8 @@
             Current PID of the motor.
             </summary>
         </member>
-        <member name="P:BlueQuark.Wheels.Strength">
-            <summary>
-            Strength (couple) of the motor. Value in mA.
-            </summary>
-        </member>
+        <!-- Commentaire XML incorrect pour le membre "P:BlueQuark.Wheels.TorqueThreshold" -->
+        <!-- Commentaire XML incorrect pour le membre "P:BlueQuark.Wheels.EnableTorqueControl" -->
         <member name="M:BlueQuark.Wheels.SetPIDs(System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)">
             <summary>
             Sets the proportional–integral–derivative controller. It is a control loop feedback mechanism.
@@ -16375,6 +16598,13 @@
             </summary>
             <param name="iLinearPID">Current PID of the motor.</param>
             <param name="iAngularPID">Current PID of the motor.</param>
+        </member>
+        <member name="M:BlueQuark.Wheels.SetAccDecValue(BlueQuark.AccDecMode,System.Single)">
+            <summary>
+            Sets value to the provided acceleration/deceleration mode.
+            </summary>
+            <param name="iMode">The mode to update to the corresponding value.</param>
+            <param name="iValue">The new value of the mode in meter/second.</param>
         </member>
         <member name="P:BlueQuark.Wheels.LockedByGUI">
             <summary>
@@ -17319,11 +17549,6 @@
             <param name="iHuman">The human target to use.</param>
             <param name="iHeadYesAxisAuthorizedRange">The authorized range for yes axis. (Degree)</param>
         </member>
-        <member name="M:BlueQuark.HumanSearchStrategy.StartHumanTrack">
-            <summary>
-            Recenter in direction of detected target, then run HumanTrackStrategy.
-            </summary>
-        </member>
         <member name="M:BlueQuark.HumanSearchStrategy.While(System.Predicate{UnityEngine.Vector3})">
             <summary>
             Starts a human search while the condition is true.
@@ -17344,6 +17569,22 @@
             <param name="iTimeout">Search time, strictly greater than 0.</param>
             <param name="iOnEnd">Action when searching ends.</param>
             <param name="iOnFound">Action to do when human is found.</param>
+        </member>
+        <member name="M:BlueQuark.HumanSearchStrategy.UntilFound(System.String,System.Action{BlueQuark.HumanSearchResult})">
+            <summary>
+            Starts a human search with face recognition during a given time.
+            </summary>
+            <param name="iGoalName">The name of the searched human.</param>
+            <param name="iOnFoundFace">Action to do when human is found with face recognition.</param>
+        </member>
+        <member name="M:BlueQuark.HumanSearchStrategy.UntilFound(System.String,System.Single,System.Action,System.Action{BlueQuark.HumanSearchResult})">
+            <summary>
+            Starts a human search with face recognition during a given time.
+            </summary>
+            <param name="iGoalName">The name of the searched human.</param>
+            <param name="iTimeout">Search time, strictly greater than 0.</param>
+            <param name="iOnEnd">Action when searching ends.</param>
+            <param name="iOnFoundFace">Action to do when human is found with face recognition.</param>
         </member>
         <member name="M:BlueQuark.HumanSearchStrategy.While(System.Predicate{UnityEngine.Vector3},BlueQuark.HumanSearchParameters)">
             <summary>
@@ -17595,6 +17836,11 @@
         <member name="P:BlueQuark.Perception.SkeletonDetector">
             <summary>
             Body detection with skeleton data structure.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Perception.ObjectDetector">
+            <summary>
+            Object detection feature.
             </summary>
         </member>
         <member name="T:BlueQuark.QRCodeDetector">
