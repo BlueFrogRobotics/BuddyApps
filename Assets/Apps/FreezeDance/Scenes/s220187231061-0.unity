@@ -345,6 +345,16 @@ GameObject:
   m_PrefabParentObject: {fileID: 1801878813055476, guid: a66514394266f9247a0651c8ad84a528,
     type: 2}
   m_PrefabInternal: {fileID: 854162860}
+--- !u!1 &854162866 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1504975517016872, guid: a66514394266f9247a0651c8ad84a528,
+    type: 2}
+  m_PrefabInternal: {fileID: 854162860}
+--- !u!1 &854162867 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1530689179940514, guid: a66514394266f9247a0651c8ad84a528,
+    type: 2}
+  m_PrefabInternal: {fileID: 854162860}
 --- !u!1 &1669233715
 GameObject:
   m_ObjectHideFlags: 0
@@ -535,8 +545,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameObjects:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 854162867}
+  - {fileID: 854162866}
 --- !u!114 &1669233722
 MonoBehaviour:
   m_ObjectHideFlags: 0
