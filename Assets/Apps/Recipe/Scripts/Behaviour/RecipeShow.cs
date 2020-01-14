@@ -53,7 +53,7 @@ namespace BuddyApp.Recipe
             if (!Buddy.GUI.Toaster.IsBusy)
             {
                 Buddy.GUI.Toaster.Display<CustomToast>().With(GetGameObject(1));
-            }
+            } 
                 
             GetGameObject(1).transform.GetChild(0).GetComponent<Text>().text = RecipeData.Instance.mRootObject.analyzedInstructions[0].steps[iIndexStep].step;
             GetGameObject(1).transform.GetChild(0).GetComponent<Text>().fontSize = 35;

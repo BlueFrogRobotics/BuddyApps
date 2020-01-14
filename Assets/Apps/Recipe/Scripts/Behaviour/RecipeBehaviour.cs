@@ -20,7 +20,7 @@ namespace BuddyApp.Recipe
         private Animator mAnimatorRecipe;
         private float mValueHeadYes;
         private float mValueHeadNo;
-        private const float HEAD_YES_ANGLE_INCREMENT = 7F;
+        private const float HEAD_YES_ANGLE_INCREMENT = 5F;
         private const float HEAD_NO_ANGLE_INCREMENT = 10F;
         private bool mUserPlaceHead;
         public bool mWantManualPositionning { get; set; }
@@ -54,6 +54,7 @@ namespace BuddyApp.Recipe
         /// <param name="iButtonClicked"> 0 : move to the top, 1 : move to the right, 2 : move to the bottom, 3 : move to the left </param>
         public void MoveHead(int iButtonClicked)
         {
+            RecipeUtils.DebugColor("BUTTON MOVE HEAD : ", "red");
             mWantManualPositionning = true;
             Buddy.Navigation.Stop();
             if(!mUserPlaceHead)
@@ -61,42 +62,50 @@ namespace BuddyApp.Recipe
                 mUserPlaceHead = true;
                 Buddy.Vocal.SayKey("recipeusermovetherobot");
             }
-            if (!Buddy.Actuators.Head.IsBusy)
-            {
+
+            
+
+            //if (!Buddy.Actuators.Head.IsBusy)
+            //{
+            //mettre une value yes et no pour éviter la double opération
                 switch (iButtonClicked)
                 {
                     case 0:
-                        RecipeUtils.DebugColor("BOTTOM : " + mValueHeadYes, "red");
-                        if ((mValueHeadYes += HEAD_YES_ANGLE_INCREMENT) > 37)
+                        RecipeUtils.DebugColor("TOP : " + mValueHeadYes, "red");
+                        mValueHeadYes += HEAD_YES_ANGLE_INCREMENT;
+                        if ((mValueHeadYes) > 37)
                             mValueHeadYes = 37;
                         else
-                            Buddy.Actuators.Head.Yes.SetPosition(mValueHeadYes += HEAD_YES_ANGLE_INCREMENT);
+                            Buddy.Actuators.Head.Yes.SetPosition(mValueHeadYes);
                         break;
                     case 1:
                         RecipeUtils.DebugColor("RIGHT : " + mValueHeadNo, "red");
-                        if ((mValueHeadNo -= HEAD_NO_ANGLE_INCREMENT) > -100)
+                        mValueHeadNo -= HEAD_NO_ANGLE_INCREMENT;
+                        if ((mValueHeadNo) < -100)
                             mValueHeadNo = -100;
                         else
-                            Buddy.Actuators.Head.No.SetPosition(mValueHeadNo -= HEAD_NO_ANGLE_INCREMENT);
+                            Buddy.Actuators.Head.No.SetPosition(mValueHeadNo);
                         break;
                     case 2:
-                        RecipeUtils.DebugColor("TOP : " + mValueHeadYes, "red");
-                        if ((mValueHeadYes -= HEAD_YES_ANGLE_INCREMENT) > -10)
+                        RecipeUtils.DebugColor("BOTTOM : " + mValueHeadYes, "red");
+                        mValueHeadYes -= HEAD_YES_ANGLE_INCREMENT;
+                        if ((mValueHeadYes) > -10)
                             mValueHeadYes = -10;
                         else
-                            Buddy.Actuators.Head.Yes.SetPosition(mValueHeadYes -= HEAD_YES_ANGLE_INCREMENT);
+                            Buddy.Actuators.Head.Yes.SetPosition(mValueHeadYes);
                         break;
                     case 3:
                         RecipeUtils.DebugColor("LEFT : " + mValueHeadNo, "red");
-                        if ((mValueHeadNo += HEAD_NO_ANGLE_INCREMENT) > +100)
+                        mValueHeadNo += HEAD_NO_ANGLE_INCREMENT;
+                        if ((mValueHeadNo) > 100)
                             mValueHeadNo = 100;
                         else
-                            Buddy.Actuators.Head.No.SetPosition(mValueHeadNo += HEAD_NO_ANGLE_INCREMENT);
+                            Buddy.Actuators.Head.No.SetPosition(mValueHeadNo);
                         break;
                     default:
                         break;
                 }
-            }
+            //}
 
         }
 

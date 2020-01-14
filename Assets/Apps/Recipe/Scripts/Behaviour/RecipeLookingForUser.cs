@@ -12,6 +12,8 @@ namespace BuddyApp.Recipe
         private float mTimer;
         private bool mTrackingDone;
         private bool mIsHumanDetected;
+
+        private float mRandom;
         //pas de detection il demande a lutilisateur de bien le placer 
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -38,6 +40,7 @@ namespace BuddyApp.Recipe
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            Buddy.Navigation.Stop();
             GetGameObject(0).SetActive(false);
         }
 
@@ -63,8 +66,8 @@ namespace BuddyApp.Recipe
 
         private void OnEndListenning(SpeechInput iSpeechInput)
         {
-           RecipeUtils.DebugColor("OnEndListenning " + iSpeechInput.Utterance, "red");
-
+            RecipeUtils.DebugColor("OnEndListenning " + iSpeechInput.Utterance, "red");
+            mRandom = Random.Range(0F, 1F);
             //if (!iSpeechInput.IsInterrupted)
             //{
             if (!string.IsNullOrEmpty(iSpeechInput.Utterance) && Utils.ContainsOneOf(iSpeechInput.Utterance, "recipeyes"))
@@ -77,11 +80,17 @@ namespace BuddyApp.Recipe
             {
                 mIsHumanDetected = false;
                 mTimer = 0F;
-                Buddy.Vocal.SayKeyAndListen("firstareyouready", null, OnEndListenning, null, SpeechRecognitionMode.FREESPEECH_ONLY);
+                if (mRandom < 0.2F)
+                    Buddy.Vocal.SayKeyAndListen("firstareyouready", null, OnEndListenning, null, SpeechRecognitionMode.FREESPEECH_ONLY);
+                else
+                    Buddy.Vocal.Listen(OnEndListenning, SpeechRecognitionMode.FREESPEECH_ONLY);
             }
             else if ((string.IsNullOrEmpty(iSpeechInput.Utterance)))
             {
-                Buddy.Vocal.SayKeyAndListen("firstareyouready", null, OnEndListenning, null, SpeechRecognitionMode.FREESPEECH_ONLY);
+                if (mRandom < 0.2F)
+                    Buddy.Vocal.SayKeyAndListen("firstareyouready", null, OnEndListenning, null, SpeechRecognitionMode.FREESPEECH_ONLY);
+                else
+                    Buddy.Vocal.Listen(OnEndListenning, SpeechRecognitionMode.FREESPEECH_ONLY);
             }
                 
             

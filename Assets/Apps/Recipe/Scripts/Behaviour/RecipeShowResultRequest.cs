@@ -61,7 +61,7 @@ namespace BuddyApp.Recipe
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
         {
-
+            
         }
 
 
@@ -74,8 +74,8 @@ namespace BuddyApp.Recipe
                 if (www.error == null)
                 {
                     mSprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f));
-                    Buddy.GUI.Toaster.Display<CustomToast>().With(GetGameObject(2), () => { Buddy.Vocal.SayKey("recipeshowimg"); }, () => { ShowOverallInfos(); });
-                    GetGameObject(2).GetComponent<Image>().sprite = mSprite;
+                    Buddy.GUI.Toaster.Display<CustomToast>().With(GetGameObject(2), () => { Buddy.Vocal.SayKey("recipeshowimg"); GetGameObject(2).GetComponent<Image>().sprite = mSprite; }, () => {Buddy.GUI.Toaster.Hide(); ShowOverallInfos(); });
+                    
                 }
                 else
                 {

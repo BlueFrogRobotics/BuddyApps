@@ -114,6 +114,13 @@ namespace BuddyApp.Recipe
         public string unit;
     }
     [Serializable]
+    public class Ent
+    {
+        public int Id;
+        public string name;
+        public string image;
+    }
+    [Serializable]
     public class Step
     {
         public int number;
@@ -128,13 +135,7 @@ namespace BuddyApp.Recipe
             equipment = new List<Ent>();
         }
     }
-    [Serializable]
-    public class Ent
-    {
-        public int Id;
-        public string name;
-        public string image;
-    }
+
 
     [Serializable]
     public class AnalyzedInstruction
@@ -207,10 +208,11 @@ namespace BuddyApp.Recipe
         public int mIndexRecipe { get; set; }
         public RootObjectList mRootObjectList { get; set; }
         public RootObject mRootObject { get; set; }
-        public List<String> mListIngredient { get; set; }
+        public List<string> mListIngredient { get; set; }
         public string mGoogleCredentials { get; set; }
         public int mIndexStep { get; set; }
-        public bool mUserWantMovingBuddy { get { return mUserWantMovingBuddy; } set { this.mUserWantMovingBuddy = true; } }
+        private bool _mUserWantMovingBuddy = true;
+        public bool mUserWantMovingBuddy { get { return _mUserWantMovingBuddy; } set { _mUserWantMovingBuddy = value; } }
         /*
          * Data singleton access
          */
