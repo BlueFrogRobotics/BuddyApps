@@ -8,12 +8,13 @@ namespace BuddyApp.Recipe
 {
     public class RecipeShow : AStateMachineBehaviour {
 
-        private string mBaseUrl = "https://spoonacular.com/cdn/ingredients_100x100/,";
+        private string mBaseUrlEquipment = "https://spoonacular.com/cdn/equipment_500x500/";
+        private string mBaseUrlIngredient = "https://spoonacular.com/cdn/ingredients_500x500/";
         private Sprite mSprite;
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
         {
-           
+            mSprite = null;
             ShowSteps(RecipeData.Instance.mIndexStep);
         }
 
@@ -34,15 +35,20 @@ namespace BuddyApp.Recipe
             //if(!Buddy.Navigation.IsBusy && RecipeData.Instance.mUserWantMovingBuddy)
             //    Buddy.Navigation.Run<HumanTrackStrategy>().StaticTracking(tracking => true, null, BehaviourMovementPattern.HEAD | BehaviourMovementPattern.BODY_ROTATION);
 
-            if (RecipeData.Instance.mRootObject.analyzedInstructions[0].steps[iIndexStep].equipment.Count > 0)
+
+            if (RecipeData.Instance.mRootObject.analyzedInstructions[0].steps[iIndexStep].equipment.Count <= 0 && RecipeData.Instance.mRootObject.analyzedInstructions[0].steps[iIndexStep].ingredients.Count > 0)
             {
-                RecipeUtils.DebugColor("EQUIPEMENT IMG : " + RecipeData.Instance.mRootObject.analyzedInstructions[0].steps[iIndexStep].equipment[0].name, "red");
-                StartCoroutine(DownloadImage(mBaseUrl + RecipeData.Instance.mRootObject.analyzedInstructions[0].steps[iIndexStep].equipment[0].image));
+                RecipeUtils.DebugColor("INGREDIENT IMG : " + RecipeData.Instance.mRootObject.analyzedInstructions[0].steps[iIndexStep].ingredients[0].name + " TESSSSSSSSSSSSST : " + mBaseUrlIngredient + RecipeData.Instance.mRootObject.analyzedInstructions[0].steps[iIndexStep].ingredients[0].image, "red");
+                StartCoroutine(DownloadImage(mBaseUrlIngredient + RecipeData.Instance.mRootObject.analyzedInstructions[0].steps[iIndexStep].ingredients[0].image));
             }
-            else if (RecipeData.Instance.mRootObject.analyzedInstructions[0].steps[iIndexStep].equipment.Count <= 0 && RecipeData.Instance.mRootObject.analyzedInstructions[0].steps[iIndexStep].ingredients.Count > 0)
+            else if (RecipeData.Instance.mRootObject.analyzedInstructions[0].steps[iIndexStep].equipment.Count > 0)
             {
-                RecipeUtils.DebugColor("INGREDIENT IMG : " + RecipeData.Instance.mRootObject.analyzedInstructions[0].steps[iIndexStep].ingredients[0].name, "red");
-                StartCoroutine(DownloadImage(mBaseUrl + RecipeData.Instance.mRootObject.analyzedInstructions[0].steps[iIndexStep].ingredients[0].image));
+                RecipeUtils.DebugColor("EQUIPEMENT IMG : " + RecipeData.Instance.mRootObject.analyzedInstructions[0].steps[iIndexStep].equipment[0].name + " TESSSSSSSSSSSSST : " + mBaseUrlEquipment + RecipeData.Instance.mRootObject.analyzedInstructions[0].steps[iIndexStep].equipment[0].image, "red");
+                StartCoroutine(DownloadImage(mBaseUrlEquipment + RecipeData.Instance.mRootObject.analyzedInstructions[0].steps[iIndexStep].equipment[0].image));
+            }
+            else
+            {
+                //Hide img and put text in the middle of the customtoast
             }
 
             //montrer etape avec texte + image + vocal qui dit la phrase et en meme temps avoir un listen pour si le user dit suivant / précédent / redire 

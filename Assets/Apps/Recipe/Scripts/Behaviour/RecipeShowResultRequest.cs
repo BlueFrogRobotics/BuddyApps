@@ -38,7 +38,7 @@ namespace BuddyApp.Recipe
             RecipeUtils.DebugColor("ON STATE ENTER SHOW RESULT 5 ");
             if (!string.IsNullOrEmpty(RecipeData.Instance.mRootObject.image))
             {
-                RecipeUtils.DebugColor("ON STATE ENTER SHOW RESULT 5.1 ");
+                RecipeUtils.DebugColor("ON STATE ENTER SHOW RESULT 5.1 : " + RecipeData.Instance.mRootObject.image);
                 StartCoroutine(DownloadImage(RecipeData.Instance.mRootObject.image));
                 RecipeUtils.DebugColor("ON STATE ENTER SHOW RESULT 5.2 ");
                 RecipeUtils.DebugColor("URL IMG : " + RecipeData.Instance.mRootObject.image, "blue");
