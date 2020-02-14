@@ -4260,7 +4260,7 @@
             Number of iteration the test must be done.
             </summary>
         </member>
-        <member name="P:BlueQuark.Internal.UnitTestAttribute.Dependancies">
+        <member name="P:BlueQuark.Internal.UnitTestAttribute.Dependencies">
             <summary>
             Method test name that depends on the current method test.
             </summary>
@@ -14367,14 +14367,16 @@
             <summary>
             Sets toast parameters.
             </summary>
-            <param name="iCustomGameObject">The gameobject to display at the center of the layout.</param>
+            <param name="iCustomGameObject">The gameobject to display at the center of the layout. 
+            The GameObject will be destroyed. So provide a copy via GameObject.Instanciate(go) if you want to keep the original GO.</param>
             <returns>GUID of the toast.</returns>
         </member>
         <member name="M:BlueQuark.CustomToast.With(UnityEngine.GameObject,System.Action,System.Action)">
             <summary>
             Sets toast parameters.
             </summary>
-            <param name="iCustomGameObject">The gameobject to display at the center of the layout.</param>
+            <param name="iCustomGameObject">The gameobject to display at the center of the layout. 
+            The GameObject will be destroyed. So provide a copy via GameObject.Instanciate(go) if you want to keep the original GO.</param>
             <param name="iOnDisplay">Callback called when the toast is displayed.</param>
             <param name="iOnHide">Callback called when the toast is hidden.</param>
             <returns>GUID of the toast.</returns>
@@ -14383,7 +14385,8 @@
             <summary>
             Sets toast parameters.
             </summary>
-            <param name="iCustomGameObject">The gameobject to display at the center of the layout.</param>
+            <param name="iCustomGameObject">The gameobject to display at the center of the layout. 
+            The GameObject will be destroyed. So provide a copy via GameObject.Instanciate(go) if you want to keep the original GO.</param>
             <param name="iOnDisplay">Callback called when the toast is displayed.</param>
             <param name="iOnHide">Callback called when the toast is hidden.</param>
             <param name="iOnSideClick">Callback called when the user click on the side during toast display.</param>
@@ -16356,6 +16359,11 @@
         <member name="F:BlueQuark.Wheels.MAX_TORQUE_THRESHOLD">
             <summary>
             Maximal tolerated threshold for the torque control system. Value in percent.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Wheels.DEFAULT_TORQUE_THRESHOLD">
+            <summary>
+            Default tolerated threshold for the torque control system. Value in percent.
             </summary>
         </member>
         <member name="P:BlueQuark.Wheels.IsBusy">
@@ -22493,6 +22501,16 @@
             <param name="iKey">The keyspeech.</param>
             <returns>True if the speech contains one of phonetics from the keyspeech.</returns>
         </member>
+        <member name="M:BlueQuark.Utils.ContainsOneOf(System.String,System.String,BlueQuark.Context,System.Boolean)">
+            <summary>
+            Tells if iSpeech contains one of Phonetics from the dico value given by the key iKey.
+            </summary>
+            <param name="iText">The speech.</param>
+            <param name="iKey">The keyspeech.</param>
+            <param name="iContext">Context for the dictionnary</param>
+            <param name="iUnicWordSecurity">If true, when the string in iKey has a unic word, check that the iText is equal to this word</param>
+            <returns>True if the speech contains one of phonetics from the keyspeech.</returns>
+        </member>
         <member name="M:BlueQuark.Utils.ContainsOneOf(System.String,System.String,System.Boolean)">
             <summary>
             Tells if iSpeech contains one of Phonetics from the dico value given by the key iKey.
@@ -25101,6 +25119,11 @@
             Will trigger OnEndListening callback with confidence set to -1.
             </summary>
         </member>
+        <member name="T:BlueQuark.Agoraio">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:BlueQuark.EMailCrawler">
             <summary>
             Email box retriever component.
@@ -26106,6 +26129,11 @@
         <member name="P:BlueQuark.WebServices.Radio">
             <summary>
             Radio API.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.WebServices.Agoraio">
+            <summary>
+            Agoraio API.
             </summary>
         </member>
         <member name="P:BlueQuark.WebServices.RobotEmail">
