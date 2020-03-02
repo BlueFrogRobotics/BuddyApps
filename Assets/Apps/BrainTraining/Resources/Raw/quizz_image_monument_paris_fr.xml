@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<QuestionsData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Explanation>Je vais te montrer des lieux connus à Paris, sauras-tu les reconnaitre ?</Explanation>
+	<Introduction>Quel est ce lieu ?</Introduction>
+	<GiveChoices>true</GiveChoices>
+	<Questions>
+    <QuestionData>
+      <Image>Monument_Paris/Tour-eiffel.jpg</Image>
+      <Answers>
+        <string>La Tour Montparnasse</string>
+        <string>La tour Eiffel</string>
+        <string>La Tour Saint-Jacques</string>
+      </Answers>
+      <GoodAnswer>1</GoodAnswer>
+      <FullAnswer>C'est la Tour Eiffel qui est une tour de fer puddlé de 324 mètres de hauteur avec antennes, contruiste en 1887</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Monument_Paris/Sacre-coeur.jpg</Image>
+      <Answers>
+        <string>Le Sacré Cœur</string>
+        <string>La cathédrale Sainte-Croix</string>
+        <string>La basilique de Saint-Nicolas</string>
+      </Answers>
+      <GoodAnswer>0</GoodAnswer>
+      <FullAnswer>C'est la basilique du sacré coeur qui est située au sommet de la colline de Montmartre. La Basilique fut construite au dix neuvième siècle, sur pilotis. Il a fallu construire 83 piliers de 33 mètres pour la supporter. Pour profiter d'une vue exceptionnel, il vous faudra gravir les 300 marches du dôme.</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Monument_Paris/Opera-garnier.jpg</Image>
+      <Answers>
+        <string>L'Opéra Bastille</string>
+        <string>L'Opéra Garnier</string>
+        <string>Le Théâtre du Capitole</string>
+      </Answers>
+      <GoodAnswer>1</GoodAnswer>
+      <FullAnswer>C'est l'opéra Garnier, ou palais Garnier qui est un théâtre national à vocation lyrique et chorégraphique. Il a été conçu par l'architecte Charles Garnier en 1875</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Monument_Paris/Pont-alexandre-iii.jpg</Image>
+      <Answers>
+        <string>Le pont des Arts</string>
+        <string>Le pont Neuf</string>
+        <string>Le pont Alexandre trois</string>
+      </Answers>
+      <GoodAnswer>2</GoodAnswer>
+      <FullAnswer>C'est le pont Alexandre trois, qui est un pont monumental, parce qu'il est le plus large des ponts parisiens, avec ses plus de 40 mètres pour 150 mètres de longueur ! Il a été inauguré à l'occasion de l'Exposition Universelle de 1900.</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Monument_Paris/Notre-dame.jpg</Image>
+      <Answers>
+        <string>Notre Dame</string>
+        <string>Le Sacré Coeur</string>
+        <string>L'église de la Madeleine</string>
+      </Answers>
+      <GoodAnswer>0</GoodAnswer>
+      <FullAnswer>C'est la cathédrale Notre-Dame de Paris, communément appelée Notre-Dame. Le 15 avril 2019, un violent incendie détruit la flèche et la totalité de la toiture couvrant la nef, le chœur et le transept. Il s'agit du plus important sinistre subi par la cathédrale depuis sa construction.</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Monument_Paris/Arc-de-triomphe.jpg</Image>
+      <Answers>
+        <string>L'Arc de Triomphe</string>
+        <string>L'arche de la Défense</string>
+        <string>La Porte Saint-Denis</string>
+      </Answers>
+      <GoodAnswer>0</GoodAnswer>
+      <FullAnswer>C'est L'arc de Triomphe, qui a été inauguré en 1836 par le roi Louis-Philippe, qui le dédie aux armées de la Révolution et de l'Empire. Le Soldat inconnu est inhumé sur le terre-plein en 1921. La flamme du souvenir est ravivée tous les jours à 18h30.</FullAnswer>
+    </QuestionData>
+	</Questions>
+</QuestionsData>

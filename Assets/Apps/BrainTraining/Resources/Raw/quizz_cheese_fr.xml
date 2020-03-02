@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<QuestionsData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Explanation>Je vais te dire des noms de fromage et tu devras me donner leur région d'origine</Explanation>
+	<Introduction>D'où vient </Introduction>
+	<GiveChoices>true</GiveChoices>
+	<Questions>
+		<QuestionData>
+		  <Question>Le Saint-Nectaire</Question>
+		  <Answers>
+			<string>Auvergne</string>
+			<string>Île-de-France</string>
+			<string>Savoie</string>
+		  </Answers>
+		  <GoodAnswer>0</GoodAnswer>
+		  <FullAnswer>Le Saint-Nectaire vient d'Auvergne </FullAnswer>
+		</QuestionData>
+		<QuestionData>
+		  <Question>Le Livarot </Question>
+		  <Answers>
+			<string>Savoie</string>
+			<string>Auvergne</string>
+			<string>Normandie</string>
+		  </Answers>
+		  <GoodAnswer>2</GoodAnswer>
+		  <FullAnswer>Le Livarot vient de Normandie</FullAnswer>
+		</QuestionData>
+		<QuestionData>
+		  <Question>Le Reblochon </Question>
+		  <Answers>
+			<string>Savoie</string>
+			<string>Normandie</string>
+			<string>Bourgonne</string>
+		  </Answers>
+		  <GoodAnswer>0</GoodAnswer>
+		  <FullAnswer>Le Reblochon vient de Savoie</FullAnswer>
+		</QuestionData>
+		<QuestionData>
+		  <Question>Le Brie-de-Meaux</Question>
+		  <Answers>
+			<string>Normandie</string>
+			<string>Île-de-France</string>
+			<string>Auvergne</string>
+		  </Answers>
+		  <GoodAnswer>1</GoodAnswer>
+		  <FullAnswer>Le Brie-de-Meaux vient d'Île-de-France</FullAnswer>
+		</QuestionData>
+		<QuestionData>
+		  <Question>Le Brie de Melun</Question>
+		  <Answers>
+			<string>Bourgogne</string>
+			<string>Savoie</string>
+			<string>Île-de-France</string>
+		  </Answers>
+		  <GoodAnswer>2</GoodAnswer>
+		  <FullAnswer>Le Brie de Melun vient d'Île-de-France</FullAnswer>
+		</QuestionData>
+		<QuestionData>
+		  <Question>Le Pont-l'évêque</Question>
+		  <Answers>
+			<string>Île-de-France</string>
+			<string>Franche-Comté</string>
+			<string>Normandie</string>
+		  </Answers>
+		  <GoodAnswer>2</GoodAnswer>
+		  <FullAnswer>Le Pont-l'évêque vient de Normandie </FullAnswer>
+		</QuestionData>
+		<QuestionData>
+		  <Question>Le Camembert</Question>
+		  <Answers>
+			<string>Normandie</string>
+			<string>Savoie</string>
+			<string>Île-de-France</string>
+		  </Answers>
+		  <GoodAnswer>0</GoodAnswer>
+		  <FullAnswer>Le Camembert vient de Normandie</FullAnswer>
+		</QuestionData>
+		<QuestionData>
+		  <Question>Le Cantal</Question>
+		  <Answers>
+			<string>Auvergne</string>
+			<string>Bourgonne</string>
+			<string>Normandie</string>
+		  </Answers>
+		  <GoodAnswer>0</GoodAnswer>
+		  <FullAnswer>Le Cantal vient d'Auvergne </FullAnswer>
+		</QuestionData>
+		<QuestionData>
+		  <Question>La Fourme d'Ambert</Question>
+		  <Answers>
+			<string>Savoie</string>
+			<string>Bourgonne</string>
+			<string>Auvergne</string>
+		  </Answers>
+		  <GoodAnswer>2</GoodAnswer>
+		  <FullAnswer>La Fourme d'Ambert vient d'Auvergne</FullAnswer>
+		</QuestionData>
+		<QuestionData>
+		  <Question>Coulommiers</Question>
+		  <Answers>
+			<string>France-Comté</string>
+			<string>Île-de-France</string>
+			<string>Bourgonne</string>
+		  </Answers>
+		  <GoodAnswer>1</GoodAnswer>
+		  <FullAnswer>Le Coulommiers vient d'Île-de-France</FullAnswer>
+		</QuestionData>
+		<QuestionData>
+		  <Question>L'époisses</Question>
+		  <Answers>
+			<string>Bourgogne</string>
+			<string>Normandie</string>
+			<string>Savoie</string>
+		  </Answers>
+		  <GoodAnswer>0</GoodAnswer>
+		  <FullAnswer>L'époisses vient de Bourgogne</FullAnswer>
+		</QuestionData>
+	</Questions>
+</QuestionsData>

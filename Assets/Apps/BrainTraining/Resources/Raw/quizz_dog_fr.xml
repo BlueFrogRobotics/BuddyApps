@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<QuestionsData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Explanation>Je vais te montrer des chiens et tu devras me dire de quelle race ils sont.</Explanation>
+	<Introduction>Quel est la race de ce chien ?</Introduction>
+	<GiveChoices>true</GiveChoices>  
+	<Questions>
+    <QuestionData>
+      <Image>Dogs/Labrador.jpg</Image>
+      <Answers>
+        <string>Un Labrador retriever</string>
+        <string>Un Lévrier Afghan</string>
+        <string>Un berger Allemand</string>
+      </Answers>
+      <GoodAnswer>0</GoodAnswer>
+      <FullAnswer>C'est un Labrador retriever</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Dogs/HuskyDeSiberie.jpg</Image>
+      <Answers>
+        <string>Un Samoyède</string>
+        <string>Un Husky de Sibérie</string>
+        <string>Un Lhassa Apso</string>
+      </Answers>
+      <GoodAnswer>1</GoodAnswer>
+      <FullAnswer>C'est un husky de Sibérie</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Dogs/Carlin.jpg</Image>
+      <Answers>
+        <string>Un Bouledogue</string>
+        <string>Un Shar Pei</string>
+        <string>Un Carlin</string>
+      </Answers>
+      <GoodAnswer>2</GoodAnswer>
+      <FullAnswer>C'est un carlin</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Dogs/Shiba.jpg</Image>
+      <Answers>
+        <string>Un Shiba</string>
+        <string>Un Papillon</string>
+        <string>Un Shih tzu</string>
+      </Answers>
+      <GoodAnswer>1</GoodAnswer>
+      <FullAnswer>C'est un shiba</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Dogs/GoldenRetriever.jpg</Image>
+      <Answers>
+        <string>Un Golden retriever</string>
+        <string>Un Berger Belge</string>
+        <string>Un Bouvier Bernois</string>
+      </Answers>
+      <GoodAnswer>0</GoodAnswer>
+      <FullAnswer>C'est un Golden Retriever</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Dogs/BergerAllemand.jpg</Image>
+      <Answers>
+        <string>Un berger d'Islande</string>
+        <string>Un berger Allemand</string>
+        <string>Un berger Australien</string>
+      </Answers>
+      <GoodAnswer>1</GoodAnswer>
+      <FullAnswer>C'est un Berger Allemand</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Dogs/Beagle.jpg</Image>
+      <Answers>
+        <string>Un Beagle</string>
+        <string>Un Pinscher</string>
+        <string>Un Cocker</string>
+      </Answers>
+      <GoodAnswer>0</GoodAnswer>
+      <FullAnswer>C'est un Beagle</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Dogs/Chihuahua.jpg</Image>
+      <Answers>
+        <string>Un Chow Chow</string>
+        <string>Un Pékinois</string>
+        <string>Un Chiuhuahua</string>
+      </Answers>
+      <GoodAnswer>2</GoodAnswer>
+      <FullAnswer>C'est un Chihuahua</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Dogs/Caniche.jpg</Image>
+      <Answers>
+        <string>Un Caniche</string>
+        <string>Un Bichon frisé</string>
+        <string>Un Colley</string>
+      </Answers>
+      <GoodAnswer>0</GoodAnswer>
+      <FullAnswer>C'est un caniche</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Dogs/BichonMaltais.jpg</Image>
+      <Answers>
+        <string>Un Bichon Maltais</string>
+        <string>Un Coton</string>
+        <string>Un caniche</string>
+      </Answers>
+      <GoodAnswer>0</GoodAnswer>
+      <FullAnswer>C'est un bichon maltais</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Dogs/Bouledogue.jpg</Image>
+      <Answers>
+        <string>Un Dogue Argentin</string>
+        <string>Un Bouledogue</string>
+        <string>Un Boxer</string>
+      </Answers>
+      <GoodAnswer>1</GoodAnswer>
+      <FullAnswer>C'est un bouledogue</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Dogs/Teckel.jpg</Image>
+      <Answers>
+        <string>Un Pékinois</string>
+        <string>Un Carlin</string>
+        <string>Un Teckel</string>
+      </Answers>
+      <GoodAnswer>2</GoodAnswer>
+      <FullAnswer>C'est un teckel</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Dogs/Rottweiler.jpg</Image>
+      <Answers>
+        <string>Un Braque de Weimar</string>
+        <string>Un Rottweiler</string>
+        <string>Un Boxer</string>
+      </Answers>
+      <GoodAnswer>1</GoodAnswer>
+      <FullAnswer>C'est un rottweiler</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Dogs/Dobermann.jpg</Image>
+      <Answers>
+        <string>Un Dobermann</string>
+        <string>Un Komodor</string>
+        <string>Un Setter Anglais</string>
+      </Answers>
+      <GoodAnswer>0</GoodAnswer>
+      <FullAnswer>C'est un Dobermann</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Dogs/TerreNeuve.jpg</Image>
+      <Answers>
+        <string>Un Terre-neuve</string>
+        <string>Un basset des Alpes</string>
+        <string>Un Bouvier Bernois</string>
+      </Answers>
+      <GoodAnswer>0</GoodAnswer>
+      <FullAnswer>C'est un Terre-Neuve</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Dogs/Yorkshire.jpg</Image>
+      <Answers>
+        <string>Un épagneul Japonais</string>
+        <string>Un Yorkshire terrier</string>
+        <string>Un caniche</string>
+      </Answers>
+      <GoodAnswer>1</GoodAnswer>
+      <FullAnswer>C'est un Yorkshire terrier</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Dogs/JackRussell.jpg</Image>
+      <Answers>
+        <string>Un Jack Russel Terrier</string>
+        <string>Un Cavalier King Charles</string>
+        <string>Un Fox terrier</string>
+      </Answers>
+      <GoodAnswer>0</GoodAnswer>
+      <FullAnswer>C'est un Jack Russel Terrier</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Dogs/BullTerrier.jpg</Image>
+      <Answers>
+        <string>Un Fox Terrier</string>
+        <string>Un Boxer</string>
+        <string>Un Bull Terrier</string>
+      </Answers>
+      <GoodAnswer>2</GoodAnswer>
+      <FullAnswer>C'est un Bull Terrier</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Dogs/SaintBernard.jpg</Image>
+      <Answers>
+        <string>Un Border Collie</string>
+        <string>Un Saint Bernard</string>
+        <string>Un Bouvier Bernois</string>
+      </Answers>
+      <GoodAnswer>1</GoodAnswer>
+      <FullAnswer>C'est un Saint Bernard</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Dogs/Cocker.jpg</Image>
+      <Answers>
+        <string>Un Cocker</string>
+        <string>Un Basset hound</string>
+        <string>Un Pékinois</string>
+      </Answers>
+      <GoodAnswer>0</GoodAnswer>
+      <FullAnswer>C'est un cocker</FullAnswer>
+    </QuestionData>
+  </Questions>
+</QuestionsData>

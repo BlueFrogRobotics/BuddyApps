@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<QuestionsData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Explanation>Je vais te montrer des plats et tu devras me dire de quelle recette il s'agit.</Explanation>
+	<Introduction>Quel est cette recette ?</Introduction>
+	<GiveChoices>true</GiveChoices>  
+	<Questions>    
+	<QuestionData>
+      <Image>Cooking\HachisParmentier.jpg</Image>
+      <Answers>
+        <string>Une purée</string>
+        <string>Un hachis parmentier</string>
+        <string>Un gratin dauphinois</string>
+      </Answers>
+      <GoodAnswer>1</GoodAnswer>
+      <FullAnswer>C'est un hachis parmentier</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cooking\Omelette.jpg</Image>
+      <Answers>
+        <string>Une omelette</string>
+        <string>Des oeufs au plats</string>
+        <string>Une crêpe</string>
+      </Answers>
+      <GoodAnswer>0</GoodAnswer>
+      <FullAnswer>C'est une omelette</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cooking\Puree.jpg</Image>
+      <Answers>
+        <string>Une purée de marrons</string>
+        <string>Une purée de potiron</string>
+        <string>Une purée de pomme de terre</string>
+      </Answers>
+      <GoodAnswer>2</GoodAnswer>
+      <FullAnswer>C'est une purée de pomme de terre</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cooking\GratinDauphinois.jpg</Image>
+      <Answers>
+        <string>Un gratin Dauphinois</string>
+        <string>Un gratin de chou fleur</string>
+        <string>Un Gratin de pates</string>
+      </Answers>
+      <GoodAnswer>0</GoodAnswer>
+      <FullAnswer>C'est un gratin Dauphinois</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cooking\Tourte.jpg</Image>
+      <Answers>
+        <string>Un tourteau</string>
+        <string>Une tourte</string>
+        <string>Une tarte</string>
+      </Answers>
+      <GoodAnswer>1</GoodAnswer>
+      <FullAnswer>C'est une tourte</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cooking\Crepes.jpg</Image>
+      <Answers>
+        <string>Des crêpes</string>
+        <string>Des galettes</string>
+        <string>Des gauffres</string>
+      </Answers>
+      <GoodAnswer>0</GoodAnswer>
+      <FullAnswer>Ce sont des crêpes</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cooking\QuicheLorraine.jpg</Image>
+      <Answers>
+        <string>Une quiche aux légumes</string>
+        <string>Un tian</string>
+        <string>Une quiche Lorraine</string>
+      </Answers>
+      <GoodAnswer>2</GoodAnswer>
+      <FullAnswer>C'est une quiche Lorraine</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cooking\Soupe.jpg</Image>
+      <Answers>
+        <string>Une soupe de légumes</string>
+        <string>Un pot-au-feu</string>
+        <string>Une purée</string>
+      </Answers>
+      <GoodAnswer>0</GoodAnswer>
+      <FullAnswer>C'est une soupe de légumes</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cooking\BoeufBourguignon.jpg</Image>
+      <Answers>
+        <string>Un pot-au-feu</string>
+        <string>Une poule au pot</string>
+        <string>Un boeuf Bourgignon</string>
+      </Answers>
+      <GoodAnswer>2</GoodAnswer>
+      <FullAnswer>C'est un boeuf Bourgignon</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cooking\Ragout.jpg</Image>
+      <Answers>
+        <string>Un ragout</string>
+        <string>Un boeuf Bourgignon</string>
+        <string>Un sauté de veau</string>
+      </Answers>
+      <GoodAnswer>0</GoodAnswer>
+      <FullAnswer>C'est un ragout</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cooking\Blanquette_de_veau.jpg</Image>
+      <Answers>
+        <string>Une garbure</string>
+        <string>Une blanquette de veau</string>
+        <string>Un filet mignon</string>
+      </Answers>
+      <GoodAnswer>1</GoodAnswer>
+      <FullAnswer>C'est une blanquette de veau</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cooking\CanardOrange.jpg</Image>
+      <Answers>
+        <string>Un carnard à l'orange</string>
+        <string>Un magret de canard</string>
+        <string>Un canard laqué</string>
+      </Answers>
+      <GoodAnswer>0</GoodAnswer>
+      <FullAnswer>C'est un carnard à l'orange</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cooking\DindeMarrons.jpg</Image>
+      <Answers>
+        <string>Un ragout de dinde</string>
+        <string>Une dinde aux marrons</string>
+        <string>Une blanquette de dinde</string>
+      </Answers>
+      <GoodAnswer>1</GoodAnswer>
+      <FullAnswer>C'est une dinde aux marrons</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cooking\PouletRoti.jpg</Image>
+      <Answers>
+        <string>Une blanquette de poulet</string>
+        <string>Un poulet basquaise</string>
+        <string>Un poulet rôti</string>
+      </Answers>
+      <GoodAnswer>2</GoodAnswer>
+      <FullAnswer>C'est un poulet rôti</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cooking\OeufsAuPlat.jpg</Image>
+      <Answers>
+        <string>Des oeufs brouillés</string>
+        <string>Des oeufs à la coque</string>
+        <string>Des oeufs au plat</string>
+      </Answers>
+      <GoodAnswer>2</GoodAnswer>
+      <FullAnswer>Ce sont des oeufs au plat</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cooking\SaladeTomates.jpg</Image>
+      <Answers>
+        <string>Une salade de tomates</string>
+        <string>Un gratin de tomates</string>
+        <string>Un tartare de tomates</string>
+      </Answers>
+      <GoodAnswer>0</GoodAnswer>
+      <FullAnswer>C'est une salade de tomates</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cooking\Ratatouille.jpg</Image>
+      <Answers>
+        <string>Des crudités</string>
+        <string>Une ratatouille</string>
+        <string>Un tian de légume</string>
+      </Answers>
+      <GoodAnswer>1</GoodAnswer>
+      <FullAnswer>C'est une ratatouille</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cooking\TomatesFarcies.jpg</Image>
+      <Answers>
+        <string>Des tomates farcies</string>
+        <string>Des poivrons farcis</string>
+        <string>Des tomates provençales</string>
+      </Answers>
+      <GoodAnswer>0</GoodAnswer>
+      <FullAnswer>Ce sont des tomates farcies</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cooking\TartePommes.jpg</Image>
+      <Answers>
+        <string>Une tarte aux pommes</string>
+        <string>Une tarte tatin</string>
+        <string>Un clafoutis aux pommes</string>
+      </Answers>
+      <GoodAnswer>0</GoodAnswer>
+      <FullAnswer>C'est une tarte aux pommes</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cooking\CompotesPommes.jpg</Image>
+      <Answers>
+        <string>Un crumble aux pommes</string>
+        <string>Des pommes au four</string>
+        <string>Une compote de pommes</string>
+      </Answers>
+      <GoodAnswer>2</GoodAnswer>
+      <FullAnswer>C'est une compote de pommes</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cooking\TarteFraises.jpg</Image>
+      <Answers>
+        <string>Une tarte aux fraises</string>
+        <string>Un fraisier</string>
+        <string>Une charlotte aux fraises</string>
+      </Answers>
+      <GoodAnswer>0</GoodAnswer>
+      <FullAnswer>C'est une tarte aux fraises</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cooking\SauceTomate.jpg</Image>
+      <Answers>
+        <string>Un coulis de tomates</string>
+        <string>Une sauce tomate</string>
+        <string>Des tomates séchées</string>
+      </Answers>
+      <GoodAnswer>1</GoodAnswer>
+      <FullAnswer>C'est une sauce tomate</FullAnswer>
+    </QuestionData>
+  </Questions>
+</QuestionsData>

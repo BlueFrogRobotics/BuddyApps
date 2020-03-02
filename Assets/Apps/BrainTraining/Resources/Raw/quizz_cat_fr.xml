@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<QuestionsData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Explanation>Je vais te montrer des chats et tu devras me dire de quelle race ils sont.</Explanation>
+	<Introduction>Quel est la race de ce chat ?</Introduction>
+	<GiveChoices>true</GiveChoices>  
+	<Questions>
+    <QuestionData>
+      <Image>Cats/Bengal.jpg</Image>
+      <Answers>
+        <string>Un Thaï</string>
+        <string>Un Bengal</string>
+        <string>Un Européen</string>
+      </Answers>
+      <GoodAnswer>1</GoodAnswer>
+      <FullAnswer>C'est un Bengal</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cats/Chartreux.jpg</Image>
+      <Answers>
+        <string>Un Chartreux</string>
+        <string>Un Bleu-russe</string>
+        <string>Un Siamois</string>
+      </Answers>
+      <GoodAnswer>0</GoodAnswer>
+      <FullAnswer>C'est un Chartreux</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cats/Persan.jpg</Image>
+      <Answers>
+        <string>Un Persan</string>
+        <string>Un Chartreux</string>
+        <string>Un Maine Coon</string>
+      </Answers>
+      <GoodAnswer>0</GoodAnswer>
+      <FullAnswer>C'est un Persan</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cats/Norvegien.jpg</Image>
+      <Answers>
+        <string>Un Maine Coon</string>
+        <string>Un Norvégien</string>
+        <string>Un Persan</string>
+      </Answers>
+      <GoodAnswer>1</GoodAnswer>
+      <FullAnswer>C'est un Norvégien</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cats/MaineCoon.jpg</Image>
+      <Answers>
+        <string>Un Maine Coon</string>
+        <string>Un Lynx</string>
+        <string>Un Tonkinois</string>
+      </Answers>
+      <GoodAnswer>0</GoodAnswer>
+      <FullAnswer>C'est un Maine Coon</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cats/SacreDeBirmanie.jpg</Image>
+      <Answers>
+        <string>Un Thaïstring</string>
+        <string>Un sacré de Birmanie</string>
+        <string>Un Siamois</string>
+      </Answers>
+      <GoodAnswer>1</GoodAnswer>
+      <FullAnswer>C'est un sacré de Birmanie</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cats/Manx.jpg</Image>
+      <Answers>
+        <string>Un Lynx</string>
+        <string>Un Manx</string>
+        <string>Un Thaï</string>
+      </Answers>
+      <GoodAnswer>1</GoodAnswer>
+      <FullAnswer>C'est un Manx</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cats/Sphynx.jpg</Image>
+      <Answers>
+        <string>Un Ocicat</string>
+        <string>Un Sphynx</string>
+        <string>Un Lynx</string>
+      </Answers>
+      <GoodAnswer>1</GoodAnswer>
+      <FullAnswer>C'est un Sphynx</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cats/Tonkinois.jpg</Image>
+      <Answers>
+        <string>Un Tonkinois</string>
+        <string>Un Thaï</string>
+        <string>Un Bobtail japonais</string>
+      </Answers>
+      <GoodAnswer>0</GoodAnswer>
+      <FullAnswer>C'est un Tonkinois</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cats/Ocicat.jpg</Image>
+      <Answers>
+        <string>Un Manx</string>
+        <string>Un Ocicat</string>
+        <string>Un Bengal</string>
+      </Answers>
+      <GoodAnswer>1</GoodAnswer>
+      <FullAnswer>C'est un Ocicat</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cats/Abyssin.jpg</Image>
+      <Answers>
+        <string>Un Abyssin</string>
+        <string>Un Thaï</string>
+        <string>Un Ocicat</string>
+      </Answers>
+      <GoodAnswer>0</GoodAnswer>
+      <FullAnswer>C'est un Abyssin</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cats/Ragdoll.jpg</Image>
+      <Answers>
+        <string>Un Ocicat</string>
+        <string>Ragdoll</string>
+        <string>Un Sphynx</string>
+      </Answers>
+      <GoodAnswer>1</GoodAnswer>
+      <FullAnswer>C'est un Ragdoll</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cats/Siamois.jpg</Image>
+      <Answers>
+        <string>Un Persan</string>
+        <string>Un Bengal</string>
+        <string>Un Siamois</string>
+      </Answers>
+      <GoodAnswer>2</GoodAnswer>
+      <FullAnswer>C'est un Siamois</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cats/BritishShorthair.jpg</Image>
+      <Answers>
+        <string>Un Siamois</string>
+        <string>Un Ocicat</string>
+        <string>Un British Shorthair</string>
+      </Answers>
+      <GoodAnswer>2</GoodAnswer>
+      <FullAnswer>C'e'st un British Short hair</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cats/BleuRusse.jpg</Image>
+      <Answers>
+        <string>Un Bleu russe</string>
+        <string>Un Norvégien</string>
+        <string>Un Bengal</string>
+      </Answers>
+      <GoodAnswer>0</GoodAnswer>
+      <FullAnswer>C'est un Bleu russe</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cats/AngoraTurc.jpg</Image>
+      <Answers>
+        <string>Un Manx</string>
+        <string>Un Persan</string>
+        <string>Un Angora Turc</string>
+      </Answers>
+      <GoodAnswer>2</GoodAnswer>
+      <FullAnswer>C'est un Angora Turc</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cats/DevonRex.jpg</Image>
+      <Answers>
+        <string>Un Bobtail japonais</string>
+        <string>Un Devon Rex</string>
+        <string>Un Lynx</string>
+      </Answers>
+      <GoodAnswer>1</GoodAnswer>
+      <FullAnswer>C'est une Devon Rex</FullAnswer>
+    </QuestionData>
+    <QuestionData>
+      <Image>Cats/Bobtail.jpg</Image>
+      <Answers>
+        <string>Un Thaï</string>
+        <string>Un Tonkinois</string>
+        <string>Un Bobtail japonais</string>
+      </Answers>
+      <GoodAnswer>2</GoodAnswer>
+      <FullAnswer>C'est un Bobtail Japonais</FullAnswer>
+    </QuestionData>
+  </Questions>
+</QuestionsData>

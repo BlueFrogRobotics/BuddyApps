@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BehaviourAlgorithmStorage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Settings>
+    <Category>Idle</Category>
+    <Mood>NEUTRAL</Mood>
+    <Commitment>NOT_ENGAGED</Commitment>
+    <MovementPattern>COMPLETE_FREEDOM</MovementPattern>
+  </Settings>
+  <Algorithm>
+    <Instructions>
+          <ABehaviourInstruction xsi:type="PlayFacialEventBehaviourInstruction">
+            <Delay>
+              <Value>0</Value>
+            </Delay>
+            <IsBlocking>
+              <Value>true</Value>
+            </IsBlocking>
+            <FacialEvent>
+              <Value>BLINK_EYES</Value>
+            </FacialEvent>
+          </ABehaviourInstruction>
+          <ABehaviourInstruction xsi:type="LookAtBehaviourInstruction">
+            <Delay>
+              <Value>2</Value>
+            </Delay>
+            <IsBlocking>
+              <Value>true</Value>
+            </IsBlocking>
+            <Position>
+              <Value>CENTER</Value>
+            </Position>
+            <Smooth>
+              <Value>true</Value>
+            </Smooth>
+          </ABehaviourInstruction>
+          <ABehaviourInstruction xsi:type="PlayFacialEventBehaviourInstruction">
+            <Delay>
+              <Value>0</Value>
+            </Delay>
+            <IsBlocking>
+              <Value>true</Value>
+            </IsBlocking>
+            <FacialEvent>
+              <Value>BLINK_EYES</Value>
+            </FacialEvent>
+          </ABehaviourInstruction>
+          <ABehaviourInstruction xsi:type="LookAtBehaviourInstruction">
+            <Delay>
+              <Value>1</Value>
+            </Delay>
+            <IsBlocking>
+              <Value>true</Value>
+            </IsBlocking>
+            <Position>
+              <Value>TOP_RIGHT</Value>
+            </Position>
+            <Smooth>
+              <Value>true</Value>
+            </Smooth>
+          </ABehaviourInstruction>
+          <ABehaviourInstruction xsi:type="LookAtBehaviourInstruction">
+            <Delay>
+              <Value>0</Value>
+            </Delay>
+            <IsBlocking>
+              <Value>true</Value>
+            </IsBlocking>
+            <Position>
+              <Value>TOP_LEFT</Value>
+            </Position>
+            <Smooth>
+              <Value>true</Value>
+            </Smooth>
+          </ABehaviourInstruction>
+    </Instructions>
+  </Algorithm>
+</BehaviourAlgorithmStorage>
