@@ -111,7 +111,7 @@ namespace BuddyApp.Agoraio
             {
                 string[] mSplit = iMessage.Split('|');
                 string[] mSecondSplit = mSplit[1].Split(',');
-                text.text += timestamp + " : " + mSplit[0] + (float.Parse(mSecondSplit[0]) / 10F).ToString() + "\n";
+                text.text += timestamp + " : " + mSplit[0] + " " + (float.Parse(mSecondSplit[0]) / 10F).ToString() + "\n";
                 Buddy.Actuators.Wheels.SetVelocities(float.Parse(mSecondSplit[0]) / 10F, float.Parse(mSplit[0]));
             }
 
