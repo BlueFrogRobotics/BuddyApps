@@ -127,17 +127,29 @@ namespace BuddyApp.Videoagoraio
         private void OnMessage(string iMessage)
         {
             string timestamp = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture);
-            text.text += timestamp + " : " + iMessage + "\n";
-            if (iMessage.Contains("forward"))
-                Buddy.Actuators.Wheels.SetVelocities(0.4F, 0F);
-            else if (iMessage.Contains("backward"))
-                Buddy.Actuators.Wheels.SetVelocities(-0.4F, 0F);
-            else if (iMessage.Contains("stop"))
+            // text.text +=  timestamp+" : "+iMessage+"\n";
+            //if (iMessage.Contains("forward"))
+            //    Buddy.Actuators.Wheels.SetVelocities(0.4F, 0F);
+            //else if (iMessage.Contains("backward"))
+            //    Buddy.Actuators.Wheels.SetVelocities(-0.4F, 0F);
+            //else if (iMessage.Contains("stop"))
+            //    Buddy.Actuators.Wheels.ImmediateStop();
+            //else if (iMessage.Contains("left"))
+            //    Buddy.Actuators.Wheels.SetVelocities(0F, 40F, AccDecMode.NORMAL, 0F, 45F);
+            //else if (iMessage.Contains("right"))
+            //    Buddy.Actuators.Wheels.SetVelocities(0F, 40F, AccDecMode.NORMAL, 0F, -45F);
+
+
+
+            if (iMessage.Contains("stop"))
                 Buddy.Actuators.Wheels.ImmediateStop();
-            else if (iMessage.Contains("left"))
-                Buddy.Actuators.Wheels.SetVelocities(0F, 40F, AccDecMode.NORMAL);
-            else if (iMessage.Contains("right"))
-                Buddy.Actuators.Wheels.SetVelocities(0F, -40F, AccDecMode.NORMAL);
+            else
+            {
+                string[] mSplit = iMessage.Split('|');
+                string[] mSecondSplit = mSplit[1].Split(',');
+                text.text = timestamp + " : " + mSplit[0] + " " + (float.Parse(mSecondSplit[0]) / 10F).ToString() + "\n";
+                Buddy.Actuators.Wheels.SetVelocities(float.Parse(mSecondSplit[0]) / 10F, float.Parse(mSplit[0]));
+            }
 
             //text.text += "\n";
         }
