@@ -38,6 +38,9 @@ namespace BuddyApp.Videoagoraio
 
         private bool mIsShown;
 
+        private YesHeadHinge mYesHinge;
+        private NoHeadHinge mNoHinge;
+
         void Start()
         {
 			/*
@@ -50,9 +53,12 @@ namespace BuddyApp.Videoagoraio
             /*
 			* Init your app data
 			*/
+            id.text = "buddy";
             mAppData = VideoagoraioData.Instance;
             Buddy.WebServices.Agoraio.LoadEngine("dc949460a57e4fb0990a219b799ccf13");
-
+            mYesHinge = Buddy.Actuators.Head.Yes;
+            mNoHinge = Buddy.Actuators.Head.No;
+            
         }
 
         public void Join()
@@ -78,6 +84,7 @@ namespace BuddyApp.Videoagoraio
         public void Login()
         {
             Buddy.WebServices.Agoraio.Login(id.text);
+            Debug.LogWarning("ID TEXT : " + id.text);
             text.text = "logged";
         }
 
@@ -139,17 +146,34 @@ namespace BuddyApp.Videoagoraio
             //else if (iMessage.Contains("right"))
             //    Buddy.Actuators.Wheels.SetVelocities(0F, 40F, AccDecMode.NORMAL, 0F, -45F);
 
+            if(iMessage.Contains("move"))
+            {
+                string[] mSplit = iMessage.Split(',');
+                Buddy.Actuators.Wheels.SetVelocities(float.Parse(mSplit[0]), 0F);
+            }
+            else if(iMessage.Contains("moveheadleftright"))
+            {
+                
+                string[] mSplit = iMessage.Split('|');
+                mYesHinge.SetPosition(float.Parse(mSplit[0]));
+            }
+            else if (iMessage.Contains("moveheadtopbottom"))
+            {
+                string[] mSplit = iMessage.Split('|');
+                mYesHinge.SetPosition(float.Parse(mSplit[0]));
+            }
 
 
             if (iMessage.Contains("stop"))
                 Buddy.Actuators.Wheels.ImmediateStop();
-            else
-            {
-                string[] mSplit = iMessage.Split('|');
-                string[] mSecondSplit = mSplit[1].Split(',');
-                text.text = timestamp + " : " + mSplit[0] + " " + (float.Parse(mSecondSplit[0]) / 10F).ToString() + "\n";
-                Buddy.Actuators.Wheels.SetVelocities(float.Parse(mSecondSplit[0]) / 10F, float.Parse(mSplit[0]));
-            }
+            //JOYSTICK PART
+            //else
+            //{
+            //    string[] mSplit = iMessage.Split('|');
+            //    string[] mSecondSplit = mSplit[1].Split(',');
+            //    text.text = timestamp + " : " + mSplit[0] + " " + (float.Parse(mSecondSplit[0]) / 10F).ToString() + "\n";
+            //    Buddy.Actuators.Wheels.SetVelocities(float.Parse(mSecondSplit[0]) / 10F, float.Parse(mSplit[0]));
+            //}
 
             //text.text += "\n";
         }
