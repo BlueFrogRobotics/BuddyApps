@@ -148,18 +148,18 @@ namespace BuddyApp.Videoagoraio
 
             if(iMessage.Contains("move"))
             {
-                string[] mSplit = iMessage.Split(',');
+                string[] mSplit = iMessage.Split('|');
                 text.text = timestamp + " : " + mSplit[0] + "\n";
                 Buddy.Actuators.Wheels.SetVelocities(float.Parse(mSplit[0]), 0F);
             }
-            else if(iMessage.Contains("moveheadleftright"))
+            else if(iMessage.Contains("headleftright"))
             {
                 
                 string[] mSplit = iMessage.Split('|');
                 text.text = timestamp + " : " + mSplit[0] + "\n";
                 mNoHinge.SetPosition(float.Parse(mSplit[0]));
             }
-            else if (iMessage.Contains("moveheadtopbottom"))
+            else if (iMessage.Contains("headtopbottom"))
             {
                 string[] mSplit = iMessage.Split('|');
                 text.text = timestamp + " : " + mSplit[0] + "\n";
