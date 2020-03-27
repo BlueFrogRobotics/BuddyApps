@@ -146,7 +146,7 @@ namespace BuddyApp.Videoagoraio
             //else if (iMessage.Contains("right"))
             //    Buddy.Actuators.Wheels.SetVelocities(0F, 40F, AccDecMode.NORMAL, 0F, -45F);
 
-            if(iMessage.Contains("move"))
+            if(iMessage.Contains("move") && !iMessage.Contains("head"))
             {
                 string[] mSplit = iMessage.Split('|');
                 text.text = timestamp + " : " + mSplit[0] + "\n";
