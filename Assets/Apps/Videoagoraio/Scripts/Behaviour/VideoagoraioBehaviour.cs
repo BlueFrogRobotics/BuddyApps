@@ -41,6 +41,8 @@ namespace BuddyApp.Videoagoraio
         private YesHeadHinge mYesHinge;
         private NoHeadHinge mNoHinge;
 
+        private string mChannel;
+
         void Start()
         {
 			/*
@@ -56,6 +58,9 @@ namespace BuddyApp.Videoagoraio
             id.text = "buddy";
             mAppData = VideoagoraioData.Instance;
             Buddy.WebServices.Agoraio.LoadEngine("dc949460a57e4fb0990a219b799ccf13");
+            Login();
+            mChannel = "channel1";
+            Join();
             mYesHinge = Buddy.Actuators.Head.Yes;
             mNoHinge = Buddy.Actuators.Head.No;
             
@@ -65,7 +70,9 @@ namespace BuddyApp.Videoagoraio
         {
             Buddy.WebServices.Agoraio.OnUserConnected = onUserJoined;
             Buddy.WebServices.Agoraio.OnUserOffline = onUserOffline;
-            Buddy.WebServices.Agoraio.Join(channel.text);
+            //Buddy.WebServices.Agoraio.Join(channel.text);
+            Buddy.WebServices.Agoraio.Join(mChannel);
+
         }
 
         public void Leave()
@@ -83,6 +90,7 @@ namespace BuddyApp.Videoagoraio
 
         public void Login()
         {
+            InitRTM();
             Buddy.WebServices.Agoraio.Login(id.text);
             Debug.LogWarning("ID TEXT : " + id.text);
             text.text = "logged";
@@ -119,6 +127,7 @@ namespace BuddyApp.Videoagoraio
 
         public void Logout()
         {
+            Leave();
             Buddy.WebServices.Agoraio.Logout();
             text.text = "logout";
         }
@@ -150,7 +159,7 @@ namespace BuddyApp.Videoagoraio
             {
                 string[] mSplit = iMessage.Split('|');
                 text.text = timestamp + " : " + mSplit[0] + "\n";
-                Buddy.Actuators.Wheels.SetVelocities(float.Parse(mSplit[0]), 0F);
+                Buddy.Actuators.Wheels.SetVelocities(float.Parse(mSplit[0]), float.Parse(mSplit[1]));
             }
             else if(iMessage.Contains("headleftright"))
             {
@@ -164,6 +173,12 @@ namespace BuddyApp.Videoagoraio
                 string[] mSplit = iMessage.Split('|');
                 text.text = timestamp + " : " + mSplit[0] + "\n";
                 mYesHinge.SetPosition(float.Parse(mSplit[0]));
+            }
+            else if(iMessage.Contains("turnbody"))
+            {
+                string[] mSplit = iMessage.Split('|');
+                text.text = timestamp + " : " + mSplit[0] + "\n";
+                Buddy.Actuators.Wheels.SetVelocities(0F, float.Parse(mSplit[0]));
             }
 
 
