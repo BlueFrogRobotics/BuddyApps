@@ -55,11 +55,16 @@ namespace BuddyApp.Videoagoraio
             /*
 			* Init your app data
 			*/
-            id.text = "buddy";
+            //Pour RH investisseur
+            //id.text = "buddy";
+            id.text = "buddytest";
             mAppData = VideoagoraioData.Instance;
             Buddy.WebServices.Agoraio.LoadEngine("dc949460a57e4fb0990a219b799ccf13");
             Login();
-            mChannel = "channel1";
+            //Pour RH investisseur
+            //mChannel = "channel1";
+            //Pour test
+            mChannel = "channeltest";
             Join();
             mYesHinge = Buddy.Actuators.Head.Yes;
             mNoHinge = Buddy.Actuators.Head.No;
@@ -154,6 +159,8 @@ namespace BuddyApp.Videoagoraio
             //    Buddy.Actuators.Wheels.SetVelocities(0F, 40F, AccDecMode.NORMAL, 0F, 45F);
             //else if (iMessage.Contains("right"))
             //    Buddy.Actuators.Wheels.SetVelocities(0F, 40F, AccDecMode.NORMAL, 0F, -45F);
+
+            text.text = timestamp + ": " + iMessage + "\n";
 
             if(iMessage.Contains("move") && !iMessage.Contains("head"))
             {
