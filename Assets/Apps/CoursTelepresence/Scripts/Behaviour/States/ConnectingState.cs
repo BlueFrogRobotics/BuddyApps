@@ -8,6 +8,8 @@ namespace BuddyApp.CoursTelepresence
 
     public sealed class ConnectingState : AStateMachineBehaviour
     {
+        [SerializeField]
+        private Animator ConnectingScreenAnimator;
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {

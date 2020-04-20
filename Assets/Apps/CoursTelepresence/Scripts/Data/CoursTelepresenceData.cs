@@ -10,6 +10,7 @@ namespace BuddyApp.CoursTelepresence
          */
         public int MyValue { get; set; }
 
+        public string Ping { get; set; }
         /*
          * Data singleton access
          */

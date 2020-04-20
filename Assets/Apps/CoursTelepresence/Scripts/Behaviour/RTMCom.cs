@@ -19,7 +19,7 @@ namespace BuddyApp.CoursTelepresence
         // Number of messages per second
         private const float SENSORS_BROADCAST_FREQUENCY = 4;
 
-        private string mIdTablet;
+        public string mIdTablet { get; set; }
         private bool mSensorsBroadcast;
         private bool mStaticSteering;
         private float mLastBroadcastTime;
