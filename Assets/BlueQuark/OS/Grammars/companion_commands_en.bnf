@@ -3,7 +3,7 @@
 //!start <alarm>;
 !start <battery>;
 !start <buddylab>;
-//!start <calculationgame>;
+!start <calculationgame>;
 !start <calendar>;
 !start <canmove>;
 !start <colourseen>;
@@ -16,7 +16,7 @@
 !start <dontmove>;
 !start <dosomething>;
 !start <fitness>;
-//!start <freezedance>;
+!start <freezedance>;
 !start <followme>;
 !start <gallery>;
 !start <guardian>;
@@ -36,7 +36,7 @@
 //!start <jukebox>;
 !start <kissme>;
 //!start <lookatme>;
-//!start <memorygame>;
+!start <memorygame>;
 !start <mirror>;
 !start <mood>;
 !start <movebackward>;
@@ -45,7 +45,7 @@
 !start <moveright>;
 !start <nap>;
 !start <photo>;
-//!start <play>;
+!start <play>;
 //!start <pose>;
 !start <profilingwhoami>;
 //!start <profilingwholikes>;
@@ -55,10 +55,10 @@
 //!start <profilingwhat>;
 //!start <profilinghowold>;
 !start <propose>;
-!start <registerreminder>;
+!start <reminder>;
 !start <repeat>;
 //!start <rlgl>;
-//!start <story>;
+!start <story>;
 !start <tellsomething>;
 //!start <timer>;
 !start <volume>;
@@ -70,6 +70,7 @@
 !start <wikipedia>;
 !start <sick>;
 !start <sad>;
+!start <scheduler>;
 !start <love>;
 !start <happy>;
 !start <tired>;
@@ -78,6 +79,7 @@
 !start <scared>;
 !start <knockknock>;
 !start <operation>;
+// Now with freespeech only
 //!start <radio>;
 !start <operationagain>;
 //!start <cancel>;
@@ -88,6 +90,7 @@
 !import <numbers#nb>;
 //!import <names#anyname>;
 
+// Now with freespeech only
 //!start <weather>;
 //!import <weather_en#weather>;
 
@@ -98,8 +101,8 @@
 //<alarm> : (set | program) an alarm;
 <battery> : [<asktell> | what is | what's] [your] battery [level];
 <buddylab> : [<asklaunch>] ( buddylab | [the] lab | buddy lab | [the] laboratory);
-//<calculationgame> : [<asklaunch>] (calculation | [the] calculation game | playmath);
-<calendar> : ( [ <asklaunch> | (show | display | print) [my | the] ] (calendar | agenda | schedule) ) | ( (show | display | print) [my | the] reminders);
+<calculationgame> : [<asklaunch>] (calculation | [the] calculation game | playmath);
+<calendar> : ( [ <asklaunch> | (show | display | print) [my | the] ] (calendar | agenda | schedule) ) | ( (show | display | print) [my | the] (reminders | [scheduled] tasks));
 <canmove> : you can move;
 //<colour> : blue | white | red | green | yellow | black | brown | orange | purple | grey | pink | cyan | magenta;
 <colourseen> : what is the (color | colour) of this object;
@@ -112,7 +115,7 @@
 <dontmove> : don't move | stop moving;
 <dosomething> : (do | show me) something;
 <fitness> : ( [<asklaunch>] (fitness | gym ) ) | ([I want [to] | Can you] (do | start | launch | begin) [a|an] ( exercise | session | physical activity ));
-//<freezedance> : [<asklaunch>] freezedance | I (want | would like) to dance;
+<freezedance> : [<asklaunch>] freezedance | I (want | would like) to dance;
 <followme> : track me | follow [me] | come with me;
 <gallery> : ([can you] (launch | display | open) [the] gallery) | ( ( [can you] (show | display | print) | can I see) (the | my) (photos | pictures) );
 <guardian> : [<asklaunch>] guardian | [<canyou>] [start] [the] monitoring;
@@ -137,7 +140,7 @@
 //<jukebox> : jukebox | music application | play music; 
 <kissme> : kiss me |  I want a kiss | give me a kiss;
 //<lookatme> : look (at me | over there);
-//<memorygame> : [<asklaunch>] memory (game | application);
+<memorygame> : [<asklaunch>] memory (game | application);
 <mirror> : show me what you see | mirror;
 <mood> : [what is | what's] [your] mood;
 <movebackward> : ((go | move) [<numbers#nb> meters] backward | step back);
@@ -155,12 +158,13 @@
 //<profilingwhat> : [<asktell>] what is (<names#anyname>'s | the family's | the) ( (favorite (colour | sport)) [of the family] | birthdate);
 //<profilinghowold> : [<asktell>] (How old is (<names#anyname> | he | she) | what is (<names#anyname>'s | her | his) age);
 <propose> : propose [me | us] something;
-//<play> : [let's | I want to | I wanna] play | propose a game | random game;
-<registerreminder> : [[Can you] (add | save | put | register)]  [a] reminder;
+<play> : [let's | I want to | I wanna] play | propose a game | random game;
+<reminder> : [[Can you] (add | save | put | register)]  [a] reminder;
+<scheduler> : ([[Can you] (add | save | put | register | schedule | programm)]  [a] (task | mission)) | [<asklaunch>] scheduler;
 <repeat> : I didn't hear you [well] | I didn't understand | can you (repeat | say [it] again) [please] | [sorry] what did you say | repeat;
 //<rlgl> : [<asklaunch>] (red light green light);
 //<sport> : (basket | basetball) | (foot | football) | handball | rugby | tennis | ping pong | table tennis | cricket | swimming | running | archery | fencing | curling | climbing;
-//<story> : [<asktell>] a story;
+<story> : [<asktell>] a story;
 <tellsomething> : tell (me | us) something | [tell (me | us) a] fun fact;
 //<timer> : set a (timer | countdown) [of <delai>];
 <volume> : (what is | what's | give [me | us]) the volume [level];

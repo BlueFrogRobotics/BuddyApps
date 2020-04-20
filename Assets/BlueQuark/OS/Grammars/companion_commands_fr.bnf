@@ -3,7 +3,7 @@
 //!start <alarm>;
 !start <battery>;
 !start <buddylab>;
-//!start <calculationgame>;
+!start <calculationgame>;
 !start <calendar>;
 !start <canmove>;
 !start <colourseen>;
@@ -16,7 +16,7 @@
 !start <dontmove>;
 !start <dosomething>;
 !start <fitness>;
-//!start <freezedance>;
+!start <freezedance>;
 !start <followme>;
 !start <gallery>;
 !start <guardian>;
@@ -36,7 +36,7 @@
 //!start <jukebox>;
 !start <kissme>;
 //!start <lookatme>;
-//!start <memorygame>;
+!start <memorygame>;
 !start <mirror>;
 !start <mood>;
 !start <movebackward>;
@@ -45,7 +45,7 @@
 !start <moveright>;
 !start <nap>;
 !start <photo>;
-//!start <play>;
+!start <play>;
 //!start <pose>;
 !start <profilingwhoami>;
 //!start <profilingwholikes>;
@@ -55,10 +55,11 @@
 //!start <profilingwhat>;
 //!start <profilinghowold>;
 !start <propose>;
-!start <registerreminder>;
+!start <reminder>;
 !start <repeat>;
 //!start <rlgl>;
-//!start <story>;
+!start <scheduler>;
+!start <story>;
 !start <tellsomething>;
 //!start <timer>;
 !start <volume>;
@@ -77,6 +78,8 @@
 !start <scared>;
 !start <knockknock>;
 !start <operation>;
+
+// Now with freespeech only
 //!start <radio>;
 !start <operationagain>;
 //!start <cancel>;
@@ -87,6 +90,7 @@
 !import <numbers#nb>;
 //!import <names#anyname>;
 
+// Now with freespeech only
 //!start <weather>;
 //!import <weather_fr#weather>;
 
@@ -99,8 +103,8 @@
 //<alarm> : ((je (veux | voudrais) que tu (lances | programmes | mettes)) | lance | programme | mets |  <canyou> (lancer | programmer | mettre)) une alarme;
 <battery> : [<askgive> | quel est] [[ton | le] niveau de [ta]] batterie;
 <buddylab> : [<asklaunch>] ( buddylab | [le] lab | buddy lab | [le] laboratoire);
-//<calculationgame> : [<asklaunch>] ([de] calcul | [le] jeu de calcul | playmath);
-<calendar> : ( [ <asklaunch> | (montre | affiche) [moi] (mes | les | le | mon) ] (calendrier | agenda) ) | ( (montre | affiche) [moi] [mes| les | le | mon] rappel);
+<calculationgame> : [<asklaunch>] ([de] calcul | [le] jeu de calcul | playmath);
+<calendar> : ( [ <asklaunch> | (montre | affiche) [moi] (mes | les | le | mon) ] (calendrier | agenda) ) | ( (montre | affiche) [moi] [mes| les | le | mon] (rappel | tâches));
 <canmove> : tu peux bouger;
 //<colour> : bleu | blanc | rouge | vert | jaune | noire | marron | orange | violet | gris | beige | rose;
 <colourseen> : de quel couleur est cet objet;
@@ -113,7 +117,7 @@
 <dontmove> : [ne] bouge (plus | pas) | arrête-toi | arrête de bouger;
 <dosomething> : (fait | montre moi) quelque chose;
 <fitness> : ( [<asklaunch>] (fitness) ) | (je (veux | voudrais) faire (du sport | des exercises physiques) ) |  ( [je veux | peux tu] (faire | fais | démarrer | démarre | lancer | lance | commencer | commence) [un|une|des] ( exercice | séance | activité [physique] ) );
-//<freezedance> : [<asklaunch>] freezedance | je (veux | voudrais) danser;
+<freezedance> : [<asklaunch>] freezedance | je (veux | voudrais) danser;
 <followme> : suis-moi | viens avec moi;
 <gallery> : ([<canyou> (ouvrir | entrer dans | lancer) | (ouvre | (entre | va) dans | lance) ] [la] galerie) | ( ( [<canyou>] ( [me] montrer | afficher ) | [puis-je | [est-ce que] je peux] voir ) | ( montre | affiche )  [moi | nous])  ( les | mes | des) [derniers souvenirs] ( photos | images ); 
 <guardian> : [<asklaunch>] (gardien | [de] surveillance);
@@ -122,7 +126,7 @@
 <headright> : (tourne la tête | regarde) ([<rotationangle>] (à | sur la | vers la) droite | (à | sur la | vers la) droite <rotationangle>);
 <headup> : (lève (la | ta) tête | regarde (( en | vers le | plus) haut | en l'air)) [<rotationangle>];                                                                                              
 //<heat> : quelle est la chaleur que tu detectes | quelle chaleur détectes-tu;
-<hour> : quelle heure est-il | <askgive> l'heure | il est quelle heure | c'est quoi l'heure;
+<hour> : quelle heure est-il | <askgive> l'heure | il est quelle heure |  quelle heure il est | c'est quoi l'heure;
 <humancounter> : [<asklaunch>] [le] (compte personne | human counter | compteur (de personnes | d'humains));
 <ihateyou> : je te (hais | déteste) | je ne t'aime pas | tu es (nul | stupide | idiot | con | bête | naze | un loser) | fais une grimace | j'aime pas | tu n'es pas drôle | tu ne comprends rien;
 <iloveyou> : je (t'aime | t'adore | t'apprécie) | tu es (sympa | sympathique | gentil | cool | mignon | intelligent) | Je veux t'adopter | fais un sourire | j'aime jouer avec toi | Nathalie | Roméo et Juliette;
@@ -137,8 +141,8 @@
 <listenjoke> : (J'aimerais | je voudrais) [te] raconter (une [autre] blague | une [autre] histoire (drôle | amusante | marrante) | quelque chose (de drôle | d'amusant | de marrant));
 //<jukebox> : [<asklaunch>] (jukebox | [la] musique); 
 <kissme> : embrasse moi | [fais moi | je veux] (un | des) bisou | bisou | embrassons nous;
-<lookatme> : regarde (moi | par ici | devant [toi]);
-//<memorygame> : [<asklaunch>] [[le] jeu] [de] mémoire;
+//<lookatme> : regarde (moi | par ici | devant [toi]);
+<memorygame> : [<asklaunch>] [[le] jeu] [de] mémoire;
 <mirror> : montre-moi ce que tu vois | miroir;
 <mood> : [<askgive> | quelle est] [ton] humeur;
 <movebackward> : (recule | reculer | va (en arrière | vers l'arrière)) [de <numbers#nb> mètres];
@@ -147,7 +151,7 @@
 <moveright> : (tourne | tourner | va | fais une rotation) ([<rotationangle>] (à | sur la | vers la) droite | (à | sur la | vers la) droite <rotationangle>);
 <nap> : (va dormir | repose toi | dort) [pendant <delai>] | (va faire | fait) une sieste [(de | pendant) <delai>];
 <photo> : [<asktake>] [en | une] photo;
-//<play> : je (veux | voudrais) jouer | (<canyou> [me] proposer | propose [moi] | faisons) un jeu | jouons;
+<play> : je (veux | voudrais) jouer | (<canyou> [me] proposer | propose [moi] | faisons) un jeu | jouons;
 //<pose> : ([<asktake>] (un selfie | une photo avec toi | une photo ensemble)) | prend la pose;
 <profilingwhoami> : qui suis-je | quel est mon nom | comment je m'appelle | tu me reconnais | est-ce que tu me reconnais | dis mon nom;  
 //<profilingwholikes> : [<asktell>] qui aime le (<colour> | <sport> | <colour> et le <sport> | <sport> et le <colour>);
@@ -157,11 +161,12 @@
 //<profilingwhat> : [<asktell>] quel est ( (la couleur | le sport) [préféré | favori] [de (<names#anyname> | la famille) ] | la date de naissance [de <names#anyname>] | sa date de naissance | (sa couleur | son sport) [préféré | favori]);
 //<profilinghowold> : [<asktell>] (quel (âge a | est l'âge de) <names#anyname> | quel (est son âge | âge (il a | a-t-il)) );
 <propose> : propose [moi | nous] quelque chose;
-<registerreminder> : [[Peux-tu] (ajouter | rajouter | enregistrer | mettre) | ajoute | rajoute | enregistre | mets  ] [un] rappel;
+<reminder> : [[Peux-tu] (ajouter | rajouter | enregistrer | mettre) | ajoute | rajoute | enregistre | mets  ] [un] rappel;
+<scheduler> : [[Peux-tu] (ajouter | rajouter | enregistrer | mettre | plannifier) | ajoute | rajoute | enregistre | plannifie | mets] [une] (tâche | mission | [un] ordre) | [<asklaunch>] scheduler;
 <repeat> : répète | je n'ai pas entendu | je n'ai pas compris | pas compris | redis | répéter | qu'est ce que tu as dit | qu'est ce que tu dis | tu as dit quoi;
 //<rlgl> : [<asklaunch>] (un deux trois soleil | 1 2 3 soleil);
 //<sport> : (basket | baseball) | (foot | football) [en salle] | handball | rugby | tennis | ping pong | tennis de table | cricket | natation | course à pieds | pétanque | tir à l'arc | escrime | curling | escalade;
-//<story> : <asktell> une histoire;
+<story> : <asktell> une histoire;
 <tellsomething> : (raconte | dis) [moi | nous] (quelque chose| un truc);
 //<timer> : [mets | <canyou> mettre | je (veux | voudrais) que tu mettes] ([un] (minuteur | décompte | compte à rebours | timer) | [une] minuterie) [de <delai>];
 <volume> : (quel est | donne [moi | nous]) le [niveau (de | du)] volume;
