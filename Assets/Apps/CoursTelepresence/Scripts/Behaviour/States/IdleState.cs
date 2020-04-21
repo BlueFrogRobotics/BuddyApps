@@ -9,6 +9,17 @@ namespace BuddyApp.CoursTelepresence
     public sealed class IdleState : AStateMachineBehaviour
     {
 
+        private RTMCom mRTMCom;
+
+
+        override public void Start()
+        {
+            // This returns the GameObject named RTMCom.
+            mRTMCom = GetComponent<RTMCom>();
+            mRTMCom.OncallRequest = (CallRequest lCall) => { Trigger("INCOMING CALL"); };
+        }
+        
+
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.Log("Idle state");

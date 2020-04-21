@@ -52,6 +52,23 @@ namespace BuddyApp.CoursTelepresence
 
 
 
+
+        /////////////////////
+        /// UI Mangament ////
+        /////////////////////
+
+
+        /// <summary>
+        /// Swap from boutton
+        /// </summary>
+        /// <param name="iStatic">true if static, false if dynamic</param>
+        public void SwapSteering()
+        {
+            mStaticSteering = !mStaticSteering;
+            InformStaticSteering();
+        }
+
+
         ////////////////////////
         /// SENDING COMMANDS ///
         //////////////////////// 
@@ -92,11 +109,9 @@ namespace BuddyApp.CoursTelepresence
         /// <summary>
         /// Inform if the steering is static
         /// </summary>
-        /// <param name="iStatic">true if static, false if dynamic</param>
-        public void InformStaticSteering(bool iStatic)
+        public void InformStaticSteering()
         {
-            mStaticSteering = iStatic;
-            SendRTMMessage(Utils.SerializeJSON(new JsonMessage("informStaticSteering", iStatic.ToString())));
+            SendRTMMessage(Utils.SerializeJSON(new JsonMessage("informStaticSteering", mStaticSteering.ToString())));
         }
 
         /// <summary>
@@ -173,8 +188,6 @@ namespace BuddyApp.CoursTelepresence
         public Action<bool> OncallRequestAnswer { get; set; }
         public Action<bool> OnFrontalListening { get; set; }
         public Action<bool> OnRaiseHand { get; set; }
-        public Action<bool> OnAskSteering { get; set; }
-        public Action<bool> OnActivateObstacle { get; set; }
         public Action<bool> OnActivateZoom { get; set; }
         public Action<int> OnHeadYes { get; set; }
         public Action<int> OnHeadNo { get; set; }
@@ -187,6 +200,11 @@ namespace BuddyApp.CoursTelepresence
         public Action<string> OnSpeechMessage { get; set; }
         public Action<CallRequest> OncallRequest { get; set; }
         public Action<WheelsMotion> OnWheelsMotion { get; set; }
+
+
+        // These callback are managed internaly
+        private Action OnAskSteering { get; set; }
+        private Action<bool> OnActivateObstacle { get; set; }
 
 
 
@@ -263,6 +281,7 @@ namespace BuddyApp.CoursTelepresence
                         } else {
                             OncallRequestAnswer(lBoolValue);
                         }
+
                         break;
 
                     case "frontalListening":
@@ -271,6 +290,7 @@ namespace BuddyApp.CoursTelepresence
                         } else {
                             OnFrontalListening(lBoolValue);
                         }
+
                         break;
 
                     case "mood":
@@ -278,16 +298,29 @@ namespace BuddyApp.CoursTelepresence
                         if (!Enum.TryParse(lMessage.propertyValue, true, out lMood)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a mood");
                         } else {
+                            // Set the mood
+                            Buddy.Behaviour.SetMood(lMood);
+                            // Triggers Callback (needs to hide video canvas)
                             OnMood(lMood);
                         }
+
                         break;
 
                     case "moodBI":
                         if (!Enum.TryParse(lMessage.propertyValue, true, out lMood)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a mood");
                         } else {
+                            // Set the mood
+                            BehaviourMovementPattern BIMotion = BehaviourMovementPattern.BODY_LOCAL_DISPLACEMENT;
+
+                            if (mStaticSteering)
+                                BIMotion = BehaviourMovementPattern.HEAD;
+
+                            Buddy.Behaviour.Interpreter.RunRandom(lMood, BIMotion, Buddy.Behaviour.SetMood(lMood));
+                            // Triggers Callback (needs to hide video canvas)
                             OnMoodBI(lMood);
                         }
+
                         break;
 
                     case "headYes":
@@ -296,6 +329,7 @@ namespace BuddyApp.CoursTelepresence
                         } else {
                             OnHeadYes(lIntValue);
                         }
+
                         break;
 
                     case "headNo":
@@ -304,6 +338,7 @@ namespace BuddyApp.CoursTelepresence
                         } else {
                             OnHeadNo(lIntValue);
                         }
+
                         break;
 
                     case "headYesheadYesAbsolute":
@@ -312,6 +347,7 @@ namespace BuddyApp.CoursTelepresence
                         } else {
                             OnHeadYesAbsolute(lIntValue);
                         }
+
                         break;
 
                     case "headNoAbsolute":
@@ -320,6 +356,7 @@ namespace BuddyApp.CoursTelepresence
                         } else {
                             OnHeadNoAbsolute(lIntValue);
                         }
+
                         break;
 
                     case "raiseHand":
@@ -328,6 +365,7 @@ namespace BuddyApp.CoursTelepresence
                         } else {
                             OnRaiseHand(lBoolValue);
                         }
+
                         break;
 
                     case "speechAndDisplayMessage":
@@ -349,14 +387,12 @@ namespace BuddyApp.CoursTelepresence
                         } else {
                             OnMicroThreshold(lFloatValue);
                         }
+
                         break;
 
                     case "askStaticSteering":
-                        if (!bool.TryParse(lMessage.propertyValue, out lBoolValue)) {
-                            Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
-                        } else {
-                            OnAskSteering(lBoolValue);
-                        }
+                            OnAskSteering();
+
                         break;
 
 
@@ -366,6 +402,7 @@ namespace BuddyApp.CoursTelepresence
                         } else {
                             OnActivateObstacle(lBoolValue);
                         }
+
                         break;
 
                     case "activateZoom":
@@ -374,6 +411,7 @@ namespace BuddyApp.CoursTelepresence
                         } else {
                             OnActivateZoom(lBoolValue);
                         }
+
                         break;
 
                     default:
