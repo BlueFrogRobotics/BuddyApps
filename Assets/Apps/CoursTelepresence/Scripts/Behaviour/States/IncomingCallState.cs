@@ -12,8 +12,8 @@ namespace BuddyApp.CoursTelepresence
     {
 
 
-        //private const int RECOGNITION_SENSIBILITY = 5000;
-        private const int REPEAT_CALL = 5;
+        private const int RECOGNITION_SENSIBILITY = 5000;
+        private const int REPEAT_TIME = 60;
 
 
         // Custom Toast - UI to choose between accept or reject the call
@@ -25,8 +25,8 @@ namespace BuddyApp.CoursTelepresence
 
         private RTMCom mRTMCom;
         private CallRequest mCallRequest;
-        private IEnumerator mRepeatNotification;
         private bool mAcceptCallVocally = false;
+        private float mTimeRepeated;
 
         override public void Start()
         {
@@ -54,12 +54,14 @@ namespace BuddyApp.CoursTelepresence
         {
             Debug.Log("Incoming call state");
 
+            mTimeRepeated = Time.time;
+
             // Setting of Vocon param
-            //Buddy.Vocal.DefaultInputParameters = new SpeechInputParameters() {
-            //    RecognitionThreshold = RECOGNITION_SENSIBILITY
-            //};
-            //Buddy.Vocal.OnEndListening.Clear();
-            //Buddy.Vocal.OnEndListening.Add(OnSpeechReco);
+            Buddy.Vocal.DefaultInputParameters = new SpeechInputParameters() {
+                RecognitionThreshold = RECOGNITION_SENSIBILITY
+            };
+            Buddy.Vocal.OnEndListening.Clear();
+            Buddy.Vocal.OnEndListening.Add(OnSpeechReco);
 
             // Start Call coroutine & Notification repeater
 
@@ -68,9 +70,8 @@ namespace BuddyApp.CoursTelepresence
             else
                 mCallingUserName.text = mCallRequest.userName;
 
-
-            mRepeatNotification = RepeatNotification(0);
-            StartCoroutine(mRepeatNotification);
+            
+            StartCoroutine(RepeatNotification());
 
             //Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("receivingcall"));
 
@@ -94,7 +95,7 @@ namespace BuddyApp.CoursTelepresence
              Buddy.Vocal.OnEndListening.Clear();
             Buddy.Vocal.StopAndClear();
             Buddy.Actuators.Speakers.Media.Stop();
-            StopCoroutine(mRepeatNotification);
+            StopCoroutine(RepeatNotification());
             mAcceptCallVocally = false;
         }
 
@@ -134,7 +135,7 @@ namespace BuddyApp.CoursTelepresence
          *  We warn user, with speech "incomingcall" and then we listen the user's answer. (yes/no)
          *  When the music ends, the process restarts
          */
-        private IEnumerator RepeatNotification(int iRepeated)
+        private IEnumerator RepeatNotification()
         {
             // Coroutine is suspended until the music is playing.
             yield return new WaitUntil(() => {
@@ -142,7 +143,7 @@ namespace BuddyApp.CoursTelepresence
                 if (mAcceptCallVocally) {
                     Buddy.Vocal.StopAndClear();
                     Buddy.Actuators.Speakers.Media.Stop();
-                    StopCoroutine(mRepeatNotification);
+                    StopCoroutine(RepeatNotification());
                     return true;
                 }
                 return !Buddy.Actuators.Speakers.Media.IsBusy;
@@ -152,22 +153,22 @@ namespace BuddyApp.CoursTelepresence
             yield return new WaitForSeconds(1.5F);
 
             // If actual number of repeat is less than REPEAT_CALL, relaunch notification and the actual coroutine ends.
-            if (iRepeated <= REPEAT_CALL) {
+            if (Time.time - mTimeRepeated <= REPEAT_TIME) {
                 Buddy.Vocal.StopAndClear();
                 Buddy.Actuators.Speakers.Media.Play(mMusic);
                 //Buddy.Vocal.SayKeyAndListen("incomingcall");
-                //Buddy.Vocal.SayAndListen(mCallRequest.userName + " vous appel, voulez-vous décrocher? ");
-
 
                 Buddy.Vocal.SayAndListen("tu as un appel de " + mCallingUserName.text + " veux-tu décrocher?");
                 
-                // Store the new coroutine that will be launch
-                mRepeatNotification = RepeatNotification(iRepeated + 1);
-                StartCoroutine(mRepeatNotification);
+                // new coroutine to launch
+                StartCoroutine(RepeatNotification());
             }
             // If the number max of repeats is reached, consider call as rejected and go back to IDLE.
-            else
+            else {
+                Buddy.GUI.Notifier.Display<SimpleNotification>().With("Appel manqué en provenance de " + mCallingUserName.text);
                 RejectCall();
+
+            }
         }
     }
 }
