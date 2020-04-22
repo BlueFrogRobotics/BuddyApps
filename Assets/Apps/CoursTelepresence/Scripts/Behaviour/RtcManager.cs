@@ -13,23 +13,24 @@ namespace BuddyApp.CoursTelepresence
     public class RtcManager : MonoBehaviour
     {
         [SerializeField]
-        private GameObject ObjVideoSurface;
-
-        [SerializeField]
-        private Sprite EnableSprite;
-
-        [SerializeField]
-        private Sprite DisableSprite;
+        private RawImage rawVideo;
 
         [SerializeField]
         private Button buttonEnableVideo;
 
-        private string mChannel;
+        [SerializeField]
+        private Button buttonEnableAudio;
+
+        //private string mChannel;
         private bool mVideoIsEnabled;
+        private bool mAudioIsEnabled;
 
         private IRtcEngine mRtcEngine;
 
         private uint mUid;
+
+        private const int WIDTH = 1280;
+        private const int HEIGHT = 800;
 
         private void Awake()
         {
@@ -40,87 +41,106 @@ namespace BuddyApp.CoursTelepresence
         // Use this for initialization
         void Start()
         {
-
             Buddy.WebServices.Agoraio.LoadEngine("dc949460a57e4fb0990a219b799ccf13");
             mRtcEngine = Buddy.WebServices.Agoraio.RtcEngine;
-            mRtcEngine.OnRemoteVideoStateChanged = OnRemoteVideoStateChanged;
             mRtcEngine.OnStreamMessage = OnStreamMessage;
-            mChannel = "a";
-            Join();
-            buttonEnableVideo.GetComponent<Image>().sprite = EnableSprite;
             mVideoIsEnabled = true;
+            mAudioIsEnabled = true;
+            rawVideo.gameObject.SetActive(false);
         }
 
         // Update is called once per frame
         void Update()
         {
-
+            
         }
 
-        public void Join()
+        public void Join(string iChannel)
         {
-            mRtcEngine.OnJoinChannelSuccess = onJoinChannelSuccess;
-            mRtcEngine.OnUserJoined = onUserJoined;
-            mRtcEngine.OnUserOffline = onUserOffline;
-            //mRtcEngine.OnRemoteVideoStateChanged = OnRemoteVideoStateChanged;
-            // enable video
+            mRtcEngine.OnRemoteVideoStateChanged = OnRemoteVideoStateChanged;
+            mRtcEngine.OnJoinChannelSuccess = OnJoinChannelSuccess;
+            mRtcEngine.OnUserJoined = OnUserJoined;
+            mRtcEngine.OnUserOffline = OnUserOffline;
+            mRtcEngine.OnFirstRemoteVideoFrame = OnFirstRemoteVideoFrame;
             mRtcEngine.EnableVideo();
-            // allow camera output callback
             mRtcEngine.EnableVideoObserver();
-
-            // join channel
-            mRtcEngine.JoinChannel(mChannel, null, 0);
+            
+            mRtcEngine.JoinChannel(iChannel, null, 0);
 
         }
 
         public void Leave()
         {
-            Buddy.WebServices.Agoraio.Leave();
+            if (mRtcEngine == null)
+                return;
+
+            mRtcEngine.LeaveChannel();
+            mRtcEngine.DisableVideoObserver();
+            if(rawVideo.GetComponent<VideoSurface>()!=null)
+                Destroy(rawVideo.GetComponent<VideoSurface>());
+            rawVideo.texture = null;
+            rawVideo.gameObject.SetActive(false);
         }
 
         public void SwitchVideoState()
         {
             if (!mVideoIsEnabled)
             {
-                Buddy.WebServices.Agoraio.RtcEngine.MuteLocalVideoStream(false);
-                buttonEnableVideo.GetComponent<Image>().sprite = EnableSprite;
+                mRtcEngine.MuteLocalVideoStream(false);
+                buttonEnableVideo.GetComponent<Image>().sprite = Buddy.Resources.Get<Sprite>("os_icon_video_on");//EnableVideoSprite;
             }
             else
             {
-                Buddy.WebServices.Agoraio.RtcEngine.MuteLocalVideoStream(true);
-                buttonEnableVideo.GetComponent<Image>().sprite = DisableSprite;
+                mRtcEngine.MuteLocalVideoStream(true);
+                buttonEnableVideo.GetComponent<Image>().sprite = Buddy.Resources.Get<Sprite>("os_icon_video_off");//DisableSprite;
             }
             mVideoIsEnabled = !mVideoIsEnabled;
         }
 
-        private void onJoinChannelSuccess(string channelName, uint uid, int elapsed)
+        public void SwitchAudioState()
+        {
+            if (!mAudioIsEnabled)
+            {
+                mRtcEngine.MuteLocalAudioStream(false);
+                buttonEnableAudio.GetComponent<Image>().sprite = Buddy.Resources.Get<Sprite>("os_icon_micro_on");//EnableVideoSprite;
+            }
+            else
+            {
+                mRtcEngine.MuteLocalAudioStream(true);
+                buttonEnableAudio.GetComponent<Image>().sprite = Buddy.Resources.Get<Sprite>("os_icon_micro_off"); ;
+            }
+            mAudioIsEnabled = !mAudioIsEnabled;
+        }
+
+        private void OnJoinChannelSuccess(string channelName, uint uid, int elapsed)
         {
             Debug.Log("JoinChannelSuccessHandler: uid = " + uid);
             mUid = uid;
-            //GameObject textVersionGameObject = GameObject.Find("VersionText");
-            //textVersionGameObject.GetComponent<Text>().text = "Version : " + getSdkVersion();
         }
 
-        private void onUserJoined(uint uid, int elapsed)
+        private void OnUserJoined(uint uid, int elapsed)
         {
             Debug.Log("[AGORAIO] onUserJoined: uid = " + uid + " elapsed = " + elapsed);
-            VideoSurface lVideoSurface = ObjVideoSurface.GetComponent<VideoSurface>();
+            VideoSurface lVideoSurface = rawVideo.GetComponent<VideoSurface>();
             if (lVideoSurface == null && uid != mUid)
             {
-                lVideoSurface = ObjVideoSurface.AddComponent<VideoSurface>();
+                rawVideo.gameObject.SetActive(true);
+                lVideoSurface = rawVideo.gameObject.AddComponent<VideoSurface>();
                 lVideoSurface.SetForUser(uid);
                 lVideoSurface.SetEnable(true);
                 lVideoSurface.SetVideoSurfaceType(AgoraVideoSurfaceType.RawImage);
                 lVideoSurface.SetGameFps(30);
+                //VideoSurface.rectTransform.sizeDelta = SizeToParent(VideoSurface);
             }
         }
 
-        private void onUserOffline(uint uid, USER_OFFLINE_REASON reason)
+        private void OnUserOffline(uint uid, USER_OFFLINE_REASON reason)
         {
             // remove video stream
             Debug.Log("[AGORAIO] onUserOffline: uid = " + uid);
-            Destroy(ObjVideoSurface.GetComponent<VideoSurface>());
-            ObjVideoSurface.GetComponent<RawImage>().texture = null;
+            Destroy(rawVideo.GetComponent<VideoSurface>());
+            rawVideo.texture = null;
+            rawVideo.gameObject.SetActive(false);
         }
 
         private void OnRemoteVideoStateChanged(uint uid, REMOTE_VIDEO_STATE state, REMOTE_VIDEO_STATE_REASON reason, int elapsed)
@@ -128,32 +148,38 @@ namespace BuddyApp.CoursTelepresence
             Debug.Log("remote video " + state);
             if (uid == mUid)
                 return;
-            VideoSurface lVideoSurface = ObjVideoSurface.GetComponent<VideoSurface>();
+            VideoSurface lVideoSurface = rawVideo.GetComponent<VideoSurface>();
             if (state == REMOTE_VIDEO_STATE.REMOTE_VIDEO_STATE_STOPPED)
             {
                 if (lVideoSurface != null)
                 {
-                    //lVideoSurface.SetForUser(uid);
                     lVideoSurface.SetEnable(false);
-                    //lVideoSurface.SetVideoSurfaceType(AgoraVideoSurfaceType.RawImage);
-                    //lVideoSurface.SetGameFps(30);
-                    Destroy(ObjVideoSurface.GetComponent<VideoSurface>());
-                    ObjVideoSurface.GetComponent<RawImage>().texture = null;
-                    ObjVideoSurface.SetActive(false);
+                    Destroy(rawVideo.GetComponent<VideoSurface>());
+                    rawVideo.texture = null;
+                    rawVideo.gameObject.SetActive(false);
                 }
             }
             else if (state == REMOTE_VIDEO_STATE.REMOTE_VIDEO_STATE_STARTING || state == REMOTE_VIDEO_STATE.REMOTE_VIDEO_STATE_DECODING)
             {
                 if (lVideoSurface == null)
                 {
-                    ObjVideoSurface.SetActive(true);
-                    lVideoSurface = ObjVideoSurface.AddComponent<VideoSurface>();
+                    rawVideo.gameObject.SetActive(true);
+                    lVideoSurface = rawVideo.gameObject.AddComponent<VideoSurface>();
                     lVideoSurface.SetForUser(uid);
                     lVideoSurface.SetEnable(true);
                     lVideoSurface.SetVideoSurfaceType(AgoraVideoSurfaceType.RawImage);
                     lVideoSurface.SetGameFps(30);
+                    //VideoSurface.rectTransform.sizeDelta = SizeToParent(VideoSurface);
                 }
             }
+        }
+
+        private void OnFirstRemoteVideoFrame(uint uid, int width, int height, int elapsed)
+        {
+            if (rawVideo.texture == null || uid == mUid)
+                return;
+            float lAspectRatio = height / width;
+            rawVideo.rectTransform.sizeDelta = new Vector2(WIDTH, WIDTH * lAspectRatio);
         }
 
         private void OnStreamMessage(uint userId, int streamId, string data, int length)
@@ -161,8 +187,8 @@ namespace BuddyApp.CoursTelepresence
             Texture2D tex = new Texture2D(16, 16, TextureFormat.PVRTC_RGBA4, false);
             tex.LoadRawTextureData(System.Text.Encoding.UTF8.GetBytes(data));
             tex.Apply();
-            ObjVideoSurface.SetActive(true);
-            ObjVideoSurface.GetComponent<RawImage>().texture = tex;
+            rawVideo.gameObject.SetActive(true);
+            rawVideo.texture = tex;
         }
 
     }
