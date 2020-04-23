@@ -187,5 +187,15 @@ namespace BuddyApp.CoursTelepresence
             rawVideo.texture = tex;
         }
 
+        void OnApplicationQuit()
+        {
+            if (mRtcEngine != null)
+            {
+                // Destroy the IRtcEngine object.
+                IRtcEngine.Destroy();
+                mRtcEngine = null; 
+            }
+        }
+
     }
 }
