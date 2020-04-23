@@ -23,7 +23,8 @@ namespace BuddyApp.CoursTelepresence
         private Button mRefuseButton;
         private Button mAcceptButton;
 
-        private RTMCom mRTMCom;
+        private RTMManager mRTMManager;
+        private RTCManager mRTCManager;
         private CallRequest mCallRequest;
         private bool mAcceptCallVocally = false;
         private float mTimeRepeated;
@@ -31,8 +32,10 @@ namespace BuddyApp.CoursTelepresence
         override public void Start()
         {
             // This returns the GameObject named RTMCom.
-            mRTMCom = GetComponent<RTMCom>();
-            mRTMCom.OncallRequest = (CallRequest lCall) => { mCallRequest = lCall; };
+            mRTCManager = GetComponent<RTCManager>();
+            mRTMManager = GetComponent<RTMManager>();
+
+            mRTMManager.OncallRequest = (CallRequest lCall) => { mCallRequest = lCall; };
             // Get the custom capsule toast
             if (!(mCustomCapsuleToast = GetGameObject(0)))
                 Debug.LogError("Please add reference to CallManager_customCapsuleToast, in GameObjects list in AIBehaviour.");
@@ -114,14 +117,15 @@ namespace BuddyApp.CoursTelepresence
         private void RejectCall()
         {
             Debug.Log("RejectCall");
-            mRTMCom.AnswerCallRequest(false);
+            mRTMManager.AnswerCallRequest(false);
             Trigger("IDLE");
         }
 
         private void AcceptCall()
         {
             Debug.Log("AcceptCall");
-            mRTMCom.AnswerCallRequest(true);
+            mRTMManager.AnswerCallRequest(true);
+            mRTCManager.Join(mCallRequest.channelId);
             mAcceptCallVocally = true;
             Trigger("CALL");
         }

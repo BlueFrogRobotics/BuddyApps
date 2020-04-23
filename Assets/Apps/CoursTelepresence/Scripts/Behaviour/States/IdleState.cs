@@ -2,6 +2,7 @@
 using UnityEngine;
 using BlueQuark;
 using System;
+using UnityEngine.UI;
 
 namespace BuddyApp.CoursTelepresence
 {
@@ -9,32 +10,45 @@ namespace BuddyApp.CoursTelepresence
     public sealed class IdleState : AStateMachineBehaviour
     {
 
-        private RTMCom mRTMCom;
-
+        private RTMManager mRTMManager;
+        private RTCManager mRTCManager;
+        private Button mCallButton;
+        private string mChannelId = "channeltest";
+        private GameObject mHeader;
 
         override public void Start()
         {
             // This returns the GameObject named RTMCom.
-            mRTMCom = GetComponent<RTMCom>();
-            mRTMCom.OncallRequest = (CallRequest lCall) => { Trigger("INCOMING CALL"); };
+            mRTMManager = GetComponent<RTMManager>();
+            mRTCManager = GetComponent<RTCManager>();
+
+            mRTMManager.OncallRequest = (CallRequest lCall) => { Trigger("INCOMING CALL"); };
+
+            mCallButton = GetGameObject(11).GetComponentInChildren<Button>();
+            mCallButton.onClick.AddListener(() => {
+                Debug.Log("Join channel " + mChannelId + " waiting for tablet answer");
+                Trigger("CALLING");
+                mRTCManager.Join(mChannelId);
+                mRTMManager.RequestConnexion(mChannelId, Buddy.Platform.RobotUID);
+            }
+            );
+
+
+            mHeader = GetGameObject(10);
         }
         
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.Log("Idle state");
+            mHeader.SetActive(true);
         }
-
-        // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-        //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        //{
-
-        //}
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.Log("Idle state exit");
+            mHeader.SetActive(false);
         }
     }
 

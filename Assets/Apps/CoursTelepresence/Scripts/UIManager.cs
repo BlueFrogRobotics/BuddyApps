@@ -16,10 +16,7 @@ namespace BuddyApp.CoursTelepresence
         
         [SerializeField]
         private GameObject ConnectingScreen;
-
-        [SerializeField]
-        private GameObject DisplayCallFromStudent;
-
+        
 
         /// <summary>
         /// Header when you call the student
@@ -28,8 +25,8 @@ namespace BuddyApp.CoursTelepresence
         private GameObject DisplayHeader;
         [SerializeField]
         private Text PingHeader;
-        [SerializeField]
-        private Button CallStudentButton;
+        //[SerializeField]
+        //private Button CallStudentButton;
         [SerializeField]
         private Text StudentName;
         [SerializeField]
@@ -42,7 +39,7 @@ namespace BuddyApp.CoursTelepresence
         [SerializeField]
         private Button EndCallButton;
 
-        private RTMCom mRTMCom;
+        private RTMManager mRTMCom;
 
         [SerializeField]
         private Text BatteryLevel;
@@ -62,8 +59,8 @@ namespace BuddyApp.CoursTelepresence
         // Use this for initialization
         void Start()
         {
-            if(CallStudentButton != null)
-                CallStudentButton.onClick.AddListener(delegate { ButtonCall("IMESSAGE TEST");  });
+            //if(CallStudentButton != null)
+            //    CallStudentButton.onClick.AddListener(delegate { ButtonCall("IMESSAGE TEST");  });
             if(EndCallButton != null)
                 EndCallButton.onClick.AddListener(delegate { ButtonEndCall(); });
             //put student name from the db
@@ -78,17 +75,17 @@ namespace BuddyApp.CoursTelepresence
             DisplayBatteryLevel();
         }
 
-        private void ButtonCall(string iMessage)
-        {
-            //Code to call the student, link this to the call button from the header
-            //Disable this gameobject with a trigger + enable loading screen with a trigger
+        //private void ButtonCall(string iMessage)
+        //{
+        //    //Code to call the student, link this to the call button from the header
+        //    //Disable this gameobject with a trigger + enable loading screen with a trigger
 
-            //string timestamp = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture);
-            //Debug.Log("message: \n" + iMessage);
-            //Debug.Log("Sent at " + timestamp);
-            //Buddy.WebServices.Agoraio.SendPeerMessage(mRTMCom.mIdTablet, iMessage);
-            Debug.Log("Test Button : " + iMessage);
-        }
+        //    //string timestamp = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture);
+        //    //Debug.Log("message: \n" + iMessage);
+        //    //Debug.Log("Sent at " + timestamp);
+        //    //Buddy.WebServices.Agoraio.SendPeerMessage(mRTMCom.mIdTablet, iMessage);
+        //    Debug.Log("Test Button : " + iMessage);
+        //}
 
         private void ButtonEndCall()
         {

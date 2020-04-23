@@ -23,7 +23,7 @@ namespace BuddyApp.CoursTelepresence
         [SerializeField]
         private Button Hangup;
 
-        private RTMCom mRTMCom;
+        private RTMManager mRTMManager;
         private float mTimeVolume;
 
 

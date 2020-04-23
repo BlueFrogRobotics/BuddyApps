@@ -14,6 +14,10 @@ namespace BuddyApp.CoursTelepresence
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.Log("Connecting state");
+
+            //TODO check DB and stuff
+
+            Trigger("IDLE");
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

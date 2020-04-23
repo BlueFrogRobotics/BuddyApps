@@ -14,7 +14,7 @@ namespace BuddyApp.CoursTelepresence
     /// This class is in charge of the communication from the robot
     /// to the tablet through RTM communication
     /// </summary>
-    public class RTMCom : MonoBehaviour
+    public class RTMManager : MonoBehaviour
     {
         // Number of messages per second
         private const float SENSORS_BROADCAST_FREQUENCY = 4;
@@ -33,9 +33,10 @@ namespace BuddyApp.CoursTelepresence
             OnAskSteering = InformStaticSteering;
             OnActivateObstacle = SensorsBroadcast;
 
+
             // Just to test
-            AnswerCallRequest(true);
-            RequestConnexion("myChannel", "Gregoire Pole");
+            //AnswerCallRequest(true);
+            //RequestConnexion("myChannel", "Gregoire Pole");
 
             //InitRTM();
         }

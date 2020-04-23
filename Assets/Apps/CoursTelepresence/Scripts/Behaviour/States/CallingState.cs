@@ -8,13 +8,13 @@ namespace BuddyApp.CoursTelepresence
 
     public sealed class CallingState : AStateMachineBehaviour
     {
-        private RTMCom mRTMCom;
+        private RTMManager mRTMManager;
 
         override public void Start()
         {
             // This returns the GameObject named RTMCom.
-            mRTMCom = GetComponent<RTMCom>();
-            mRTMCom.OncallRequestAnswer = (lCallAnswer) => {
+            mRTMManager = GetComponent<RTMManager>();
+            mRTMManager.OncallRequestAnswer = (lCallAnswer) => {
                 if (lCallAnswer)
                     Trigger("CALL");
                 else
@@ -36,13 +36,15 @@ namespace BuddyApp.CoursTelepresence
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+
+
             Debug.Log("calling state");
             Debug.Log("sprite " + Buddy.Resources.Get<Sprite>("Calling"));
             Buddy.GUI.Toaster.Display<PictureToast>().With(Buddy.Resources.Get<Sprite>("Calling"));
 
 
 
-            mRTMCom.OncallRequestAnswer = (lCallAnswer) => {
+            mRTMManager.OncallRequestAnswer = (lCallAnswer) => {
                 if (lCallAnswer)
                     Trigger("CALL");
                 else
@@ -65,7 +67,7 @@ namespace BuddyApp.CoursTelepresence
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.Log("calling state exit");
-            mRTMCom.OncallRequestAnswer = null;
+            mRTMManager.OncallRequestAnswer = null;
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Dialoger.Hide();
         }

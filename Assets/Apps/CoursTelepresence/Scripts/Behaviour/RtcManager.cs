@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace BuddyApp.CoursTelepresence
 {
-    public class RtcManager : MonoBehaviour
+    public class RTCManager : MonoBehaviour
     {
         [SerializeField]
         private RawImage rawVideo;
@@ -41,6 +41,7 @@ namespace BuddyApp.CoursTelepresence
         // Use this for initialization
         void Start()
         {
+            Debug.Log("test " + Time.time);
             Buddy.WebServices.Agoraio.LoadEngine("dc949460a57e4fb0990a219b799ccf13");
             mRtcEngine = Buddy.WebServices.Agoraio.RtcEngine;
             mRtcEngine.OnStreamMessage = OnStreamMessage;
@@ -48,12 +49,7 @@ namespace BuddyApp.CoursTelepresence
             mAudioIsEnabled = true;
             rawVideo.gameObject.SetActive(false);
         }
-
-        // Update is called once per frame
-        void Update()
-        {
-            
-        }
+        
 
         public void Join(string iChannel)
         {
@@ -102,7 +98,7 @@ namespace BuddyApp.CoursTelepresence
             if (!mAudioIsEnabled)
             {
                 mRtcEngine.MuteLocalAudioStream(false);
-                buttonEnableAudio.GetComponent<Image>().sprite = Buddy.Resources.Get<Sprite>("os_icon_micro_on");//EnableVideoSprite;
+                buttonEnableAudio.GetComponent<Image>().sprite = Buddy.Resources.Get<Sprite>("os_icon_micro_on"); //EnableVideoSprite;
             }
             else
             {
