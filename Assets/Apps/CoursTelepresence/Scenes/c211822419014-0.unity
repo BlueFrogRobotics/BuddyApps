@@ -2395,7 +2395,6 @@ GameObject:
   - component: {fileID: 1669233720}
   - component: {fileID: 1669233719}
   - component: {fileID: 1669233718}
-  - component: {fileID: 1669233721}
   - component: {fileID: 1669233722}
   - component: {fileID: 1669233723}
   - component: {fileID: 1669233716}
@@ -2485,19 +2484,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Menu: {fileID: 1071839093}
   Steering: {fileID: 216579648}
---- !u!114 &1669233721
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1669233715}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -516068096, guid: 13d60d68e83ad3a468be44f2f756339c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RefreshPing: 1
-  AdressToConnect: 
 --- !u!114 &1669233722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2515,7 +2501,6 @@ MonoBehaviour:
   StudentName: {fileID: 1695398899}
   StudentClass: {fileID: 1565721330}
   Ping: {fileID: 624993581}
-  EndCallButton: {fileID: 2062843552}
   BatteryLevel: {fileID: 724428078}
 --- !u!114 &1669233723
 MonoBehaviour:

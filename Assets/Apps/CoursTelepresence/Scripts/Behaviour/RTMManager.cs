@@ -25,6 +25,9 @@ namespace BuddyApp.CoursTelepresence
         private float mLastBroadcastTime;
 
         public CallRequest mCallRequest;
+        private int mPingId;
+        private float mPingTime;
+
 
         // Use this for initialization
         void Start()
@@ -33,7 +36,7 @@ namespace BuddyApp.CoursTelepresence
             SetTabletId("tablette123456");
 
             Login();
-
+            mPingId = 0;
             mStaticSteering = true;
             OnAskSteering = InformStaticSteering;
             OnActivateObstacle = SensorsBroadcast;
@@ -52,6 +55,9 @@ namespace BuddyApp.CoursTelepresence
 
                 SensorsBroadcastRTM();
             }
+
+            if (Time.time - mPingTime > 5.0F)
+                Ping();
         }
 
 
@@ -182,6 +188,16 @@ namespace BuddyApp.CoursTelepresence
             SendRTMMessage(Utils.SerializeJSON(new ObstacleSensors(obstacleRight, obstacleCenter, obstacleLeft)));
         }
 
+        /// <summary>
+        /// Sending Ping
+        /// </summary>
+        private void Ping()
+        {
+            mPingId++;
+            mPingId = mPingId % 10000;
+            mPingTime = Time.time;
+            SendRTMMessage(Utils.SerializeJSON(new JsonMessage("ping", mPingId.ToString())));
+        }
 
 
 
@@ -198,6 +214,7 @@ namespace BuddyApp.CoursTelepresence
         public Action<int> OnHeadNo { get; set; }
         public Action<int> OnHeadYesAbsolute { get; set; }
         public Action<int> OnHeadNoAbsolute { get; set; }
+        public Action<int> OnPing { get; set; }
         public Action<Mood> OnMoodBI { get; set; }
         public Action<Mood> OnMood { get; set; }
         public Action<float> OnMicroThreshold { get; set; }
@@ -289,6 +306,26 @@ namespace BuddyApp.CoursTelepresence
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
                         } else {
                             OncallRequestAnswer(lBoolValue);
+                        }
+
+                        break;
+
+                    case "ping":
+                        if (!int.TryParse(lMessage.propertyValue, out lIntValue)) {
+                            Debug.LogWarning(lMessage.propertyName + "value can't be parsed into an int");
+                        } else {
+                            SendRTMMessage(Utils.SerializeJSON(
+                                new JsonMessage("pingAck", lMessage.propertyValue)));
+                        }
+
+                        break;
+
+                    case "pingAck":
+                        if (!int.TryParse(lMessage.propertyValue, out lIntValue)) {
+                            Debug.LogWarning(lMessage.propertyName + "value can't be parsed into an int");
+                        } else {
+                            if (lIntValue == mPingId)
+                                OnPing( (int) ((Time.time - mPingTime) *1000) );
                         }
 
                         break;

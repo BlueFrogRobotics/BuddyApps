@@ -39,7 +39,7 @@ namespace BuddyApp.CoursTelepresence
         //[SerializeField]
         //private Button EndCallButton;
 
-        //private RTMManager mRTMManager;
+        private RTMManager mRTMManager;
 
         [SerializeField]
         private Text BatteryLevel;
@@ -59,12 +59,13 @@ namespace BuddyApp.CoursTelepresence
         // Use this for initialization
         void Start()
         {
-            //if(CallStudentButton != null)
-            //    CallStudentButton.onClick.AddListener(delegate { ButtonCall("IMESSAGE TEST");  });
-            //if(EndCallButton != null)
-            //    EndCallButton.onClick.AddListener(delegate { ButtonEndCall(); });
-            //put student name from the db
-            //mName = 
+            // Update ping
+            mRTMManager = GetComponent<RTMManager>();
+            mRTMManager.OnPing = (lValue) => {
+                Ping.text = lValue.ToString();
+                PingHeader.text = lValue.ToString();
+            };
+
         }
 
         // Update is called once per frame
