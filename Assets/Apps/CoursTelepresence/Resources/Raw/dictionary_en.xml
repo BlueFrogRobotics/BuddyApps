@@ -1,2 +1,81 @@
-<?xml version="1.0" encoding="Windows-1252"?>
-<LanguageThesaurus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageThesaurus xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <Entries>
+        <DictionaryEntry>
+            <Key>educallending</Key>
+            <BaseValue>Do you really want to end the call?</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>educancel</Key>
+            <BaseValue>Cancel</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>educallingfrom</Key>
+            <BaseValue />
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>You got a call from </string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>educallanswer</Key>
+            <BaseValue />
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string>do you want to answer?</string>
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>edumissingcall</Key>
+            <BaseValue>Call missed from </BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>edustaticnavi</Key>
+            <BaseValue />
+            <ClosePhoneticValues />
+            <RandomValues />
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>edustaticnavi</Key>
+            <BaseValue>Static navigation</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+        <DictionaryEntry>
+            <Key>edudynanavi</Key>
+            <BaseValue>Dynamic Navigation</BaseValue>
+            <ClosePhoneticValues>
+                <string />
+            </ClosePhoneticValues>
+            <RandomValues>
+                <string />
+            </RandomValues>
+        </DictionaryEntry>
+    </Entries>
+</LanguageThesaurus>
