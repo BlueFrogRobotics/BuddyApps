@@ -7,6 +7,7 @@ using OpenCVUnity;
 
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 namespace BuddyApp.CoursTelepresence
 {
@@ -32,6 +33,9 @@ namespace BuddyApp.CoursTelepresence
         private const int WIDTH = 1280;
         private const int HEIGHT = 800;
 
+
+        public Action OnEndUserOffline { get; set; }
+
         private void Awake()
         {
             if (Application.isEditor)
@@ -48,6 +52,9 @@ namespace BuddyApp.CoursTelepresence
             mVideoIsEnabled = true;
             mAudioIsEnabled = true;
             rawVideo.gameObject.SetActive(false);
+
+            buttonEnableAudio.onClick.AddListener(SwitchAudioState);
+            buttonEnableVideo.onClick.AddListener(SwitchVideoState);
         }
         
 
@@ -137,6 +144,7 @@ namespace BuddyApp.CoursTelepresence
             Destroy(rawVideo.GetComponent<VideoSurface>());
             rawVideo.texture = null;
             rawVideo.gameObject.SetActive(false);
+            OnEndUserOffline();
         }
 
         private void OnRemoteVideoStateChanged(uint uid, REMOTE_VIDEO_STATE state, REMOTE_VIDEO_STATE_REASON reason, int elapsed)

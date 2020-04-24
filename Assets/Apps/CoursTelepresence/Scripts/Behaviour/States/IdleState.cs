@@ -26,7 +26,7 @@ namespace BuddyApp.CoursTelepresence
 
             mCallButton = GetGameObject(11).GetComponentInChildren<Button>();
             mCallButton.onClick.AddListener(() => {
-                Debug.Log("Join channel " + mChannelId + " waiting for tablet answer");
+                Debug.LogWarning("Join channel " + mChannelId + " waiting for tablet answer");
                 Trigger("CALLING");
                 mRTCManager.Join(mChannelId);
                 mRTMManager.RequestConnexion(mChannelId, Buddy.Platform.RobotUID);

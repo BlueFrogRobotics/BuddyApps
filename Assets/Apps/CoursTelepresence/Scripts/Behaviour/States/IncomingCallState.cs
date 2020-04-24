@@ -13,7 +13,7 @@ namespace BuddyApp.CoursTelepresence
 
 
         private const int RECOGNITION_SENSIBILITY = 5000;
-        private const int REPEAT_TIME = 60;
+        private const float REPEAT_TIME = 60F;
 
 
         // Custom Toast - UI to choose between accept or reject the call
@@ -25,8 +25,6 @@ namespace BuddyApp.CoursTelepresence
 
         private RTMManager mRTMManager;
         private RTCManager mRTCManager;
-        private CallRequest mCallRequest;
-        private bool mAcceptCallVocally = false;
         private float mTimeRepeated;
 
         override public void Start()
@@ -35,19 +33,18 @@ namespace BuddyApp.CoursTelepresence
             mRTCManager = GetComponent<RTCManager>();
             mRTMManager = GetComponent<RTMManager>();
 
-            mRTMManager.OncallRequest = (CallRequest lCall) => { mCallRequest = lCall; };
             // Get the custom capsule toast
             if (!(mCustomCapsuleToast = GetGameObject(0)))
                 Debug.LogError("Please add reference to CallManager_customCapsuleToast, in GameObjects list in AIBehaviour.");
-            
+
             mCallingUserName = GetGameObject(1).GetComponentInChildren<Text>();
-            
+
             mRefuseButton = GetGameObject(2).GetComponentInChildren<Button>();
             mRefuseButton.onClick.AddListener(RejectCall);
-            
+
             mAcceptButton = GetGameObject(3).GetComponentInChildren<Button>();
             mAcceptButton.onClick.AddListener(AcceptCall);
-            
+
             mMusic = Buddy.Resources.Get<AudioClip>("call_ring.wav");
         }
 
@@ -63,18 +60,21 @@ namespace BuddyApp.CoursTelepresence
             Buddy.Vocal.DefaultInputParameters = new SpeechInputParameters() {
                 RecognitionThreshold = RECOGNITION_SENSIBILITY
             };
-            Buddy.Vocal.OnEndListening.Clear();
-            Buddy.Vocal.OnEndListening.Add(OnSpeechReco);
 
             // Start Call coroutine & Notification repeater
 
-            if (mCallRequest == null || string.IsNullOrWhiteSpace(mCallRequest.userName))
+            if (mRTMManager.mCallRequest == null || string.IsNullOrWhiteSpace(mRTMManager.mCallRequest.userName))
                 mCallingUserName.text = "Inconnu";
             else
-                mCallingUserName.text = mCallRequest.userName;
+                mCallingUserName.text = mRTMManager.mCallRequest.userName;
 
-            
-            StartCoroutine(RepeatNotification());
+
+
+            Buddy.Vocal.StopAndClear();
+            Buddy.Actuators.Speakers.Media.Play(mMusic);
+            //Buddy.Vocal.SayKeyAndListen("incomingcall");
+
+            Buddy.Vocal.SayAndListen("tu as un appel de " + mCallingUserName.text + " veux-tu décrocher?", null, OnSpeechReco, OnSpeechError);
 
             //Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("receivingcall"));
 
@@ -89,17 +89,15 @@ namespace BuddyApp.CoursTelepresence
             });
         }
 
-        
+
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.Log("Incoming call state exit");
             Buddy.GUI.Toaster.Hide();
-             Buddy.Vocal.OnEndListening.Clear();
+            Buddy.Vocal.OnEndListening.Clear();
             Buddy.Vocal.StopAndClear();
             Buddy.Actuators.Speakers.Media.Stop();
-            StopCoroutine(RepeatNotification());
-            mAcceptCallVocally = false;
         }
 
 
@@ -112,67 +110,57 @@ namespace BuddyApp.CoursTelepresence
                 AcceptCall();
             else if (Utils.GetRealStartRule(iSpeechInput.Rule) == "no")
                 RejectCall();
+            else {
+                Debug.LogWarning("Wrong rule, restart listenning");
+                RestartListenning();
+            }
+        }
+
+        private void RestartListenning()
+        {
+            if (Time.time - mTimeRepeated <= REPEAT_TIME) {
+                if (!Buddy.Actuators.Speakers.Media.IsBusy)
+                    Buddy.Actuators.Speakers.Media.Play(mMusic);
+                Buddy.Vocal.SayAndListen("tu as un appel de " + mCallingUserName.text + " veux-tu décrocher?");
+
+            } else {
+                Buddy.GUI.Notifier.Display<SimpleNotification>().With("Appel manqué en provenance de " + mCallingUserName.text);
+                RejectCall();
+            }
+        }
+
+        private void OnSpeechError(SpeechInputStatus iSpeechInputStatus)
+        {
+            if (iSpeechInputStatus.IsError) {
+                Debug.LogWarning("Error, restart listenning");
+                RestartListenning();
+            }
         }
 
         private void RejectCall()
         {
             Debug.Log("RejectCall");
-            mRTMManager.AnswerCallRequest(false);
             Trigger("IDLE");
+
+            Buddy.GUI.Toaster.Hide();
+            Buddy.Vocal.OnEndListening.Clear();
+            Buddy.Vocal.StopAndClear();
+            Buddy.Actuators.Speakers.Media.Stop();
+            mRTMManager.AnswerCallRequest(false);
         }
 
         private void AcceptCall()
         {
             Debug.Log("AcceptCall");
-            mRTMManager.AnswerCallRequest(true);
-            mRTCManager.Join(mCallRequest.channelId);
-            mAcceptCallVocally = true;
             Trigger("CALL");
-        }
 
-
-
-        /*
-         *  This function launches a notification (Music + Vocal request) and repeats this several times.
-         *  When a notification is launched:
-         *  The music call is launched
-         *  We warn user, with speech "incomingcall" and then we listen the user's answer. (yes/no)
-         *  When the music ends, the process restarts
-         */
-        private IEnumerator RepeatNotification()
-        {
-            // Coroutine is suspended until the music is playing.
-            yield return new WaitUntil(() => {
-                // If the call was launched or discrete mode selected, stop the coroutine
-                if (mAcceptCallVocally) {
-                    Buddy.Vocal.StopAndClear();
-                    Buddy.Actuators.Speakers.Media.Stop();
-                    StopCoroutine(RepeatNotification());
-                    return true;
-                }
-                return !Buddy.Actuators.Speakers.Media.IsBusy;
-            });
-
-            // Wait 1.5 second before restart the notification
-            yield return new WaitForSeconds(1.5F);
-
-            // If actual number of repeat is less than REPEAT_CALL, relaunch notification and the actual coroutine ends.
-            if (Time.time - mTimeRepeated <= REPEAT_TIME) {
-                Buddy.Vocal.StopAndClear();
-                Buddy.Actuators.Speakers.Media.Play(mMusic);
-                //Buddy.Vocal.SayKeyAndListen("incomingcall");
-
-                Buddy.Vocal.SayAndListen("tu as un appel de " + mCallingUserName.text + " veux-tu décrocher?");
-                
-                // new coroutine to launch
-                StartCoroutine(RepeatNotification());
-            }
-            // If the number max of repeats is reached, consider call as rejected and go back to IDLE.
-            else {
-                Buddy.GUI.Notifier.Display<SimpleNotification>().With("Appel manqué en provenance de " + mCallingUserName.text);
-                RejectCall();
-
-            }
+            Buddy.GUI.Toaster.Hide();
+            Buddy.Vocal.OnEndListening.Clear();
+            Buddy.Vocal.StopAndClear();
+            Buddy.Actuators.Speakers.Media.Stop();
+            mRTMManager.AnswerCallRequest(true);
+            mRTCManager.Join(mRTMManager.mCallRequest.channelId);
+            Debug.LogWarning("joining channel from incoming call " + mRTMManager.mCallRequest.channelId);
         }
     }
 }

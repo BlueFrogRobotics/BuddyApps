@@ -449,7 +449,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 216579649}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1669233716}
+        m_MethodName: SwapSteering
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &216579649
@@ -1993,12 +2004,12 @@ Prefab:
     - target: {fileID: 224474363651585636, guid: a4cc84b84dd577e488aa04dc6a694535,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -21.63701
+      value: -22
       objectReference: {fileID: 0}
     - target: {fileID: 224474363651585636, guid: a4cc84b84dd577e488aa04dc6a694535,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 43.27402
+      value: 44
       objectReference: {fileID: 0}
     - target: {fileID: 224353690239420646, guid: a4cc84b84dd577e488aa04dc6a694535,
         type: 2}
@@ -2104,6 +2115,10 @@ Prefab:
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1840495402496186, guid: a4cc84b84dd577e488aa04dc6a694535, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a4cc84b84dd577e488aa04dc6a694535, type: 2}
@@ -2476,7 +2491,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1669233715}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -516068096, guid: 13d60d68e83ad3a468be44f2f756339c, type: 3}
   m_Name: 
@@ -2873,14 +2888,14 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2062843550}
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.4, y: 2, z: 1}
   m_Children:
   - {fileID: 139911326}
   m_Father: {fileID: 430052514}
   m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -80, y: -171.4}

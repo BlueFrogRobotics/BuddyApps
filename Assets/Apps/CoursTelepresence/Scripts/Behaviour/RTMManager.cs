@@ -19,26 +19,29 @@ namespace BuddyApp.CoursTelepresence
         // Number of messages per second
         private const float SENSORS_BROADCAST_FREQUENCY = 4;
 
-        public string mIdTablet { get; set; }
+        private string mIdTablet;
         private bool mSensorsBroadcast;
         private bool mStaticSteering;
         private float mLastBroadcastTime;
+
+        public CallRequest mCallRequest;
 
         // Use this for initialization
         void Start()
         {
             // TODO: get it from DB
-            SetTabletId("Buddy");
+            SetTabletId("tablette123456");
+
+            Login();
+
             mStaticSteering = true;
             OnAskSteering = InformStaticSteering;
             OnActivateObstacle = SensorsBroadcast;
 
-
+            mCallRequest = new CallRequest("", "");
             // Just to test
             //AnswerCallRequest(true);
             //RequestConnexion("myChannel", "Gregoire Pole");
-
-            //InitRTM();
         }
 
         // Update is called once per frame
@@ -84,6 +87,7 @@ namespace BuddyApp.CoursTelepresence
         /// <param name="iUserName">Name of the teacher</param>
         public void RequestConnexion(string iChannelId, string iUserName = "")
         {
+            Debug.LogWarning("Requesting connexion with " + iChannelId + " " + iUserName);
             SendRTMMessage(Utils.SerializeJSON(new CallRequest(iChannelId, iUserName)));
         }
 
@@ -229,8 +233,10 @@ namespace BuddyApp.CoursTelepresence
 
         private void Login()
         {
+            InitRTM();
             Debug.Log("login");
-            Buddy.WebServices.Agoraio.Login(Buddy.Platform.RobotUID);
+            //Buddy.WebServices.Agoraio.Login(Buddy.Platform.RobotUID);
+            Buddy.WebServices.Agoraio.Login("buddytest");
         }
 
         public void Logout()
@@ -242,7 +248,7 @@ namespace BuddyApp.CoursTelepresence
         private void SendRTMMessage(string iMessage)
         {
             string timestamp = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture);
-            Debug.Log("message: \n" + iMessage);
+            Debug.Log("message: " + iMessage);
             Debug.Log("Sent at " + timestamp);
             Buddy.WebServices.Agoraio.SendPeerMessage(mIdTablet, iMessage);
         }
@@ -254,9 +260,10 @@ namespace BuddyApp.CoursTelepresence
         /// <param name="iMessage"></param>
         private void OnMessage(string iMessage)
         {
-
+            iMessage = iMessage.Replace(",tablette123456", "");
             string timestamp = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture);
             Debug.Log("message received at " + timestamp);
+            Debug.LogWarning("message received content " + iMessage);
 
             //TODO parse json message
 
@@ -264,7 +271,8 @@ namespace BuddyApp.CoursTelepresence
 
 
             if (iMessage.Contains("userName")) {
-                OncallRequest(Utils.UnserializeJSON<CallRequest>(iMessage));
+                mCallRequest = Utils.UnserializeJSON<CallRequest>(iMessage);
+                OncallRequest(mCallRequest);
             } else if (iMessage.Contains("speed")) {
                 OnWheelsMotion(Utils.UnserializeJSON<WheelsMotion>(iMessage));
 
@@ -392,7 +400,7 @@ namespace BuddyApp.CoursTelepresence
                         break;
 
                     case "askStaticSteering":
-                            OnAskSteering();
+                        OnAskSteering();
 
                         break;
 

@@ -10,19 +10,14 @@ namespace BuddyApp.CoursTelepresence
     public sealed class CallState : AStateMachineBehaviour
     {
 
-        [SerializeField]
         private Scrollbar VolumeScrollbar;
-        [SerializeField]
         private Button Volume;
-        [SerializeField]
         private Button Video;
-        [SerializeField]
         private Button Micro;
-        [SerializeField]
         private Button VideoFeedback;
-        [SerializeField]
         private Button Hangup;
 
+        private RTCManager mRTCManager;
         private RTMManager mRTMManager;
         private float mTimeVolume;
 
@@ -30,6 +25,8 @@ namespace BuddyApp.CoursTelepresence
         // Use this for initialization
         override public void Start()
         {
+            mRTCManager = GetComponent<RTCManager>();
+            mRTMManager = GetComponent<RTMManager>();
             VolumeScrollbar = GetGameObject(4).GetComponentInChildren<Scrollbar>();
             Volume = GetGameObject(5).GetComponentInChildren<Button>();
             Video = GetGameObject(6).GetComponentInChildren<Button>();
@@ -75,16 +72,45 @@ namespace BuddyApp.CoursTelepresence
                 }
                 );
 
-            Hangup.onClick.AddListener(
-                () => {
-                    // Display message are you sure? ...
-                }
-                );
+            Hangup.onClick.AddListener(OnHangup);
+        }
+
+        private void OnHangup()
+        {
+            Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
+                TText lText = iBuilder.CreateWidget<TText>();
+                lText.SetLabel("Veux-tu vraiment mettre fin à l'appel?");
+            },
+            () => {
+                Debug.Log("Cancel");
+                Buddy.GUI.Toaster.Hide();
+            }, "Cancel",
+            () => {
+                Debug.Log("OK");
+                Buddy.GUI.Toaster.Hide();
+                //Réafficher l'écran de démarrage
+                Trigger("IDLE");
+            }, "OK"
+            );
         }
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.Log("call state");
+
+
+            mRTCManager.OnEndUserOffline = () => Buddy.GUI.Dialoger.Display<IconToast>("Communication coupée").
+                    With(Buddy.Resources.Get<Sprite>("os_icon_phoneoff_big"),
+                        () => {
+                            Trigger("IDLE");
+                            Buddy.GUI.Dialoger.Hide();
+                        },
+                        null,
+                        () => {
+                            Trigger("IDLE");
+                            Buddy.GUI.Dialoger.Hide();
+                        }
+                        );
 
 
             Volume.gameObject.SetActive(true);
@@ -106,6 +132,8 @@ namespace BuddyApp.CoursTelepresence
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.Log("call state exit");
+            mRTCManager.Leave();
+            mRTMManager.Logout();
             VolumeScrollbar.gameObject.SetActive(false);
             Volume.gameObject.SetActive(false);
             Video.gameObject.SetActive(false);

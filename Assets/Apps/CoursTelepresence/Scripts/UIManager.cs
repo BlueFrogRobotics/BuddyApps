@@ -36,10 +36,10 @@ namespace BuddyApp.CoursTelepresence
         [SerializeField]
         private Text Ping;
 
-        [SerializeField]
-        private Button EndCallButton;
+        //[SerializeField]
+        //private Button EndCallButton;
 
-        private RTMManager mRTMCom;
+        //private RTMManager mRTMManager;
 
         [SerializeField]
         private Text BatteryLevel;
@@ -61,8 +61,8 @@ namespace BuddyApp.CoursTelepresence
         {
             //if(CallStudentButton != null)
             //    CallStudentButton.onClick.AddListener(delegate { ButtonCall("IMESSAGE TEST");  });
-            if(EndCallButton != null)
-                EndCallButton.onClick.AddListener(delegate { ButtonEndCall(); });
+            //if(EndCallButton != null)
+            //    EndCallButton.onClick.AddListener(delegate { ButtonEndCall(); });
             //put student name from the db
             //mName = 
         }
@@ -87,22 +87,7 @@ namespace BuddyApp.CoursTelepresence
         //    Debug.Log("Test Button : " + iMessage);
         //}
 
-        private void ButtonEndCall()
-        {
-            Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
-                TText lText = iBuilder.CreateWidget<TText>(); 
-                lText.SetLabel("TEXTE A METTRE DANS LE DICO POUR CONFIRMATION DE LA DECO");
-            }, () => {
-                Debug.Log("Cancel");
-                Buddy.GUI.Toaster.Hide();
-            }, "Cancel",
-            () => {
-                Debug.Log("OK");
-                Buddy.GUI.Toaster.Hide();
-                mRTMCom.Logout();
-                //Réafficher l'écran de démarrage
-             }, "OK");
-        }
+        
 
         private void DisplayBatteryLevel()
         {
