@@ -112,6 +112,16 @@ namespace BuddyApp.CoursTelepresence
                         }
                         );
 
+            mRTMManager.OnDisplayMessage = (lMessage) => {
+                Buddy.GUI.Dialoger.Display<IconToast>(lMessage).With(
+                    Buddy.Resources.Get<Sprite>("os_icon_bubble"),
+                    Buddy.GUI.Dialoger.Hide
+                );
+            };
+
+            mRTMManager.OnSpeechMessage = (lMessage) => {
+                Buddy.Vocal.Say(lMessage);
+            };
 
             Volume.gameObject.SetActive(true);
             Video.gameObject.SetActive(true);
