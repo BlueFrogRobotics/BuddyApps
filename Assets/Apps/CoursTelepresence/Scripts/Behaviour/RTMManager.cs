@@ -277,7 +277,7 @@ namespace BuddyApp.CoursTelepresence
         /// <param name="iMessage"></param>
         private void OnMessage(string iMessage)
         {
-            iMessage = iMessage.Replace(",tablette123456", "");
+            iMessage = iMessage.Replace("," + mIdTablet, "");
             string timestamp = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture);
             Debug.Log("message received at " + timestamp);
             Debug.LogWarning("message received content " + iMessage);
