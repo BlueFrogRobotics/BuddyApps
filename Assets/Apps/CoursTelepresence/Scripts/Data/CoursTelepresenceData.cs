@@ -11,6 +11,8 @@ namespace BuddyApp.CoursTelepresence
         public int MyValue { get; set; }
 
         public string Ping { get; set; }
+
+        public bool ConnectedToInternet { get; set; }
         /*
          * Data singleton access
          */
