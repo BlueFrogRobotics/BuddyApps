@@ -21,10 +21,15 @@ namespace BuddyApp.CoursTelepresence
         private RTMManager mRTMManager;
         private float mTimeVolume;
 
+        private float mTimer;
+        private bool mConnected;
 
         // Use this for initialization
         override public void Start()
         {
+            mTimer = 0F;
+            mConnected = false;
+
             mRTCManager = GetComponent<RTCManager>();
             mRTMManager = GetComponent<RTMManager>();
             VolumeScrollbar = GetGameObject(4).GetComponentInChildren<Scrollbar>();
@@ -134,6 +139,23 @@ namespace BuddyApp.CoursTelepresence
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            if(!CoursTelepresenceData.Instance.ConnectedToInternet)
+            {
+                mConnected = true;
+                if(mTimer <= 6F && mConnected)
+                {
+                    Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
+                    {
+                        TText lText = iBuilder.CreateWidget<TText>(); 
+                        lText.SetLabel(Buddy.Resources.GetString("edunotconnected"));
+                    }, null, () => Trigger("IDLE"));
+                }
+                else if(mTimer > 6F && mConnected)
+                {
+                    Buddy.GUI.Toaster.Hide();
+                }
+            }
+                
             if (VolumeScrollbar.gameObject.activeInHierarchy && Time.time - mTimeVolume > 5.0F)
                 VolumeScrollbar.gameObject.SetActive(false);
         }
