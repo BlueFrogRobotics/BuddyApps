@@ -43,6 +43,7 @@ TextureImporter:
     21300076: Atlas_Education_RoundBig
     21300078: Atlas_Education_IconUserBig
     21300080: Atlas_Education_TheGrid
+    21300082: Atlas_Education_BigRoundBG
   externalObjects: {}
   serializedVersion: 5
   mipmaps:
@@ -931,13 +932,33 @@ TextureImporter:
         width: 1248
         height: 700
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 7b671106f1c9cfa4988860cedcfd583f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlas_Education_BigRoundBG
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 400
+        height: 350
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 190, y: 174, z: 191, w: 172}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16708bda349631d4e9c0985c738b310d
       vertices: []
       indices: 
       edges: []
