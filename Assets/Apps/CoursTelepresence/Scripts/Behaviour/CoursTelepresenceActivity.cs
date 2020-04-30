@@ -29,9 +29,9 @@ namespace BuddyApp.CoursTelepresence
 		*/
         public override void OnAwake()
         {
-            Debug.Log("debut onawake");
-            //mRTMManager = (RTMManager)Objects[0];
-            //mRTCManager = (RTCManager)Objects[1];
+            Debug.Log("debut onawake"); 
+            mRTMManager = (RTMManager)Objects[0];
+            mRTCManager = (RTCManager)Objects[1];
             Debug.Log("fin onawake");
             ExtLog.I(ExtLogModule.APP, typeof(CoursTelepresenceActivity), LogStatus.START, LogInfo.RUNNING, "On awake...");
         }
@@ -50,9 +50,9 @@ namespace BuddyApp.CoursTelepresence
         public override void OnQuit()
         {
             ExtLog.I(ExtLogModule.APP, typeof(CoursTelepresenceActivity), LogStatus.START, LogInfo.STOPPING, "On quit...");
-            //mRTMManager.Logout();
-            //mRTCManager.Leave();
-            //mRTCManager.DestroyRTC();
+            mRTMManager.Logout();
+            mRTCManager.Leave();
+            mRTCManager.DestroyRTC();
         }
     }
 }
