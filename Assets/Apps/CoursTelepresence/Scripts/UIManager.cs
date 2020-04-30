@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -13,10 +13,10 @@ namespace BuddyApp.CoursTelepresence
         // TODO : Check hour to know which display of the header we need to display
         // Check which message we need to send to the tablet to activate the call
 
-        
+
         [SerializeField]
         private GameObject ConnectingScreen;
-        
+
 
         /// <summary>
         /// Header when you call the student
@@ -25,8 +25,7 @@ namespace BuddyApp.CoursTelepresence
         private GameObject DisplayHeader;
         [SerializeField]
         private Text PingHeader;
-        //[SerializeField]
-        //private Button CallStudentButton;
+
         [SerializeField]
         private Text StudentName;
         [SerializeField]
@@ -71,8 +70,6 @@ namespace BuddyApp.CoursTelepresence
         // Update is called once per frame
         void Update()
         {
-            Ping.text = CoursTelepresenceData.Instance.Ping;
-            PingHeader.text = CoursTelepresenceData.Instance.Ping;
             DisplayBatteryLevel();
         }
 
@@ -88,7 +85,7 @@ namespace BuddyApp.CoursTelepresence
         //    Debug.Log("Test Button : " + iMessage);
         //}
 
-        
+
 
         private void DisplayBatteryLevel()
         {

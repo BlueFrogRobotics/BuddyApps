@@ -124,6 +124,20 @@ namespace BuddyApp.CoursTelepresence
                 );
             };
 
+
+            mRTMManager.OnRaiseHand = (lHandUp) => {
+                if (lHandUp) {
+                    //TODO Display icon
+                    Buddy.Actuators.LEDs.FlashIntensity = 0.03F;
+                    Buddy.Actuators.LEDs.SetBodyLights(60, 100, 93);
+                    Buddy.Actuators.LEDs.SetBodyPattern(LEDPulsePattern.BASIC_BLINK);
+                } else {
+                    //TODO hide icon
+                    Buddy.Actuators.LEDs.Flash = false;
+                    Buddy.Behaviour.SetMood(Mood.NEUTRAL);
+                }
+            };
+
             mRTMManager.OnSpeechMessage = (lMessage) => {
                 Buddy.Vocal.Say(lMessage);
             };
@@ -166,6 +180,8 @@ namespace BuddyApp.CoursTelepresence
             Debug.Log("call state exit");
             mRTCManager.Leave();
             mRTMManager.Logout();
+            mRTMManager.OnDisplayMessage = null;
+            mRTMManager.OnSpeechMessage = null;
             VolumeScrollbar.gameObject.SetActive(false);
             Volume.gameObject.SetActive(false);
             Video.gameObject.SetActive(false);

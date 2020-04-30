@@ -266,7 +266,7 @@ namespace BuddyApp.CoursTelepresence
         {
             string timestamp = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture);
             Debug.Log("message: " + iMessage);
-            Debug.Log("Sent at " + timestamp);
+            Debug.Log("Sent to " + mIdTablet);
             Buddy.WebServices.Agoraio.SendPeerMessage(mIdTablet, iMessage);
         }
 
