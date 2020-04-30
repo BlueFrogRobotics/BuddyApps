@@ -10,7 +10,7 @@ namespace BuddyApp.CoursTelepresence
     public sealed class CallState : AStateMachineBehaviour
     {
 
-        private Scrollbar VolumeScrollbar;
+        private Slider VolumeScrollbar;
         private Button Volume;
         private Button Video;
         private Button Micro;
@@ -32,13 +32,15 @@ namespace BuddyApp.CoursTelepresence
 
             mRTCManager = GetComponent<RTCManager>();
             mRTMManager = GetComponent<RTMManager>();
-            VolumeScrollbar = GetGameObject(4).GetComponentInChildren<Scrollbar>();
+
+            VolumeScrollbar = GetGameObject(4).GetComponentInChildren<Slider>();
             Volume = GetGameObject(5).GetComponentInChildren<Button>();
             Video = GetGameObject(6).GetComponentInChildren<Button>();
             Micro = GetGameObject(7).GetComponentInChildren<Button>();
             VideoFeedback = GetGameObject(8).GetComponentInChildren<Button>();
             Hangup = GetGameObject(9).GetComponentInChildren<Button>();
 
+            Debug.LogWarning("7");
             VolumeScrollbar.onValueChanged.AddListener(
                 (lValue) => {
                     Debug.Log("Volume set to " + lValue);
@@ -54,21 +56,6 @@ namespace BuddyApp.CoursTelepresence
                 }
                 );
 
-
-            Video.onClick.AddListener(
-                () => {
-                    // TODO update button image
-                    //TODO update video broadcast or not
-                }
-                );
-
-
-            Micro.onClick.AddListener(
-                () => {
-                    // TODO update button image
-                    //TODO update micro broadcast or not
-                }
-                );
 
             VideoFeedback.onClick.AddListener(
                 () => {
@@ -153,23 +140,18 @@ namespace BuddyApp.CoursTelepresence
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if(!CoursTelepresenceData.Instance.ConnectedToInternet)
-            {
+            if (!CoursTelepresenceData.Instance.ConnectedToInternet) {
                 mConnected = true;
-                if(mTimer <= 6F && mConnected)
-                {
-                    Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
-                    {
-                        TText lText = iBuilder.CreateWidget<TText>(); 
+                if (mTimer <= 6F && mConnected) {
+                    Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
+                        TText lText = iBuilder.CreateWidget<TText>();
                         lText.SetLabel(Buddy.Resources.GetString("edunotconnected"));
                     }, null, () => Trigger("IDLE"));
-                }
-                else if(mTimer > 6F && mConnected)
-                {
+                } else if (mTimer > 6F && mConnected) {
                     Buddy.GUI.Toaster.Hide();
                 }
             }
-                
+
             if (VolumeScrollbar.gameObject.activeInHierarchy && Time.time - mTimeVolume > 5.0F)
                 VolumeScrollbar.gameObject.SetActive(false);
         }
