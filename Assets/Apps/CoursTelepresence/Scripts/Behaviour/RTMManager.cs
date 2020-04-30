@@ -50,7 +50,8 @@ namespace BuddyApp.CoursTelepresence
         // Update is called once per frame
         void Update()
         {
-            if (mSensorsBroadcast && !mStaticSteering && (Time.time - mLastBroadcastTime > 1 / SENSORS_BROADCAST_FREQUENCY)) {
+            if (mSensorsBroadcast && !mStaticSteering && (Time.time - mLastBroadcastTime > 1 / SENSORS_BROADCAST_FREQUENCY))
+            {
                 mLastBroadcastTime = Time.time;
 
                 SensorsBroadcastRTM();
@@ -287,33 +288,45 @@ namespace BuddyApp.CoursTelepresence
 
 
 
-            if (iMessage.Contains("userName")) {
+            if (iMessage.Contains("userName"))
+            {
                 mCallRequest = Utils.UnserializeJSON<CallRequest>(iMessage);
                 OncallRequest(mCallRequest);
-            } else if (iMessage.Contains("speed")) {
+            }
+            else if (iMessage.Contains("speed"))
+            {
                 OnWheelsMotion(Utils.UnserializeJSON<WheelsMotion>(iMessage));
 
-            } else {
+            }
+            else
+            {
                 JsonMessage lMessage = Utils.UnserializeJSON<JsonMessage>(iMessage);
 
                 bool lBoolValue;
                 int lIntValue;
                 float lFloatValue;
 
-                switch (lMessage.propertyName) {
+                switch (lMessage.propertyName)
+                {
                     case "callRequestAnswer":
-                        if (!Boolean.TryParse(lMessage.propertyValue, out lBoolValue)) {
+                        if (!Boolean.TryParse(lMessage.propertyValue, out lBoolValue))
+                        {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
-                        } else {
+                        }
+                        else
+                        {
                             OncallRequestAnswer(lBoolValue);
                         }
 
                         break;
 
                     case "ping":
-                        if (!int.TryParse(lMessage.propertyValue, out lIntValue)) {
+                        if (!int.TryParse(lMessage.propertyValue, out lIntValue))
+                        {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into an int");
-                        } else {
+                        }
+                        else
+                        {
                             SendRTMMessage(Utils.SerializeJSON(
                                 new JsonMessage("pingAck", lMessage.propertyValue)));
                         }
@@ -321,19 +334,25 @@ namespace BuddyApp.CoursTelepresence
                         break;
 
                     case "pingAck":
-                        if (!int.TryParse(lMessage.propertyValue, out lIntValue)) {
+                        if (!int.TryParse(lMessage.propertyValue, out lIntValue))
+                        {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into an int");
-                        } else {
+                        }
+                        else
+                        {
                             if (lIntValue == mPingId)
-                                OnPing( (int) ((Time.time - mPingTime) *1000) );
+                                OnPing((int)((Time.time - mPingTime) * 1000));
                         }
 
                         break;
 
                     case "frontalListening":
-                        if (!bool.TryParse(lMessage.propertyValue, out lBoolValue)) {
+                        if (!bool.TryParse(lMessage.propertyValue, out lBoolValue))
+                        {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
-                        } else {
+                        }
+                        else
+                        {
                             OnFrontalListening(lBoolValue);
                         }
 
@@ -341,9 +360,12 @@ namespace BuddyApp.CoursTelepresence
 
                     case "mood":
                         Mood lMood;
-                        if (!Enum.TryParse(lMessage.propertyValue, true, out lMood)) {
+                        if (!Enum.TryParse(lMessage.propertyValue, true, out lMood))
+                        {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a mood");
-                        } else {
+                        }
+                        else
+                        {
                             // Set the mood
                             Buddy.Behaviour.SetMood(lMood);
                             // Triggers Callback (needs to hide video canvas)
@@ -353,9 +375,12 @@ namespace BuddyApp.CoursTelepresence
                         break;
 
                     case "moodBI":
-                        if (!Enum.TryParse(lMessage.propertyValue, true, out lMood)) {
+                        if (!Enum.TryParse(lMessage.propertyValue, true, out lMood))
+                        {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a mood");
-                        } else {
+                        }
+                        else
+                        {
                             // Set the mood
                             BehaviourMovementPattern BIMotion = BehaviourMovementPattern.BODY_LOCAL_DISPLACEMENT;
 
@@ -370,45 +395,60 @@ namespace BuddyApp.CoursTelepresence
                         break;
 
                     case "headYes":
-                        if (!int.TryParse(lMessage.propertyValue, out lIntValue)) {
+                        if (!int.TryParse(lMessage.propertyValue, out lIntValue))
+                        {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into an int");
-                        } else {
+                        }
+                        else
+                        {
                             OnHeadYes(lIntValue);
                         }
 
                         break;
 
                     case "headNo":
-                        if (!int.TryParse(lMessage.propertyValue, out lIntValue)) {
+                        if (!int.TryParse(lMessage.propertyValue, out lIntValue))
+                        {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
-                        } else {
+                        }
+                        else
+                        {
                             OnHeadNo(lIntValue);
                         }
 
                         break;
 
                     case "headYesheadYesAbsolute":
-                        if (!int.TryParse(lMessage.propertyValue, out lIntValue)) {
+                        if (!int.TryParse(lMessage.propertyValue, out lIntValue))
+                        {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into an int");
-                        } else {
+                        }
+                        else
+                        {
                             OnHeadYesAbsolute(lIntValue);
                         }
 
                         break;
 
                     case "headNoAbsolute":
-                        if (!int.TryParse(lMessage.propertyValue, out lIntValue)) {
+                        if (!int.TryParse(lMessage.propertyValue, out lIntValue))
+                        {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
-                        } else {
+                        }
+                        else
+                        {
                             OnHeadNoAbsolute(lIntValue);
                         }
 
                         break;
 
                     case "raiseHand":
-                        if (!Boolean.TryParse(lMessage.propertyValue, out lBoolValue)) {
+                        if (!Boolean.TryParse(lMessage.propertyValue, out lBoolValue))
+                        {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
-                        } else {
+                        }
+                        else
+                        {
                             OnRaiseHand(lBoolValue);
                         }
 
@@ -428,9 +468,12 @@ namespace BuddyApp.CoursTelepresence
                         break;
 
                     case "microThreshold":
-                        if (!float.TryParse(lMessage.propertyValue, out lFloatValue)) {
+                        if (!float.TryParse(lMessage.propertyValue, out lFloatValue))
+                        {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
-                        } else {
+                        }
+                        else
+                        {
                             OnMicroThreshold(lFloatValue);
                         }
 
@@ -443,18 +486,24 @@ namespace BuddyApp.CoursTelepresence
 
 
                     case "activateObstacleDetection":
-                        if (!bool.TryParse(lMessage.propertyValue, out lBoolValue)) {
+                        if (!bool.TryParse(lMessage.propertyValue, out lBoolValue))
+                        {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
-                        } else {
+                        }
+                        else
+                        {
                             OnActivateObstacle(lBoolValue);
                         }
 
                         break;
 
                     case "activateZoom":
-                        if (!bool.TryParse(lMessage.propertyValue, out lBoolValue)) {
+                        if (!bool.TryParse(lMessage.propertyValue, out lBoolValue))
+                        {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
-                        } else {
+                        }
+                        else
+                        {
                             OnActivateZoom(lBoolValue);
                         }
 
@@ -465,6 +514,11 @@ namespace BuddyApp.CoursTelepresence
                         break;
                 }
             }
+        }
+
+        void OnApplicationQuit()
+        {
+            Logout();
         }
     }
 }

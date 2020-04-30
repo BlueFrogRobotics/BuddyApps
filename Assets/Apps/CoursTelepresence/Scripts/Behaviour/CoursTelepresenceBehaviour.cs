@@ -24,13 +24,25 @@ namespace BuddyApp.CoursTelepresence
         [SerializeField]
         Button Steering;
 
-        void Start()
+        private RTMManager mRTMManager;
+        private RTCManager mRTCManager;
+
+        public const string APP_ID = "dc949460a57e4fb0990a219b799ccf13";
+
+        private void Awake()
         {
-			/*
+            mRTMManager = GetComponent<RTMManager>();
+            mRTCManager = GetComponent<RTCManager>();
+
+            /*
 			* You can setup your App activity here.
 			*/
-			CoursTelepresenceActivity.Init(null);
-			
+            CoursTelepresenceActivity.Init(null, mRTMManager, mRTCManager);
+            Debug.Log("apres init dans awake");
+        }
+
+        void Start()
+        {
 			/*
 			* Init your app data
 			*/

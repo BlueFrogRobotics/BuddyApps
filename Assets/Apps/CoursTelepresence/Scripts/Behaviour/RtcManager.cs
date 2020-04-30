@@ -46,7 +46,7 @@ namespace BuddyApp.CoursTelepresence
         void Start()
         {
             Debug.Log("test " + Time.time);
-            Buddy.WebServices.Agoraio.LoadEngine("dc949460a57e4fb0990a219b799ccf13");
+            Buddy.WebServices.Agoraio.LoadEngine(CoursTelepresenceBehaviour.APP_ID);
             mRtcEngine = Buddy.WebServices.Agoraio.RtcEngine;
             mRtcEngine.OnStreamMessage = OnStreamMessage;
             mVideoIsEnabled = true;
@@ -110,9 +110,27 @@ namespace BuddyApp.CoursTelepresence
             else
             {
                 mRtcEngine.MuteLocalAudioStream(true);
-                buttonEnableAudio.GetComponent<Image>().sprite = Buddy.Resources.Get<Sprite>("os_icon_micro_off"); ;
+                buttonEnableAudio.GetComponent<Image>().sprite = Buddy.Resources.Get<Sprite>("os_icon_micro_off");
             }
             mAudioIsEnabled = !mAudioIsEnabled;
+        }
+
+        public void SendPicture(Texture2D iTexture)
+        {
+            int lDataId = mRtcEngine.CreateDataStream(true, true);
+            byte[] iDataByte = iTexture.EncodeToPNG();
+            string lDataString = System.Text.Encoding.UTF8.GetString(iDataByte, 0, iDataByte.Length);
+            mRtcEngine.SendStreamMessage(lDataId, lDataString);
+        }
+
+        public void DestroyRTC()
+        {
+            if (mRtcEngine != null)
+            {
+                // Destroy the IRtcEngine object.
+                IRtcEngine.Destroy();
+                mRtcEngine = null;
+            }
         }
 
         private void OnJoinChannelSuccess(string channelName, uint uid, int elapsed)
@@ -200,6 +218,7 @@ namespace BuddyApp.CoursTelepresence
             if (mRtcEngine != null)
             {
                 // Destroy the IRtcEngine object.
+                Leave();
                 IRtcEngine.Destroy();
                 mRtcEngine = null; 
             }
