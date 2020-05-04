@@ -16,6 +16,7 @@ namespace BuddyApp.CoursTelepresence
         private Button Micro;
         private Button VideoFeedback;
         private Button Hangup;
+        private Text Message;
 
         private RTCManager mRTCManager;
         private RTMManager mRTMManager;
@@ -23,6 +24,7 @@ namespace BuddyApp.CoursTelepresence
 
         private float mTimer;
         private bool mConnected;
+        private float mTimeMessage;
 
         // Use this for initialization
         override public void Start()
@@ -39,6 +41,7 @@ namespace BuddyApp.CoursTelepresence
             Micro = GetGameObject(7).GetComponentInChildren<Button>();
             VideoFeedback = GetGameObject(8).GetComponentInChildren<Button>();
             Hangup = GetGameObject(9).GetComponentInChildren<Button>();
+            Message = GetGameObject(11).GetComponentInChildren<Text>();
 
             Debug.LogWarning("7");
             VolumeScrollbar.onValueChanged.AddListener(
@@ -89,7 +92,7 @@ namespace BuddyApp.CoursTelepresence
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.Log("call state");
-
+            mTimeMessage = -1F;
 
             mRTCManager.OnEndUserOffline = () => Buddy.GUI.Dialoger.Display<IconToast>("Communication coupée").
                     With(Buddy.Resources.Get<Sprite>("os_icon_phoneoff_big"),
@@ -105,10 +108,10 @@ namespace BuddyApp.CoursTelepresence
                         );
 
             mRTMManager.OnDisplayMessage = (lMessage) => {
-                Buddy.GUI.Dialoger.Display<IconToast>(lMessage).With(
-                    Buddy.Resources.Get<Sprite>("os_icon_bubble"),
-                    Buddy.GUI.Dialoger.Hide
-                );
+                Message.text = lMessage;
+                if (mTimeMessage >= 0F)
+                    TriggerGUI("MESSAGE START");
+                mTimeMessage = 10F;
             };
 
 
@@ -153,6 +156,12 @@ namespace BuddyApp.CoursTelepresence
             //        Buddy.GUI.Toaster.Hide();
             //    }
             //}
+
+            if (mTimeMessage >= 0) {
+                mTimeMessage -= Time.deltaTime;
+                if (mTimeMessage < 0)
+                    TriggerGUI("MESSAGE END");
+            }
 
             if (VolumeScrollbar.gameObject.activeInHierarchy && Time.time - mTimeVolume > 5.0F)
                 VolumeScrollbar.gameObject.SetActive(false);
