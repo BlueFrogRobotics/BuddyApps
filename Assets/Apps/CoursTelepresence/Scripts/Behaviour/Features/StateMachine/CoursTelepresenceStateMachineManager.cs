@@ -21,6 +21,9 @@ namespace BuddyApp.CoursTelepresence
         [SerializeField]
         private List<GameObject> gameObjects = new List<GameObject>();
 
+        [SerializeField]
+        private Animator GUIAnimator;
+
         private Animator mAnimator;
 
         internal List<GameObject> GameObjects { get { return gameObjects; } }
@@ -31,18 +34,21 @@ namespace BuddyApp.CoursTelepresence
             if (mAnimator != null) {
                 mAnimator.enabled = true;
 
+                if (GUIAnimator != null)
+                    GUIAnimator.enabled = true;
+
                 AStateMachineBehaviour[] lStates = mAnimator.GetBehaviours<AStateMachineBehaviour>();
 
                 foreach (AStateMachineBehaviour lState in lStates) {
                     lState.Animator = mAnimator;
+                    lState.GUIAnimator = GUIAnimator;
                     lState.Manager = this;
                     lState.Start();
                 }
-            }
-            else
+            } else
                 ExtLog.E(ExtLogModule.APP, GetType(),
-						LogStatus.FAILURE, LogInfo.NULL_VALUE,
-						"Animator of the state machine manager is not set");
+                        LogStatus.FAILURE, LogInfo.NULL_VALUE,
+                        "Animator of the state machine manager is not set");
         }
 
         internal void AddComponentLink<T>() where T : Component

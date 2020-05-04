@@ -19,9 +19,11 @@ namespace BuddyApp.CoursTelepresence
     {
         private CoursTelepresenceStateMachineManager mManager;
         private Animator mAnimator;
+        private Animator mGUIAnimator;
 
         internal CoursTelepresenceStateMachineManager Manager { set { mManager = value; } }
         internal Animator Animator { set { mAnimator = value; } }
+        internal Animator GUIAnimator { set { mGUIAnimator = value; } }
 
         /// <summary>
         /// Trigger the named trigger in the current animator
@@ -30,6 +32,7 @@ namespace BuddyApp.CoursTelepresence
         protected void Trigger(string iTriggerName)
         {
             mAnimator.SetTrigger(iTriggerName);
+            mGUIAnimator.SetTrigger(iTriggerName);
         }
 
         /// <summary>
@@ -39,6 +42,7 @@ namespace BuddyApp.CoursTelepresence
         protected void ResetTrigger(string iTriggerName)
         {
             mAnimator.ResetTrigger(iTriggerName);
+            mGUIAnimator.ResetTrigger(iTriggerName);
         }
 
         /// <summary>
