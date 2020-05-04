@@ -17,9 +17,9 @@ namespace BuddyApp.CoursTelepresence
 
 
         // Custom Toast - UI to choose between accept or reject the call
-        private GameObject mCustomCapsuleToast;
         private AudioClip mMusic;
         private Text mCallingUserName;
+        private Text mCallingUserClass;
         private Button mRefuseButton;
         private Button mAcceptButton;
 
@@ -33,10 +33,7 @@ namespace BuddyApp.CoursTelepresence
             mRTCManager = GetComponent<RTCManager>();
             mRTMManager = GetComponent<RTMManager>();
 
-            // Get the custom capsule toast
-            if (!(mCustomCapsuleToast = GetGameObject(0)))
-                Debug.LogError("Please add reference to CallManager_customCapsuleToast, in GameObjects list in AIBehaviour.");
-
+            mCallingUserClass = GetGameObject(0).GetComponentInChildren<Text>();
             mCallingUserName = GetGameObject(1).GetComponentInChildren<Text>();
 
             mRefuseButton = GetGameObject(2).GetComponentInChildren<Button>();
@@ -75,18 +72,8 @@ namespace BuddyApp.CoursTelepresence
             //Buddy.Vocal.SayKeyAndListen("incomingcall");
 
             Buddy.Vocal.SayAndListen("tu as un appel de " + mCallingUserName.text + " veux-tu décrocher?", null, OnSpeechReco, OnSpeechError);
-
-            //Buddy.GUI.Header.DisplayLightTitle(Buddy.Resources.GetString("receivingcall"));
-
-            Buddy.GUI.Toaster.Display<CustomToast>().With(mCustomCapsuleToast,
-            () => {
-                // On Display, Launch the display animation of the custom toast
-                mCustomCapsuleToast.GetComponent<Animator>().SetTrigger("Select");
-            }, () => {
-                // On Hide
-                Debug.Log("----- ON HIDE ----");
-                Buddy.GUI.Header.HideTitle();
-            });
+            
+           
         }
 
 
