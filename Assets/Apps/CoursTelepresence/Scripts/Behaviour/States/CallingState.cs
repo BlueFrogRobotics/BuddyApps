@@ -39,8 +39,6 @@ namespace BuddyApp.CoursTelepresence
 
 
             Debug.Log("calling state");
-            Debug.Log("sprite " + Buddy.Resources.Get<Sprite>("Calling"));
-            Buddy.GUI.Toaster.Display<PictureToast>().With(Buddy.Resources.Get<Sprite>("Calling"));
 
 
 
