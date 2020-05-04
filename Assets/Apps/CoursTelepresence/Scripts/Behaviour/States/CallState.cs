@@ -114,12 +114,14 @@ namespace BuddyApp.CoursTelepresence
 
             mRTMManager.OnRaiseHand = (lHandUp) => {
                 if (lHandUp) {
-                    //TODO Display icon
+                    Debug.LogWarning("Start raising hand");
                     Buddy.Actuators.LEDs.FlashIntensity = 0.03F;
                     Buddy.Actuators.LEDs.SetBodyLights(60, 100, 93);
                     Buddy.Actuators.LEDs.SetBodyPattern(LEDPulsePattern.BASIC_BLINK);
+                    TriggerGUI("HANDSUP START");
                 } else {
-                    //TODO hide icon
+                    Debug.LogWarning("Stop raising hand");
+                    TriggerGUI("HANDSUP END");
                     Buddy.Actuators.LEDs.Flash = false;
                     Buddy.Behaviour.SetMood(Mood.NEUTRAL);
                 }
@@ -140,17 +142,17 @@ namespace BuddyApp.CoursTelepresence
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (!CoursTelepresenceData.Instance.ConnectedToInternet) {
-                mConnected = true;
-                if (mTimer <= 6F && mConnected) {
-                    Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
-                        TText lText = iBuilder.CreateWidget<TText>();
-                        lText.SetLabel(Buddy.Resources.GetString("edunotconnected"));
-                    }, null, () => Trigger("IDLE"));
-                } else if (mTimer > 6F && mConnected) {
-                    Buddy.GUI.Toaster.Hide();
-                }
-            }
+            //if (!CoursTelepresenceData.Instance.ConnectedToInternet) {
+            //    mConnected = true;
+            //    if (mTimer <= 6F && mConnected) {
+            //        Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
+            //            TText lText = iBuilder.CreateWidget<TText>();
+            //            lText.SetLabel(Buddy.Resources.GetString("edunotconnected"));
+            //        }, null, () => Trigger("IDLE"));
+            //    } else if (mTimer > 6F && mConnected) {
+            //        Buddy.GUI.Toaster.Hide();
+            //    }
+            //}
 
             if (VolumeScrollbar.gameObject.activeInHierarchy && Time.time - mTimeVolume > 5.0F)
                 VolumeScrollbar.gameObject.SetActive(false);

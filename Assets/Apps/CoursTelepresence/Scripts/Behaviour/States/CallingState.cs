@@ -14,33 +14,29 @@ namespace BuddyApp.CoursTelepresence
         {
             // This returns the GameObject named RTMCom.
             mRTMManager = GetComponent<RTMManager>();
-            mRTMManager.OncallRequestAnswer = (lCallAnswer) => {
-                if (lCallAnswer)
-                    Trigger("CALL");
-                else
-                    Buddy.GUI.Dialoger.Display<IconToast>("Appel refusé").
-                    With(Buddy.Resources.Get<Sprite>("os_icon_phoneoff_big"),
-                        () => {
-                            Trigger("IDLE");
-                            Buddy.GUI.Dialoger.Hide();
-                        },
-                        null,
-                        () => {
-                            Trigger("IDLE");
-                            Buddy.GUI.Dialoger.Hide();
-                        }
-                        );
-            };
+            //mRTMManager.OncallRequestAnswer = (lCallAnswer) => {
+            //    if (lCallAnswer)
+            //        Trigger("CALL");
+            //    else
+            //        Buddy.GUI.Dialoger.Display<IconToast>("Appel refusé").
+            //        With(Buddy.Resources.Get<Sprite>("os_icon_phoneoff_big"),
+            //            () => {
+            //                Trigger("IDLE");
+            //                Buddy.GUI.Dialoger.Hide();
+            //            },
+            //            null,
+            //            () => {
+            //                Trigger("IDLE");
+            //                Buddy.GUI.Dialoger.Hide();
+            //            }
+            //            );
+            //};
         }
 
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-
-
             Debug.Log("calling state");
-
-
 
             mRTMManager.OncallRequestAnswer = (lCallAnswer) => {
                 if (lCallAnswer)
