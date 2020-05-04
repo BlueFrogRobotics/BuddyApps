@@ -20,14 +20,15 @@ namespace BuddyApp.CoursTelepresence
 
         /// <summary>
         /// Header when you call the student
-        /// </summary>
-        [SerializeField]
-        private GameObject DisplayHeader;
+        ///// </summary>
+        //[SerializeField]
+        //private GameObject DisplayHeader;
         [SerializeField]
         private Text PingHeader;
 
         [SerializeField]
         private Text StudentName;
+
         [SerializeField]
         private Text StudentClass;
 
@@ -40,8 +41,8 @@ namespace BuddyApp.CoursTelepresence
 
         private RTMManager mRTMManager;
 
-        [SerializeField]
-        private Text BatteryLevel;
+        //[SerializeField]
+        //private Text BatteryLevel;
 
         private static UIManager mInstance = null;
 
@@ -70,6 +71,7 @@ namespace BuddyApp.CoursTelepresence
         // Update is called once per frame
         void Update()
         {
+            //TODO update only every X time
             DisplayBatteryLevel();
         }
 
@@ -90,7 +92,7 @@ namespace BuddyApp.CoursTelepresence
         private void DisplayBatteryLevel()
         {
             //Waiting for visual to display image of a battery
-            BatteryLevel.text = (SystemInfo.batteryLevel * 100F).ToString();
+            //BatteryLevel.text = (SystemInfo.batteryLevel * 100F).ToString();
         }
 
     }
