@@ -16,19 +16,21 @@ namespace BuddyApp.CoursTelepresence
         private Button Micro;
         private Button VideoFeedback;
         private Button Hangup;
+        private Text Message;
 
         private RTCManager mRTCManager;
         private RTMManager mRTMManager;
         private float mTimeVolume;
 
         private float mTimer;
-        private bool mConnected;
+        private bool mDisplayed;
+        private float mTimeMessage;
 
         // Use this for initialization
         override public void Start()
         {
-            mTimer = 0F;
-            mConnected = false;
+
+            mDisplayed = false;
 
             mRTCManager = GetComponent<RTCManager>();
             mRTMManager = GetComponent<RTMManager>();
@@ -39,6 +41,7 @@ namespace BuddyApp.CoursTelepresence
             Micro = GetGameObject(7).GetComponentInChildren<Button>();
             VideoFeedback = GetGameObject(8).GetComponentInChildren<Button>();
             Hangup = GetGameObject(9).GetComponentInChildren<Button>();
+            Message = GetGameObject(11).GetComponentInChildren<Text>();
 
             Debug.LogWarning("7");
             VolumeScrollbar.onValueChanged.AddListener(
@@ -88,8 +91,9 @@ namespace BuddyApp.CoursTelepresence
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            mTimer = 0F;
             Debug.Log("call state");
-
+            mTimeMessage = -1F;
 
             mRTCManager.OnEndUserOffline = () => Buddy.GUI.Dialoger.Display<IconToast>("Communication coupée").
                     With(Buddy.Resources.Get<Sprite>("os_icon_phoneoff_big"),
@@ -105,10 +109,10 @@ namespace BuddyApp.CoursTelepresence
                         );
 
             mRTMManager.OnDisplayMessage = (lMessage) => {
-                Buddy.GUI.Dialoger.Display<IconToast>(lMessage).With(
-                    Buddy.Resources.Get<Sprite>("os_icon_bubble"),
-                    Buddy.GUI.Dialoger.Hide
-                );
+                Message.text = lMessage;
+                if (mTimeMessage >= 0F)
+                    TriggerGUI("MESSAGE START");
+                mTimeMessage = 10F;
             };
 
 
@@ -142,17 +146,30 @@ namespace BuddyApp.CoursTelepresence
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            //if (!CoursTelepresenceData.Instance.ConnectedToInternet) {
-            //    mConnected = true;
-            //    if (mTimer <= 6F && mConnected) {
-            //        Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
-            //            TText lText = iBuilder.CreateWidget<TText>();
-            //            lText.SetLabel(Buddy.Resources.GetString("edunotconnected"));
-            //        }, null, () => Trigger("IDLE"));
-            //    } else if (mTimer > 6F && mConnected) {
-            //        Buddy.GUI.Toaster.Hide();
-            //    }
-            //}
+           
+            if (!CoursTelepresenceData.Instance.ConnectedToInternet)
+            {
+                mTimer += Time.deltaTime;
+                if (mTimer <= 6F && !mDisplayed)
+                {
+                    mDisplayed = true;
+                    Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
+                    {
+                        TText lText = iBuilder.CreateWidget<TText>();
+                        lText.SetLabel(Buddy.Resources.GetString("edunotconnected"));
+                    }, null, () => Trigger("IDLE"));
+                }
+                else if (mTimer > 6F)
+                {
+                    Buddy.GUI.Toaster.Hide();
+                }
+            }
+
+            if (mTimeMessage >= 0) {
+                mTimeMessage -= Time.deltaTime;
+                if (mTimeMessage < 0)
+                    TriggerGUI("MESSAGE END");
+            }
 
             if (VolumeScrollbar.gameObject.activeInHierarchy && Time.time - mTimeVolume > 5.0F)
                 VolumeScrollbar.gameObject.SetActive(false);
