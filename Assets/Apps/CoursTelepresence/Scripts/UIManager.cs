@@ -35,6 +35,10 @@ namespace BuddyApp.CoursTelepresence
         [SerializeField]
         private Image NetworkIcon;
 
+        // TODO this is tmp for testing purpose
+        [SerializeField]
+        private RectTransform TopSection;
+
         //[SerializeField]
         //private Button EndCallButton;
 
@@ -96,7 +100,7 @@ namespace BuddyApp.CoursTelepresence
                 if (mNetworkLevel != "04") {
                     mNetworkLevel = "04";
                     NetworkIcon.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconBattery" + mNetworkLevel, Context.APP);
-                   }
+                }
             } else if (lValue < 100) {
                 if (mNetworkLevel != "03") {
                     mNetworkLevel = "03";
@@ -164,9 +168,22 @@ namespace BuddyApp.CoursTelepresence
         // Update is called once per frame
         //void Update()
         //{
-
         //}
 
+
+        // TODO this is tmp for testing purpose
+        public void BatteryButton()
+        {
+            Debug.Log("Change top section");
+            if (TopSection.position.y != 150) {
+                Debug.Log("Change top section pre " + TopSection.position.y);
+                TopSection.position = new Vector3(TopSection.position.x, 150F, TopSection.position.z);
+            } else {
+                Debug.Log("Change top section pre " + TopSection.position.y);
+                TopSection.position = new Vector3(TopSection.position.x, 265F, TopSection.position.z);
+            }
+            Debug.Log("Change top section post " + TopSection.position.y);
+        }
 
         public void UpdateVolume(Slider lSlider)
         {
