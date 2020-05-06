@@ -147,8 +147,7 @@ namespace BuddyApp.CoursTelepresence
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-           
-            if (!CoursTelepresenceData.Instance.ConnectedToInternet)
+            if (!Buddy.WebServices.HasInternetAccess)
             {
                 mTimer += Time.deltaTime;
                 if (mTimer <= 6F && !mDisplayed)

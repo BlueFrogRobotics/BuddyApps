@@ -53,6 +53,7 @@ namespace BuddyApp.CoursTelepresence
             mRTMManager.Logout();
             mRTCManager.Leave();
             mRTCManager.DestroyRTC();
+            Debug.LogWarning("quit cours telepresence");
         }
     }
 }
