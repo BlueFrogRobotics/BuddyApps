@@ -53,6 +53,7 @@ namespace BuddyApp.CoursTelepresence
 
             Volume.onClick.AddListener(
                 () => {
+                    VolumeScrollbar.value = Buddy.Actuators.Speakers.Volume;
                     VolumeScrollbar.gameObject.SetActive(!VolumeScrollbar.gameObject.activeInHierarchy);
                     mTimeVolume = Time.time;
                     // TODO update button image
