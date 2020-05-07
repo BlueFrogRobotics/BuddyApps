@@ -83,8 +83,28 @@ namespace BuddyApp.CoursTelepresence
             // init Network level
             mNetworkLevel = "00";
 
-            BatteryIconHeader.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconBattery" + mBatteryLevel);
-            BatteryIcon.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconBattery" + mBatteryLevel);
+            BatteryIconHeader.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconBattery" + mBatteryLevel, Context.APP);
+            BatteryIcon.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconBattery" + mBatteryLevel, Context.APP);
+
+            Debug.LogWarning("1 app set battery to " + mBatteryLevel + " with image " + (
+                Buddy.Resources.Get<Sprite>("Atlas_Education_IconBattery" + mBatteryLevel, Context.APP) == null));
+            Debug.LogWarning("2 set battery to " + mBatteryLevel + " with image " + (
+                Buddy.Resources.Get<Sprite>("Atlas_Education_IconBattery" + mBatteryLevel) == null));
+            Debug.LogWarning("3 set battery to 00 with image " + (
+                 Buddy.Resources.Get<Sprite>("Atlas_Education_IconBattery00") == null));
+            Debug.LogWarning("4full path image " +
+                 Buddy.Resources.GetSpritesFullPath("Atlas_Education_IconBattery00"));
+            Debug.LogWarning("5 load image " + (
+                 UnityEngine.Resources.Load<Sprite>("Atlas_Education_IconBattery00") == null));
+            Debug.LogWarning("6 load image " + (
+                 UnityEngine.Resources.Load<Sprite>(Buddy.Resources.GetSpritesFullPath("Atlas_Education_IconBattery00")) == null));
+            Debug.LogWarning("7 load image Atlas_Education" + (
+                 Buddy.Resources.Get<Sprite>("Atlas_Education") == null));
+            Debug.LogWarning("8 load image Atlas_Educationtest1" + (
+                 Buddy.Resources.Get<Sprite>("Atlas_Education_test1") == null));
+            Debug.LogWarning("9 load image Test2" + (
+            Buddy.Resources.Get<Sprite>("Test2") == null));
+
 
             Buddy.Sensors.Battery.OnLevelChange.Add(OnBatteryUpdate);
 
@@ -127,39 +147,39 @@ namespace BuddyApp.CoursTelepresence
             if (lValue > 0.9F) {
                 if (mBatteryLevel != "04") {
                     mBatteryLevel = "04";
-                    Debug.Log("set battery to " + mBatteryLevel + " with image" +
-                        Buddy.Resources.Get<Sprite>("Atlas_Education_IconBattery" + mBatteryLevel, Context.APP).name);
+                    Debug.LogWarning("set battery to " + mBatteryLevel + " with image" + (
+                        Buddy.Resources.Get<Sprite>("Atlas_Education_IconBattery" + mBatteryLevel, Context.APP) == null));
                     BatteryIcon.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconBattery" + mBatteryLevel, Context.APP);
                     BatteryIconHeader.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconBattery" + mBatteryLevel, Context.APP);
                 }
             } else if (lValue > 0.7F) {
                 if (mBatteryLevel != "03") {
                     mBatteryLevel = "03";
-                    Debug.Log("set battery to " + mBatteryLevel + " with image" +
-                        Buddy.Resources.Get<Sprite>("Atlas_Education_IconBattery" + mBatteryLevel, Context.APP).name);
+                    Debug.LogWarning("set battery to " + mBatteryLevel + " with image" + (
+                        Buddy.Resources.Get<Sprite>("Atlas_Education_IconBattery" + mBatteryLevel, Context.APP) == null));
                     BatteryIcon.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconBattery" + mBatteryLevel, Context.APP);
                     BatteryIconHeader.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconBattery" + mBatteryLevel, Context.APP);
                 }
             } else if (lValue > 0.5F) {
                 if (mBatteryLevel != "02") {
                     mBatteryLevel = "02";
-                    Debug.Log("set battery to " + mBatteryLevel + " with image" +
-                        Buddy.Resources.Get<Sprite>("Atlas_Education_IconBattery" + mBatteryLevel, Context.APP).name);
+                    Debug.LogWarning("set battery to " + mBatteryLevel + " with image" + (
+                        Buddy.Resources.Get<Sprite>("Atlas_Education_IconBattery" + mBatteryLevel, Context.APP) == null));
                     BatteryIcon.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconBattery" + mBatteryLevel, Context.APP);
                     BatteryIconHeader.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconBattery" + mBatteryLevel, Context.APP);
                 }
             } else if (lValue > 0.15F) {
                 if (mBatteryLevel != "01") {
                     mBatteryLevel = "01";
-                    Debug.Log("set battery to " + mBatteryLevel + " with image" +
-                        Buddy.Resources.Get<Sprite>("Atlas_Education_IconBattery" + mBatteryLevel, Context.APP).name);
+                    Debug.LogWarning("set battery to " + mBatteryLevel + " with image" + (
+                        Buddy.Resources.Get<Sprite>("Atlas_Education_IconBattery" + mBatteryLevel, Context.APP).name == null));
                     BatteryIcon.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconBattery" + mBatteryLevel, Context.APP);
                     BatteryIconHeader.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconBattery" + mBatteryLevel, Context.APP);
                 }
             } else if (mBatteryLevel != "00") {
                 mBatteryLevel = "00";
-                Debug.Log("set battery to " + mBatteryLevel + " with image" +
-                    Buddy.Resources.Get<Sprite>("Atlas_Education_IconBattery" + mBatteryLevel, Context.APP).name);
+                Debug.LogWarning("set battery to " + mBatteryLevel + " with image" + (
+                    Buddy.Resources.Get<Sprite>("Atlas_Education_IconBattery" + mBatteryLevel, Context.APP) == null));
                 BatteryIcon.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconBattery" + mBatteryLevel, Context.APP);
                 BatteryIconHeader.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconBattery" + mBatteryLevel, Context.APP);
             }
@@ -175,13 +195,27 @@ namespace BuddyApp.CoursTelepresence
         public void BatteryButton()
         {
             Debug.Log("Change top section");
-            if (TopSection.position.y != 150) {
-                Debug.Log("Change top section pre " + TopSection.position.y);
-                TopSection.position = new Vector3(TopSection.position.x, 150F, TopSection.position.z);
+            if (Application.isEditor) {
+                Debug.Log("Change top section editor");
+                if (TopSection.position.y != 150) {
+                    Debug.Log("Change top section pre " + TopSection.position.y);
+                    TopSection.position = new Vector3(TopSection.position.x, 150F, TopSection.position.z);
+                } else {
+                    Debug.Log("Change top section pre " + TopSection.position.y);
+                    TopSection.position = new Vector3(TopSection.position.x, 265F, TopSection.position.z);
+                }
             } else {
-                Debug.Log("Change top section pre " + TopSection.position.y);
-                TopSection.position = new Vector3(TopSection.position.x, 265F, TopSection.position.z);
+                Debug.Log("Change top section out of editor");
+                if (TopSection.position.y != 265) {
+                    Debug.Log("Change top section pre " + TopSection.position.y);
+                    TopSection.position = new Vector3(TopSection.position.x, 265F, TopSection.position.z);
+                } else {
+                    Debug.Log("Change top section pre " + TopSection.position.y);
+                    TopSection.position = new Vector3(TopSection.position.x, 400F, TopSection.position.z);
+                }
+
             }
+
             Debug.Log("Change top section post " + TopSection.position.y);
         }
 
