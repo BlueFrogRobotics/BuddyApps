@@ -48,8 +48,6 @@ namespace BuddyApp.CoursTelepresence
             Debug.Log("test " + Time.time);
 
             InitRTC();
-            buttonEnableAudio.onClick.AddListener(SwitchAudioState);
-            buttonEnableVideo.onClick.AddListener(SwitchVideoState);
         }
 
         public void InitRTC()
@@ -118,13 +116,13 @@ namespace BuddyApp.CoursTelepresence
             {
                 //mRtcEngine.MuteLocalAudioStream(false);
                 mRtcEngine.DisableAudio();
-                buttonEnableAudio.GetComponent<Image>().sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconMicroOn"); //EnableVideoSprite;
+                buttonEnableAudio.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconMicroOn"); //EnableAudioSprite;
             }
             else
             {
                 //mRtcEngine.MuteLocalAudioStream(true);
                 mRtcEngine.EnableAudio();
-                buttonEnableAudio.GetComponent<Image>().sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconMircoOff");
+                buttonEnableAudio.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconMircoOff");
             }
             mAudioIsEnabled = !mAudioIsEnabled;
         }
