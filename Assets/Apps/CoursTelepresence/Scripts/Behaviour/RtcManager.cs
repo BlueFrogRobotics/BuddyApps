@@ -59,13 +59,14 @@ namespace BuddyApp.CoursTelepresence
             mAudioIsEnabled = true;
             rawVideo.gameObject.SetActive(false);
         }
-        
+
         public void InitButtons()
         {
             mVideoIsEnabled = true;
             mAudioIsEnabled = true;
-            buttonEnableVideo.GetComponent<Image>().sprite = Buddy.Resources.Get<Sprite>("os_icon_video_on");
-            buttonEnableAudio.GetComponent<Image>().sprite = Buddy.Resources.Get<Sprite>("os_icon_micro_on");
+            buttonEnableVideo.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconVideoON");//EnableVideoSprite;
+            buttonEnableAudio.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconMicroOn"); //EnableAudioSprite;
+
         }
 
         public void Join(string iChannel)
@@ -77,7 +78,7 @@ namespace BuddyApp.CoursTelepresence
             mRtcEngine.OnFirstRemoteVideoFrame = OnFirstRemoteVideoFrame;
             mRtcEngine.EnableVideo();
             mRtcEngine.EnableVideoObserver();
-            
+
             mRtcEngine.JoinChannel(iChannel, null, 0);
 
         }
@@ -89,7 +90,7 @@ namespace BuddyApp.CoursTelepresence
 
             mRtcEngine.LeaveChannel();
             mRtcEngine.DisableVideoObserver();
-            if(rawVideo.GetComponent<VideoSurface>()!=null)
+            if (rawVideo.GetComponent<VideoSurface>() != null)
                 Destroy(rawVideo.GetComponent<VideoSurface>());
             rawVideo.texture = null;
             rawVideo.gameObject.SetActive(false);
@@ -97,13 +98,10 @@ namespace BuddyApp.CoursTelepresence
 
         public void SwitchVideoState()
         {
-            if (!mVideoIsEnabled)
-            {
+            if (!mVideoIsEnabled) {
                 mRtcEngine.MuteLocalVideoStream(false);
                 buttonEnableVideo.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconVideoON");//EnableVideoSprite;
-            }
-            else
-            {
+            } else {
                 mRtcEngine.MuteLocalVideoStream(true);
                 buttonEnableVideo.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconVideoOff");//DisableSprite;
             }
@@ -112,17 +110,14 @@ namespace BuddyApp.CoursTelepresence
 
         public void SwitchAudioState()
         {
-            if (!mAudioIsEnabled)
-            {
+            if (!mAudioIsEnabled) {
                 //mRtcEngine.MuteLocalAudioStream(false);
                 mRtcEngine.DisableAudio();
                 buttonEnableAudio.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconMicroOn"); //EnableAudioSprite;
-            }
-            else
-            {
+            } else {
                 //mRtcEngine.MuteLocalAudioStream(true);
                 mRtcEngine.EnableAudio();
-                buttonEnableAudio.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconMircoOff");
+                buttonEnableAudio.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconMicroOff");
             }
             mAudioIsEnabled = !mAudioIsEnabled;
         }
@@ -137,8 +132,7 @@ namespace BuddyApp.CoursTelepresence
 
         public void DestroyRTC()
         {
-            if (mRtcEngine != null)
-            {
+            if (mRtcEngine != null) {
                 // Destroy the IRtcEngine object.
                 IRtcEngine.Destroy();
                 mRtcEngine = null;
@@ -155,8 +149,7 @@ namespace BuddyApp.CoursTelepresence
         {
             Debug.Log("[AGORAIO] onUserJoined: uid = " + uid + " elapsed = " + elapsed);
             VideoSurface lVideoSurface = rawVideo.GetComponent<VideoSurface>();
-            if (lVideoSurface == null && uid != mUid)
-            {
+            if (lVideoSurface == null && uid != mUid) {
                 rawVideo.gameObject.SetActive(true);
                 lVideoSurface = rawVideo.gameObject.AddComponent<VideoSurface>();
                 lVideoSurface.SetForUser(uid);
@@ -183,20 +176,15 @@ namespace BuddyApp.CoursTelepresence
             if (uid == mUid)
                 return;
             VideoSurface lVideoSurface = rawVideo.GetComponent<VideoSurface>();
-            if (state == REMOTE_VIDEO_STATE.REMOTE_VIDEO_STATE_STOPPED)
-            {
-                if (lVideoSurface != null)
-                {
+            if (state == REMOTE_VIDEO_STATE.REMOTE_VIDEO_STATE_STOPPED) {
+                if (lVideoSurface != null) {
                     lVideoSurface.SetEnable(false);
                     Destroy(rawVideo.GetComponent<VideoSurface>());
                     rawVideo.texture = null;
                     rawVideo.gameObject.SetActive(false);
                 }
-            }
-            else if (state == REMOTE_VIDEO_STATE.REMOTE_VIDEO_STATE_STARTING || state == REMOTE_VIDEO_STATE.REMOTE_VIDEO_STATE_DECODING)
-            {
-                if (lVideoSurface == null)
-                {
+            } else if (state == REMOTE_VIDEO_STATE.REMOTE_VIDEO_STATE_STARTING || state == REMOTE_VIDEO_STATE.REMOTE_VIDEO_STATE_DECODING) {
+                if (lVideoSurface == null) {
                     rawVideo.gameObject.SetActive(true);
                     lVideoSurface = rawVideo.gameObject.AddComponent<VideoSurface>();
                     lVideoSurface.SetForUser(uid);
@@ -227,12 +215,11 @@ namespace BuddyApp.CoursTelepresence
 
         void OnApplicationQuit()
         {
-            if (mRtcEngine != null)
-            {
+            if (mRtcEngine != null) {
                 // Destroy the IRtcEngine object.
                 Leave();
                 IRtcEngine.Destroy();
-                mRtcEngine = null; 
+                mRtcEngine = null;
             }
         }
 
