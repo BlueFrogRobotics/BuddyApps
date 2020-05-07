@@ -42,6 +42,7 @@ namespace BuddyApp.CoursTelepresence
         public override void OnStart()
         {
             ExtLog.I(ExtLogModule.APP, typeof(CoursTelepresenceActivity), LogStatus.SUCCESS, LogInfo.LOADING, "On start...");
+            Buddy.GUI.Header.DisplayParametersButton(false);
         }
 
 		/*
@@ -52,7 +53,7 @@ namespace BuddyApp.CoursTelepresence
             ExtLog.I(ExtLogModule.APP, typeof(CoursTelepresenceActivity), LogStatus.START, LogInfo.STOPPING, "On quit...");
             mRTMManager.Logout();
             mRTCManager.Leave();
-            mRTCManager.DestroyRTC();
+            //mRTCManager.DestroyRTC();
             Debug.LogWarning("quit cours telepresence");
         }
     }

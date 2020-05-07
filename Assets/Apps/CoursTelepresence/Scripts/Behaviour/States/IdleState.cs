@@ -27,7 +27,9 @@ namespace BuddyApp.CoursTelepresence
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Debug.Log("Idle state");
+            Debug.LogError("Idle state");
+
+            //mRTCManager.InitRTC();
 
             mRTMManager.OncallRequest = (CallRequest lCall) => { Trigger("INCOMING CALL"); };
 
@@ -45,7 +47,7 @@ namespace BuddyApp.CoursTelepresence
         {
             mRTMManager.OncallRequest = null;
             mCallButton.onClick.RemoveAllListeners();
-            Debug.Log("Idle state exit");
+            Debug.LogError("Idle state exit");
         }
     }
 

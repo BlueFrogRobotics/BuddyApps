@@ -26,6 +26,9 @@ namespace BuddyApp.CoursTelepresence
         private bool mDisplayed;
         private float mTimeMessage;
 
+        private HDCamera mHDCam;
+        private GameObject VideoFeedbackImage;
+
         // Use this for initialization
         override public void Start()
         {
@@ -42,6 +45,13 @@ namespace BuddyApp.CoursTelepresence
             VideoFeedback = GetGameObject(8).GetComponentInChildren<Button>();
             Hangup = GetGameObject(9).GetComponentInChildren<Button>();
             Message = GetGameObject(11).GetComponentInChildren<Text>();
+            VideoFeedbackImage = GetGameObject(12).GetComponentInChildren<RawImage>().gameObject;
+
+            //mHDCam.Open(HDCameraMode.COLOR_1920X1080_15FPS_RGB);
+            //mHDCam.OnNewFrame.Add((iInput) => { VideoFeedbackImage.GetComponent<RawImage>().texture = iInput.Texture; });
+            //VideoFeedbackImage.SetActive(true);
+
+            mRTCManager.InitButtons();
 
             Debug.LogWarning("7");
             VolumeScrollbar.onValueChanged.AddListener(
@@ -62,9 +72,22 @@ namespace BuddyApp.CoursTelepresence
 
 
             VideoFeedback.onClick.AddListener(
-                () => {
+                () =>
+                {
                     // TODO update button image
-                    //TODO update video feedback or not
+                    if (GetGameObject(12).activeInHierarchy)
+                    {
+                        GetGameObject(12).SetActive(false);
+                        //mHDCam.OnNewFrame.Clear();
+                        //mHDCam.Close();
+                    }
+                    else
+                    {
+                        //TODO : Change resolution depending on the connection
+                        //mHDCam.Open(HDCameraMode.COLOR_1920X1080_15FPS_RGB);
+                        //mHDCam.OnNewFrame.Add((iInput) => { VideoFeedbackImage.GetComponent<RawImage>().texture = iInput.Texture; });
+                        GetGameObject(12).SetActive(true);
+                    }
                 }
                 );
 
@@ -93,8 +116,14 @@ namespace BuddyApp.CoursTelepresence
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mTimer = 0F;
-            Debug.Log("call state");
+            Debug.LogError("call state");
             mTimeMessage = -1F;
+
+            VideoSurface lVideoSurface = VideoFeedbackImage.AddComponent<VideoSurface>();
+            lVideoSurface.SetForUser(0);
+            lVideoSurface.SetEnable(true);
+            lVideoSurface.SetVideoSurfaceType(AgoraVideoSurfaceType.RawImage);
+            lVideoSurface.SetGameFps(30);
 
             mRTCManager.OnEndUserOffline = () => Buddy.GUI.Dialoger.Display<IconToast>("Communication coupée").
                     With(Buddy.Resources.Get<Sprite>("os_icon_phoneoff_big"),
@@ -178,17 +207,21 @@ namespace BuddyApp.CoursTelepresence
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Debug.Log("call state exit");
-            mRTCManager.Leave();
-            mRTMManager.Logout();
+            Debug.LogError("call state exit");
+            //mRTMManager.Logout();
             mRTMManager.OnDisplayMessage = null;
             mRTMManager.OnSpeechMessage = null;
+            mRTCManager.Leave();
+            Destroy(VideoFeedbackImage.GetComponent<VideoSurface>());
+            VideoFeedbackImage.GetComponent<RawImage>().texture = null;
+            //mRTCManager.DestroyRTC();
             VolumeScrollbar.gameObject.SetActive(false);
             Volume.gameObject.SetActive(false);
             Video.gameObject.SetActive(false);
             Micro.gameObject.SetActive(false);
-            VideoFeedback.gameObject.SetActive(false);
+            GetGameObject(12).SetActive(false);
             Hangup.gameObject.SetActive(false);
+            Debug.LogError("fin call state exit");
         }
     }
 

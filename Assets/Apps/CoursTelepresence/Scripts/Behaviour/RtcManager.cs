@@ -46,17 +46,29 @@ namespace BuddyApp.CoursTelepresence
         void Start()
         {
             Debug.Log("test " + Time.time);
+
+            InitRTC();
+            buttonEnableAudio.onClick.AddListener(SwitchAudioState);
+            buttonEnableVideo.onClick.AddListener(SwitchVideoState);
+        }
+
+        public void InitRTC()
+        {
             Buddy.WebServices.Agoraio.LoadEngine(CoursTelepresenceBehaviour.APP_ID);
             mRtcEngine = Buddy.WebServices.Agoraio.RtcEngine;
             mRtcEngine.OnStreamMessage = OnStreamMessage;
             mVideoIsEnabled = true;
             mAudioIsEnabled = true;
             rawVideo.gameObject.SetActive(false);
-
-            buttonEnableAudio.onClick.AddListener(SwitchAudioState);
-            buttonEnableVideo.onClick.AddListener(SwitchVideoState);
         }
         
+        public void InitButtons()
+        {
+            mVideoIsEnabled = true;
+            mAudioIsEnabled = true;
+            buttonEnableVideo.GetComponent<Image>().sprite = Buddy.Resources.Get<Sprite>("os_icon_video_on");
+            buttonEnableAudio.GetComponent<Image>().sprite = Buddy.Resources.Get<Sprite>("os_icon_micro_on");
+        }
 
         public void Join(string iChannel)
         {
@@ -104,12 +116,14 @@ namespace BuddyApp.CoursTelepresence
         {
             if (!mAudioIsEnabled)
             {
-                mRtcEngine.MuteLocalAudioStream(false);
+                //mRtcEngine.MuteLocalAudioStream(false);
+                mRtcEngine.EnableAudio();
                 buttonEnableAudio.GetComponent<Image>().sprite = Buddy.Resources.Get<Sprite>("os_icon_micro_on"); //EnableVideoSprite;
             }
             else
             {
-                mRtcEngine.MuteLocalAudioStream(true);
+                //mRtcEngine.MuteLocalAudioStream(true);
+                mRtcEngine.DisableAudio();
                 buttonEnableAudio.GetComponent<Image>().sprite = Buddy.Resources.Get<Sprite>("os_icon_micro_off");
             }
             mAudioIsEnabled = !mAudioIsEnabled;
