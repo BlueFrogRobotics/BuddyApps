@@ -177,33 +177,42 @@ namespace BuddyApp.CoursTelepresence
             Debug.Log("Change top section");
             if (Application.isEditor) {
                 Debug.Log("Change top section editor");
-                if (TopSection.position.y != 150) {
-                    Debug.Log("Change top section pre " + TopSection.position.y);
-                    TopSection.position = new Vector3(TopSection.position.x, 150F, TopSection.position.z);
+                if (TopSection.pivot.y != 2.5F) {
+                    Debug.Log("Change top section pre " + TopSection.pivot.y);
+                    TopSection.pivot = new Vector2(TopSection.pivot.x, 2.5F);
                 } else {
-                    Debug.Log("Change top section pre " + TopSection.position.y);
-                    TopSection.position = new Vector3(TopSection.position.x, 265F, TopSection.position.z);
+                    Debug.Log("Change top section pre " + TopSection.pivot.y);
+                    TopSection.pivot = new Vector3(TopSection.pivot.x, 1F);
                 }
             } else {
                 Debug.Log("Change top section out of editor");
-                if (TopSection.position.y != 265) {
-                    Debug.Log("Change top section pre " + TopSection.position.y);
-                    TopSection.position = new Vector3(TopSection.position.x, 265F, TopSection.position.z);
+                if (TopSection.pivot.y != 2.5F) {
+                    Debug.Log("Change top section pre " + TopSection.pivot.y);
+                    TopSection.pivot = new Vector2(TopSection.pivot.x, 2.5F);
                 } else {
-                    Debug.Log("Change top section pre " + TopSection.position.y);
-                    TopSection.position = new Vector3(TopSection.position.x, 400F, TopSection.position.z);
+                    Debug.Log("Change top section pre " + TopSection.pivot.y);
+                    TopSection.pivot = new Vector3(TopSection.pivot.x, 1F);
                 }
 
             }
 
-            Debug.Log("Change top section post " + TopSection.position.y);
+            Debug.Log("Change top section post " + TopSection.pivot.y);
         }
 
         public void UpdateVolume(Slider lSlider)
         {
-            Debug.Log("Volume set to " + lSlider.value);
+            Debug.Log("PRE Volume set to " + Buddy.Actuators.Speakers.Volume);
+            Debug.Log("PRE slider set to " + lSlider.value);
             Buddy.Actuators.Speakers.Volume = lSlider.value;
             Buddy.Actuators.Speakers.Effects.Play(SoundSample.BEEP_2);
+            Debug.Log("POST Volume set to " + Buddy.Actuators.Speakers.Volume);
+        }
+
+        public void UpdateSlider(Slider lSlider)
+        {
+            Debug.Log("PRE slider value " + lSlider.value);
+            lSlider.value = Buddy.Actuators.Speakers.Volume;
+            Debug.Log("POST slider value " + lSlider.value);
         }
 
     }

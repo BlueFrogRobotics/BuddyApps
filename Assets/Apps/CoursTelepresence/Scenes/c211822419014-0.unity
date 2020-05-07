@@ -752,6 +752,17 @@ MonoBehaviour:
           m_StringArgument: Open
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1669233722}
+        m_MethodName: UpdateSlider
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1613635923}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Slider, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &57623729
@@ -4590,7 +4601,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 803609464}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1669233723}
+        m_MethodName: SwitchVideoState
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &803609463
@@ -5926,18 +5948,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1065289115}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: OnClickRight
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1065289115
@@ -7498,7 +7509,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1276478944}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1669233723}
+        m_MethodName: SwitchAudioState
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1276478943
@@ -7663,7 +7685,18 @@ MonoBehaviour:
   m_Value: 0.503
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1669233722}
+        m_MethodName: UpdateVolume
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1304843240}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Slider, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &1322072099
@@ -9759,7 +9792,7 @@ MonoBehaviour:
   BatteryIcon: {fileID: 830833190}
   BatteryIconHeader: {fileID: 299964947}
   NetworkIcon: {fileID: 1878380592}
-  TopSection: {fileID: 336420642}
+  TopSection: {fileID: 2029883252}
 --- !u!114 &1669233723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9772,8 +9805,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rawVideo: {fileID: 1078149847}
-  buttonEnableVideo: {fileID: 803609462}
-  buttonEnableAudio: {fileID: 1276478942}
+  buttonEnableVideo: {fileID: 228072823}
+  buttonEnableAudio: {fileID: 421708962}
 --- !u!1 &1700304331
 GameObject:
   m_ObjectHideFlags: 0

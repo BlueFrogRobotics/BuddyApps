@@ -17,10 +17,10 @@ namespace BuddyApp.CoursTelepresence
         private RawImage rawVideo;
 
         [SerializeField]
-        private Button buttonEnableVideo;
+        private Image buttonEnableVideo;
 
         [SerializeField]
-        private Button buttonEnableAudio;
+        private Image buttonEnableAudio;
 
         //private string mChannel;
         private bool mVideoIsEnabled;
@@ -102,12 +102,12 @@ namespace BuddyApp.CoursTelepresence
             if (!mVideoIsEnabled)
             {
                 mRtcEngine.MuteLocalVideoStream(false);
-                buttonEnableVideo.GetComponent<Image>().sprite = Buddy.Resources.Get<Sprite>("os_icon_video_on");//EnableVideoSprite;
+                buttonEnableVideo.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconVideoON");//EnableVideoSprite;
             }
             else
             {
                 mRtcEngine.MuteLocalVideoStream(true);
-                buttonEnableVideo.GetComponent<Image>().sprite = Buddy.Resources.Get<Sprite>("os_icon_video_off");//DisableSprite;
+                buttonEnableVideo.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconVideoOff");//DisableSprite;
             }
             mVideoIsEnabled = !mVideoIsEnabled;
         }
@@ -117,14 +117,14 @@ namespace BuddyApp.CoursTelepresence
             if (!mAudioIsEnabled)
             {
                 //mRtcEngine.MuteLocalAudioStream(false);
-                mRtcEngine.EnableAudio();
-                buttonEnableAudio.GetComponent<Image>().sprite = Buddy.Resources.Get<Sprite>("os_icon_micro_on"); //EnableVideoSprite;
+                mRtcEngine.DisableAudio();
+                buttonEnableAudio.GetComponent<Image>().sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconMicroOn"); //EnableVideoSprite;
             }
             else
             {
                 //mRtcEngine.MuteLocalAudioStream(true);
-                mRtcEngine.DisableAudio();
-                buttonEnableAudio.GetComponent<Image>().sprite = Buddy.Resources.Get<Sprite>("os_icon_micro_off");
+                mRtcEngine.EnableAudio();
+                buttonEnableAudio.GetComponent<Image>().sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconMircoOff");
             }
             mAudioIsEnabled = !mAudioIsEnabled;
         }

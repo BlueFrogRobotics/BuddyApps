@@ -56,8 +56,10 @@ namespace BuddyApp.CoursTelepresence
             Debug.LogWarning("7");
             VolumeScrollbar.onValueChanged.AddListener(
                 (lValue) => {
-                    Debug.Log("Volume set to " + lValue);
-                    Buddy.Actuators.Speakers.Volume = lValue;
+                    //Debug.Log("PRE Volume set to " + lValue);
+                    //Buddy.Actuators.Speakers.Volume = lValue;
+                    //Buddy.Actuators.Speakers.Effects.Play(SoundSample.BEEP_2);
+                    //Debug.Log("POST Volume set to " + Buddy.Actuators.Speakers.Volume);
                     mTimeVolume = Time.time;
                 });
 
