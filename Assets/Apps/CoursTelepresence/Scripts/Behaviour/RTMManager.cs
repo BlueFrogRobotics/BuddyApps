@@ -197,6 +197,7 @@ namespace BuddyApp.CoursTelepresence
             mPingId++;
             mPingId = mPingId % 10000;
             mPingTime = Time.time;
+            CoursTelepresenceData.Instance.Ping = mPingId.ToString();
             SendRTMMessage(Utils.SerializeJSON(new JsonMessage("ping", mPingId.ToString())));
         }
 
