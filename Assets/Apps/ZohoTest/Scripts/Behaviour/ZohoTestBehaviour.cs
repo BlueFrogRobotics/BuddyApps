@@ -18,6 +18,13 @@ namespace BuddyApp.ZohoTest
         private const string GET_TYPE_DEVICE_URL = "https://creator.zoho.eu/api/json/flotte/view/Type_device_Report?authtoken=98bb0865eb455a6e61a993a43f63d601&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true";
         private const string TABLET_TYPE_DEVICE = "Tablette";
 
+        //private const string TOKEN = "98bb0865eb455a6e61a993a43f63d601";
+        //private const string GET_DEVICE_URL = "https://creator.zoho.eu/api/json/flotte/view/Device_Report?authtoken=" + TOKEN + "&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true";
+        //private const string GET_DEVICE_USERS_URL = "https://creator.zoho.eu/api/json/flotte/view/Device_user_Report?authtoken=" + TOKEN + "&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true";
+        //private const string GET_TYPE_DEVICE_URL = "https://creator.zoho.eu/api/json/flotte/view/Type_device_Report?authtoken=" + TOKEN + "&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true";
+        //private const string UPDATE_INFO = "https://creator.zoho.eu/api/bluefrogrobotics/json/flotte/form/Device/record/update?authtoken=" + TOKEN + "&scope=creatorapi&criteria=Uid=={";
+
+        private int mNbIteration;
         /*
          * Data of the application. Save on disc when app is quitted
          */
@@ -36,7 +43,70 @@ namespace BuddyApp.ZohoTest
             mAppData = ZohoTestData.Instance;
 
             StartCoroutine(GetTabletsUID("buddy1"));
+            //StartCoroutine(UpdatePingAndPosition());
         }
+
+
+        //private IEnumerator UpdateBattery()
+        //{
+        //    while (true)
+        //    {
+        //        //Update DB with battery Level
+
+        //        string lURI = UPDATE_INFO + Buddy.Platform.RobotUID + "}" + "&Batterie={" + Buddy.Sensors.Battery.Level.ToString() + "}";
+        //        using (UnityWebRequest lUpdateBattery = UnityWebRequest.Post(lURI, ""))
+        //        {
+
+        //        }
+        //        yield return new WaitForSeconds(300F);
+        //    }
+        //}
+
+        //private IEnumerator UpdatePingAndPosition()
+        //{
+        //    while (true)
+        //    {
+        //        mNbIteration++;
+
+        //        if (mNbIteration % 2 == 0)
+        //        {
+        //            //Update GPS Position
+        //        }
+        //        //Update DB with ping
+        //        List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
+        //        Dictionary<string, string> formDico = new Dictionary<string, string>();
+        //        WWWForm form = new WWWForm();
+        //        WWWForm formVide = new WWWForm();
+        //        //form.AddField("myField", "myData");
+        //        formDico.Add("Etat", "Available");
+        //        formDico.Add("authtoken", TOKEN);
+        //        formDico.Add("scope","creatorapi");
+        //        formDico.Add("criteria", "ID=={buddy1}");
+        //        //formData.Add(new MultipartFormDataSection("Qualite_signal=23"));
+        //        formData.Add(new MultipartFormDataSection("Etat","Available"));
+        //        formData.Add(new MultipartFormDataSection("authtoken", TOKEN));
+        //        formData.Add(new MultipartFormDataSection("scope", "creatorapi"));
+        //        formData.Add(new MultipartFormDataSection("criteria", "ID=={buddy1}"));
+
+        //        string lURI = UPDATE_INFO + "buddy1" + "}" + "&Etat=available";
+        //        string urlTest = "https://creator.zoho.eu/api/bluefrogrobotics/json/flotte/form/Device/record/update?";
+        //        Debug.LogWarning("lURI : " + lURI);
+        //        using (UnityWebRequest lUpdatePingAndPosition = UnityWebRequest.Post(lURI, formVide))
+        //        {
+        //            lUpdatePingAndPosition.chunkedTransfer = false;
+        //            yield return lUpdatePingAndPosition.SendWebRequest();
+        //            if (lUpdatePingAndPosition.isHttpError || lUpdatePingAndPosition.isNetworkError)
+        //            {
+        //                Debug.LogError("Request error " + lUpdatePingAndPosition.error + " " + lUpdatePingAndPosition.downloadHandler.text);
+        //            }
+        //            else
+        //            {
+        //                Debug.LogWarning("POST DONE---------------------------" + lUpdatePingAndPosition.downloadHandler.text + " " + lUpdatePingAndPosition.downloadHandler.isDone);
+        //            }
+        //        }
+        //        yield return new WaitForSeconds(5F);
+        //    }
+        //}
 
         private IEnumerator GetTabletsUID(string robotUID)
         {

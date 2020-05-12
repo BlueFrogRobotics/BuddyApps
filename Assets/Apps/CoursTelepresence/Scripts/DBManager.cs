@@ -13,9 +13,13 @@ namespace BuddyApp.CoursTelepresence
         private const string GET_DEVICE_URL = "https://creator.zoho.eu/api/json/flotte/view/Device_Report?authtoken=" + TOKEN + "&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true";
         private const string GET_DEVICE_USERS_URL = "https://creator.zoho.eu/api/json/flotte/view/Device_user_Report?authtoken=" + TOKEN + "&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true";
         private const string GET_TYPE_DEVICE_URL = "https://creator.zoho.eu/api/json/flotte/view/Type_device_Report?authtoken=" + TOKEN + "&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true";
-        private const string UPDATE_INFO = "https://creator.zoho.eu/api/bluefrogrobotics/json/flotte/form/Device/record/update?authtoken=" + TOKEN + "&scope=creatorapi&criteria=ID=={";
+        private const string UPDATE_INFO = "https://creator.zoho.eu/api/bluefrogrobotics/json/flotte/form/Device/record/update?authtoken=" + TOKEN + "&scope=creatorapi&criteria=Uid=={";
         private const string TABLET_TYPE_DEVICE = "Tablette";
 
+        private string mURIBattery;
+        private string mURIPing;
+        private string mURIPosition;
+        private WWWForm mEmptyForm;
         public bool DBConnected { get; private set; }
         public List<string> ListUIDTablet { get; private set; }
 
@@ -36,10 +40,20 @@ namespace BuddyApp.CoursTelepresence
             while (true)
             {
                 //Update DB with battery Level
-                string lURI = UPDATE_INFO + Buddy.Platform.RobotUID + "}" + "&Batterie={" + Buddy.Sensors.Battery.Level.ToString() + "}"; 
-                using (UnityWebRequest lUpdateBattery = UnityWebRequest.Post(lURI, ""))
+                mURIBattery = UPDATE_INFO + Buddy.Platform.RobotUID + "}" + "&Batterie={" + Buddy.Sensors.Battery.Level.ToString() + "}";
+                Debug.LogWarning("lURI Battery : " + mURIBattery);
+                using (UnityWebRequest lUpdateBattery = UnityWebRequest.Post(mURIBattery, mEmptyForm))
                 {
-
+                    lUpdateBattery.chunkedTransfer = false;
+                    yield return lUpdateBattery.SendWebRequest();
+                    if (lUpdateBattery.isHttpError || lUpdateBattery.isNetworkError)
+                    {
+                        Debug.LogError("Request error battery : " + lUpdateBattery.error + " " + lUpdateBattery.downloadHandler.text);
+                    }
+                    else
+                    {
+                        Debug.LogWarning("Post done battery : " + lUpdateBattery.downloadHandler.text + " " + lUpdateBattery.downloadHandler.isDone);
+                    }
                 }
                 yield return new WaitForSeconds(300F);
             }
@@ -54,19 +68,34 @@ namespace BuddyApp.CoursTelepresence
                 if(mNbIteration % 2 == 0)
                 {
                     //Update GPS Position
+                    mURIPosition = UPDATE_INFO + Buddy.Platform.RobotUID + "}" + "&Position_GPS={" + CoursTelepresenceData.Instance.Ping + "}";
+                    Debug.LogWarning("mURIPing : " + mURIPing);
+                    using (UnityWebRequest lUpdatePosition = UnityWebRequest.Post(mURIPosition, mEmptyForm))
+                    {
+                        yield return lUpdatePosition.SendWebRequest();
+                        if (lUpdatePosition.isHttpError || lUpdatePosition.isNetworkError)
+                        {
+                            Debug.LogError("Request error position : " + lUpdatePosition.error + " " + lUpdatePosition.downloadHandler.text);
+                        }
+                        else
+                        {
+                            Debug.LogWarning("Post done position : " + lUpdatePosition.downloadHandler.text + " " + lUpdatePosition.downloadHandler.isDone);
+                        }
+                    }
                 }
                 //Update DB with ping
-                string lURI = UPDATE_INFO + Buddy.Platform.RobotUID + "}" + "&Qualite_signal={" + CoursTelepresenceData.Instance.Ping + "}";
-                using (UnityWebRequest lUpdateBattery = UnityWebRequest.Post(lURI, ""))
+                mURIPing = UPDATE_INFO + Buddy.Platform.RobotUID + "}" + "&Qualite_signal={" + CoursTelepresenceData.Instance.Ping + "}";
+                Debug.LogWarning("mURIPing : " + mURIPing);
+                using (UnityWebRequest lUpdatePing = UnityWebRequest.Post(mURIPing, mEmptyForm))
                 {
-                    yield return lUpdateBattery.SendWebRequest();
-                    if (lUpdateBattery.isHttpError || lUpdateBattery.isNetworkError)
+                    yield return lUpdatePing.SendWebRequest();
+                    if (lUpdatePing.isHttpError || lUpdatePing.isNetworkError)
                     {
-                        Debug.LogError("Request error " + lUpdateBattery.error + " " + lUpdateBattery.downloadHandler.text);
+                        Debug.LogError("Request error ping : " + lUpdatePing.error + " " + lUpdatePing.downloadHandler.text);
                     }
                     else
                     {
-                        Debug.LogWarning("POST DONE---------------------------");
+                        Debug.LogWarning("Post done ping : "  + lUpdatePing.downloadHandler.text + " " + lUpdatePing.downloadHandler.isDone);
                     }
                 }
                 yield return new WaitForSeconds(5F);
