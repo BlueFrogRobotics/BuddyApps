@@ -9,6 +9,7 @@ namespace BuddyApp.CoursTelepresence
     public sealed class CallingState : AStateMachineBehaviour
     {
         private RTMManager mRTMManager;
+        private float mTimeState;
 
         override public void Start()
         {
@@ -38,6 +39,8 @@ namespace BuddyApp.CoursTelepresence
         {
             Debug.Log("calling state");
 
+            mTimeState = Time.time;
+
             mRTMManager.OncallRequestAnswer = (lCallAnswer) => {
                 if (lCallAnswer)
                     Trigger("CALL");
@@ -56,6 +59,24 @@ namespace BuddyApp.CoursTelepresence
                         );
             };
         }
+
+        public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            if (Time.time - mTimeState > 60F && !Buddy.GUI.Dialoger.IsBusy)
+                Buddy.GUI.Dialoger.Display<IconToast>("Echec de connexion").
+                    With(Buddy.Resources.Get<Sprite>("os_icon_phoneoff_big"),
+                        () => {
+                            Trigger("IDLE");
+                            Buddy.GUI.Dialoger.Hide();
+                        },
+                        null,
+                        () => {
+                            Trigger("IDLE");
+                            Buddy.GUI.Dialoger.Hide();
+                        }
+                        );
+        }
+
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

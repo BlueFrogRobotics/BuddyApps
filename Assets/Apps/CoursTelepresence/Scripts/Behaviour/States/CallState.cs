@@ -66,7 +66,8 @@ namespace BuddyApp.CoursTelepresence
             Volume.onClick.AddListener(
                 () => {
                     VolumeScrollbar.value = Buddy.Actuators.Speakers.Volume;
-                    VolumeScrollbar.gameObject.SetActive(!VolumeScrollbar.gameObject.activeInHierarchy);
+                    Volume.gameObject.SetActive(false);
+                    VolumeScrollbar.gameObject.SetActive(true);
                     mTimeVolume = Time.time;
                     // TODO update button image
                 }
@@ -74,17 +75,13 @@ namespace BuddyApp.CoursTelepresence
 
 
             VideoFeedback.onClick.AddListener(
-                () =>
-                {
+                () => {
                     // TODO update button image
-                    if (GetGameObject(12).activeInHierarchy)
-                    {
+                    if (GetGameObject(12).activeInHierarchy) {
                         GetGameObject(12).SetActive(false);
                         //mHDCam.OnNewFrame.Clear();
                         //mHDCam.Close();
-                    }
-                    else
-                    {
+                    } else {
                         //TODO : Change resolution depending on the connection
                         //mHDCam.Open(HDCameraMode.COLOR_1920X1080_15FPS_RGB);
                         //mHDCam.OnNewFrame.Add((iInput) => { VideoFeedbackImage.GetComponent<RawImage>().texture = iInput.Texture; });
@@ -178,20 +175,16 @@ namespace BuddyApp.CoursTelepresence
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (!Buddy.WebServices.HasInternetAccess)
-            {
+            if (!Buddy.WebServices.HasInternetAccess) {
                 mTimer += Time.deltaTime;
-                if (mTimer <= 6F && !mDisplayed)
-                {
+                if (mTimer <= 6F && !mDisplayed) {
                     mDisplayed = true;
-                    Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
-                    {
+                    Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
                         TText lText = iBuilder.CreateWidget<TText>();
                         lText.SetLabel(Buddy.Resources.GetString("edunotconnected"));
+
                     }, null, () => Trigger("IDLE"));
-                }
-                else if (mTimer > 6F)
-                {
+                } else if (mTimer > 6F) {
                     Buddy.GUI.Toaster.Hide();
                 }
             }
@@ -202,13 +195,24 @@ namespace BuddyApp.CoursTelepresence
                     TriggerGUI("MESSAGE END");
             }
 
-            if (VolumeScrollbar.gameObject.activeInHierarchy && Time.time - mTimeVolume > 5.0F)
+            if (VolumeScrollbar.gameObject.activeInHierarchy && Time.time - mTimeVolume > 5.0F) {
                 VolumeScrollbar.gameObject.SetActive(false);
+                Volume.gameObject.SetActive(true);
+            }
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            if (mTimeMessage >= 0)
+                TriggerGUI("MESSAGE END");
+
+            if (Buddy.Actuators.LEDs.FlashIntensity == 0.03F) {
+                TriggerGUI("HANDSUP END");
+                Buddy.Actuators.LEDs.Flash = false;
+                Buddy.Behaviour.SetMood(Mood.NEUTRAL);
+            }
+
             Debug.LogError("call state exit");
             //mRTMManager.Logout();
             mRTMManager.OnDisplayMessage = null;
