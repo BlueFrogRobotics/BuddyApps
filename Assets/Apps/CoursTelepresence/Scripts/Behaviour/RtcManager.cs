@@ -210,6 +210,12 @@ namespace BuddyApp.CoursTelepresence
             Texture2D tex = new Texture2D(16, 16, TextureFormat.PVRTC_RGBA4, false);
             tex.LoadRawTextureData(System.Text.Encoding.UTF8.GetBytes(data));
             tex.Apply();
+            VideoSurface lVideoSurface = rawVideo.GetComponent<VideoSurface>();
+            if (lVideoSurface != null)
+            {
+                lVideoSurface.SetEnable(false);
+                Destroy(rawVideo.GetComponent<VideoSurface>());
+            }
             rawVideo.gameObject.SetActive(true);
             rawVideo.texture = tex;
         }

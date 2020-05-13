@@ -183,6 +183,11 @@ namespace BuddyApp.CoursTelepresence
                 Buddy.Vocal.Say(lMessage);
             };
 
+            mRTMManager.OnActivateZoom = (lZoom) =>
+              {
+                  mRTCManager.SendPicture(Buddy.Sensors.HDCamera.Frame.Texture);
+              };
+
             Volume.gameObject.SetActive(true);
             Video.gameObject.SetActive(true);
             Micro.gameObject.SetActive(true);
