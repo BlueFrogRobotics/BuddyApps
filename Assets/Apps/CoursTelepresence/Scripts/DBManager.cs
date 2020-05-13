@@ -68,7 +68,7 @@ namespace BuddyApp.CoursTelepresence
                 if(mNbIteration % 2 == 0)
                 {
                     //Update GPS Position
-                    mURIPosition = UPDATE_INFO + Buddy.Platform.RobotUID + "}" + "&Position_GPS={" + CoursTelepresenceData.Instance.Ping + "}";
+                    mURIPosition = UPDATE_INFO + Buddy.Platform.RobotUID + "}" + "&Position_GPS={}";
                     Debug.LogWarning("mURIPing : " + mURIPing);
                     using (UnityWebRequest lUpdatePosition = UnityWebRequest.Post(mURIPosition, mEmptyForm))
                     {
