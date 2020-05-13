@@ -419,7 +419,11 @@ namespace BuddyApp.CoursTelepresence
                         break;
 
                     case "displayMessage":
-                        OnDisplayMessage(lMessage.propertyValue);
+                        if (lMessage.propertyValue.Contains("[METARTM]")) {
+                            Debug.LogWarning("Meta RTM detected");
+                            OnMessage(lMessage.propertyValue.Replace("[METARTM]", ""));
+                        } else
+                            OnDisplayMessage(lMessage.propertyValue);
                         break;
 
                     case "microThreshold":

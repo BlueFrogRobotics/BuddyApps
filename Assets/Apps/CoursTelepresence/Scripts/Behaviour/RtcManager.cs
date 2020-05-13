@@ -64,7 +64,7 @@ namespace BuddyApp.CoursTelepresence
         {
             mVideoIsEnabled = true;
             mAudioIsEnabled = true;
-            buttonEnableVideo.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconVideoON");//EnableVideoSprite;
+            buttonEnableVideo.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconVideoOn");//EnableVideoSprite;
             buttonEnableAudio.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconMicroOn"); //EnableAudioSprite;
 
         }
@@ -98,9 +98,9 @@ namespace BuddyApp.CoursTelepresence
 
         public void SwitchVideoState()
         {
-            if (!mVideoIsEnabled) {
+            if (mVideoIsEnabled) {
                 mRtcEngine.MuteLocalVideoStream(false);
-                buttonEnableVideo.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconVideoON");//EnableVideoSprite;
+                buttonEnableVideo.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconVideoOn");//EnableVideoSprite;
             } else {
                 mRtcEngine.MuteLocalVideoStream(true);
                 buttonEnableVideo.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconVideoOff");//DisableSprite;
@@ -110,7 +110,7 @@ namespace BuddyApp.CoursTelepresence
 
         public void SwitchAudioState()
         {
-            if (!mAudioIsEnabled) {
+            if (mAudioIsEnabled) {
                 //mRtcEngine.MuteLocalAudioStream(false);
                 mRtcEngine.DisableAudio();
                 buttonEnableAudio.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconMicroOn"); //EnableAudioSprite;

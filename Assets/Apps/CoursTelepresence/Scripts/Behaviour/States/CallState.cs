@@ -15,6 +15,8 @@ namespace BuddyApp.CoursTelepresence
         private Button Video;
         private Button Micro;
         private Button VideoFeedback;
+        public Image VideoFeedbackIcon;
+
         private Button Hangup;
         private Text Message;
 
@@ -43,6 +45,7 @@ namespace BuddyApp.CoursTelepresence
             Video = GetGameObject(6).GetComponentInChildren<Button>();
             Micro = GetGameObject(7).GetComponentInChildren<Button>();
             VideoFeedback = GetGameObject(8).GetComponentInChildren<Button>();
+            VideoFeedbackIcon = GetGameObject(8).GetComponentInChildren<Image>();
             Hangup = GetGameObject(9).GetComponentInChildren<Button>();
             Message = GetGameObject(11).GetComponentInChildren<Text>();
             VideoFeedbackImage = GetGameObject(12).GetComponentInChildren<RawImage>().gameObject;
@@ -76,16 +79,14 @@ namespace BuddyApp.CoursTelepresence
 
             VideoFeedback.onClick.AddListener(
                 () => {
-                    // TODO update button image
                     if (GetGameObject(12).activeInHierarchy) {
                         GetGameObject(12).SetActive(false);
-                        //mHDCam.OnNewFrame.Clear();
-                        //mHDCam.Close();
+                        VideoFeedbackIcon.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconOpenFeedback");
+
                     } else {
-                        //TODO : Change resolution depending on the connection
-                        //mHDCam.Open(HDCameraMode.COLOR_1920X1080_15FPS_RGB);
-                        //mHDCam.OnNewFrame.Add((iInput) => { VideoFeedbackImage.GetComponent<RawImage>().texture = iInput.Texture; });
                         GetGameObject(12).SetActive(true);
+                        VideoFeedbackIcon.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconCloseFeedback");
+
                     }
                 }
                 );
@@ -123,6 +124,9 @@ namespace BuddyApp.CoursTelepresence
             lVideoSurface.SetEnable(true);
             lVideoSurface.SetVideoSurfaceType(AgoraVideoSurfaceType.RawImage);
             lVideoSurface.SetGameFps(30);
+
+            GetGameObject(12).SetActive(true);
+            VideoFeedbackIcon.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconCloseFeedback");
 
             mRTCManager.OnEndUserOffline = () => Buddy.GUI.Dialoger.Display<IconToast>("Communication coupée").
                     With(Buddy.Resources.Get<Sprite>("os_icon_phoneoff_big"),
