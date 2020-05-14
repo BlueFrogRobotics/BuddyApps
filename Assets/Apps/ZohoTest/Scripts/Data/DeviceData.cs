@@ -1,6 +1,9 @@
 using BlueQuark;
 using UnityEngine;
 using Newtonsoft.Json;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace BuddyApp.ZohoTest
 {
@@ -47,5 +50,25 @@ namespace BuddyApp.ZohoTest
     public class TypeDeviceCollection
     {
         public TypeDeviceData[] Type_device;
+    }
+
+    [Serializable]
+    public class User
+    {
+        public string Prenom { get; set; }
+        public int idUser { get; set; }
+        public DateTime Modified_Time { get; set; }
+        public string Organisme { get; set; }
+        public string ID { get; set; }
+        public string Nom { get; set; }
+        public string Identifiant { get; set; }
+        public string Password { get; set; }
+
+    }
+    [Serializable]
+    public class Application
+    {
+        public List<User> User { get; set; }
+
     }
 }

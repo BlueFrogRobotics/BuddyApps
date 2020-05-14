@@ -14,6 +14,7 @@ namespace BuddyApp.CoursTelepresence
         private const string GET_DEVICE_USERS_URL = "https://creator.zoho.eu/api/json/flotte/view/Device_user_Report?authtoken=" + TOKEN + "&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true";
         private const string GET_TYPE_DEVICE_URL = "https://creator.zoho.eu/api/json/flotte/view/Type_device_Report?authtoken=" + TOKEN + "&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true";
         private const string UPDATE_INFO = "https://creator.zoho.eu/api/bluefrogrobotics/json/flotte/form/Device/record/update?authtoken=" + TOKEN + "&scope=creatorapi&criteria=Uid=={";
+        private const string GET_USER = "https://creator.zoho.eu/api/json/flotte/view/User_Report?authtoken="+ TOKEN +"&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true";
         private const string TABLET_TYPE_DEVICE = "Tablette";
 
         private string mURIBattery;
@@ -22,12 +23,14 @@ namespace BuddyApp.CoursTelepresence
         private WWWForm mEmptyForm;
         public bool DBConnected { get; private set; }
         public List<string> ListUIDTablet { get; private set; }
+        public bool mPeering { get; private set; }
 
         private int mNbIteration;
 
         // Use this for initialization
         void Start()
         {
+            mPeering = false;
             mNbIteration = 0;
             DBConnected = false;
             StartCoroutine(GetTabletUID(Buddy.Platform.RobotUID));
@@ -67,11 +70,12 @@ namespace BuddyApp.CoursTelepresence
 
                 if(mNbIteration % 2 == 0)
                 {
-                    //Update GPS Position
+                    //Update GPS Position TODO : search for a method to have the GPS position, waiting for thierry's answer
                     mURIPosition = UPDATE_INFO + Buddy.Platform.RobotUID + "}" + "&Position_GPS={}";
                     Debug.LogWarning("mURIPing : " + mURIPing);
                     using (UnityWebRequest lUpdatePosition = UnityWebRequest.Post(mURIPosition, mEmptyForm))
                     {
+                        lUpdatePosition.chunkedTransfer = false;
                         yield return lUpdatePosition.SendWebRequest();
                         if (lUpdatePosition.isHttpError || lUpdatePosition.isNetworkError)
                         {
@@ -88,6 +92,7 @@ namespace BuddyApp.CoursTelepresence
                 Debug.LogWarning("mURIPing : " + mURIPing);
                 using (UnityWebRequest lUpdatePing = UnityWebRequest.Post(mURIPing, mEmptyForm))
                 {
+                    lUpdatePing.chunkedTransfer = false;
                     yield return lUpdatePing.SendWebRequest();
                     if (lUpdatePing.isHttpError || lUpdatePing.isNetworkError)
                     {
@@ -104,143 +109,150 @@ namespace BuddyApp.CoursTelepresence
 
         private IEnumerator GetTabletUID(string iRobotUID)
         {
-            int lIdDeviceRobot = -1;
-            string lRequest = GET_DEVICE_URL + "&Uid=" + iRobotUID;
-            using (UnityWebRequest lRequestDevice = UnityWebRequest.Get(lRequest))
+            while(true && !mPeering)
             {
-                yield return lRequestDevice.SendWebRequest();
-
-                if (lRequestDevice.isHttpError || lRequestDevice.isNetworkError)
+                int lIdDeviceRobot = -1;
+                string lRequest = GET_DEVICE_URL + "&Uid=" + iRobotUID;
+                using (UnityWebRequest lRequestDevice = UnityWebRequest.Get(lRequest))
                 {
-                    Debug.LogError("Request error " + lRequestDevice.error + " " + lRequestDevice.downloadHandler.text);
-                }
-                else
-                {
-                    string lRes = lRequestDevice.downloadHandler.text;
-                    DBConnected = true;
-                    Debug.Log("Result get robot device : " + lRes);
+                    yield return lRequestDevice.SendWebRequest();
 
-                    try
+                    if (lRequestDevice.isHttpError || lRequestDevice.isNetworkError)
                     {
-                        DevicesCollection devices = Utils.UnserializeJSON<DevicesCollection>(lRes);
-
-                        if (devices != null
-                            && devices.Device != null
-                            && devices.Device.Length > 0)
-                        {
-                            
-                            lIdDeviceRobot = devices.Device[0].idDevice;
-                        }
-                        else
-                        {
-                            Debug.LogError("No device found with Uid " + iRobotUID);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.LogError("Error parsing robot device request answer : " + e.Message);
-                    }
-                }
-            }
-
-            if (lIdDeviceRobot != -1)
-            {
-                List<int> lIdOtherDevices = new List<int>();
-                lRequest = GET_DEVICE_USERS_URL;
-                using (UnityWebRequest lRequestDeviceUser = UnityWebRequest.Get(lRequest))
-                {
-                    yield return lRequestDeviceUser.SendWebRequest();
-                    if (lRequestDeviceUser.isHttpError || lRequestDeviceUser.isNetworkError)
-                    {
-                        Debug.Log("Request error " + lRequestDeviceUser.error + " " + lRequestDeviceUser.downloadHandler.text);
+                        Debug.LogError("Request error " + lRequestDevice.error + " " + lRequestDevice.downloadHandler.text);
                     }
                     else
                     {
-                        string lRes = lRequestDeviceUser.downloadHandler.text;
-                        Debug.Log("Result get robot users : " + lRes);
+                        string lRes = lRequestDevice.downloadHandler.text;
+                        DBConnected = true;
+                        Debug.Log("Result get robot device : " + lRes);
+
                         try
                         {
-                            DeviceUserCollection lDeviceUsers = Utils.UnserializeJSON<DeviceUserCollection>(lRes);//JsonUtility.FromJson<DeviceUserCollection>(res);
+                            DevicesCollection devices = Utils.UnserializeJSON<DevicesCollection>(lRes);
 
-                            if (lDeviceUsers != null
-                                && lDeviceUsers.Device_user != null)
+                            if (devices != null
+                                && devices.Device != null
+                                && devices.Device.Length > 0)
                             {
-                                List<int> lIdUserRobotList = new List<int>();
-                                foreach (DeviceUserData entry in lDeviceUsers.Device_user)
-                                {
-                                    if (entry.Device == lIdDeviceRobot)
-                                        lIdUserRobotList.Add(entry.User);
-                                }
-                                if (lIdUserRobotList.Count > 0)
-                                {
-                                    foreach (DeviceUserData entry in lDeviceUsers.Device_user)
-                                    {
-                                        if (lIdUserRobotList.Contains(entry.User)
-                                            && entry.Device != lIdDeviceRobot)
-                                            lIdOtherDevices.Add(entry.Device);
-                                    }
-                                }
-                                else
-                                {
-                                    Debug.Log("No device user found for Device " + lIdDeviceRobot);
-                                }
+
+                                lIdDeviceRobot = devices.Device[0].idDevice;
                             }
                             else
                             {
-                                Debug.Log("No device user found");
+                                Debug.LogError("No device found with Uid " + iRobotUID);
                             }
                         }
                         catch (Exception e)
                         {
-                            Debug.LogError("Error parsing device users request answer : " + e.Message);
+                            Debug.LogError("Error parsing robot device request answer : " + e.Message);
                         }
                     }
                 }
-                if (lIdOtherDevices.Count == 0)
-                    Debug.Log("There is no device connected to the robot");
 
-                
-                foreach (int idDevice in lIdOtherDevices)
+                if (lIdDeviceRobot != -1)
                 {
-                    lRequest = GET_DEVICE_URL + "&idDevice=" + idDevice + "&Type_device=" + TABLET_TYPE_DEVICE;
-                    Debug.Log("Sending device request : " + lRequest);
-                    using (UnityWebRequest lRequestTabletUID = UnityWebRequest.Get(lRequest))
+                    List<int> lIdOtherDevices = new List<int>();
+                    lRequest = GET_DEVICE_USERS_URL;
+                    using (UnityWebRequest lRequestDeviceUser = UnityWebRequest.Get(lRequest))
                     {
-                        yield return lRequestTabletUID.SendWebRequest();
-                        if (lRequestTabletUID.isHttpError || lRequestTabletUID.isNetworkError)
+                        yield return lRequestDeviceUser.SendWebRequest();
+                        if (lRequestDeviceUser.isHttpError || lRequestDeviceUser.isNetworkError)
                         {
-                            Debug.Log("Request error " + lRequestTabletUID.error + " " + lRequestTabletUID.downloadHandler.text);
+                            Debug.Log("Request error " + lRequestDeviceUser.error + " " + lRequestDeviceUser.downloadHandler.text);
                         }
                         else
                         {
-                            string lRes = lRequestTabletUID.downloadHandler.text;
-                            Debug.Log("Result get devices : " + lRes);
+                            string lRes = lRequestDeviceUser.downloadHandler.text;
+                            Debug.Log("Result get robot users : " + lRes);
                             try
                             {
-                                DevicesCollection devices = Utils.UnserializeJSON<DevicesCollection>(lRes);
-                                if (devices != null
-                                    && devices.Device != null
-                                    && devices.Device.Length > 0)
+                                DeviceUserCollection lDeviceUsers = Utils.UnserializeJSON<DeviceUserCollection>(lRes);//JsonUtility.FromJson<DeviceUserCollection>(res);
+
+                                if (lDeviceUsers != null
+                                    && lDeviceUsers.Device_user != null)
                                 {
-                                    foreach (DeviceData device in devices.Device)
+                                    List<int> lIdUserRobotList = new List<int>();
+                                    foreach (DeviceUserData entry in lDeviceUsers.Device_user)
                                     {
-                                        Debug.Log("Tablet connected to the robot " + device.Nom);
-                                        ListUIDTablet.Add(device.Uid);
+                                        if (entry.Device == lIdDeviceRobot)
+                                            lIdUserRobotList.Add(entry.User);
+                                    }
+                                    if (lIdUserRobotList.Count > 0)
+                                    {
+                                        foreach (DeviceUserData entry in lDeviceUsers.Device_user)
+                                        {
+                                            if (lIdUserRobotList.Contains(entry.User)
+                                                && entry.Device != lIdDeviceRobot)
+                                                lIdOtherDevices.Add(entry.Device);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Debug.Log("No device user found for Device " + lIdDeviceRobot);
                                     }
                                 }
                                 else
                                 {
-                                    Debug.Log("No device found with idDevice " + idDevice + " & Type_device " + TABLET_TYPE_DEVICE);
+                                    Debug.Log("No device user found");
                                 }
                             }
                             catch (Exception e)
                             {
-                                Debug.LogError("Error parsing device request answer : " + e.Message);
+                                Debug.LogError("Error parsing device users request answer : " + e.Message);
+                            }
+                        }
+                    }
+                    if (lIdOtherDevices.Count == 0)
+                        Debug.Log("There is no device connected to the robot");
+
+
+                    foreach (int idDevice in lIdOtherDevices)
+                    {
+                        lRequest = GET_DEVICE_URL + "&idDevice=" + idDevice + "&Type_device=" + TABLET_TYPE_DEVICE;
+                        Debug.Log("Sending device request : " + lRequest);
+                        using (UnityWebRequest lRequestTabletUID = UnityWebRequest.Get(lRequest))
+                        {
+                            yield return lRequestTabletUID.SendWebRequest();
+                            if (lRequestTabletUID.isHttpError || lRequestTabletUID.isNetworkError)
+                            {
+                                Debug.Log("Request error " + lRequestTabletUID.error + " " + lRequestTabletUID.downloadHandler.text);
+                            }
+                            else
+                            {
+                                string lRes = lRequestTabletUID.downloadHandler.text;
+                                Debug.Log("Result get devices : " + lRes);
+                                try
+                                {
+                                    DevicesCollection devices = Utils.UnserializeJSON<DevicesCollection>(lRes);
+                                    if (devices != null
+                                        && devices.Device != null
+                                        && devices.Device.Length > 0)
+                                    {
+                                        foreach (DeviceData device in devices.Device)
+                                        {
+                                            Debug.Log("Tablet connected to the robot " + device.Nom);
+                                            ListUIDTablet.Add(device.Uid);
+                                        }
+                                        if (ListUIDTablet.Count > 0)
+                                            mPeering = true;
+                                    }
+                                    else
+                                    {
+                                        Debug.Log("No device found with idDevice " + idDevice + " & Type_device " + TABLET_TYPE_DEVICE);
+                                    }
+                                }
+                                catch (Exception e)
+                                {
+                                    Debug.LogError("Error parsing device request answer : " + e.Message);
+                                }
                             }
                         }
                     }
                 }
+                yield return new WaitForSeconds(300F);
             }
+           
         }
 
     }
