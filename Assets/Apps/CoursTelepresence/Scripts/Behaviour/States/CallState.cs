@@ -110,6 +110,7 @@ namespace BuddyApp.CoursTelepresence
                 Buddy.GUI.Toaster.Hide();
                 //Réafficher l'écran de démarrage
                 ManageGUIClose();
+                Trigger("IDLE");
             }, "OK"
             );
         }
@@ -134,11 +135,13 @@ namespace BuddyApp.CoursTelepresence
                     With(Buddy.Resources.Get<Sprite>("os_icon_phoneoff_big"),
                         () => {
                             ManageGUIClose();
+                            Trigger("IDLE");
                             Buddy.GUI.Dialoger.Hide();
                         },
                         null,
                         () => {
                             ManageGUIClose();
+                            Trigger("IDLE");
                             Buddy.GUI.Dialoger.Hide();
                         }
                         );
@@ -155,7 +158,7 @@ namespace BuddyApp.CoursTelepresence
 
             mRTMManager.OnRaiseHand = (lHandUp) => {
                 if (lHandUp) {
-                    if (mTimeMessage > 0F) 
+                    if (mTimeMessage > 0F)
                         StopMessage();
 
                     Debug.LogWarning("Start raising hand");
@@ -186,14 +189,28 @@ namespace BuddyApp.CoursTelepresence
         {
             if (!Buddy.WebServices.HasInternetAccess) {
                 mTimer += Time.deltaTime;
-                if (mTimer <= 6F && !mDisplayed) {
+                if (mTimer >= 30F && !mDisplayed) {
                     mDisplayed = true;
                     Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
                         TText lText = iBuilder.CreateWidget<TText>();
                         lText.SetLabel(Buddy.Resources.GetString("edunotconnected"));
-
-                    }, null, ManageGUIClose);
-                } else if (mTimer > 6F) {
+                    }, null , null, 
+                    () => {
+                        mDisplayed = false;
+                        Buddy.GUI.Toaster.Hide();
+                        mTimer = 0F;
+                    }
+                    );
+                } else if (mTimer > 38F) {
+                    mDisplayed = false;
+                    Buddy.GUI.Toaster.Hide();
+                    ManageGUIClose();
+                    Trigger("IDLE");
+                }
+            } else {
+                mTimer = 0F;
+                if (mDisplayed) {
+                    mDisplayed = false;
                     Buddy.GUI.Toaster.Hide();
                 }
             }
@@ -252,10 +269,10 @@ namespace BuddyApp.CoursTelepresence
         {
             if (mTimeMessage >= 0)
                 StopMessage();
-            if (mHandUp) {
+            if (mHandUp)
                 StopRaiseHand();
-            }
-            Trigger("IDLE");
+            if (mDisplayed)
+                Buddy.GUI.Toaster.Hide();
         }
 
     }
