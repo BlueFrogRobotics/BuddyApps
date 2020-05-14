@@ -14,7 +14,7 @@ namespace BuddyApp.CoursTelepresence
         private Button Volume;
         private Button Video;
         private Button Micro;
-        private Button VideoFeedback;
+        private Button VideoFeedbackButton;
         public Image VideoFeedbackIcon;
 
         private Button Hangup;
@@ -45,7 +45,7 @@ namespace BuddyApp.CoursTelepresence
             Volume = GetGameObject(5).GetComponentInChildren<Button>();
             Video = GetGameObject(6).GetComponentInChildren<Button>();
             Micro = GetGameObject(7).GetComponentInChildren<Button>();
-            VideoFeedback = GetGameObject(8).GetComponentInChildren<Button>();
+            VideoFeedbackButton = GetGameObject(8).GetComponentInChildren<Button>();
             VideoFeedbackIcon = GetGameObject(13).GetComponentInChildren<Image>();
             Hangup = GetGameObject(9).GetComponentInChildren<Button>();
             Message = GetGameObject(11).GetComponentInChildren<Text>();
@@ -77,22 +77,25 @@ namespace BuddyApp.CoursTelepresence
                 }
                 );
 
-
-            VideoFeedback.onClick.AddListener(
-                () => {
-                    if (GetGameObject(12).activeInHierarchy) {
-                        GetGameObject(12).SetActive(false);
-                        VideoFeedbackIcon.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconOpenFeedback");
-
-                    } else {
-                        GetGameObject(12).SetActive(true);
-                        VideoFeedbackIcon.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconCloseFeedback");
-
-                    }
-                }
-                );
+            VideoFeedbackButton.onClick.AddListener(OnFeedBackButtonClick);
 
             Hangup.onClick.AddListener(OnHangup);
+        }
+
+        private void OnFeedBackButtonClick()
+        {
+            Debug.LogWarning("FeedbackButtonclicked");
+            if (GetGameObject(12).activeInHierarchy) {
+                Debug.LogWarning("Atlas_Education_IconOpenFeedback");
+                GetGameObject(12).SetActive(false);
+                VideoFeedbackIcon.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconOpenFeedback");
+
+            } else {
+                Debug.LogWarning("Atlas_Education_IconCloseFeedback");
+                GetGameObject(12).SetActive(true);
+                VideoFeedbackIcon.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconCloseFeedback");
+
+            }
         }
 
         private void OnHangup()
@@ -179,7 +182,7 @@ namespace BuddyApp.CoursTelepresence
             Volume.gameObject.SetActive(true);
             Video.gameObject.SetActive(true);
             Micro.gameObject.SetActive(true);
-            VideoFeedback.gameObject.SetActive(true);
+            VideoFeedbackButton.gameObject.SetActive(true);
             Hangup.gameObject.SetActive(true);
 
         }
@@ -194,7 +197,7 @@ namespace BuddyApp.CoursTelepresence
                     Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
                         TText lText = iBuilder.CreateWidget<TText>();
                         lText.SetLabel(Buddy.Resources.GetString("edunotconnected"));
-                    }, null , null, 
+                    }, null, null,
                     () => {
                         mDisplayed = false;
                         Buddy.GUI.Toaster.Hide();
@@ -225,6 +228,17 @@ namespace BuddyApp.CoursTelepresence
                 VolumeScrollbar.gameObject.SetActive(false);
                 Volume.gameObject.SetActive(true);
             }
+
+
+            if (mRTCManager.mVideoIsEnabled && !VideoFeedbackButton.gameObject.activeInHierarchy) {
+                GetGameObject(12).SetActive(true);
+                VideoFeedbackButton.gameObject.SetActive(true);
+                VideoFeedbackIcon.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconCloseFeedback");
+            } else if (!mRTCManager.mVideoIsEnabled && VideoFeedbackButton.gameObject.activeInHierarchy) {
+                GetGameObject(12).SetActive(false);
+                VideoFeedbackButton.gameObject.SetActive(false);
+            }
+
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

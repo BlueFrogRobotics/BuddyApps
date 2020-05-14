@@ -23,7 +23,7 @@ namespace BuddyApp.CoursTelepresence
         private Image buttonEnableAudio;
 
         //private string mChannel;
-        private bool mVideoIsEnabled;
+        public bool mVideoIsEnabled;
         private bool mAudioIsEnabled;
 
         private IRtcEngine mRtcEngine;
