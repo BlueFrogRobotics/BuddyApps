@@ -125,7 +125,7 @@ namespace BuddyApp.CoursTelepresence
 
         public void SendPicture(Texture2D iTexture)
         {
-            int lDataId = mRtcEngine.CreateDataStream(true, true);
+            int lDataId = mRtcEngine.CreateDataStream(true, true); 
             byte[] iDataByte = iTexture.EncodeToPNG();
             string lDataString = System.Text.Encoding.UTF8.GetString(iDataByte, 0, iDataByte.Length);
             mRtcEngine.SendStreamMessage(lDataId, lDataString);

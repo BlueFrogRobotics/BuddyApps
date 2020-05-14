@@ -468,6 +468,16 @@ namespace BuddyApp.CoursTelepresence
 
                         break;
 
+                    case "rawPhotoProfile":
+                        //if (!string.TryParse(lMessage.propertyValue, out lBoolValue))
+                        //{
+                        //    Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
+                        //}
+                        Debug.LogError("photo profile");
+                        Debug.LogError(lMessage.propertyValue);
+
+                        break;
+
                     default:
                         Debug.LogWarning("UNKNOWN message type " + lMessage.propertyName);
                         break;
