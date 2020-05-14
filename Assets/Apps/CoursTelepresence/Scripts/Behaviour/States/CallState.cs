@@ -30,6 +30,7 @@ namespace BuddyApp.CoursTelepresence
 
         private HDCamera mHDCam;
         private GameObject VideoFeedbackImage;
+        private bool mHandUp;
 
         // Use this for initialization
         override public void Start()
@@ -45,7 +46,7 @@ namespace BuddyApp.CoursTelepresence
             Video = GetGameObject(6).GetComponentInChildren<Button>();
             Micro = GetGameObject(7).GetComponentInChildren<Button>();
             VideoFeedback = GetGameObject(8).GetComponentInChildren<Button>();
-            VideoFeedbackIcon = GetGameObject(8).GetComponentInChildren<Image>();
+            VideoFeedbackIcon = GetGameObject(13).GetComponentInChildren<Image>();
             Hangup = GetGameObject(9).GetComponentInChildren<Button>();
             Message = GetGameObject(11).GetComponentInChildren<Text>();
             VideoFeedbackImage = GetGameObject(12).GetComponentInChildren<RawImage>().gameObject;
@@ -108,7 +109,7 @@ namespace BuddyApp.CoursTelepresence
                 Debug.Log("OK");
                 Buddy.GUI.Toaster.Hide();
                 //Réafficher l'écran de démarrage
-                Trigger("IDLE");
+                ManageGUIClose();
             }, "OK"
             );
         }
@@ -116,6 +117,7 @@ namespace BuddyApp.CoursTelepresence
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mTimer = 0F;
+            mHandUp = false;
             Debug.LogError("call state");
             mTimeMessage = -1F;
 
@@ -131,19 +133,21 @@ namespace BuddyApp.CoursTelepresence
             mRTCManager.OnEndUserOffline = () => Buddy.GUI.Dialoger.Display<IconToast>("Communication coupée").
                     With(Buddy.Resources.Get<Sprite>("os_icon_phoneoff_big"),
                         () => {
-                            Trigger("IDLE");
+                            ManageGUIClose();
                             Buddy.GUI.Dialoger.Hide();
                         },
                         null,
                         () => {
-                            Trigger("IDLE");
+                            ManageGUIClose();
                             Buddy.GUI.Dialoger.Hide();
                         }
                         );
 
             mRTMManager.OnDisplayMessage = (lMessage) => {
                 Message.text = lMessage;
-                if (mTimeMessage >= 0F)
+                if (mHandUp)
+                    StopRaiseHand();
+                if (mTimeMessage <= 0F)
                     TriggerGUI("MESSAGE START");
                 mTimeMessage = 10F;
             };
@@ -151,16 +155,17 @@ namespace BuddyApp.CoursTelepresence
 
             mRTMManager.OnRaiseHand = (lHandUp) => {
                 if (lHandUp) {
+                    if (mTimeMessage > 0F) 
+                        StopMessage();
+
                     Debug.LogWarning("Start raising hand");
+                    mHandUp = true;
                     Buddy.Actuators.LEDs.FlashIntensity = 0.03F;
                     Buddy.Actuators.LEDs.SetBodyLights(60, 100, 93);
                     Buddy.Actuators.LEDs.SetBodyPattern(LEDPulsePattern.BASIC_BLINK);
                     TriggerGUI("HANDSUP START");
                 } else {
-                    Debug.LogWarning("Stop raising hand");
-                    TriggerGUI("HANDSUP END");
-                    Buddy.Actuators.LEDs.Flash = false;
-                    Buddy.Behaviour.SetMood(Mood.NEUTRAL);
+                    StopRaiseHand();
                 }
             };
 
@@ -187,7 +192,7 @@ namespace BuddyApp.CoursTelepresence
                         TText lText = iBuilder.CreateWidget<TText>();
                         lText.SetLabel(Buddy.Resources.GetString("edunotconnected"));
 
-                    }, null, () => Trigger("IDLE"));
+                    }, null, ManageGUIClose);
                 } else if (mTimer > 6F) {
                     Buddy.GUI.Toaster.Hide();
                 }
@@ -196,7 +201,7 @@ namespace BuddyApp.CoursTelepresence
             if (mTimeMessage >= 0) {
                 mTimeMessage -= Time.deltaTime;
                 if (mTimeMessage < 0)
-                    TriggerGUI("MESSAGE END");
+                    StopMessage();
             }
 
             if (VolumeScrollbar.gameObject.activeInHierarchy && Time.time - mTimeVolume > 5.0F) {
@@ -208,15 +213,7 @@ namespace BuddyApp.CoursTelepresence
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (mTimeMessage >= 0)
-                TriggerGUI("MESSAGE END");
-
-            if (Buddy.Actuators.LEDs.FlashIntensity == 0.03F) {
-                TriggerGUI("HANDSUP END");
-                Buddy.Actuators.LEDs.Flash = false;
-                Buddy.Behaviour.SetMood(Mood.NEUTRAL);
-            }
-
+            ManageGUIClose();
             Debug.LogError("call state exit");
             //mRTMManager.Logout();
             mRTMManager.OnDisplayMessage = null;
@@ -233,6 +230,35 @@ namespace BuddyApp.CoursTelepresence
             Hangup.gameObject.SetActive(false);
             Debug.LogError("fin call state exit");
         }
+
+
+
+        private void StopRaiseHand()
+        {
+            mHandUp = false;
+            TriggerGUI("HANDSUP END");
+            Buddy.Actuators.LEDs.Flash = false;
+            Buddy.Behaviour.SetMood(Mood.NEUTRAL);
+            Debug.LogWarning("Stop raising hand");
+        }
+
+        private void StopMessage()
+        {
+            TriggerGUI("MESSAGE END");
+            mTimeMessage = -1F;
+        }
+
+        private void ManageGUIClose()
+        {
+            if (mTimeMessage >= 0)
+                StopMessage();
+            if (mHandUp) {
+                StopRaiseHand();
+            }
+            Trigger("IDLE");
+        }
+
     }
+
 
 }
