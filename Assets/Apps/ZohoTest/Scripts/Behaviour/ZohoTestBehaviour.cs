@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
+using System.Collections.Generic;  
 
 namespace BuddyApp.ZohoTest
 {
@@ -18,11 +18,13 @@ namespace BuddyApp.ZohoTest
         private const string GET_TYPE_DEVICE_URL = "https://creator.zoho.eu/api/json/flotte/view/Type_device_Report?authtoken=98bb0865eb455a6e61a993a43f63d601&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true";
         private const string TABLET_TYPE_DEVICE = "Tablette";
 
-        //private const string TOKEN = "98bb0865eb455a6e61a993a43f63d601";
+        private const string TOKEN = "98bb0865eb455a6e61a993a43f63d601";
         //private const string GET_DEVICE_URL = "https://creator.zoho.eu/api/json/flotte/view/Device_Report?authtoken=" + TOKEN + "&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true";
         //private const string GET_DEVICE_USERS_URL = "https://creator.zoho.eu/api/json/flotte/view/Device_user_Report?authtoken=" + TOKEN + "&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true";
         //private const string GET_TYPE_DEVICE_URL = "https://creator.zoho.eu/api/json/flotte/view/Type_device_Report?authtoken=" + TOKEN + "&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true";
-        //private const string UPDATE_INFO = "https://creator.zoho.eu/api/bluefrogrobotics/json/flotte/form/Device/record/update?authtoken=" + TOKEN + "&scope=creatorapi&criteria=Uid=={";
+        private const string UPDATE_INFO = "https://creator.zoho.eu/api/bluefrogrobotics/json/flotte/form/Device/record/update?authtoken=" + TOKEN + "&scope=creatorapi&criteria=Uid=={";
+        private const string GET_INFO_STUDENTS = "https://creator.zoho.eu/api/json/flotte/view/User_Report?authtoken=" + TOKEN + "&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true";
+
 
         private int mNbIteration;
         /*
@@ -40,8 +42,8 @@ namespace BuddyApp.ZohoTest
 			/*
 			* Init your app data
 			*/
-            mAppData = ZohoTestData.Instance;
-
+            mAppData = ZohoTestData.Instance;  
+            Debug.Log("START APP DEMO"); 
             StartCoroutine(GetTabletsUID("buddy1"));
             //StartCoroutine(UpdatePingAndPosition());
         }
@@ -73,22 +75,9 @@ namespace BuddyApp.ZohoTest
         //            //Update GPS Position
         //        }
         //        //Update DB with ping
-        //        List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
-        //        Dictionary<string, string> formDico = new Dictionary<string, string>();
-        //        WWWForm form = new WWWForm();
         //        WWWForm formVide = new WWWForm();
         //        //form.AddField("myField", "myData");
-        //        formDico.Add("Etat", "Available");
-        //        formDico.Add("authtoken", TOKEN);
-        //        formDico.Add("scope","creatorapi");
-        //        formDico.Add("criteria", "ID=={buddy1}");
-        //        //formData.Add(new MultipartFormDataSection("Qualite_signal=23"));
-        //        formData.Add(new MultipartFormDataSection("Etat","Available"));
-        //        formData.Add(new MultipartFormDataSection("authtoken", TOKEN));
-        //        formData.Add(new MultipartFormDataSection("scope", "creatorapi"));
-        //        formData.Add(new MultipartFormDataSection("criteria", "ID=={buddy1}"));
-
-        //        string lURI = UPDATE_INFO + "buddy1" + "}" + "&Etat=available";
+        //        string lURI = UPDATE_INFO + "965441" + "}" + "&Qualite_signal=" + 1337;
         //        string urlTest = "https://creator.zoho.eu/api/bluefrogrobotics/json/flotte/form/Device/record/update?";
         //        Debug.LogWarning("lURI : " + lURI);
         //        using (UnityWebRequest lUpdatePingAndPosition = UnityWebRequest.Post(lURI, formVide))
@@ -174,7 +163,11 @@ namespace BuddyApp.ZohoTest
                                 foreach (DeviceUserData entry in deviceUsers.Device_user)
                                 {
                                     if (entry.Device == idDeviceRobot)
+                                    {
                                         idUserRobotList.Add(entry.User);
+                                        Debug.Log("ID USER ROBOT LIST : " + entry.User.ToString());
+                                    }
+                                        
                                 }
                                 if (idUserRobotList.Count > 0)
                                 {
@@ -182,8 +175,13 @@ namespace BuddyApp.ZohoTest
                                     {
                                         if (idUserRobotList.Contains(entry.User)
                                             && entry.Device != idDeviceRobot)
+                                        {
                                             idOtherDevices.Add(entry.Device);
+                                            Debug.Log("OTHERDEVICE : " + entry.Device.ToString());
+                                        }
+                                            
                                     }
+                                    
                                 }
                                 else
                                 {
@@ -205,6 +203,7 @@ namespace BuddyApp.ZohoTest
                     Debug.Log("There is no device connected to the robot");
 
                 List<string> uidTablets = new List<string>();
+                List<int> IdDevice = new List<int>();
                 foreach (int idDevice in idOtherDevices)
                 {
                     request = GET_DEVICE_URL + "&idDevice=" + idDevice + "&Type_device=" + TABLET_TYPE_DEVICE;
@@ -228,9 +227,10 @@ namespace BuddyApp.ZohoTest
                                     && devices.Device.Length > 0)
                                 {
                                     foreach (DeviceData device in devices.Device)
-                                    {
-                                        Debug.Log("Tablet connected to the robot " + device.Nom);
+                                    { 
+                                        Debug.Log("Tablet connected to the robot " + device.Nom + " UID TABLET : " + device.Uid + " DEVICE ID : " + device.idDevice);
                                         uidTablets.Add(device.Uid);
+                                        IdDevice.Add(device.idDevice);
                                     }
                                 }
                                 else
@@ -245,7 +245,92 @@ namespace BuddyApp.ZohoTest
                         }
                     }
                 }
+                StartCoroutine(GetStudentInfo(IdDevice));
             }
+        }
+
+        private IEnumerator GetStudentInfo(List<int> iListIdTablet)
+        {
+            List<int> idStudents = new List<int>();
+            string request = GET_DEVICE_USERS_URL;
+            using (UnityWebRequest www = UnityWebRequest.Get(request))
+            {
+                
+                yield return www.SendWebRequest();
+                if (www.isHttpError || www.isNetworkError)
+                {
+                    Debug.Log("Request error " + www.error + " " + www.downloadHandler.text);
+                }
+                else
+                {
+                    string res = www.downloadHandler.text;
+                    Debug.Log("Result get devices : " + res);
+                    try
+                    {
+                        DeviceUserCollection devicesUser = JsonUtility.FromJson<DeviceUserCollection>(res);
+                        if (devicesUser != null
+                               && devicesUser.Device_user != null)
+                        {
+                            foreach (DeviceUserData device in devicesUser.Device_user)
+                            {
+                                for(int i = 0; i < iListIdTablet.Count; ++i)
+                                {
+                                    if (device.Device == iListIdTablet[i])
+                                        idStudents.Add(device.User);
+                                }
+                                
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogError("Error parsing device request answer : " + e.Message);
+                    }
+                }
+                
+
+
+            }
+            if (idStudents.Count == 0)
+                Debug.Log("There is no user for this device id");
+            foreach (int lIdUser in idStudents)
+            {
+                Debug.Log("IDUSER : " + lIdUser);
+                string requestInfo = GET_INFO_STUDENTS + "&idUser=" + lIdUser;
+                Debug.Log("1 : " + requestInfo);
+                using (UnityWebRequest www = UnityWebRequest.Get(requestInfo))
+                {
+                    Debug.Log("2");
+                    yield return www.SendWebRequest();
+                    Debug.Log("3");
+                    if (www.isHttpError || www.isNetworkError)
+                    {
+                        Debug.Log("Request error " + www.error + " " + www.downloadHandler.text);
+                    }
+                    else
+                    {
+                        Debug.Log("4");
+                        string res = www.downloadHandler.text;
+                        Debug.Log("5");
+                        Debug.Log("Result get user info : " + res);
+                        try
+                        {
+                            UserList userList = Utils.UnserializeJSON<UserList>(res);
+                            foreach(User user in userList.User)
+                            {
+                                Debug.Log(user.Nom + " Class : " + user.Organisme);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.LogError("Error parsing user info request answer : " + e.Message);
+                        }
+                    }
+
+                }
+            }
+
+
         }
     }
 }

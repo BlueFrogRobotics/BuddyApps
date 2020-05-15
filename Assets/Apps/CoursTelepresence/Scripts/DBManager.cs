@@ -7,6 +7,13 @@ using System;
 
 namespace BuddyApp.CoursTelepresence
 {
+
+    //TODO : 
+    // - make function to start routine from another script
+    // - Return an object User with all informations
+    // - update with funtion for studentInfo from ZohoTestBehaviour
+
+    
     public class DBManager : MonoBehaviour
     {
         private const string TOKEN = "98bb0865eb455a6e61a993a43f63d601";
@@ -15,6 +22,8 @@ namespace BuddyApp.CoursTelepresence
         private const string GET_TYPE_DEVICE_URL = "https://creator.zoho.eu/api/json/flotte/view/Type_device_Report?authtoken=" + TOKEN + "&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true";
         private const string UPDATE_INFO = "https://creator.zoho.eu/api/bluefrogrobotics/json/flotte/form/Device/record/update?authtoken=" + TOKEN + "&scope=creatorapi&criteria=Uid=={";
         private const string GET_USER = "https://creator.zoho.eu/api/json/flotte/view/User_Report?authtoken="+ TOKEN +"&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true";
+        private const string GET_INFO_STUDENTS = "https://creator.zoho.eu/api/json/flotte/view/User_Report?authtoken=" + TOKEN + "&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true";
+
         private const string TABLET_TYPE_DEVICE = "Tablette";
 
         private string mURIBattery;
@@ -23,14 +32,14 @@ namespace BuddyApp.CoursTelepresence
         private WWWForm mEmptyForm;
         public bool DBConnected { get; private set; }
         public List<string> ListUIDTablet { get; private set; }
-        public bool mPeering { get; private set; }
+        public bool Peering { get; private set; }
 
         private int mNbIteration;
 
         // Use this for initialization
         void Start()
         {
-            mPeering = false;
+            Peering = false;
             mNbIteration = 0;
             DBConnected = false;
             StartCoroutine(GetTabletUID(Buddy.Platform.RobotUID));
@@ -43,7 +52,7 @@ namespace BuddyApp.CoursTelepresence
             while (true)
             {
                 //Update DB with battery Level
-                mURIBattery = UPDATE_INFO + Buddy.Platform.RobotUID + "}" + "&Batterie={" + Buddy.Sensors.Battery.Level.ToString() + "}";
+                mURIBattery = UPDATE_INFO + Buddy.Platform.RobotUID + "}" + "&Batterie=" + Buddy.Sensors.Battery.Level.ToString();
                 Debug.LogWarning("lURI Battery : " + mURIBattery);
                 using (UnityWebRequest lUpdateBattery = UnityWebRequest.Post(mURIBattery, mEmptyForm))
                 {
@@ -60,6 +69,7 @@ namespace BuddyApp.CoursTelepresence
                 }
                 yield return new WaitForSeconds(300F);
             }
+
         }
 
         private IEnumerator UpdatePingAndPosition()
@@ -71,7 +81,7 @@ namespace BuddyApp.CoursTelepresence
                 if(mNbIteration % 2 == 0)
                 {
                     //Update GPS Position TODO : search for a method to have the GPS position, waiting for thierry's answer
-                    mURIPosition = UPDATE_INFO + Buddy.Platform.RobotUID + "}" + "&Position_GPS={}";
+                    mURIPosition = UPDATE_INFO + Buddy.Platform.RobotUID + "}" + "&Position_GPS=" + "";
                     Debug.LogWarning("mURIPing : " + mURIPing);
                     using (UnityWebRequest lUpdatePosition = UnityWebRequest.Post(mURIPosition, mEmptyForm))
                     {
@@ -88,7 +98,7 @@ namespace BuddyApp.CoursTelepresence
                     }
                 }
                 //Update DB with ping
-                mURIPing = UPDATE_INFO + Buddy.Platform.RobotUID + "}" + "&Qualite_signal={" + CoursTelepresenceData.Instance.Ping + "}";
+                mURIPing = UPDATE_INFO + Buddy.Platform.RobotUID + "}" + "&Qualite_signal=" + CoursTelepresenceData.Instance.Ping;
                 Debug.LogWarning("mURIPing : " + mURIPing);
                 using (UnityWebRequest lUpdatePing = UnityWebRequest.Post(mURIPing, mEmptyForm))
                 {
@@ -109,7 +119,7 @@ namespace BuddyApp.CoursTelepresence
 
         private IEnumerator GetTabletUID(string iRobotUID)
         {
-            while(true && !mPeering)
+            while(true && !Peering)
             {
                 int lIdDeviceRobot = -1;
                 string lRequest = GET_DEVICE_URL + "&Uid=" + iRobotUID;
@@ -173,18 +183,18 @@ namespace BuddyApp.CoursTelepresence
                                     && lDeviceUsers.Device_user != null)
                                 {
                                     List<int> lIdUserRobotList = new List<int>();
-                                    foreach (DeviceUserData entry in lDeviceUsers.Device_user)
+                                    foreach (DeviceUser entry in lDeviceUsers.Device_user)
                                     {
-                                        if (entry.Device == lIdDeviceRobot)
-                                            lIdUserRobotList.Add(entry.User);
+                                        if (entry.DeviceId == lIdDeviceRobot)
+                                            lIdUserRobotList.Add(entry.UserId);
                                     }
                                     if (lIdUserRobotList.Count > 0)
                                     {
-                                        foreach (DeviceUserData entry in lDeviceUsers.Device_user)
+                                        foreach (DeviceUser entry in lDeviceUsers.Device_user)
                                         {
-                                            if (lIdUserRobotList.Contains(entry.User)
-                                                && entry.Device != lIdDeviceRobot)
-                                                lIdOtherDevices.Add(entry.Device);
+                                            if (lIdUserRobotList.Contains(entry.UserId)
+                                                && entry.DeviceId != lIdDeviceRobot)
+                                                lIdOtherDevices.Add(entry.DeviceId);
                                         }
                                     }
                                     else
@@ -206,7 +216,7 @@ namespace BuddyApp.CoursTelepresence
                     if (lIdOtherDevices.Count == 0)
                         Debug.Log("There is no device connected to the robot");
 
-
+                    List<int> IdDevice = new List<int>();
                     foreach (int idDevice in lIdOtherDevices)
                     {
                         lRequest = GET_DEVICE_URL + "&idDevice=" + idDevice + "&Type_device=" + TABLET_TYPE_DEVICE;
@@ -218,7 +228,7 @@ namespace BuddyApp.CoursTelepresence
                             {
                                 Debug.Log("Request error " + lRequestTabletUID.error + " " + lRequestTabletUID.downloadHandler.text);
                             }
-                            else
+                            else 
                             {
                                 string lRes = lRequestTabletUID.downloadHandler.text;
                                 Debug.Log("Result get devices : " + lRes);
@@ -233,9 +243,10 @@ namespace BuddyApp.CoursTelepresence
                                         {
                                             Debug.Log("Tablet connected to the robot " + device.Nom);
                                             ListUIDTablet.Add(device.Uid);
+                                            IdDevice.Add(device.idDevice);
                                         }
                                         if (ListUIDTablet.Count > 0)
-                                            mPeering = true;
+                                            Peering = true;
                                     }
                                     else
                                     {
@@ -249,12 +260,88 @@ namespace BuddyApp.CoursTelepresence
                             }
                         }
                     }
+                    StartCoroutine(GetStudentInfo(IdDevice));
                 }
                 yield return new WaitForSeconds(300F);
             }
            
         }
 
+        private IEnumerator GetStudentInfo(List<int> iListIdTablet)
+        {
+            List<int> idStudents = new List<int>();
+            string request = GET_DEVICE_USERS_URL;
+            using (UnityWebRequest www = UnityWebRequest.Get(request))
+            {
+
+                yield return www.SendWebRequest();
+                if (www.isHttpError || www.isNetworkError)
+                {
+                    Debug.Log("Request error " + www.error + " " + www.downloadHandler.text);
+                }
+                else
+                {
+                    string res = www.downloadHandler.text;
+                    Debug.Log("Result get devices : " + res);
+                    try
+                    {
+                        DeviceUserCollection devicesUser = JsonUtility.FromJson<DeviceUserCollection>(res);
+                        if (devicesUser != null
+                               && devicesUser.Device_user != null)
+                        {
+                            foreach (DeviceUser device in devicesUser.Device_user)
+                            {
+                                for (int i = 0; i < iListIdTablet.Count; ++i)
+                                {
+                                    if (device.DeviceId == iListIdTablet[i])
+                                        idStudents.Add(device.UserId);
+                                }
+
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogError("Error parsing device request answer : " + e.Message);
+                    }
+                }
+
+
+
+            }
+            if (idStudents.Count == 0)
+                Debug.Log("There is no user for this device id");
+            foreach (int lIdUser in idStudents)
+            {
+                Debug.Log("IDUSER : " + lIdUser);
+                string requestInfo = GET_INFO_STUDENTS + "&idUser=" + lIdUser;
+                using (UnityWebRequest www = UnityWebRequest.Get(requestInfo))
+                {
+                    yield return www.SendWebRequest();
+                    if (www.isHttpError || www.isNetworkError)
+                    {
+                        Debug.Log("Request error " + www.error + " " + www.downloadHandler.text);
+                    }
+                    else
+                    {
+                        string res = www.downloadHandler.text;
+                        Debug.Log("Result get user info : " + res);
+                        try
+                        {
+                            UserList userList = Utils.UnserializeJSON<UserList>(res);
+                            foreach (User user in userList.User)
+                            {
+                                Debug.Log(user.Nom + " Class : " + user.Organisme);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.LogError("Error parsing user info request answer : " + e.Message);
+                        }
+                    }
+                }
+            }
+        }
     }
 
 }

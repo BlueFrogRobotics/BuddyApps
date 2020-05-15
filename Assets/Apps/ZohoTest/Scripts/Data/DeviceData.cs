@@ -66,7 +66,7 @@ namespace BuddyApp.ZohoTest
 
     }
     [Serializable]
-    public class Application
+    public class UserList
     {
         public List<User> User { get; set; }
 
