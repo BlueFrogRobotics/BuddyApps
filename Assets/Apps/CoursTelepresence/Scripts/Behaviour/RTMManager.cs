@@ -473,7 +473,7 @@ namespace BuddyApp.CoursTelepresence
                         //{
                         //    Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
                         //}
-                        Debug.LogError("photo profile");
+                        Debug.LogError("photo profiler");
                         Debug.LogError(lMessage.propertyValue);
 
                         break;

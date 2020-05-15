@@ -37,7 +37,7 @@ namespace BuddyApp.CoursTelepresence
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Debug.Log("calling state");
+            Debug.LogError("calling state");
 
             mTimeState = Time.time;
 
@@ -63,18 +63,23 @@ namespace BuddyApp.CoursTelepresence
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             if (Time.time - mTimeState > 60F && !Buddy.GUI.Dialoger.IsBusy)
+            {
                 Buddy.GUI.Dialoger.Display<IconToast>("Echec de connexion").
                     With(Buddy.Resources.Get<Sprite>("os_icon_phoneoff_big"),
-                        () => {
+                        () =>
+                        {
                             Trigger("IDLE");
                             Buddy.GUI.Dialoger.Hide();
                         },
                         null,
-                        () => {
+                        () =>
+                        {
                             Trigger("IDLE");
                             Buddy.GUI.Dialoger.Hide();
                         }
                         );
+                Debug.LogError("temps: "+ (Time.time - mTimeState));
+            }
         }
 
 

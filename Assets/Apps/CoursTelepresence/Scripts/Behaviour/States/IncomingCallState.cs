@@ -49,7 +49,7 @@ namespace BuddyApp.CoursTelepresence
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Debug.Log("Incoming call state");
+            Debug.LogError("Incoming call state");
 
             mTimeRepeated = Time.time;
 
@@ -80,7 +80,7 @@ namespace BuddyApp.CoursTelepresence
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Debug.Log("Incoming call state exit");
+            Debug.LogError("Incoming call state exit");
             Buddy.GUI.Toaster.Hide();
             Buddy.Vocal.OnEndListening.Clear();
             Buddy.Vocal.StopAndClear();
@@ -96,8 +96,12 @@ namespace BuddyApp.CoursTelepresence
             if (Utils.GetRealStartRule(iSpeechInput.Rule) == "yes")
                 AcceptCall();
             else if (Utils.GetRealStartRule(iSpeechInput.Rule) == "no")
+            {
+                Debug.LogError("Incoming no");
                 RejectCall();
-            else {
+            }
+            else
+            {
                 Debug.LogWarning("Wrong rule, restart listenning");
                 RestartListenning();
             }
@@ -112,6 +116,7 @@ namespace BuddyApp.CoursTelepresence
 
             } else {
                 Buddy.GUI.Notifier.Display<SimpleNotification>().With("Appel manqué en provenance de " + mCallingUserName.text);
+                Debug.LogError("Incoming restart");
                 RejectCall();
             }
         }
@@ -126,7 +131,7 @@ namespace BuddyApp.CoursTelepresence
 
         private void RejectCall()
         {
-            Debug.Log("RejectCall");
+            Debug.LogError("RejectCall");
             Trigger("IDLE");
 
             Buddy.GUI.Toaster.Hide();

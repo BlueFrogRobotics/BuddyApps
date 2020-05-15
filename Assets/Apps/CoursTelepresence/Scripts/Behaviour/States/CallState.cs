@@ -253,7 +253,13 @@ namespace BuddyApp.CoursTelepresence
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            ManageGUIClose();
+            //ManageGUIClose();
+            if (mTimeMessage >= 0)
+                StopMessage();
+            if (mHandUp)
+            {
+                StopRaiseHand();
+            }
             Debug.LogError("call state exit");
             //mRTMManager.Logout();
             mRTMManager.OnDisplayMessage = null;
