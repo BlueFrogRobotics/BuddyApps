@@ -7727,18 +7727,7 @@ MonoBehaviour:
   m_Value: 0.503
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1669233722}
-        m_MethodName: UpdateVolume
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1304843240}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Slider, UnityEngine.UI
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &1322072099
@@ -9820,6 +9809,7 @@ MonoBehaviour:
   rawVideo: {fileID: 1078149847}
   buttonEnableVideo: {fileID: 228072823}
   buttonEnableAudio: {fileID: 421708962}
+  mVideoIsEnabled: 0
 --- !u!1 &1700304331
 GameObject:
   m_ObjectHideFlags: 0

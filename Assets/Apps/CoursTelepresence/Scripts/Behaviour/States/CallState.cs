@@ -10,6 +10,9 @@ namespace BuddyApp.CoursTelepresence
     public sealed class CallState : AStateMachineBehaviour
     {
 
+        private static int STREAMCALL;
+        private static int FLAGSHOWUI = 0;
+
         private Slider VolumeScrollbar;
         private Button Volume;
         private Button Video;
@@ -60,16 +63,17 @@ namespace BuddyApp.CoursTelepresence
             Debug.LogWarning("7");
             VolumeScrollbar.onValueChanged.AddListener(
                 (lValue) => {
-                    //Debug.Log("PRE Volume set to " + lValue);
-                    //Buddy.Actuators.Speakers.Volume = lValue;
-                    //Buddy.Actuators.Speakers.Effects.Play(SoundSample.BEEP_2);
-                    //Debug.Log("POST Volume set to " + Buddy.Actuators.Speakers.Volume);
+                    Debug.LogWarning("PRE Volume call" + GetCallVolume());
+                    Debug.LogWarning("PRE Volume call set to " + lValue);
+                    SetCallVolume(lValue);
+                    Buddy.Actuators.Speakers.Effects.Play(SoundSample.BEEP_1);
+                    Debug.LogWarning("POST Volume set to " + GetCallVolume());
                     mTimeVolume = Time.time;
                 });
 
             Volume.onClick.AddListener(
                 () => {
-                    VolumeScrollbar.value = Buddy.Actuators.Speakers.Volume;
+                    VolumeScrollbar.value = GetCallVolume();
                     Volume.gameObject.SetActive(false);
                     VolumeScrollbar.gameObject.SetActive(true);
                     mTimeVolume = Time.time;
@@ -288,6 +292,61 @@ namespace BuddyApp.CoursTelepresence
             if (mDisplayed)
                 Buddy.GUI.Toaster.Hide();
         }
+
+
+        //////////////// For Volume
+        ///
+
+        private static AndroidJavaObject audioManager;
+
+        private static AndroidJavaObject deviceAudio
+        {
+            get
+            {
+                if (audioManager == null) {
+                    AndroidJavaClass unityPlayerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+                    AndroidJavaObject currentActivity = unityPlayerClass.GetStatic<AndroidJavaObject>("currentActivity");
+                    AndroidJavaObject context = currentActivity.Call<AndroidJavaObject>("getApplicationContext");
+                    AndroidJavaClass audioManagerClass = new AndroidJavaClass("android.media.AudioManager");
+                    AndroidJavaClass contextClass = new AndroidJavaClass("android.content.Context");
+
+                    STREAMCALL = audioManagerClass.GetStatic<int>("STREAM_VOICE_CALL");
+                    string Context_AUDIO_SERVICE = contextClass.GetStatic<string>("AUDIO_SERVICE");
+
+                    audioManager = context.Call<AndroidJavaObject>("getSystemService", Context_AUDIO_SERVICE);
+
+                    if (audioManager != null)
+                        Debug.Log("[AndroidNativeVolumeService] Android Audio Manager successfully set up");
+                    else
+                        Debug.LogWarning("[AndroidNativeVolumeService] Could not read Audio Manager");
+                }
+                return audioManager;
+            }
+
+        }
+
+        private static int GetDeviceMaxVolume()
+        {
+            return deviceAudio.Call<int>("getStreamMaxVolume", STREAMCALL);
+        }
+
+        private float GetCallVolume()
+        {
+            int deviceVolume = deviceAudio.Call<int>("getStreamVolume", STREAMCALL);
+            float scaledVolume = (deviceVolume / (float)GetDeviceMaxVolume());
+
+            return scaledVolume;
+        }
+
+        private void SetCallVolume(float volumeValue)
+        {
+            int scaledVolume = (int)(volumeValue * GetDeviceMaxVolume());
+            deviceAudio.Call("setStreamVolume", STREAMCALL, scaledVolume, FLAGSHOWUI);
+        }
+
+
+
+
 
     }
 
