@@ -5,6 +5,7 @@ using UnityEngine;
 using BlueQuark;
 using System;
 using System.Globalization;
+using UnityEngine.UI;
 
 namespace BuddyApp.CoursTelepresence
 {
@@ -74,9 +75,17 @@ namespace BuddyApp.CoursTelepresence
         /// Swap from boutton
         /// </summary>
         /// <param name="iStatic">true if static, false if dynamic</param>
-        public void SwapSteering()
+        public void SwapSteering(Image iImage)
         {
             mStaticSteering = !mStaticSteering;
+            if (mStaticSteering) {
+                iImage.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_Toggle_ON");
+                iImage.color = new Color(0F, 0.78F, 0.78F, 1F);
+            } else {
+                iImage.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_Toggle_OFF");
+                iImage.color = new Color(0.2F, 0.2F, 0.2F, 1F);
+
+            }
             InformStaticSteering();
         }
 
