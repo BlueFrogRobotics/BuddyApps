@@ -17,6 +17,9 @@ namespace BuddyApp.CoursTelepresence
         private RawImage rawVideo;
 
         [SerializeField]
+        private RawImage rawVideoLocal;
+
+        [SerializeField]
         private Image buttonEnableVideo;
 
         [SerializeField]
@@ -76,6 +79,7 @@ namespace BuddyApp.CoursTelepresence
             mRtcEngine.OnUserJoined = OnUserJoined;
             mRtcEngine.OnUserOffline = OnUserOffline;
             mRtcEngine.OnFirstRemoteVideoFrame = OnFirstRemoteVideoFrame;
+            mRtcEngine.OnFirstLocalVideoFrame = OnFirstLocalVideoFrame;
             mRtcEngine.EnableVideo();
             mRtcEngine.EnableVideoObserver();
 
@@ -207,6 +211,14 @@ namespace BuddyApp.CoursTelepresence
                 return;
             float lAspectRatio = height / width;
             rawVideo.rectTransform.sizeDelta = new Vector2(WIDTH, WIDTH * lAspectRatio);
+        }
+
+        private void OnFirstLocalVideoFrame(int width, int height, int elapsed)
+        {
+            if (rawVideoLocal.texture == null)
+                return;
+            float lAspectRatio = height / width;
+            rawVideoLocal.rectTransform.sizeDelta = new Vector2(360, 360 * lAspectRatio);
         }
 
         private void OnStreamMessage(uint userId, int streamId, string data, int length)
