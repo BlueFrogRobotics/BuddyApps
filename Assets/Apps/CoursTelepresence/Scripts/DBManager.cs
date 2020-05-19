@@ -46,7 +46,7 @@ namespace BuddyApp.CoursTelepresence
         private const string UPDATE_INFO = "https://creator.zoho.eu/api/bluefrogrobotics/json/flotte/form/Device/record/update?authtoken=" + TOKEN + "&scope=creatorapi&criteria=Uid=={";
         private const string GET_USER = "https://creator.zoho.eu/api/json/flotte/view/User_Report?authtoken="+ TOKEN +"&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true";
         private const string GET_INFO_STUDENTS = "https://creator.zoho.eu/api/json/flotte/view/User_Report?authtoken=" + TOKEN + "&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true";
-        private const string GET_PLANNING = "https://creator.zoho.eu/api/json/flotte/view/Device_user_Report?authtoken=" + TOKEN + "&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true";
+        private const string GET_PLANNING = "https://creator.zoho.eu/api/json/flotte/view/Planning_Report?authtoken=" + TOKEN + "&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true";
 
         private const string TABLET_TYPE_DEVICE = "Tablette";
 
@@ -81,7 +81,7 @@ namespace BuddyApp.CoursTelepresence
             {
                 //Update DB with battery Level
                 mURIBattery = UPDATE_INFO + Buddy.Platform.RobotUID + "}" + "&Batterie=" + (Buddy.Sensors.Battery.Level*100).ToString();
-                Debug.LogWarning("lURI Battery : " + mURIBattery);
+                //Debug.LogWarning("lURI Battery : " + mURIBattery);
                 using (UnityWebRequest lUpdateBattery = UnityWebRequest.Post(mURIBattery, mEmptyForm))
                 {
                     lUpdateBattery.chunkedTransfer = false;
@@ -92,7 +92,7 @@ namespace BuddyApp.CoursTelepresence
                     }
                     else
                     {
-                        Debug.LogWarning("Post done battery : " + lUpdateBattery.downloadHandler.text + " " + lUpdateBattery.downloadHandler.isDone);
+                        //Debug.LogWarning("Post done battery : " + lUpdateBattery.downloadHandler.text + " " + lUpdateBattery.downloadHandler.isDone);
                     }
                 }
                 yield return new WaitForSeconds(5F);
@@ -110,7 +110,7 @@ namespace BuddyApp.CoursTelepresence
                 //{
                     //Update GPS Position TODO : search for a method to have the GPS position, waiting for thierry's answer
                     mURIPosition = UPDATE_INFO + Buddy.Platform.RobotUID + "}" + "&Position_GPS=" + "";
-                    Debug.LogWarning("mURIPing : " + mURIPing);
+                    //Debug.LogWarning("mURIPing : " + mURIPing);
                     using (UnityWebRequest lUpdatePosition = UnityWebRequest.Post(mURIPosition, mEmptyForm))
                     {
                         lUpdatePosition.chunkedTransfer = false;
@@ -121,7 +121,7 @@ namespace BuddyApp.CoursTelepresence
                         }
                         else
                         {
-                            Debug.LogWarning("Post done position : " + lUpdatePosition.downloadHandler.text + " " + lUpdatePosition.downloadHandler.isDone);
+                            //Debug.LogWarning("Post done position : " + lUpdatePosition.downloadHandler.text + " " + lUpdatePosition.downloadHandler.isDone);
                         }
                     }
                 //}
@@ -175,6 +175,7 @@ namespace BuddyApp.CoursTelepresence
                             {
 
                                 lIdDeviceRobot = devices.Device[0].idDevice;
+                                Debug.LogError("iddevicerobot " + lIdDeviceRobot);
                             }
                             else
                             {
@@ -220,6 +221,7 @@ namespace BuddyApp.CoursTelepresence
                                     {
                                         foreach (DeviceUser entry in lDeviceUsers.Device_user)
                                         {
+                                            Debug.LogError("entrydeviceid: " + entry.DeviceId);
                                             if (lIdUserRobotList.Contains(entry.UserId)
                                                 && entry.DeviceId != lIdDeviceRobot)
                                                 lIdOtherDevices.Add(entry.DeviceId);
@@ -245,6 +247,7 @@ namespace BuddyApp.CoursTelepresence
                         Debug.Log("There is no device connected to the robot");
 
                     List<int> IdDevice = new List<int>();
+                    ListUIDTablet = new List<string>();
                     foreach (int idDevice in lIdOtherDevices)
                     {
                         lRequest = GET_DEVICE_URL + "&idDevice=" + idDevice + "&Type_device=" + TABLET_TYPE_DEVICE;
@@ -269,7 +272,7 @@ namespace BuddyApp.CoursTelepresence
                                     {
                                         foreach (DeviceData device in devices.Device)
                                         {
-                                            Debug.Log("Tablet connected to the robot " + device.Nom);
+                                            Debug.LogError("Tablet connected to the robot " + device.Nom);
                                             ListUIDTablet.Add(device.Uid);
                                             IdDevice.Add(device.idDevice);
                                         }
@@ -283,17 +286,18 @@ namespace BuddyApp.CoursTelepresence
                                 }
                                 catch (Exception e)
                                 {
-                                    Debug.LogError("Error parsing device request answer : " + e.Message);
+                                    Debug.LogError("get tabletuid Error parsing device request answer : " + e.Message);
                                 }
                             }
                         }
                     }
                     StartCoroutine(GetStudentInfo(IdDevice));
+                    StartCoroutine(GetPlanning());
                 }
                 yield return new WaitForSeconds(300F);
 
             }
-            StartCoroutine(GetPlanning());
+            //StartCoroutine(GetPlanning());
         }
 
         private IEnumerator GetStudentInfo(List<int> iListIdTablet)
@@ -314,7 +318,7 @@ namespace BuddyApp.CoursTelepresence
                     Debug.Log("Result get devices : " + res);
                     try
                     {
-                        DeviceUserCollection devicesUser = JsonUtility.FromJson<DeviceUserCollection>(res);
+                        DeviceUserCollection devicesUser = Utils.UnserializeJSON<DeviceUserCollection>(res); //JsonUtility.FromJson<DeviceUserCollection>(res);
                         if (devicesUser != null
                                && devicesUser.Device_user != null)
                         {
@@ -331,7 +335,7 @@ namespace BuddyApp.CoursTelepresence
                     }
                     catch (Exception e)
                     {
-                        Debug.LogError("Error parsing device request answer : " + e.Message);
+                        Debug.LogError("getstudentinfo Error parsing device request answer1 : " + e.Message);
                     }
                 }
 
@@ -365,12 +369,12 @@ namespace BuddyApp.CoursTelepresence
                                 UserStudent.Prenom = user.Prenom;
                                 UserStudent.Organisme = user.Organisme;
                                 
-                                Debug.LogWarning("USER NAME : " + UserStudent.Nom + " Class : " + UserStudent.Organisme + " USER PRENOM : " + UserStudent.Prenom);
+                                Debug.LogError("USER NAME : " + UserStudent.Nom + " Class : " + UserStudent.Organisme + " USER PRENOM : " + UserStudent.Prenom);
                             }
                         }
                         catch (Exception e)
                         {
-                            Debug.LogError("Error parsing user info request answer : " + e.Message);
+                            Debug.LogError("getstudentinfo Error parsing user info request answer2 : " + e.Message);
                         }
                     }
                 }
@@ -379,6 +383,7 @@ namespace BuddyApp.CoursTelepresence
 
         private IEnumerator GetPlanning()
         {
+            Planning = new Planning();
             string request = GET_PLANNING + "&idUser=" + ListUIDTablet[0];
             using (UnityWebRequest www = UnityWebRequest.Get(request))
             {
@@ -398,6 +403,8 @@ namespace BuddyApp.CoursTelepresence
                         {
                             Planning.Date_Debut = planning.Date_Debut;
                             Planning.Date_Fin = planning.Date_Fin;
+                            Debug.LogError("planning debut: " + Planning.Date_Debut);
+                            Debug.LogError("planning fin: " + Planning.Date_Fin);
                         }
                     }
                     catch (Exception e)

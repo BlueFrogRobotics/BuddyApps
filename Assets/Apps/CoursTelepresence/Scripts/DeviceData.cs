@@ -10,20 +10,22 @@ namespace BuddyApp.CoursTelepresence
     [Serializable]
     public class DeviceData
     {
-        public string Uid;
         public string Etat;
         public string Position_GPS;
         public string Batterie;
-        [JsonProperty(PropertyName = "Organisme.Nom")]
-        public string OrganismeName;
-        public string Organisme;
-        public string Type_device;
-        public string ID;
+        [JsonProperty(PropertyName = "Type_device.idType_Device")]
+        public string IdType_device;
         public int idDevice;
         public string Qualite_signal;
         public string Nom;
-        [JsonProperty(PropertyName = "Organisme.idOrganisme")]
-        public string OrganismeID;
+        public string Uid;
+        [JsonProperty(PropertyName = "Organisme.Reference")]
+        public string OrganismeRef;
+        public string Organisme;
+        public string Type_device;
+        [JsonProperty(PropertyName = "Groupes_Users.nom_groupe")]
+        public string Nom_Groupe_User;
+        public string ID;
     }
 
     [Serializable]
@@ -55,7 +57,7 @@ namespace BuddyApp.CoursTelepresence
     {
         public string Prenom;
         public int idUser;
-        public DateTime Modified_Time;
+        public string Modified_Time;
         public string Organisme;
         public string ID;
         public string Nom;
