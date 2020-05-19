@@ -22,6 +22,10 @@ namespace BuddyApp.CoursTelepresence
             mRTCManager = GetComponent<RTCManager>();
 
             mCallButton = GetGameObject(10).GetComponentInChildren<Button>();
+
+            Buddy.Vocal.DefaultInputParameters.Grammars = new string[1] { "grammar"};
+            Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
+            Buddy.Vocal.DefaultInputParameters.RecognitionThreshold = 5000;
         }
 
 
@@ -33,6 +37,10 @@ namespace BuddyApp.CoursTelepresence
 
             mRTMManager.OncallRequest = (CallRequest lCall) => { Trigger("INCOMING CALL"); };
 
+            // Manage trigger and vocal
+            Buddy.Vocal.OnTrigger.Add((lHotWord) => Buddy.Vocal.Listen("grammar", OnEndListen, SpeechRecognitionMode.GRAMMAR_ONLY));
+            Buddy.Vocal.EnableTrigger = true;
+
             mCallButton.onClick.AddListener(() => {
                 Debug.LogWarning("Join channel " + mChannelId + " waiting for tablet answer");
                 Trigger("CALLING");
@@ -42,9 +50,17 @@ namespace BuddyApp.CoursTelepresence
             );
         }
 
+        private void OnEndListen(SpeechInput iSpeechInput)
+        {
+            if(Utils.GetRealStartRule(iSpeechInput.Rule) == "callfriend")
+                Trigger("CALLING");
+
+        }
+
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            Buddy.Vocal.EnableTrigger = false;
             mRTMManager.OncallRequest = null;
             mCallButton.onClick.RemoveAllListeners();
             Debug.LogError("Idle state exit");
