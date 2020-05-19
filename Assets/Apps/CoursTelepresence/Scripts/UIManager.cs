@@ -94,7 +94,7 @@ namespace BuddyApp.CoursTelepresence
         {
             Ping.text = lValue.ToString() + "ms";
             PingHeader.text = lValue.ToString() + "ms";
-            
+
 
             // Update icon
             if (lValue < 60) {
@@ -202,11 +202,14 @@ namespace BuddyApp.CoursTelepresence
 
         public void UpdateVolume(Slider lSlider)
         {
-            Debug.Log("PRE Volume set to " + Buddy.Actuators.Speakers.Volume);
-            Debug.Log("PRE slider set to " + lSlider.value);
-            Buddy.Actuators.Speakers.Volume = lSlider.value;
-            Buddy.Actuators.Speakers.Effects.Play(SoundSample.BEEP_2);
-            Debug.Log("POST Volume set to " + Buddy.Actuators.Speakers.Volume);
+            if (Math.Abs(Buddy.Actuators.Speakers.Volume - lSlider.value) > 0.05) {
+                Debug.Log("PRE Volume set to " + Buddy.Actuators.Speakers.Volume);
+                Debug.Log("PRE slider set to " + lSlider.value);
+                Buddy.Actuators.Speakers.Volume = lSlider.value;
+                if (!Buddy.Actuators.Speakers.IsBusy)
+                    Buddy.Actuators.Speakers.Effects.Play(SoundSample.BEEP_1);
+                Debug.Log("POST Volume set to " + Buddy.Actuators.Speakers.Volume);
+            }
         }
 
         public void UpdateSlider(Slider lSlider)

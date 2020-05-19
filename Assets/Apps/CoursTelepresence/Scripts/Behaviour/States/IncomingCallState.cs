@@ -10,9 +10,6 @@ namespace BuddyApp.CoursTelepresence
 
     public sealed class IncomingCallState : AStateMachineBehaviour
     {
-
-
-        private const int RECOGNITION_SENSIBILITY = 5000;
         private const float REPEAT_TIME = 60F;
 
 
@@ -57,6 +54,12 @@ namespace BuddyApp.CoursTelepresence
             Buddy.Vocal.DefaultInputParameters = new SpeechInputParameters() {
                 RecognitionThreshold = RECOGNITION_SENSIBILITY
             };
+
+            // Start Call coroutine & Notification repeater
+
+            Debug.Log("Incoming call state");
+
+            mTimeRepeated = Time.time;
 
             // Start Call coroutine & Notification repeater
 
