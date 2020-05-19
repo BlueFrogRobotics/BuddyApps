@@ -54,19 +54,15 @@ namespace BuddyApp.CoursTelepresence
             Message = GetGameObject(11).GetComponentInChildren<Text>();
             VideoFeedbackImage = GetGameObject(12).GetComponentInChildren<RawImage>().gameObject;
 
-            //mHDCam.Open(HDCameraMode.COLOR_1920X1080_15FPS_RGB);
-            //mHDCam.OnNewFrame.Add((iInput) => { VideoFeedbackImage.GetComponent<RawImage>().texture = iInput.Texture; });
-            //VideoFeedbackImage.SetActive(true);
 
             mRTCManager.InitButtons();
 
-            Debug.LogWarning("7");
             VolumeScrollbar.onValueChanged.AddListener(
                 (lValue) => {
                     Debug.LogWarning("PRE Volume call" + GetCallVolume());
                     Debug.LogWarning("PRE Volume call set to " + lValue);
                     SetCallVolume(lValue);
-                    Buddy.Actuators.Speakers.Effects.Play(SoundSample.BEEP_1);
+                    //Buddy.Actuators.Speakers.Effects.Play(SoundSample.BEEP_1);
                     Debug.LogWarning("POST Volume set to " + GetCallVolume());
                     mTimeVolume = Time.time;
                 });
@@ -82,8 +78,13 @@ namespace BuddyApp.CoursTelepresence
                 );
 
             VideoFeedbackButton.onClick.AddListener(OnFeedBackButtonClick);
-
             Hangup.onClick.AddListener(OnHangup);
+
+            mRTMManager.OnWheelsMotion = OnWheelsMotion;
+            mRTMManager.OnHeadNoAbsolute = Buddy.Actuators.Head.No.SetPosition;
+            mRTMManager.OnHeadYesAbsolute = Buddy.Actuators.Head.Yes.SetPosition;
+            mRTMManager.OnHeadNo = (lAngle) => Buddy.Actuators.Head.No.SetPosition(lAngle + Buddy.Actuators.Head.No.Angle);
+            mRTMManager.OnHeadYes = (lAngle) => Buddy.Actuators.Head.Yes.SetPosition(lAngle + Buddy.Actuators.Head.Yes.Angle);
         }
 
         private void OnFeedBackButtonClick()
@@ -181,7 +182,9 @@ namespace BuddyApp.CoursTelepresence
             };
 
             mRTMManager.OnSpeechMessage = (lMessage) => {
-                Buddy.Vocal.Say(lMessage);
+                float lCallVolume = GetCallVolume();
+                SetCallVolume(0F);
+                Buddy.Vocal.Say(lMessage, (lOutput) => SetCallVolume(lCallVolume));
             };
 
             mRTMManager.OnActivateZoom = (lZoom) =>
@@ -195,6 +198,18 @@ namespace BuddyApp.CoursTelepresence
             VideoFeedbackButton.gameObject.SetActive(true);
             Hangup.gameObject.SetActive(true);
 
+        }
+
+        private void OnWheelsMotion(WheelsMotion iWheelsMotion)
+        {
+            if (Math.Abs(iWheelsMotion.speed) < 0.2F)
+                iWheelsMotion.speed = 0F;
+
+            if (Math.Abs(iWheelsMotion.angularVelocity) < 0.2F)
+                iWheelsMotion.angularVelocity = 0F;
+
+            Buddy.Actuators.Wheels.SetVelocities(Wheels.MAX_LIN_VELOCITY * iWheelsMotion.speed,
+                Wheels.MAX_ANG_VELOCITY * iWheelsMotion.angularVelocity);
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -248,6 +263,13 @@ namespace BuddyApp.CoursTelepresence
                 GetGameObject(12).SetActive(false);
                 VideoFeedbackButton.gameObject.SetActive(false);
             }
+
+
+            if (!mRTMManager.mStaticSteering)
+                if (Math.Abs(Buddy.Actuators.Head.No.Angle) > 5 && !Buddy.Actuators.Head.IsBusy) {
+                    Buddy.Navigation.Run<DisplacementStrategy>().Rotate(Buddy.Actuators.Head.No.Angle, 200F);
+                    Buddy.Actuators.Head.No.SetPosition(0F, 200F);
+                }
 
         }
 
