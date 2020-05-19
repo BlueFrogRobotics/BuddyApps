@@ -23,12 +23,14 @@ namespace BuddyApp.CoursTelepresence
         private string mIdTablet;
         private string mBuddyId;
         private bool mSensorsBroadcast;
-        private bool mStaticSteering;
+        public bool mStaticSteering;
         private float mLastBroadcastTime;
 
         public CallRequest mCallRequest;
         private int mPingId;
         private float mPingTime;
+        private bool mMovingYes;
+        private bool mMovingNo;
 
 
         // Use this for initialization
@@ -37,6 +39,8 @@ namespace BuddyApp.CoursTelepresence
             // TODO: get it from DB
             SetTabletId("tablette123456");
             mBuddyId = "buddytest";
+            mMovingYes = false;
+            mMovingNo = false;
 
             Login();
             mPingId = 0;
@@ -61,10 +65,24 @@ namespace BuddyApp.CoursTelepresence
 
             if (Time.time - mPingTime > 5.0F)
                 Ping();
+
+
+            if (Buddy.Actuators.Head.Yes.IsBusy)
+                mMovingYes = true;
+            else if (mMovingYes) {
+                // Robot just stopped
+                mMovingYes = false;
+                SendYesAngle();
+            }
+
+            if (Buddy.Actuators.Head.No.IsBusy)
+                mMovingNo = true;
+            else if (mMovingNo) {
+                // Robot just stopped
+                mMovingNo = false;
+                SendNoAngle();
+                }
         }
-
-
-
 
         /////////////////////
         /// UI Mangament ////
@@ -81,10 +99,11 @@ namespace BuddyApp.CoursTelepresence
             if (mStaticSteering) {
                 iImage.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_Toggle_ON");
                 iImage.color = new Color(0F, 0.78F, 0.78F, 1F);
+                Buddy.Actuators.Wheels.Locked = true;
             } else {
                 iImage.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_Toggle_OFF");
                 iImage.color = new Color(0.2F, 0.2F, 0.2F, 1F);
-
+                Buddy.Actuators.Wheels.Locked = false;
             }
             InformStaticSteering();
         }
@@ -199,6 +218,34 @@ namespace BuddyApp.CoursTelepresence
             SendRTMMessage(Utils.SerializeJSON(new ObstacleSensors(obstacleRight, obstacleCenter, obstacleLeft)));
         }
 
+        private void SendNoAngle()
+        {
+            float lValue = 0F;
+
+            if (Buddy.Actuators.Head.No.Angle > 0)
+                lValue = Buddy.Actuators.Head.No.Angle / NoHeadHinge.MAX_LEFT_ANGLE;
+            else
+                lValue = Buddy.Actuators.Head.No.Angle / NoHeadHinge.MAX_RIGHT_ANGLE;
+
+
+            SendRTMMessage(Utils.SerializeJSON(new JsonMessage("informNoAngle", lValue.ToString())));
+        }
+
+        private void SendYesAngle()
+        {
+            float lValue = 0F;
+
+            if (Buddy.Actuators.Head.Yes.Angle > 0)
+                lValue = Buddy.Actuators.Head.Yes.Angle / YesHeadHinge.MAX_UP_ANGLE;
+            else
+                lValue = Buddy.Actuators.Head.Yes.Angle / YesHeadHinge.MAX_DOWN_ANGLE;
+
+            SendRTMMessage(Utils.SerializeJSON(new JsonMessage("informYesAngle", lValue.ToString())));
+        }
+
+
+
+
         /// <summary>
         /// Sending Ping
         /// </summary>
@@ -222,10 +269,10 @@ namespace BuddyApp.CoursTelepresence
         public Action<bool> OnFrontalListening { get; set; }
         public Action<bool> OnRaiseHand { get; set; }
         public Action<bool> OnActivateZoom { get; set; }
-        public Action<int> OnHeadYes { get; set; }
-        public Action<int> OnHeadNo { get; set; }
-        public Action<int> OnHeadYesAbsolute { get; set; }
-        public Action<int> OnHeadNoAbsolute { get; set; }
+        public Action<float> OnHeadYes { get; set; }
+        public Action<float> OnHeadNo { get; set; }
+        public Action<float> OnHeadYesAbsolute { get; set; }
+        public Action<float> OnHeadNoAbsolute { get; set; }
         public Action<int> OnPing { get; set; }
         public Action<Mood> OnMoodBI { get; set; }
         public Action<Mood> OnMood { get; set; }
@@ -291,11 +338,14 @@ namespace BuddyApp.CoursTelepresence
             iMessage = iMessage.Replace("," + mIdTablet, "");
             Debug.LogWarning("message received content " + iMessage);
 
-            if (iMessage.Contains("userName")) {
+            if (iMessage.Contains("userName") && !iMessage.Contains("[METARTM]")) {
                 mCallRequest = Utils.UnserializeJSON<CallRequest>(iMessage);
                 OncallRequest(mCallRequest);
-            } else if (iMessage.Contains("speed")) {
-                OnWheelsMotion(Utils.UnserializeJSON<WheelsMotion>(iMessage));
+            } else if (iMessage.Contains("speed") && !iMessage.Contains("[METARTM]")) {
+                if (mStaticSteering)
+                    Debug.LogError("Can't move wheels while static steering is on!");
+                else
+                    OnWheelsMotion(Utils.UnserializeJSON<WheelsMotion>(iMessage));
 
             } else {
                 JsonMessage lMessage = Utils.UnserializeJSON<JsonMessage>(iMessage);
@@ -361,12 +411,16 @@ namespace BuddyApp.CoursTelepresence
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a mood");
                         } else {
                             // Set the mood
-                            BehaviourMovementPattern BIMotion = BehaviourMovementPattern.BODY_LOCAL_DISPLACEMENT;
+                            //BehaviourMovementPattern BIMotion = BehaviourMovementPattern.BODY_LOCAL_DISPLACEMENT;
 
-                            if (mStaticSteering)
-                                BIMotion = BehaviourMovementPattern.HEAD;
+                            //if (mStaticSteering)
+                            //    BIMotion = BehaviourMovementPattern.HEAD;
 
-                            Buddy.Behaviour.Interpreter.RunRandom(lMood, BIMotion, Buddy.Behaviour.SetMood(lMood));
+                            //Buddy.Behaviour.Interpreter.RunRandom(lMood, BIMotion, Buddy.Behaviour.SetMood(lMood));
+
+                            Buddy.Behaviour.Interpreter.RunRandom(lMood);
+
+
                             // Triggers Callback (needs to hide video canvas)
                             OnMoodBI(lMood);
                         }
@@ -374,37 +428,41 @@ namespace BuddyApp.CoursTelepresence
                         break;
 
                     case "headYes":
-                        if (!int.TryParse(lMessage.propertyValue, out lIntValue)) {
+                        if (!float.TryParse(lMessage.propertyValue, out lFloatValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into an int");
                         } else {
-                            OnHeadYes(lIntValue);
+                            OnHeadYes(lFloatValue * 20F);
                         }
 
                         break;
 
                     case "headNo":
-                        if (!int.TryParse(lMessage.propertyValue, out lIntValue)) {
+                        if (!float.TryParse(lMessage.propertyValue, out lFloatValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
                         } else {
-                            OnHeadNo(lIntValue);
+                            OnHeadNo(lFloatValue * 20F);
                         }
 
                         break;
 
-                    case "headYesheadYesAbsolute":
-                        if (!int.TryParse(lMessage.propertyValue, out lIntValue)) {
+                    case "headYesAbsolute":
+                        if (!float.TryParse(lMessage.propertyValue, out lFloatValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into an int");
                         } else {
-                            OnHeadYesAbsolute(lIntValue);
+                            if (lFloatValue > 0)
+                                OnHeadYesAbsolute(lFloatValue * YesHeadHinge.MAX_UP_ANGLE);
+                            else
+                                OnHeadYesAbsolute(lFloatValue * YesHeadHinge.MAX_DOWN_ANGLE);
+
                         }
 
                         break;
 
                     case "headNoAbsolute":
-                        if (!int.TryParse(lMessage.propertyValue, out lIntValue)) {
+                        if (!float.TryParse(lMessage.propertyValue, out lFloatValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
                         } else {
-                            OnHeadNoAbsolute(lIntValue);
+                            OnHeadNoAbsolute(lFloatValue * NoHeadHinge.MAX_LEFT_ANGLE);
                         }
 
                         break;

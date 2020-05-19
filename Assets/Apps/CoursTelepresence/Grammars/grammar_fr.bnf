@@ -2,13 +2,9 @@
 !grammar app_grammar_fr;
 !start <yes>;
 !start <no>;
-!start <quit>;
-!start <play>;
-!start <parameters>;
 !start <didntunderstand>;
+!start <callfriend>;
 <yes> : oui | ouais | [c'est] (d'accord | noté) | yep | affirmatif | ok | okay | entendu | fort bien | valider | confirmé | confirme | valide;
 <no> : non | nan | pas d'accord | nope | je ne veux pas | pas besoin | negatif;
-<quit> : quitter | annuler | arrêter | sortir | terminer | annule | quitte | ferme | arrête | arrêt | ce sera tout | rien | fin;
-<play> : jouer;
-<parameters> : paramètres | paramètrer | configurer | configuration;
+<callfriend> : appelle | appelle (ton|mon) ami | appelle l'élève | lance la connexion | lance l'appel | démarre | démarrer | lance | commence l'appel | commence | connecte toi ;
 <didntunderstand> : [je n'ai pas [bien] (compris | entendu)] peux tu (répéter | reformuler);
