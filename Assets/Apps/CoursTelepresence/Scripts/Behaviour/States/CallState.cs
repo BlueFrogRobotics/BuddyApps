@@ -134,6 +134,7 @@ namespace BuddyApp.CoursTelepresence
             lVideoSurface.SetEnable(true);
             lVideoSurface.SetVideoSurfaceType(AgoraVideoSurfaceType.RawImage);
             lVideoSurface.SetGameFps(30);
+            //lVideoSurface.EnableFilpTextureApply(false, true);
 
             GetGameObject(12).SetActive(true);
             VideoFeedbackIcon.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconCloseFeedback");

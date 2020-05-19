@@ -53,6 +53,11 @@ namespace BuddyApp.CoursTelepresence
             InitRTC();
         }
 
+        private void Update()
+        {
+            
+        }
+
         public void InitRTC()
         {
             Buddy.WebServices.Agoraio.LoadEngine(CoursTelepresenceBehaviour.APP_ID);
@@ -78,8 +83,8 @@ namespace BuddyApp.CoursTelepresence
             mRtcEngine.OnJoinChannelSuccess = OnJoinChannelSuccess;
             mRtcEngine.OnUserJoined = OnUserJoined;
             mRtcEngine.OnUserOffline = OnUserOffline;
-            mRtcEngine.OnFirstRemoteVideoFrame = OnFirstRemoteVideoFrame;
-            mRtcEngine.OnFirstLocalVideoFrame = OnFirstLocalVideoFrame;
+            //mRtcEngine.OnFirstRemoteVideoDecoded = OnFirstRemoteVideoFrame;
+            mRtcEngine.OnLocalVideoStats = OnLocalVideoStats;
             mRtcEngine.EnableVideo();
             mRtcEngine.EnableVideoObserver();
 
@@ -207,17 +212,19 @@ namespace BuddyApp.CoursTelepresence
 
         private void OnFirstRemoteVideoFrame(uint uid, int width, int height, int elapsed)
         {
+            float lAspectRatio = height / width;
+            Debug.LogError("first remote frame: " + width + " " + height+" "+ lAspectRatio);
             if (rawVideo.texture == null || uid == mUid)
                 return;
-            float lAspectRatio = height / width;
-            rawVideo.rectTransform.sizeDelta = new Vector2(WIDTH, WIDTH * lAspectRatio);
+            rawVideo.rectTransform.sizeDelta = new Vector2(WIDTH, WIDTH * lAspectRatio); 
         }
 
         private void OnFirstLocalVideoFrame(int width, int height, int elapsed)
         {
+            float lAspectRatio = height / width;
+            Debug.LogError("first local frame: " + width + " " + height+ " " + lAspectRatio);
             if (rawVideoLocal.texture == null)
                 return;
-            float lAspectRatio = height / width;
             rawVideoLocal.rectTransform.sizeDelta = new Vector2(360, 360 * lAspectRatio);
         }
 
@@ -234,6 +241,16 @@ namespace BuddyApp.CoursTelepresence
             }
             rawVideo.gameObject.SetActive(true);
             rawVideo.texture = tex;
+        }
+
+        private void OnLocalVideoStats(LocalVideoStats iLocalVideoStats)
+        {
+            float lAspectRatio = (float)iLocalVideoStats.encodedFrameHeight / (float)iLocalVideoStats.encodedFrameWidth;
+            Debug.LogError("first local stats: " + iLocalVideoStats.encodedFrameWidth + " " + iLocalVideoStats.encodedFrameHeight + " " + lAspectRatio);
+            if (rawVideoLocal.texture == null)
+                return;
+            //rawVideoLocal.rectTransform.sizeDelta = new Vector2(360, 360 * lAspectRatio);
+            //rawVideoLocal.rectTransform.sizeDelta = new Vector2(iLocalVideoStats.encodedFrameWidth, 640);
         }
 
         void OnApplicationQuit()
