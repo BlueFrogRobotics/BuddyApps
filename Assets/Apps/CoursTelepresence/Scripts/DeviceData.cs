@@ -69,5 +69,27 @@ namespace BuddyApp.CoursTelepresence
         public User[] User;
 
     }
+
+    [Serializable]
+    public class Planning
+    {
+        public string Date_Fin;
+        [JsonProperty(PropertyName = "Device.idDevice")]
+        public int DeviceId;
+        public string User;
+        public string Device;
+        public string Date_Debut;
+        public int idPlanning;
+        public string ID;
+        [JsonProperty(PropertyName = "User.idUser")]
+        public int UserId;
+        public string Prof;
+    }
+
+    [Serializable]
+    public class PlanningList
+    {
+        public Planning[] Planning;
+    }
 }
 
