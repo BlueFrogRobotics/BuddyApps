@@ -48,12 +48,7 @@ namespace BuddyApp.CoursTelepresence
         {
             Debug.LogError("Incoming call state");
 
-            mTimeRepeated = Time.time;
-
-            // Setting of Vocon param
-            Buddy.Vocal.DefaultInputParameters = new SpeechInputParameters() {
-                RecognitionThreshold = RECOGNITION_SENSIBILITY
-            };
+            mTimeRepeated = Time.time;            
 
             // Start Call coroutine & Notification repeater
 
