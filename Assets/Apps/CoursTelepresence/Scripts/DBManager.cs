@@ -10,8 +10,6 @@ namespace BuddyApp.CoursTelepresence
 
     //TODO : 
     // - make function to start routine from another script
-    // - Return an object User with all informations
-    // - update with funtion for studentInfo from ZohoTestBehaviour
 
     
     public sealed class DBManager : MonoBehaviour
@@ -60,6 +58,7 @@ namespace BuddyApp.CoursTelepresence
         public List<string> ListUIDTablet { get; private set; }
         public bool Peering { get; private set; }
         public Planning Planning { get; private set; }
+        public bool InfoRequestedDone { get; private set; }
 
         private int mNbIteration;
 
@@ -67,11 +66,17 @@ namespace BuddyApp.CoursTelepresence
         void Start()
         {
             Peering = false;
+            InfoRequestedDone = false;
             mNbIteration = 0;
             DBConnected = false;
             StartCoroutine(GetTabletUID(Buddy.Platform.RobotUID));
             StartCoroutine(UpdatePingAndPosition());
             StartCoroutine(UpdateBattery());
+        }
+
+        public void StartCoroutinePlanningInfo()
+        {
+            StartCoroutine(GetPlanning());
         }
 
 
@@ -378,6 +383,13 @@ namespace BuddyApp.CoursTelepresence
                         }
                     }
                 }
+            }
+            if(!string.IsNullOrEmpty(UserStudent.Nom) 
+                && !string.IsNullOrEmpty(UserStudent.Prenom) 
+                && !string.IsNullOrEmpty(UserStudent.Organisme) 
+                && !string.IsNullOrEmpty(ListUIDTablet[0]))
+            {
+                InfoRequestedDone = true;
             }
         }
 
