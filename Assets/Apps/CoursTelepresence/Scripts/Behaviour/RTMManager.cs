@@ -41,6 +41,7 @@ namespace BuddyApp.CoursTelepresence
             mBuddyId = "buddytest";
             mMovingYes = false;
             mMovingNo = false;
+            Buddy.Actuators.Wheels.Locked = true;
 
             Login();
             mPingId = 0;
@@ -96,14 +97,13 @@ namespace BuddyApp.CoursTelepresence
         public void SwapSteering(Image iImage)
         {
             mStaticSteering = !mStaticSteering;
+            Buddy.Actuators.Wheels.Locked = mStaticSteering;
             if (mStaticSteering) {
                 iImage.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_Toggle_ON");
                 iImage.color = new Color(0F, 0.78F, 0.78F, 1F);
-                Buddy.Actuators.Wheels.Locked = true;
             } else {
                 iImage.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_Toggle_OFF");
                 iImage.color = new Color(0.2F, 0.2F, 0.2F, 1F);
-                Buddy.Actuators.Wheels.Locked = false;
             }
             InformStaticSteering();
         }
@@ -417,11 +417,10 @@ namespace BuddyApp.CoursTelepresence
                             //    BIMotion = BehaviourMovementPattern.HEAD;
 
                             //Buddy.Behaviour.Interpreter.RunRandom(lMood, BIMotion, Buddy.Behaviour.SetMood(lMood));
-
+                            Debug.LogWarning("moodBI wheels locked " + Buddy.Actuators.Wheels.Locked);
                             Buddy.Behaviour.Interpreter.RunRandom(lMood);
 
-
-                            // Triggers Callback (needs to hide video canvas)
+                            // Triggers Callback
                             OnMoodBI(lMood);
                         }
 

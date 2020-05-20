@@ -23,9 +23,11 @@ namespace BuddyApp.CoursTelepresence
 
             mCallButton = GetGameObject(10).GetComponentInChildren<Button>();
 
-            Buddy.Vocal.DefaultInputParameters.Grammars = new string[1] { "grammar"};
+            Buddy.Vocal.DefaultInputParameters.Grammars = new string[1] { "grammar" };
             Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
             Buddy.Vocal.DefaultInputParameters.RecognitionThreshold = 5000;
+            Buddy.Vocal.OnTrigger.Add((lHotWord) => Buddy.Vocal.Listen("grammar", OnEndListen, SpeechRecognitionMode.GRAMMAR_ONLY));
+
         }
 
 
@@ -33,28 +35,26 @@ namespace BuddyApp.CoursTelepresence
         {
             Debug.LogError("Idle state");
 
-            //mRTCManager.InitRTC();
-
             mRTMManager.OncallRequest = (CallRequest lCall) => { Trigger("INCOMING CALL"); };
 
             // Manage trigger and vocal
-            Buddy.Vocal.OnTrigger.Add((lHotWord) => Buddy.Vocal.Listen("grammar", OnEndListen, SpeechRecognitionMode.GRAMMAR_ONLY));
-            Buddy.Vocal.EnableTrigger = true;
+           Buddy.Vocal.EnableTrigger = true;
 
-            mCallButton.onClick.AddListener(() => {
-                Debug.LogWarning("Join channel " + mChannelId + " waiting for tablet answer");
-                Trigger("CALLING");
-                mRTCManager.Join(mChannelId);
-                mRTMManager.RequestConnexion(mChannelId, Buddy.Platform.RobotUID);
-            }
-            );
+            mCallButton.onClick.AddListener(LaunchCall);
         }
 
         private void OnEndListen(SpeechInput iSpeechInput)
         {
-            if(Utils.GetRealStartRule(iSpeechInput.Rule) == "callfriend")
-                Trigger("CALLING");
+            if (Utils.GetRealStartRule(iSpeechInput.Rule) == "callfriend")
+               LaunchCall();
+        }
 
+        private void LaunchCall()
+        {
+            Debug.LogWarning("Join channel " + mChannelId + " waiting for tablet answer");
+            Trigger("CALLING");
+            mRTCManager.Join(mChannelId);
+            mRTMManager.RequestConnexion(mChannelId, Buddy.Platform.RobotUID);
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

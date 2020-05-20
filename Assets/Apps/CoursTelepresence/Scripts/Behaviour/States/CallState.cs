@@ -62,8 +62,7 @@ namespace BuddyApp.CoursTelepresence
                     Debug.LogWarning("PRE Volume call" + GetCallVolume());
                     Debug.LogWarning("PRE Volume call set to " + lValue);
                     SetCallVolume(lValue);
-                    //Buddy.Actuators.Speakers.Effects.Play(SoundSample.BEEP_1);
-                    Debug.LogWarning("POST Volume set to " + GetCallVolume());
+                    Debug.LogWarning("POST Volume call set to " + GetCallVolume());
                     mTimeVolume = Time.time;
                 });
 
@@ -182,9 +181,16 @@ namespace BuddyApp.CoursTelepresence
             };
 
             mRTMManager.OnSpeechMessage = (lMessage) => {
+                Debug.LogWarning("Buddy Say " + lMessage);
                 float lCallVolume = GetCallVolume();
+                Debug.LogWarning("Buddy Say volume previous " + lCallVolume);
                 SetCallVolume(0F);
-                Buddy.Vocal.Say(lMessage, (lOutput) => SetCallVolume(lCallVolume));
+                Debug.LogWarning("Buddy Say volume during " + lCallVolume);
+                Buddy.Vocal.Say(lMessage, (lOutput) => {
+                    Debug.LogWarning("End speaking " + GetCallVolume());
+                    SetCallVolume(lCallVolume);
+                    Debug.LogWarning("End speaking " + GetCallVolume());
+                });
             };
 
             mRTMManager.OnActivateZoom = (lZoom) =>
