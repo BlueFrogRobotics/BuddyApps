@@ -11,6 +11,8 @@ namespace BuddyApp.CoursTelepresence
         [SerializeField]
         private Animator ConnectingScreenAnimator;
 
+        private RTMManager mRTMManager;
+
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.Log("Connecting state");
@@ -27,6 +29,7 @@ namespace BuddyApp.CoursTelepresence
         {
             if(DBManager.Instance.Peering && DBManager.Instance.InfoRequestedDone)
             {
+                mRTMManager.SetTabletId(DBManager.Instance.ListUIDTablet[0]);
                 Trigger("IDLE");
             }
         }
