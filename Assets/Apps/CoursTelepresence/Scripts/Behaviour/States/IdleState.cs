@@ -35,6 +35,12 @@ namespace BuddyApp.CoursTelepresence
         {
             Debug.LogError("Idle state");
 
+            GameObject NameStudent = GetGameObject(14).transform.GetChild(0).gameObject;
+            GameObject ClassStudent = GetGameObject(14).transform.GetChild(1).gameObject;
+            NameStudent.GetComponent<Text>().text = DBManager.Instance.UserStudent.Nom + " " + DBManager.Instance.UserStudent.Prenom;
+            ClassStudent.GetComponent<Text>().text = DBManager.Instance.UserStudent.Organisme;
+            mRTMManager.OncallRequest = (CallRequest lCall) => { Trigger("INCOMING CALL"); };
+
             mRTMManager.OncallRequest = (CallRequest lCall) => { Trigger("INCOMING CALL"); };
 
             // Manage trigger and vocal
