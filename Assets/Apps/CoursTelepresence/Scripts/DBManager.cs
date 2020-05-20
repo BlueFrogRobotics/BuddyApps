@@ -15,25 +15,25 @@ namespace BuddyApp.CoursTelepresence
     public sealed class DBManager : MonoBehaviour
     {
         private static DBManager instance = null;
-        private static readonly object padLock = new object();
+        //private static readonly object padLock = new object();
 
-        DBManager()
-        {
+        //DBManager()
+        //{
 
-        }
+        //}
 
         public static DBManager Instance
         {
             get
             {
-                lock(padLock)
-                {
-                    if(instance == null)
-                    {
-                        instance = new DBManager();
-                    }
+                //lock(padLock)
+                //{
+                    //if(instance == null)
+                    //{
+                    //    instance = new DBManager();
+                    //}
                     return instance;
-                }
+                //}
             }
         }
 
@@ -61,6 +61,11 @@ namespace BuddyApp.CoursTelepresence
         public bool InfoRequestedDone { get; private set; }
 
         private int mNbIteration;
+
+        private void Awake()
+        {
+            instance = this;
+        }
 
         // Use this for initialization
         void Start()

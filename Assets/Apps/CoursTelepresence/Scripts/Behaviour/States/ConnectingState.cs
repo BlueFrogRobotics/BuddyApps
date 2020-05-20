@@ -16,6 +16,7 @@ namespace BuddyApp.CoursTelepresence
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.Log("Connecting state");
+            mRTMManager = GetComponent<RTMManager>();
 
             //TODO check DB and stuff
 
@@ -27,6 +28,7 @@ namespace BuddyApp.CoursTelepresence
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            Debug.LogWarning("Peering " + DBManager.Instance.Peering + " info " + DBManager.Instance.InfoRequestedDone);
             if(DBManager.Instance.Peering && DBManager.Instance.InfoRequestedDone)
             {
                 mRTMManager.SetTabletId(DBManager.Instance.ListUIDTablet[0]);

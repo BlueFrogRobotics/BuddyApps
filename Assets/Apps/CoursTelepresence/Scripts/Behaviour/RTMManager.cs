@@ -37,8 +37,8 @@ namespace BuddyApp.CoursTelepresence
         void Start()
         {
             // TODO: get it from DB
-            SetTabletId("tablette123456");
-            mBuddyId = "buddytest";
+            //SetTabletId("tablette123456");
+            mBuddyId = Buddy.Platform.RobotUID;
             mMovingYes = false;
             mMovingNo = false;
             Buddy.Actuators.Wheels.Locked = true;
@@ -50,6 +50,7 @@ namespace BuddyApp.CoursTelepresence
             OnActivateObstacle = SensorsBroadcast;
 
             mCallRequest = new CallRequest("", "");
+            Debug.LogError("robot id: " + Buddy.Platform.RobotUID);
             // Just to test
             //AnswerCallRequest(true);
             //RequestConnexion("myChannel", "Gregoire Pole");
@@ -251,6 +252,7 @@ namespace BuddyApp.CoursTelepresence
         /// </summary>
         private void Ping()
         {
+            
             mPingId++;
             mPingId = mPingId % 10000;
             mPingTime = Time.time;
@@ -325,6 +327,8 @@ namespace BuddyApp.CoursTelepresence
         {
             Debug.Log("message: " + iMessage);
             Debug.Log("Sent to " + mIdTablet);
+            if (mIdTablet == null || mIdTablet == "")
+                return;
             Buddy.WebServices.Agoraio.SendPeerMessage(mIdTablet, iMessage);
         }
 
