@@ -83,7 +83,7 @@ namespace BuddyApp.CoursTelepresence
                 // Robot just stopped
                 mMovingNo = false;
                 SendNoAngle();
-                }
+            }
         }
 
         /////////////////////
@@ -252,7 +252,7 @@ namespace BuddyApp.CoursTelepresence
         /// </summary>
         private void Ping()
         {
-            
+
             mPingId++;
             mPingId = mPingId % 10000;
             mPingTime = Time.time;
@@ -281,6 +281,7 @@ namespace BuddyApp.CoursTelepresence
         public Action<float> OnMicroThreshold { get; set; }
         public Action<string> OnDisplayMessage { get; set; }
         public Action<string> OnSpeechMessage { get; set; }
+        public Action<string> OnPictureReceived { get; set; }
         public Action<CallRequest> OncallRequest { get; set; }
         public Action<WheelsMotion> OnWheelsMotion { get; set; }
 
@@ -327,8 +328,10 @@ namespace BuddyApp.CoursTelepresence
         {
             Debug.Log("message: " + iMessage);
             Debug.Log("Sent to " + mIdTablet);
-            if (mIdTablet == null || mIdTablet == "")
+            if (string.IsNullOrEmpty(mIdTablet)) {
+                Debug.LogWarning("Can't send a message, no tablet ID");
                 return;
+            }
             Buddy.WebServices.Agoraio.SendPeerMessage(mIdTablet, iMessage);
         }
 
@@ -536,6 +539,11 @@ namespace BuddyApp.CoursTelepresence
                         //}
                         Debug.LogError("photo profiler");
                         Debug.LogError(lMessage.propertyValue);
+                        if (string.IsNullOrEmpty(lMessage.propertyValue)) {
+                            Debug.LogWarning("picture is empty");
+                        } else {
+                            OnPictureReceived(lMessage.propertyValue);
+                        }
 
                         break;
 
