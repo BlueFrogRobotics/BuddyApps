@@ -125,7 +125,8 @@ namespace BuddyApp.CoursTelepresence
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mTimer = 0F;
-            mHandUp = false;
+            mHideTime = -1F;
+             mHandUp = false;
             Debug.LogError("call state");
             mTimeMessage = -1F;
 
@@ -146,11 +147,10 @@ namespace BuddyApp.CoursTelepresence
                             Trigger("IDLE");
                             Buddy.GUI.Dialoger.Hide();
                         },
-                        null,
+                        () => mHideTime = Time.time,
                         () => {
                             ManageGUIClose();
                             Trigger("IDLE");
-                            Buddy.GUI.Dialoger.Hide();
                         }
                         );
 
@@ -221,6 +221,10 @@ namespace BuddyApp.CoursTelepresence
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            if(mHideTime > 0 && (Time.time - mHideTime > 2F))
+                Buddy.GUI.Dialoger.Hide();
+
+
             if (!Buddy.WebServices.HasInternetAccess) {
                 mTimer += Time.deltaTime;
                 if (mTimer >= 30F && !mDisplayed) {
@@ -338,6 +342,7 @@ namespace BuddyApp.CoursTelepresence
         ///
 
         private static AndroidJavaObject audioManager;
+        private float mHideTime;
 
         private static AndroidJavaObject deviceAudio
         {

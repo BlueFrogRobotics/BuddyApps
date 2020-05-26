@@ -53,11 +53,6 @@ namespace BuddyApp.CoursTelepresence
             InitRTC();
         }
 
-        private void Update()
-        {
-            
-        }
-
         public void InitRTC()
         {
             Buddy.WebServices.Agoraio.LoadEngine(CoursTelepresenceBehaviour.APP_ID);
