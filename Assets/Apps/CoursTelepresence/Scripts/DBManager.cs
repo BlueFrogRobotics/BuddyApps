@@ -75,8 +75,8 @@ namespace BuddyApp.CoursTelepresence
             mNbIteration = 0;
             DBConnected = false;
             StartCoroutine(GetTabletUID(Buddy.Platform.RobotUID));
-            StartCoroutine(UpdatePingAndPosition());
-            StartCoroutine(UpdateBattery());
+            //StartCoroutine(UpdatePingAndPosition());
+            //StartCoroutine(UpdateBattery());
         }
 
         public void StartCoroutinePlanningInfo()
@@ -84,7 +84,7 @@ namespace BuddyApp.CoursTelepresence
             StartCoroutine(GetPlanning());
         }
 
-
+        #region Use this update with another db than Zoho
         private IEnumerator UpdateBattery()
         {
             while (true)
@@ -154,6 +154,7 @@ namespace BuddyApp.CoursTelepresence
                 yield return new WaitForSeconds(5F);
             }
         }
+        #endregion
 
         private IEnumerator GetTabletUID(string iRobotUID)
         {
@@ -328,7 +329,7 @@ namespace BuddyApp.CoursTelepresence
                     Debug.Log("Result get devices : " + res);
                     try
                     {
-                        DeviceUserCollection devicesUser = Utils.UnserializeJSON<DeviceUserCollection>(res); //JsonUtility.FromJson<DeviceUserCollection>(res);
+                        DeviceUserCollection devicesUser = Utils.UnserializeJSON<DeviceUserCollection>(res); 
                         if (devicesUser != null
                                && devicesUser.Device_user != null)
                         {
@@ -378,8 +379,10 @@ namespace BuddyApp.CoursTelepresence
                                 UserStudent.Nom = user.Nom;
                                 UserStudent.Prenom = user.Prenom;
                                 UserStudent.Organisme = user.Organisme;
+                                if (string.IsNullOrEmpty(user.Prenom) || user.Prenom =="")
+                                    UserStudent.Prenom = " ";
                                 
-                                Debug.LogError("USER NAME : " + UserStudent.Nom + " Class : " + UserStudent.Organisme + " USER PRENOM : " + UserStudent.Prenom);
+                                //Debug.LogError("USER NAME : " + UserStudent.Nom + " Class : " + UserStudent.Organisme + " USER PRENOM : " + UserStudent.Prenom);
                             }
                         }
                         catch (Exception e)
