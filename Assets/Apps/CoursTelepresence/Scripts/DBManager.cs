@@ -48,6 +48,7 @@ namespace BuddyApp.CoursTelepresence
 
         private const string TABLET_TYPE_DEVICE = "Tablette";
 
+        public List<User> ListUserStudent { get; private set; }
         public User UserStudent{ get; private set; }
 
         private string mURIBattery;
@@ -59,8 +60,19 @@ namespace BuddyApp.CoursTelepresence
         public bool Peering { get; private set; }
         public Planning Planning { get; private set; }
         public bool InfoRequestedDone { get; private set; }
+        private List<Planning> ListPlanning;
+        private Planning mPlanningNextCourse;
+        
+
+        private float mTimer;
+        private bool mPlanning;
+        public bool CanStartCourse { get; private set; }
+        public bool CanEndCourse { get; private set; }
 
         private int mNbIteration;
+        private DateTime mDateNow;
+        private DateTime mPlanningEnd;
+        private TimeSpan mSpan;
 
         private void Awake()
         {
@@ -70,13 +82,50 @@ namespace BuddyApp.CoursTelepresence
         // Use this for initialization
         void Start()
         {
+            
+            mTimer = 0F;
+            mPlanning = false;
             Peering = false;
             InfoRequestedDone = false;
             mNbIteration = 0;
             DBConnected = false;
-            StartCoroutine(GetTabletUID(Buddy.Platform.RobotUID));
+            CanStartCourse = false;
+            CanEndCourse = false;
+            //StartCoroutine(GetTabletUID(Buddy.Platform.RobotUID));
+            StartCoroutine(GetTabletUID("33060759D0898EDB5EBC"));
+
             //StartCoroutine(UpdatePingAndPosition());
             //StartCoroutine(UpdateBattery());
+        }
+
+        private void Update()
+        {
+            
+            if(CanStartCourse && !CanEndCourse)
+            {
+                mDateNow = DateTime.Now;
+                
+                mSpan = mPlanningEnd.Subtract(mDateNow);
+                Debug.LogError("<color=blue> AVANT LES 5 LAST MINUTES" + mSpan.TotalMinutes + " </color>");
+                if (mSpan.TotalMinutes < 5F)
+                {
+                    Debug.LogError("<color=blue> IL RESTE 5 MINUTES </color>");
+                    if(mSpan.TotalMinutes < 0F)
+                    {
+                        Debug.LogError("<color=blue> COURS FINI </color>");
+                        CanEndCourse = true;
+                    }
+                }
+            }
+            if(!CanStartCourse)
+            {
+                CheckStartPlanning();
+            }
+        }
+
+        public void AddFiveMinutes()
+        {
+            mPlanningEnd.AddMinutes(5F);
         }
 
         public void StartCoroutinePlanningInfo()
@@ -156,6 +205,11 @@ namespace BuddyApp.CoursTelepresence
         }
         #endregion
 
+        /// <summary>
+        /// Get all the tablet ID peered with the Robot UID
+        /// </summary>
+        /// <param name="iRobotUID"></param>
+        /// <returns>Fill a list of all UID from all the tablet peered to the robot, also fill a list of ID from all those tablet</returns>
         private IEnumerator GetTabletUID(string iRobotUID)
         {
             while(true && !Peering)
@@ -303,7 +357,7 @@ namespace BuddyApp.CoursTelepresence
                         }
                     }
                     StartCoroutine(GetStudentInfo(IdDevice));
-                    StartCoroutine(GetPlanning());
+                    
                 }
                 yield return new WaitForSeconds(300F);
 
@@ -311,9 +365,15 @@ namespace BuddyApp.CoursTelepresence
             //StartCoroutine(GetPlanning());
         }
 
+        /// <summary>
+        /// Retrieve all the informations of students who are peered with the robot
+        /// </summary>
+        /// <param name="iListIdTablet"></param>
+        /// <returns>return a list of </returns>
         private IEnumerator GetStudentInfo(List<int> iListIdTablet)
         {
             List<int> idStudents = new List<int>();
+            ListUserStudent = new List<User>();
             string request = GET_DEVICE_USERS_URL;
             using (UnityWebRequest www = UnityWebRequest.Get(request))
             {
@@ -355,7 +415,7 @@ namespace BuddyApp.CoursTelepresence
             }
             if (idStudents.Count == 0)
                 Debug.Log("There is no user for this device id");
-            UserStudent = new User();
+            
             foreach (int lIdUser in idStudents)
             {
                 Debug.Log("IDUSER : " + lIdUser);
@@ -376,11 +436,14 @@ namespace BuddyApp.CoursTelepresence
                             UserList userList = Utils.UnserializeJSON<UserList>(res);
                             foreach (User user in userList.User)
                             {
+                                UserStudent = new User();
                                 UserStudent.Nom = user.Nom;
                                 UserStudent.Prenom = user.Prenom;
+                                //TODO : CHANGE THAT TO HAVE ONLY THE CLASS | FORMAT IN THE DB FOR NOW : 15 - CM1
                                 UserStudent.Organisme = user.Organisme;
                                 if (string.IsNullOrEmpty(user.Prenom) || user.Prenom =="")
                                     UserStudent.Prenom = " ";
+                                ListUserStudent.Add(UserStudent);
                                 
                                 //Debug.LogError("USER NAME : " + UserStudent.Nom + " Class : " + UserStudent.Organisme + " USER PRENOM : " + UserStudent.Prenom);
                             }
@@ -392,9 +455,10 @@ namespace BuddyApp.CoursTelepresence
                     }
                 }
             }
-            if(!string.IsNullOrEmpty(UserStudent.Nom) 
-                && !string.IsNullOrEmpty(UserStudent.Prenom) 
-                && !string.IsNullOrEmpty(UserStudent.Organisme) 
+            StartCoroutine(GetPlanning());
+            if (!string.IsNullOrEmpty(ListUserStudent[0].Nom) 
+                && !string.IsNullOrEmpty(ListUserStudent[0].Prenom) 
+                && !string.IsNullOrEmpty(ListUserStudent[0].Organisme) 
                 && !string.IsNullOrEmpty(ListUIDTablet[0]))
             {
                 InfoRequestedDone = true;
@@ -403,8 +467,9 @@ namespace BuddyApp.CoursTelepresence
 
         private IEnumerator GetPlanning()
         {
-            Planning = new Planning();
-            string request = GET_PLANNING + "&idUser=" + ListUIDTablet[0];
+            ListPlanning = new List<Planning>();
+            
+            string request = GET_PLANNING;
             using (UnityWebRequest www = UnityWebRequest.Get(request))
             {
                 yield return www.SendWebRequest();
@@ -421,11 +486,21 @@ namespace BuddyApp.CoursTelepresence
                         PlanningList planningList = Utils.UnserializeJSON<PlanningList>(res);
                         foreach (Planning planning in planningList.Planning)
                         {
-                            Planning.Date_Debut = planning.Date_Debut;
+                            Planning = new Planning();
                             Planning.Date_Fin = planning.Date_Fin;
-                            Debug.LogError("planning debut: " + Planning.Date_Debut);
-                            Debug.LogError("planning fin: " + Planning.Date_Fin);
+                            Planning.DeviceId = planning.DeviceId;
+                            Planning.Eleve = planning.Eleve;
+                            Planning.Device = planning.Device;
+                            Planning.Date_Debut = planning.Date_Debut;
+                            Planning.idPlanning = planning.idPlanning;
+                            Planning.ID = planning.ID;
+                            Planning.UserId = planning.UserId;
+                            Planning.Prof = planning.Prof;
+                            ListPlanning.Add(Planning);
                         }
+                        mPlanningNextCourse = new Planning();
+                        mPlanningNextCourse = GetPlanningFromDB(ListPlanning);
+                        Debug.LogError("<color=blue> Date Debut : " + mPlanningNextCourse.Date_Debut + " Date fin : " + mPlanningNextCourse.Date_Fin + "</color>");
                     }
                     catch (Exception e)
                     {
@@ -434,6 +509,48 @@ namespace BuddyApp.CoursTelepresence
                 }
             }
 
+        }
+
+        private Planning GetPlanningFromDB(List<Planning> iList)
+        {
+            //Debug.LogError("<color=red> GET PLANNING FROM DB " + ListUserStudent[0].Nom + "  </color>");
+            foreach (Planning lPlanning in iList)
+            {
+                Debug.LogError("<color=red> GET PLANNING FROM DB : " + ListUserStudent.Count + " USER :  " + lPlanning.Eleve + " LISTUSER STUDENT :  " + ListUserStudent[0].Nom + "</color>");
+                if (lPlanning.Eleve.Contains(ListUserStudent[0].Nom))
+                {
+                    string[] lSplitDate = lPlanning.Date_Debut.Split('-');
+                    string lDateNow = DateTime.Now.ToString();
+                    string[] lSpliteDateNow = lDateNow.Split('/');
+                    Debug.LogError("<color=red> lsplitDate : " + lSplitDate[0] + " lSpliteDateNow[0] : " + lSpliteDateNow[0] + " lSpliteDateNow[1] : " + lSplitDate[1] + " lSpliteDateNow[1] : " + lSpliteDateNow[1] + "</color>");
+
+                    if ((lSplitDate[0] == lSpliteDateNow[0]) && (lSplitDate[1] == lSpliteDateNow[1]))
+                    {
+                        Debug.LogError("<color=red> Date Debut : " + lPlanning.Date_Debut + " Date fin : " + lPlanning.Date_Fin + "</color>");
+                        mPlanning = true;
+                        return lPlanning;
+                    }
+                }
+            }
+            return new Planning();
+        }
+
+        private void CheckStartPlanning()
+        {
+            if(mPlanning && !CanStartCourse)
+            {
+                DateTime LDateNow = DateTime.Now;
+                DateTime lPlanningStart = DateTime.Parse (mPlanningNextCourse.Date_Debut.Replace("-", "/"));
+                TimeSpan lSpan = lPlanningStart.Subtract(LDateNow);
+                Debug.LogError("<color=red> TIME SPAN : "  + lSpan.TotalMinutes.ToString() + "</color>");
+                if (lSpan.TotalMinutes < 0F)
+                {
+                    
+                    mPlanningEnd = DateTime.Parse(mPlanningNextCourse.Date_Fin.Replace("-", "/"));
+                    Debug.LogError("<color=blue> START COURSE" + mPlanningEnd.ToString() +  "</color>");
+                    CanStartCourse = true;
+                }
+            }
         }
     }
 
