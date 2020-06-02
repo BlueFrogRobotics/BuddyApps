@@ -6,6 +6,7 @@ using BlueQuark;
 using System;
 using System.Globalization;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
 namespace BuddyApp.CoursTelepresence
 {
@@ -22,6 +23,7 @@ namespace BuddyApp.CoursTelepresence
 
         private string mIdTablet;
         private string mBuddyId;
+        private string mToken;
         private bool mSensorsBroadcast;
         public bool mStaticSteering;
         private float mLastBroadcastTime;
@@ -31,6 +33,10 @@ namespace BuddyApp.CoursTelepresence
         private float mPingTime;
         private bool mMovingYes;
         private bool mMovingNo;
+
+        private const string GET_TOKEN_URL = "https://teamnet-bfr.ey.r.appspot.com/rtmToken?account=";
+
+        public bool IsInitialised { get; internal set; }
 
 
         // Use this for initialization
@@ -42,7 +48,7 @@ namespace BuddyApp.CoursTelepresence
             mMovingYes = false;
             mMovingNo = false;
             Buddy.Actuators.Wheels.Locked = true;
-
+            IsInitialised = false;
             Login();
             mPingId = 0;
             mStaticSteering = true;
@@ -312,10 +318,7 @@ namespace BuddyApp.CoursTelepresence
 
         private void Login()
         {
-            InitRTM();
-            Debug.Log("login");
-            //Buddy.WebServices.Agoraio.Login(Buddy.Platform.RobotUID);
-            Buddy.WebServices.Agoraio.Login(mBuddyId);
+            StartCoroutine(LoginAsync());
         }
 
         public void Logout()
@@ -550,6 +553,36 @@ namespace BuddyApp.CoursTelepresence
                     default:
                         Debug.LogWarning("UNKNOWN message type " + lMessage.propertyName);
                         break;
+                }
+            }
+        }
+
+        private IEnumerator LoginAsync()
+        {
+            InitRTM();
+            yield return GetToken(mBuddyId);
+            Debug.Log("login");
+            //Buddy.WebServices.Agoraio.Login(Buddy.Platform.RobotUID);
+            Buddy.WebServices.Agoraio.Login(mBuddyId);
+            IsInitialised = true;
+        }
+
+        private IEnumerator GetToken(string lId)
+        {
+            string request = GET_TOKEN_URL+ lId;
+            using (UnityWebRequest www = UnityWebRequest.Get(request))
+            {
+                yield return www.SendWebRequest();
+                if (www.isHttpError || www.isNetworkError)
+                {
+                    Debug.Log("Request error " + www.error + " " + www.downloadHandler.text);
+                }
+                else
+                {
+                    string lRecoJson = www.downloadHandler.text;
+                    Newtonsoft.Json.Linq.JObject lJsonNode = Utils.UnserializeJSONtoObject(lRecoJson);
+                    Debug.LogError("token: " + lJsonNode["key"]);
+                    mToken = (string)lJsonNode["key"];
                 }
             }
         }

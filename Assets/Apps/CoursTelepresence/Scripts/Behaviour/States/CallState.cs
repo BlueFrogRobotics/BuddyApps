@@ -198,6 +198,8 @@ namespace BuddyApp.CoursTelepresence
                   mRTCManager.SendPicture(Buddy.Sensors.HDCamera.Frame.Texture);
               };
 
+            mRTMManager.OnPictureReceived = (data) => mRTCManager.SetProfilePicture(data);
+
             Volume.gameObject.SetActive(true);
             Video.gameObject.SetActive(true);
             Micro.gameObject.SetActive(true);
