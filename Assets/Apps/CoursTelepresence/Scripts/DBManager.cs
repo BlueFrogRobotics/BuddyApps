@@ -130,6 +130,7 @@ namespace BuddyApp.CoursTelepresence
                     {
                         Debug.LogError("<color=blue> END CALL </color>");
                         CanEndCourse = true;
+                        CanStartCourse = false;
                         mPlanning = false;
                     }
                 }

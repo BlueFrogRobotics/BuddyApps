@@ -14,13 +14,14 @@ namespace BuddyApp.CoursTelepresence
         private RTCManager mRTCManager;
         private Button mCallButton;
         private string mChannelId = "channeltest";
+        private bool mAddListenerButtonCall;
 
         override public void Start()
         {
             // This returns the GameObject named RTMCom.
             mRTMManager = GetComponent<RTMManager>();
             mRTCManager = GetComponent<RTCManager>();
-
+           
             mCallButton = GetGameObject(10).GetComponent<Button>();
 
             Buddy.Vocal.DefaultInputParameters.Grammars = new string[1] { "grammar" };
@@ -33,28 +34,39 @@ namespace BuddyApp.CoursTelepresence
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Debug.LogError("Idle state");
+            mAddListenerButtonCall = false;
             mCallButton.gameObject.SetActive(true);
+            Color lColor;
+            lColor = mCallButton.GetComponent<Image>().color;
+            lColor.a = 0.75F;
+            mCallButton.GetComponent<Image>().color = lColor;
             GameObject NameStudent = GetGameObject(14).transform.GetChild(0).GetChild(0).gameObject;
             GameObject FirstNameStudent = GetGameObject(14).transform.GetChild(0).GetChild(1).gameObject;
-            Debug.LogError("Idle state 1");
             GameObject ClassStudent = GetGameObject(14).transform.GetChild(1).GetChild(0).gameObject;
-            Debug.LogError("Idle state 2");
             NameStudent.GetComponent<Text>().text = DBManager.Instance.UserStudent.Nom;// + " " + DBManager.Instance.UserStudent.Prenom;
             FirstNameStudent.GetComponent<Text>().text = DBManager.Instance.UserStudent.Prenom;
-            Debug.LogError("Idle state 3");
             ClassStudent.GetComponent<Text>().text = " - " + DBManager.Instance.UserStudent.Organisme;
-            Debug.LogError("Idle state 4");
             mRTMManager.OncallRequest = (CallRequest lCall) => { Trigger("INCOMING CALL"); };
-            Debug.LogError("Idle state 5");
 
             mRTMManager.OncallRequest = (CallRequest lCall) => { Trigger("INCOMING CALL"); };
-            Debug.LogError("Idle state 6");
 
             // Manage trigger and vocal
            Buddy.Vocal.EnableTrigger = true;
 
-            mCallButton.onClick.AddListener(LaunchCall);
+            
+        }
+
+        public override void OnStateUpdate(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
+        {
+            if(DBManager.Instance.CanStartCourse && !mAddListenerButtonCall)
+            {
+                mAddListenerButtonCall = true;
+                Color lColor;
+                lColor = mCallButton.GetComponent<Image>().color;
+                lColor.a = 1F;
+                mCallButton.GetComponent<Image>().color = lColor;
+                mCallButton.onClick.AddListener(LaunchCall);
+            }
         }
 
         private void OnEndListen(SpeechInput iSpeechInput)
