@@ -512,7 +512,8 @@ namespace BuddyApp.CoursTelepresence
                             Planning.Date_Debut = planning.Date_Debut;
                             Planning.idPlanning = planning.idPlanning;
                             Planning.ID = planning.ID;
-                            Planning.UserId = planning.UserId;
+                            Planning.EleveIdUser = planning.EleveIdUser;
+                            Planning.DeviceUID = planning.DeviceUID;
                             Planning.Prof = planning.Prof;
                             ListPlanning.Add(Planning);
                         }
@@ -541,12 +542,26 @@ namespace BuddyApp.CoursTelepresence
                     string[] lSpliteDateNow = lDateNow.Split('/');
                     Debug.LogError("<color=red> lsplitDate : " + lSplitDate[0] + " lSpliteDateNow[0] : " + lSpliteDateNow[0] + " lSpliteDateNow[1] : " + lSplitDate[1] + " lSpliteDateNow[1] : " + lSpliteDateNow[1] + "</color>");
 
-                    if ((lSplitDate[0] == lSpliteDateNow[0]) && (lSplitDate[1] == lSpliteDateNow[1]))
+                    if(Application.systemLanguage == SystemLanguage.French)
                     {
-                        Debug.LogError("<color=red> Date Debut : " + lPlanning.Date_Debut + " Date fin : " + lPlanning.Date_Fin + "</color>");
-                        mPlanning = true;
-                        return lPlanning;
+                        if ((lSplitDate[0] == lSpliteDateNow[0]) && (lSplitDate[1] == lSpliteDateNow[1]))
+                        {
+                            Debug.LogError("<color=red> Date Debut : " + lPlanning.Date_Debut + " Date fin : " + lPlanning.Date_Fin + "</color>");
+                            mPlanning = true;
+                            return lPlanning;
+                        }
                     }
+                    else if(Application.systemLanguage == SystemLanguage.English)
+                    {
+                        if ((lSplitDate[0] == lSpliteDateNow[1]) && (lSplitDate[1] == lSpliteDateNow[0]))
+                        {
+                            Debug.LogError("<color=red> Date Debut : " + lPlanning.Date_Debut + " Date fin : " + lPlanning.Date_Fin + "</color>");
+                            mPlanning = true;
+                            return lPlanning;
+                        }
+
+                    }
+
                 }
             }
             return new Planning();
