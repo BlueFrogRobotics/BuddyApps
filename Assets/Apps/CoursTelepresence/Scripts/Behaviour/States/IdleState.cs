@@ -21,7 +21,7 @@ namespace BuddyApp.CoursTelepresence
             mRTMManager = GetComponent<RTMManager>();
             mRTCManager = GetComponent<RTCManager>();
 
-            mCallButton = GetGameObject(10).GetComponentInChildren<Button>();
+            mCallButton = GetGameObject(10).GetComponent<Button>();
 
             Buddy.Vocal.DefaultInputParameters.Grammars = new string[1] { "grammar" };
             Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
@@ -34,14 +34,22 @@ namespace BuddyApp.CoursTelepresence
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.LogError("Idle state");
-
-            GameObject NameStudent = GetGameObject(14).transform.GetChild(0).gameObject;
-            GameObject ClassStudent = GetGameObject(14).transform.GetChild(1).gameObject;
-            NameStudent.GetComponent<Text>().text = DBManager.Instance.UserStudent.Nom + " " + DBManager.Instance.UserStudent.Prenom;
+            mCallButton.gameObject.SetActive(true);
+            GameObject NameStudent = GetGameObject(14).transform.GetChild(0).GetChild(0).gameObject;
+            GameObject FirstNameStudent = GetGameObject(14).transform.GetChild(0).GetChild(1).gameObject;
+            Debug.LogError("Idle state 1");
+            GameObject ClassStudent = GetGameObject(14).transform.GetChild(1).GetChild(0).gameObject;
+            Debug.LogError("Idle state 2");
+            NameStudent.GetComponent<Text>().text = DBManager.Instance.UserStudent.Nom;// + " " + DBManager.Instance.UserStudent.Prenom;
+            FirstNameStudent.GetComponent<Text>().text = DBManager.Instance.UserStudent.Prenom;
+            Debug.LogError("Idle state 3");
             ClassStudent.GetComponent<Text>().text = " - " + DBManager.Instance.UserStudent.Organisme;
+            Debug.LogError("Idle state 4");
             mRTMManager.OncallRequest = (CallRequest lCall) => { Trigger("INCOMING CALL"); };
+            Debug.LogError("Idle state 5");
 
             mRTMManager.OncallRequest = (CallRequest lCall) => { Trigger("INCOMING CALL"); };
+            Debug.LogError("Idle state 6");
 
             // Manage trigger and vocal
            Buddy.Vocal.EnableTrigger = true;
@@ -66,6 +74,7 @@ namespace BuddyApp.CoursTelepresence
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            mCallButton.gameObject.SetActive(false);
             Buddy.Vocal.EnableTrigger = false;
             mRTMManager.OncallRequest = null;
             mCallButton.onClick.RemoveAllListeners();
