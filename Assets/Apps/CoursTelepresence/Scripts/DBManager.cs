@@ -62,6 +62,7 @@ namespace BuddyApp.CoursTelepresence
         public bool InfoRequestedDone { get; private set; }
         private List<Planning> ListPlanning;
         private Planning mPlanningNextCourse;
+        private Planning mPlanningCheck;
         
 
         private float mTimer;
@@ -73,6 +74,7 @@ namespace BuddyApp.CoursTelepresence
         private DateTime mDateNow;
         private DateTime mPlanningEnd;
         private TimeSpan mSpan;
+        private bool mCheckDBEndCall;
 
         private void Awake()
         {
@@ -82,9 +84,16 @@ namespace BuddyApp.CoursTelepresence
         // Use this for initialization
         void Start()
         {
-            
+            StartDBManager();
+        }
+
+        public void StartDBManager()
+        {
+            mPlanningNextCourse = new Planning();
+            mPlanningCheck = new Planning();
             mTimer = 0F;
             mPlanning = false;
+            mCheckDBEndCall = false;
             Peering = false;
             InfoRequestedDone = false;
             mNbIteration = 0;
@@ -106,14 +115,22 @@ namespace BuddyApp.CoursTelepresence
                 mDateNow = DateTime.Now;
                 
                 mSpan = mPlanningEnd.Subtract(mDateNow);
-                Debug.LogError("<color=blue> AVANT LES 5 LAST MINUTES" + mSpan.TotalMinutes + " </color>");
                 if (mSpan.TotalMinutes < 5F)
                 {
-                    Debug.LogError("<color=blue> IL RESTE 5 MINUTES </color>");
-                    if(mSpan.TotalMinutes < 0F)
+                    Debug.LogError("<color=blue> RESTE 5 MIN </color>");
+                    //if(!mCheckDBEndCall)
+                    //{
+                    //    StartCoroutine(GetPlanning(mPlanningCheck));
+                    //    mPlanningEnd = DateTime.Parse(mPlanningCheck.Date_Fin);
+
+                    //    if(mPlanningCheck.Date_Fin == mPlanningNextCourse.Date_Fin)
+                    //        mCheckDBEndCall = true;
+                    //}
+                    if (mSpan.TotalMinutes < 0F)
                     {
-                        Debug.LogError("<color=blue> COURS FINI </color>");
+                        Debug.LogError("<color=blue> END CALL </color>");
                         CanEndCourse = true;
+                        mPlanning = false;
                     }
                 }
             }
@@ -498,7 +515,6 @@ namespace BuddyApp.CoursTelepresence
                             Planning.Prof = planning.Prof;
                             ListPlanning.Add(Planning);
                         }
-                        mPlanningNextCourse = new Planning();
                         mPlanningNextCourse = GetPlanningFromDB(ListPlanning);
                         Debug.LogError("<color=blue> Date Debut : " + mPlanningNextCourse.Date_Debut + " Date fin : " + mPlanningNextCourse.Date_Fin + "</color>");
                     }
@@ -537,19 +553,28 @@ namespace BuddyApp.CoursTelepresence
 
         private void CheckStartPlanning()
         {
-            if(mPlanning && !CanStartCourse)
+            if (mPlanning && !CanStartCourse)
             {
-                DateTime LDateNow = DateTime.Now;
-                DateTime lPlanningStart = DateTime.Parse (mPlanningNextCourse.Date_Debut.Replace("-", "/"));
-                TimeSpan lSpan = lPlanningStart.Subtract(LDateNow);
-                Debug.LogError("<color=red> TIME SPAN : "  + lSpan.TotalMinutes.ToString() + "</color>");
-                if (lSpan.TotalMinutes < 0F)
+                Debug.LogError("<color=red> ARRAY  : " + mPlanningNextCourse.Date_Debut + "</color>");
+                if (!string.IsNullOrEmpty(mPlanningNextCourse.Date_Debut) && !string.IsNullOrEmpty(mPlanningNextCourse.Date_Fin))
                 {
-                    
-                    mPlanningEnd = DateTime.Parse(mPlanningNextCourse.Date_Fin.Replace("-", "/"));
-                    Debug.LogError("<color=blue> START COURSE" + mPlanningEnd.ToString() +  "</color>");
-                    CanStartCourse = true;
+                    DateTime LDateNow = DateTime.Now;
+                    DateTime lPlanningStart = DateTime.Parse(mPlanningNextCourse.Date_Debut.Replace("-", "/"));
+                    TimeSpan lSpan = lPlanningStart.Subtract(LDateNow);
+                    Debug.LogError("<color=red> START COURSE IN : " + lSpan.TotalMinutes + "</color>");
+
+                    if (lSpan.TotalMinutes < 0F)
+                    {
+                        Debug.LogError("<color=blue> START COURSE </color>");
+                        mPlanningEnd = DateTime.Parse(mPlanningNextCourse.Date_Fin.Replace("-", "/"));
+                        CanStartCourse = true;
+                    }
                 }
+                else
+                {
+                    Debug.LogError("Date_Debut or Date_Fin are null or empty");
+                }
+
             }
         }
     }

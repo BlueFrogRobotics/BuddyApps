@@ -31,16 +31,20 @@ namespace BuddyApp.CoursTelepresence
         private bool mDisplayed;
         private float mTimeMessage;
 
+        private float mTimerEndCall;
+
         private HDCamera mHDCam;
         private GameObject VideoFeedbackImage;
         private bool mHandUp;
+
+        private bool mEndCallDisplay;
 
         // Use this for initialization
         override public void Start()
         {
 
             mDisplayed = false;
-
+            mEndCallDisplay = false;
             mRTCManager = GetComponent<RTCManager>();
             mRTMManager = GetComponent<RTMManager>();
 
@@ -125,6 +129,7 @@ namespace BuddyApp.CoursTelepresence
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mTimer = 0F;
+            mTimerEndCall = 0F;
             mHideTime = -1F;
              mHandUp = false;
             Debug.LogError("call state");
@@ -223,6 +228,28 @@ namespace BuddyApp.CoursTelepresence
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            if(DBManager.Instance.CanEndCourse)
+            {
+                
+                mTimerEndCall += Time.deltaTime;
+                if (!mEndCallDisplay)
+                {
+                    mEndCallDisplay = true;
+                    Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
+                    {
+                        TText lText = iBuilder.CreateWidget<TText>();
+                        lText.SetLabel(Buddy.Resources.GetString("eduendcall"));
+                    }, null, null);
+                }
+
+
+                if (mTimerEndCall > 8F)
+                {
+                    Buddy.GUI.Toaster.Hide();
+                    Trigger("IDLE");
+                }
+            }
+
             if(mHideTime > 0 && (Time.time - mHideTime > 2F))
                 Buddy.GUI.Dialoger.Hide();
 
