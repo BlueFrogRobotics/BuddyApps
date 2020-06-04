@@ -567,6 +567,16 @@ namespace BuddyApp.CoursTelepresence
             IsInitialised = true;
         }
 
+        private IEnumerator RenewTokenAsync()
+        {
+            //InitRTM();
+            yield return GetToken(mBuddyId);
+            //Debug.Log("login");
+            ////Buddy.WebServices.Agoraio.Login(Buddy.Platform.RobotUID);
+            //Buddy.WebServices.Agoraio.Login(mBuddyId);
+            //IsInitialised = true;
+        }
+
         private IEnumerator GetToken(string lId)
         {
             string request = GET_TOKEN_URL+ lId;
