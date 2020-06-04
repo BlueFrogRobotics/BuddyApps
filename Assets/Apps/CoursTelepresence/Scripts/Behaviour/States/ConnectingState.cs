@@ -28,8 +28,9 @@ namespace BuddyApp.CoursTelepresence
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Debug.LogWarning("Peering " + DBManager.Instance.Peering + " info " + DBManager.Instance.InfoRequestedDone);
-            if(DBManager.Instance.Peering && DBManager.Instance.InfoRequestedDone)
+
+            //Debug.LogWarning("Peering " + DBManager.Instance.Peering + " info " + DBManager.Instance.InfoRequestedDone);
+            if (DBManager.Instance.Peering && DBManager.Instance.InfoRequestedDone)
             {
                 mRTMManager.SetTabletId(DBManager.Instance.ListUIDTablet[0]);
                 Trigger("IDLE");

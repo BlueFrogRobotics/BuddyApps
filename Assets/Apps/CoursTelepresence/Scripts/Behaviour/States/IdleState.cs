@@ -43,9 +43,10 @@ namespace BuddyApp.CoursTelepresence
             GameObject NameStudent = GetGameObject(14).transform.GetChild(0).GetChild(0).gameObject;
             GameObject FirstNameStudent = GetGameObject(14).transform.GetChild(0).GetChild(1).gameObject;
             GameObject ClassStudent = GetGameObject(14).transform.GetChild(1).GetChild(0).gameObject;
-            NameStudent.GetComponent<Text>().text = DBManager.Instance.UserStudent.Nom;// + " " + DBManager.Instance.UserStudent.Prenom;
-            FirstNameStudent.GetComponent<Text>().text = DBManager.Instance.UserStudent.Prenom;
-            ClassStudent.GetComponent<Text>().text = " - " + DBManager.Instance.UserStudent.Organisme;
+            //TODO : DECOM TEST
+            //NameStudent.GetComponent<Text>().text = DBManager.Instance.UserStudent.Nom;
+            //FirstNameStudent.GetComponent<Text>().text = DBManager.Instance.UserStudent.Prenom;
+            //ClassStudent.GetComponent<Text>().text = " - " + DBManager.Instance.UserStudent.Organisme;
             mRTMManager.OncallRequest = (CallRequest lCall) => { Trigger("INCOMING CALL"); };
 
             mRTMManager.OncallRequest = (CallRequest lCall) => { Trigger("INCOMING CALL"); };
@@ -58,7 +59,7 @@ namespace BuddyApp.CoursTelepresence
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
         {
-            if(DBManager.Instance.CanStartCourse && !mAddListenerButtonCall)
+            if (DBManager.Instance.CanStartCourse && !mAddListenerButtonCall)
             {
                 mAddListenerButtonCall = true;
                 Color lColor;

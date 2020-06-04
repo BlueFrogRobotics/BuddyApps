@@ -97,5 +97,62 @@ namespace BuddyApp.CoursTelepresence
     {
         public Planning[] Planning;
     }
+
+    public class DeviceUserLiaison
+    {
+        public string User;
+        [JsonProperty(PropertyName = "Device.Reference")]
+        public string DeviceReference;
+        [JsonProperty(PropertyName = "User.Prenom")]
+        public string UserPrenom;
+        [JsonProperty(PropertyName = "Device.Organisme")]
+        public string DeviceOrganisme;
+        [JsonProperty(PropertyName = "User.Type_user")]
+        public string UserType_user;
+        [JsonProperty(PropertyName = "User.idUser")]
+        public int UserIdUser;
+        [JsonProperty(PropertyName = "User.Nom")]
+        public string UserNom;
+        [JsonProperty(PropertyName = "Device.Etat")]
+        public string DeviceEtat;
+        [JsonProperty(PropertyName = "Device.idDevice")]
+        public int DeviceIdDevice;
+        [JsonProperty(PropertyName = "Device.Nom1")]
+        public string DeviceNom1;
+        public string Groupes_Users;
+        [JsonProperty(PropertyName = "Device.Ville")]
+        public string DeviceVille;
+        public string ID;
+        [JsonProperty(PropertyName = "User.Organisme")]
+        public string UserOrganisme;
+        public int idDevice_User;
+        [JsonProperty(PropertyName = "Device.Position_GPS")]
+        public string DevicePosition_GPS;
+        [JsonProperty(PropertyName = "Device.Type_organisme")]
+        public string DeviceType_organisme;
+        public string Device;
+        [JsonProperty(PropertyName = "Device.Type_device")]
+        public string DeviceType_device;
+        [JsonProperty(PropertyName = "Device.Uid")]
+        public string DeviceUid;
+        [JsonProperty(PropertyName = "Device.idOrganisme")]
+        public string DeviceIdOrganisme;
+        [JsonProperty(PropertyName = "Device.Qualite_signal")]
+        public string DeviceQualite_signal;
+        [JsonProperty(PropertyName = "Device.Batterie")]
+        public string DeviceBatterie;
+        [JsonProperty(PropertyName = "User.Identifiant")]
+        public string UserIdentifiant;
+        [JsonProperty(PropertyName = "Planning.idPlanning")]
+        public string PlanningIdPlanning;
+        [JsonProperty(PropertyName = "Device.Nom")]
+        public string DeviceNom;
+        public string Groupes_fabricants;
+    }
+
+    public class DeviceUserLiaisonList
+    {
+        public DeviceUserLiaison[] Device_user;
+    }
 }
 
