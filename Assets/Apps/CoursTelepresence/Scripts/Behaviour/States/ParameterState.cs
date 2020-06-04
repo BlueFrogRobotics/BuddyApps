@@ -8,7 +8,7 @@ namespace BuddyApp.CoursTelepresence
     {
         override public void Start()
         {
-
+             
         }
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

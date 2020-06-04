@@ -112,8 +112,8 @@ namespace BuddyApp.CoursTelepresence
             mDeviceUserLiaison = new DeviceUserLiaison();
             mDeviceUserLiaisonList = new List<DeviceUserLiaison>();
             mListTabletUser = new List<DeviceUserLiaison>();
-            //StartCoroutine(GetTabletUID(Buddy.Platform.RobotUID));
-            StartCoroutine(GetTabletUID("AFD3183637443D5E5A95"));
+            StartCoroutine(GetTabletUID(Buddy.Platform.RobotUID));
+            //StartCoroutine(GetTabletUID("AFD3183637443D5E5A95"));
 
             //StartCoroutine(UpdatePingAndPosition());
             //StartCoroutine(UpdateBattery());
@@ -171,6 +171,7 @@ namespace BuddyApp.CoursTelepresence
         private IEnumerator GetDeviceInfos(int iIdUser)
         {
             ListUIDTablet = new List<string>();
+            ListUserStudent = new List<User>();
             string lRequest = GET_USER_TABLET + iIdUser.ToString();
             using (UnityWebRequest lRequestDevice = UnityWebRequest.Get(lRequest))
             {
@@ -266,19 +267,20 @@ namespace BuddyApp.CoursTelepresence
                         foreach (Planning planning in planningList.Planning)
                         {
                             Planning = new Planning();
-                            Planning = planning;
-                            //Planning.Date_Fin = planning.Date_Fin;
-                            //Planning.DeviceId = planning.DeviceId;
-                            //Planning.Eleve = planning.Eleve;
-                            //Planning.Device = planning.Device;
-                            //Planning.Date_Debut = planning.Date_Debut;
-                            //Planning.idPlanning = planning.idPlanning;
-                            //Planning.ID = planning.ID;
-                            //Planning.EleveIdUser = planning.EleveIdUser;
-                            //Planning.DeviceUID = planning.DeviceUID;
-                            //Planning.Prof = planning.Prof;
+                            //Planning = planning;
+                            Planning.Date_Fin = planning.Date_Fin;
+                            Planning.DeviceId = planning.DeviceId;
+                            Planning.Eleve = planning.Eleve;
+                            Planning.Device = planning.Device;
+                            Planning.Date_Debut = planning.Date_Debut;
+                            Planning.idPlanning = planning.idPlanning;
+                            Planning.ID = planning.ID;
+                            Planning.EleveIdUser = planning.EleveIdUser;
+                            Planning.DeviceUID = planning.DeviceUID;
+                            Planning.Prof = planning.Prof;
                             Debug.LogError("<color=green>FOREACH PLANNING Date Debut : " + Planning.Date_Debut + " Date fin : " + Planning.Date_Fin + "</color>");
-                            ListPlanning.Add(Planning);
+                            if (planning.DeviceId.HasValue && planning.idPlanning.HasValue && planning.EleveIdUser.HasValue)
+                                ListPlanning.Add(Planning);
                         }
                         mPlanningNextCourse = GetPlanningFromDB(ListPlanning);
                         Debug.LogError("<color=blue> Date Debut : " + mPlanningNextCourse.Date_Debut + " Date fin : " + mPlanningNextCourse.Date_Fin + "</color>");
@@ -318,11 +320,18 @@ namespace BuddyApp.CoursTelepresence
                     {
                         if ((lSplitDate[0] == lSpliteDateNow[1]) && (lSplitDate[1] == lSpliteDateNow[0]))
                         {
+                            string[] lSplitDateEnd = lPlanning.Date_Fin.Split('-');
+                            //string lTemp = lSplitDateEnd[0];
+                            //lSplitDateEnd[0] = lSplitDateEnd[1];
+                            //lSplitDateEnd[1] = lTemp;
+                            string lDateEndReformed = lSplitDateEnd[1] + "-" + lSplitDateEnd[0] + "-" + lSplitDateEnd[2];
+                            string lDateStartReformed = lSplitDate[1] + "-" + lSplitDate[0] + "-" + lSplitDate[2];
+                            lPlanning.Date_Fin = lDateEndReformed;
+                            lPlanning.Date_Debut = lDateStartReformed;
                             Debug.LogError("<color=red> Date Debut : " + lPlanning.Date_Debut + " Date fin : " + lPlanning.Date_Fin + "</color>");
                             mPlanning = true;
                             return lPlanning;
                         }
-
                     }
 
                 }
@@ -339,16 +348,18 @@ namespace BuddyApp.CoursTelepresence
                 Debug.LogError("<color=red> ARRAY  : " + mPlanningNextCourse.Date_Debut + "</color>");
                 if (!string.IsNullOrEmpty(mPlanningNextCourse.Date_Debut) && !string.IsNullOrEmpty(mPlanningNextCourse.Date_Fin))
                 {
-                    DateTime LDateNow = DateTime.Now;
+                    DateTime lDateNow = DateTime.Now;
                     DateTime lPlanningStart = DateTime.Parse(mPlanningNextCourse.Date_Debut.Replace("-", "/"));
-                    TimeSpan lSpan = lPlanningStart.Subtract(LDateNow);
+                    TimeSpan lSpan = lPlanningStart.Subtract(lDateNow);
                     Debug.LogError("<color=red> START COURSE IN : " + lSpan.TotalMinutes + "</color>");
+                    Debug.LogError("planning start: " + lPlanningStart + "date now" + lDateNow);
 
                     if (lSpan.TotalMinutes < 0F)
                     {
                         Debug.LogError("<color=blue> START COURSE </color>");
                         mPlanningEnd = DateTime.Parse(mPlanningNextCourse.Date_Fin.Replace("-", "/"));
                         CanStartCourse = true;
+                        Debug.LogError("planning end: " + mPlanningEnd);
                     }
                 }
                 else

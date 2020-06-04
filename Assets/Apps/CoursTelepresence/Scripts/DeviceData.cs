@@ -77,18 +77,18 @@ namespace BuddyApp.CoursTelepresence
     {
         public string Date_Fin;
         [JsonProperty(PropertyName = "Device.idDevice")]
-        public int DeviceId;
+        public int? DeviceId;
         public string Eleve;
         public string Device;
         public string Date_Debut;
         [JsonProperty(PropertyName = "Device.Uid")]
         public string DeviceUID;
-        public int idPlanning;
+        public int? idPlanning;
         [JsonProperty(PropertyName = "Eleve.idUser")]
-        public int EleveIdUser;
+        public int? EleveIdUser;
         public string ID;
         [JsonProperty(PropertyName = "Prof.idUser")]
-        public int ProfId;
+        public int? ProfId;
         public string Prof;
     }
 
