@@ -15,6 +15,7 @@ namespace BuddyApp.CoursTelepresence
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            Buddy.GUI.Header.DisplayParametersButton(false);
             Debug.Log("Connecting state");
             mRTMManager = GetComponent<RTMManager>();
 

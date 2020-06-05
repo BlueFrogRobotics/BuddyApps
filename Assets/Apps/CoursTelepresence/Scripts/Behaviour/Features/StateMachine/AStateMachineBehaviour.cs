@@ -45,6 +45,15 @@ namespace BuddyApp.CoursTelepresence
         }
 
         /// <summary>
+        /// Trigger the named trigger in the current animator
+        /// </summary>
+        /// <param name="iTriggerName">Trigger name</param>
+        protected void TriggerState(string iTriggerName)
+        {
+            mAnimator.SetTrigger(iTriggerName);
+        }
+
+        /// <summary>
         /// Reset the named trigger in the current animator
         /// </summary>
         /// <param name="iTriggerName"></param>

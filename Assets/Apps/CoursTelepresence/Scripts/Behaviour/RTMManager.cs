@@ -115,6 +115,13 @@ namespace BuddyApp.CoursTelepresence
             InformStaticSteering();
         }
 
+        public void SwapSteering(bool iValue)
+        {
+            mStaticSteering = iValue;
+            Buddy.Actuators.Wheels.Locked = mStaticSteering;
+            InformStaticSteering();
+        }
+
 
         ////////////////////////
         /// SENDING COMMANDS ///

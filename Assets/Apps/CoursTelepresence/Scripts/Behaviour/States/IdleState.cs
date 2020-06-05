@@ -34,6 +34,8 @@ namespace BuddyApp.CoursTelepresence
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            Buddy.GUI.Header.DisplayParametersButton(true);
+            Buddy.GUI.Header.OnClickParameters.Add(() => { Trigger("PARAMETERS"); });
             mAddListenerButtonCall = false;
             mCallButton.gameObject.SetActive(true);
             Color lColor;
@@ -87,6 +89,8 @@ namespace BuddyApp.CoursTelepresence
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            Buddy.GUI.Header.OnClickParameters.Clear();
+            Buddy.GUI.Header.DisplayParametersButton(false);
             mCallButton.gameObject.SetActive(false);
             Buddy.Vocal.EnableTrigger = false;
             mRTMManager.OncallRequest = null;

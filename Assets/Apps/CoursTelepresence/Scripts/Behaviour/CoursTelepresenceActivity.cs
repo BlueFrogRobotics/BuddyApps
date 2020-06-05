@@ -42,7 +42,7 @@ namespace BuddyApp.CoursTelepresence
         public override void OnStart()
         {
             ExtLog.I(ExtLogModule.APP, typeof(CoursTelepresenceActivity), LogStatus.SUCCESS, LogInfo.LOADING, "On start...");
-            Buddy.GUI.Header.DisplayParametersButton(false);
+            
         }
 
 		/*
