@@ -2,6 +2,7 @@
 using UnityEngine;
 using BlueQuark;
 using System;
+using UnityEngine.UI;
 
 namespace BuddyApp.CoursTelepresence
 {
@@ -33,8 +34,14 @@ namespace BuddyApp.CoursTelepresence
             //Debug.LogWarning("Peering " + DBManager.Instance.Peering + " info " + DBManager.Instance.InfoRequestedDone);
             if (DBManager.Instance.Peering && DBManager.Instance.InfoRequestedDone)
             {
-                mRTMManager.SetTabletId(DBManager.Instance.ListUIDTablet[0]);
-                Trigger("IDLE");
+                for(int i = 0; i < DBManager.Instance.ListUIDTablet.Count; ++i)
+                {
+                    GameObject lButtonUser = GameObject.Instantiate(GetGameObject(15));
+                    lButtonUser.transform.parent = GetGameObject(16).transform;
+                    Debug.LogError("CONNECTING STATE : BUTTON N° " + i);
+                    lButtonUser.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => { ButtonClick(i); });
+                }
+                
             }
         }
 
@@ -42,6 +49,12 @@ namespace BuddyApp.CoursTelepresence
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.Log("Connecting state exit");
+        }
+
+        private void ButtonClick(int iIndexList)
+        {
+            mRTMManager.SetTabletId(DBManager.Instance.ListUIDTablet[iIndexList]);
+            Trigger("IDLE");
         }
     }
 
