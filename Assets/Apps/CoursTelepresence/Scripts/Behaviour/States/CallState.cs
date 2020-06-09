@@ -39,9 +39,15 @@ namespace BuddyApp.CoursTelepresence
 
         private bool mEndCallDisplay;
 
+
+        private TSlider mSliderVolume;
+        private TToggle mToggleNavigation;
+
         // Use this for initialization
         override public void Start()
         {
+            Buddy.GUI.Header.DisplayParametersButton(true);
+            Buddy.GUI.Header.OnClickParameters.Add(Lauchparameters);
 
             mDisplayed = false;
             mEndCallDisplay = false;
@@ -314,6 +320,8 @@ namespace BuddyApp.CoursTelepresence
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            Buddy.GUI.Toaster.Hide();
+            Buddy.GUI.Header.OnClickParameters.Clear();
             //ManageGUIClose();
             if (mTimeMessage >= 0)
                 StopMessage();
@@ -417,10 +425,44 @@ namespace BuddyApp.CoursTelepresence
             deviceAudio.Call("setStreamVolume", STREAMCALL, scaledVolume, FLAGSHOWUI);
         }
 
+        private void Lauchparameters()
+        {
+            Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
+            {
+                mSliderVolume = iBuilder.CreateWidget<TSlider>();
+                mSliderVolume.SlidingValue = Buddy.Actuators.Speakers.Volume;
+                mSliderVolume.OnSlide.Add(UpdateVolume);
 
+                mToggleNavigation = iBuilder.CreateWidget<TToggle>();
+                mToggleNavigation.SetLabel("Navigation Statique/Dynamique");
+                mToggleNavigation.ToggleValue = mRTMManager.mStaticSteering;
+                mToggleNavigation.OnToggle.Add(mRTMManager.SwapSteering);
 
+            }
+           );
+            Buddy.GUI.Header.OnClickParameters.Clear();
+            Buddy.GUI.Header.OnClickParameters.Add(CloseParameters);
+        }
 
+        private void CloseParameters()
+        {
+            Buddy.GUI.Toaster.Hide();
+            Buddy.GUI.Header.OnClickParameters.Clear();
+            Buddy.GUI.Header.OnClickParameters.Add(Lauchparameters);
+        }
 
+        public void UpdateVolume(float iValue)
+        {
+            if (Mathf.Abs(Buddy.Actuators.Speakers.Volume - iValue) > 0.05)
+            {
+                Debug.Log("PRE Volume set to " + Buddy.Actuators.Speakers.Volume);
+                Debug.Log("PRE slider set to " + iValue);
+                Buddy.Actuators.Speakers.Volume = iValue;
+                //if (!Buddy.Actuators.Speakers.IsBusy)
+                //    Buddy.Actuators.Speakers.Effects.Play(SoundSample.BEEP_1);
+                Debug.Log("POST Volume set to " + Buddy.Actuators.Speakers.Volume);
+            }
+        }
     }
 
 

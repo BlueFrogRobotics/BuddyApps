@@ -616,5 +616,10 @@ namespace BuddyApp.CoursTelepresence
             Debug.Log("renew");
         }
 
+        public void TestLog()
+        {
+            Debug.Log("truc muche lol");
+        }
+
     }
 }
