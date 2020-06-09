@@ -39,8 +39,9 @@ namespace BuddyApp.CoursTelepresence
                     GameObject lButtonUser = GameObject.Instantiate(GetGameObject(15));
                     lButtonUser.transform.parent = GetGameObject(16).transform;
                     //Name 
-                    GetGameObject(17).GetComponent<Text>().text = DBManager.Instance.ListUserStudent[i].Nom + " - " + DBManager.Instance.ListUserStudent[i].Prenom;
-                    GetGameObject(18).GetComponent<Text>().text = DBManager.Instance.ListUserStudent[i].Organisme;
+                    //Debug.LogError("<color=green>" + GetGameObject(16).transform.GetChild(1).GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetChild(0).ToString() + "</color>");
+                    GetGameObject(16).transform.GetChild(1).GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<Text>().text = DBManager.Instance.ListUserStudent[i].Nom + " - " + DBManager.Instance.ListUserStudent[i].Prenom;
+                    GetGameObject(16).transform.GetChild(1).GetChild(1).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<Text>().text = DBManager.Instance.ListUserStudent[i].Organisme;
                     Debug.LogError("CONNECTING STATE : BUTTON N° " + i);
                     lButtonUser.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => { ButtonClick(i); });
                 }
