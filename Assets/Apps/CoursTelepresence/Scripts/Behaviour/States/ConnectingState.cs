@@ -11,7 +11,7 @@ namespace BuddyApp.CoursTelepresence
     {
         [SerializeField]
         private Animator ConnectingScreenAnimator;
-
+        private bool mListDone;
         private RTMManager mRTMManager;
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -19,7 +19,7 @@ namespace BuddyApp.CoursTelepresence
             Buddy.GUI.Header.DisplayParametersButton(false);
             Debug.Log("Connecting state");
             mRTMManager = GetComponent<RTMManager>();
-
+            mListDone = false;
             //TODO check DB and stuff
 
             if (Buddy.Behaviour.Mood != Mood.NEUTRAL)
@@ -32,16 +32,19 @@ namespace BuddyApp.CoursTelepresence
         {
 
             //Debug.LogWarning("Peering " + DBManager.Instance.Peering + " info " + DBManager.Instance.InfoRequestedDone);
-            if (DBManager.Instance.Peering && DBManager.Instance.InfoRequestedDone)
+            if (DBManager.Instance.Peering && DBManager.Instance.InfoRequestedDone && !mListDone)
             {
                 for(int i = 0; i < DBManager.Instance.ListUIDTablet.Count; ++i)
                 {
                     GameObject lButtonUser = GameObject.Instantiate(GetGameObject(15));
                     lButtonUser.transform.parent = GetGameObject(16).transform;
+                    //Name 
+                    GetGameObject(17).GetComponent<Text>().text = DBManager.Instance.UserStudent.Nom + " - " + DBManager.Instance.UserStudent.Prenom;
+                    GetGameObject(18).GetComponent<Text>().text = DBManager.Instance.UserStudent.Organisme;
                     Debug.LogError("CONNECTING STATE : BUTTON N° " + i);
                     lButtonUser.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => { ButtonClick(i); });
                 }
-                
+                mListDone = true;
             }
         }
 
