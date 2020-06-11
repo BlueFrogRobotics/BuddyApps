@@ -11,7 +11,7 @@ namespace BuddyApp.CoursTelepresence
     //TODO : 
     // - make function to start routine from another script
 
-    
+
     public sealed class DBManager : MonoBehaviour
     {
         private static DBManager instance = null;
@@ -28,11 +28,11 @@ namespace BuddyApp.CoursTelepresence
             {
                 //lock(padLock)
                 //{
-                    //if(instance == null)
-                    //{
-                    //    instance = new DBManager();
-                    //}
-                    return instance;
+                //if(instance == null)
+                //{
+                //    instance = new DBManager();
+                //}
+                return instance;
                 //}
             }
         }
@@ -41,7 +41,7 @@ namespace BuddyApp.CoursTelepresence
         private const string GET_USER_TABLET = "https://creator.zoho.eu/api/json/flotte/view/all_liaison_device_user?authtoken=" + TOKEN + "&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true&criteria=User.idUser==";
         private const string GET_ALL_LIAISON = "https://creator.zoho.eu/api/json/flotte/view/all_liaison_device_user?authtoken=" + TOKEN + "&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true&criteria=Device.Uid==";
         private const string TABLET_TYPE_DEVICE = "Tablette";
-        
+
 
         private DeviceUserLiaison mDeviceUserLiaison;
         private List<DeviceUserLiaison> mDeviceUserLiaisonList;
@@ -58,7 +58,7 @@ namespace BuddyApp.CoursTelepresence
         //private const string TABLET_TYPE_DEVICE = "Tablette";
 
         public List<User> ListUserStudent { get; private set; }
-        public User UserStudent{ get; private set; }
+        public User UserStudent { get; private set; }
 
         //private string mURIBattery;
         //private string mURIPing;
@@ -112,63 +112,214 @@ namespace BuddyApp.CoursTelepresence
             mDeviceUserLiaison = new DeviceUserLiaison();
             mDeviceUserLiaisonList = new List<DeviceUserLiaison>();
             mListTabletUser = new List<DeviceUserLiaison>();
-            StartCoroutine(GetTabletUID(Buddy.Platform.RobotUID));
-            //StartCoroutine(GetTabletUID("AFD3183637443D5E5A95"));
+            //StartCoroutine(GetTabletUID(Buddy.Platform.RobotUID));
+            StartCoroutine(GetUserIdFromUID("AFD3183637443D5E5A95"));
 
             //StartCoroutine(UpdatePingAndPosition());
             //StartCoroutine(UpdateBattery());
         }
 
-        private IEnumerator GetTabletUID(string iRobotUID)
+
+        private IEnumerator GetUserIdFromUID(string iRobotUID)
         {
-                string lRequest = GET_ALL_LIAISON + iRobotUID;
-                using (UnityWebRequest lRequestDevice = UnityWebRequest.Get(lRequest))
+            string lRequest = GET_ALL_LIAISON + iRobotUID;
+            Debug.LogError("Request : " + lRequest);
+            using (UnityWebRequest lRequestDevice = UnityWebRequest.Get(lRequest))
+            {
+                yield return lRequestDevice.SendWebRequest();
+                if (lRequestDevice.isHttpError || lRequestDevice.isNetworkError)
                 {
-                    yield return lRequestDevice.SendWebRequest();
+                    Debug.LogError("Request from GetUserIdFromUID error " + lRequestDevice.error + " " + lRequestDevice.downloadHandler.text);
+                }
+                else
+                {
+                    string lRes = lRequestDevice.downloadHandler.text;
+                    Debug.LogError("Result from GetUserIdFromUID with Robot UID : " + lRes);
 
-                    if (lRequestDevice.isHttpError || lRequestDevice.isNetworkError)
+                    try
                     {
-                        Debug.LogError("Request error " + lRequestDevice.error + " " + lRequestDevice.downloadHandler.text);
-                    }
-                    else
-                    {
-                        string lRes = lRequestDevice.downloadHandler.text;
+                        DeviceUserLiaisonList devices = Utils.UnserializeJSON<DeviceUserLiaisonList>(lRes);
 
-                        Debug.LogError("Result get robot device : " + lRes);
-
-                        try
+                        if (devices != null)
                         {
-                            DeviceUserLiaisonList devices = Utils.UnserializeJSON<DeviceUserLiaisonList>(lRes);
-
-                            if (devices != null)
+                            DBConnected = true;
+                            for(int i = 0; i < devices.Device_user.Length; ++i)
                             {
-                                DBConnected = true;
-                                mDeviceUserLiaison = devices.Device_user[0];
+                                mDeviceUserLiaison = devices.Device_user[i];
                                 mDeviceUserLiaisonList.Add(mDeviceUserLiaison);
-                                if (mDeviceUserLiaisonList.Count > 0)
-                                {
-                                    Debug.LogError("<color=red>mdeviceuserliaison user id user :  " + mDeviceUserLiaisonList[0].UserIdUser + "</color>");
-                                    StartCoroutine(GetDeviceInfos(mDeviceUserLiaisonList[0].UserIdUser));
+                            }
+                            
 
-                                }
-                                //Debug.LogError("<color=red>mdeviceuserliaison :  " + mDeviceUserLiaisonList[0].UserIdUser + " nom : " + mDeviceUserLiaisonList[0].UserNom + " prenom : " + mDeviceUserLiaisonList[0].UserPrenom + "</color>");
-                            }
-                            else
+                            if (mDeviceUserLiaisonList.Count > 0)
                             {
-                                Debug.LogError("No device found with Uid " + iRobotUID);
+                                Debug.LogError("<color=red>mdeviceuserliaison Count sup a 0 : " + mDeviceUserLiaisonList.Count + "</color>");
+                                StartCoroutine(GetInfoForUsers(mDeviceUserLiaisonList));
+
                             }
+                            //Debug.LogError("<color=red>mdeviceuserliaison :  " + mDeviceUserLiaisonList[0].UserIdUser + " nom : " + mDeviceUserLiaisonList[0].UserNom + " prenom : " + mDeviceUserLiaisonList[0].UserPrenom + "</color>");
                         }
-                        catch (Exception e)
+                        else
                         {
-                            Debug.LogError("Error parsing robot device request answer : " + e.Message);
+                            Debug.LogError("List of user is null, check the class DeviceData. The robot UID used is : " + iRobotUID);
                         }
                     }
+                    catch (Exception e)
+                    {
+                        Debug.LogError("Error parsing robot device request answer : " + e.Message);
+                    }
+
                 }
 
-            
+            }
         }
 
-        private IEnumerator GetDeviceInfos(int iIdUser)
+        private IEnumerator GetInfoForUsers(List<DeviceUserLiaison> iListDeviceUserLiaison)
+        {
+            ListUIDTablet = new List<string>();
+            ListUserStudent = new List<User>();
+            string lRequest = GET_USER_TABLET;
+
+            if (iListDeviceUserLiaison.Count == 1)
+            {
+                lRequest += iListDeviceUserLiaison[0].UserIdUser.ToString();
+
+                Debug.LogError("<color=green>REQUEST DEUXIEME : " + lRequest + "</color>");
+            }
+            else
+            {
+                lRequest += iListDeviceUserLiaison[0].UserIdUser.ToString();
+                for (int i = 1; i < iListDeviceUserLiaison.Count; ++i)
+                {
+                    if (iListDeviceUserLiaison[i].UserIdUser.HasValue)
+                    {
+                        lRequest += "||User.idUser==" + iListDeviceUserLiaison[i].UserIdUser.ToString();
+                    }
+                }
+                //Debug.LogError("<color=blue>REQUEST DEUXIEME : " + lRequest + "</color>");
+
+            }
+
+            using (UnityWebRequest lRequestDevice = UnityWebRequest.Get(lRequest))
+            {
+                yield return lRequestDevice.SendWebRequest();
+
+                if (lRequestDevice.isHttpError || lRequestDevice.isNetworkError)
+                {
+                    Debug.LogError("Request from GetInfoForUsers error " + lRequestDevice.error + " " + lRequestDevice.downloadHandler.text);
+                }
+                else
+                {
+                    string lRes = lRequestDevice.downloadHandler.text;
+                    Debug.LogError("Result from GetInfoForUsers : " + lRes);
+
+                    try
+                    {
+                        DeviceUserLiaisonList devices = Utils.UnserializeJSON<DeviceUserLiaisonList>(lRes);
+
+                        if (devices != null)
+                        {
+                            foreach (DeviceUserLiaison lLiaison in devices.Device_user)
+                            {
+                                Debug.LogError("<color=red> foreach lliaison " + lLiaison.DeviceType_device + " </color>");
+                                if (lLiaison.DeviceType_device.Contains(TABLET_TYPE_DEVICE))
+                                {
+                                    Debug.LogError("<color=red> lliaison typedevice  : " + lLiaison.DeviceType_device + " lliaison " + lLiaison.UserNom + " " + lLiaison.UserPrenom +  "</color>");
+                                    mListTabletUser.Add(lLiaison);
+                                }
+                            }
+
+                            foreach (DeviceUserLiaison lDeviceUserLiaison in mListTabletUser)
+                            {
+                                UserStudent = new User();
+                                UserStudent.Nom = lDeviceUserLiaison.UserNom;
+                                UserStudent.Prenom = lDeviceUserLiaison.UserPrenom;
+                                UserStudent.Organisme = lDeviceUserLiaison.UserOrganisme;
+                                UserStudent.Planning = lDeviceUserLiaison.PlanningidPlanning;
+                                ListUserStudent.Add(UserStudent);
+                                ListUIDTablet.Add(lDeviceUserLiaison.DeviceUid);
+                            }
+
+                            if (mListTabletUser.Count > 0 && ListUserStudent.Count > 0)
+                            {
+                                Peering = true;
+                                if (!string.IsNullOrEmpty(ListUserStudent[0].Nom)
+                                    && !string.IsNullOrEmpty(ListUserStudent[0].Prenom)
+                                    && !string.IsNullOrEmpty(ListUserStudent[0].Organisme)
+                                    && !string.IsNullOrEmpty(ListUIDTablet[0]))
+                                {
+                                    InfoRequestedDone = true;
+                                }
+                            }
+
+                            Debug.LogError("<color=red> lliaison typedevice  : " + mListTabletUser[0].DeviceType_device + " lliaison " + mListTabletUser[0].UserNom + " " + mListTabletUser[0].UserPrenom + "</color>");
+
+                            //Debug.LogError("<color=red>mdeviceuserliaison :  " + mDeviceUserLiaisonList[0].UserIdUser + " nom : " + mDeviceUserLiaisonList[0].UserNom + " prenom : " + mDeviceUserLiaisonList[0].UserPrenom + "</color>");
+                        }
+                        else
+                        {
+                            Debug.LogError("No devices found in the list iListDeviceUserLiaison");
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogError("Error parsing tablet device request answer : " + e.Message);
+                    }
+                }
+            }
+        }
+
+
+
+            //private IEnumerator GetUserId(string iRobotUID)
+            //{
+            //    string lRequest = GET_ALL_LIAISON + iRobotUID;
+            //    using (UnityWebRequest lRequestDevice = UnityWebRequest.Get(lRequest))
+            //    {
+            //        yield return lRequestDevice.SendWebRequest();
+
+            //        if (lRequestDevice.isHttpError || lRequestDevice.isNetworkError)
+            //        {
+            //            Debug.LogError("Request error " + lRequestDevice.error + " " + lRequestDevice.downloadHandler.text);
+            //        }
+            //        else
+            //        {
+            //            string lRes = lRequestDevice.downloadHandler.text;
+
+            //            Debug.LogError("Result get robot device : " + lRes);
+
+            //            try
+            //            {
+            //                DeviceUserLiaisonList devices = Utils.UnserializeJSON<DeviceUserLiaisonList>(lRes);
+
+            //                if (devices != null)
+            //                {
+            //                    DBConnected = true;
+            //                    mDeviceUserLiaison = devices.Device_user[0];
+            //                    mDeviceUserLiaisonList.Add(mDeviceUserLiaison);
+            //                    if (mDeviceUserLiaisonList.Count > 0)
+            //                    {
+            //                        Debug.LogError("<color=red>mdeviceuserliaison user id user :  " + mDeviceUserLiaisonList[0].UserIdUser + "</color>");
+            //                        StartCoroutine(GetDeviceInfos(mDeviceUserLiaisonList[0].UserIdUser));
+
+            //                    }
+            //                    //Debug.LogError("<color=red>mdeviceuserliaison :  " + mDeviceUserLiaisonList[0].UserIdUser + " nom : " + mDeviceUserLiaisonList[0].UserNom + " prenom : " + mDeviceUserLiaisonList[0].UserPrenom + "</color>");
+            //                }
+            //                else
+            //                {
+            //                    Debug.LogError("No device found with Uid " + iRobotUID);
+            //                }
+            //            }
+            //            catch (Exception e)
+            //            {
+            //                Debug.LogError("Error parsing robot device request answer : " + e.Message);
+            //            }
+            //        }
+            //    }
+
+
+            //}
+
+            private IEnumerator GetDeviceInfos(int iIdUser)
         {
             ListUIDTablet = new List<string>();
             ListUserStudent = new List<User>();
@@ -202,7 +353,7 @@ namespace BuddyApp.CoursTelepresence
                                 }
                             }
 
-                            foreach(DeviceUserLiaison lDeviceUserLiaison in mListTabletUser)
+                            foreach (DeviceUserLiaison lDeviceUserLiaison in mListTabletUser)
                             {
                                 UserStudent = new User();
                                 UserStudent.Nom = lDeviceUserLiaison.UserNom;
@@ -213,17 +364,17 @@ namespace BuddyApp.CoursTelepresence
                                 ListUIDTablet.Add(lDeviceUserLiaison.DeviceUid);
                             }
 
-                            if(mListTabletUser.Count > 0 && ListUserStudent.Count > 0)
+                            if (mListTabletUser.Count > 0 && ListUserStudent.Count > 0)
                             {
                                 Peering = true;
-                            if (!string.IsNullOrEmpty(ListUserStudent[0].Nom)
-                                && !string.IsNullOrEmpty(ListUserStudent[0].Prenom)
-                                && !string.IsNullOrEmpty(ListUserStudent[0].Organisme)
-                                && !string.IsNullOrEmpty(ListUIDTablet[0]))
-                            {
-                                InfoRequestedDone = true;
-                            }
-                            StartCoroutine(GetPlanning());
+                                if (!string.IsNullOrEmpty(ListUserStudent[0].Nom)
+                                    && !string.IsNullOrEmpty(ListUserStudent[0].Prenom)
+                                    && !string.IsNullOrEmpty(ListUserStudent[0].Organisme)
+                                    && !string.IsNullOrEmpty(ListUIDTablet[0]))
+                                {
+                                    InfoRequestedDone = true;
+                                }
+                                StartCoroutine(GetPlanning());
                             }
 
                             Debug.LogError("<color=red> lliaison typedevice  : " + mListTabletUser[0].DeviceType_device + " lliaison " + mListTabletUser[0].UserNom + " " + mListTabletUser[0].UserPrenom + "</color>");
@@ -241,8 +392,8 @@ namespace BuddyApp.CoursTelepresence
                     }
                 }
             }
-            
-            
+
+
         }
 
         private IEnumerator GetPlanning()

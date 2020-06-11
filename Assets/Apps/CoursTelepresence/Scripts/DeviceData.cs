@@ -63,6 +63,7 @@ namespace BuddyApp.CoursTelepresence
         public string Nom;
         public string Identifiant;
         public string Password;
+        public string Planning;
 
     }
     [Serializable]
@@ -98,58 +99,89 @@ namespace BuddyApp.CoursTelepresence
         public Planning[] Planning;
     }
 
+    [Serializable]
     public class DeviceUserLiaison
     {
         public string User;
-        [JsonProperty(PropertyName = "Device.Reference")]
-        public string DeviceReference;
+
         [JsonProperty(PropertyName = "User.Prenom")]
         public string UserPrenom;
+
         [JsonProperty(PropertyName = "Device.Organisme")]
         public string DeviceOrganisme;
+
         [JsonProperty(PropertyName = "User.Type_user")]
         public string UserType_user;
+
+        [JsonProperty(PropertyName = "Device.Organisme_Reference")]
+        public string DeviceOrganisme_Reference;
+
         [JsonProperty(PropertyName = "User.idUser")]
-        public int UserIdUser;
+        public int? UserIdUser;
+
+        [JsonProperty(PropertyName = "Device.Organisme_Ville")]
+        public string DeviceOrganisme_Ville;
+
         [JsonProperty(PropertyName = "User.Nom")]
         public string UserNom;
+
         [JsonProperty(PropertyName = "Device.Etat")]
         public string DeviceEtat;
+
         [JsonProperty(PropertyName = "Device.idDevice")]
-        public int DeviceIdDevice;
-        [JsonProperty(PropertyName = "Device.Nom1")]
-        public string DeviceNom1;
+        public int? DeviceIdDevice;
+
+        [JsonProperty(PropertyName = "Device.Organisme_Type_organisme")]
+        public string DeviceOrganisme_Type_organisme;
+
         public string Groupes_Users;
-        [JsonProperty(PropertyName = "Device.Ville")]
-        public string DeviceVille;
+
         public string ID;
+
         [JsonProperty(PropertyName = "User.Organisme")]
         public string UserOrganisme;
-        public int idDevice_User;
+
+        public int? idDevice_User;
+
         [JsonProperty(PropertyName = "Device.Position_GPS")]
         public string DevicePosition_GPS;
-        [JsonProperty(PropertyName = "Device.Type_organisme")]
-        public string DeviceType_organisme;
+
         public string Device;
+
         [JsonProperty(PropertyName = "Device.Type_device")]
         public string DeviceType_device;
+
         [JsonProperty(PropertyName = "Device.Uid")]
         public string DeviceUid;
-        [JsonProperty(PropertyName = "Device.idOrganisme")]
-        public string DeviceIdOrganisme;
+
+        [JsonProperty(PropertyName = "Device.Organisme_Nom")]
+        public string DeviceOrganisme_Nom;
+
         [JsonProperty(PropertyName = "Device.Qualite_signal")]
         public string DeviceQualite_signal;
+
         [JsonProperty(PropertyName = "Device.Batterie")]
         public string DeviceBatterie;
+
         [JsonProperty(PropertyName = "User.Identifiant")]
         public string UserIdentifiant;
+
         [JsonProperty(PropertyName = "Planning.idPlanning")]
-        public string PlanningIdPlanning;
+        public string PlanningidPlanning;
+
+        [JsonProperty(PropertyName = "Device.Organisme_Organisme_Parent")]
+        public string DeviceOrganisme_Organisme_Parent;
+
         [JsonProperty(PropertyName = "Device.Nom")]
         public string DeviceNom;
+
         public string Groupes_fabricants;
+
+        [JsonProperty(PropertyName = "Device.Organisme_idOrganisme1")]
+        public string DeviceOrganisme_idOrganisme1;
     }
 
+    [Serializable]
     public class DeviceUserLiaisonList
     {
         public DeviceUserLiaison[] Device_user;
