@@ -46,6 +46,7 @@ namespace BuddyApp.CoursTelepresence
         private DeviceUserLiaison mDeviceUserLiaison;
         private List<DeviceUserLiaison> mDeviceUserLiaisonList;
         private List<DeviceUserLiaison> mListTabletUser;
+        private bool mStartUpdate;
 
         //private const string GET_DEVICE_URL = "https://creator.zoho.eu/api/json/flotte/view/Device_Report?authtoken=" + TOKEN + "&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true";
         //private const string GET_DEVICE_USERS_URL = "https://creator.zoho.eu/api/json/flotte/view/Device_user_Report?authtoken=" + TOKEN + "&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true";
@@ -99,6 +100,7 @@ namespace BuddyApp.CoursTelepresence
         public void StartDBManager()
         {
             mPlanningNextCourse = new Planning();
+            mStartUpdate = false;
             //mPlanningCheck = new Planning();
             //mTimer = 0F;
             mPlanning = false;
@@ -112,13 +114,50 @@ namespace BuddyApp.CoursTelepresence
             mDeviceUserLiaison = new DeviceUserLiaison();
             mDeviceUserLiaisonList = new List<DeviceUserLiaison>();
             mListTabletUser = new List<DeviceUserLiaison>();
-            //StartCoroutine(GetTabletUID(Buddy.Platform.RobotUID));
-            StartCoroutine(GetUserIdFromUID("AFD3183637443D5E5A95"));
+            StartCoroutine(GetUserIdFromUID(Buddy.Platform.RobotUID));
+            //StartCoroutine(GetUserIdFromUID("AFD3183637443D5E5A95"));
 
             //StartCoroutine(UpdatePingAndPosition());
             //StartCoroutine(UpdateBattery());
         }
 
+        private void Update()
+        {
+            if(mStartUpdate)
+            {
+                if (CanStartCourse && !CanEndCourse)
+                {
+                    mDateNow = DateTime.Now;
+
+                    mSpan = mPlanningEnd.Subtract(mDateNow);
+                    if (mSpan.TotalMinutes < 5F)
+                    {
+                        Debug.LogError("<color=blue> RESTE 5 MIN </color>");
+                        //if(!mCheckDBEndCall)
+                        //{
+                        //    StartCoroutine(GetPlanning(mPlanningCheck));
+                        //    mPlanningEnd = DateTime.Parse(mPlanningCheck.Date_Fin);
+
+                        //    if(mPlanningCheck.Date_Fin == mPlanningNextCourse.Date_Fin)
+                        //        mCheckDBEndCall = true;
+                        //}
+                        if (mSpan.TotalMinutes < 0F)
+                        {
+                            Debug.LogError("<color=blue> END CALL </color>");
+                            CanEndCourse = true;
+                            CanStartCourse = false;
+                            mPlanning = false;
+                            mStartUpdate = false;
+                        }
+                    }
+                }
+                if (!CanStartCourse)
+                {
+                    CheckStartPlanning();
+                }
+            }
+
+        }
 
         private IEnumerator GetUserIdFromUID(string iRobotUID)
         {
@@ -233,7 +272,8 @@ namespace BuddyApp.CoursTelepresence
                                 UserStudent = new User();
                                 UserStudent.Nom = lDeviceUserLiaison.UserNom;
                                 UserStudent.Prenom = lDeviceUserLiaison.UserPrenom;
-                                UserStudent.Organisme = lDeviceUserLiaison.UserOrganisme;
+                                string[] lOrgaSplit = lDeviceUserLiaison.UserOrganisme.Split('-');
+                                UserStudent.Organisme = lOrgaSplit[1].Trim();
                                 UserStudent.Planning = lDeviceUserLiaison.PlanningidPlanning;
                                 ListUserStudent.Add(UserStudent);
                                 ListUIDTablet.Add(lDeviceUserLiaison.DeviceUid);
@@ -266,6 +306,51 @@ namespace BuddyApp.CoursTelepresence
                     }
                 }
             }
+        }
+
+        public void FillPlanningStart(int iIndexChosen)
+        {
+
+            string[] lSplitDate = mListTabletUser[iIndexChosen].PlanningidPlanning.Split('&');
+            string[] lSplitDateDayMonth = lSplitDate[1].Split('-');
+            //lSplitDate[1] start planning lSplitDate[2] end planning
+            string lDateNow = DateTime.Now.ToString();
+            string[] lSpliteDateNow = lDateNow.Split('/');
+            //Debug.LogError("<color=red> lSplitDateDayMonth day : " + lSplitDateDayMonth[0] + " lSplitDateDayMonth month : " + lSplitDateDayMonth[1] + " DATE NOW  : " + lSpliteDateNow[0] + " && " + lSpliteDateNow[1] +"</color>");
+            Debug.LogError("<color=red> lSplitDate start : " + lSplitDate[1] + " lSplitDate end : " + lSplitDate[2] + " DATE NOW  : " + lSpliteDateNow[0] + " && " + lSpliteDateNow[1] + "</color>");
+            if (Application.systemLanguage == SystemLanguage.French)
+            {
+                if ((lSplitDateDayMonth[0] == lSpliteDateNow[0]) && (lSplitDateDayMonth[1] == lSpliteDateNow[1]))
+                {
+                    Planning mPlanningUser = new Planning();
+                    mPlanningUser.Date_Debut = lSplitDate[1];
+                    mPlanningUser.Date_Fin = lSplitDate[2];
+                    Debug.LogError("<color=red> Date Debut : " + mPlanningUser.Date_Debut + " Date fin : " + mPlanningUser.Date_Fin + "</color>");
+                    mPlanningNextCourse = mPlanningUser;
+                    mPlanning = true;
+                }
+            }
+            else if (Application.systemLanguage == SystemLanguage.English)
+            {
+                if ((lSplitDateDayMonth[0] == lSpliteDateNow[1]) && (lSplitDateDayMonth[1] == lSpliteDateNow[0]))
+                {
+                    Planning mPlanningUser = new Planning();
+                    string[] lSplitDateEnd = lSplitDate[2].Split('-');
+                    //string lTemp = lSplitDateEnd[0];
+                    //lSplitDateEnd[0] = lSplitDateEnd[1];
+                    //lSplitDateEnd[1] = lTemp;
+                    string lDateEndReformed = lSplitDateEnd[1] + "-" + lSplitDateEnd[0] + "-" + lSplitDateEnd[2];
+                    string lDateStartReformed = lSplitDate[1] + "-" + lSplitDate[0] + "-" + lSplitDate[2];
+                    mPlanningUser.Date_Fin = lDateEndReformed;
+                    mPlanningUser.Date_Debut = lDateStartReformed;
+                    Debug.LogError("<color=red> Date Debut : " + mPlanningUser.Date_Debut + " Date fin : " + mPlanningUser.Date_Fin + "</color>");
+                    mPlanningNextCourse = mPlanningUser;
+                    mPlanning = true;
+                }
+            }
+
+            //mStartUpdate = true;
+
         }
 
 
@@ -444,6 +529,8 @@ namespace BuddyApp.CoursTelepresence
             }
 
         }
+        
+
 
         private Planning GetPlanningFromDB(List<Planning> iList)
         {
@@ -522,39 +609,7 @@ namespace BuddyApp.CoursTelepresence
         }
 
 
-        private void Update()
-        {
 
-            if (CanStartCourse && !CanEndCourse)
-            {
-                mDateNow = DateTime.Now;
-
-                mSpan = mPlanningEnd.Subtract(mDateNow);
-                if (mSpan.TotalMinutes < 5F)
-                {
-                    Debug.LogError("<color=blue> RESTE 5 MIN </color>");
-                    //if(!mCheckDBEndCall)
-                    //{
-                    //    StartCoroutine(GetPlanning(mPlanningCheck));
-                    //    mPlanningEnd = DateTime.Parse(mPlanningCheck.Date_Fin);
-
-                    //    if(mPlanningCheck.Date_Fin == mPlanningNextCourse.Date_Fin)
-                    //        mCheckDBEndCall = true;
-                    //}
-                    if (mSpan.TotalMinutes < 0F)
-                    {
-                        Debug.LogError("<color=blue> END CALL </color>");
-                        CanEndCourse = true;
-                        CanStartCourse = false;
-                        mPlanning = false;
-                    }
-                }
-            }
-            if (!CanStartCourse)
-            {
-                CheckStartPlanning();
-            }
-        }
 
         //public void AddFiveMinutes()
         //{

@@ -42,8 +42,8 @@ namespace BuddyApp.CoursTelepresence
                     //Debug.LogError("<color=green>" + GetGameObject(16).transform.GetChild(1).GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetChild(0).ToString() + "</color>");
                     GetGameObject(16).transform.GetChild(1).GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<Text>().text = DBManager.Instance.ListUserStudent[i].Nom + " - " + DBManager.Instance.ListUserStudent[i].Prenom;
                     GetGameObject(16).transform.GetChild(1).GetChild(1).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<Text>().text = DBManager.Instance.ListUserStudent[i].Organisme;
-                    Debug.LogError("CONNECTING STATE : BUTTON N° " + i);
-                    lButtonUser.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => { ButtonClick(i); });
+                    int lIndex = i;
+                    lButtonUser.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => { ButtonClick(lIndex); });
                 }
                 mListDone = true;
             }
@@ -57,6 +57,7 @@ namespace BuddyApp.CoursTelepresence
 
         private void ButtonClick(int iIndexList)
         {
+            DBManager.Instance.FillPlanningStart(iIndexList);
             mRTMManager.SetTabletId(DBManager.Instance.ListUIDTablet[iIndexList]);
             Trigger("IDLE");
         }
