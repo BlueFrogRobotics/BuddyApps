@@ -9,7 +9,7 @@ namespace BuddyApp.CoursTelepresence
     public class ParameterState : AStateMachineBehaviour
     {
 
-        private TSlider mSliderVolume;
+        private TSlider mSliderVolume; 
         private TToggle mToggleNavigation;
         private TButton mButtonVerify;
 
@@ -28,7 +28,7 @@ namespace BuddyApp.CoursTelepresence
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
             {
                 mSliderVolume = iBuilder.CreateWidget<TSlider>();
-                mSliderVolume.SlidingValue = Buddy.Actuators.Speakers.Volume;
+                mSliderVolume.SlidingValue = Buddy.Actuators.Speakers.Volume*100F;
                 mSliderVolume.OnSlide.Add(UpdateVolume);
                 
                 mToggleNavigation = iBuilder.CreateWidget<TToggle>();
@@ -63,11 +63,12 @@ namespace BuddyApp.CoursTelepresence
 
         public void UpdateVolume(float iValue)
         {
-            if (Mathf.Abs(Buddy.Actuators.Speakers.Volume - iValue) > 0.05)
+            float lValue = iValue / 100F;
+            if (Mathf.Abs(Buddy.Actuators.Speakers.Volume - lValue) > 0.05)
             {
                 Debug.Log("PRE Volume set to " + Buddy.Actuators.Speakers.Volume);
-                Debug.Log("PRE slider set to " + iValue);
-                Buddy.Actuators.Speakers.Volume = iValue;
+                Debug.Log("PRE slider set to " + lValue);
+                Buddy.Actuators.Speakers.Volume = lValue;
                 //if (!Buddy.Actuators.Speakers.IsBusy)
                 //    Buddy.Actuators.Speakers.Effects.Play(SoundSample.BEEP_1);
                 Debug.Log("POST Volume set to " + Buddy.Actuators.Speakers.Volume);

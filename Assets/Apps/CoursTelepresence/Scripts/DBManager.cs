@@ -161,7 +161,7 @@ namespace BuddyApp.CoursTelepresence
 
         private IEnumerator GetUserIdFromUID(string iRobotUID)
         {
-            string lRequest = GET_ALL_LIAISON + iRobotUID;
+            string lRequest = GET_ALL_LIAISON + '"' + iRobotUID + '"';
             Debug.LogError("Request : " + lRequest);
             using (UnityWebRequest lRequestDevice = UnityWebRequest.Get(lRequest))
             {
