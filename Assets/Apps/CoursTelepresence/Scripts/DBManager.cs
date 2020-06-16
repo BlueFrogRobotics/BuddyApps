@@ -46,6 +46,7 @@ namespace BuddyApp.CoursTelepresence
         private DeviceUserLiaison mDeviceUserLiaison;
         private List<DeviceUserLiaison> mDeviceUserLiaisonList;
         private List<DeviceUserLiaison> mListTabletUser;
+        private List<DeviceUserLiaison> mListRobotUser;
         private bool mStartUpdate;
 
         //private const string GET_DEVICE_URL = "https://creator.zoho.eu/api/json/flotte/view/Device_Report?authtoken=" + TOKEN + "&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true";
@@ -114,8 +115,9 @@ namespace BuddyApp.CoursTelepresence
             mDeviceUserLiaison = new DeviceUserLiaison();
             mDeviceUserLiaisonList = new List<DeviceUserLiaison>();
             mListTabletUser = new List<DeviceUserLiaison>();
-            StartCoroutine(GetUserIdFromUID(Buddy.Platform.RobotUID));
-            //StartCoroutine(GetUserIdFromUID("AFD3183637443D5E5A95"));
+            mListRobotUser = new List<DeviceUserLiaison>();
+            //StartCoroutine(GetUserIdFromUID(Buddy.Platform.RobotUID));
+            StartCoroutine(GetUserIdFromUID("005F214BFAE3917A1B89"));
 
             //StartCoroutine(UpdatePingAndPosition());
             //StartCoroutine(UpdateBattery());
@@ -265,6 +267,10 @@ namespace BuddyApp.CoursTelepresence
                                     Debug.LogError("<color=red> lliaison typedevice  : " + lLiaison.DeviceType_device + " lliaison " + lLiaison.UserNom + " " + lLiaison.UserPrenom +  "</color>");
                                     mListTabletUser.Add(lLiaison);
                                 }
+                                if(lLiaison.DeviceType_device.Contains("Robot"))
+                                {
+                                    mListRobotUser.Add(lLiaison);
+                                }
                             }
 
                             foreach (DeviceUserLiaison lDeviceUserLiaison in mListTabletUser)
@@ -308,103 +314,138 @@ namespace BuddyApp.CoursTelepresence
             }
         }
 
-        public void FillPlanningStart(int iIndexChosen)
+        public void FillPlanningStart(/*int iIndexChosen, */string iName)
         {
-
-            string[] lSplitDate = mListTabletUser[iIndexChosen].PlanningidPlanning.Split('&');
-            string[] lSplitDateDayMonth = lSplitDate[1].Split('-');
-            //lSplitDate[1] start planning lSplitDate[2] end planning
-            string lDateNow = DateTime.Now.ToString();
-            string[] lSpliteDateNow = lDateNow.Split('/');
-            //Debug.LogError("<color=red> lSplitDateDayMonth day : " + lSplitDateDayMonth[0] + " lSplitDateDayMonth month : " + lSplitDateDayMonth[1] + " DATE NOW  : " + lSpliteDateNow[0] + " && " + lSpliteDateNow[1] +"</color>");
-            Debug.LogError("<color=red> lSplitDate start : " + lSplitDate[1] + " lSplitDate end : " + lSplitDate[2] + " DATE NOW  : " + lSpliteDateNow[0] + " && " + lSpliteDateNow[1] + "</color>");
-            if (Application.systemLanguage == SystemLanguage.French)
+            foreach(DeviceUserLiaison lLiaison in mListRobotUser)
             {
-                if ((lSplitDateDayMonth[0] == lSpliteDateNow[0]) && (lSplitDateDayMonth[1] == lSpliteDateNow[1]))
+                if(lLiaison.UserNom == iName)
                 {
-                    Planning mPlanningUser = new Planning();
-                    mPlanningUser.Date_Debut = lSplitDate[1];
-                    mPlanningUser.Date_Fin = lSplitDate[2];
-                    Debug.LogError("<color=red> Date Debut : " + mPlanningUser.Date_Debut + " Date fin : " + mPlanningUser.Date_Fin + "</color>");
-                    mPlanningNextCourse = mPlanningUser;
-                    mPlanning = true;
+                    string[] lSplitDate = lLiaison.PlanningidPlanning.Split('&');
+                    string[] lSplitDateDayMonth = lSplitDate[1].Split('-');
+                    //lSplitDate[1] start planning lSplitDate[2] end planning
+                    string lDateNow = DateTime.Now.ToString();
+                    string[] lSpliteDateNow = lDateNow.Split('/');
+                    //Debug.LogError("<color=red> lSplitDateDayMonth day : " + lSplitDateDayMonth[0] + " lSplitDateDayMonth month : " + lSplitDateDayMonth[1] + " DATE NOW  : " + lSpliteDateNow[0] + " && " + lSpliteDateNow[1] +"</color>");
+                    Debug.LogError("<color=red> lSplitDate start : " + lSplitDate[1] + " lSplitDate end : " + lSplitDate[2] + " DATE NOW  : " + lSpliteDateNow[0] + " && " + lSpliteDateNow[1] + "</color>");
+                    if (Application.systemLanguage == SystemLanguage.French)
+                    {
+                        if ((lSplitDateDayMonth[0] == lSpliteDateNow[0]) && (lSplitDateDayMonth[1] == lSpliteDateNow[1]))
+                        {
+                            Planning mPlanningUser = new Planning();
+                            mPlanningUser.Date_Debut = lSplitDate[1];
+                            mPlanningUser.Date_Fin = lSplitDate[2];
+                            Debug.LogError("<color=red> Date Debut : " + mPlanningUser.Date_Debut + " Date fin : " + mPlanningUser.Date_Fin + "</color>");
+                            mPlanningNextCourse = mPlanningUser;
+                            mPlanning = true;
+                        }
+                    }
+                    else if (Application.systemLanguage == SystemLanguage.English)
+                    {
+                        if ((lSplitDateDayMonth[0] == lSpliteDateNow[1]) && (lSplitDateDayMonth[1] == lSpliteDateNow[0]))
+                        {
+                            Planning mPlanningUser = new Planning();
+                            string[] lSplitDateEnd = lSplitDate[2].Split('-');
+                            //string lTemp = lSplitDateEnd[0];
+                            //lSplitDateEnd[0] = lSplitDateEnd[1];
+                            //lSplitDateEnd[1] = lTemp;
+                            string lDateEndReformed = lSplitDateEnd[1] + "-" + lSplitDateEnd[0] + "-" + lSplitDateEnd[2];
+                            string lDateStartReformed = lSplitDate[1] + "-" + lSplitDate[0] + "-" + lSplitDate[2];
+                            mPlanningUser.Date_Fin = lDateEndReformed;
+                            mPlanningUser.Date_Debut = lDateStartReformed;
+                            Debug.LogError("<color=red> Date Debut : " + mPlanningUser.Date_Debut + " Date fin : " + mPlanningUser.Date_Fin + "</color>");
+                            mPlanningNextCourse = mPlanningUser;
+                            mPlanning = true;
+                        }
+                    }
+                    break;
                 }
             }
-            else if (Application.systemLanguage == SystemLanguage.English)
-            {
-                if ((lSplitDateDayMonth[0] == lSpliteDateNow[1]) && (lSplitDateDayMonth[1] == lSpliteDateNow[0]))
-                {
-                    Planning mPlanningUser = new Planning();
-                    string[] lSplitDateEnd = lSplitDate[2].Split('-');
-                    //string lTemp = lSplitDateEnd[0];
-                    //lSplitDateEnd[0] = lSplitDateEnd[1];
-                    //lSplitDateEnd[1] = lTemp;
-                    string lDateEndReformed = lSplitDateEnd[1] + "-" + lSplitDateEnd[0] + "-" + lSplitDateEnd[2];
-                    string lDateStartReformed = lSplitDate[1] + "-" + lSplitDate[0] + "-" + lSplitDate[2];
-                    mPlanningUser.Date_Fin = lDateEndReformed;
-                    mPlanningUser.Date_Debut = lDateStartReformed;
-                    Debug.LogError("<color=red> Date Debut : " + mPlanningUser.Date_Debut + " Date fin : " + mPlanningUser.Date_Fin + "</color>");
-                    mPlanningNextCourse = mPlanningUser;
-                    mPlanning = true;
-                }
-            }
+            
 
             //mStartUpdate = true;
 
         }
 
+        private void CheckStartPlanning()
+        {
+            if (mPlanning && !CanStartCourse)
+            {
+                Debug.LogError("<color=red> ARRAY  : " + mPlanningNextCourse.Date_Debut + "</color>");
+                if (!string.IsNullOrEmpty(mPlanningNextCourse.Date_Debut) && !string.IsNullOrEmpty(mPlanningNextCourse.Date_Fin))
+                {
+                    DateTime lDateNow = DateTime.Now;
+                    DateTime lPlanningStart = DateTime.Parse(mPlanningNextCourse.Date_Debut.Replace("-", "/"));
+                    TimeSpan lSpan = lPlanningStart.Subtract(lDateNow);
+                    Debug.LogError("<color=red> START COURSE IN : " + lSpan.TotalMinutes + "</color>");
+                    Debug.LogError("planning start: " + lPlanningStart + "date now" + lDateNow);
+
+                    if (lSpan.TotalMinutes < 0F)
+                    {
+                        Debug.LogError("<color=blue> START COURSE </color>");
+                        mPlanningEnd = DateTime.Parse(mPlanningNextCourse.Date_Fin.Replace("-", "/"));
+                        CanStartCourse = true;
+                        Debug.LogError("planning end: " + mPlanningEnd);
+                    }
+                }
+                else
+                {
+                    Debug.LogError("Date_Debut or Date_Fin are null or empty");
+                }
+
+            }
+        }
 
 
-            //private IEnumerator GetUserId(string iRobotUID)
-            //{
-            //    string lRequest = GET_ALL_LIAISON + iRobotUID;
-            //    using (UnityWebRequest lRequestDevice = UnityWebRequest.Get(lRequest))
-            //    {
-            //        yield return lRequestDevice.SendWebRequest();
+        //private IEnumerator GetUserId(string iRobotUID)
+        //{
+        //    string lRequest = GET_ALL_LIAISON + iRobotUID;
+        //    using (UnityWebRequest lRequestDevice = UnityWebRequest.Get(lRequest))
+        //    {
+        //        yield return lRequestDevice.SendWebRequest();
 
-            //        if (lRequestDevice.isHttpError || lRequestDevice.isNetworkError)
-            //        {
-            //            Debug.LogError("Request error " + lRequestDevice.error + " " + lRequestDevice.downloadHandler.text);
-            //        }
-            //        else
-            //        {
-            //            string lRes = lRequestDevice.downloadHandler.text;
+        //        if (lRequestDevice.isHttpError || lRequestDevice.isNetworkError)
+        //        {
+        //            Debug.LogError("Request error " + lRequestDevice.error + " " + lRequestDevice.downloadHandler.text);
+        //        }
+        //        else
+        //        {
+        //            string lRes = lRequestDevice.downloadHandler.text;
 
-            //            Debug.LogError("Result get robot device : " + lRes);
+        //            Debug.LogError("Result get robot device : " + lRes);
 
-            //            try
-            //            {
-            //                DeviceUserLiaisonList devices = Utils.UnserializeJSON<DeviceUserLiaisonList>(lRes);
+        //            try
+        //            {
+        //                DeviceUserLiaisonList devices = Utils.UnserializeJSON<DeviceUserLiaisonList>(lRes);
 
-            //                if (devices != null)
-            //                {
-            //                    DBConnected = true;
-            //                    mDeviceUserLiaison = devices.Device_user[0];
-            //                    mDeviceUserLiaisonList.Add(mDeviceUserLiaison);
-            //                    if (mDeviceUserLiaisonList.Count > 0)
-            //                    {
-            //                        Debug.LogError("<color=red>mdeviceuserliaison user id user :  " + mDeviceUserLiaisonList[0].UserIdUser + "</color>");
-            //                        StartCoroutine(GetDeviceInfos(mDeviceUserLiaisonList[0].UserIdUser));
+        //                if (devices != null)
+        //                {
+        //                    DBConnected = true;
+        //                    mDeviceUserLiaison = devices.Device_user[0];
+        //                    mDeviceUserLiaisonList.Add(mDeviceUserLiaison);
+        //                    if (mDeviceUserLiaisonList.Count > 0)
+        //                    {
+        //                        Debug.LogError("<color=red>mdeviceuserliaison user id user :  " + mDeviceUserLiaisonList[0].UserIdUser + "</color>");
+        //                        StartCoroutine(GetDeviceInfos(mDeviceUserLiaisonList[0].UserIdUser));
 
-            //                    }
-            //                    //Debug.LogError("<color=red>mdeviceuserliaison :  " + mDeviceUserLiaisonList[0].UserIdUser + " nom : " + mDeviceUserLiaisonList[0].UserNom + " prenom : " + mDeviceUserLiaisonList[0].UserPrenom + "</color>");
-            //                }
-            //                else
-            //                {
-            //                    Debug.LogError("No device found with Uid " + iRobotUID);
-            //                }
-            //            }
-            //            catch (Exception e)
-            //            {
-            //                Debug.LogError("Error parsing robot device request answer : " + e.Message);
-            //            }
-            //        }
-            //    }
+        //                    }
+        //                    //Debug.LogError("<color=red>mdeviceuserliaison :  " + mDeviceUserLiaisonList[0].UserIdUser + " nom : " + mDeviceUserLiaisonList[0].UserNom + " prenom : " + mDeviceUserLiaisonList[0].UserPrenom + "</color>");
+        //                }
+        //                else
+        //                {
+        //                    Debug.LogError("No device found with Uid " + iRobotUID);
+        //                }
+        //            }
+        //            catch (Exception e)
+        //            {
+        //                Debug.LogError("Error parsing robot device request answer : " + e.Message);
+        //            }
+        //        }
+        //    }
 
 
-            //}
+        //}
 
-            private IEnumerator GetDeviceInfos(int iIdUser)
+        private IEnumerator GetDeviceInfos(int iIdUser)
         {
             ListUIDTablet = new List<string>();
             ListUserStudent = new List<User>();
@@ -579,34 +620,7 @@ namespace BuddyApp.CoursTelepresence
             return new Planning();
         }
 
-        private void CheckStartPlanning()
-        {
-            if (mPlanning && !CanStartCourse)
-            {
-                Debug.LogError("<color=red> ARRAY  : " + mPlanningNextCourse.Date_Debut + "</color>");
-                if (!string.IsNullOrEmpty(mPlanningNextCourse.Date_Debut) && !string.IsNullOrEmpty(mPlanningNextCourse.Date_Fin))
-                {
-                    DateTime lDateNow = DateTime.Now;
-                    DateTime lPlanningStart = DateTime.Parse(mPlanningNextCourse.Date_Debut.Replace("-", "/"));
-                    TimeSpan lSpan = lPlanningStart.Subtract(lDateNow);
-                    Debug.LogError("<color=red> START COURSE IN : " + lSpan.TotalMinutes + "</color>");
-                    Debug.LogError("planning start: " + lPlanningStart + "date now" + lDateNow);
 
-                    if (lSpan.TotalMinutes < 0F)
-                    {
-                        Debug.LogError("<color=blue> START COURSE </color>");
-                        mPlanningEnd = DateTime.Parse(mPlanningNextCourse.Date_Fin.Replace("-", "/"));
-                        CanStartCourse = true;
-                        Debug.LogError("planning end: " + mPlanningEnd);
-                    }
-                }
-                else
-                {
-                    Debug.LogError("Date_Debut or Date_Fin are null or empty");
-                }
-
-            }
-        }
 
 
 

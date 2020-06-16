@@ -57,7 +57,7 @@ namespace BuddyApp.CoursTelepresence
 
         private void ButtonClick(int iIndexList)
         {
-            DBManager.Instance.FillPlanningStart(iIndexList);
+            DBManager.Instance.FillPlanningStart(DBManager.Instance.ListUserStudent[iIndexList].Nom);
             mRTMManager.SetTabletId(DBManager.Instance.ListUIDTablet[iIndexList]);
             Trigger("IDLE");
         }
