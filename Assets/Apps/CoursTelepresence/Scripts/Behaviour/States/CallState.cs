@@ -46,9 +46,6 @@ namespace BuddyApp.CoursTelepresence
         // Use this for initialization
         override public void Start()
         {
-            Buddy.GUI.Header.DisplayParametersButton(true);
-            Buddy.GUI.Header.OnClickParameters.Add(Lauchparameters);
-
             mDisplayed = false;
             mEndCallDisplay = false;
             mRTCManager = GetComponent<RTCManager>();
@@ -140,6 +137,8 @@ namespace BuddyApp.CoursTelepresence
              mHandUp = false;
             Debug.LogError("call state");
             mTimeMessage = -1F;
+            Buddy.GUI.Header.DisplayParametersButton(true);
+            Buddy.GUI.Header.OnClickParameters.Add(Lauchparameters);
 
             VideoSurface lVideoSurface = VideoFeedbackImage.AddComponent<VideoSurface>();
             lVideoSurface.SetForUser(0);
