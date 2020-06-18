@@ -34,16 +34,24 @@ namespace BuddyApp.CoursTelepresence
             //Debug.LogWarning("Peering " + DBManager.Instance.Peering + " info " + DBManager.Instance.InfoRequestedDone);
             if (DBManager.Instance.Peering && DBManager.Instance.InfoRequestedDone && !mListDone)
             {
-                for(int i = 0; i < DBManager.Instance.ListUIDTablet.Count; ++i)
+                if (DBManager.Instance.ListUIDTablet.Count == 1)
                 {
-                    GameObject lButtonUser = GameObject.Instantiate(GetGameObject(15));
-                    lButtonUser.transform.parent = GetGameObject(16).transform;
-                    //Name 
-                    //Debug.LogError("<color=green>" + GetGameObject(16).transform.GetChild(1).GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetChild(0).ToString() + "</color>");
-                    GetGameObject(16).transform.GetChild(1).GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<Text>().text = DBManager.Instance.ListUserStudent[i].Nom + " - " + DBManager.Instance.ListUserStudent[i].Prenom;
-                    GetGameObject(16).transform.GetChild(1).GetChild(1).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<Text>().text = DBManager.Instance.ListUserStudent[i].Organisme;
-                    int lIndex = i;
-                    lButtonUser.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => { ButtonClick(lIndex); });
+                    ButtonClick(0);
+                }
+                else
+                {
+                    GetGameObject(17).SetActive(true);
+                    for (int i = 0; i < DBManager.Instance.ListUIDTablet.Count; ++i)
+                    {
+                        GameObject lButtonUser = GameObject.Instantiate(GetGameObject(15));
+                        lButtonUser.transform.parent = GetGameObject(16).transform;
+                        //Name 
+                        //Debug.LogError("<color=green>" + GetGameObject(16).transform.GetChild(1).GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetChild(0).ToString() + "</color>");
+                        GetGameObject(16).transform.GetChild(i).GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<Text>().text = DBManager.Instance.ListUserStudent[i].Nom + " - " + DBManager.Instance.ListUserStudent[i].Prenom;
+                        GetGameObject(16).transform.GetChild(i).GetChild(1).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<Text>().text = DBManager.Instance.ListUserStudent[i].Organisme;
+                        int lIndex = i;
+                        lButtonUser.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => { ButtonClick(lIndex); });
+                    }
                 }
                 mListDone = true;
             }
@@ -59,6 +67,7 @@ namespace BuddyApp.CoursTelepresence
         {
             DBManager.Instance.FillPlanningStart(DBManager.Instance.ListUserStudent[iIndexList].Nom);
             mRTMManager.SetTabletId(DBManager.Instance.ListUIDTablet[iIndexList]);
+            GetGameObject(17).SetActive(false);
             Trigger("IDLE");
         }
     }

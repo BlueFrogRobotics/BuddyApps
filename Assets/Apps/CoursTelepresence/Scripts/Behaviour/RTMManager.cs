@@ -391,6 +391,19 @@ namespace BuddyApp.CoursTelepresence
 
                         break;
 
+                    case "askAvailable":
+                        if (!Boolean.TryParse(lMessage.propertyValue, out lBoolValue))
+                        {
+                            Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
+                        }
+                        else
+                        {
+                            SendRTMMessage(Utils.SerializeJSON(
+                                new JsonMessage("informAvailable", true.ToString())));
+                        }
+
+                        break;
+
                     case "pingAck":
                         if (!int.TryParse(lMessage.propertyValue, out lIntValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into an int");
