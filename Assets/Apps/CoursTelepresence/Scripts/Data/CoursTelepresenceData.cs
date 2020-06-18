@@ -1,4 +1,5 @@
 using BlueQuark;
+using System.Collections.Generic;
 
 namespace BuddyApp.CoursTelepresence
 {
@@ -13,6 +14,8 @@ namespace BuddyApp.CoursTelepresence
         public string Ping { get; set; }
 
         public bool ConnectedToInternet { get; set; }
+
+        public List<string> AllPlanning { get; set; }
         /*
          * Data singleton access
          */

@@ -146,6 +146,10 @@ namespace BuddyApp.CoursTelepresence
                         if (mSpan.TotalMinutes < 0F)
                         {
                             Debug.LogError("<color=blue> END CALL </color>");
+                            if(CoursTelepresenceData.Instance.AllPlanning.Count > 0)
+                            {
+                                CoursTelepresenceData.Instance.AllPlanning.RemoveAt(0);
+                            }
                             CanEndCourse = true;
                             CanStartCourse = false;
                             mPlanning = false;
@@ -320,44 +324,114 @@ namespace BuddyApp.CoursTelepresence
             {
                 if(lLiaison.UserNom == iName)
                 {
-                    string[] lSplitDate = lLiaison.PlanningidPlanning.Split('&');
-                    string[] lSplitDateDayMonth = lSplitDate[1].Split('-');
-                    //lSplitDate[1] start planning lSplitDate[2] end planning
-                    string lDateNow = DateTime.Now.ToString();
-                    string[] lSpliteDateNow = lDateNow.Split('/');
-                    //Debug.LogError("<color=red> lSplitDateDayMonth day : " + lSplitDateDayMonth[0] + " lSplitDateDayMonth month : " + lSplitDateDayMonth[1] + " DATE NOW  : " + lSpliteDateNow[0] + " && " + lSpliteDateNow[1] +"</color>");
-                    Debug.LogError("<color=red> lSplitDate start : " + lSplitDate[1] + " lSplitDate end : " + lSplitDate[2] + " DATE NOW  : " + lSpliteDateNow[0] + " && " + lSpliteDateNow[1] + "</color>");
-                    if (Application.systemLanguage == SystemLanguage.French)
+                    if(lLiaison.PlanningidPlanning.Contains(","))
                     {
-                        if ((lSplitDateDayMonth[0] == lSpliteDateNow[0]) && (lSplitDateDayMonth[1] == lSpliteDateNow[1]))
+                        if(CoursTelepresenceData.Instance.AllPlanning.Count == 0)
                         {
-                            Planning mPlanningUser = new Planning();
-                            mPlanningUser.Date_Debut = lSplitDate[1];
-                            mPlanningUser.Date_Fin = lSplitDate[2];
-                            Debug.LogError("<color=red> Date Debut : " + mPlanningUser.Date_Debut + " Date fin : " + mPlanningUser.Date_Fin + "</color>");
-                            mPlanningNextCourse = mPlanningUser;
-                            mPlanning = true;
+                            List<DateTime> lSortDateTime = new List<DateTime>();
+                            string[] lAllPlanning = lLiaison.PlanningidPlanning.Split(',');
+                            for (int i = 0; i < lAllPlanning.Length; ++i)
+                            {
+                                string[] lSplitDateAllPlanning = lAllPlanning[i].Split('&');
+                                DateTime lPlanning = DateTime.Parse(lSplitDateAllPlanning[1].Replace("-", "/"));
+                                lSortDateTime.Add(lPlanning);
+
+
+                            }
+                            lSortDateTime.Sort(delegate (DateTime d1, DateTime d2) { return DateTime.Compare(d1, d2); });
+                            for (int i = 0; i < lSortDateTime.Count; ++i)
+                            {
+                                Debug.LogError("<color=red> PLANNED PLANNING : " + lSortDateTime[i].ToString().Replace("/", "-") + "</color>");
+                                CoursTelepresenceData.Instance.AllPlanning.Add(lSortDateTime[i].ToString().Replace("/", "-"));
+                            }
+                            //CoursTelepresenceData.Instance.AllPlanning.AddRange(lAllPlanning);
+                            //CoursTelepresenceData.Instance.AllPlanning.Sort(,);
                         }
+                        string[] lSplitDate = CoursTelepresenceData.Instance.AllPlanning[0].Split('&');
+                        string[] lSplitDateDayMonth = lSplitDate[1].Split('-');
+                        //lSplitDate[1] start planning lSplitDate[2] end planning
+                        string lDateNow = DateTime.Now.ToString();
+                        string[] lSpliteDateNow = lDateNow.Split('/');
+                        //Debug.LogError("<color=red> lSplitDateDayMonth day : " + lSplitDateDayMonth[0] + " lSplitDateDayMonth month : " + lSplitDateDayMonth[1] + " DATE NOW  : " + lSpliteDateNow[0] + " && " + lSpliteDateNow[1] +"</color>");
+                        Debug.LogError("<color=red> lSplitDate start : " + lSplitDate[1] + " lSplitDate end : " + lSplitDate[2] + " DATE NOW  : " + lSpliteDateNow[0] + " && " + lSpliteDateNow[1] + "</color>");
+                        if (Application.systemLanguage == SystemLanguage.French)
+                        {
+                            if ((lSplitDateDayMonth[0] == lSpliteDateNow[0]) && (lSplitDateDayMonth[1] == lSpliteDateNow[1]))
+                            {
+                                Planning mPlanningUser = new Planning();
+                                mPlanningUser.Date_Debut = lSplitDate[1];
+                                mPlanningUser.Date_Fin = lSplitDate[2];
+                                Debug.LogError("<color=red> Date Debut : " + mPlanningUser.Date_Debut + " Date fin : " + mPlanningUser.Date_Fin + "</color>");
+                                mPlanningNextCourse = mPlanningUser;
+                                mPlanning = true;
+                            }
+                        }
+                        else if (Application.systemLanguage == SystemLanguage.English)
+                        {
+                            if ((lSplitDateDayMonth[0] == lSpliteDateNow[1]) && (lSplitDateDayMonth[1] == lSpliteDateNow[0]))
+                            {
+                                Planning mPlanningUser = new Planning();
+                                string[] lSplitDateEnd = lSplitDate[2].Split('-');
+                                string[] lSplitDateStart = lSplitDate[1].Split('-');
+                                //string lTemp = lSplitDateEnd[0];
+                                //lSplitDateEnd[0] = lSplitDateEnd[1];
+                                //lSplitDateEnd[1] = lTemp;
+                                string lDateEndReformed = lSplitDateEnd[1] + "-" + lSplitDateEnd[0] + "-" + lSplitDateEnd[2];
+                                string lDateStartReformed = lSplitDateStart[1] + "-" + lSplitDateStart[0] + "-" + lSplitDateStart[2];
+                                mPlanningUser.Date_Fin = lDateEndReformed;
+                                mPlanningUser.Date_Debut = lDateStartReformed;
+                                Debug.LogError("<color=red> Date Debut : " + mPlanningUser.Date_Debut + " Date fin : " + mPlanningUser.Date_Fin + "</color>");
+                                mPlanningNextCourse = mPlanningUser;
+                                mPlanning = true;
+                            }
+                        }
+                        break;
                     }
-                    else if (Application.systemLanguage == SystemLanguage.English)
+                    else
                     {
-                        if ((lSplitDateDayMonth[0] == lSpliteDateNow[1]) && (lSplitDateDayMonth[1] == lSpliteDateNow[0]))
+                        string[] lSplitDate = lLiaison.PlanningidPlanning.Split('&');
+                        string[] lSplitDateDayMonth = lSplitDate[1].Split('-');
+                        //lSplitDate[1] start planning lSplitDate[2] end planning
+                        string lDateNow = DateTime.Now.ToString();
+                        string[] lSpliteDateNow = lDateNow.Split('/');
+                        //Debug.LogError("<color=red> lSplitDateDayMonth day : " + lSplitDateDayMonth[0] + " lSplitDateDayMonth month : " + lSplitDateDayMonth[1] + " DATE NOW  : " + lSpliteDateNow[0] + " && " + lSpliteDateNow[1] +"</color>");
+                        Debug.LogError("<color=red> lSplitDate start : " + lSplitDate[1] + " lSplitDate end : " + lSplitDate[2] + " DATE NOW  : " + lSpliteDateNow[0] + " && " + lSpliteDateNow[1] + "</color>");
+                        if (Application.systemLanguage == SystemLanguage.French)
                         {
-                            Planning mPlanningUser = new Planning();
-                            string[] lSplitDateEnd = lSplitDate[2].Split('-');
-                            //string lTemp = lSplitDateEnd[0];
-                            //lSplitDateEnd[0] = lSplitDateEnd[1];
-                            //lSplitDateEnd[1] = lTemp;
-                            string lDateEndReformed = lSplitDateEnd[1] + "-" + lSplitDateEnd[0] + "-" + lSplitDateEnd[2];
-                            string lDateStartReformed = lSplitDate[1] + "-" + lSplitDate[0] + "-" + lSplitDate[2];
-                            mPlanningUser.Date_Fin = lDateEndReformed;
-                            mPlanningUser.Date_Debut = lDateStartReformed;
-                            Debug.LogError("<color=red> Date Debut : " + mPlanningUser.Date_Debut + " Date fin : " + mPlanningUser.Date_Fin + "</color>");
-                            mPlanningNextCourse = mPlanningUser;
-                            mPlanning = true;
+                            if ((lSplitDateDayMonth[0] == lSpliteDateNow[0]) && (lSplitDateDayMonth[1] == lSpliteDateNow[1]))
+                            {
+                                Planning mPlanningUser = new Planning();
+                                mPlanningUser.Date_Debut = lSplitDate[1];
+                                mPlanningUser.Date_Fin = lSplitDate[2];
+                                Debug.LogError("<color=red> Date Debut : " + mPlanningUser.Date_Debut + " Date fin : " + mPlanningUser.Date_Fin + "</color>");
+                                mPlanningNextCourse = mPlanningUser;
+                                mPlanning = true;
+                            }
                         }
+                        else if (Application.systemLanguage == SystemLanguage.English)
+                        {
+                            if ((lSplitDateDayMonth[0] == lSpliteDateNow[1]) && (lSplitDateDayMonth[1] == lSpliteDateNow[0]))
+                            {
+                                Planning mPlanningUser = new Planning();
+                                string[] lSplitDateEnd = lSplitDate[2].Split('-');
+                                string[] lSplitDateStart = lSplitDate[1].Split('-');
+                                //string lTemp = lSplitDateEnd[0];
+                                //lSplitDateEnd[0] = lSplitDateEnd[1];
+                                //lSplitDateEnd[1] = lTemp;
+                                string lDateEndReformed = lSplitDateEnd[1] + "-" + lSplitDateEnd[0] + "-" + lSplitDateEnd[2];
+                                string lDateStartReformed = lSplitDateStart[1] + "-" + lSplitDateStart[0] + "-" + lSplitDateStart[2];
+                                mPlanningUser.Date_Fin = lDateEndReformed;
+                                mPlanningUser.Date_Debut = lDateStartReformed;
+                                Debug.LogError("<color=red> Date Debut : " + mPlanningUser.Date_Debut + " Date fin : " + mPlanningUser.Date_Fin + "</color>");
+                                mPlanningNextCourse = mPlanningUser;
+                                mPlanning = true;
+                            }
+                        }
+                        break;
                     }
-                    break;
+
+
+
                 }
             }
             
