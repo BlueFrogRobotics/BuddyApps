@@ -34,6 +34,8 @@ namespace BuddyApp.CoursTelepresence
         private bool mMovingYes;
         private bool mMovingNo;
 
+        private Animator mAnimator;
+
         private const string GET_TOKEN_URL = "https://teamnet-bfr.ey.r.appspot.com/rtmToken?account=";
 
         public bool IsInitialised { get; internal set; }
@@ -56,6 +58,7 @@ namespace BuddyApp.CoursTelepresence
             OnActivateObstacle = SensorsBroadcast;
 
             mCallRequest = new CallRequest("", "");
+            mAnimator = GetComponent<Animator>();
             Debug.LogError("robot id: " + Buddy.Platform.RobotUID);
             // Just to test
             //AnswerCallRequest(true);
@@ -388,7 +391,6 @@ namespace BuddyApp.CoursTelepresence
                             SendRTMMessage(Utils.SerializeJSON(
                                 new JsonMessage("pingAck", lMessage.propertyValue)));
                         }
-
                         break;
 
                     case "askAvailable":
@@ -398,8 +400,11 @@ namespace BuddyApp.CoursTelepresence
                         }
                         else
                         {
+                            bool lAvailable = true;
+                            if (mAnimator.GetCurrentAnimatorStateInfo(0).IsName("INCOMING CALL") || mAnimator.GetCurrentAnimatorStateInfo(0).IsName("CALL") || mAnimator.GetCurrentAnimatorStateInfo(0).IsName("CALLING"))
+                                lAvailable = false;
                             SendRTMMessage(Utils.SerializeJSON(
-                                new JsonMessage("informAvailable", true.ToString())));
+                                new JsonMessage("informAvailable", lAvailable.ToString())));
                         }
 
                         break;

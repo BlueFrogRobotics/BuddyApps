@@ -51,8 +51,6 @@ namespace BuddyApp.CoursTelepresence
             ClassStudent.GetComponent<Text>().text = " - " + DBManager.Instance.UserStudent.Organisme;
             mRTMManager.OncallRequest = (CallRequest lCall) => { Trigger("INCOMING CALL"); };
 
-            mRTMManager.OncallRequest = (CallRequest lCall) => { Trigger("INCOMING CALL"); };
-
             // Manage trigger and vocal
            Buddy.Vocal.EnableTrigger = true;
 

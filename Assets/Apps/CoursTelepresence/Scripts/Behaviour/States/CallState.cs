@@ -148,6 +148,7 @@ namespace BuddyApp.CoursTelepresence
             //lVideoSurface.EnableFilpTextureApply(false, true);
 
             GetGameObject(12).SetActive(true);
+            GetGameObject(18).SetActive(true);
             VideoFeedbackIcon.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconCloseFeedback");
 
             mRTCManager.OnEndUserOffline = () => Buddy.GUI.Dialoger.Display<IconToast>("Communication coupée").
@@ -341,8 +342,10 @@ namespace BuddyApp.CoursTelepresence
             Volume.gameObject.SetActive(false);
             Video.gameObject.SetActive(false);
             Micro.gameObject.SetActive(false);
+            VideoFeedbackButton.gameObject.SetActive(false);
             GetGameObject(12).SetActive(false);
             Hangup.gameObject.SetActive(false);
+            GetGameObject(18).SetActive(false);
             Debug.LogError("fin call state exit");
         }
 
