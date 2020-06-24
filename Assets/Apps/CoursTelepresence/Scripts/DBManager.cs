@@ -122,12 +122,12 @@ namespace BuddyApp.CoursTelepresence
             mListTabletUser = new List<DeviceUserLiaison>();
             mListRobotUser = new List<DeviceUserLiaison>();
             CoursTelepresenceData.Instance.AllPlanning = new List<string>();
-            //StartCoroutine(GetUserIdFromUID(Buddy.Platform.RobotUID));
+            StartCoroutine(GetUserIdFromUID(Buddy.Platform.RobotUID));
 
             //POUR LES TESTS 
             CoursTelepresenceData.Instance.AllPlanning.Clear(); 
 
-            StartCoroutine(GetUserIdFromUID("EED7BF3ABE076D2D7A40"));
+            //StartCoroutine(GetUserIdFromUID("EED7BF3ABE076D2D7A40"));
 
             //StartCoroutine(UpdatePingAndPosition());
             //StartCoroutine(UpdateBattery());
