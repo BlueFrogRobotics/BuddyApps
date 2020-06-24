@@ -36,6 +36,7 @@ namespace BuddyApp.CoursTelepresence
             {
                 if (DBManager.Instance.ListUIDTablet.Count == 1)
                 {
+                    mListDone = true;
                     ButtonClick(0);
                 }
                 else
@@ -52,8 +53,8 @@ namespace BuddyApp.CoursTelepresence
                         int lIndex = i;
                         lButtonUser.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => { ButtonClick(lIndex); });
                     }
+                    mListDone = true;
                 }
-                mListDone = true;
             }
         }
 

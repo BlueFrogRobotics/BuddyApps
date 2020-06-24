@@ -250,6 +250,7 @@ namespace BuddyApp.CoursTelepresence
                 if (mTimerEndCall > 8F)
                 {
                     Buddy.GUI.Toaster.Hide();
+                    DBManager.Instance.CanEndCourse = false;
                     Trigger("IDLE");
                 }
             }
