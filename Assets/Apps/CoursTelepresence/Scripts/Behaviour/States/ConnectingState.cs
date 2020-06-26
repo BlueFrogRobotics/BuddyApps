@@ -52,6 +52,7 @@ namespace BuddyApp.CoursTelepresence
                         GetGameObject(16).transform.GetChild(i).GetChild(1).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<Text>().text = DBManager.Instance.ListUserStudent[i].Organisme;
                         int lIndex = i;
                         lButtonUser.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => { ButtonClick(lIndex); });
+                        mRTMManager.AskAvailable(DBManager.Instance.ListUIDTablet[i]);
                     }
                     mListDone = true;
                 }

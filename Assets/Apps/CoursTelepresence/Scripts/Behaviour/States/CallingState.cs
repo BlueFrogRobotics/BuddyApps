@@ -3,6 +3,8 @@ using UnityEngine;
 using BlueQuark;
 using System;
 
+using IEnumerator = System.Collections.IEnumerator;
+
 namespace BuddyApp.CoursTelepresence
 {
 
@@ -48,16 +50,20 @@ namespace BuddyApp.CoursTelepresence
                     Buddy.GUI.Dialoger.Display<IconToast>("Appel refusé").
                     With(Buddy.Resources.Get<Sprite>("os_icon_phoneoff_big"),
                         () => {
-                            Trigger("IDLE");
                             Buddy.GUI.Dialoger.Hide();
+                            Trigger("IDLE");
                         },
-                        null,
                         () => {
-                            Trigger("IDLE");
-                            Buddy.GUI.Dialoger.Hide();
+                            StartCoroutine(RefusedCall());
+                        },
+                        () => {
+                            //Trigger("IDLE");
+                            //Buddy.GUI.Dialoger.Hide();
                         }
                         );
             };
+
+            mRTMManager.OncallRequestAnswer(false);
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -82,14 +88,21 @@ namespace BuddyApp.CoursTelepresence
             }
         }
 
-
+         
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.Log("calling state exit");
             mRTMManager.OncallRequestAnswer = null;
             Buddy.GUI.Toaster.Hide();
+            //Buddy.GUI.Dialoger.Hide();
+        }
+
+        private IEnumerator RefusedCall()
+        {
+            yield return new WaitForSeconds(2);
             Buddy.GUI.Dialoger.Hide();
+            Trigger("IDLE");
         }
     }
 

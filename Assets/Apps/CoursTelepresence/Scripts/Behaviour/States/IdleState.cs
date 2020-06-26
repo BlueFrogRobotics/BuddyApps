@@ -3,6 +3,8 @@ using UnityEngine;
 using BlueQuark;
 using System;
 using UnityEngine.UI;
+using System.Text;
+using System.Security.Cryptography;
 
 namespace BuddyApp.CoursTelepresence
 {
@@ -23,6 +25,9 @@ namespace BuddyApp.CoursTelepresence
             mRTCManager = GetComponent<RTCManager>();
            
             mCallButton = GetGameObject(10).GetComponent<Button>();
+            mChannelId = Buddy.Platform.RobotUID+RandomString(10);
+            Debug.Log("channel");
+            Debug.Log(mChannelId);
 
             Buddy.Vocal.DefaultInputParameters.Grammars = new string[1] { "grammar" };
             Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
@@ -95,6 +100,26 @@ namespace BuddyApp.CoursTelepresence
             mCallButton.onClick.RemoveAllListeners();
             Debug.LogError("Idle state exit");
         }
+
+        private string RandomString(int iLength)
+        {
+            const string VALID = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+            StringBuilder lRandom = new StringBuilder();
+            using (RNGCryptoServiceProvider lRng = new RNGCryptoServiceProvider())
+            {
+                byte[] lUintBuffer = new byte[sizeof(uint)];
+
+                while (iLength-- > 0)
+                {
+                    lRng.GetBytes(lUintBuffer);
+                    uint lNum = BitConverter.ToUInt32(lUintBuffer, 0);
+                    lRandom.Append(VALID[(int)(lNum % (uint)VALID.Length)]);
+                }
+            }
+
+            return lRandom.ToString();
+        }
     }
+
 
 }
