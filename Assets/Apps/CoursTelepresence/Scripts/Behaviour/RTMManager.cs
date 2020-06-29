@@ -286,6 +286,12 @@ namespace BuddyApp.CoursTelepresence
         }
 
 
+        public void Ping(string iIdTablet, int iIdPing)
+        {
+            SendRTMMessage(Utils.SerializeJSON(new JsonMessage("ping", iIdPing.ToString())), iIdTablet);
+        }
+
+
 
         //////////////////////////////
         /// Callbacks on reception ///
@@ -301,6 +307,7 @@ namespace BuddyApp.CoursTelepresence
         public Action<float> OnHeadYesAbsolute { get; set; }
         public Action<float> OnHeadNoAbsolute { get; set; }
         public Action<int> OnPing { get; set; }
+        public Action<int> OnPingWithId { get; set; }
         public Action<Mood> OnMoodBI { get; set; }
         public Action<Mood> OnMood { get; set; }
         public Action<float> OnMicroThreshold { get; set; }
@@ -436,6 +443,7 @@ namespace BuddyApp.CoursTelepresence
                         } else {
                             if (lIntValue == mPingId)
                                 OnPing((int)((Time.time - mPingTime) * 1000));
+                            OnPingWithId(lIntValue);
                         }
 
                         break;

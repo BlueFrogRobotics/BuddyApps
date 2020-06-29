@@ -19,6 +19,7 @@ namespace BuddyApp.CoursTelepresence
             Buddy.GUI.Header.DisplayParametersButton(false);
             Debug.Log("Connecting state");
             mRTMManager = GetComponent<RTMManager>();
+            mRTMManager.OnPingWithId = OnPingId;
             mListDone = false;
             //TODO check DB and stuff
 
@@ -52,7 +53,8 @@ namespace BuddyApp.CoursTelepresence
                         GetGameObject(16).transform.GetChild(i).GetChild(1).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<Text>().text = DBManager.Instance.ListUserStudent[i].Organisme;
                         int lIndex = i;
                         lButtonUser.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => { ButtonClick(lIndex); });
-                        mRTMManager.AskAvailable(DBManager.Instance.ListUIDTablet[i]);
+                        //mRTMManager.AskAvailable(DBManager.Instance.ListUIDTablet[i]);
+                        mRTMManager.Ping(DBManager.Instance.ListUIDTablet[i], 0);
                     }
                     mListDone = true;
                 }
@@ -62,6 +64,7 @@ namespace BuddyApp.CoursTelepresence
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            mRTMManager.OnPingWithId = null;
             Debug.Log("Connecting state exit");
         }
 
@@ -71,6 +74,11 @@ namespace BuddyApp.CoursTelepresence
             mRTMManager.SetTabletId(DBManager.Instance.ListUIDTablet[iIndexList]);
             GetGameObject(17).SetActive(false);
             Trigger("IDLE");
+        }
+
+        private void OnPingId(int iId)
+        {
+            Debug.LogWarning("PING WITH " + iId);
         }
     }
 

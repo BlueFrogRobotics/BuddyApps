@@ -92,7 +92,7 @@ namespace BuddyApp.CoursTelepresence
         {
             Debug.Log("calling state exit");
             mRTMManager.OncallRequestAnswer = null;
-            Buddy.GUI.Toaster.Hide();
+            //Buddy.GUI.Toaster.Hide();
             //Buddy.GUI.Dialoger.Hide();
         }
 

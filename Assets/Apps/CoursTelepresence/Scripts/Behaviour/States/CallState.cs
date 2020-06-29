@@ -227,6 +227,8 @@ namespace BuddyApp.CoursTelepresence
             if (Math.Abs(iWheelsMotion.angularVelocity) < 0.2F)
                 iWheelsMotion.angularVelocity = 0F;
 
+            Debug.LogWarning("speed: "+ iWheelsMotion.speed+" angular: "+ iWheelsMotion.angularVelocity);
+
             Buddy.Actuators.Wheels.SetVelocities(Wheels.MAX_LIN_VELOCITY * iWheelsMotion.speed,
                 Wheels.MAX_ANG_VELOCITY * iWheelsMotion.angularVelocity);
         }
