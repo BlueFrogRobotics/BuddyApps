@@ -160,6 +160,8 @@ namespace BuddyApp.CoursTelepresence
                         },
                         () => mHideTime = Time.time,
                         () => {
+                            //TEST A PUSH
+                            mRTCManager.Leave(); 
                             ManageGUIClose();
                             Trigger("IDLE");
                         }

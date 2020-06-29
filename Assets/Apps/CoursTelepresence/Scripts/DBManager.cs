@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 using BlueQuark;
 using System;
 using System.Globalization;
+using UnityEngine.UI;
 
 namespace BuddyApp.CoursTelepresence
 {
@@ -43,6 +44,11 @@ namespace BuddyApp.CoursTelepresence
         private const string GET_ALL_LIAISON = "https://creator.zoho.eu/api/json/flotte/view/all_liaison_device_user?authtoken=" + TOKEN + "&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true&criteria=Device.Uid==";
         private const string TABLET_TYPE_DEVICE = "Tablette";
 
+
+        [SerializeField]
+        private Button ButtonCall;
+        private bool mButtonCallEnabled;
+        private Image mImageFromButtonCall;
 
         private DeviceUserLiaison mDeviceUserLiaison;
         private List<DeviceUserLiaison> mDeviceUserLiaisonList;
@@ -104,7 +110,7 @@ namespace BuddyApp.CoursTelepresence
         public void StartDBManager()
         {
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("fr-FR");
-
+            mButtonCallEnabled = false;
             mPlanningNextCourse = new Planning();
             mStartUpdate = false;
             //mPlanningCheck = new Planning();
@@ -140,6 +146,15 @@ namespace BuddyApp.CoursTelepresence
             Debug.LogError("<color=blue> CanstartCourse " + CanStartCourse + " CanEndCourse " + CanEndCourse  + "</color>");
             if (CanStartCourse && !CanEndCourse)
             {
+                if (!mButtonCallEnabled)
+                {
+                    mButtonCallEnabled = true;
+                    ButtonCall.interactable = true;
+                    mImageFromButtonCall = ButtonCall.GetComponentInChildren<Image>();
+                    Color lTempColor = mImageFromButtonCall.color;
+                    lTempColor.a = 1F;
+                    mImageFromButtonCall.color = lTempColor;
+                }
                 mDateNow = DateTime.Now;
 
                 mSpan = mPlanningEnd.Subtract(mDateNow);
@@ -171,6 +186,15 @@ namespace BuddyApp.CoursTelepresence
             }
             if (!CanStartCourse)
             {
+                if(mButtonCallEnabled)
+                {
+                    mButtonCallEnabled = false;
+                    ButtonCall.interactable = false;
+                    mImageFromButtonCall = ButtonCall.GetComponentInChildren<Image>();
+                    Color lTempColor = mImageFromButtonCall.color;
+                    lTempColor.a = 0.5F;
+                    mImageFromButtonCall.color = lTempColor;
+                }
                 CheckStartPlanning();
             }
             //}
