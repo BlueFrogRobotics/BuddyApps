@@ -45,7 +45,7 @@ namespace BuddyApp.CoursTelepresence
             mCallButton.gameObject.SetActive(true);
             Color lColor;
             lColor = mCallButton.GetComponent<Image>().color;
-            lColor.a = 0.75F;
+            lColor.a = 0.1F;
             mCallButton.GetComponent<Image>().color = lColor;
             GameObject NameStudent = GetGameObject(14).transform.GetChild(0).GetChild(0).gameObject;
             GameObject FirstNameStudent = GetGameObject(14).transform.GetChild(0).GetChild(1).gameObject;

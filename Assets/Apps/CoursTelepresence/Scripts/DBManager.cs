@@ -78,7 +78,7 @@ namespace BuddyApp.CoursTelepresence
         public bool Peering { get; private set; }
         public Planning Planning { get; private set; }
         public bool InfoRequestedDone { get; private set; }
-        private List<Planning> ListPlanning;
+        //private List<Planning> ListPlanning;
         private Planning mPlanningNextCourse;
         //private Planning mPlanningCheck;
 
@@ -96,6 +96,8 @@ namespace BuddyApp.CoursTelepresence
 
         private CultureInfo mProviderFR = new CultureInfo("fr-FR");
 
+        private RTMManager mRTMManager;
+
         private void Awake()
         {
             instance = this;
@@ -109,6 +111,7 @@ namespace BuddyApp.CoursTelepresence
 
         public void StartDBManager()
         {
+            mRTMManager = GetComponent<RTMManager>();
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("fr-FR");
             mButtonCallEnabled = false;
             mPlanningNextCourse = new Planning();
@@ -124,10 +127,17 @@ namespace BuddyApp.CoursTelepresence
             CanStartCourse = false;
             CanEndCourse = false;
             mDeviceUserLiaison = new DeviceUserLiaison();
+
             mDeviceUserLiaisonList = new List<DeviceUserLiaison>();
             mListTabletUser = new List<DeviceUserLiaison>();
             mListRobotUser = new List<DeviceUserLiaison>();
             CoursTelepresenceData.Instance.AllPlanning = new List<string>();
+            //CoursTelepresenceData.Instance.AllPlanning.Clear();
+            //mDeviceUserLiaisonList.Clear();
+            //mListTabletUser.Clear();
+            //mListRobotUser.Clear();
+            //ListUIDTablet.Clear();
+            //ListUserStudent.Clear();
             StartCoroutine(GetUserIdFromUID(Buddy.Platform.RobotUID));
 
             //POUR LES TESTS 
@@ -146,6 +156,7 @@ namespace BuddyApp.CoursTelepresence
             Debug.LogError("<color=blue> CanstartCourse " + CanStartCourse + " CanEndCourse " + CanEndCourse  + "</color>");
             if (CanStartCourse && !CanEndCourse)
             {
+                //A TEST
                 if (!mButtonCallEnabled)
                 {
                     mButtonCallEnabled = true;
@@ -186,6 +197,7 @@ namespace BuddyApp.CoursTelepresence
             }
             if (!CanStartCourse)
             {
+                //A TEST
                 if(mButtonCallEnabled)
                 {
                     mButtonCallEnabled = false;
@@ -252,6 +264,15 @@ namespace BuddyApp.CoursTelepresence
                 }
 
             }
+        }
+
+        public IEnumerator RefreshPlanning()
+        {
+            StartCoroutine(GetInfoForUsers(mDeviceUserLiaisonList));
+            while (!InfoRequestedDone)
+                yield return null;
+            FillPlanningStart(ListUserStudent[0].Nom);
+            mRTMManager.SetTabletId(ListUIDTablet[0]);
         }
 
         private IEnumerator GetInfoForUsers(List<DeviceUserLiaison> iListDeviceUserLiaison)
@@ -356,7 +377,8 @@ namespace BuddyApp.CoursTelepresence
 
         public void FillPlanningStart(/*int iIndexChosen, */string iName)
         {
-            foreach(DeviceUserLiaison lLiaison in mListRobotUser)
+            CoursTelepresenceData.Instance.AllPlanning.Clear();
+            foreach (DeviceUserLiaison lLiaison in mListRobotUser)
             {
                 if(lLiaison.UserNom == iName)
                 {
@@ -573,7 +595,7 @@ namespace BuddyApp.CoursTelepresence
                     DateTime lDateNow = DateTime.Now;
                     DateTime lPlanningStart = DateTime.ParseExact(mCurrentPlanning.Date_Debut.Replace("-", "/"), "dd/MM/yyyy HH:mm:ss", mProviderFR);
                     TimeSpan lSpan = lPlanningStart.Subtract(lDateNow);
-                    Debug.LogError("<color=red> START COURSE IN : " + lSpan.TotalMinutes + "</color>");
+                    //Debug.LogError("<color=red> START COURSE IN : " + lSpan.TotalMinutes + "</color>");
                     //Debug.LogError("planning start: " + lPlanningStart + "date now" + lDateNow);
 
                     if (lSpan.TotalMinutes < 0F)
@@ -643,180 +665,180 @@ namespace BuddyApp.CoursTelepresence
 
         //}
 
-        private IEnumerator GetDeviceInfos(int iIdUser)
-        {
-            ListUIDTablet = new List<string>();
-            ListUserStudent = new List<User>();
-            string lRequest = GET_USER_TABLET + iIdUser.ToString();
-            using (UnityWebRequest lRequestDevice = UnityWebRequest.Get(lRequest))
-            {
-                yield return lRequestDevice.SendWebRequest();
+        //private IEnumerator GetDeviceInfos(int iIdUser)
+        //{
+        //    ListUIDTablet = new List<string>();
+        //    ListUserStudent = new List<User>();
+        //    string lRequest = GET_USER_TABLET + iIdUser.ToString();
+        //    using (UnityWebRequest lRequestDevice = UnityWebRequest.Get(lRequest))
+        //    {
+        //        yield return lRequestDevice.SendWebRequest();
 
-                if (lRequestDevice.isHttpError || lRequestDevice.isNetworkError)
-                {
-                    Debug.LogError("Request error " + lRequestDevice.error + " " + lRequestDevice.downloadHandler.text);
-                }
-                else
-                {
-                    string lRes = lRequestDevice.downloadHandler.text;
-                    Debug.LogError("Result get user device : " + lRes);
+        //        if (lRequestDevice.isHttpError || lRequestDevice.isNetworkError)
+        //        {
+        //            Debug.LogError("Request error " + lRequestDevice.error + " " + lRequestDevice.downloadHandler.text);
+        //        }
+        //        else
+        //        {
+        //            string lRes = lRequestDevice.downloadHandler.text;
+        //            Debug.LogError("Result get user device : " + lRes);
 
-                    try
-                    {
-                        DeviceUserLiaisonList devices = Utils.UnserializeJSON<DeviceUserLiaisonList>(lRes);
+        //            try
+        //            {
+        //                DeviceUserLiaisonList devices = Utils.UnserializeJSON<DeviceUserLiaisonList>(lRes);
 
-                        if (devices != null)
-                        {
-                            foreach (DeviceUserLiaison lLiaison in devices.Device_user)
-                            {
-                                Debug.LogError("<color=red> foreach lliaison " + lLiaison.DeviceType_device + " </color>");
-                                if (lLiaison.DeviceType_device.Contains(TABLET_TYPE_DEVICE))
-                                {
-                                    //Debug.LogError("<color=red> lliaison typedevice  : " + lLiaison.DeviceType_device + " lliaison " + lLiaison.UserNom + " " + lLiaison.UserPrenom +  "</color>");
-                                    mListTabletUser.Add(lLiaison);
-                                }
-                            }
+        //                if (devices != null)
+        //                {
+        //                    foreach (DeviceUserLiaison lLiaison in devices.Device_user)
+        //                    {
+        //                        Debug.LogError("<color=red> foreach lliaison " + lLiaison.DeviceType_device + " </color>");
+        //                        if (lLiaison.DeviceType_device.Contains(TABLET_TYPE_DEVICE))
+        //                        {
+        //                            //Debug.LogError("<color=red> lliaison typedevice  : " + lLiaison.DeviceType_device + " lliaison " + lLiaison.UserNom + " " + lLiaison.UserPrenom +  "</color>");
+        //                            mListTabletUser.Add(lLiaison);
+        //                        }
+        //                    }
 
-                            foreach (DeviceUserLiaison lDeviceUserLiaison in mListTabletUser)
-                            {
-                                UserStudent = new User();
-                                UserStudent.Nom = lDeviceUserLiaison.UserNom;
-                                UserStudent.Prenom = lDeviceUserLiaison.UserPrenom;
-                                UserStudent.Organisme = lDeviceUserLiaison.UserOrganisme;
-                                ListUserStudent.Add(UserStudent);
+        //                    foreach (DeviceUserLiaison lDeviceUserLiaison in mListTabletUser)
+        //                    {
+        //                        UserStudent = new User();
+        //                        UserStudent.Nom = lDeviceUserLiaison.UserNom;
+        //                        UserStudent.Prenom = lDeviceUserLiaison.UserPrenom;
+        //                        UserStudent.Organisme = lDeviceUserLiaison.UserOrganisme;
+        //                        ListUserStudent.Add(UserStudent);
 
-                                ListUIDTablet.Add(lDeviceUserLiaison.DeviceUid);
-                            }
+        //                        ListUIDTablet.Add(lDeviceUserLiaison.DeviceUid);
+        //                    }
 
-                            if (mListTabletUser.Count > 0 && ListUserStudent.Count > 0)
-                            {
-                                Peering = true;
-                                if (!string.IsNullOrEmpty(ListUserStudent[0].Nom)
-                                    && !string.IsNullOrEmpty(ListUserStudent[0].Prenom)
-                                    && !string.IsNullOrEmpty(ListUserStudent[0].Organisme)
-                                    && !string.IsNullOrEmpty(ListUIDTablet[0]))
-                                {
-                                    InfoRequestedDone = true;
-                                }
-                                StartCoroutine(GetPlanning());
-                            }
+        //                    if (mListTabletUser.Count > 0 && ListUserStudent.Count > 0)
+        //                    {
+        //                        Peering = true;
+        //                        if (!string.IsNullOrEmpty(ListUserStudent[0].Nom)
+        //                            && !string.IsNullOrEmpty(ListUserStudent[0].Prenom)
+        //                            && !string.IsNullOrEmpty(ListUserStudent[0].Organisme)
+        //                            && !string.IsNullOrEmpty(ListUIDTablet[0]))
+        //                        {
+        //                            InfoRequestedDone = true;
+        //                        }
+        //                        StartCoroutine(GetPlanning());
+        //                    }
 
-                            Debug.LogError("<color=red> lliaison typedevice  : " + mListTabletUser[0].DeviceType_device + " lliaison " + mListTabletUser[0].UserNom + " " + mListTabletUser[0].UserPrenom + "</color>");
+        //                    Debug.LogError("<color=red> lliaison typedevice  : " + mListTabletUser[0].DeviceType_device + " lliaison " + mListTabletUser[0].UserNom + " " + mListTabletUser[0].UserPrenom + "</color>");
 
-                            //Debug.LogError("<color=red>mdeviceuserliaison :  " + mDeviceUserLiaisonList[0].UserIdUser + " nom : " + mDeviceUserLiaisonList[0].UserNom + " prenom : " + mDeviceUserLiaisonList[0].UserPrenom + "</color>");
-                        }
-                        else
-                        {
-                            Debug.LogError("No tablet found with id user : " + iIdUser);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.LogError("Error parsing tablet device request answer : " + e.Message);
-                    }
-                }
-            }
+        //                    //Debug.LogError("<color=red>mdeviceuserliaison :  " + mDeviceUserLiaisonList[0].UserIdUser + " nom : " + mDeviceUserLiaisonList[0].UserNom + " prenom : " + mDeviceUserLiaisonList[0].UserPrenom + "</color>");
+        //                }
+        //                else
+        //                {
+        //                    Debug.LogError("No tablet found with id user : " + iIdUser);
+        //                }
+        //            }
+        //            catch (Exception e)
+        //            {
+        //                Debug.LogError("Error parsing tablet device request answer : " + e.Message);
+        //            }
+        //        }
+        //    }
 
 
-        }
+        //}
 
-        private IEnumerator GetPlanning()
-        {
-            ListPlanning = new List<Planning>();
+        //private IEnumerator GetPlanning()
+        //{
+        //    ListPlanning = new List<Planning>();
 
-            string request = GET_PLANNING;
-            using (UnityWebRequest www = UnityWebRequest.Get(request))
-            {
-                yield return www.SendWebRequest();
-                if (www.isHttpError || www.isNetworkError)
-                {
-                    Debug.Log("Request error " + www.error + " " + www.downloadHandler.text);
-                }
-                else
-                {
-                    string res = www.downloadHandler.text;
-                    Debug.Log("Result get user info : " + res);
-                    try
-                    {
-                        PlanningList planningList = Utils.UnserializeJSON<PlanningList>(res);
-                        foreach (Planning planning in planningList.Planning)
-                        {
-                            Planning = new Planning();
-                            //Planning = planning;
-                            Planning.Date_Fin = planning.Date_Fin;
-                            Planning.DeviceId = planning.DeviceId;
-                            Planning.Eleve = planning.Eleve;
-                            Planning.Device = planning.Device;
-                            Planning.Date_Debut = planning.Date_Debut;
-                            Planning.idPlanning = planning.idPlanning;
-                            Planning.ID = planning.ID;
-                            Planning.EleveIdUser = planning.EleveIdUser;
-                            Planning.DeviceUID = planning.DeviceUID;
-                            Planning.Prof = planning.Prof;
-                            Debug.LogError("<color=green>FOREACH PLANNING Date Debut : " + Planning.Date_Debut + " Date fin : " + Planning.Date_Fin + "</color>");
-                            if (planning.DeviceId.HasValue && planning.idPlanning.HasValue && planning.EleveIdUser.HasValue)
-                                ListPlanning.Add(Planning);
-                        }
-                        mPlanningNextCourse = GetPlanningFromDB(ListPlanning);
-                        Debug.LogError("<color=blue> Date Debut : " + mPlanningNextCourse.Date_Debut + " Date fin : " + mPlanningNextCourse.Date_Fin + "</color>");
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.LogError("Error parsing user info request answer : " + e.Message);
-                    }
-                }
-            }
+        //    string request = GET_PLANNING;
+        //    using (UnityWebRequest www = UnityWebRequest.Get(request))
+        //    {
+        //        yield return www.SendWebRequest();
+        //        if (www.isHttpError || www.isNetworkError)
+        //        {
+        //            Debug.Log("Request error " + www.error + " " + www.downloadHandler.text);
+        //        }
+        //        else
+        //        {
+        //            string res = www.downloadHandler.text;
+        //            Debug.Log("Result get user info : " + res);
+        //            try
+        //            {
+        //                PlanningList planningList = Utils.UnserializeJSON<PlanningList>(res);
+        //                foreach (Planning planning in planningList.Planning)
+        //                {
+        //                    Planning = new Planning();
+        //                    //Planning = planning;
+        //                    Planning.Date_Fin = planning.Date_Fin;
+        //                    Planning.DeviceId = planning.DeviceId;
+        //                    Planning.Eleve = planning.Eleve;
+        //                    Planning.Device = planning.Device;
+        //                    Planning.Date_Debut = planning.Date_Debut;
+        //                    Planning.idPlanning = planning.idPlanning;
+        //                    Planning.ID = planning.ID;
+        //                    Planning.EleveIdUser = planning.EleveIdUser;
+        //                    Planning.DeviceUID = planning.DeviceUID;
+        //                    Planning.Prof = planning.Prof;
+        //                    Debug.LogError("<color=green>FOREACH PLANNING Date Debut : " + Planning.Date_Debut + " Date fin : " + Planning.Date_Fin + "</color>");
+        //                    if (planning.DeviceId.HasValue && planning.idPlanning.HasValue && planning.EleveIdUser.HasValue)
+        //                        ListPlanning.Add(Planning);
+        //                }
+        //                mPlanningNextCourse = GetPlanningFromDB(ListPlanning);
+        //                Debug.LogError("<color=blue> Date Debut : " + mPlanningNextCourse.Date_Debut + " Date fin : " + mPlanningNextCourse.Date_Fin + "</color>");
+        //            }
+        //            catch (Exception e)
+        //            {
+        //                Debug.LogError("Error parsing user info request answer : " + e.Message);
+        //            }
+        //        }
+        //    }
 
-        }
+        //}
         
 
 
-        private Planning GetPlanningFromDB(List<Planning> iList)
-        {
-            //Debug.LogError("<color=red> GET PLANNING FROM DB " + ListUserStudent[0].Nom + "  </color>");
-            foreach (Planning lPlanning in iList)
-            {
-                Debug.LogError("<color=red> GET PLANNING FROM DB : " + ListUserStudent.Count + " USER :  " + lPlanning.Eleve + " LISTUSER STUDENT :  " + ListUserStudent[0].Nom + "</color>");
-                if (lPlanning.Eleve.Contains(ListUserStudent[0].Nom))
-                {
-                    string[] lSplitDate = lPlanning.Date_Debut.Split('-');
-                    string lDateNow = DateTime.Now.ToString();
-                    string[] lSpliteDateNow = lDateNow.Split('/');
-                    Debug.LogError("<color=red> lsplitDate : " + lSplitDate[0] + " lSpliteDateNow[0] : " + lSpliteDateNow[0] + " lSpliteDateNow[1] : " + lSplitDate[1] + " lSpliteDateNow[1] : " + lSpliteDateNow[1] + "</color>");
+        //private Planning GetPlanningFromDB(List<Planning> iList)
+        //{
+        //    //Debug.LogError("<color=red> GET PLANNING FROM DB " + ListUserStudent[0].Nom + "  </color>");
+        //    foreach (Planning lPlanning in iList)
+        //    {
+        //        Debug.LogError("<color=red> GET PLANNING FROM DB : " + ListUserStudent.Count + " USER :  " + lPlanning.Eleve + " LISTUSER STUDENT :  " + ListUserStudent[0].Nom + "</color>");
+        //        if (lPlanning.Eleve.Contains(ListUserStudent[0].Nom))
+        //        {
+        //            string[] lSplitDate = lPlanning.Date_Debut.Split('-');
+        //            string lDateNow = DateTime.Now.ToString();
+        //            string[] lSpliteDateNow = lDateNow.Split('/');
+        //            Debug.LogError("<color=red> lsplitDate : " + lSplitDate[0] + " lSpliteDateNow[0] : " + lSpliteDateNow[0] + " lSpliteDateNow[1] : " + lSplitDate[1] + " lSpliteDateNow[1] : " + lSpliteDateNow[1] + "</color>");
 
-                    if (Application.systemLanguage == SystemLanguage.French)
-                    {
-                        if ((lSplitDate[0] == lSpliteDateNow[0]) && (lSplitDate[1] == lSpliteDateNow[1]))
-                        {
-                            Debug.LogError("<color=red> Date Debut : " + lPlanning.Date_Debut + " Date fin : " + lPlanning.Date_Fin + "</color>");
-                            mPlanning = true;
-                            return lPlanning;
-                        }
-                    }
-                    else if (Application.systemLanguage == SystemLanguage.English)
-                    {
-                        if ((lSplitDate[0] == lSpliteDateNow[1]) && (lSplitDate[1] == lSpliteDateNow[0]))
-                        {
-                            string[] lSplitDateEnd = lPlanning.Date_Fin.Split('-');
-                            //string lTemp = lSplitDateEnd[0];
-                            //lSplitDateEnd[0] = lSplitDateEnd[1];
-                            //lSplitDateEnd[1] = lTemp;
-                            string lDateEndReformed = lSplitDateEnd[1] + "-" + lSplitDateEnd[0] + "-" + lSplitDateEnd[2];
-                            string lDateStartReformed = lSplitDate[1] + "-" + lSplitDate[0] + "-" + lSplitDate[2];
-                            lPlanning.Date_Fin = lDateEndReformed;
-                            lPlanning.Date_Debut = lDateStartReformed;
-                            Debug.LogError("<color=red> Date Debut : " + lPlanning.Date_Debut + " Date fin : " + lPlanning.Date_Fin + "</color>");
-                            mPlanning = true;
-                            return lPlanning;
-                        }
-                    }
+        //            if (Application.systemLanguage == SystemLanguage.French)
+        //            {
+        //                if ((lSplitDate[0] == lSpliteDateNow[0]) && (lSplitDate[1] == lSpliteDateNow[1]))
+        //                {
+        //                    Debug.LogError("<color=red> Date Debut : " + lPlanning.Date_Debut + " Date fin : " + lPlanning.Date_Fin + "</color>");
+        //                    mPlanning = true;
+        //                    return lPlanning;
+        //                }
+        //            }
+        //            else if (Application.systemLanguage == SystemLanguage.English)
+        //            {
+        //                if ((lSplitDate[0] == lSpliteDateNow[1]) && (lSplitDate[1] == lSpliteDateNow[0]))
+        //                {
+        //                    string[] lSplitDateEnd = lPlanning.Date_Fin.Split('-');
+        //                    //string lTemp = lSplitDateEnd[0];
+        //                    //lSplitDateEnd[0] = lSplitDateEnd[1];
+        //                    //lSplitDateEnd[1] = lTemp;
+        //                    string lDateEndReformed = lSplitDateEnd[1] + "-" + lSplitDateEnd[0] + "-" + lSplitDateEnd[2];
+        //                    string lDateStartReformed = lSplitDate[1] + "-" + lSplitDate[0] + "-" + lSplitDate[2];
+        //                    lPlanning.Date_Fin = lDateEndReformed;
+        //                    lPlanning.Date_Debut = lDateStartReformed;
+        //                    Debug.LogError("<color=red> Date Debut : " + lPlanning.Date_Debut + " Date fin : " + lPlanning.Date_Fin + "</color>");
+        //                    mPlanning = true;
+        //                    return lPlanning;
+        //                }
+        //            }
 
-                }
-                else
-                    Debug.LogError("<color=red> There is no student for any planning </color>");
-            }
-            return new Planning();
-        }
+        //        }
+        //        else
+        //            Debug.LogError("<color=red> There is no student for any planning </color>");
+        //    }
+        //    return new Planning();
+        //}
 
 
 

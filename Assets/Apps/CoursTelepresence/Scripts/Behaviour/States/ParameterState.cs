@@ -23,6 +23,7 @@ namespace BuddyApp.CoursTelepresence
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+           
             Buddy.GUI.Header.DisplayParametersButton(true);
             Buddy.GUI.Header.OnClickParameters.Add(() => { TriggerState("IDLE"); });
 
@@ -51,10 +52,18 @@ namespace BuddyApp.CoursTelepresence
                 mButtonVerify.SetIcon(Buddy.Resources.Get<Sprite>("Atlas_Education_IconRefresh", Context.APP));
                 
 
-                mButtonVerify.OnClick.Add(() => { Trigger("CONNECTING"); });
+                mButtonVerify.OnClick.Add(() => {
+                    DBManager.Instance.StartDBManager();
+                    StartCoroutine(DBManager.Instance.RefreshPlanning());
+                    //Debug.LogError("<color=blue>VERIF : " + DBManager.Instance.ListUserStudent[0].Nom + "</color>");
+                    
+                    //Debug.LogError("<color=blue>VERIF 2 : " + DBManager.Instance.ListUIDTablet[0] + "</color>");
+                    
+                    Trigger("IDLE");/*Debug.LogError("<color=blue>PARAM STATE CLICK VERIF </color>"); Trigger("CONNECTING");*/
+                });
             },
-            () => { Trigger("Parameter"); Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.Get<Sprite>("os_icon_close", Context.OS),
-            () => { SaveParam(); Trigger("Parameter"); Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.Get<Sprite>("os_icon_check", Context.OS)
+            () => { Trigger("IDLE"); Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.Get<Sprite>("os_icon_close", Context.OS),
+            () => {  SaveParam(); Trigger("IDLE"); Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.Get<Sprite>("os_icon_check", Context.OS)
            );
         }
 
@@ -87,7 +96,7 @@ namespace BuddyApp.CoursTelepresence
 
         private void SaveParam()
         {
-
+            
         }
 
         private void SetNavigationStatic(bool iValue)
