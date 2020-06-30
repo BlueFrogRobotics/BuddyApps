@@ -98,6 +98,7 @@ namespace BuddyApp.CoursTelepresence
         {
             float lTime = (Time.time - mPingTime[iUserId])*1000F;
             mUsers[iUserId].transform.GetChild(4).GetComponent<Image>().sprite = SpriteNetwork((int)lTime);
+            mUsers[iUserId].transform.GetChild(3).GetComponent<Text>().text = "" + lTime + "ms";
             if (lTime > 300)
                 mUsers[iUserId].transform.GetChild(0).GetChild(2).GetComponent<Image>().color = new Color(200, 0, 0);
             else 

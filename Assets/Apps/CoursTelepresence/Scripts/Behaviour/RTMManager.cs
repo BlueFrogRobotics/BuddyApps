@@ -54,6 +54,7 @@ namespace BuddyApp.CoursTelepresence
             Login();
             mPingId = 0;
             mStaticSteering = true;
+            Buddy.Actuators.Wheels.Locked = true;
             OnAskSteering = InformStaticSteering;
             OnActivateObstacle = SensorsBroadcast;
 
@@ -472,7 +473,20 @@ namespace BuddyApp.CoursTelepresence
 
                     case "moodBI":
                         if (!Enum.TryParse(lMessage.propertyValue, true, out lMood)) {
-                            Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a mood");
+                            if (lMessage.propertyValue == "CRY")
+                            {
+                                lMood = Mood.SAD;
+                                Buddy.Behaviour.Interpreter.RunRandom(lMood.ToString().ToLower());
+                                OnMoodBI(lMood);
+                            }
+                            else if (lMessage.propertyValue == "SLEEP")
+                            {
+                                lMood = Mood.TIRED;
+                                Buddy.Behaviour.Interpreter.RunRandom(lMood.ToString().ToLower());
+                                OnMoodBI(lMood);
+                            }
+                            else
+                                Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a mood");
                         } else {
                             // Set the mood
                             //BehaviourMovementPattern BIMotion = BehaviourMovementPattern.BODY_LOCAL_DISPLACEMENT;
@@ -482,7 +496,11 @@ namespace BuddyApp.CoursTelepresence
 
                             //Buddy.Behaviour.Interpreter.RunRandom(lMood, BIMotion, Buddy.Behaviour.SetMood(lMood));
                             Debug.LogWarning("moodBI wheels locked " + Buddy.Actuators.Wheels.Locked);
-                            Buddy.Behaviour.Interpreter.RunRandom(lMood);
+                            //if (lMood == Mood.NEUTRAL)
+                            //    Buddy.Behaviour.Interpreter.Run("Neutral07");
+                           // else
+                                //Buddy.Behaviour.Interpreter.RunRandom(lMood);
+                                Buddy.Behaviour.Interpreter.RunRandom(lMood.ToString().ToLower());
 
                             // Triggers Callback
                             OnMoodBI(lMood);
