@@ -12,9 +12,11 @@ namespace BuddyApp.CoursTelepresence
     {
         private RTMManager mRTMManager;
         private float mTimeState;
+        private bool mCallRefusedDisplayed;
 
         override public void Start()
         {
+            mCallRefusedDisplayed = false;
             // This returns the GameObject named RTMCom.
             mRTMManager = GetComponent<RTMManager>();
             //mRTMManager.OncallRequestAnswer = (lCallAnswer) => {
@@ -46,21 +48,25 @@ namespace BuddyApp.CoursTelepresence
             mRTMManager.OncallRequestAnswer = (lCallAnswer) => {
                 if (lCallAnswer)
                     Trigger("CALL");
-                else
+                else if(!mCallRefusedDisplayed)
+                {
+                    mCallRefusedDisplayed = true;
                     Buddy.GUI.Dialoger.Display<IconToast>("Appel refusé").
                     With(Buddy.Resources.Get<Sprite>("os_icon_phoneoff_big"),
-                        () => {
-                            Buddy.GUI.Dialoger.Hide();
-                            Trigger("IDLE");
-                        },
-                        () => {
-                            StartCoroutine(RefusedCall());
-                        },
-                        () => {
+                    () => {
+                        Buddy.GUI.Dialoger.Hide();
+                        Trigger("IDLE");
+                    },
+                    () => {
+                        StartCoroutine(RefusedCall());
+                    },
+                    () => {
                             //Trigger("IDLE");
                             //Buddy.GUI.Dialoger.Hide();
-                        }
-                        );
+                    }
+                    );
+                }
+
             };
         }
 
@@ -92,6 +98,8 @@ namespace BuddyApp.CoursTelepresence
         {
             Debug.Log("calling state exit");
             mRTMManager.OncallRequestAnswer = null;
+            mCallRefusedDisplayed = false;
+
             //Buddy.GUI.Toaster.Hide();
             //Buddy.GUI.Dialoger.Hide();
         }

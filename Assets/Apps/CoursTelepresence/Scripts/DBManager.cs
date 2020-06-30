@@ -156,16 +156,16 @@ namespace BuddyApp.CoursTelepresence
             Debug.LogError("<color=blue> CanstartCourse " + CanStartCourse + " CanEndCourse " + CanEndCourse  + "</color>");
             if (CanStartCourse && !CanEndCourse)
             {
-                //A TEST
-                if (!mButtonCallEnabled)
-                {
-                    mButtonCallEnabled = true;
-                    ButtonCall.interactable = true;
-                    mImageFromButtonCall = ButtonCall.GetComponentInChildren<Image>();
-                    Color lTempColor = mImageFromButtonCall.color;
-                    lTempColor.a = 1F;
-                    mImageFromButtonCall.color = lTempColor;
-                }
+                ////A TEST
+                //if (!mButtonCallEnabled)
+                //{
+                //    mButtonCallEnabled = true;
+                //    ButtonCall.interactable = true;
+                //    mImageFromButtonCall = ButtonCall.GetComponentInChildren<Image>();
+                //    Color lTempColor = mImageFromButtonCall.color;
+                //    lTempColor.a = 1F;
+                //    mImageFromButtonCall.color = lTempColor;
+                //}
                 mDateNow = DateTime.Now;
 
                 mSpan = mPlanningEnd.Subtract(mDateNow);
