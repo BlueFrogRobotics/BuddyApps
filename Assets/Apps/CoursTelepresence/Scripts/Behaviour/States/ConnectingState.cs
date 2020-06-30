@@ -13,6 +13,8 @@ namespace BuddyApp.CoursTelepresence
         private Animator ConnectingScreenAnimator;
         private bool mListDone;
         private RTMManager mRTMManager;
+        private List<GameObject> mUsers;
+        private List<float> mPingTime;
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
@@ -21,6 +23,8 @@ namespace BuddyApp.CoursTelepresence
             mRTMManager = GetComponent<RTMManager>();
             mRTMManager.OnPingWithId = OnPingId;
             mListDone = false;
+            mUsers = new List<GameObject>();
+            mPingTime = new List<float>();
             //TODO check DB and stuff
 
             if (Buddy.Behaviour.Mood != Mood.NEUTRAL)
@@ -53,11 +57,20 @@ namespace BuddyApp.CoursTelepresence
                         GetGameObject(16).transform.GetChild(i).GetChild(1).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<Text>().text = DBManager.Instance.ListUserStudent[i].Organisme;
                         int lIndex = i;
                         lButtonUser.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => { ButtonClick(lIndex); });
+                        mUsers.Add(lButtonUser);
                         //mRTMManager.AskAvailable(DBManager.Instance.ListUIDTablet[i]);
-                        mRTMManager.Ping(DBManager.Instance.ListUIDTablet[i], 0);
+                        mRTMManager.Ping(DBManager.Instance.ListUIDTablet[i], i);
+                        mPingTime.Add(Time.time);
                     }
                     mListDone = true;
                 }
+            }
+
+            for(int i=0; i<mUsers.Count; i++)
+            {
+                float lTime = (Time.time - mPingTime[i]) * 1000F;
+                if (lTime > 300)
+                    UpdateListUsers(i);
             }
         }
 
@@ -79,6 +92,55 @@ namespace BuddyApp.CoursTelepresence
         private void OnPingId(int iId)
         {
             Debug.LogWarning("PING WITH " + iId);
+        }
+
+        private void UpdateListUsers(int iUserId)
+        {
+            float lTime = (Time.time - mPingTime[iUserId])*1000F;
+            mUsers[iUserId].transform.GetChild(4).GetComponent<Image>().sprite = SpriteNetwork((int)lTime);
+            if (lTime > 300)
+                mUsers[iUserId].transform.GetChild(0).GetChild(2).GetComponent<Image>().color = new Color(200, 0, 0);
+            else 
+                mUsers[iUserId].transform.GetChild(0).GetChild(2).GetComponent<Image>().color = new Color(0, 200, 200); 
+
+
+            mRTMManager.Ping(DBManager.Instance.ListUIDTablet[iUserId], iUserId);
+            mPingTime[iUserId] = Time.time;
+        }
+
+        private Sprite SpriteNetwork(int lValue)
+        {
+            string mNetworkLevel = "00";
+            Sprite lSprite;
+
+            // Update icon
+            if (lValue < 60)
+            {
+                    mNetworkLevel = "04";
+                    lSprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconSignal" + mNetworkLevel, Context.APP);
+            }
+            else if (lValue < 100)
+            {
+                    mNetworkLevel = "03";
+                    lSprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconSignal" + mNetworkLevel, Context.APP);
+            }
+            else if (lValue < 150)
+            {
+                    mNetworkLevel = "02";
+                    lSprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconSignal" + mNetworkLevel, Context.APP);
+            }
+            else if (lValue < 200)
+            {
+                    mNetworkLevel = "01";
+                    lSprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconSignal" + mNetworkLevel, Context.APP);
+            }
+            else
+            {
+                mNetworkLevel = "00";
+                lSprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconSignal" + mNetworkLevel, Context.APP);
+            }
+
+            return lSprite;
         }
     }
 
