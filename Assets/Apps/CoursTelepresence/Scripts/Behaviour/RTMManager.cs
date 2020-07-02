@@ -54,7 +54,6 @@ namespace BuddyApp.CoursTelepresence
             Login();
             mPingId = 0;
             mStaticSteering = true;
-            Buddy.Actuators.Wheels.Locked = true;
             OnAskSteering = InformStaticSteering;
             OnActivateObstacle = SensorsBroadcast;
 
@@ -384,7 +383,7 @@ namespace BuddyApp.CoursTelepresence
         /// <param name="iMessage"></param>
         private void OnMessage(string iMessage)
         {
-            iMessage = iMessage.Replace("," + mIdTablet, "");
+            //iMessage = iMessage.Replace("," + mIdTablet, "");
             Debug.LogWarning("message received content " + iMessage);
 
             if (iMessage.Contains("userName") && !iMessage.Contains("[METARTM]")) {
@@ -417,6 +416,7 @@ namespace BuddyApp.CoursTelepresence
                         if (!int.TryParse(lMessage.propertyValue, NumberStyles.Any, CultureInfo.InvariantCulture, out lIntValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into an int");
                         } else {
+                            Debug.LogWarning("ping loul "+ lMessage.propertyValue);
                             SendRTMMessage(Utils.SerializeJSON(
                                 new JsonMessage("pingAck", lMessage.propertyValue)));
                         }
@@ -472,6 +472,11 @@ namespace BuddyApp.CoursTelepresence
                         break;
 
                     case "moodBI":
+                        BehaviourMovementPattern lPattern;
+                        if (mStaticSteering)
+                            lPattern = BehaviourMovementPattern.HEAD | BehaviourMovementPattern.EYES;
+                        else
+                            lPattern = BehaviourMovementPattern.COMPLETE_FREEDOM;
                         if (!Enum.TryParse(lMessage.propertyValue, true, out lMood)) {
                             if (lMessage.propertyValue == "CRY")
                             {
