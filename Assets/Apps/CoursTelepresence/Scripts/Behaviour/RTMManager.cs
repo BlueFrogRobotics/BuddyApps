@@ -141,7 +141,7 @@ namespace BuddyApp.CoursTelepresence
         public void RequestConnexion(string iChannelId, string iUserName = "")
         {
             Debug.LogWarning("Requesting connexion with " + iChannelId + " " + iUserName);
-            SendRTMMessage(Utils.SerializeJSON(new CallRequest(iChannelId, iUserName)));
+            SendRTMMessage(Utils.SerializeJSON(new CallRequest(iChannelId, DBManager.Instance.NameProf)));
         }
 
         /// <summary>
