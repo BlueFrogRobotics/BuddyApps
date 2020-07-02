@@ -140,7 +140,7 @@ namespace BuddyApp.CoursTelepresence
             Debug.LogError("call state");
             mTimeMessage = -1F;
             Buddy.GUI.Header.DisplayParametersButton(true);
-            Buddy.GUI.Header.OnClickParameters.Add(Lauchparameters);
+            //Buddy.GUI.Header.OnClickParameters.Add(Lauchparameters);
             VideoSurface lVideoSurface = VideoFeedbackImage.AddComponent<VideoSurface>();
             lVideoSurface.SetForUser(0);
             lVideoSurface.SetEnable(true);
@@ -327,7 +327,7 @@ namespace BuddyApp.CoursTelepresence
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Buddy.GUI.Toaster.Hide();
-            Buddy.GUI.Header.OnClickParameters.Clear();
+            //Buddy.GUI.Header.OnClickParameters.Clear();
             //ManageGUIClose();
             if (mTimeMessage >= 0)
                 StopMessage();

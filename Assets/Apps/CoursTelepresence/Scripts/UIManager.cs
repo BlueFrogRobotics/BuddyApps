@@ -92,9 +92,16 @@ namespace BuddyApp.CoursTelepresence
 
         private void OnPingValue(int lValue)
         {
-            Ping.text = lValue.ToString() + "ms";
-            PingHeader.text = lValue.ToString() + "ms";
-
+            if (lValue < 500)
+            {
+                Ping.text = lValue.ToString() + "ms";
+                PingHeader.text = lValue.ToString() + "ms";
+            }
+            else
+            {
+                Ping.text = "";
+                PingHeader.text = "";
+            }
 
             // Update icon
             if (lValue < 60) {

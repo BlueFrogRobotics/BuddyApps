@@ -12057,6 +12057,7 @@ GameObject:
   - component: {fileID: 1669233723}
   - component: {fileID: 1669233716}
   - component: {fileID: 1669233721}
+  - component: {fileID: 1669233724}
   m_Layer: 0
   m_Name: AppBehaviour
   m_TagString: Untagged
@@ -12198,6 +12199,17 @@ MonoBehaviour:
   buttonEnableVideo: {fileID: 228072823}
   buttonEnableAudio: {fileID: 421708962}
   mVideoIsEnabled: 0
+--- !u!114 &1669233724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1669233715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -927462501, guid: 13d60d68e83ad3a468be44f2f756339c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1700304331
 GameObject:
   m_ObjectHideFlags: 0

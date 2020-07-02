@@ -26,8 +26,10 @@ namespace BuddyApp.CoursTelepresence
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            mUsers = new List<GameObject>();
+            mPingTime = new List<float>();
             mInputFilter.onValueChanged.AddListener(delegate { OnInputChanged(); });
-            Buddy.GUI.Header.DisplayParametersButton(false);
+            Buddy.GUI.Header.DisplayParametersButton(true);
             mRTMManager.OnPingWithId = (lId) =>
             {
                 UpdateListUsers(lId);
@@ -36,8 +38,6 @@ namespace BuddyApp.CoursTelepresence
             //mRTMManager.OnPingWithId = UpdateListUsers;//OnPingId;
 
             mListDone = false;
-            mUsers = new List<GameObject>();
-            mPingTime = new List<float>();
             //TODO check DB and stuff
 
             if (Buddy.Behaviour.Mood != Mood.NEUTRAL)
@@ -80,16 +80,19 @@ namespace BuddyApp.CoursTelepresence
                 }
             }
 
-            for (int i = 0; i < mUsers.Count; i++)
+            if (mListDone)
             {
-                float lTime = (Time.time - mPingTime[i]) * 1000F;
-                if (lTime > 1500)
-                { 
-                //mRTMManager.Ping(DBManager.Instance.ListUIDTablet[i], i);
-                //mPingTime[i] = Time.time;
-                    UpdateListUsers(i);
-                }
+                for (int i = 0; i < mUsers.Count; i++)
+                {
+                    float lTime = (Time.time - mPingTime[i]) * 1000F;
+                    if (lTime > 1500)
+                    {
+                        //mRTMManager.Ping(DBManager.Instance.ListUIDTablet[i], i);
+                        //mPingTime[i] = Time.time;
+                        UpdateListUsers(i);
+                    }
 
+                }
             }
         }
 
@@ -125,13 +128,15 @@ namespace BuddyApp.CoursTelepresence
             {
                 mUsers[iUserId].transform.GetChild(3).GetComponent<Text>().text = "";
                 mUsers[iUserId].transform.GetChild(0).GetChild(2).GetComponent<Image>().color = new Color(200, 0, 0);
-                mUsers[iUserId].transform.GetChild(4).GetChild(2).GetComponent<Image>().color = new Color(200, 0, 0);
+                mUsers[iUserId].transform.GetChild(2).GetComponent<Image>().color = new Color(200, 0, 0);
+                mUsers[iUserId].transform.GetChild(4).GetComponent<Image>().color = new Color(255, 255, 255, 0);
             }
             else
             {
                 mUsers[iUserId].transform.GetChild(3).GetComponent<Text>().text = "" + (int)lTime + "ms";
                 mUsers[iUserId].transform.GetChild(0).GetChild(2).GetComponent<Image>().color = new Color(0, 200, 200);
-                mUsers[iUserId].transform.GetChild(4).GetChild(2).GetComponent<Image>().color = new Color(0, 200, 200);
+                mUsers[iUserId].transform.GetChild(2).GetComponent<Image>().color = new Color(0, 200, 200);
+                mUsers[iUserId].transform.GetChild(4).GetComponent<Image>().color = new Color(255, 255, 255, 1);
             }
 
             mRTMManager.Ping(DBManager.Instance.ListUIDTablet[iUserId], iUserId);
@@ -164,7 +169,7 @@ namespace BuddyApp.CoursTelepresence
                     mNetworkLevel = "01";
                     lSprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconSignal" + mNetworkLevel, Context.APP);
             }
-            else if(lValue < 400)
+            else if (lValue < 400)
             {
                 mNetworkLevel = "00";
                 lSprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconSignal" + mNetworkLevel, Context.APP);
