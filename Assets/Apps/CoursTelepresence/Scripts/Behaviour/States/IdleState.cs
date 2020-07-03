@@ -40,6 +40,7 @@ namespace BuddyApp.CoursTelepresence
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Buddy.GUI.Header.DisplayParametersButton(true);
+            GetGameObject(17).SetActive(false);
             //Buddy.GUI.Header.OnClickParameters.Add(() => { Trigger("PARAMETERS"); });
             mAddListenerButtonCall = false;
             mCallButton.gameObject.SetActive(true);

@@ -50,11 +50,12 @@ namespace BuddyApp.CoursTelepresence
                 mToggleNavigationDynamic.ToggleValue = !mRTMManager.mStaticSteering;
                 mToggleNavigationDynamic.OnToggle.Add(SetNavigationDynamic);
 
-                TText lText = iBuilder.CreateWidget<TText>();
-                lText.SetLabel("Utilisateur(s) associé(s)");
 
                 if (!mAnimator.GetCurrentAnimatorStateInfo(0).IsName("CALL"))
                 {
+                    TText lText = iBuilder.CreateWidget<TText>();
+                    lText.SetLabel("Utilisateur(s) associé(s)");
+
                     mButtonVerify = iBuilder.CreateWidget<TButton>();
                     mButtonVerify.SetLabel("Vérifier");
                     mButtonVerify.SetIcon(Buddy.Resources.Get<Sprite>("Atlas_Education_IconRefresh", Context.APP));
@@ -64,6 +65,8 @@ namespace BuddyApp.CoursTelepresence
                     {
                         DBManager.Instance.StartDBManager();
                         StartCoroutine(DBManager.Instance.RefreshPlanning());
+                        CloseParameters();
+                        mAnimator.Play("CONNECTING");
                     });
                 }
             },
