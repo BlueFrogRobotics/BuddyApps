@@ -88,7 +88,7 @@ namespace BuddyApp.CoursTelepresence
             Debug.LogWarning("Join channel " + mChannelId + " waiting for tablet answer");
             Trigger("CALLING");
             mRTCManager.Join(mChannelId);
-            mRTMManager.RequestConnexion(mChannelId, Buddy.Platform.RobotUID);
+            mRTMManager.RequestConnexion(mChannelId, DBManager.Instance.NameProf);
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
