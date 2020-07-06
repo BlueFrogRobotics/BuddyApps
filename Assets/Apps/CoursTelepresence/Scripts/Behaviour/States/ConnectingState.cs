@@ -33,7 +33,7 @@ namespace BuddyApp.CoursTelepresence
             mRTMManager.OnPingWithId = (lId) =>
             {
                 UpdateListUsers(lId);
-            }; 
+            };
             Debug.Log("Connecting state");
             //mRTMManager.OnPingWithId = UpdateListUsers;//OnPingId;
 
@@ -42,13 +42,11 @@ namespace BuddyApp.CoursTelepresence
 
             if (Buddy.Behaviour.Mood != Mood.NEUTRAL)
                 Buddy.Behaviour.SetMood(Mood.NEUTRAL);
-            
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-
             //Debug.LogWarning("Peering " + DBManager.Instance.Peering + " info " + DBManager.Instance.InfoRequestedDone);
             if (DBManager.Instance.Peering && DBManager.Instance.InfoRequestedDone && !mListDone)
             {
@@ -100,6 +98,12 @@ namespace BuddyApp.CoursTelepresence
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mRTMManager.OnPingWithId = null;
+            for(int i=0; i<mUsers.Count; i++)
+            {
+                Destroy(mUsers[i]);
+            }
+            mUsers.Clear();
+            mPingTime.Clear();
             mInputFilter.onValueChanged.RemoveAllListeners();
             Debug.Log("Connecting state exit");
         }

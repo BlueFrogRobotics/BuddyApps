@@ -44,12 +44,6 @@ namespace BuddyApp.CoursTelepresence
         private const string GET_ALL_LIAISON = "https://creator.zoho.eu/api/json/flotte/view/all_liaison_device_user?authtoken=" + TOKEN + "&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true&criteria=Device.Uid==";
         private const string TABLET_TYPE_DEVICE = "Tablette";
 
-
-        [SerializeField]
-        private Button ButtonCall;
-        private bool mButtonCallEnabled;
-        private Image mImageFromButtonCall;
-
         private DeviceUserLiaison mDeviceUserLiaison;
         private List<DeviceUserLiaison> mDeviceUserLiaisonList;
         private List<DeviceUserLiaison> mListTabletUser;
@@ -78,6 +72,8 @@ namespace BuddyApp.CoursTelepresence
         public bool Peering { get; private set; }
         public Planning Planning { get; private set; }
         public bool InfoRequestedDone { get; private set; }
+        public string NameProf { get; private set; }
+        private string mRobotName;
         //private List<Planning> ListPlanning;
         private Planning mPlanningNextCourse;
         //private Planning mPlanningCheck;
@@ -113,7 +109,6 @@ namespace BuddyApp.CoursTelepresence
         {
             mRTMManager = GetComponent<RTMManager>();
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("fr-FR");
-            mButtonCallEnabled = false;
             mPlanningNextCourse = new Planning();
             mStartUpdate = false;
             //mPlanningCheck = new Planning();
@@ -153,7 +148,7 @@ namespace BuddyApp.CoursTelepresence
         {
             //if(mStartUpdate)
             //{
-            Debug.LogError("<color=blue> CanstartCourse " + CanStartCourse + " CanEndCourse " + CanEndCourse  + "</color>");
+            //Debug.LogError("<color=blue> CanstartCourse " + CanStartCourse + " CanEndCourse " + CanEndCourse  + "</color>");
             if (CanStartCourse && !CanEndCourse)
             {
                 ////A TEST
@@ -197,16 +192,6 @@ namespace BuddyApp.CoursTelepresence
             }
             if (!CanStartCourse)
             {
-                //A TEST
-                if(mButtonCallEnabled)
-                {
-                    mButtonCallEnabled = false;
-                    ButtonCall.interactable = false;
-                    mImageFromButtonCall = ButtonCall.GetComponentInChildren<Image>();
-                    Color lTempColor = mImageFromButtonCall.color;
-                    lTempColor.a = 0.5F;
-                    mImageFromButtonCall.color = lTempColor;
-                }
                 CheckStartPlanning();
             }
             //}
@@ -236,7 +221,8 @@ namespace BuddyApp.CoursTelepresence
                         if (devices != null)
                         {
                             DBConnected = true;
-                            for(int i = 0; i < devices.Device_user.Length; ++i)
+                            mRobotName = devices.Device_user[0].DeviceNom;
+                            for (int i = 0; i < devices.Device_user.Length; ++i)
                             {
                                 mDeviceUserLiaison = devices.Device_user[i];
                                 mDeviceUserLiaisonList.Add(mDeviceUserLiaison);
@@ -588,13 +574,28 @@ namespace BuddyApp.CoursTelepresence
                 Planning mCurrentPlanning = new Planning();
                 mCurrentPlanning.Date_Debut = lSplitDate[1];
                 mCurrentPlanning.Date_Fin = lSplitDate[2];
-                mCurrentPlanning.Prof = lSplitDate[3];
-                Debug.LogError("<color=red> ARRAY  : " + mPlanningNextCourse.Date_Debut + "</color>");
+                if (lSplitDate.Length > 3 && !string.IsNullOrEmpty(lSplitDate[3]))
+                {
+                    mCurrentPlanning.Prof = lSplitDate[3];
+                } 
+                else
+                {
+                    mCurrentPlanning.Prof = mRobotName;
+                }
+                //Debug.LogError("<color=red> ARRAY  : " + mPlanningNextCourse.Date_Debut + "</color>");
                 if (!string.IsNullOrEmpty(mCurrentPlanning.Date_Debut) && !string.IsNullOrEmpty(mCurrentPlanning.Date_Fin))
                 {
                     DateTime lDateNow = DateTime.Now;
                     DateTime lPlanningStart = DateTime.ParseExact(mCurrentPlanning.Date_Debut.Replace("-", "/"), "dd/MM/yyyy HH:mm:ss", mProviderFR);
                     TimeSpan lSpan = lPlanningStart.Subtract(lDateNow);
+                    if (!string.IsNullOrEmpty(mCurrentPlanning.Prof))
+                    {
+                        NameProf = mCurrentPlanning.Prof;
+                    }
+                    else
+                        NameProf = "";
+                        
+
                     //Debug.LogError("<color=red> START COURSE IN : " + lSpan.TotalMinutes + "</color>");
                     //Debug.LogError("planning start: " + lPlanningStart + "date now" + lDateNow);
 
@@ -604,7 +605,7 @@ namespace BuddyApp.CoursTelepresence
                         mPlanningEnd = DateTime.ParseExact(mCurrentPlanning.Date_Fin.Replace("-", "/"), "dd/MM/yyyy HH:mm:ss", mProviderFR);
                         CanStartCourse = true;
                         CanEndCourse = false;
-                        Debug.LogError("planning end: " + mPlanningEnd);
+                        Debug.LogError("planning end: " + mPlanningEnd + " prof : " + NameProf);
                     }
                 }
                 else

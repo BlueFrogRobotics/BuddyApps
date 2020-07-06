@@ -9,17 +9,19 @@ namespace BuddyApp.CoursTelepresence
     public class ParameterManager : MonoBehaviour
     {
         private TSlider mSliderVolume;
-        private TToggle mToggleNavigationStatic;
+        private TToggle mToggleNavigationStatic; 
         private TToggle mToggleNavigationDynamic;
         private TButton mButtonVerify;
 
         private RTMManager mRTMManager;
+        private Animator mAnimator;
 
         // Use this for initialization
         void Start()
         {
             Buddy.GUI.Header.OnClickParameters.Add(Lauchparameters);
             mRTMManager = GetComponent<RTMManager>();
+            mAnimator = GetComponent<Animator>();
         }
 
         // Update is called once per frame
@@ -48,17 +50,25 @@ namespace BuddyApp.CoursTelepresence
                 mToggleNavigationDynamic.ToggleValue = !mRTMManager.mStaticSteering;
                 mToggleNavigationDynamic.OnToggle.Add(SetNavigationDynamic);
 
-                TText lText = iBuilder.CreateWidget<TText>();
-                lText.SetLabel("Utilisateur(s) associé(s)");
-                mButtonVerify = iBuilder.CreateWidget<TButton>();
-                mButtonVerify.SetLabel("Vérifier");
-                mButtonVerify.SetIcon(Buddy.Resources.Get<Sprite>("Atlas_Education_IconRefresh", Context.APP));
+
+                if (!mAnimator.GetCurrentAnimatorStateInfo(0).IsName("CALL"))
+                {
+                    TText lText = iBuilder.CreateWidget<TText>();
+                    lText.SetLabel("Utilisateur(s) associé(s)");
+
+                    mButtonVerify = iBuilder.CreateWidget<TButton>();
+                    mButtonVerify.SetLabel("Vérifier");
+                    mButtonVerify.SetIcon(Buddy.Resources.Get<Sprite>("Atlas_Education_IconRefresh", Context.APP));
 
 
-                mButtonVerify.OnClick.Add(() => {
-                    DBManager.Instance.StartDBManager();
-                    StartCoroutine(DBManager.Instance.RefreshPlanning());
-                });
+                    mButtonVerify.OnClick.Add(() =>
+                    {
+                        DBManager.Instance.StartDBManager();
+                        StartCoroutine(DBManager.Instance.RefreshPlanning());
+                        CloseParameters();
+                        mAnimator.Play("CONNECTING");
+                    });
+                }
             },
             () => { CloseParameters(); }, Buddy.Resources.Get<Sprite>("os_icon_close", Context.OS),
             () => { SaveParam(); CloseParameters(); }, Buddy.Resources.Get<Sprite>("os_icon_check", Context.OS)
