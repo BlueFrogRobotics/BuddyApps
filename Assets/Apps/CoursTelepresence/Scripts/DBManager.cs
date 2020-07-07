@@ -102,6 +102,7 @@ namespace BuddyApp.CoursTelepresence
         // Use this for initialization
         void Start()
         {
+            mDeviceUserLiaisonList = new List<DeviceUserLiaison>();
             StartDBManager();
         }
 
@@ -122,8 +123,8 @@ namespace BuddyApp.CoursTelepresence
             CanStartCourse = false;
             CanEndCourse = false;
             mDeviceUserLiaison = new DeviceUserLiaison();
+            mDeviceUserLiaisonList.Clear();
 
-            mDeviceUserLiaisonList = new List<DeviceUserLiaison>();
             mListTabletUser = new List<DeviceUserLiaison>();
             mListRobotUser = new List<DeviceUserLiaison>();
             CoursTelepresenceData.Instance.AllPlanning = new List<string>();
@@ -136,9 +137,9 @@ namespace BuddyApp.CoursTelepresence
             StartCoroutine(GetUserIdFromUID(Buddy.Platform.RobotUID));
 
             //POUR LES TESTS 
-            CoursTelepresenceData.Instance.AllPlanning.Clear(); 
+            CoursTelepresenceData.Instance.AllPlanning.Clear();
 
-            //StartCoroutine(GetUserIdFromUID("EED7BF3ABE076D2D7A40"));
+            //StartCoroutine(GetUserIdFromUID("005F214BFAE3917A1B89"));
 
             //StartCoroutine(UpdatePingAndPosition());
             //StartCoroutine(UpdateBattery());

@@ -26,6 +26,7 @@ namespace BuddyApp.CoursTelepresence
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            //GetGameObject(17).SetActive(true);
             mUsers = new List<GameObject>();
             mPingTime = new List<float>();
             mInputFilter.onValueChanged.AddListener(delegate { OnInputChanged(); });
@@ -34,7 +35,7 @@ namespace BuddyApp.CoursTelepresence
             {
                 UpdateListUsers(lId);
             };
-            Debug.Log("Connecting state");
+            Debug.Log("Connecting state"); 
             //mRTMManager.OnPingWithId = UpdateListUsers;//OnPingId;
 
             mListDone = false;
@@ -112,7 +113,7 @@ namespace BuddyApp.CoursTelepresence
         {
             DBManager.Instance.FillPlanningStart(DBManager.Instance.ListUserStudent[iIndexList].Nom);
             mRTMManager.SetTabletId(DBManager.Instance.ListUIDTablet[iIndexList]);
-            GetGameObject(17).SetActive(false);
+            //GetGameObject(17).SetActive(false);
             Trigger("IDLE");
         }
 
