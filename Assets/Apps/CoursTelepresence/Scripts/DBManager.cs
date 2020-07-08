@@ -134,7 +134,7 @@ namespace BuddyApp.CoursTelepresence
             //mListRobotUser.Clear();
             //ListUIDTablet.Clear();
             //ListUserStudent.Clear();
-            StartCoroutine(GetUserIdFromUID(Buddy.Platform.RobotUID));
+            StartCoroutine(GetUserIdFromUID(Buddy.Platform.RobotUID)); 
 
             //POUR LES TESTS 
             CoursTelepresenceData.Instance.AllPlanning.Clear();
@@ -258,8 +258,8 @@ namespace BuddyApp.CoursTelepresence
             StartCoroutine(GetInfoForUsers(mDeviceUserLiaisonList));
             while (!InfoRequestedDone)
                 yield return null;
-            FillPlanningStart(ListUserStudent[0].Nom);
-            mRTMManager.SetTabletId(ListUIDTablet[0]);
+            //FillPlanningStart(ListUserStudent[0].Nom);
+            //mRTMManager.SetTabletId(ListUIDTablet[0]);
         }
 
         private IEnumerator GetInfoForUsers(List<DeviceUserLiaison> iListDeviceUserLiaison)

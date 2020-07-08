@@ -44,6 +44,8 @@ namespace BuddyApp.CoursTelepresence
 
         private RTMManager mRTMManager;
 
+        private float mTime;
+
         //[SerializeField]
         //private Text BatteryLevel;
 
@@ -67,6 +69,7 @@ namespace BuddyApp.CoursTelepresence
             // Update ping
             mRTMManager = GetComponent<RTMManager>();
             mRTMManager.OnPing = OnPingValue;
+            mTime = Time.time;
 
             //init battery level
             if (Buddy.Sensors.Battery.Level > 0.9F)
@@ -90,8 +93,18 @@ namespace BuddyApp.CoursTelepresence
 
         }
 
+        private void Update()
+        {
+            if(mTime + 2F < Time.time)
+            {
+                Ping.text = "";
+                PingHeader.text = "";
+            }
+        }
+
         private void OnPingValue(int lValue)
         {
+            mTime = Time.time;
             if (lValue < 500)
             {
                 Ping.text = lValue.ToString() + "ms";

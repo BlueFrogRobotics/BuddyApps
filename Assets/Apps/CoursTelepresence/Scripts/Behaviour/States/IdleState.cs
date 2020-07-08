@@ -52,9 +52,10 @@ namespace BuddyApp.CoursTelepresence
             GameObject FirstNameStudent = GetGameObject(14).transform.GetChild(0).GetChild(1).gameObject;
             GameObject ClassStudent = GetGameObject(14).transform.GetChild(1).GetChild(0).gameObject;
             //TODO : DECOM TEST
-            NameStudent.GetComponent<Text>().text = DBManager.Instance.UserStudent.Nom;
-            FirstNameStudent.GetComponent<Text>().text = DBManager.Instance.UserStudent.Prenom;
-            ClassStudent.GetComponent<Text>().text = " - " + DBManager.Instance.UserStudent.Organisme;
+            int lIndexTab = mRTMManager.IndexTablet;
+            NameStudent.GetComponent<Text>().text = DBManager.Instance.ListUserStudent[lIndexTab].Nom;
+            FirstNameStudent.GetComponent<Text>().text = DBManager.Instance.ListUserStudent[lIndexTab].Prenom;
+            ClassStudent.GetComponent<Text>().text = " - " + DBManager.Instance.ListUserStudent[lIndexTab].Organisme;
             mRTMManager.OncallRequest = (CallRequest lCall) => { Trigger("INCOMING CALL"); };
 
             // Manage trigger and vocal

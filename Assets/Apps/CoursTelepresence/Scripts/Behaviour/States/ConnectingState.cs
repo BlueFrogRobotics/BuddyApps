@@ -15,6 +15,7 @@ namespace BuddyApp.CoursTelepresence
         private RTMManager mRTMManager;
         private List<GameObject> mUsers;
         private List<float> mPingTime;
+        private List<int> mWaitPing;
 
         private InputField mInputFilter;
 
@@ -29,6 +30,7 @@ namespace BuddyApp.CoursTelepresence
             //GetGameObject(17).SetActive(true);
             mUsers = new List<GameObject>();
             mPingTime = new List<float>();
+            mWaitPing = new List<int>();
             mInputFilter.onValueChanged.AddListener(delegate { OnInputChanged(); });
             Buddy.GUI.Header.DisplayParametersButton(true);
             mRTMManager.OnPingWithId = (lId) =>
@@ -74,6 +76,7 @@ namespace BuddyApp.CoursTelepresence
                         Debug.LogWarning("tablette: " + DBManager.Instance.ListUIDTablet[i]);
                         mRTMManager.Ping(DBManager.Instance.ListUIDTablet[i], i);
                         mPingTime.Add(Time.time);
+                        mWaitPing.Add(0);
                     }
                     mListDone = true;
                 }
@@ -84,7 +87,7 @@ namespace BuddyApp.CoursTelepresence
                 for (int i = 0; i < mUsers.Count; i++)
                 {
                     float lTime = (Time.time - mPingTime[i]) * 1000F;
-                    if (lTime > 1500)
+                    if (lTime > 1200)
                     {
                         //mRTMManager.Ping(DBManager.Instance.ListUIDTablet[i], i);
                         //mPingTime[i] = Time.time;
@@ -113,6 +116,7 @@ namespace BuddyApp.CoursTelepresence
         {
             DBManager.Instance.FillPlanningStart(DBManager.Instance.ListUserStudent[iIndexList].Nom);
             mRTMManager.SetTabletId(DBManager.Instance.ListUIDTablet[iIndexList]);
+            mRTMManager.IndexTablet = iIndexList;
             //GetGameObject(17).SetActive(false);
             Trigger("IDLE");
         }
@@ -128,21 +132,28 @@ namespace BuddyApp.CoursTelepresence
             if (mPingTime == null || mUsers == null)
                 return;
             float lTime = (Time.time - mPingTime[iUserId])*1000F;
-            mUsers[iUserId].transform.GetChild(4).GetComponent<Image>().sprite = SpriteNetwork((int)lTime);
-            if (lTime >= 500)
+
+            if (mWaitPing[iUserId] == 0)
             {
-                mUsers[iUserId].transform.GetChild(3).GetComponent<Text>().text = "";
-                mUsers[iUserId].transform.GetChild(0).GetChild(2).GetComponent<Image>().color = new Color(200, 0, 0);
-                mUsers[iUserId].transform.GetChild(2).GetComponent<Image>().color = new Color(200, 0, 0);
-                mUsers[iUserId].transform.GetChild(4).GetComponent<Image>().color = new Color(255, 255, 255, 0);
+                mUsers[iUserId].transform.GetChild(4).GetComponent<Image>().sprite = SpriteNetwork((int)lTime);
+                if (lTime >= 500)
+                {
+                    mUsers[iUserId].transform.GetChild(3).GetComponent<Text>().text = "";
+                    mUsers[iUserId].transform.GetChild(0).GetChild(2).GetComponent<Image>().color = new Color(200, 0, 0);
+                    mUsers[iUserId].transform.GetChild(2).GetComponent<Image>().color = new Color(200, 0, 0);
+                    mUsers[iUserId].transform.GetChild(4).GetComponent<Image>().color = new Color(255, 255, 255, 0);
+                }
+                else
+                {
+                    mUsers[iUserId].transform.GetChild(3).GetComponent<Text>().text = "" + (int)lTime + "ms";
+                    mUsers[iUserId].transform.GetChild(0).GetChild(2).GetComponent<Image>().color = new Color(0, 200, 200);
+                    mUsers[iUserId].transform.GetChild(2).GetComponent<Image>().color = new Color(0, 200, 200);
+                    mUsers[iUserId].transform.GetChild(4).GetComponent<Image>().color = new Color(255, 255, 255, 1);
+                }
+                mWaitPing[iUserId] = 4;
             }
             else
-            {
-                mUsers[iUserId].transform.GetChild(3).GetComponent<Text>().text = "" + (int)lTime + "ms";
-                mUsers[iUserId].transform.GetChild(0).GetChild(2).GetComponent<Image>().color = new Color(0, 200, 200);
-                mUsers[iUserId].transform.GetChild(2).GetComponent<Image>().color = new Color(0, 200, 200);
-                mUsers[iUserId].transform.GetChild(4).GetComponent<Image>().color = new Color(255, 255, 255, 1);
-            }
+                mWaitPing[iUserId]--;
 
             mRTMManager.Ping(DBManager.Instance.ListUIDTablet[iUserId], iUserId);
             mPingTime[iUserId] = Time.time;

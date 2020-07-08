@@ -40,6 +40,8 @@ namespace BuddyApp.CoursTelepresence
 
         public bool IsInitialised { get; internal set; }
 
+        public int IndexTablet { get; set; }
+
 
         // Use this for initialization
         void Start()
