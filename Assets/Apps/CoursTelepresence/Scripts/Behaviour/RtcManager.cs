@@ -105,6 +105,8 @@ namespace BuddyApp.CoursTelepresence
             //mRtcEngine.SetExternalVideoSource(true, false);
             mRtcEngine.JoinChannel(iChannel, null, 0);
 
+            //StartCoroutine(JoinAsync(iChannel));
+
             //mRtcEngine.OnTokenPrivilegeWillExpire = OnTokenPrivilegeWillExpire;
            
             //mRtcEngine.JoinChannelWithUserAccount(mToken, iChannel, Buddy.Platform.RobotUID);
@@ -604,8 +606,9 @@ namespace BuddyApp.CoursTelepresence
 
         private IEnumerator JoinAsync(string iChannel)
         {
-            yield return GetToken(Buddy.Platform.RobotUID);
+            yield return GetToken(iChannel);
             mRtcEngine.JoinChannelWithUserAccount(mToken, iChannel, Buddy.Platform.RobotUID);
+            mRtcEngine.OnTokenPrivilegeWillExpire = OnTokenPrivilegeWillExpire;
             Debug.Log("join");
         }
 

@@ -395,7 +395,22 @@ namespace BuddyApp.CoursTelepresence
                 if (mStaticSteering)
                     Debug.LogError("Can't move wheels while static steering is on!");
                 else
-                    OnWheelsMotion(Utils.UnserializeJSON<WheelsMotion>(iMessage));
+                {
+                    WheelsMessage lMessage = Utils.UnserializeJSON<WheelsMessage>(iMessage);
+                    float lSpeed = 0F;
+                    float lAngular = 0F;
+                    if (!float.TryParse(lMessage.speed.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out lSpeed))
+                    {
+                        Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a float");
+                    }
+                    if (!float.TryParse(lMessage.angularVelocity.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out lAngular))
+                    {
+                        Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a float");
+                    }
+                    WheelsMotion lMotion = new WheelsMotion(lSpeed, lAngular);
+                    OnWheelsMotion(lMotion);
+                    //OnWheelsMotion(Utils.UnserializeJSON<WheelsMotion>(iMessage));
+                }
 
             } else {
                 JsonMessage lMessage = Utils.UnserializeJSON<JsonMessage>(iMessage);
@@ -642,6 +657,7 @@ namespace BuddyApp.CoursTelepresence
             yield return GetToken(mBuddyId);
             Debug.Log("login");
             //Buddy.WebServices.Agoraio.Login(Buddy.Platform.RobotUID);
+            //Buddy.WebServices.Agoraio.Login(mBuddyId, mToken);
             Buddy.WebServices.Agoraio.Login(mBuddyId);
             IsInitialised = true;
         }
@@ -650,6 +666,7 @@ namespace BuddyApp.CoursTelepresence
         {
             //InitRTM();
             yield return GetToken(mBuddyId);
+            //Buddy.WebServices.Agoraio.RenewToken(mToken);
             //Debug.Log("login");
             ////Buddy.WebServices.Agoraio.Login(Buddy.Platform.RobotUID);
             //Buddy.WebServices.Agoraio.Login(mBuddyId);

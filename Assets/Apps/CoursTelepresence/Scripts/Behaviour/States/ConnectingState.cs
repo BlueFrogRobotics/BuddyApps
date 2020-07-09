@@ -27,7 +27,7 @@ namespace BuddyApp.CoursTelepresence
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            //GetGameObject(17).SetActive(true);
+            GetGameObject(17).SetActive(true);
             mUsers = new List<GameObject>();
             mPingTime = new List<float>();
             mWaitPing = new List<int>();
@@ -60,7 +60,7 @@ namespace BuddyApp.CoursTelepresence
                 }
                 else
                 {
-                    GetGameObject(17).SetActive(true);
+                    //GetGameObject(17).SetActive(true);
                     for (int i = 0; i < DBManager.Instance.ListUIDTablet.Count; ++i)
                     {
                         GameObject lButtonUser = GameObject.Instantiate(GetGameObject(15));

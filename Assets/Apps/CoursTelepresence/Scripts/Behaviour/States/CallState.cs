@@ -45,6 +45,8 @@ namespace BuddyApp.CoursTelepresence
         private TToggle mToggleNavigationStatic;
         private TToggle mToggleNavigationDynamic;
 
+        private float mTimeSinceMovement;
+
         // Use this for initialization
         override public void Start()
         {
@@ -139,6 +141,7 @@ namespace BuddyApp.CoursTelepresence
              mHandUp = false;
             Debug.LogError("call state");
             mTimeMessage = -1F;
+            mTimeSinceMovement = Time.time;
             Buddy.GUI.Header.DisplayParametersButton(true);
             //Buddy.GUI.Header.OnClickParameters.Add(Lauchparameters);
             VideoSurface lVideoSurface = VideoFeedbackImage.AddComponent<VideoSurface>();
@@ -224,12 +227,12 @@ namespace BuddyApp.CoursTelepresence
 
         private void OnWheelsMotion(WheelsMotion iWheelsMotion)
         {
-            if (Math.Abs(iWheelsMotion.speed) < 0.2F)
-                iWheelsMotion.speed = 0F;
+            /* if (Math.Abs(iWheelsMotion.speed) < 0.2F)
+                 iWheelsMotion.speed = 0F;
 
-            if (Math.Abs(iWheelsMotion.angularVelocity) < 0.2F)
-                iWheelsMotion.angularVelocity = 0F;
-
+             if (Math.Abs(iWheelsMotion.angularVelocity) < 0.2F)
+                 iWheelsMotion.angularVelocity = 0F;*/
+            mTimeSinceMovement = Time.time;
             Debug.LogWarning("speed: "+ iWheelsMotion.speed+" angular: "+ iWheelsMotion.angularVelocity);
 
             Buddy.Actuators.Wheels.SetVelocities(Wheels.MAX_LIN_VELOCITY * iWheelsMotion.speed,
@@ -239,6 +242,12 @@ namespace BuddyApp.CoursTelepresence
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            if (Time.time - mTimeSinceMovement > 0.5F)
+            {
+                Buddy.Actuators.Wheels.SetVelocities(0F, 0F);
+                mTimeSinceMovement = Time.time;
+            }
+
             if (DBManager.Instance.CanEndCourse)
             {
                 mTimerEndCall += Time.deltaTime;
@@ -326,6 +335,7 @@ namespace BuddyApp.CoursTelepresence
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            Buddy.Actuators.Wheels.Stop();
             Buddy.GUI.Toaster.Hide();
             //Buddy.GUI.Header.OnClickParameters.Clear();
             //ManageGUIClose();
