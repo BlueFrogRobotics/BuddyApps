@@ -10,17 +10,19 @@ using UnityEngine.Networking;
 
 namespace BuddyApp.CoursTelepresence
 {
-
-
     /// <summary>
     /// This class is in charge of the communication from the robot
     /// to the tablet through RTM communication
     /// </summary>
     public class RTMManager : MonoBehaviour
     {
+        [SerializeField]
+        private RawImage rawVideo;
+
         // Number of messages per second
         private const float SENSORS_BROADCAST_FREQUENCY = 4;
 
+         
         private string mIdTablet;
         private string mBuddyId;
         private string mToken;
@@ -253,10 +255,11 @@ namespace BuddyApp.CoursTelepresence
             if (Buddy.Actuators.Head.No.Angle > 0)
                 lValue = Buddy.Actuators.Head.No.Angle / NoHeadHinge.MAX_LEFT_ANGLE;
             else
-                lValue = Buddy.Actuators.Head.No.Angle / NoHeadHinge.MAX_RIGHT_ANGLE;
+                lValue = -Buddy.Actuators.Head.No.Angle / NoHeadHinge.MAX_RIGHT_ANGLE;
 
 
             SendRTMMessage(Utils.SerializeJSON(new JsonMessage("informNoAngle", lValue.ToString())));
+            Debug.LogWarning("inform no: " + lValue.ToString());
         }
 
         private void SendYesAngle()
@@ -266,9 +269,10 @@ namespace BuddyApp.CoursTelepresence
             if (Buddy.Actuators.Head.Yes.Angle > 0)
                 lValue = Buddy.Actuators.Head.Yes.Angle / YesHeadHinge.MAX_UP_ANGLE;
             else
-                lValue = Buddy.Actuators.Head.Yes.Angle / YesHeadHinge.MAX_DOWN_ANGLE;
+                lValue = Buddy.Actuators.Head.Yes.Angle / -10F;//YesHeadHinge.MAX_DOWN_ANGLE;
 
             SendRTMMessage(Utils.SerializeJSON(new JsonMessage("informYesAngle", lValue.ToString())));
+            Debug.LogWarning("inform yes: " + lValue.ToString());
         }
 
 
@@ -433,7 +437,6 @@ namespace BuddyApp.CoursTelepresence
                         if (!int.TryParse(lMessage.propertyValue, NumberStyles.Any, CultureInfo.InvariantCulture, out lIntValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into an int");
                         } else {
-                            Debug.LogWarning("ping loul "+ lMessage.propertyValue);
                             SendRTMMessage(Utils.SerializeJSON(
                                 new JsonMessage("pingAck", lMessage.propertyValue)));
                         }
@@ -459,9 +462,10 @@ namespace BuddyApp.CoursTelepresence
                         if (!int.TryParse(lMessage.propertyValue, NumberStyles.Any, CultureInfo.InvariantCulture, out lIntValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into an int");
                         } else {
-                            if (lIntValue == mPingId)
+                            if (lIntValue == mPingId && OnPing!=null)
                                 OnPing((int)((Time.time - mPingTime) * 1000));
-                            OnPingWithId(lIntValue);
+                            if(OnPingWithId!=null)
+                                OnPingWithId(lIntValue);
                         }
 
                         break;
@@ -483,7 +487,14 @@ namespace BuddyApp.CoursTelepresence
                             // Set the mood
                             Buddy.Behaviour.SetMood(lMood);
                             // Triggers Callback (needs to hide video canvas)
-                            OnMood(lMood);
+                            VideoSurface lVideoSurface = rawVideo.GetComponent<VideoSurface>();
+                            if (lVideoSurface != null)
+                            {
+                                lVideoSurface.SetEnable(false);
+                                Destroy(rawVideo.GetComponent<VideoSurface>());
+                            }
+                            if(OnMood!=null)
+                                OnMood(lMood);
                         }
 
                         break;
@@ -531,25 +542,27 @@ namespace BuddyApp.CoursTelepresence
                         break;
 
                     case "headYes":
-                        if (!float.TryParse(lMessage.propertyValue, NumberStyles.Any, CultureInfo.InvariantCulture, out lFloatValue)) {
+                        if (!float.TryParse(lMessage.propertyValue.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out lFloatValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into an int");
                         } else {
                             OnHeadYes(lFloatValue * 20F);
+                            Debug.LogWarning("head yes " + lFloatValue);
                         }
 
                         break;
 
                     case "headNo":
-                        if (!float.TryParse(lMessage.propertyValue, NumberStyles.Any, CultureInfo.InvariantCulture, out lFloatValue)) {
+                        if (!float.TryParse(lMessage.propertyValue.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out lFloatValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
                         } else {
                             OnHeadNo(lFloatValue * 20F);
+                            Debug.LogWarning("head no " + lFloatValue);
                         }
 
                         break;
 
                     case "headYesAbsolute":
-                        if (!float.TryParse(lMessage.propertyValue, NumberStyles.Any, CultureInfo.InvariantCulture, out lFloatValue)) {
+                        if (!float.TryParse(lMessage.propertyValue.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out lFloatValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into an int");
                         } else {
                             if (lFloatValue > 0)
@@ -562,7 +575,7 @@ namespace BuddyApp.CoursTelepresence
                         break;
 
                     case "headNoAbsolute":
-                        if (!float.TryParse(lMessage.propertyValue, NumberStyles.Any, CultureInfo.InvariantCulture, out lFloatValue)) {
+                        if (!float.TryParse(lMessage.propertyValue.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out lFloatValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
                         } else {
                             OnHeadNoAbsolute(lFloatValue * NoHeadHinge.MAX_LEFT_ANGLE);
@@ -597,7 +610,7 @@ namespace BuddyApp.CoursTelepresence
                         break;
 
                     case "microThreshold":
-                        if (!float.TryParse(lMessage.propertyValue, NumberStyles.Any, CultureInfo.InvariantCulture, out lFloatValue)) {
+                        if (!float.TryParse(lMessage.propertyValue.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out lFloatValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
                         } else {
                             OnMicroThreshold(lFloatValue);

@@ -242,7 +242,7 @@ namespace BuddyApp.CoursTelepresence
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (Time.time - mTimeSinceMovement > 0.5F)
+            if (!Buddy.Actuators.Wheels.Locked && Time.time - mTimeSinceMovement > 0.5F)
             {
                 Buddy.Actuators.Wheels.SetVelocities(0F, 0F);
                 mTimeSinceMovement = Time.time;
