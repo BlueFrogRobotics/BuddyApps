@@ -485,25 +485,42 @@ namespace BuddyApp.CoursTelepresence
             if (uid == mUid)
                 return;
             VideoSurface lVideoSurface = rawVideo.GetComponent<VideoSurface>();
-            if (state == REMOTE_VIDEO_STATE.REMOTE_VIDEO_STATE_STOPPED) {
-                if (lVideoSurface != null) {
+            if (state == REMOTE_VIDEO_STATE.REMOTE_VIDEO_STATE_STOPPED)
+            {
+                Debug.LogError("<color=blue>**********************************************VIDEO STOPPED****************************************** </color>");
+                if (lVideoSurface != null)
+                {
                     lVideoSurface.SetEnable(false);
                     Destroy(rawVideo.GetComponent<VideoSurface>());
                     rawVideo.texture = null;
                     rawVideo.gameObject.SetActive(false);
                 }
-            } else if (state == REMOTE_VIDEO_STATE.REMOTE_VIDEO_STATE_STARTING || state == REMOTE_VIDEO_STATE.REMOTE_VIDEO_STATE_DECODING) {
-                if (lVideoSurface == null) {
+            }
+            else if (state == REMOTE_VIDEO_STATE.REMOTE_VIDEO_STATE_STARTING || state == REMOTE_VIDEO_STATE.REMOTE_VIDEO_STATE_DECODING)
+            {
+                Debug.LogError("<color=blue>**********************************************VIDEO REACTIVATED****************************************** </color>");
+                if (lVideoSurface != null)
+                {
+                    Debug.LogError("<color=blue>**********************************************NOT NULL****************************************** </color>");
+                    lVideoSurface.SetEnable(false);
+                    rawVideo.texture = null;
+                    Destroy(rawVideo.GetComponent<VideoSurface>());
+                }
+                else if (lVideoSurface == null)
+                {
+                    Debug.LogError("<color=blue>**********************************************NULL****************************************** </color>");
                     lVideoSurface = rawVideo.gameObject.AddComponent<VideoSurface>();
                 }
-                    rawVideo.gameObject.SetActive(true);
-                    lVideoSurface.SetForUser(uid);
-                    lVideoSurface.SetEnable(true);
-                    lVideoSurface.SetVideoSurfaceType(AgoraVideoSurfaceType.RawImage);
-                    lVideoSurface.SetGameFps(30);
-                    //VideoSurface.rectTransform.sizeDelta = SizeToParent(VideoSurface);
+                mRtcEngine.OnStreamMessage = OnStreamMessage;
+                rawVideo.gameObject.SetActive(true);
+                lVideoSurface.SetForUser(uid);
+                lVideoSurface.SetEnable(true);
+                lVideoSurface.SetVideoSurfaceType(AgoraVideoSurfaceType.RawImage);
+                lVideoSurface.SetGameFps(30);
+                //VideoSurface.rectTransform.sizeDelta = SizeToParent(VideoSurface);
             }
         }
+
 
         private void OnFirstRemoteVideoFrame(uint uid, int width, int height, int elapsed)
         {

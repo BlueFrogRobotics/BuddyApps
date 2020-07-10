@@ -555,9 +555,9 @@ namespace BuddyApp.CoursTelepresence
                         if (!float.TryParse(lMessage.propertyValue.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out lFloatValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
                         } else {
-                            OnHeadNo(lFloatValue * 20F);
+                            OnHeadNo(lFloatValue * -20F);
                             Debug.LogWarning("head no " + lFloatValue);
-                        }
+                        } 
 
                         break;
 
