@@ -411,7 +411,7 @@ namespace BuddyApp.CoursTelepresence
                     {
                         Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a float");
                     }
-                    WheelsMotion lMotion = new WheelsMotion(lSpeed, lAngular);
+                    WheelsMotion lMotion = new WheelsMotion(lSpeed, -lAngular); 
                     OnWheelsMotion(lMotion);
                     //OnWheelsMotion(Utils.UnserializeJSON<WheelsMotion>(iMessage));
                 }
