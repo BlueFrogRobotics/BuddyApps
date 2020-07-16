@@ -3,6 +3,7 @@ using UnityEngine;
 using BlueQuark;
 using System;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 namespace BuddyApp.CoursTelepresence
 {
@@ -39,6 +40,7 @@ namespace BuddyApp.CoursTelepresence
 
         private bool mEndCallDisplay;
 
+        private bool mSliderVolumeEnabled;
 
         private TSlider mSliderVolume;
         private TToggle mToggleNavigation;
@@ -50,6 +52,7 @@ namespace BuddyApp.CoursTelepresence
         // Use this for initialization
         override public void Start()
         {
+            mSliderVolumeEnabled = false;
             mDisplayed = false;
             mEndCallDisplay = false;
             mRTCManager = GetComponent<RTCManager>();
@@ -67,6 +70,8 @@ namespace BuddyApp.CoursTelepresence
 
 
             mRTCManager.InitButtons();
+            
+            
 
             VolumeScrollbar.onValueChanged.AddListener(
                 (lValue) => {
@@ -79,6 +84,7 @@ namespace BuddyApp.CoursTelepresence
 
             Volume.onClick.AddListener(
                 () => {
+                    mSliderVolumeEnabled = true;
                     VolumeScrollbar.value = GetCallVolume();
                     Volume.gameObject.SetActive(false);
                     VolumeScrollbar.gameObject.SetActive(true);
@@ -86,6 +92,12 @@ namespace BuddyApp.CoursTelepresence
                     // TODO update button image
                 }
                 );
+
+            VolumeScrollbar.GetComponentInChildren<Button>().onClick.AddListener(
+                () => {
+                    VolumeScrollbar.gameObject.SetActive(false);
+                    Volume.gameObject.SetActive(true);
+                });
 
             VideoFeedbackButton.onClick.AddListener(OnFeedBackButtonClick);
             Hangup.onClick.AddListener(OnHangup);
@@ -135,6 +147,7 @@ namespace BuddyApp.CoursTelepresence
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            mSliderVolumeEnabled = false;
             mTimer = 0F;
             mTimerEndCall = 0F;
             mHideTime = -1F;
@@ -239,9 +252,31 @@ namespace BuddyApp.CoursTelepresence
                 Wheels.MAX_ANG_VELOCITY * iWheelsMotion.angularVelocity);
         }
 
+        private bool IsPointerOverUIObject()
+        {
+            PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+            eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+            List<RaycastResult> results = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+            return results.Count > 0;
+        }
+
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+
+            //if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began && mSliderVolumeEnabled)
+            //{
+            //    // Check if finger is over a UI element
+            //    if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+            //    {
+            //        Debug.Log("Touched the UI");
+            //        VolumeScrollbar.gameObject.SetActive(false);
+            //        Volume.gameObject.SetActive(true);
+            //        mSliderVolumeEnabled = false;
+            //    }
+            //}
+
             if (!Buddy.Actuators.Wheels.Locked && Time.time - mTimeSinceMovement > 0.5F)
             {
                 Buddy.Actuators.Wheels.SetVelocities(0F, 0F);

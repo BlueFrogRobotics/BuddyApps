@@ -18,6 +18,7 @@ namespace BuddyApp.CoursTelepresence
         private List<int> mWaitPing;
 
         private InputField mInputFilter;
+        private bool mDisplayList;
 
         override public void Start()
         {
@@ -27,7 +28,9 @@ namespace BuddyApp.CoursTelepresence
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            GetGameObject(17).SetActive(true);
+            mDisplayList = false;
+
+            //GetGameObject(17).SetActive(true);
             mUsers = new List<GameObject>();
             mPingTime = new List<float>();
             mWaitPing = new List<int>();
@@ -55,12 +58,19 @@ namespace BuddyApp.CoursTelepresence
             {
                 if (DBManager.Instance.ListUIDTablet.Count == 1)
                 {
+                    Debug.LogError("<color=red>LIST COUNT EGAL 1</color>");
                     mListDone = true;
                     ButtonClick(0);
                 }
                 else
                 {
-                    //GetGameObject(17).SetActive(true);
+                    Debug.LogError("<color=red>LIST COUNT PLUS GRAND QUE 1</color>");
+                    if (!mDisplayList)
+                    {
+                        mDisplayList = true;
+                        GetGameObject(17).SetActive(true);
+
+                    }
                     for (int i = 0; i < DBManager.Instance.ListUIDTablet.Count; ++i)
                     {
                         GameObject lButtonUser = GameObject.Instantiate(GetGameObject(15));
@@ -101,6 +111,7 @@ namespace BuddyApp.CoursTelepresence
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            mDisplayList = false;
             mRTMManager.OnPingWithId = null;
             for(int i=0; i<mUsers.Count; i++)
             {
@@ -117,7 +128,7 @@ namespace BuddyApp.CoursTelepresence
             DBManager.Instance.FillPlanningStart(DBManager.Instance.ListUserStudent[iIndexList].Nom);
             mRTMManager.SetTabletId(DBManager.Instance.ListUIDTablet[iIndexList]);
             mRTMManager.IndexTablet = iIndexList;
-            //GetGameObject(17).SetActive(false);
+            GetGameObject(17).SetActive(false); 
             Trigger("IDLE");
         }
 
