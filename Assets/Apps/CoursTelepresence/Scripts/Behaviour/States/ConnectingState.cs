@@ -29,7 +29,10 @@ namespace BuddyApp.CoursTelepresence
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mDisplayList = false;
-
+            Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => { // This callback will be called on Toast display
+                TText lText = iBuilder.CreateWidget<TText>(); // Creates a new text widget
+                lText.SetLabel("Connecting to the Database"); // Set the content of the widget
+            });
             //GetGameObject(17).SetActive(true);
             mUsers = new List<GameObject>();
             mPingTime = new List<float>();
@@ -56,6 +59,7 @@ namespace BuddyApp.CoursTelepresence
             //Debug.LogWarning("Peering " + DBManager.Instance.Peering + " info " + DBManager.Instance.InfoRequestedDone);
             if (DBManager.Instance.Peering && DBManager.Instance.InfoRequestedDone && !mListDone)
             {
+                Buddy.GUI.Toaster.Hide();
                 if (DBManager.Instance.ListUIDTablet.Count == 1)
                 {
                     Debug.LogError("<color=red>LIST COUNT EGAL 1</color>");
@@ -111,6 +115,7 @@ namespace BuddyApp.CoursTelepresence
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            Buddy.GUI.Toaster.Hide();
             mDisplayList = false;
             mRTMManager.OnPingWithId = null;
             for(int i=0; i<mUsers.Count; i++)

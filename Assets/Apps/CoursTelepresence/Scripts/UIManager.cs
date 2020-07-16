@@ -95,11 +95,11 @@ namespace BuddyApp.CoursTelepresence
 
         private void Update()
         {
-            if(mTime + 2F < Time.time)
-            {
-                Ping.text = "";
-                PingHeader.text = "";
-            }
+            //if(mTime + 0.1F < Time.time)
+            //{
+            //    Ping.text = "";
+            //    PingHeader.text = "";
+            //}
         }
 
         private void OnPingValue(int lValue)

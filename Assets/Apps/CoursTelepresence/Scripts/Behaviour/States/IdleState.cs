@@ -41,6 +41,7 @@ namespace BuddyApp.CoursTelepresence
         {
             Buddy.GUI.Header.DisplayParametersButton(true);
             GetGameObject(17).SetActive(false);
+            GetGameObject(20).SetActive(true);
             //Buddy.GUI.Header.OnClickParameters.Add(() => { Trigger("PARAMETERS"); });
             mAddListenerButtonCall = false;
             mCallButton.gameObject.SetActive(true);
