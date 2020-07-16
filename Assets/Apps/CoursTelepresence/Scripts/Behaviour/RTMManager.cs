@@ -251,7 +251,7 @@ namespace BuddyApp.CoursTelepresence
         private void SendNoAngle()
         {
             float lValue = 0F;
-
+            Debug.LogWarning("angle no: " + Buddy.Actuators.Head.No.Angle);
             if (Buddy.Actuators.Head.No.Angle > 0)
                 lValue = Buddy.Actuators.Head.No.Angle / NoHeadHinge.MAX_LEFT_ANGLE;
             else
@@ -265,11 +265,11 @@ namespace BuddyApp.CoursTelepresence
         private void SendYesAngle()
         {
             float lValue = 0F;
-
+            Debug.LogWarning("angle yes: "+Buddy.Actuators.Head.Yes.Angle);
             if (Buddy.Actuators.Head.Yes.Angle > 0)
                 lValue = Buddy.Actuators.Head.Yes.Angle / YesHeadHinge.MAX_UP_ANGLE;
             else
-                lValue = Buddy.Actuators.Head.Yes.Angle / -10F;//YesHeadHinge.MAX_DOWN_ANGLE;
+                lValue = Buddy.Actuators.Head.Yes.Angle / 10F;//YesHeadHinge.MAX_DOWN_ANGLE;
 
             SendRTMMessage(Utils.SerializeJSON(new JsonMessage("informYesAngle", lValue.ToString())));
             Debug.LogWarning("inform yes: " + lValue.ToString());

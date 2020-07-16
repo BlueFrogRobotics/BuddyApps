@@ -106,7 +106,11 @@ namespace BuddyApp.CoursTelepresence
             mRTMManager.OnHeadNoAbsolute = Buddy.Actuators.Head.No.SetPosition;
             mRTMManager.OnHeadYesAbsolute = Buddy.Actuators.Head.Yes.SetPosition;
             mRTMManager.OnHeadNo = (lAngle) => Buddy.Actuators.Head.No.SetPosition(lAngle + Buddy.Actuators.Head.No.Angle);
-            mRTMManager.OnHeadYes = (lAngle) => Buddy.Actuators.Head.Yes.SetPosition(lAngle + Buddy.Actuators.Head.Yes.Angle);
+            mRTMManager.OnHeadYes = (lAngle) =>
+            {
+                float lAngleNorm = Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, -10F, 37F);
+                Buddy.Actuators.Head.Yes.SetPosition(lAngleNorm);
+            };
         }
 
         private void OnFeedBackButtonClick()

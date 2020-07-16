@@ -469,7 +469,7 @@ namespace BuddyApp.CoursTelepresence
             // remove video stream
             Debug.Log("[AGORAIO] onUserOffline: uid = " + uid);
             Debug.LogWarning("[AGORAIO] onUserOffline: uid = " + uid+" reason: "+reason);
-            if (reason == USER_OFFLINE_REASON.QUIT)
+            if (reason == USER_OFFLINE_REASON.QUIT || reason == USER_OFFLINE_REASON.DROPPED)
             {
                 if(rawVideo.GetComponent<VideoSurface>()!=null)
                     Destroy(rawVideo.GetComponent<VideoSurface>());
@@ -481,7 +481,7 @@ namespace BuddyApp.CoursTelepresence
 
         private void OnRemoteVideoStateChanged(uint uid, REMOTE_VIDEO_STATE state, REMOTE_VIDEO_STATE_REASON reason, int elapsed)
         {
-            Debug.Log("remote video " + state);
+            Debug.LogWarning("remote video " + state + " reason "+reason);
             if (uid == mUid)
                 return;
             VideoSurface lVideoSurface = rawVideo.GetComponent<VideoSurface>();
