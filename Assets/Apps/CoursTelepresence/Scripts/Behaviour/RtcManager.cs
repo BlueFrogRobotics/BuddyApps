@@ -496,12 +496,14 @@ namespace BuddyApp.CoursTelepresence
                     rawVideo.gameObject.SetActive(false);
                 }
             }
-            else if (state == REMOTE_VIDEO_STATE.REMOTE_VIDEO_STATE_STARTING || state == REMOTE_VIDEO_STATE.REMOTE_VIDEO_STATE_DECODING)
+            else if (state == REMOTE_VIDEO_STATE.REMOTE_VIDEO_STATE_STARTING || state == REMOTE_VIDEO_STATE.REMOTE_VIDEO_STATE_DECODING /*&& reason != REMOTE_VIDEO_STATE_REASON.REMOTE_VIDEO_STATE_REASON_INTERNAL*/)
             {
+                rawVideo.gameObject.SetActive(true);
                 Debug.LogError("<color=blue>**********************************************VIDEO REACTIVATED****************************************** </color>");
                 if (lVideoSurface != null)
                 {
                     Debug.LogError("<color=blue>**********************************************NOT NULL****************************************** </color>");
+                    return;
                     lVideoSurface.SetEnable(false);
                     rawVideo.texture = null;
                     Destroy(rawVideo.GetComponent<VideoSurface>());
@@ -510,9 +512,9 @@ namespace BuddyApp.CoursTelepresence
                 {
                     Debug.LogError("<color=blue>**********************************************NULL****************************************** </color>");
                     lVideoSurface = rawVideo.gameObject.AddComponent<VideoSurface>();
+                    rawVideo.texture = null;
                 }
                 mRtcEngine.OnStreamMessage = OnStreamMessage;
-                rawVideo.gameObject.SetActive(true);
                 lVideoSurface.SetForUser(uid);
                 lVideoSurface.SetEnable(true);
                 lVideoSurface.SetVideoSurfaceType(AgoraVideoSurfaceType.RawImage);
