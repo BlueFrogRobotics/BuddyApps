@@ -509,13 +509,13 @@ namespace BuddyApp.CoursTelepresence
                             if (lMessage.propertyValue == "CRY")
                             {
                                 lMood = Mood.SAD;
-                                Buddy.Behaviour.Interpreter.RunRandom(lMood.ToString().ToLower());
+                                Buddy.Behaviour.Interpreter.RunRandom(lMood.ToString().ToLower(), lPattern);
                                 OnMoodBI(lMood);
                             }
                             else if (lMessage.propertyValue == "SLEEP")
                             {
                                 lMood = Mood.TIRED;
-                                Buddy.Behaviour.Interpreter.RunRandom(lMood.ToString().ToLower());
+                                Buddy.Behaviour.Interpreter.RunRandom(lMood.ToString().ToLower(), lPattern);
                                 OnMoodBI(lMood);
                             }
                             else
@@ -533,7 +533,7 @@ namespace BuddyApp.CoursTelepresence
                             //    Buddy.Behaviour.Interpreter.Run("Neutral07");
                            // else
                                 //Buddy.Behaviour.Interpreter.RunRandom(lMood);
-                                Buddy.Behaviour.Interpreter.RunRandom(lMood.ToString().ToLower());
+                                Buddy.Behaviour.Interpreter.RunRandom(lMood.ToString().ToLower(), lPattern);
 
                             // Triggers Callback
                             OnMoodBI(lMood);

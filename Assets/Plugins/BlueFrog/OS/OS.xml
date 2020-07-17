@@ -8350,6 +8350,13 @@
             </summary>
             <param name="iCategory">Dynamic category of the algorithm to play.</param>
         </member>
+        <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(System.String,BlueQuark.BehaviourMovementPattern)">
+            <summary>
+            Runs a random behaviour algorithm (present in the Raw/BML/ and Raw/BA/ directories) corresponding to the given search parameters.
+            </summary>
+            <param name="iCategory">Dynamic category of the algorithm to play.</param>
+            <param name="iBehaviourMovementPattern">Movement scope of the behaviour.</param>
+        </member>
         <member name="M:BlueQuark.BehaviourInterpreter.RunRandom(System.String,System.Boolean)">
             <summary>
             Runs a random behaviour algorithm (present in the Raw/BML/ and Raw/BA/ directories) corresponding to the given search parameters.
