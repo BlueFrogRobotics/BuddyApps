@@ -28,10 +28,11 @@ namespace BuddyApp.CoursTelepresence
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            mListDone = false;
             mDisplayList = false;
-            Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => { // This callback will be called on Toast display
-                TText lText = iBuilder.CreateWidget<TText>(); // Creates a new text widget
-                lText.SetLabel("Connecting to the Database"); // Set the content of the widget
+            Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => { 
+                TText lText = iBuilder.CreateWidget<TText>();
+                lText.SetLabel(Buddy.Resources.GetString("educonnectingdb")); 
             });
             //GetGameObject(17).SetActive(true);
             mUsers = new List<GameObject>();
@@ -43,10 +44,10 @@ namespace BuddyApp.CoursTelepresence
             {
                 UpdateListUsers(lId);
             };
-            Debug.Log("Connecting state"); 
+            Debug.LogError("Connecting state"); 
             //mRTMManager.OnPingWithId = UpdateListUsers;//OnPingId;
 
-            mListDone = false;
+            
             //TODO check DB and stuff
 
             if (Buddy.Behaviour.Mood != Mood.NEUTRAL)
@@ -56,8 +57,8 @@ namespace BuddyApp.CoursTelepresence
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            //Debug.LogWarning("Peering " + DBManager.Instance.Peering + " info " + DBManager.Instance.InfoRequestedDone);
-            if (DBManager.Instance.Peering && DBManager.Instance.InfoRequestedDone && !mListDone)
+            Debug.LogError("CONNECTING STATE : Peering - " + DBManager.Instance.Peering + " | info - " + DBManager.Instance.InfoRequestedDone + " | mListDone - " + mListDone + " | CanStartCourse - " + DBManager.Instance.CanStartCourse);
+            if ((DBManager.Instance.Peering && DBManager.Instance.InfoRequestedDone && !mListDone) || DBManager.Instance.CanStartCourse)
             {
                 Buddy.GUI.Toaster.Hide();
                 if (DBManager.Instance.ListUIDTablet.Count == 1)
@@ -115,6 +116,7 @@ namespace BuddyApp.CoursTelepresence
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            mListDone = false;
             Buddy.GUI.Toaster.Hide();
             mDisplayList = false;
             mRTMManager.OnPingWithId = null;

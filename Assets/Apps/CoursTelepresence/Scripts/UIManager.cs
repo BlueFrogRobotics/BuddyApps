@@ -101,7 +101,7 @@ namespace BuddyApp.CoursTelepresence
             //    PingHeader.text = "";
             //}
 
-            if(Time.time -  mTime > 10)
+            if(Time.time -  mTime > 6)
             {
                 Ping.text = "";
                 PingHeader.text = "";

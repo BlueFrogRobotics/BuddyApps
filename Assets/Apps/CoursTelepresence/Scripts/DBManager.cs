@@ -134,12 +134,12 @@ namespace BuddyApp.CoursTelepresence
             //mListRobotUser.Clear();
             //ListUIDTablet.Clear();
             //ListUserStudent.Clear();
-            StartCoroutine(GetUserIdFromUID(Buddy.Platform.RobotUID)); 
+           
 
             //POUR LES TESTS 
             CoursTelepresenceData.Instance.AllPlanning.Clear();
-
-            //StartCoroutine(GetUserIdFromUID("005F214BFAE3917A1B89"));
+            StartCoroutine(GetUserIdFromUID(Buddy.Platform.RobotUID)); 
+            //StartCoroutine(GetUserIdFromUID("EED7BF3ABE076D2D7A40"));
 
             //StartCoroutine(UpdatePingAndPosition());
             //StartCoroutine(UpdateBattery());
@@ -255,7 +255,8 @@ namespace BuddyApp.CoursTelepresence
 
         public IEnumerator RefreshPlanning()
         {
-            StartCoroutine(GetInfoForUsers(mDeviceUserLiaisonList));
+            //StartCoroutine(GetInfoForUsers(mDeviceUserLiaisonList));
+            StartCoroutine(GetUserIdFromUID(Buddy.Platform.RobotUID)); 
             while (!InfoRequestedDone)
                 yield return null;
             //FillPlanningStart(ListUserStudent[0].Nom);
@@ -342,6 +343,7 @@ namespace BuddyApp.CoursTelepresence
                                     && !string.IsNullOrEmpty(ListUIDTablet[0]))
                                 {
                                     InfoRequestedDone = true;
+                                    Buddy.GUI.Toaster.Hide();
                                 }
                             }
 
@@ -569,6 +571,7 @@ namespace BuddyApp.CoursTelepresence
 
         private void CheckStartPlanning()
         {
+            Debug.LogError("<color=blue> DBMANAGER : CHECK START PLANNING </color>");
             if (mPlanning && !CanStartCourse && CoursTelepresenceData.Instance.AllPlanning.Count > 0)
             {
                 string[] lSplitDate = CoursTelepresenceData.Instance.AllPlanning[0].Split('&');
@@ -602,6 +605,7 @@ namespace BuddyApp.CoursTelepresence
 
                     if (lSpan.TotalMinutes < 0F)
                     {
+                        Buddy.GUI.Toaster.Hide();
                         Debug.LogError("<color=blue> START COURSE </color>");
                         mPlanningEnd = DateTime.ParseExact(mCurrentPlanning.Date_Fin.Replace("-", "/"), "dd/MM/yyyy HH:mm:ss", mProviderFR);
                         CanStartCourse = true;
