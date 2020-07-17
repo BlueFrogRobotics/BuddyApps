@@ -100,6 +100,13 @@ namespace BuddyApp.CoursTelepresence
             //    Ping.text = "";
             //    PingHeader.text = "";
             //}
+
+            if(Time.time -  mTime > 10)
+            {
+                Ping.text = "";
+                PingHeader.text = "";
+            }
+
         }
 
         private void OnPingValue(int lValue)
