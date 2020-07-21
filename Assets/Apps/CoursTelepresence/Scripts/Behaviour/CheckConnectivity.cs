@@ -57,12 +57,12 @@ namespace BuddyApp.CoursTelepresence
                 CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.WifiProblem;
             if(Buddy.IO.WiFi.CurrentWiFiNetwork.Connected && !Buddy.WebServices.HasInternetAccess)
                 CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.NetworkProblem;
-            if(UIDatabaseDisplayed && mTimerUIDatabase > 10F)
-            {
-                UIDatabaseDisplayed = false;
-                Buddy.GUI.Toaster.Hide();
-                CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.NetworkProblem;
-            }
+            //if(UIDatabaseDisplayed && mTimerUIDatabase > 10F)
+            //{
+            //    UIDatabaseDisplayed = false;
+            //    Buddy.GUI.Toaster.Hide();
+            //    CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.NetworkProblem;
+            //}
 
             if ((mRefreshTime > REFRESH_TIME || mRequestDone) && CoursTelepresenceData.Instance.ConnectivityProblem != ConnectivityProblem.None)
             {
@@ -152,8 +152,8 @@ namespace BuddyApp.CoursTelepresence
         //Si c'est trop long -> repasser en vérification de la co
         private void CheckDatabase(bool iDatabaseconnected)
         {
-            UIDatabaseDisplayed = true;
-            mTimerUIDatabase = 0F;
+            //UIDatabaseDisplayed = true;
+            //mTimerUIDatabase = 0F;
             if (!Buddy.GUI.Toaster.IsBusy && !iDatabaseconnected)
             {
                 Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
