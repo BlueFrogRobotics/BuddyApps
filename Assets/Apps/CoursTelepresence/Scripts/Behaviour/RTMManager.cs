@@ -552,7 +552,7 @@ namespace BuddyApp.CoursTelepresence
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into an int");
                         } else {
                             if(OnHeadYes!=null)
-                                OnHeadYes(lFloatValue * 15F);
+                                OnHeadYes(lFloatValue * 20F);
                             Debug.LogWarning("head yes " + lFloatValue);
                         }
 

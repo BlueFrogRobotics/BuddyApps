@@ -252,8 +252,8 @@ namespace BuddyApp.CoursTelepresence
             mTimeSinceMovement = Time.time;
             Debug.LogWarning("speed: "+ iWheelsMotion.speed+" angular: "+ iWheelsMotion.angularVelocity);
 
-            Buddy.Actuators.Wheels.SetVelocities(Wheels.MAX_LIN_VELOCITY * iWheelsMotion.speed,
-                Wheels.MAX_ANG_VELOCITY * iWheelsMotion.angularVelocity);
+            Buddy.Actuators.Wheels.SetVelocities(Wheels.MAX_LIN_VELOCITY * iWheelsMotion.speed/2F,
+                Wheels.MAX_ANG_VELOCITY * iWheelsMotion.angularVelocity/2F);
         }
 
         private bool IsPointerOverUIObject()
