@@ -244,11 +244,11 @@ namespace BuddyApp.CoursTelepresence
 
         private void OnWheelsMotion(WheelsMotion iWheelsMotion)
         {
-            /* if (Math.Abs(iWheelsMotion.speed) < 0.2F)
+             if (Math.Abs(iWheelsMotion.speed) < 0.2F)
                  iWheelsMotion.speed = 0F;
 
              if (Math.Abs(iWheelsMotion.angularVelocity) < 0.2F)
-                 iWheelsMotion.angularVelocity = 0F;*/
+                 iWheelsMotion.angularVelocity = 0F;
             mTimeSinceMovement = Time.time;
             Debug.LogWarning("speed: "+ iWheelsMotion.speed+" angular: "+ iWheelsMotion.angularVelocity);
 
