@@ -15,6 +15,10 @@ namespace BuddyApp.CoursTelepresence
 
         public bool ConnectedToInternet { get; set; }
 
+        public ConnectivityProblem ConnectivityProblem { get; set; }
+
+        public bool InitializeDone { get; set; } 
+
         public List<string> AllPlanning { get; set; }
         /*
          * Data singleton access

@@ -343,7 +343,7 @@ namespace BuddyApp.CoursTelepresence
                                     && !string.IsNullOrEmpty(ListUIDTablet[0]))
                                 {
                                     InfoRequestedDone = true;
-                                    Buddy.GUI.Toaster.Hide();
+                                    //Buddy.GUI.Toaster.Hide();
                                 }
                             }
 
@@ -605,7 +605,7 @@ namespace BuddyApp.CoursTelepresence
 
                     if (lSpan.TotalMinutes < 0F)
                     {
-                        Buddy.GUI.Toaster.Hide();
+                        //Buddy.GUI.Toaster.Hide();
                         Debug.LogError("<color=blue> START COURSE </color>");
                         mPlanningEnd = DateTime.ParseExact(mCurrentPlanning.Date_Fin.Replace("-", "/"), "dd/MM/yyyy HH:mm:ss", mProviderFR);
                         CanStartCourse = true;

@@ -39,8 +39,8 @@ namespace BuddyApp.CoursTelepresence
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (Buddy.GUI.Toaster.IsBusy)
-                Buddy.GUI.Toaster.Hide();
+            //if (Buddy.GUI.Toaster.IsBusy)
+            //    Buddy.GUI.Toaster.Hide();
 
             Buddy.GUI.Header.DisplayParametersButton(true);
             GetGameObject(17).SetActive(false);

@@ -28,12 +28,13 @@ namespace BuddyApp.CoursTelepresence
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.DatabaseProblem;
             mListDone = false;
             mDisplayList = false;
-            Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => { 
-                TText lText = iBuilder.CreateWidget<TText>();
-                lText.SetLabel(Buddy.Resources.GetString("educonnectingdb")); 
-            });
+            //Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => { 
+            //    TText lText = iBuilder.CreateWidget<TText>();
+            //    lText.SetLabel(Buddy.Resources.GetString("educonnectingdb")); 
+            //});
             //GetGameObject(17).SetActive(true);
             mUsers = new List<GameObject>();
             mPingTime = new List<float>();
@@ -58,9 +59,9 @@ namespace BuddyApp.CoursTelepresence
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.LogError("CONNECTING STATE : Peering - " + DBManager.Instance.Peering + " | info - " + DBManager.Instance.InfoRequestedDone + " | mListDone - " + mListDone + " | CanStartCourse - " + DBManager.Instance.CanStartCourse);
-            if ((DBManager.Instance.Peering && DBManager.Instance.InfoRequestedDone && !mListDone) || DBManager.Instance.CanStartCourse)
+            if (((DBManager.Instance.Peering && DBManager.Instance.InfoRequestedDone && !mListDone) || DBManager.Instance.CanStartCourse) && CoursTelepresenceData.Instance.InitializeDone) 
             {
-                Buddy.GUI.Toaster.Hide();
+                //Buddy.GUI.Toaster.Hide();
                 if (DBManager.Instance.ListUIDTablet.Count == 1)
                 {
                     Debug.LogError("<color=red>LIST COUNT EGAL 1</color>");
@@ -117,7 +118,7 @@ namespace BuddyApp.CoursTelepresence
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             mListDone = false;
-            Buddy.GUI.Toaster.Hide();
+            //Buddy.GUI.Toaster.Hide();
             mDisplayList = false;
             mRTMManager.OnPingWithId = null;
             for(int i=0; i<mUsers.Count; i++)
