@@ -90,15 +90,15 @@ namespace BuddyApp.CoursTelepresence
         public void UpdateVolume(float iValue)
         {
             float lValue = iValue / 100F;
-            if (Mathf.Abs(Buddy.Actuators.Speakers.Volume - lValue) > 0.05)
-            {
+            //if (Mathf.Abs(Buddy.Actuators.Speakers.Volume - lValue) > 0.05)
+            //{
                 Debug.Log("PRE Volume set to " + Buddy.Actuators.Speakers.Volume);
                 Debug.Log("PRE slider set to " + lValue);
                 Buddy.Actuators.Speakers.Volume = lValue;
                 //if (!Buddy.Actuators.Speakers.IsBusy)
                 //    Buddy.Actuators.Speakers.Effects.Play(SoundSample.BEEP_1);
                 Debug.Log("POST Volume set to " + Buddy.Actuators.Speakers.Volume);
-            }
+            //}
         }
 
         private void SaveParam()
