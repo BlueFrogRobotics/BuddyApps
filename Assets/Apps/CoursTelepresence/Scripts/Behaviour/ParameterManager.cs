@@ -63,7 +63,7 @@ namespace BuddyApp.CoursTelepresence
 
                     mButtonVerify.OnClick.Add(() =>
                     {
-                        Debug.LogError("<color=blue> &&&&&&&&&&&&&&&& VERIFY BUTTON  &&&&&&&&&&&&&&&&&</color>");
+                        DBManager.Instance.IsRefreshButtonPushed = true;
                         CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.DatabaseProblem;
                         DBManager.Instance.StartDBManager();
                         StartCoroutine(DBManager.Instance.RefreshPlanning());

@@ -73,6 +73,7 @@ namespace BuddyApp.CoursTelepresence
         public Planning Planning { get; private set; }
         public bool InfoRequestedDone { get; private set; }
         public string NameProf { get; private set; }
+        public bool IsRefreshButtonPushed { get; set; }
         private string mRobotName;
         //private List<Planning> ListPlanning;
         private Planning mPlanningNextCourse;
@@ -109,7 +110,7 @@ namespace BuddyApp.CoursTelepresence
             mListRobotUser = new List<DeviceUserLiaison>();
             mDeviceUserLiaison = new DeviceUserLiaison();
             CoursTelepresenceData.Instance.AllPlanning = new List<string>();
-           
+            IsRefreshButtonPushed = false;
             StartDBManager();
 
 
@@ -149,7 +150,8 @@ namespace BuddyApp.CoursTelepresence
 
             //POUR LES TESTS 
             CoursTelepresenceData.Instance.AllPlanning.Clear();
-            StartCoroutine(GetUserIdFromUID(Buddy.Platform.RobotUID)); 
+            if(!IsRefreshButtonPushed)
+                StartCoroutine(GetUserIdFromUID(Buddy.Platform.RobotUID)); 
             //StartCoroutine(GetUserIdFromUID("EED7BF3ABE076D2D7A40"));
 
             //StartCoroutine(UpdatePingAndPosition());
