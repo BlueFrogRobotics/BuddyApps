@@ -135,6 +135,9 @@ namespace BuddyApp.CoursTelepresence
             ListUIDTablet.Clear();
             ListUserStudent.Clear();
             CoursTelepresenceData.Instance.AllPlanning.Clear();
+            mListTabletUser.Clear();
+            mListRobotUser.Clear();
+            
 
             //CoursTelepresenceData.Instance.AllPlanning.Clear();
             //mDeviceUserLiaisonList.Clear();
@@ -210,6 +213,7 @@ namespace BuddyApp.CoursTelepresence
         private IEnumerator GetUserIdFromUID(string iRobotUID)
         {
             yield return new WaitForSeconds(5F);
+            mDeviceUserLiaisonList.Clear();
             string lRequest = GET_ALL_LIAISON + '"' + iRobotUID + '"';
             Debug.LogError("Request : " + lRequest);
             using (UnityWebRequest lRequestDevice = UnityWebRequest.Get(lRequest))
@@ -301,7 +305,10 @@ namespace BuddyApp.CoursTelepresence
             using (UnityWebRequest lRequestDevice = UnityWebRequest.Get(lRequest))
             {
                 yield return lRequestDevice.SendWebRequest();
-
+                mListTabletUser.Clear();
+                mListRobotUser.Clear();
+                ListUserStudent.Clear();
+                ListUIDTablet.Clear();
                 if (lRequestDevice.isHttpError || lRequestDevice.isNetworkError)
                 {
                     Debug.LogError("Request from GetInfoForUsers error " + lRequestDevice.error + " " + lRequestDevice.downloadHandler.text);
