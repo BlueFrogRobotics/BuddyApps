@@ -103,7 +103,16 @@ namespace BuddyApp.CoursTelepresence
         void Start()
         {
             mDeviceUserLiaisonList = new List<DeviceUserLiaison>();
+            ListUIDTablet = new List<string>();
+            ListUserStudent = new List<User>();
+            mListTabletUser = new List<DeviceUserLiaison>();
+            mListRobotUser = new List<DeviceUserLiaison>();
+            mDeviceUserLiaison = new DeviceUserLiaison();
+            CoursTelepresenceData.Instance.AllPlanning = new List<string>();
+           
             StartDBManager();
+
+
         }
 
         public void StartDBManager()
@@ -122,19 +131,18 @@ namespace BuddyApp.CoursTelepresence
             DBConnected = false;
             CanStartCourse = false;
             CanEndCourse = false;
-            mDeviceUserLiaison = new DeviceUserLiaison();
             mDeviceUserLiaisonList.Clear();
+            ListUIDTablet.Clear();
+            ListUserStudent.Clear();
+            CoursTelepresenceData.Instance.AllPlanning.Clear();
 
-            mListTabletUser = new List<DeviceUserLiaison>();
-            mListRobotUser = new List<DeviceUserLiaison>();
-            CoursTelepresenceData.Instance.AllPlanning = new List<string>();
             //CoursTelepresenceData.Instance.AllPlanning.Clear();
             //mDeviceUserLiaisonList.Clear();
             //mListTabletUser.Clear();
             //mListRobotUser.Clear();
             //ListUIDTablet.Clear();
             //ListUserStudent.Clear();
-           
+
 
             //POUR LES TESTS 
             CoursTelepresenceData.Instance.AllPlanning.Clear();
@@ -266,8 +274,8 @@ namespace BuddyApp.CoursTelepresence
 
         private IEnumerator GetInfoForUsers(List<DeviceUserLiaison> iListDeviceUserLiaison)
         {
-            ListUIDTablet = new List<string>();
-            ListUserStudent = new List<User>();
+            //ListUIDTablet = new List<string>();
+            //ListUserStudent = new List<User>();
             string lRequest = GET_USER_TABLET;
 
             if (iListDeviceUserLiaison.Count == 1)
@@ -334,6 +342,8 @@ namespace BuddyApp.CoursTelepresence
                                 ListUserStudent.Add(UserStudent);
                                 ListUIDTablet.Add(lDeviceUserLiaison.DeviceUid);
                             }
+                            Debug.LogError("<color=red> ****************DBMANAGER  : list UID tablet  " + ListUIDTablet.Count + " list user student :" + ListUserStudent.Count +  " ******************</color>");
+
 
                             if (mListTabletUser.Count > 0 && ListUserStudent.Count > 0)
                             {

@@ -77,6 +77,7 @@ namespace BuddyApp.CoursTelepresence
                         GetGameObject(17).SetActive(true);
 
                     }
+                    Debug.LogError("<color=red>CONNECTING STATE : " + DBManager.Instance.ListUIDTablet.Count + "</color>");
                     for (int i = 0; i < DBManager.Instance.ListUIDTablet.Count; ++i)
                     {
                         GameObject lButtonUser = GameObject.Instantiate(GetGameObject(15));
