@@ -79,6 +79,7 @@ namespace BuddyApp.CoursTelepresence
         private Planning mPlanningNextCourse;
         //private Planning mPlanningCheck;
 
+        public bool LaunchDb { get; set; }
 
         //private float mTimer;
         private bool mPlanning;
@@ -98,6 +99,7 @@ namespace BuddyApp.CoursTelepresence
         private void Awake()
         {
             instance = this;
+            LaunchDb = false;
         }
 
         // Use this for initialization
@@ -118,6 +120,8 @@ namespace BuddyApp.CoursTelepresence
 
         public void StartDBManager()
         {
+            LaunchDb = true;
+            CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.LaunchDatabase;
             mRTMManager = GetComponent<RTMManager>();
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("fr-FR");
             mPlanningNextCourse = new Planning();
@@ -224,6 +228,7 @@ namespace BuddyApp.CoursTelepresence
                 if (lRequestDevice.isHttpError || lRequestDevice.isNetworkError)
                 {
                     Debug.LogError("Request from GetUserIdFromUID error " + lRequestDevice.error + " " + lRequestDevice.downloadHandler.text);
+                    CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.DatabaseProblem;
                 }
                 else
                 {
@@ -363,6 +368,7 @@ namespace BuddyApp.CoursTelepresence
                                     && !string.IsNullOrEmpty(ListUIDTablet[0]))
                                 {
                                     InfoRequestedDone = true;
+                                    LaunchDb = false;
                                     //Buddy.GUI.Toaster.Hide();
                                 }
                             }

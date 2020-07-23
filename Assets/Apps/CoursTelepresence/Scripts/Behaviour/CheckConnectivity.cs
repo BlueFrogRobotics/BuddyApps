@@ -14,6 +14,7 @@ namespace BuddyApp.CoursTelepresence
         WifiProblem,
         NetworkProblem,
         TelepresenceServiceProblem,
+        LaunchDatabase,
         DatabaseProblem,
         None
     }
@@ -24,12 +25,29 @@ namespace BuddyApp.CoursTelepresence
 
         private Action<bool/*, bool*/> OnRequestConnectionWifiOrMobileNetwork;
         private Action<bool> OnNetworkWorking;
-        private Action<bool> OnRequestDatabase;
+        private Action OnRequestDatabase;
+        private Action<bool> OnLaunchDatabase;
+        public Action<int> OnErrorAgoraio { get; private set; }
         private float mRefreshTime;
+
+        [SerializeField]
+        private Animator Animator;
 
         private bool mRequestDone;
         private bool UIDatabaseDisplayed;
         private float mTimerUIDatabase;
+
+        private static CheckConnectivity mInstance = null;
+        public static CheckConnectivity Instance
+        {
+            get
+            {
+                if (mInstance == null)
+                    mInstance = new CheckConnectivity();
+                return mInstance as CheckConnectivity;
+            }
+        }
+
 
         // Use this for initialization
         void Start()
@@ -40,11 +58,13 @@ namespace BuddyApp.CoursTelepresence
             mRequestDone = false;
             if (!Buddy.IO.WiFi.CurrentWiFiNetwork.Connected)
                 CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.WifiProblem;
-            OnRequestConnectionWifiOrMobileNetwork += CheckWifiAndMobileNetwork;
-            OnNetworkWorking += CheckNetwork;
+            OnRequestConnectionWifiOrMobileNetwork = CheckWifiAndMobileNetwork;
+            OnNetworkWorking = CheckNetwork;
             if (OnRequestConnectionWifiOrMobileNetwork != null)
                 OnRequestConnectionWifiOrMobileNetwork(Buddy.IO.WiFi.CurrentWiFiNetwork.Connected/*, true*/);
-            OnRequestDatabase += CheckDatabase;
+            OnRequestDatabase = CheckDatabase;
+            OnLaunchDatabase = LaunchDatabase;
+            OnErrorAgoraio = ErrorAgoraio;
             //StartCoroutine(CheckInternetConnection(/*(isConnected) => { if (isConnected) CoursTelepresenceData.Instance.ConnectedToInternet = true; else CoursTelepresenceData.Instance.ConnectedToInternet = false; }*/));
         }
 
@@ -69,7 +89,8 @@ namespace BuddyApp.CoursTelepresence
                 switch (CoursTelepresenceData.Instance.ConnectivityProblem)
                 {
                     case ConnectivityProblem.WifiProblem:
-                        OnRequestConnectionWifiOrMobileNetwork(Buddy.IO.WiFi.CurrentWiFiNetwork.Connected/*, true*/);
+                        if (OnRequestConnectionWifiOrMobileNetwork != null)
+                            OnRequestConnectionWifiOrMobileNetwork(Buddy.IO.WiFi.CurrentWiFiNetwork.Connected/*, true*/);
                         break;
                     case ConnectivityProblem.NetworkProblem:
                         if(OnNetworkWorking != null)
@@ -78,12 +99,15 @@ namespace BuddyApp.CoursTelepresence
                         //StartCoroutine(CheckInternetConnection(/*(isConnected) => { if (isConnected) CoursTelepresenceData.Instance.ConnectedToInternet = true; else CoursTelepresenceData.Instance.ConnectedToInternet = false; }*/));
                         break;
                     case ConnectivityProblem.TelepresenceServiceProblem:
+
                         break;
-                    case ConnectivityProblem.None:
+                    case ConnectivityProblem.LaunchDatabase:
+                        if (OnLaunchDatabase != null)
+                            OnLaunchDatabase(DBManager.Instance.LaunchDb);
                         break;
                     case ConnectivityProblem.DatabaseProblem:
                         if(OnRequestDatabase != null)
-                            OnRequestDatabase(DBManager.Instance.InfoRequestedDone);
+                            OnRequestDatabase();
                         break;
                     default:
                         break;
@@ -92,7 +116,11 @@ namespace BuddyApp.CoursTelepresence
             }
         }
 
-
+        private void HideUi()
+        {
+            Buddy.GUI.Toaster.Hide();
+            CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.LaunchDatabase;
+        }
 
         public IEnumerator CheckInternetConnection(/*Action<bool> syncResult*/)
         {
@@ -150,22 +178,57 @@ namespace BuddyApp.CoursTelepresence
 
 
         //Si c'est trop long -> repasser en vérification de la co
-        private void CheckDatabase(bool iDatabaseconnected)
+        private void CheckDatabase()
         {
             //UIDatabaseDisplayed = true;
             //mTimerUIDatabase = 0F;
-            if (!Buddy.GUI.Toaster.IsBusy && !iDatabaseconnected)
+            if (!Buddy.GUI.Toaster.IsBusy)
+            {
+                Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
+                    TText lText = iBuilder.CreateWidget<TText>();
+                    lText.SetLabel(Buddy.Resources.GetString("edudbproblem"));
+                });
+                this.Invoke("HideUI", 5F);
+            }
+            else
+            {
+                DBManager.Instance.IsRefreshButtonPushed = true;
+                CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.LaunchDatabase;
+                CoursTelepresenceData.Instance.InitializeDone = false;
+                DBManager.Instance.StartDBManager();
+                StartCoroutine(DBManager.Instance.RefreshPlanning());
+                Animator.Play("CONNECTING");
+            }
+        }
+
+        private void LaunchDatabase(bool iLaunchDatabase)
+        {
+            if (!Buddy.GUI.Toaster.IsBusy && iLaunchDatabase)
             {
                 Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
                     TText lText = iBuilder.CreateWidget<TText>();
                     lText.SetLabel(Buddy.Resources.GetString("educonnectingdb"));
                 });
             }
-            else if (iDatabaseconnected)
+            else if (!iLaunchDatabase)
             {
                 CoursTelepresenceData.Instance.InitializeDone = true;
                 Buddy.GUI.Toaster.Hide();
                 CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.None;
+            }
+        }
+
+        private void ErrorAgoraio(int iIdError)
+        {
+            if((iIdError == 104 || iIdError == 106 || iIdError == 107) && !Buddy.GUI.Toaster.IsBusy)
+            {
+                Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
+                    TText lText = iBuilder.CreateWidget<TText>();
+                    lText.SetLabel(Buddy.Resources.GetString("edutelepresencenotworking"));
+                });
+
+                this.Invoke("HideUI", 3F);
+                
             }
         }
     }

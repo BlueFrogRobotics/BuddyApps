@@ -28,7 +28,7 @@ namespace BuddyApp.CoursTelepresence
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.DatabaseProblem;
+            CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.LaunchDatabase;
             mListDone = false;
             mDisplayList = false;
             //Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => { 

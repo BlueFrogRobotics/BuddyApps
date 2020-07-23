@@ -104,7 +104,7 @@ namespace BuddyApp.CoursTelepresence
             // TODO uncomment to Change camera
             //mRtcEngine.SetExternalVideoSource(true, false);
             mRtcEngine.JoinChannel(iChannel, null, 0);
-
+            mRtcEngine.OnError = OnError;
             //StartCoroutine(JoinAsync(iChannel));
 
             //mRtcEngine.OnTokenPrivilegeWillExpire = OnTokenPrivilegeWillExpire;
@@ -447,6 +447,11 @@ namespace BuddyApp.CoursTelepresence
         {
             Debug.Log("JoinChannelSuccessHandler: uid = " + uid);
             mUid = uid;
+        }
+
+        private void OnError(int iIdError, string iMessage)
+        {
+            CheckConnectivity.Instance.OnErrorAgoraio(iIdError);
         }
 
         private void OnUserJoined(uint uid, int elapsed)

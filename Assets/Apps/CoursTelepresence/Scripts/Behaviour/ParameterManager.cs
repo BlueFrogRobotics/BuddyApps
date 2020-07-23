@@ -64,7 +64,7 @@ namespace BuddyApp.CoursTelepresence
                     mButtonVerify.OnClick.Add(() =>
                     {
                         DBManager.Instance.IsRefreshButtonPushed = true;
-                        CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.DatabaseProblem;
+                        CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.LaunchDatabase;
                         DBManager.Instance.StartDBManager();
                         StartCoroutine(DBManager.Instance.RefreshPlanning());
                         CloseParameters();
