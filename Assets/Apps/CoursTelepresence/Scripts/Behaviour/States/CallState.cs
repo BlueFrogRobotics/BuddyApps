@@ -49,9 +49,14 @@ namespace BuddyApp.CoursTelepresence
 
         private float mTimeSinceMovement;
 
+        private float mTargetAngleYes;
+        private float mTargetAngleNo;
+
         // Use this for initialization
         override public void Start()
         {
+            mTargetAngleYes = Buddy.Actuators.Head.Yes.Angle;
+            mTargetAngleNo = Buddy.Actuators.Head.No.Angle;
             mSliderVolumeEnabled = false;
             mDisplayed = false;
             mEndCallDisplay = false;
@@ -105,11 +110,25 @@ namespace BuddyApp.CoursTelepresence
             mRTMManager.OnWheelsMotion = OnWheelsMotion;
             mRTMManager.OnHeadNoAbsolute = Buddy.Actuators.Head.No.SetPosition;
             mRTMManager.OnHeadYesAbsolute = Buddy.Actuators.Head.Yes.SetPosition;
-            mRTMManager.OnHeadNo = (lAngle) => Buddy.Actuators.Head.No.SetPosition(lAngle + Buddy.Actuators.Head.No.Angle);
+            mRTMManager.OnHeadNo = (lAngle) =>
+            {
+                //if (!Buddy.Actuators.Head.No.IsBusy)
+                float lAngleNorm = lAngle + Buddy.Actuators.Head.No.Angle;
+                if (lAngleNorm > mTargetAngleNo && lAngle > 0 || lAngleNorm < mTargetAngleNo && lAngle < 0)
+                {
+                    Buddy.Actuators.Head.No.SetPosition(lAngle + Buddy.Actuators.Head.No.Angle);
+                    mTargetAngleNo = lAngleNorm;
+                }
+            };
             mRTMManager.OnHeadYes = (lAngle) =>
             {
                 float lAngleNorm = Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, -10F, 37F);
-                Buddy.Actuators.Head.Yes.SetPosition(lAngleNorm);
+                //if(!Buddy.Actuators.Head.Yes.IsBusy)
+                if (lAngleNorm > mTargetAngleYes && lAngle > 0 || lAngleNorm < mTargetAngleYes && lAngle < 0)
+                {
+                    Buddy.Actuators.Head.Yes.SetPosition(lAngleNorm);
+                    mTargetAngleYes = lAngleNorm;
+                }
             };
         }
 

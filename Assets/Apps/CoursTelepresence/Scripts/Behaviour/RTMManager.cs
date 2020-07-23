@@ -552,7 +552,7 @@ namespace BuddyApp.CoursTelepresence
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into an int");
                         } else {
                             if(OnHeadYes!=null)
-                                OnHeadYes(lFloatValue * 20F);
+                                OnHeadYes(lFloatValue * 10F);
                             Debug.LogWarning("head yes " + lFloatValue);
                         }
 
@@ -563,7 +563,7 @@ namespace BuddyApp.CoursTelepresence
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
                         } else {
                             if(OnHeadNo!=null)
-                                OnHeadNo(lFloatValue * -20F);
+                                OnHeadNo(lFloatValue * -15F);
                             Debug.LogWarning("head no " + lFloatValue);
                         } 
 
