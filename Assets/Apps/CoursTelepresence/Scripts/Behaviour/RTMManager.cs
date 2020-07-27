@@ -116,6 +116,7 @@ namespace BuddyApp.CoursTelepresence
                 iImage.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_Toggle_ON");
                 iImage.color = new Color(0F, 0.78F, 0.78F, 1F);
             } else {
+                Buddy.Actuators.Head.No.ResetPosition();
                 iImage.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_Toggle_OFF");
                 iImage.color = new Color(0.2F, 0.2F, 0.2F, 1F);
             }
@@ -125,6 +126,8 @@ namespace BuddyApp.CoursTelepresence
         public void SwapSteering(bool iValue)
         {
             mStaticSteering = iValue;
+            if(!mStaticSteering)
+                Buddy.Actuators.Head.No.ResetPosition();
             Buddy.Actuators.Wheels.Locked = mStaticSteering;
             InformStaticSteering();
         }

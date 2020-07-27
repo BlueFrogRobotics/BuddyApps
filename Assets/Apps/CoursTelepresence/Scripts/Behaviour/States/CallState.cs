@@ -124,7 +124,7 @@ namespace BuddyApp.CoursTelepresence
             {
                 float lAngleNorm = Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, -10F, 37F);
                 //if(!Buddy.Actuators.Head.Yes.IsBusy)
-                if (lAngleNorm > mTargetAngleYes && lAngle > 0 || lAngleNorm < mTargetAngleYes && lAngle < 0)
+                if ((lAngleNorm > mTargetAngleYes && lAngle > 0 || lAngleNorm < mTargetAngleYes && lAngle < 0) && !Buddy.Actuators.Head.Yes.IsBusy)
                 {
                     Buddy.Actuators.Head.Yes.SetPosition(lAngleNorm);
                     mTargetAngleYes = lAngleNorm;
