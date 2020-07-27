@@ -392,12 +392,12 @@ namespace BuddyApp.CoursTelepresence
         public void SwitchAudioState()
         {
             if (mAudioIsEnabled) {
-                //mRtcEngine.MuteLocalAudioStream(false);
-                mRtcEngine.DisableAudio();
+                mRtcEngine.MuteLocalAudioStream(true);
+                //mRtcEngine.DisableAudio();
                 buttonEnableAudio.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconMicroOff");
             } else {
-                //mRtcEngine.MuteLocalAudioStream(true);
-                mRtcEngine.EnableAudio();
+                mRtcEngine.MuteLocalAudioStream(false);
+                //mRtcEngine.EnableAudio();
                 buttonEnableAudio.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconMicroOn"); //EnableAudioSprite;
 
             }
