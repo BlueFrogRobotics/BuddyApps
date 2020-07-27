@@ -24,11 +24,20 @@ namespace BuddyApp.CoursTelepresence
         {
             mRTMManager = GetComponent<RTMManager>();
             mInputFilter = GetGameObject(19).GetComponent<InputField>();
+            GetGameObject(21).GetComponent<Button>().onClick.AddListener(() => { Trigger("CONNECTING"); });
         }
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.LaunchDatabase;
+            GetGameObject(20).SetActive(false);
+            GameObject NameStudent = GetGameObject(14).transform.GetChild(0).GetChild(0).gameObject;
+            GameObject FirstNameStudent = GetGameObject(14).transform.GetChild(0).GetChild(1).gameObject;
+            GameObject ClassStudent = GetGameObject(14).transform.GetChild(1).GetChild(0).gameObject;
+            NameStudent.GetComponent<Text>().text = " ";
+            FirstNameStudent.GetComponent<Text>().text = " ";
+            ClassStudent.GetComponent<Text>().text = " ";
+            GetGameObject(21).SetActive(false);
             mListDone = false;
             mDisplayList = false;
             //Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => { 
@@ -59,7 +68,7 @@ namespace BuddyApp.CoursTelepresence
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.LogError("CONNECTING STATE : Peering - " + DBManager.Instance.Peering + " | info - " + DBManager.Instance.InfoRequestedDone + " | mListDone - " + mListDone + " | CanStartCourse - " + DBManager.Instance.CanStartCourse);
-            if (((DBManager.Instance.Peering && DBManager.Instance.InfoRequestedDone && !mListDone) || DBManager.Instance.CanStartCourse) && CoursTelepresenceData.Instance.InitializeDone) 
+            if ((((DBManager.Instance.Peering && DBManager.Instance.InfoRequestedDone ) || DBManager.Instance.CanStartCourse) && CoursTelepresenceData.Instance.InitializeDone) && !mListDone)
             {
                 //Buddy.GUI.Toaster.Hide();
                 if (DBManager.Instance.ListUIDTablet.Count == 1)
@@ -118,6 +127,12 @@ namespace BuddyApp.CoursTelepresence
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            if(DBManager.Instance.ListUIDTablet.Count > 1)
+            {
+                GetGameObject(21).SetActive(true);
+            }
+            
+
             mListDone = false;
             //Buddy.GUI.Toaster.Hide();
             mDisplayList = false;
@@ -149,7 +164,7 @@ namespace BuddyApp.CoursTelepresence
         private void UpdateListUsers(int iUserId)
         {
             //Debug.LogWarning("PING WITH " + iUserId);
-            if (mPingTime == null || mUsers == null)
+            if (mPingTime == null || mUsers == null || mUsers.Count >= iUserId)
                 return;
             float lTime = (Time.time - mPingTime[iUserId])*1000F;
 

@@ -18,6 +18,10 @@ namespace BuddyApp.CoursTelepresence
         private string mChannelId = "channeltest";
         private bool mAddListenerButtonCall;
 
+        private GameObject NameStudent;
+        private GameObject FirstNameStudent;
+        private GameObject ClassStudent;
+
         override public void Start()
         {
             // This returns the GameObject named RTMCom.
@@ -41,7 +45,7 @@ namespace BuddyApp.CoursTelepresence
         {
             //if (Buddy.GUI.Toaster.IsBusy)
             //    Buddy.GUI.Toaster.Hide();
-
+           
             Buddy.GUI.Header.DisplayParametersButton(true);
             GetGameObject(17).SetActive(false);
             GetGameObject(20).SetActive(true);
@@ -52,9 +56,9 @@ namespace BuddyApp.CoursTelepresence
             lColor = mCallButton.GetComponent<Image>().color;
             lColor.a = 0.1F;
             mCallButton.GetComponent<Image>().color = lColor;
-            GameObject NameStudent = GetGameObject(14).transform.GetChild(0).GetChild(0).gameObject;
-            GameObject FirstNameStudent = GetGameObject(14).transform.GetChild(0).GetChild(1).gameObject;
-            GameObject ClassStudent = GetGameObject(14).transform.GetChild(1).GetChild(0).gameObject;
+            NameStudent = GetGameObject(14).transform.GetChild(0).GetChild(0).gameObject;
+            FirstNameStudent = GetGameObject(14).transform.GetChild(0).GetChild(1).gameObject;
+            ClassStudent = GetGameObject(14).transform.GetChild(1).GetChild(0).gameObject;
             //TODO : DECOM TEST
             int lIndexTab = mRTMManager.IndexTablet;
             NameStudent.GetComponent<Text>().text = DBManager.Instance.ListUserStudent[lIndexTab].Nom;
@@ -99,6 +103,7 @@ namespace BuddyApp.CoursTelepresence
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             //Buddy.GUI.Header.OnClickParameters.Clear();
+            GetGameObject(21).SetActive(false);
             Buddy.GUI.Header.DisplayParametersButton(false);
             mCallButton.gameObject.SetActive(false);
             Buddy.Vocal.EnableTrigger = false;
