@@ -101,6 +101,9 @@ namespace BuddyApp.CoursTelepresence
 
         private RTMManager mRTMManager;
 
+        List<string> lAllPlaningList = new List<string>();
+        List<string> lPlanningBuffer = new List<string>();
+
         private void Awake()
         {
             instance = this;
@@ -400,7 +403,11 @@ namespace BuddyApp.CoursTelepresence
 
         public void FillPlanningStart(/*int iIndexChosen, */string iName)
         {
+            CanStartCourse = false;
             CoursTelepresenceData.Instance.AllPlanning.Clear();
+            lAllPlaningList.Clear();
+            lPlanningBuffer.Clear();
+
             foreach (DeviceUserLiaison lLiaison in mListRobotUser)
             {
                 Debug.LogError("<color=blue>lLiaison : " + lLiaison.UserNom + " " + lLiaison.PlanningidPlanning + "</color>");
@@ -409,12 +416,12 @@ namespace BuddyApp.CoursTelepresence
                     if(string.IsNullOrEmpty(lLiaison.PlanningidPlanning))
                     {
                         CoursTelepresenceData.Instance.AllPlanning.Add(" ");
+                        Debug.LogError("<color=red> add empty all planning</color>");
                     }
                     if(lLiaison.PlanningidPlanning.Contains(","))
                     {
                         string[] lAllPlanning = lLiaison.PlanningidPlanning.Split(',');
-                        List<string> lAllPlaningList = new List<string>();
-                        List<string> lPlanningBuffer = new List<string>();
+
                         int index = 0;
                         lAllPlaningList.AddRange(lAllPlanning);
                         foreach(string lPlanning in lAllPlaningList)
