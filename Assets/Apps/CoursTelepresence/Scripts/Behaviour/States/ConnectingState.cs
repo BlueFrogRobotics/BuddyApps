@@ -29,6 +29,7 @@ namespace BuddyApp.CoursTelepresence
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            DBManager.Instance.IsCheckPlanning = false;
             CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.LaunchDatabase;
             GetGameObject(20).SetActive(false);
             GameObject NameStudent = GetGameObject(14).transform.GetChild(0).GetChild(0).gameObject;
@@ -67,7 +68,7 @@ namespace BuddyApp.CoursTelepresence
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Debug.LogError("CONNECTING STATE : Peering - " + DBManager.Instance.Peering + " | info - " + DBManager.Instance.InfoRequestedDone + " | mListDone - " + mListDone + " | CanStartCourse - " + DBManager.Instance.CanStartCourse);
+            //Debug.LogError("CONNECTING STATE : Peering - " + DBManager.Instance.Peering + " | info - " + DBManager.Instance.InfoRequestedDone + " | mListDone - " + mListDone + " | CanStartCourse - " + DBManager.Instance.CanStartCourse);
             if ((((DBManager.Instance.Peering && DBManager.Instance.InfoRequestedDone ) || DBManager.Instance.CanStartCourse) && CoursTelepresenceData.Instance.InitializeDone) && !mListDone)
             {
                 //Buddy.GUI.Toaster.Hide();
@@ -152,6 +153,9 @@ namespace BuddyApp.CoursTelepresence
             DBManager.Instance.FillPlanningStart(DBManager.Instance.ListUserStudent[iIndexList].Nom);
             mRTMManager.SetTabletId(DBManager.Instance.ListUIDTablet[iIndexList]);
             mRTMManager.IndexTablet = iIndexList;
+            DBManager.Instance.IndexPlanning = iIndexList;
+            DBManager.Instance.IsCheckPlanning = true;
+            Debug.LogError("<color=green> FILLPLANING START : " + DBManager.Instance.ListUserStudent[iIndexList].Nom + " LIST UID TABLET : " + DBManager.Instance.ListUIDTablet[iIndexList] + " index list : " + iIndexList + "</color>");
             GetGameObject(17).SetActive(false); 
             Trigger("IDLE");
         }

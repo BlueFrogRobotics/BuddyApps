@@ -74,6 +74,11 @@ namespace BuddyApp.CoursTelepresence
         public bool InfoRequestedDone { get; private set; }
         public string NameProf { get; private set; }
         public bool IsRefreshButtonPushed { get; set; }
+        public bool IsCheckPlanning { get; set; }
+        public int IndexPlanning { get; set; }
+
+        private string mNameRobot;
+
         private string mRobotName;
         //private List<Planning> ListPlanning;
         private Planning mPlanningNextCourse;
@@ -120,6 +125,7 @@ namespace BuddyApp.CoursTelepresence
 
         public void StartDBManager()
         {
+            mNameRobot = "";
             LaunchDb = true;
             CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.LaunchDatabase;
             mRTMManager = GetComponent<RTMManager>();
@@ -208,7 +214,7 @@ namespace BuddyApp.CoursTelepresence
                         }
                 }
             }
-            if (!CanStartCourse)
+            if (!CanStartCourse && IsCheckPlanning)
             {
                 CheckStartPlanning();
             }
@@ -238,7 +244,7 @@ namespace BuddyApp.CoursTelepresence
                     try
                     {
                         DeviceUserLiaisonList devices = Utils.UnserializeJSON<DeviceUserLiaisonList>(lRes);
-
+                        mNameRobot = devices.Device_user[0].DeviceNom;
                         if (devices != null)
                         {
                             DBConnected = true;
@@ -336,11 +342,13 @@ namespace BuddyApp.CoursTelepresence
                                 Debug.LogError("<color=red> foreach lliaison " + lLiaison.DeviceType_device + " </color>");
                                 if (lLiaison.DeviceType_device.Contains(TABLET_TYPE_DEVICE))
                                 {
-                                    Debug.LogError("<color=red> lliaison typedevice  : " + lLiaison.DeviceType_device + " lliaison " + lLiaison.UserNom + " " + lLiaison.UserPrenom +  "</color>");
+                                    Debug.LogError("<color=red> lliaison typedevice  : " + lLiaison.DeviceType_device + " lliaison " + lLiaison.UserNom + " " + lLiaison.UserPrenom + " " + lLiaison.PlanningidPlanning +  "</color>");
                                     mListTabletUser.Add(lLiaison);
                                 }
-                                if(lLiaison.DeviceType_device.Contains("Robot"))
+                                if(lLiaison.DeviceType_device.Contains("Robot") && !string.IsNullOrEmpty(mNameRobot) && mNameRobot.Equals(lLiaison.DeviceNom))
                                 {
+                                    Debug.LogError("<color=red> foreach lliaison ET DEVICE TYPE = ROBOT : " + lLiaison.DeviceType_device + " info complémentaire robot : " + lLiaison.UserPrenom + " " + lLiaison.PlanningidPlanning + " nom robot : " + mNameRobot + " lliaison nom robot : " + lLiaison.DeviceNom + " </color>");
+
                                     mListRobotUser.Add(lLiaison);
                                 }
                             }
@@ -395,8 +403,13 @@ namespace BuddyApp.CoursTelepresence
             CoursTelepresenceData.Instance.AllPlanning.Clear();
             foreach (DeviceUserLiaison lLiaison in mListRobotUser)
             {
-                if(lLiaison.UserNom == iName)
+                Debug.LogError("<color=blue>lLiaison : " + lLiaison.UserNom + " " + lLiaison.PlanningidPlanning + "</color>");
+                if (!string.IsNullOrEmpty(lLiaison.UserNom) && !string.IsNullOrEmpty(lLiaison.PlanningidPlanning) && lLiaison.UserNom == iName)
                 {
+                    if(string.IsNullOrEmpty(lLiaison.PlanningidPlanning))
+                    {
+                        CoursTelepresenceData.Instance.AllPlanning.Add(" ");
+                    }
                     if(lLiaison.PlanningidPlanning.Contains(","))
                     {
                         string[] lAllPlanning = lLiaison.PlanningidPlanning.Split(',');
@@ -597,8 +610,8 @@ namespace BuddyApp.CoursTelepresence
 
         private void CheckStartPlanning()
         {
-            Debug.LogError("<color=blue> DBMANAGER : CHECK START PLANNING </color>");
-            if (mPlanning && !CanStartCourse && CoursTelepresenceData.Instance.AllPlanning.Count > 0)
+            Debug.LogError("<color=blue> DBMANAGER : CHECK START PLANNING : " + CoursTelepresenceData.Instance.AllPlanning.Count + " index all planing : " + IndexPlanning + "</color>");
+            if (mPlanning && !CanStartCourse && !string.IsNullOrEmpty(CoursTelepresenceData.Instance.AllPlanning[0])  && CoursTelepresenceData.Instance.AllPlanning.Count > 0)
             {
                 string[] lSplitDate = CoursTelepresenceData.Instance.AllPlanning[0].Split('&');
                 Planning mCurrentPlanning = new Planning();

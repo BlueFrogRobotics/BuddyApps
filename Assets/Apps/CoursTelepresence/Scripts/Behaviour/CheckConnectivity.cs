@@ -31,7 +31,7 @@ namespace BuddyApp.CoursTelepresence
         private float mRefreshTime;
 
         [SerializeField]
-        private Animator Animator;
+        private Animator Animator; 
 
         private bool mRequestDone;
         private bool UIDatabaseDisplayed;
@@ -70,7 +70,7 @@ namespace BuddyApp.CoursTelepresence
 
         private void Update()
         {
-            Debug.LogError("<color=blue> CONNECTIVITY PROBLEM : " + CoursTelepresenceData.Instance.ConnectivityProblem + "</color>");
+            //Debug.LogError("<color=blue> CONNECTIVITY PROBLEM : " + CoursTelepresenceData.Instance.ConnectivityProblem + "</color>");
             mRefreshTime += Time.deltaTime;
             mTimerUIDatabase += Time.deltaTime;
             if (!Buddy.IO.WiFi.CurrentWiFiNetwork.Connected)
