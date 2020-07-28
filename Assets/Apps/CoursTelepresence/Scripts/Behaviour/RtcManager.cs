@@ -105,10 +105,11 @@ namespace BuddyApp.CoursTelepresence
             //mRtcEngine.SetExternalVideoSource(true, false);
             mRtcEngine.JoinChannel(iChannel, null, 0);
             mRtcEngine.OnError = OnError;
+            InitButtons();
             //StartCoroutine(JoinAsync(iChannel));
 
             //mRtcEngine.OnTokenPrivilegeWillExpire = OnTokenPrivilegeWillExpire;
-           
+
             //mRtcEngine.JoinChannelWithUserAccount(mToken, iChannel, Buddy.Platform.RobotUID);
 
         }
