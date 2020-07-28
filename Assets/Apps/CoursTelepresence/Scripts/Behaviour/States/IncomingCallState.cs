@@ -46,12 +46,6 @@ namespace BuddyApp.CoursTelepresence
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Debug.LogError("Incoming call state");
-
-            mTimeRepeated = Time.time;            
-
-            // Start Call coroutine & Notification repeater
-
             Debug.Log("Incoming call state");
 
             mTimeRepeated = Time.time;
@@ -64,7 +58,6 @@ namespace BuddyApp.CoursTelepresence
                 mCallingUserName.text = mRTMManager.mCallRequest.userName;
 
 
-
             Buddy.Vocal.StopAndClear();
             Buddy.Actuators.Speakers.Media.Play(mMusic);
             //Buddy.Vocal.SayKeyAndListen("incomingcall");
@@ -72,6 +65,14 @@ namespace BuddyApp.CoursTelepresence
             Buddy.Vocal.SayAndListen("tu as un appel de " + mCallingUserName.text + " veux-tu décrocher?", null, OnSpeechReco, OnSpeechError);
             
            
+        }
+
+        public override void OnStateUpdate(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
+        {
+            if (Time.time - mTimeRepeated > REPEAT_TIME)
+            {
+                RejectCall();
+            }
         }
 
 
