@@ -24,6 +24,8 @@ namespace BuddyApp.CoursTelepresence
         private RTCManager mRTCManager;
         private float mTimeRepeated;
 
+        private bool mHasExited;
+
         override public void Start()
         {
             // This returns the GameObject named RTMCom.
@@ -48,6 +50,8 @@ namespace BuddyApp.CoursTelepresence
         {
             Debug.Log("Incoming call state");
 
+            mHasExited = false;
+
             mTimeRepeated = Time.time;
 
             // Start Call coroutine & Notification repeater
@@ -69,9 +73,10 @@ namespace BuddyApp.CoursTelepresence
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
         {
-            if (Time.time - mTimeRepeated > REPEAT_TIME)
+            if (!mHasExited && Time.time - mTimeRepeated > REPEAT_TIME)
             {
                 RejectCall();
+                mHasExited = true;
             }
         }
 
@@ -89,7 +94,7 @@ namespace BuddyApp.CoursTelepresence
 
         private void OnSpeechReco(SpeechInput iSpeechInput)
         {
-            if (iSpeechInput.IsInterrupted)
+            if (mHasExited || iSpeechInput.IsInterrupted)
                 return;
 
             if (Utils.GetRealStartRule(iSpeechInput.Rule) == "yes")
