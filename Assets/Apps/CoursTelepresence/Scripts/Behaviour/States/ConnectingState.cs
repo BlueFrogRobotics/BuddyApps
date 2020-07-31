@@ -9,8 +9,6 @@ namespace BuddyApp.CoursTelepresence
 
     public sealed class ConnectingState : AStateMachineBehaviour
     {
-        [SerializeField]
-        private Animator ConnectingScreenAnimator;
         private bool mListDone;
         private RTMManager mRTMManager;
         private List<GameObject> mUsers;
@@ -30,6 +28,7 @@ namespace BuddyApp.CoursTelepresence
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             DBManager.Instance.IsCheckPlanning = false;
+            
             CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.LaunchDatabase;
             GetGameObject(20).SetActive(false);
             GameObject NameStudent = GetGameObject(14).transform.GetChild(0).GetChild(0).gameObject;
@@ -102,6 +101,7 @@ namespace BuddyApp.CoursTelepresence
                         //mRTMManager.AskAvailable(DBManager.Instance.ListUIDTablet[i]);
                         Debug.LogWarning("tablette: " + DBManager.Instance.ListUIDTablet[i]);
                         mRTMManager.Ping(DBManager.Instance.ListUIDTablet[i], i);
+                        Debug.LogError("LIST USER TIMER " + " index : " + i + " " + Time.time);
                         mPingTime.Add(Time.time);
                         mWaitPing.Add(0);
                     }
@@ -114,10 +114,12 @@ namespace BuddyApp.CoursTelepresence
                 for (int i = 0; i < mUsers.Count; i++)
                 {
                     float lTime = (Time.time - mPingTime[i]) * 1000F;
+                    Debug.LogError("LTIME BEFORE UPDATE LIST USER " + lTime);
                     if (lTime > 1200)
                     {
-                        //mRTMManager.Ping(DBManager.Instance.ListUIDTablet[i], i);
-                        //mPingTime[i] = Time.time;
+                        mRTMManager.Ping(DBManager.Instance.ListUIDTablet[i], i);
+                        mPingTime[i] = Time.time;
+                        Debug.LogError("MPINGTIME " + mPingTime[i]);
                         UpdateListUsers(i);
                     }
 
@@ -167,11 +169,12 @@ namespace BuddyApp.CoursTelepresence
 
         private void UpdateListUsers(int iUserId)
         {
-            //Debug.LogWarning("PING WITH " + iUserId);
-            if (mPingTime == null || mUsers == null || mUsers.Count >= iUserId)
-                return;
-            float lTime = (Time.time - mPingTime[iUserId])*1000F;
+            Debug.LogError("PING WITH " + iUserId + " muser count : " + mUsers.Count + " >= userid : " + iUserId + " TIME.TIME : " + Time.time);
 
+            if (mPingTime == null || mUsers == null || mUsers.Count <= iUserId)
+                return;
+            float lTime = (Time.time - mPingTime[iUserId])*1000F; 
+            Debug.LogError("lTIME : " + lTime);
             if (mWaitPing[iUserId] == 0)
             {
                 mUsers[iUserId].transform.GetChild(4).GetComponent<Image>().sprite = SpriteNetwork((int)lTime);

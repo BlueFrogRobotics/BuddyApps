@@ -161,6 +161,11 @@ namespace BuddyApp.CoursTelepresence
             () => {
                 Debug.Log("OK");
                 Buddy.GUI.Toaster.Hide();
+                if (DBManager.Instance.ListUIDTablet.Count > 1)
+                {
+                    GetGameObject(21).SetActive(true);
+                }
+
                 //Réafficher l'écran de démarrage
                 ManageGUIClose();
                 Trigger("IDLE");

@@ -150,7 +150,7 @@ namespace BuddyApp.CoursTelepresence
             ListUserStudent.Clear();
             CoursTelepresenceData.Instance.AllPlanning.Clear();
             mListTabletUser.Clear();
-            mListRobotUser.Clear();
+            //mListRobotUser.Clear();
             
 
             //CoursTelepresenceData.Instance.AllPlanning.Clear();
@@ -247,11 +247,13 @@ namespace BuddyApp.CoursTelepresence
                     try
                     {
                         DeviceUserLiaisonList devices = Utils.UnserializeJSON<DeviceUserLiaisonList>(lRes);
-                        mNameRobot = devices.Device_user[0].DeviceNom;
+
+                        mRobotName = devices.Device_user[0].DeviceNom;
+                        Debug.LogError("Result from GetUserIdFromUID with Robot UID FOR ROBOT NAME : " + mRobotName);
                         if (devices != null)
                         {
                             DBConnected = true;
-                            mRobotName = devices.Device_user[0].DeviceNom;
+                            //mNameRobot = devices.Device_user[0].DeviceNom;
                             for (int i = 0; i < devices.Device_user.Length; ++i)
                             {
                                 mDeviceUserLiaison = devices.Device_user[i];
@@ -338,17 +340,17 @@ namespace BuddyApp.CoursTelepresence
                     {
                         DeviceUserLiaisonList devices = Utils.UnserializeJSON<DeviceUserLiaisonList>(lRes);
 
-                        if (devices != null)
+                        if (devices != null) 
                         {
                             foreach (DeviceUserLiaison lLiaison in devices.Device_user)
                             {
-                                Debug.LogError("<color=red> foreach lliaison " + lLiaison.DeviceType_device + " </color>");
+                                Debug.LogError("<color=red> foreach lliaison " + lLiaison.DeviceType_device + " robot name : " + mRobotName + " lliaison.devicenom : " + lLiaison.DeviceNom +  " </color>");
                                 if (lLiaison.DeviceType_device.Contains(TABLET_TYPE_DEVICE))
                                 {
                                     Debug.LogError("<color=red> lliaison typedevice  : " + lLiaison.DeviceType_device + " lliaison " + lLiaison.UserNom + " " + lLiaison.UserPrenom + " " + lLiaison.PlanningidPlanning +  "</color>");
                                     mListTabletUser.Add(lLiaison);
                                 }
-                                if(lLiaison.DeviceType_device.Contains("Robot") && !string.IsNullOrEmpty(mNameRobot) && mNameRobot.Equals(lLiaison.DeviceNom))
+                                if(lLiaison.DeviceType_device.Contains("Robot") && !string.IsNullOrEmpty(mRobotName) && mRobotName.Equals(lLiaison.DeviceNom))
                                 {
                                     Debug.LogError("<color=red> foreach lliaison ET DEVICE TYPE = ROBOT : " + lLiaison.DeviceType_device + " info complémentaire robot : " + lLiaison.UserPrenom + " " + lLiaison.PlanningidPlanning + " nom robot : " + mNameRobot + " lliaison nom robot : " + lLiaison.DeviceNom + " </color>");
 
@@ -407,7 +409,7 @@ namespace BuddyApp.CoursTelepresence
             CoursTelepresenceData.Instance.AllPlanning.Clear();
             lAllPlaningList.Clear();
             lPlanningBuffer.Clear();
-
+            Debug.LogError("<color=blue>mlistrobotuser  : " + mListRobotUser.Count + "</color>");
             foreach (DeviceUserLiaison lLiaison in mListRobotUser)
             {
                 Debug.LogError("<color=blue>lLiaison : " + lLiaison.UserNom + " " + lLiaison.PlanningidPlanning + "</color>");
@@ -500,7 +502,9 @@ namespace BuddyApp.CoursTelepresence
                                 {
                                     if (lAllPlanning[i].Replace("-", "/").Contains(lSortDateTime[j].ToString()))
                                     {
+                                        
                                         CoursTelepresenceData.Instance.AllPlanning.Add(lAllPlanning[i]);
+                                        Debug.LogError("<color=blue>VERIFICATION ALL PLANING  : " + lAllPlanning[i] + "</color>");
                                     }
                                 }
                                 
@@ -617,7 +621,7 @@ namespace BuddyApp.CoursTelepresence
 
         private void CheckStartPlanning()
         {
-            Debug.LogError("<color=blue> DBMANAGER : CHECK START PLANNING : " + CoursTelepresenceData.Instance.AllPlanning.Count + " index all planing : " + IndexPlanning + "</color>");
+            Debug.LogError("<color=blue> DBMANAGER : CHECK START PLANNING : " + CoursTelepresenceData.Instance.AllPlanning.Count + "  all planing 0 : " + CoursTelepresenceData.Instance.AllPlanning[0] + "</color>");
             if (mPlanning && !CanStartCourse && !string.IsNullOrEmpty(CoursTelepresenceData.Instance.AllPlanning[0])  && CoursTelepresenceData.Instance.AllPlanning.Count > 0)
             {
                 string[] lSplitDate = CoursTelepresenceData.Instance.AllPlanning[0].Split('&');
