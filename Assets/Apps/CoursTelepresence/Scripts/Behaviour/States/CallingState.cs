@@ -81,7 +81,12 @@ namespace BuddyApp.CoursTelepresence
                             Trigger("IDLE");
                             Buddy.GUI.Dialoger.Hide();
                         },
-                        null,
+                        () =>
+                        {
+                            Debug.LogError("CALLING STATE : ON DISPLAY");
+                            //this.Invoke("HideUI", 3F);
+                            StartCoroutine(HideUI());
+                        },
                         () =>
                         {
                             Trigger("IDLE");
@@ -109,6 +114,16 @@ namespace BuddyApp.CoursTelepresence
             yield return new WaitForSeconds(2);
             Buddy.GUI.Dialoger.Hide();
             Trigger("IDLE");
+        }
+
+        private IEnumerator HideUI()
+        {
+            Debug.LogError("CALLING STATE : BEFORE HIDE UI  ");
+            yield return new WaitForSeconds(2F);
+            Debug.LogError("CALLING STATE : HIDE UI  " );
+            Buddy.GUI.Dialoger.Hide();
+            Trigger("IDLE");
+           
         }
     }
 
