@@ -77,6 +77,9 @@ namespace BuddyApp.CoursTelepresence
         public bool IsCheckPlanning { get; set; }
         public int IndexPlanning { get; set; }
 
+        [SerializeField]
+        private Animator Animator;
+
         private string mNameRobot;
 
         private string mRobotName;
@@ -290,6 +293,7 @@ namespace BuddyApp.CoursTelepresence
             StartCoroutine(GetUserIdFromUID(Buddy.Platform.RobotUID)); 
             while (!InfoRequestedDone)
                 yield return null;
+            Animator.Play("CONNECTING");
             //FillPlanningStart(ListUserStudent[0].Nom);
             //mRTMManager.SetTabletId(ListUIDTablet[0]);
         }

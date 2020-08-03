@@ -68,7 +68,7 @@ namespace BuddyApp.CoursTelepresence
                         DBManager.Instance.StartDBManager();
                         StartCoroutine(DBManager.Instance.RefreshPlanning());
                         CloseParameters();
-                        mAnimator.Play("CONNECTING");
+                        //mAnimator.Play("CONNECTING");
                     });
                 }
             },
