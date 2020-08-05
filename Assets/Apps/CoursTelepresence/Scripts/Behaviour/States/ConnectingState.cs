@@ -25,40 +25,59 @@ namespace BuddyApp.CoursTelepresence
 
         override public void Start()
         {
+            Debug.LogError("<color=red>00 - connecting state  : </color>");
             mRTMManager = GetComponent<RTMManager>();
             mInputFilter = GetGameObject(19).GetComponent<InputField>();
             GetGameObject(21).GetComponent<Button>().onClick.AddListener(() => { Trigger("CONNECTING"); });
+            mUsers = new List<GameObject>();
+            mPingTime = new List<float>();
+            mWaitPing = new List<int>();
         }
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            for (int i = 0; i < mUsers.Count; i++)
+            {
+                Destroy(mUsers[i]);
+            }
+
+            mListDone = false;
+            Debug.LogError("<color=red>01 - connecting state  : </color>");
             DBManager.Instance.IsCheckPlanning = false;
             mTimerRefreshPing = 0F;
 
             mPingStarted = 0F;
             mIsTimerStarted = false;
-
+            Debug.LogError("<color=red>02 - connecting state  : </color>");
             CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.LaunchDatabase;
             GetGameObject(20).SetActive(false);
+            Debug.LogError("<color=red>03 - connecting state  : </color>");
             GameObject NameStudent = GetGameObject(14).transform.GetChild(0).GetChild(0).gameObject;
             GameObject FirstNameStudent = GetGameObject(14).transform.GetChild(0).GetChild(1).gameObject;
             GameObject ClassStudent = GetGameObject(14).transform.GetChild(1).GetChild(0).gameObject;
+            Debug.LogError("<color=red>04 - connecting state  : </color>");
             NameStudent.GetComponent<Text>().text = " ";
             FirstNameStudent.GetComponent<Text>().text = " ";
             ClassStudent.GetComponent<Text>().text = " ";
+            Debug.LogError("<color=red>05 - connecting state  : </color>");
             GetGameObject(21).SetActive(false);
-            mListDone = false;
             mDisplayList = false;
+            Debug.LogError("<color=red>06 - connecting state  : </color>");
             //Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => { 
             //    TText lText = iBuilder.CreateWidget<TText>();
             //    lText.SetLabel(Buddy.Resources.GetString("educonnectingdb")); 
             //});
             //GetGameObject(17).SetActive(true);
-            mUsers = new List<GameObject>();
-            mPingTime = new List<float>();
-            mWaitPing = new List<int>();
+
+
+            mUsers.Clear();
+            mPingTime.Clear();
+            Debug.LogError("<color=red>07 - connecting state  : </color>");
+            //mInputFilter.onValueChanged.RemoveAllListeners();
             mInputFilter.onValueChanged.AddListener(delegate { OnInputChanged(); });
             Buddy.GUI.Header.DisplayParametersButton(true);
+            Debug.LogError("<color=red>08 - connecting state  : </color>");
+            mRTMManager.OnPingWithId = null;
             mRTMManager.OnPingWithId = (lId) =>
             {
                 Debug.LogError("TIMER REFRESH : " + mTimerRefreshPing);
@@ -68,13 +87,16 @@ namespace BuddyApp.CoursTelepresence
                 
                 UpdateListUsers(lId);
                 //}
-                
+                Debug.LogError("<color=red>09 - connecting state  : </color>");
             };
-            Debug.LogError("Connecting state"); 
+            Debug.LogError("Connecting state");
             //mRTMManager.OnPingWithId = UpdateListUsers;//OnPingId;
 
+            //for (int i = 0; i < mUsers.Count; i++)
+            //{
+            //    Destroy(mUsers[i]);
+            //}
             
-            //TODO check DB and stuff
 
             if (Buddy.Behaviour.Mood != Mood.NEUTRAL)
                 Buddy.Behaviour.SetMood(Mood.NEUTRAL);
@@ -91,8 +113,9 @@ namespace BuddyApp.CoursTelepresence
 
             mTimerRefreshPing += Time.deltaTime;
             //Debug.LogError("CONNECTING STATE : Peering - " + DBManager.Instance.Peering + " | info - " + DBManager.Instance.InfoRequestedDone + " | mListDone - " + mListDone + " | CanStartCourse - " + DBManager.Instance.CanStartCourse);
-            if ((((DBManager.Instance.Peering && DBManager.Instance.InfoRequestedDone ) || DBManager.Instance.CanStartCourse) && CoursTelepresenceData.Instance.InitializeDone) && !mListDone)
+            if (((DBManager.Instance.Peering && DBManager.Instance.InfoRequestedDone ) || DBManager.Instance.CanStartCourse) && CoursTelepresenceData.Instance.InitializeDone && !mListDone)
             {
+                Debug.LogError("<color=red>1 - IF CONNECTING STATE LISTUIDTABLET COUNT  : " + DBManager.Instance.ListUIDTablet.Count + "</color>");
                 //Buddy.GUI.Toaster.Hide();
                 if (DBManager.Instance.ListUIDTablet.Count == 1)
                 {
@@ -192,7 +215,7 @@ namespace BuddyApp.CoursTelepresence
 
         private void ButtonClick(int iIndexList)
         {
-            DBManager.Instance.FillPlanningStart(DBManager.Instance.ListUserStudent[iIndexList].Nom);
+            DBManager.Instance.FillPlanningStart(DBManager.Instance.ListUserStudent[iIndexList].Nom, DBManager.Instance.ListUserStudent[iIndexList].Prenom);
             mRTMManager.SetTabletId(DBManager.Instance.ListUIDTablet[iIndexList]);
             mRTMManager.IndexTablet = iIndexList;
             DBManager.Instance.IndexPlanning = iIndexList;
@@ -252,15 +275,10 @@ namespace BuddyApp.CoursTelepresence
         private Sprite SpriteNetwork(int lValue)
         {
             string mNetworkLevel = "00";
-            Sprite lSprite;
+            Sprite lSprite = null;
 
             // Update icon
             if(lValue == 0)
-            {
-                mNetworkLevel = "00";
-                lSprite = null;
-            }
-            else if (lValue >= 400)
             {
                 mNetworkLevel = "00";
                 lSprite = null;
@@ -285,15 +303,10 @@ namespace BuddyApp.CoursTelepresence
                     mNetworkLevel = "01";
                     lSprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconSignal" + mNetworkLevel, Context.APP);
             }
-            else if(lValue < 400)
-            {
-                mNetworkLevel = "00";
-                lSprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconSignal" + mNetworkLevel, Context.APP);
-            }
             else
             {
                 mNetworkLevel = "00";
-                lSprite = null;
+                lSprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconSignal" + mNetworkLevel, Context.APP);
             }
 
             return lSprite;
@@ -311,6 +324,8 @@ namespace BuddyApp.CoursTelepresence
                     mUsers[i].SetActive(false);
             }
         }
+
+
     }
 
 }

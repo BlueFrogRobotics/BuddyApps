@@ -70,7 +70,7 @@ namespace BuddyApp.CoursTelepresence
 
         private void Update()
         {
-            Debug.LogError("<color=blue> CONNECTIVITY PROBLEM : " + CoursTelepresenceData.Instance.ConnectivityProblem + "</color>");
+            //Debug.LogError("<color=blue> CONNECTIVITY PROBLEM : " + CoursTelepresenceData.Instance.ConnectivityProblem + "</color>");
             mRefreshTime += Time.deltaTime;
             mTimerUIDatabase += Time.deltaTime;
             if (!Buddy.IO.WiFi.CurrentWiFiNetwork.Connected)
@@ -211,21 +211,25 @@ namespace BuddyApp.CoursTelepresence
             }
             else
             {
+                Debug.LogError("<color=blue>01 - CHECKCO  : </color>");
                 DBManager.Instance.IsRefreshButtonPushed = true;
                 CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.LaunchDatabase;
+                Debug.LogError("<color=blue>02 - CHECKCO  : </color>");
                 CoursTelepresenceData.Instance.InitializeDone = false;
                 DBManager.Instance.StartDBManager();
+                Debug.LogError("<color=blue>03 - CHECKCO  : </color>");
                 StartCoroutine(DBManager.Instance.RefreshPlanning());
-                Animator.Play("CONNECTING");
+                Debug.LogError("<color=blue>04 - CHECKCO  : </color>");
+                Animator.SetTrigger("CONNECTING");
             }
         }
 
         private void LaunchDatabase(bool iLaunchDatabase)
         {
-            Debug.LogError("<color=blue> LAUNCH DB CHECKCO: " + Buddy.GUI.Toaster.IsBusy + " launchdatabase : " + iLaunchDatabase + "</color>");
+            //Debug.LogError("<color=blue> LAUNCH DB CHECKCO: " + Buddy.GUI.Toaster.IsBusy + " launchdatabase : " + iLaunchDatabase + "</color>");
             if (!Buddy.GUI.Toaster.IsBusy && iLaunchDatabase)
             {
-                Debug.LogError("<color=blue> LAUNCH DB CHECKCO: </color>");
+                //Debug.LogError("<color=blue> LAUNCH DB CHECKCO: </color>");
 
                 Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
                     TText lText = iBuilder.CreateWidget<TText>();

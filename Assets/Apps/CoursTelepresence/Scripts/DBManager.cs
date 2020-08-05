@@ -131,12 +131,15 @@ namespace BuddyApp.CoursTelepresence
 
         public void StartDBManager()
         {
+            Debug.LogError("<color=blue>01 - DBMANAGER  : </color>");
             mNameRobot = "";
             LaunchDb = true;
             CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.LaunchDatabase;
+            Debug.LogError("<color=blue>02 - DBMANAGER  : </color>");
             mRTMManager = GetComponent<RTMManager>();
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("fr-FR");
             mPlanningNextCourse = new Planning();
+            Debug.LogError("<color=blue>03 - DBMANAGER  : </color>");
             mStartUpdate = false;
             //mPlanningCheck = new Planning();
             //mTimer = 0F;
@@ -148,13 +151,14 @@ namespace BuddyApp.CoursTelepresence
             DBConnected = false;
             CanStartCourse = false;
             CanEndCourse = false;
+            Debug.LogError("<color=blue>04 - DBMANAGER  : </color>");
             mDeviceUserLiaisonList.Clear();
             ListUIDTablet.Clear();
             ListUserStudent.Clear();
             CoursTelepresenceData.Instance.AllPlanning.Clear();
             mListTabletUser.Clear();
             //mListRobotUser.Clear();
-            
+            Debug.LogError("<color=blue>05 - DBMANAGER  : </color>");
 
             //CoursTelepresenceData.Instance.AllPlanning.Clear();
             //mDeviceUserLiaisonList.Clear();
@@ -165,9 +169,8 @@ namespace BuddyApp.CoursTelepresence
 
 
             //POUR LES TESTS 
-            CoursTelepresenceData.Instance.AllPlanning.Clear();
-            if(!IsRefreshButtonPushed)
-                StartCoroutine(GetUserIdFromUID(Buddy.Platform.RobotUID)); 
+            if (!IsRefreshButtonPushed)
+                StartCoroutine(GetUserIdFromUID(Buddy.Platform.RobotUID));  
             //StartCoroutine(GetUserIdFromUID("EED7BF3ABE076D2D7A40"));
 
             //StartCoroutine(UpdatePingAndPosition());
@@ -230,7 +233,9 @@ namespace BuddyApp.CoursTelepresence
 
         private IEnumerator GetUserIdFromUID(string iRobotUID)
         {
+            Debug.LogError("<color=blue>11 - DBMANAGER  : </color>");
             yield return new WaitForSeconds(5F);
+            Debug.LogError("<color=blue>12 - DBMANAGER  : </color>");
             mDeviceUserLiaisonList.Clear();
             string lRequest = GET_ALL_LIAISON + '"' + iRobotUID + '"';
             Debug.LogError("Request : " + lRequest);
@@ -290,10 +295,17 @@ namespace BuddyApp.CoursTelepresence
         public IEnumerator RefreshPlanning()
         {
             //StartCoroutine(GetInfoForUsers(mDeviceUserLiaisonList));
-            StartCoroutine(GetUserIdFromUID(Buddy.Platform.RobotUID)); 
+            Debug.LogError("<color=blue>06 - DBMANAGER  : </color>");
+            StartCoroutine(GetUserIdFromUID(Buddy.Platform.RobotUID));
+            Debug.LogError("<color=blue>07 - DBMANAGER  : </color>");
             while (!InfoRequestedDone)
+            {
+                //Debug.LogError("<color=blue>08 - DBMANAGER  : </color>");
                 yield return null;
-            Animator.Play("CONNECTING");
+                
+            }
+            Debug.LogError("<color=blue>09 - DBMANAGER  : </color>");
+            Animator.SetTrigger("CONNECTING");
             //FillPlanningStart(ListUserStudent[0].Nom);
             //mRTMManager.SetTabletId(ListUIDTablet[0]);
         }
@@ -407,7 +419,7 @@ namespace BuddyApp.CoursTelepresence
             }
         }
 
-        public void FillPlanningStart(/*int iIndexChosen, */string iName)
+        public void FillPlanningStart(/*int iIndexChosen, */string iName, string iFirstName)
         {
             CanStartCourse = false;
             CoursTelepresenceData.Instance.AllPlanning.Clear();
@@ -417,7 +429,7 @@ namespace BuddyApp.CoursTelepresence
             foreach (DeviceUserLiaison lLiaison in mListRobotUser)
             {
                 Debug.LogError("<color=blue>lLiaison : " + lLiaison.UserNom + " " + lLiaison.PlanningidPlanning + "</color>");
-                if (!string.IsNullOrEmpty(lLiaison.UserNom) && !string.IsNullOrEmpty(lLiaison.PlanningidPlanning) && lLiaison.UserNom == iName)
+                if (!string.IsNullOrEmpty(lLiaison.UserNom) && !string.IsNullOrEmpty(lLiaison.PlanningidPlanning) && !string.IsNullOrEmpty(lLiaison.UserPrenom) && lLiaison.UserNom == iName && lLiaison.UserPrenom == iFirstName)
                 {
                     if(string.IsNullOrEmpty(lLiaison.PlanningidPlanning))
                     {

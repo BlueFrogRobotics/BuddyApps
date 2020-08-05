@@ -16,6 +16,9 @@ namespace BuddyApp.CoursTelepresence
         private RTMManager mRTMManager;
         private Animator mAnimator;
 
+        [SerializeField]
+        private GameObject UIList;
+
         // Use this for initialization
         void Start()
         {
@@ -63,10 +66,15 @@ namespace BuddyApp.CoursTelepresence
 
                     mButtonVerify.OnClick.Add(() =>
                     {
-                        DBManager.Instance.IsRefreshButtonPushed = true;
-                        CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.LaunchDatabase;
+                        mAnimator.SetTrigger("CONNECTING");
+                        if (UIList.activeSelf)
+                            UIList.SetActive(false);
+                        mRTMManager.OnPingWithId = null;
+                        DBManager.Instance.IsRefreshButtonPushed = false;
+                        if (CoursTelepresenceData.Instance.ConnectivityProblem != ConnectivityProblem.LaunchDatabase)
+                            CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.LaunchDatabase;
                         DBManager.Instance.StartDBManager();
-                        StartCoroutine(DBManager.Instance.RefreshPlanning());
+                        //StartCoroutine(DBManager.Instance.RefreshPlanning());
                         CloseParameters();
                         //mAnimator.Play("CONNECTING");
                     });
