@@ -429,7 +429,7 @@ namespace BuddyApp.CoursTelepresence
             foreach (DeviceUserLiaison lLiaison in mListRobotUser)
             {
                 Debug.LogError("<color=blue>lLiaison : " + lLiaison.UserNom + " " + lLiaison.PlanningidPlanning + "</color>");
-                if (!string.IsNullOrEmpty(lLiaison.UserNom) && !string.IsNullOrEmpty(lLiaison.PlanningidPlanning) && !string.IsNullOrEmpty(lLiaison.UserPrenom) && lLiaison.UserNom == iName && lLiaison.UserPrenom == iFirstName)
+                if (!string.IsNullOrEmpty(lLiaison.UserNom) /*&& !string.IsNullOrEmpty(lLiaison.PlanningidPlanning)*/ && !string.IsNullOrEmpty(lLiaison.UserPrenom) && lLiaison.UserNom == iName && lLiaison.UserPrenom == iFirstName)
                 {
                     if(string.IsNullOrEmpty(lLiaison.PlanningidPlanning))
                     {
@@ -637,8 +637,12 @@ namespace BuddyApp.CoursTelepresence
 
         private void CheckStartPlanning()
         {
-            Debug.LogError("<color=blue> DBMANAGER : CHECK START PLANNING : " + CoursTelepresenceData.Instance.AllPlanning.Count + "  all planing 0 : " + CoursTelepresenceData.Instance.AllPlanning[0] + "</color>");
-            if (mPlanning && !CanStartCourse && !string.IsNullOrEmpty(CoursTelepresenceData.Instance.AllPlanning[0])  && CoursTelepresenceData.Instance.AllPlanning.Count > 0)
+            
+            if (!string.IsNullOrEmpty(CoursTelepresenceData.Instance.AllPlanning[0]))
+                Debug.LogError("<color=blue> DBMANAGER : CHECK START PLANNING : " + CoursTelepresenceData.Instance.AllPlanning.Count + "  all planing 0 : " + CoursTelepresenceData.Instance.AllPlanning[0] + "</color>");
+            else
+                Debug.LogError("<color=blue> DBMANAGER : CHECK START PLANNING ALL PLANING NULL</color>");
+            if (mPlanning && !CanStartCourse && !string.IsNullOrEmpty(CoursTelepresenceData.Instance.AllPlanning[0]) && CoursTelepresenceData.Instance.AllPlanning.Count > 0 && CoursTelepresenceData.Instance.AllPlanning[0] != " ") 
             {
                 string[] lSplitDate = CoursTelepresenceData.Instance.AllPlanning[0].Split('&');
                 Planning mCurrentPlanning = new Planning();

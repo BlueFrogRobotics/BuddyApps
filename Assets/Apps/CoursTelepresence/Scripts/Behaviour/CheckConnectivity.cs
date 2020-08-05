@@ -28,6 +28,7 @@ namespace BuddyApp.CoursTelepresence
         private Action OnRequestDatabase;
         private Action<bool> OnLaunchDatabase;
         public Action<int> OnErrorAgoraio { get; private set; }
+        public int CounterLaunchDatabase { get; set; }
         private float mRefreshTime;
 
         [SerializeField]
@@ -53,6 +54,7 @@ namespace BuddyApp.CoursTelepresence
         void Start()
         {
             CoursTelepresenceData.Instance.InitializeDone = false;
+            CounterLaunchDatabase = 0;
             UIDatabaseDisplayed = false;
             mTimerUIDatabase = 0F;
             mRequestDone = false;
@@ -116,17 +118,36 @@ namespace BuddyApp.CoursTelepresence
             }
         }
 
-        private void HideUiAndLaunchDB()
+        private IEnumerator HideUiAndLaunchDB(float iWaitTime)
         {
+            yield return new WaitForSeconds(iWaitTime);
             Buddy.GUI.Toaster.Hide();
             CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.LaunchDatabase;
         }
 
-        private void HideUi()
+        private IEnumerator HideUi(float iWaitTime)
         {
+            yield return new WaitForSeconds(iWaitTime);
             if(Buddy.GUI.Toaster.IsBusy)
                 Buddy.GUI.Toaster.Hide();
+            if(!DBManager.Instance.Peering)
+            {
+                Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
+                    TText lText = iBuilder.CreateWidget<TText>();
+                    lText.SetLabel(Buddy.Resources.GetString("edunotpeered"));
+                });
+
+                StartCoroutine(UIRobotPeered(5F));
+            }
             //CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.None;
+        }
+
+        private IEnumerator UIRobotPeered(float iWaitTime)
+        {
+            yield return new WaitForSeconds(5F);
+            if (Buddy.GUI.Toaster.IsBusy)
+                Buddy.GUI.Toaster.Hide();
+            CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.None;
         }
 
         public IEnumerator CheckInternetConnection(/*Action<bool> syncResult*/)
@@ -207,7 +228,8 @@ namespace BuddyApp.CoursTelepresence
                     TText lText = iBuilder.CreateWidget<TText>();
                     lText.SetLabel(Buddy.Resources.GetString("edudbproblem"));
                 });
-                this.Invoke("HideUiAndLaunchDB", 5F);
+                StartCoroutine(HideUiAndLaunchDB(5F));
+                //this.Invoke("HideUiAndLaunchDB", 5F);
             }
             else
             {
@@ -218,7 +240,7 @@ namespace BuddyApp.CoursTelepresence
                 CoursTelepresenceData.Instance.InitializeDone = false;
                 DBManager.Instance.StartDBManager();
                 Debug.LogError("<color=blue>03 - CHECKCO  : </color>");
-                StartCoroutine(DBManager.Instance.RefreshPlanning());
+                //StartCoroutine(DBManager.Instance.RefreshPlanning());
                 Debug.LogError("<color=blue>04 - CHECKCO  : </color>");
                 Animator.SetTrigger("CONNECTING");
             }
@@ -235,8 +257,8 @@ namespace BuddyApp.CoursTelepresence
                     TText lText = iBuilder.CreateWidget<TText>();
                     lText.SetLabel(Buddy.Resources.GetString("educonnectingdb"));
                 });
-
-                this.Invoke("HideUI", 15F);
+                StartCoroutine(HideUi(9F));
+                //this.Invoke("HideUI", 5F);
             }
             else if (!iLaunchDatabase)
             {
@@ -254,8 +276,8 @@ namespace BuddyApp.CoursTelepresence
                     TText lText = iBuilder.CreateWidget<TText>();
                     lText.SetLabel(Buddy.Resources.GetString("edutelepresencenotworking"));
                 });
-
-                this.Invoke("HideUI", 3F);
+                StartCoroutine(HideUi(3F));
+                //this.Invoke("HideUI", 3F);
                 
             }
         }

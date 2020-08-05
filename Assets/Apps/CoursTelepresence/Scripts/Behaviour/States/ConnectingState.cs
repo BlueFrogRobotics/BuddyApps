@@ -80,13 +80,15 @@ namespace BuddyApp.CoursTelepresence
             mRTMManager.OnPingWithId = null;
             mRTMManager.OnPingWithId = (lId) =>
             {
-                Debug.LogError("TIMER REFRESH : " + mTimerRefreshPing);
-                //if(mTimerRefreshPing > 4F)
-                //{
-                //mTimerRefreshPing = 0F;
                 
-                UpdateListUsers(lId);
-                //}
+                if (mTimerRefreshPing > 5F)
+                {
+                    Debug.LogError("TIMER REFRESH : " + mTimerRefreshPing);
+                    UpdateListUsers(lId);
+                    mTimerRefreshPing = 0F;
+
+                    
+                }
                 Debug.LogError("<color=red>09 - connecting state  : </color>");
             };
             Debug.LogError("Connecting state");
@@ -161,17 +163,18 @@ namespace BuddyApp.CoursTelepresence
 
             if (mListDone)
             {
-                if (mTimerRefreshPing > 4F)
-                {
-                    mTimerRefreshPing = 0F;
-                    Debug.LogError("REFRESH PING-----------------");
+                //if (mTimerRefreshPing > 5F)
+                //{
+                //    mTimerRefreshPing = 0F;
+                    //Debug.LogError("REFRESH PING-----------------");
                     for (int i = 0; i < mUsers.Count; i++)
                     {
-                        float lTime = (Time.time - mPingTime[i]) * 1000F;
-                        //Debug.LogError("LTIME BEFORE UPDATE LIST USER " + lTime);
-                        if (lTime > 1200)
+                        float lTime = (Time.time - mPingTime[i]) /** 1000F*/;
+                        
+                        if (lTime > 5F)
                         {
-                            mRTMManager.Ping(DBManager.Instance.ListUIDTablet[i], i);
+                        Debug.LogError("LTIME BEFORE UPDATE LIST USER " + lTime);
+                        mRTMManager.Ping(DBManager.Instance.ListUIDTablet[i], i);
                             mPingTime[i] = Time.time;
                             if (mPingStarted > 6F)
                             {
@@ -186,7 +189,7 @@ namespace BuddyApp.CoursTelepresence
                         }
 
                     }
-                }
+                //}
             }
         }
 
@@ -239,8 +242,8 @@ namespace BuddyApp.CoursTelepresence
                 return;
             float lTime = (Time.time - mPingTime[iUserId])*1000F;
             Debug.LogError("lTIME : " + lTime);
-            if (mWaitPing[iUserId] == 0)
-            {
+            //if (mWaitPing[iUserId] == 0)
+            //{
                 mUsers[iUserId].transform.GetChild(4).GetComponent<Image>().sprite = SpriteNetwork((int)lTime);
                 if(lTime == 0)
                 {
@@ -264,9 +267,9 @@ namespace BuddyApp.CoursTelepresence
                     mUsers[iUserId].transform.GetChild(4).GetComponent<Image>().color = new Color(255, 255, 255, 1);
                 }
                 mWaitPing[iUserId] = 4;
-            }
-            else
-                mWaitPing[iUserId]--;
+            //}
+            //else
+            //    mWaitPing[iUserId]--;
 
             mRTMManager.Ping(DBManager.Instance.ListUIDTablet[iUserId], iUserId);
             mPingTime[iUserId] = Time.time;
