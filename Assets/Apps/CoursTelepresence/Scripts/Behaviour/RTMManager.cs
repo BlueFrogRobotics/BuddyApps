@@ -37,7 +37,9 @@ namespace BuddyApp.CoursTelepresence
         private bool mMovingNo;
 
         private Animator mAnimator;
-
+        private float mLastAngle;
+        private float mLastCommandTime;
+        private float mLastYesCommandTime;
         private const string GET_TOKEN_URL = "https://teamnet-bfr.ey.r.appspot.com/rtmToken?account=";
 
         public bool IsInitialised { get; internal set; }
@@ -393,7 +395,7 @@ namespace BuddyApp.CoursTelepresence
         private void OnMessage(string iMessage)
         {
             //iMessage = iMessage.Replace("," + mIdTablet, "");
-            Debug.LogWarning("message received content " + iMessage);
+            Debug.Log("message received content " + iMessage);
 
             if (iMessage.Contains("userName") && !iMessage.Contains("[METARTM]")) {
                 mCallRequest = Utils.UnserializeJSON<CallRequest>(iMessage);
@@ -554,9 +556,11 @@ namespace BuddyApp.CoursTelepresence
                         if (!float.TryParse(lMessage.propertyValue.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out lFloatValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into an int");
                         } else {
-                            if(OnHeadYes!=null)
-                                OnHeadYes(lFloatValue * 20F); 
-                            Debug.LogWarning("head yes " + lFloatValue);
+                            //Debug.LogWarning("head yes " + lFloatValue + " delta time: " + (Time.time - mLastYesCommandTime));
+                            if (OnHeadYes != null) {
+                                OnHeadYes(Mathf.Pow(lFloatValue, 5) * 40F);
+                                mLastYesCommandTime = Time.time;
+                            }
                         }
 
                         break;
@@ -565,9 +569,12 @@ namespace BuddyApp.CoursTelepresence
                         if (!float.TryParse(lMessage.propertyValue.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out lFloatValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
                         } else {
-                            if(OnHeadNo!=null)
-                                OnHeadNo(lFloatValue * -15F);
-                            Debug.LogWarning("head no " + lFloatValue);
+                            //Debug.LogWarning("head no " + lFloatValue + " delta time: " + (Time.time - mLastCommandTime));
+                            if (OnHeadNo!=null)
+                               /* if(Time.time - mLastCommandTime > 0.2F || Math.Abs(mLastAngle - lFloatValue)> 0.15)*/ {
+                                    mLastCommandTime = Time.time;
+                                    OnHeadNo(Mathf.Pow(lFloatValue, 5) * -80F);
+                                }
                         } 
 
                         break;

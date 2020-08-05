@@ -11,8 +11,23 @@ namespace BuddyApp.CoursTelepresence
     public sealed class CallState : AStateMachineBehaviour
     {
 
+        private bool mDisplayed;
+        private bool mHandUp;
+        private bool mEndCallDisplay;
+        private bool mSliderVolumeEnabled;
+
         private static int STREAMCALL;
         private static int FLAGSHOWUI = 0;
+
+        private float mTimerEndCall;
+        private float mTimeVolume;
+        private float mTimer;
+        private float mHideTime;
+        private float mPreviousAngle;
+        private float mPreviousNoAngleTime;
+        private float mPreviousYesAngleTime;
+        private float mTimeSinceMovement;
+        private float mTimeMessage;
 
         private Slider VolumeScrollbar;
         private Button Volume;
@@ -20,43 +35,23 @@ namespace BuddyApp.CoursTelepresence
         private Button Micro;
         private Button VideoFeedbackButton;
         public Image VideoFeedbackIcon;
-
         private Button Hangup;
         private Text Message;
-
-        private RTCManager mRTCManager;
-        private RTMManager mRTMManager;
-        private float mTimeVolume;
-
-        private float mTimer;
-        private bool mDisplayed;
-        private float mTimeMessage;
-
-        private float mTimerEndCall;
-
-        private HDCamera mHDCam;
         private GameObject VideoFeedbackImage;
-        private bool mHandUp;
-
-        private bool mEndCallDisplay;
-
-        private bool mSliderVolumeEnabled;
-
         private TSlider mSliderVolume;
         private TToggle mToggleNavigation;
         private TToggle mToggleNavigationStatic;
         private TToggle mToggleNavigationDynamic;
 
-        private float mTimeSinceMovement;
+        private RTCManager mRTCManager;
+        private RTMManager mRTMManager;
 
-        private float mTargetAngleYes;
-        private float mTargetAngleNo;
+        private HDCamera mHDCam;
 
+        private static AndroidJavaObject audioManager;
         // Use this for initialization
         override public void Start()
         {
-            mTargetAngleYes = Buddy.Actuators.Head.Yes.Angle;
-            mTargetAngleNo = Buddy.Actuators.Head.No.Angle;
             mSliderVolumeEnabled = false;
             mDisplayed = false;
             mEndCallDisplay = false;
@@ -75,8 +70,8 @@ namespace BuddyApp.CoursTelepresence
 
 
             mRTCManager.InitButtons();
-            
-            
+
+
 
             VolumeScrollbar.onValueChanged.AddListener(
                 (lValue) => {
@@ -110,24 +105,38 @@ namespace BuddyApp.CoursTelepresence
             mRTMManager.OnWheelsMotion = OnWheelsMotion;
             mRTMManager.OnHeadNoAbsolute = Buddy.Actuators.Head.No.SetPosition;
             mRTMManager.OnHeadYesAbsolute = Buddy.Actuators.Head.Yes.SetPosition;
-            mRTMManager.OnHeadNo = (lAngle) =>
-            {
-                //if (!Buddy.Actuators.Head.No.IsBusy)
-                float lAngleNorm = lAngle + Buddy.Actuators.Head.No.Angle;
-                if (lAngleNorm > mTargetAngleNo && lAngle > 0 || lAngleNorm < mTargetAngleNo && lAngle < 0)
-                {
-                    Buddy.Actuators.Head.No.SetPosition(lAngle + Buddy.Actuators.Head.No.Angle);
-                    mTargetAngleNo = lAngleNorm;
+            mRTMManager.OnHeadNo = (lAngle) => {
+                // If the user changes head direction
+                if (lAngle * mPreviousAngle < 0) {
+                    // Dirty way to clean the queue. Need new function in OS to do this
+                    Buddy.Actuators.Head.No.Stop();
+                    Buddy.Actuators.Head.No.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.No.Angle, -80F, 80F), Mathf.Clamp(Math.Abs(lAngle) * 10, 20F, 230F), AccDecMode.HIGH);
+                    mPreviousAngle = lAngle;
+
+                    Debug.LogWarning("Time between NO sent command " + (Time.time - mPreviousNoAngleTime));
+                    mPreviousNoAngleTime = Time.time;
+                } else if (!Buddy.Actuators.Head.No.IsBusy) {
+                    Buddy.Actuators.Head.No.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.No.Angle, -80F, 80F), Mathf.Clamp(Math.Abs(lAngle) * 10, 20F, 230F), AccDecMode.SMOOTH);
+                    mPreviousAngle = lAngle;
+
+                    Debug.LogWarning("Time between NO sent command " + (Time.time - mPreviousNoAngleTime));
+                    mPreviousNoAngleTime = Time.time;
                 }
             };
-            mRTMManager.OnHeadYes = (lAngle) =>
-            {
-                float lAngleNorm = Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, -10F, 37F);
-                //if(!Buddy.Actuators.Head.Yes.IsBusy)
-                if ((lAngleNorm > mTargetAngleYes && lAngle > 0 || lAngleNorm < mTargetAngleYes && lAngle < 0) && !Buddy.Actuators.Head.Yes.IsBusy)
-                {
-                    Buddy.Actuators.Head.Yes.SetPosition(lAngleNorm);
-                    mTargetAngleYes = lAngleNorm;
+            mRTMManager.OnHeadYes = (lAngle) => {
+                // If the user changes head direction
+                if (lAngle * mPreviousAngle < 0) {
+                    // Dirty way to clean the queue. Need new function in OS to do this
+                    Buddy.Actuators.Head.Yes.Stop();
+                    Buddy.Actuators.Head.Yes.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, -10F, 37F), Mathf.Clamp(Math.Abs(lAngle) * 4, 5F, 80F), AccDecMode.HIGH);
+                    Debug.LogWarning("Time between YES sent command " + (Time.time - mPreviousYesAngleTime));
+                    mPreviousYesAngleTime = Time.time;
+                    mPreviousAngle = lAngle;
+                } else if (!Buddy.Actuators.Head.Yes.IsBusy) {
+                    Buddy.Actuators.Head.Yes.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, -10F, 37F), Mathf.Clamp(Math.Abs(lAngle) * 4, 5F, 80F), AccDecMode.SMOOTH);
+                    mPreviousAngle = lAngle;
+                    Debug.LogWarning("Time between YES sent command " + (Time.time - mPreviousYesAngleTime));
+                    mPreviousYesAngleTime = Time.time;
                 }
             };
         }
@@ -161,8 +170,7 @@ namespace BuddyApp.CoursTelepresence
             () => {
                 Debug.Log("OK");
                 Buddy.GUI.Toaster.Hide();
-                if (DBManager.Instance.ListUIDTablet.Count > 1)
-                {
+                if (DBManager.Instance.ListUIDTablet.Count > 1) {
                     GetGameObject(21).SetActive(true);
                 }
 
@@ -179,7 +187,7 @@ namespace BuddyApp.CoursTelepresence
             mTimer = 0F;
             mTimerEndCall = 0F;
             mHideTime = -1F;
-             mHandUp = false;
+            mHandUp = false;
             Debug.LogError("call state");
             mTimeMessage = -1F;
             mTimeSinceMovement = Time.time;
@@ -206,7 +214,7 @@ namespace BuddyApp.CoursTelepresence
                         () => mHideTime = Time.time,
                         () => {
                             //TEST A PUSH
-                            mRTCManager.Leave(); 
+                            mRTCManager.Leave();
                             ManageGUIClose();
                             Trigger("IDLE");
                         }
@@ -251,10 +259,9 @@ namespace BuddyApp.CoursTelepresence
                 });
             };
 
-            mRTMManager.OnActivateZoom = (lZoom) =>
-              {
-                  mRTCManager.SendPicture(Buddy.Sensors.HDCamera.Frame.Texture);
-              };
+            mRTMManager.OnActivateZoom = (lZoom) => {
+                mRTCManager.SendPicture(Buddy.Sensors.HDCamera.Frame.Texture);
+            };
 
             mRTMManager.OnPictureReceived = (data) => mRTCManager.SetProfilePicture(data);
 
@@ -268,16 +275,17 @@ namespace BuddyApp.CoursTelepresence
 
         private void OnWheelsMotion(WheelsMotion iWheelsMotion)
         {
-             if (Math.Abs(iWheelsMotion.speed) < 0.2F)
-                 iWheelsMotion.speed = 0F;
+            //if (Math.Abs(iWheelsMotion.speed) < 0.1F)
+            //    iWheelsMotion.speed = 0F;
 
-             if (Math.Abs(iWheelsMotion.angularVelocity) < 0.2F)
-                 iWheelsMotion.angularVelocity = 0F;
+            //if (Math.Abs(iWheelsMotion.angularVelocity) < 0.1F)
+            //    iWheelsMotion.angularVelocity = 0F;
+
             mTimeSinceMovement = Time.time;
-            Debug.LogWarning("speed: "+ iWheelsMotion.speed+" angular: "+ iWheelsMotion.angularVelocity);
+            Debug.LogWarning("speed: " + iWheelsMotion.speed + " angular: " + iWheelsMotion.angularVelocity);
 
-            Buddy.Actuators.Wheels.SetVelocities(Wheels.MAX_LIN_VELOCITY * iWheelsMotion.speed/2F,
-                Wheels.MAX_ANG_VELOCITY * iWheelsMotion.angularVelocity/2F);
+            Buddy.Actuators.Wheels.SetVelocities(Wheels.MAX_LIN_VELOCITY * Mathf.Pow(iWheelsMotion.speed, 3),
+                Wheels.MAX_ANG_VELOCITY * Mathf.Pow(iWheelsMotion.angularVelocity, 3));
         }
 
         private bool IsPointerOverUIObject()
@@ -305,35 +313,30 @@ namespace BuddyApp.CoursTelepresence
             //    }
             //}
 
-            if (!Buddy.Actuators.Wheels.Locked && Time.time - mTimeSinceMovement > 0.5F)
-            {
+            if (!Buddy.Actuators.Wheels.Locked && Time.time - mTimeSinceMovement > 0.5F) {
                 Buddy.Actuators.Wheels.SetVelocities(0F, 0F);
                 mTimeSinceMovement = Time.time;
             }
 
-            if (DBManager.Instance.CanEndCourse)
-            {
+            if (DBManager.Instance.CanEndCourse) {
                 mTimerEndCall += Time.deltaTime;
-                if (!mEndCallDisplay)
-                {
+                if (!mEndCallDisplay) {
                     mEndCallDisplay = true;
-                    Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
-                    {
+                    Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
                         TText lText = iBuilder.CreateWidget<TText>();
                         lText.SetLabel(Buddy.Resources.GetString("eduendcall"));
                     }, null, null);
                 }
 
 
-                if (mTimerEndCall > 8F)
-                {
+                if (mTimerEndCall > 8F) {
                     Buddy.GUI.Toaster.Hide();
                     DBManager.Instance.CanEndCourse = false;
                     Trigger("IDLE");
                 }
             }
 
-            if(mHideTime > 0 && (Time.time - mHideTime > 2F))
+            if (mHideTime > 0 && (Time.time - mHideTime > 2F))
                 Buddy.GUI.Dialoger.Hide();
 
 
@@ -404,8 +407,7 @@ namespace BuddyApp.CoursTelepresence
             //ManageGUIClose();
             if (mTimeMessage >= 0)
                 StopMessage();
-            if (mHandUp)
-            {
+            if (mHandUp) {
                 StopRaiseHand();
             }
             Debug.LogError("call state exit");
@@ -458,9 +460,6 @@ namespace BuddyApp.CoursTelepresence
         //////////////// For Volume
         ///
 
-        private static AndroidJavaObject audioManager;
-        private float mHideTime;
-
         private static AndroidJavaObject deviceAudio
         {
             get
@@ -508,8 +507,7 @@ namespace BuddyApp.CoursTelepresence
 
         private void Lauchparameters()
         {
-            Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
-            {
+            Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
                 TText lTextVolume = iBuilder.CreateWidget<TText>();
                 lTextVolume.SetLabel("Réglage du volume");
                 mSliderVolume = iBuilder.CreateWidget<TSlider>();
@@ -525,10 +523,10 @@ namespace BuddyApp.CoursTelepresence
                 mToggleNavigationDynamic.SetLabel("Navigation Dynamique");
                 mToggleNavigationDynamic.ToggleValue = !mRTMManager.mStaticSteering;
                 mToggleNavigationDynamic.OnToggle.Add(SetNavigationDynamic);
-                
+
             },
            () => { Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.Get<Sprite>("os_icon_close", Context.OS),
-           () => { SaveParam();  Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.Get<Sprite>("os_icon_check", Context.OS)
+           () => { SaveParam(); Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.Get<Sprite>("os_icon_check", Context.OS)
           );
 
 
@@ -544,13 +542,10 @@ namespace BuddyApp.CoursTelepresence
 
         private void SetNavigationStatic(bool iValue)
         {
-            if (iValue)
-            {
+            if (iValue) {
                 mRTMManager.SwapSteering(true);
                 mToggleNavigationDynamic.ToggleValue = false;
-            }
-            else
-            {
+            } else {
                 mRTMManager.SwapSteering(false);
                 mToggleNavigationDynamic.ToggleValue = true;
             }
@@ -558,13 +553,10 @@ namespace BuddyApp.CoursTelepresence
 
         private void SetNavigationDynamic(bool iValue)
         {
-            if (iValue)
-            {
+            if (iValue) {
                 mRTMManager.SwapSteering(false);
                 mToggleNavigationStatic.ToggleValue = false;
-            }
-            else
-            {
+            } else {
                 mRTMManager.SwapSteering(true);
                 mToggleNavigationStatic.ToggleValue = true;
             }
@@ -580,8 +572,7 @@ namespace BuddyApp.CoursTelepresence
         public void UpdateVolume(float iValue)
         {
             float lValue = iValue / 100F;
-            if (Mathf.Abs(Buddy.Actuators.Speakers.Volume - lValue) > 0.05)
-            {
+            if (Mathf.Abs(Buddy.Actuators.Speakers.Volume - lValue) > 0.05) {
                 Debug.Log("PRE Volume set to " + Buddy.Actuators.Speakers.Volume);
                 Debug.Log("PRE slider set to " + lValue);
                 Buddy.Actuators.Speakers.Volume = lValue;

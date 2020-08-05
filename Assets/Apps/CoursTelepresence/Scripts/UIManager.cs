@@ -202,29 +202,26 @@ namespace BuddyApp.CoursTelepresence
         // TODO this is tmp for testing purpose
         public void BatteryButton()
         {
-            Debug.Log("Change top section");
-            if (Application.isEditor) {
-                Debug.Log("Change top section editor");
-                if (TopSection.pivot.y != 2.5F) {
-                    Debug.Log("Change top section pre " + TopSection.pivot.y);
-                    TopSection.pivot = new Vector2(TopSection.pivot.x, 2.5F);
-                } else {
-                    Debug.Log("Change top section pre " + TopSection.pivot.y);
-                    TopSection.pivot = new Vector3(TopSection.pivot.x, 1F);
-                }
-            } else {
-                Debug.Log("Change top section out of editor");
-                if (TopSection.pivot.y != 2.5F) {
-                    Debug.Log("Change top section pre " + TopSection.pivot.y);
-                    TopSection.pivot = new Vector2(TopSection.pivot.x, 2.5F);
-                } else {
-                    Debug.Log("Change top section pre " + TopSection.pivot.y);
-                    TopSection.pivot = new Vector3(TopSection.pivot.x, 1F);
-                }
+            //if (Application.isEditor) {
+            //    Debug.Log("Change top section editor");
+            //    if (TopSection.pivot.y != 2.5F) {
+            //        Debug.Log("Change top section pre " + TopSection.pivot.y);
+            //        TopSection.pivot = new Vector2(TopSection.pivot.x, 2.5F);
+            //    } else {
+            //        Debug.Log("Change top section pre " + TopSection.pivot.y);
+            //        TopSection.pivot = new Vector3(TopSection.pivot.x, 1F);
+            //    }
+            //} else {
+            //    Debug.Log("Change top section out of editor");
+            //    if (TopSection.pivot.y != 2.5F) {
+            //        Debug.Log("Change top section pre " + TopSection.pivot.y);
+            //        TopSection.pivot = new Vector2(TopSection.pivot.x, 2.5F);
+            //    } else {
+            //        Debug.Log("Change top section pre " + TopSection.pivot.y);
+            //        TopSection.pivot = new Vector3(TopSection.pivot.x, 1F);
+            //    }
 
-            }
-
-            Debug.Log("Change top section post " + TopSection.pivot.y);
+            //}
         }
 
         public void UpdateVolume(Slider lSlider)
