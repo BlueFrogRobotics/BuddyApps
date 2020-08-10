@@ -45,6 +45,7 @@ namespace BuddyApp.CoursTelepresence
         {
             //if (Buddy.GUI.Toaster.IsBusy)
             //    Buddy.GUI.Toaster.Hide();
+            
             if (DBManager.Instance.ListUIDTablet.Count > 1)
             {
                 GetGameObject(21).SetActive(true);
@@ -112,6 +113,7 @@ namespace BuddyApp.CoursTelepresence
             Buddy.Vocal.EnableTrigger = false;
             mRTMManager.OncallRequest = null;
             mCallButton.onClick.RemoveAllListeners();
+            ResetTrigger("IDLE");
             Debug.LogError("Idle state exit");
         }
 

@@ -203,7 +203,6 @@ namespace BuddyApp.CoursTelepresence
             {
                 GetGameObject(21).SetActive(true);
             }
-            
 
             mListDone = false;
             //Buddy.GUI.Toaster.Hide();
