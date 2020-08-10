@@ -45,7 +45,10 @@ namespace BuddyApp.CoursTelepresence
         {
             //if (Buddy.GUI.Toaster.IsBusy)
             //    Buddy.GUI.Toaster.Hide();
-           
+            if (DBManager.Instance.ListUIDTablet.Count > 1)
+            {
+                GetGameObject(21).SetActive(true);
+            }
             Buddy.GUI.Header.DisplayParametersButton(true);
             GetGameObject(17).SetActive(false);
             GetGameObject(20).SetActive(true);
@@ -64,7 +67,7 @@ namespace BuddyApp.CoursTelepresence
             NameStudent.GetComponent<Text>().text = DBManager.Instance.ListUserStudent[lIndexTab].Nom;
             FirstNameStudent.GetComponent<Text>().text = DBManager.Instance.ListUserStudent[lIndexTab].Prenom;
             ClassStudent.GetComponent<Text>().text = " - " + DBManager.Instance.ListUserStudent[lIndexTab].Organisme;
-            mRTMManager.OncallRequest = (CallRequest lCall) => { Trigger("INCOMING CALL"); };
+            mRTMManager.OncallRequest = (CallRequest lCall) => { Debug.LogError("*************TRIGGER INCOMING CALL"); Trigger("INCOMING CALL"); };
 
             // Manage trigger and vocal
            Buddy.Vocal.EnableTrigger = true;

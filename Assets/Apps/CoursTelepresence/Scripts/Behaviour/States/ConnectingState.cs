@@ -40,7 +40,7 @@ namespace BuddyApp.CoursTelepresence
             {
                 Destroy(mUsers[i]);
             }
-
+            mRTMManager.OnPingWithId = null;
             mListDone = false;
             Debug.LogError("<color=red>01 - connecting state  : </color>");
             DBManager.Instance.IsCheckPlanning = false;
@@ -77,7 +77,7 @@ namespace BuddyApp.CoursTelepresence
             mInputFilter.onValueChanged.AddListener(delegate { OnInputChanged(); });
             Buddy.GUI.Header.DisplayParametersButton(true);
             Debug.LogError("<color=red>08 - connecting state  : </color>");
-            mRTMManager.OnPingWithId = null;
+            
             mRTMManager.OnPingWithId = (lId) =>
             {
                 
@@ -115,8 +115,10 @@ namespace BuddyApp.CoursTelepresence
 
             mTimerRefreshPing += Time.deltaTime;
             //Debug.LogError("CONNECTING STATE : Peering - " + DBManager.Instance.Peering + " | info - " + DBManager.Instance.InfoRequestedDone + " | mListDone - " + mListDone + " | CanStartCourse - " + DBManager.Instance.CanStartCourse);
-            if (((DBManager.Instance.Peering && DBManager.Instance.InfoRequestedDone ) || DBManager.Instance.CanStartCourse) && CoursTelepresenceData.Instance.InitializeDone && !mListDone)
+            if (((DBManager.Instance.Peering && DBManager.Instance.InfoRequestedDone ) || DBManager.Instance.CanStartCourse) && CoursTelepresenceData.Instance.InitializeDone && !mListDone )
             {
+                Debug.LogError("<color=red>00 - IF CONNECTING STATE </color>");
+
                 Debug.LogError("<color=red>1 - IF CONNECTING STATE LISTUIDTABLET COUNT  : " + DBManager.Instance.ListUIDTablet.Count + "</color>");
                 //Buddy.GUI.Toaster.Hide();
                 if (DBManager.Instance.ListUIDTablet.Count == 1)
@@ -173,7 +175,7 @@ namespace BuddyApp.CoursTelepresence
                         
                         if (lTime > 5F)
                         {
-                        Debug.LogError("LTIME BEFORE UPDATE LIST USER " + lTime);
+                        Debug.LogError("*************LTIME BEFORE UPDATE LIST USER " + lTime + " DBMANAGER  LIST UID TABLET : " + DBManager.Instance.ListUIDTablet[i]);
                         mRTMManager.Ping(DBManager.Instance.ListUIDTablet[i], i);
                             mPingTime[i] = Time.time;
                             if (mPingStarted > 6F)
@@ -224,7 +226,8 @@ namespace BuddyApp.CoursTelepresence
             DBManager.Instance.IndexPlanning = iIndexList;
             DBManager.Instance.IsCheckPlanning = true;
             Debug.LogError("<color=green> FILLPLANING START : " + DBManager.Instance.ListUserStudent[iIndexList].Nom + " LIST UID TABLET : " + DBManager.Instance.ListUIDTablet[iIndexList] + " index list : " + iIndexList + "</color>");
-            GetGameObject(17).SetActive(false); 
+            GetGameObject(17).SetActive(false);
+            Debug.LogError("*************TRIGGER IDLE DANS CONNECTING STATE");
             Trigger("IDLE");
         }
 

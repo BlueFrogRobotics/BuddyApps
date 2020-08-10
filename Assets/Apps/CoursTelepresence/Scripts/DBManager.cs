@@ -132,6 +132,7 @@ namespace BuddyApp.CoursTelepresence
         public void StartDBManager()
         {
             Debug.LogError("<color=blue>01 - DBMANAGER  : </color>");
+            IsCheckPlanning = false;
             mNameRobot = "";
             LaunchDb = true;
             CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.LaunchDatabase;
@@ -624,15 +625,9 @@ namespace BuddyApp.CoursTelepresence
                         //}
                         break;
                     }
-
-
-
                 }
             }
-            
-
             //mStartUpdate = true;
-
         }
 
         private void CheckStartPlanning()

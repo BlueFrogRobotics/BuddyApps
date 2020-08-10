@@ -48,7 +48,7 @@ namespace BuddyApp.CoursTelepresence
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Debug.Log("Incoming call state");
+            Debug.LogError("Incoming call state");
 
             mHasExited = false;
 
@@ -65,8 +65,8 @@ namespace BuddyApp.CoursTelepresence
             Buddy.Vocal.StopAndClear();
             Buddy.Actuators.Speakers.Media.Play(mMusic);
             //Buddy.Vocal.SayKeyAndListen("incomingcall");
-
-            Buddy.Vocal.SayAndListen("tu as un appel de " + mCallingUserName.text + " veux-tu décrocher?", null, OnSpeechReco, OnSpeechError);
+            Debug.LogError("*************AVANT PHRASE APPEL DE XXX INCOMMINGCALL STATE");
+            Buddy.Vocal.SayAndListen("tu as un appel de " + mCallingUserName.text + " veux-tu décrocher?", null, OnSpeechReco, null);
             
            
         }
@@ -116,7 +116,7 @@ namespace BuddyApp.CoursTelepresence
             if (Time.time - mTimeRepeated <= REPEAT_TIME) {
                 if (!Buddy.Actuators.Speakers.Media.IsBusy)
                     Buddy.Actuators.Speakers.Media.Play(mMusic);
-                Buddy.Vocal.SayAndListen("tu as un appel de " + mCallingUserName.text + " veux-tu décrocher?");
+                Buddy.Vocal.SayAndListen("tu as un appel de " + mCallingUserName.text + " veux-tu décrocher?", null, OnSpeechReco, null);
 
             } else {
                 Buddy.GUI.Notifier.Display<SimpleNotification>().With("Appel manqué en provenance de " + mCallingUserName.text);
@@ -128,7 +128,7 @@ namespace BuddyApp.CoursTelepresence
         private void OnSpeechError(SpeechInputStatus iSpeechInputStatus)
         {
             if (iSpeechInputStatus.IsError) {
-                Debug.LogWarning("Error, restart listenning");
+                Debug.LogError("Error, restart listenning");
                 RestartListenning();
             }
         }
@@ -136,6 +136,7 @@ namespace BuddyApp.CoursTelepresence
         private void RejectCall()
         {
             Debug.LogError("RejectCall");
+            Debug.LogError("*************TRIGGER IDLE DANS INCOMMINGCALL STATE");
             Trigger("IDLE");
 
             Buddy.GUI.Toaster.Hide();
@@ -147,7 +148,8 @@ namespace BuddyApp.CoursTelepresence
 
         private void AcceptCall()
         {
-            Debug.Log("AcceptCall");
+            Debug.LogError("AcceptCall");
+            Debug.LogError("*************TRIGGER CALL DANS INCOMMINGCALL STATE");
             Trigger("CALL");
 
             Buddy.GUI.Toaster.Hide();

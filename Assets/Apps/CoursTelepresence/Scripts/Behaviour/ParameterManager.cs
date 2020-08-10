@@ -66,14 +66,15 @@ namespace BuddyApp.CoursTelepresence
 
                     mButtonVerify.OnClick.Add(() =>
                     {
+                        DBManager.Instance.StartDBManager();
                         mAnimator.SetTrigger("CONNECTING");
                         if (UIList.activeSelf)
                             UIList.SetActive(false);
-                        mRTMManager.OnPingWithId = null;
+                        //mRTMManager.OnPingWithId = null;
                         DBManager.Instance.IsRefreshButtonPushed = false;
                         if (CoursTelepresenceData.Instance.ConnectivityProblem != ConnectivityProblem.LaunchDatabase)
                             CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.LaunchDatabase;
-                        DBManager.Instance.StartDBManager();
+                        
                         //StartCoroutine(DBManager.Instance.RefreshPlanning());
                         CloseParameters();
                         //mAnimator.Play("CONNECTING");
