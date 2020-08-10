@@ -36,6 +36,7 @@ namespace BuddyApp.CoursTelepresence
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            
             for (int i = 0; i < mUsers.Count; i++)
             {
                 Destroy(mUsers[i]);
@@ -83,7 +84,7 @@ namespace BuddyApp.CoursTelepresence
                 
                 if (mTimerRefreshPing > 5F)
                 {
-                    Debug.LogError("TIMER REFRESH : " + mTimerRefreshPing);
+                    //Debug.LogError("TIMER REFRESH : " + mTimerRefreshPing);
                     UpdateListUsers(lId);
                     mTimerRefreshPing = 0F;
 
@@ -175,7 +176,7 @@ namespace BuddyApp.CoursTelepresence
                         
                         if (lTime > 5F)
                         {
-                        Debug.LogError("*************LTIME BEFORE UPDATE LIST USER " + lTime + " DBMANAGER  LIST UID TABLET : " + DBManager.Instance.ListUIDTablet[i]);
+                        //Debug.LogError("*************LTIME BEFORE UPDATE LIST USER " + lTime + " DBMANAGER  LIST UID TABLET : " + DBManager.Instance.ListUIDTablet[i]);
                         mRTMManager.Ping(DBManager.Instance.ListUIDTablet[i], i);
                             mPingTime[i] = Time.time;
                             if (mPingStarted > 6F)
@@ -215,6 +216,8 @@ namespace BuddyApp.CoursTelepresence
             mUsers.Clear();
             mPingTime.Clear();
             mInputFilter.onValueChanged.RemoveAllListeners();
+            ResetTriggerAnim("CONNECTING");
+            ResetTriggerAnim("INCOMING CALL");
             Debug.Log("Connecting state exit");
         }
 

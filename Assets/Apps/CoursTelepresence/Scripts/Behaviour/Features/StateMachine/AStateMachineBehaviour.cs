@@ -64,6 +64,16 @@ namespace BuddyApp.CoursTelepresence
         }
 
         /// <summary>
+        /// Reset the named trigger in the current animator
+        /// </summary>
+        /// <param name="iTriggerName"></param>
+        protected void ResetTriggerAnim(string iTriggerName)
+        {
+            //mAnimator.ResetTrigger(iTriggerName);
+            mGUIAnimator.ResetTrigger(iTriggerName);
+        }
+
+        /// <summary>
         /// Set the bool value of the named boolean
         /// </summary>
         /// <param name="iBoolName">The bool name to set</param>
