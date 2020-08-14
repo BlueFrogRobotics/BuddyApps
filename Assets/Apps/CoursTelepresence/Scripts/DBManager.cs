@@ -224,7 +224,7 @@ namespace BuddyApp.CoursTelepresence
                         }
                 }
             }
-            if (!CanStartCourse && IsCheckPlanning)
+            if (!CanStartCourse && IsCheckPlanning && CoursTelepresenceData.Instance.AllPlanning.Count > 0)
             {
                 CheckStartPlanning();
             }
@@ -383,6 +383,7 @@ namespace BuddyApp.CoursTelepresence
                                 string[] lOrgaSplit = lDeviceUserLiaison.UserOrganisme.Split('-');
                                 UserStudent.Organisme = lOrgaSplit[1].Trim();
                                 UserStudent.Planning = lDeviceUserLiaison.PlanningidPlanning;
+                                UserStudent.NeedPlanning = lDeviceUserLiaison.DeviceNeedPlanning;
                                 ListUserStudent.Add(UserStudent);
                                 ListUIDTablet.Add(lDeviceUserLiaison.DeviceUid);
                             }
@@ -432,14 +433,26 @@ namespace BuddyApp.CoursTelepresence
                 Debug.LogError("<color=blue>lLiaison : " + lLiaison.UserNom + " " + lLiaison.PlanningidPlanning + "</color>");
                 if (!string.IsNullOrEmpty(lLiaison.UserNom) /*&& !string.IsNullOrEmpty(lLiaison.PlanningidPlanning)*/ && !string.IsNullOrEmpty(lLiaison.UserPrenom) && lLiaison.UserNom == iName && lLiaison.UserPrenom == iFirstName)
                 {
-                    if(string.IsNullOrEmpty(lLiaison.PlanningidPlanning))
+
+                    if(string.IsNullOrEmpty(lLiaison.PlanningidPlanning) || lLiaison.PlanningidPlanning == " " || lLiaison.PlanningidPlanning == "")
                     {
-                        CoursTelepresenceData.Instance.AllPlanning.Add(" ");
                         Debug.LogError("<color=red> add empty all planning</color>");
+                        CoursTelepresenceData.Instance.AllPlanning.Add(" ");
                     }
-                    if(lLiaison.PlanningidPlanning.Contains(","))
+
+                    if(lLiaison.PlanningidPlanning.Contains(",") || !lLiaison.DeviceNeedPlanning)
                     {
-                        string[] lAllPlanning = lLiaison.PlanningidPlanning.Split(',');
+                        string[] lAllPlanning;
+                        if (!lLiaison.DeviceNeedPlanning)
+                        {
+                            List<string> lBuffer = new List<string>();
+                            DateTime lDateTimeNow = DateTime.Now;
+                            lBuffer.Add("000&" + lDateTimeNow + "&" + lDateTimeNow.AddDays(100)+ "& ");
+                            //Debug.LogError("000&" + lDateTimeNow + "&" + lDateTimeNow.AddDays(100) + "& ");
+                            lAllPlanning = lBuffer.ToArray();
+                        }
+                        else
+                            lAllPlanning = lLiaison.PlanningidPlanning.Split(',');
 
                         int index = 0;
                         lAllPlaningList.AddRange(lAllPlanning);
@@ -463,6 +476,7 @@ namespace BuddyApp.CoursTelepresence
 
                         if (lAllPlaningList.Count == 0)
                             return;
+
                         //FINIR ICI PARCE QUAUCUN PLANNING NE CORRESPOND A LA BONNE JOURNEE si count = 0
                         //SINON FAIRE LE RESTE et clear les list
                         lAllPlanning = lAllPlaningList.ToArray();
@@ -582,8 +596,17 @@ namespace BuddyApp.CoursTelepresence
                     }
                     else
                     {
-                       // string[] lSplitDate = lLiaison.PlanningidPlanning.Split('&');
-                        CoursTelepresenceData.Instance.AllPlanning.Add(lLiaison.PlanningidPlanning);
+                        // string[] lSplitDate = lLiaison.PlanningidPlanning.Split('&');
+                        if (!lLiaison.DeviceNeedPlanning)
+                        {
+                            string lPlanning;
+                            DateTime lDateTimeNow = DateTime.Now;
+                            lPlanning = "000&" + lDateTimeNow + "&" + lDateTimeNow.AddDays(100) + "& ";
+                            Debug.LogError("000&" + lDateTimeNow + "&" + lDateTimeNow.AddDays(100) + "& ");
+                            CoursTelepresenceData.Instance.AllPlanning.Add(lPlanning);
+                        }
+                        else
+                            CoursTelepresenceData.Instance.AllPlanning.Add(lLiaison.PlanningidPlanning);
                         //string[] lSplitDateDayMonth = lSplitDate[1].Split('-');
                         ////lSplitDate[1] start planning lSplitDate[2] end planning
                         //string lDateNow = DateTime.Now.ToString();
@@ -632,11 +655,13 @@ namespace BuddyApp.CoursTelepresence
 
         private void CheckStartPlanning()
         {
-            
-            if (!string.IsNullOrEmpty(CoursTelepresenceData.Instance.AllPlanning[0]))
-                Debug.LogError("<color=blue> DBMANAGER : CHECK START PLANNING : " + CoursTelepresenceData.Instance.AllPlanning.Count + "  all planing 0 : " + CoursTelepresenceData.Instance.AllPlanning[0] + "</color>");
-            else
-                Debug.LogError("<color=blue> DBMANAGER : CHECK START PLANNING ALL PLANING NULL</color>");
+            //Debug.LogError("<color=blue> DBMANAGER : CHECK START PLANNING");
+            //if (!string.IsNullOrEmpty(CoursTelepresenceData.Instance.AllPlanning[0]))
+            //    Debug.LogError("<color=blue> DBMANAGER : CHECK START PLANNING : " + CoursTelepresenceData.Instance.AllPlanning.Count + "  all planing 0 : " + CoursTelepresenceData.Instance.AllPlanning[0] + "</color>");
+            //else
+            //    Debug.LogError("<color=blue> DBMANAGER : CHECK START PLANNING ALL PLANING NULL</color>");
+
+            //Debug.LogError("<color=blue> DBMANAGER : CHECK START PLANNING 222222222");
             if (mPlanning && !CanStartCourse && !string.IsNullOrEmpty(CoursTelepresenceData.Instance.AllPlanning[0]) && CoursTelepresenceData.Instance.AllPlanning.Count > 0 && CoursTelepresenceData.Instance.AllPlanning[0] != " ") 
             {
                 string[] lSplitDate = CoursTelepresenceData.Instance.AllPlanning[0].Split('&');

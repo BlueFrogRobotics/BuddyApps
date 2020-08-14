@@ -127,6 +127,8 @@ namespace BuddyApp.CoursTelepresence
 
         private void OnSpeechError(SpeechInputStatus iSpeechInputStatus)
         {
+            Debug.LogError("incoming call : " + iSpeechInputStatus.Type.ToString());
+
             if (iSpeechInputStatus.IsError) {
                 Debug.LogError("Error, restart listenning");
                 RestartListenning();

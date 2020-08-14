@@ -64,6 +64,7 @@ namespace BuddyApp.CoursTelepresence
         public string Identifiant;
         public string Password;
         public string Planning;
+        public bool NeedPlanning;
 
     }
     [Serializable]
@@ -174,6 +175,9 @@ namespace BuddyApp.CoursTelepresence
 
         [JsonProperty(PropertyName = "Device.Nom")]
         public string DeviceNom;
+
+        [JsonProperty(PropertyName = "Device.Need_planning")]
+        public bool DeviceNeedPlanning;
 
         public string Groupes_fabricants;
 
