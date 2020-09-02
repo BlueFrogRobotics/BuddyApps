@@ -45,7 +45,8 @@ namespace BuddyApp.CoursTelepresence
         {
             //if (Buddy.GUI.Toaster.IsBusy)
             //    Buddy.GUI.Toaster.Hide();
-            
+            CoursTelepresenceData.Instance.CurrentState = CoursTelepresenceData.States.IDLE_STATE;
+            Buddy.Behaviour.Mood = Mood.NEUTRAL;
             if (DBManager.Instance.ListUIDTablet.Count > 1)
             {
                 GetGameObject(21).SetActive(true);
@@ -100,6 +101,7 @@ namespace BuddyApp.CoursTelepresence
             Debug.LogWarning("Join channel " + mChannelId + " waiting for tablet answer");
             Trigger("CALLING");
             mRTCManager.Join(mChannelId);
+            Debug.LogError("<color=blue> IDLE NAME PROF : " + DBManager.Instance.NameProf + "</color>");
             mRTMManager.RequestConnexion(mChannelId, DBManager.Instance.NameProf);
         }
 

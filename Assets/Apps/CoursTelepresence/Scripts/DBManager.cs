@@ -447,7 +447,8 @@ namespace BuddyApp.CoursTelepresence
                         {
                             List<string> lBuffer = new List<string>();
                             DateTime lDateTimeNow = DateTime.Now;
-                            lBuffer.Add("000&" + lDateTimeNow + "&" + lDateTimeNow.AddDays(100)+ "& ");
+                            lBuffer.Add("000&" + lDateTimeNow + "&" + lDateTimeNow.AddDays(100)+ "&");
+                            Debug.LogError("<color=blue>000&" + lDateTimeNow + "&" + lDateTimeNow.AddDays(100) + "&" + "</color>");
                             //Debug.LogError("000&" + lDateTimeNow + "&" + lDateTimeNow.AddDays(100) + "& ");
                             lAllPlanning = lBuffer.ToArray();
                         }
@@ -546,6 +547,8 @@ namespace BuddyApp.CoursTelepresence
 
                                 for (int k = 0; k < CoursTelepresenceData.Instance.AllPlanning.Count; ++k)
                                 {
+                                if (CoursTelepresenceData.Instance.AllPlanning[k] == " ")
+                                    CoursTelepresenceData.Instance.AllPlanning.RemoveAt(k);
                                     Debug.LogError("<color=red> COURS TELEPRESENCE DATA ALL PLANING  : " + CoursTelepresenceData.Instance.AllPlanning[k] + "</color>");
                                 }
                             }
@@ -601,8 +604,8 @@ namespace BuddyApp.CoursTelepresence
                         {
                             string lPlanning;
                             DateTime lDateTimeNow = DateTime.Now;
-                            lPlanning = "000&" + lDateTimeNow + "&" + lDateTimeNow.AddDays(100) + "& ";
-                            Debug.LogError("000&" + lDateTimeNow + "&" + lDateTimeNow.AddDays(100) + "& ");
+                            lPlanning = "000&" + lDateTimeNow + "&" + lDateTimeNow.AddDays(100) + "&";
+                            Debug.LogError("000&" + lDateTimeNow + "&" + lDateTimeNow.AddDays(100) + "&");
                             CoursTelepresenceData.Instance.AllPlanning.Add(lPlanning);
                         }
                         else
@@ -661,24 +664,35 @@ namespace BuddyApp.CoursTelepresence
             //else
             //    Debug.LogError("<color=blue> DBMANAGER : CHECK START PLANNING ALL PLANING NULL</color>");
 
-            //Debug.LogError("<color=blue> DBMANAGER : CHECK START PLANNING 222222222");
+            //Debug.LogError("<color=blue> DBMANAGER : CHECK START PLANNING 222222222</color>");
             if (mPlanning && !CanStartCourse && !string.IsNullOrEmpty(CoursTelepresenceData.Instance.AllPlanning[0]) && CoursTelepresenceData.Instance.AllPlanning.Count > 0 && CoursTelepresenceData.Instance.AllPlanning[0] != " ") 
             {
                 string[] lSplitDate = CoursTelepresenceData.Instance.AllPlanning[0].Split('&');
+                for(int k = 0; k < lSplitDate.Length; ++k)
+                {
+                    Debug.LogError("<color=blue> CHECK START PLANNING all split date: " + lSplitDate[k] + "</color>");
+                }
                 Planning mCurrentPlanning = new Planning();
                 mCurrentPlanning.Date_Debut = lSplitDate[1];
                 mCurrentPlanning.Date_Fin = lSplitDate[2];
-                if (lSplitDate.Length > 3 && !string.IsNullOrEmpty(lSplitDate[3]))
+                mCurrentPlanning.Prof = mRobotName;
+                if (lSplitDate.Length > 3 /*&& !string.IsNullOrEmpty(lSplitDate[3])*/)
                 {
-                    mCurrentPlanning.Prof = lSplitDate[3];
+                    if (/*lSplitDate[3] != " "*/!string.IsNullOrEmpty(lSplitDate[3]))
+                        mCurrentPlanning.Prof = lSplitDate[3];
+                    else
+                        mCurrentPlanning.Prof = mRobotName;
+                    Debug.LogError("<color=blue> DBMANAGER : CHECK START PLANNING NAME PROF SI PLANNING: " + mCurrentPlanning.Prof + "</color>");
                 } 
-                else
+                else if(/*string.IsNullOrEmpty(lSplitDate[3])*/lSplitDate.Length <= 3)
                 {
                     mCurrentPlanning.Prof = mRobotName;
+                    Debug.LogError("<color=blue> DBMANAGER : CHECK START PLANNING NAME PROF SI NO PLANNING: " + mCurrentPlanning.Prof + "</color>");
                 }
                 //Debug.LogError("<color=red> ARRAY  : " + mPlanningNextCourse.Date_Debut + "</color>");
                 if (!string.IsNullOrEmpty(mCurrentPlanning.Date_Debut) && !string.IsNullOrEmpty(mCurrentPlanning.Date_Fin))
                 {
+                   
                     DateTime lDateNow = DateTime.Now;
                     DateTime lPlanningStart = DateTime.ParseExact(mCurrentPlanning.Date_Debut.Replace("-", "/"), "dd/MM/yyyy HH:mm:ss", mProviderFR);
                     TimeSpan lSpan = lPlanningStart.Subtract(lDateNow);
@@ -690,7 +704,7 @@ namespace BuddyApp.CoursTelepresence
                         NameProf = "";
                         
 
-                    //Debug.LogError("<color=red> START COURSE IN : " + lSpan.TotalMinutes + "</color>");
+                    Debug.LogError("<color=red> START COURSE IN : " + lSpan.TotalMinutes + " lPlanningStart : " + lPlanningStart + "</color>");
                     //Debug.LogError("planning start: " + lPlanningStart + "date now" + lDateNow);
 
                     if (lSpan.TotalMinutes < 0F)

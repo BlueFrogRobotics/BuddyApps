@@ -457,8 +457,17 @@ namespace BuddyApp.CoursTelepresence
                         else
                         {
                             bool lAvailable = true;
-                            if (mAnimator.GetCurrentAnimatorStateInfo(0).IsName("INCOMING CALL") || mAnimator.GetCurrentAnimatorStateInfo(0).IsName("CALL") || mAnimator.GetCurrentAnimatorStateInfo(0).IsName("CALLING"))
+                            if (CoursTelepresenceData.Instance.CurrentState == CoursTelepresenceData.States.INCOMMING_CALL_STATE || CoursTelepresenceData.Instance.CurrentState == CoursTelepresenceData.States.CALL_STATE || CoursTelepresenceData.Instance.CurrentState == CoursTelepresenceData.States.CALLING_STATE)
+                            {
                                 lAvailable = false;
+                                Debug.LogError("%%%%%%%%%%%%%%%%%%%%  LAVAILABLE BOOL : " + lAvailable);
+                            }
+                            else if(CoursTelepresenceData.Instance.CurrentState == CoursTelepresenceData.States.IDLE_STATE)
+                            {
+                                lAvailable = true;
+                                Debug.LogError("%%%%%%%%%%%%%%%%%%%%  LAVAILABLE BOOL : " + lAvailable);
+                            }
+
                             SendRTMMessage(Utils.SerializeJSON(
                                 new JsonMessage("informAvailable", lAvailable.ToString())));
                         }

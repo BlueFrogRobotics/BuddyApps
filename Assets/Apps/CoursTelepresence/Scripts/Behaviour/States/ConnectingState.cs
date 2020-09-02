@@ -36,7 +36,7 @@ namespace BuddyApp.CoursTelepresence
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            
+            CoursTelepresenceData.Instance.CurrentState = CoursTelepresenceData.States.CONNECTING_STATE;
             for (int i = 0; i < mUsers.Count; i++)
             {
                 Destroy(mUsers[i]);
