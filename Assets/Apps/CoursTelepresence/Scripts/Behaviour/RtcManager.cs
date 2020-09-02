@@ -91,7 +91,7 @@ namespace BuddyApp.CoursTelepresence
             // TODO uncomment to Change camera
             //Buddy.Sensors.RGBCamera.Open(RGBCameraMode.COLOR_320X240_15FPS_RGB);
             //Buddy.Sensors.RGBCamera.OnNewFrame.Add(UpdateVideoFrame);
-
+            
             mRtcEngine.OnRemoteVideoStateChanged = OnRemoteVideoStateChanged;
             mRtcEngine.OnJoinChannelSuccess = OnJoinChannelSuccess;
             mRtcEngine.OnUserJoined = OnUserJoined;
@@ -447,7 +447,25 @@ namespace BuddyApp.CoursTelepresence
         private void OnJoinChannelSuccess(string channelName, uint uid, int elapsed)
         {
             Debug.Log("JoinChannelSuccessHandler: uid = " + uid);
+            //mRtcEngine.EnableDualStreamMode(true);
+            //mRtcEngine.SetLocalPublishFallbackOption(STREAM_FALLBACK_OPTIONS.STREAM_FALLBACK_OPTION_AUDIO_ONLY);
+            mRtcEngine.OnNetworkQuality += (ID, TX, RX) => QualityCheck(ID, TX, RX);
             mUid = uid;
+        }
+
+        private void QualityCheck(uint iID, int iTX, int iRX)
+        {
+            
+            if((iTX == 6 || iRX == 6) && iID != 0)
+            {
+                //Debug.LogError("$$$$$$$$$$$$$$$$$$$$$ ID : " + iID + " $$$$$$ ITX : " + iTX + " $$$$$$$$$$ IRX : " + iRX);
+                CoursTelepresenceData.Instance.IsQualityNetworkGood = false;
+            }
+            else
+            {
+                //Debug.LogError("$$$$$$$$$$$$$$$$$$$$$ ID : " + iID + " $$$$$$ ITX : " + iTX + " $$$$$$$$$$ IRX : " + iRX);
+                CoursTelepresenceData.Instance.IsQualityNetworkGood = true;
+            }
         }
 
         private void OnError(int iIdError, string iMessage)

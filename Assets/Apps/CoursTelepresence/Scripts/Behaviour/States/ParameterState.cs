@@ -23,7 +23,7 @@ namespace BuddyApp.CoursTelepresence
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-           
+            CoursTelepresenceData.Instance.CurrentState = CoursTelepresenceData.States.PARAMETER_STATE;
             Buddy.GUI.Header.DisplayParametersButton(true);
             Buddy.GUI.Header.OnClickParameters.Add(() => { TriggerState("IDLE"); });
 

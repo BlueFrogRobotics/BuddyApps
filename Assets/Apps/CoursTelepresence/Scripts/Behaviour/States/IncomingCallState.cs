@@ -49,7 +49,7 @@ namespace BuddyApp.CoursTelepresence
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.LogError("Incoming call state");
-
+            CoursTelepresenceData.Instance.CurrentState = CoursTelepresenceData.States.INCOMMING_CALL_STATE;
             mHasExited = false;
 
             mTimeRepeated = Time.time;

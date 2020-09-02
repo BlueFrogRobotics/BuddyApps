@@ -42,7 +42,7 @@ namespace BuddyApp.CoursTelepresence
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.LogError("calling state");
-
+            CoursTelepresenceData.Instance.CurrentState = CoursTelepresenceData.States.CALLING_STATE;
             mTimeState = Time.time;
 
             mRTMManager.OncallRequestAnswer = (lCallAnswer) => {

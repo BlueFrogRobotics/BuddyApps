@@ -183,6 +183,7 @@ namespace BuddyApp.CoursTelepresence
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            CoursTelepresenceData.Instance.CurrentState = CoursTelepresenceData.States.CALL_STATE;
             mSliderVolumeEnabled = false;
             mTimer = 0F;
             mTimerEndCall = 0F;
@@ -340,7 +341,7 @@ namespace BuddyApp.CoursTelepresence
                 Buddy.GUI.Dialoger.Hide();
 
 
-            if (!Buddy.WebServices.HasInternetAccess) {
+            if (!CoursTelepresenceData.Instance.IsQualityNetworkGood) {
                 mTimer += Time.deltaTime;
                 if (mTimer >= 30F && !mDisplayed) {
                     mDisplayed = true;

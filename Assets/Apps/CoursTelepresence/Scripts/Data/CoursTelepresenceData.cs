@@ -19,7 +19,21 @@ namespace BuddyApp.CoursTelepresence
 
         public bool InitializeDone { get; set; } 
 
+        public bool IsQualityNetworkGood { get; set; }
+
         public List<string> AllPlanning { get; set; }
+
+        public enum States
+        {
+            CALLING_STATE,
+            CALL_STATE,
+            CONNECTING_STATE,
+            IDLE_STATE,
+            INCOMMING_CALL_STATE,
+            PARAMETER_STATE
+        }
+
+        public States CurrentState { get; set; }
         /*
          * Data singleton access
          */
