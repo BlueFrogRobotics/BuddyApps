@@ -12,8 +12,6 @@ namespace BuddyApp.CoursTelepresence
     {
         private const float REPEAT_TIME = 60F;
 
-
-        // Custom Toast - UI to choose between accept or reject the call
         private AudioClip mMusic;
         private Text mCallingUserName;
         private Text mCallingUserClass;
@@ -28,7 +26,6 @@ namespace BuddyApp.CoursTelepresence
 
         override public void Start()
         {
-            // This returns the GameObject named RTMCom.
             mRTCManager = GetComponent<RTCManager>();
             mRTMManager = GetComponent<RTMManager>();
 
@@ -48,27 +45,17 @@ namespace BuddyApp.CoursTelepresence
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Debug.LogError("Incoming call state");
             CoursTelepresenceData.Instance.CurrentState = CoursTelepresenceData.States.INCOMMING_CALL_STATE;
             mHasExited = false;
 
             mTimeRepeated = Time.time;
-
-            // Start Call coroutine & Notification repeater
-
             if (mRTMManager.mCallRequest == null || string.IsNullOrWhiteSpace(mRTMManager.mCallRequest.userName))
                 mCallingUserName.text = "Inconnu";
             else
                 mCallingUserName.text = mRTMManager.mCallRequest.userName;
-
-
             Buddy.Vocal.StopAndClear();
             Buddy.Actuators.Speakers.Media.Play(mMusic);
-            //Buddy.Vocal.SayKeyAndListen("incomingcall");
-            Debug.LogError("*************AVANT PHRASE APPEL DE XXX INCOMMINGCALL STATE");
             Buddy.Vocal.SayAndListen("tu as un appel de " + mCallingUserName.text + " veux-tu décrocher?", null, OnSpeechReco, null);
-            
-           
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
@@ -80,17 +67,13 @@ namespace BuddyApp.CoursTelepresence
             }
         }
 
-
-
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Debug.LogError("Incoming call state exit");
             Buddy.GUI.Toaster.Hide();
             Buddy.Vocal.OnEndListening.Clear();
             Buddy.Vocal.StopAndClear();
             Buddy.Actuators.Speakers.Media.Stop();
         }
-
 
         private void OnSpeechReco(SpeechInput iSpeechInput)
         {
@@ -101,12 +84,10 @@ namespace BuddyApp.CoursTelepresence
                 AcceptCall();
             else if (Utils.GetRealStartRule(iSpeechInput.Rule) == "no")
             {
-                Debug.LogError("Incoming no");
                 RejectCall();
             }
             else
             {
-                Debug.LogWarning("Wrong rule, restart listenning");
                 RestartListenning();
             }
         }
@@ -120,27 +101,20 @@ namespace BuddyApp.CoursTelepresence
 
             } else {
                 Buddy.GUI.Notifier.Display<SimpleNotification>().With("Appel manqué en provenance de " + mCallingUserName.text);
-                Debug.LogError("Incoming restart");
                 RejectCall();
             }
         }
 
         private void OnSpeechError(SpeechInputStatus iSpeechInputStatus)
         {
-            Debug.LogError("incoming call : " + iSpeechInputStatus.Type.ToString());
-
             if (iSpeechInputStatus.IsError) {
-                Debug.LogError("Error, restart listenning");
                 RestartListenning();
             }
         }
 
         private void RejectCall()
         {
-            Debug.LogError("RejectCall");
-            Debug.LogError("*************TRIGGER IDLE DANS INCOMMINGCALL STATE");
             Trigger("IDLE");
-
             Buddy.GUI.Toaster.Hide();
             Buddy.Vocal.OnEndListening.Clear();
             Buddy.Vocal.StopAndClear();
@@ -150,8 +124,6 @@ namespace BuddyApp.CoursTelepresence
 
         private void AcceptCall()
         {
-            Debug.LogError("AcceptCall");
-            Debug.LogError("*************TRIGGER CALL DANS INCOMMINGCALL STATE");
             Trigger("CALL");
 
             Buddy.GUI.Toaster.Hide();
@@ -160,7 +132,6 @@ namespace BuddyApp.CoursTelepresence
             Buddy.Actuators.Speakers.Media.Stop();
             mRTMManager.AnswerCallRequest(true);
             mRTCManager.Join(mRTMManager.mCallRequest.channelId);
-            Debug.LogWarning("joining channel from incoming call " + mRTMManager.mCallRequest.channelId);
         }
     }
 }

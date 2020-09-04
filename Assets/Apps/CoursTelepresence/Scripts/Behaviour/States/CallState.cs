@@ -67,18 +67,10 @@ namespace BuddyApp.CoursTelepresence
             Hangup = GetGameObject(9).GetComponentInChildren<Button>();
             Message = GetGameObject(11).GetComponentInChildren<Text>();
             VideoFeedbackImage = GetGameObject(12).GetComponentInChildren<RawImage>().gameObject;
-
-
             mRTCManager.InitButtons();
-
-
-
             VolumeScrollbar.onValueChanged.AddListener(
                 (lValue) => {
-                    Debug.LogWarning("PRE Volume call" + GetCallVolume());
-                    Debug.LogWarning("PRE Volume call set to " + lValue);
                     SetCallVolume(lValue);
-                    Debug.LogWarning("POST Volume call set to " + GetCallVolume());
                     mTimeVolume = Time.time;
                 });
 
@@ -89,7 +81,6 @@ namespace BuddyApp.CoursTelepresence
                     Volume.gameObject.SetActive(false);
                     VolumeScrollbar.gameObject.SetActive(true);
                     mTimeVolume = Time.time;
-                    // TODO update button image
                 }
                 );
 
@@ -106,7 +97,6 @@ namespace BuddyApp.CoursTelepresence
             mRTMManager.OnHeadNoAbsolute = Buddy.Actuators.Head.No.SetPosition;
             mRTMManager.OnHeadYesAbsolute = Buddy.Actuators.Head.Yes.SetPosition;
             mRTMManager.OnHeadNo = (lAngle) => {
-                // If the user changes head direction
                 if (lAngle * mPreviousAngle < 0) {
                     // Dirty way to clean the queue. Need new function in OS to do this
                     Buddy.Actuators.Head.No.Stop();
@@ -143,17 +133,13 @@ namespace BuddyApp.CoursTelepresence
 
         private void OnFeedBackButtonClick()
         {
-            Debug.LogWarning("FeedbackButtonclicked");
             if (GetGameObject(12).activeInHierarchy) {
-                Debug.LogWarning("Atlas_Education_IconOpenFeedback");
                 GetGameObject(12).SetActive(false);
                 VideoFeedbackIcon.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconOpenFeedback");
 
             } else {
-                Debug.LogWarning("Atlas_Education_IconCloseFeedback");
                 GetGameObject(12).SetActive(true);
                 VideoFeedbackIcon.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconCloseFeedback");
-
             }
         }
 
@@ -173,8 +159,6 @@ namespace BuddyApp.CoursTelepresence
                 if (DBManager.Instance.ListUIDTablet.Count > 1) {
                     GetGameObject(21).SetActive(true);
                 }
-
-                //Réafficher l'écran de démarrage
                 ManageGUIClose();
                 Trigger("IDLE");
             }, "OK"
@@ -189,37 +173,33 @@ namespace BuddyApp.CoursTelepresence
             mTimerEndCall = 0F;
             mHideTime = -1F;
             mHandUp = false;
-            Debug.LogError("call state");
             mTimeMessage = -1F;
             mTimeSinceMovement = Time.time;
             Buddy.GUI.Header.DisplayParametersButton(true);
-            //Buddy.GUI.Header.OnClickParameters.Add(Lauchparameters);
             VideoSurface lVideoSurface = VideoFeedbackImage.AddComponent<VideoSurface>();
             lVideoSurface.SetForUser(0);
             lVideoSurface.SetEnable(true);
             lVideoSurface.SetVideoSurfaceType(AgoraVideoSurfaceType.RawImage);
             lVideoSurface.SetGameFps(30);
-            //lVideoSurface.EnableFilpTextureApply(false, true);
 
             GetGameObject(12).SetActive(true);
             GetGameObject(18).SetActive(true);
             VideoFeedbackIcon.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconCloseFeedback");
 
             mRTCManager.OnEndUserOffline = () => Buddy.GUI.Dialoger.Display<IconToast>("Communication coupée").
-                    With(Buddy.Resources.Get<Sprite>("os_icon_phoneoff_big"),
-                        () => {
-                            ManageGUIClose();
-                            Trigger("IDLE");
-                            Buddy.GUI.Dialoger.Hide();
-                        },
-                        () => mHideTime = Time.time,
-                        () => {
-                            //TEST A PUSH
-                            mRTCManager.Leave();
-                            ManageGUIClose();
-                            Trigger("IDLE");
-                        }
-                        );
+            With(Buddy.Resources.Get<Sprite>("os_icon_phoneoff_big"),
+                () => {
+                    ManageGUIClose();
+                    Trigger("IDLE");
+                    Buddy.GUI.Dialoger.Hide();
+                },
+                () => mHideTime = Time.time,
+                () => {
+                    mRTCManager.Leave();
+                    ManageGUIClose();
+                    Trigger("IDLE");
+                }
+                );
 
             mRTMManager.OnDisplayMessage = (lMessage) => {
                 Message.text = lMessage;
@@ -235,28 +215,22 @@ namespace BuddyApp.CoursTelepresence
                 if (lHandUp) {
                     if (mTimeMessage > 0F)
                         StopMessage();
-
-                    Debug.LogWarning("Start raising hand");
                     mHandUp = true;
                     Buddy.Actuators.LEDs.FlashIntensity = 0.03F;
                     Buddy.Actuators.LEDs.SetBodyLights(60, 100, 93);
                     Buddy.Actuators.LEDs.SetBodyPattern(LEDPulsePattern.BASIC_BLINK);
                     TriggerGUI("HANDSUP START");
+                    ResetTrigger("HANDSUP START");
                 } else {
                     StopRaiseHand();
                 }
             };
 
             mRTMManager.OnSpeechMessage = (lMessage) => {
-                Debug.LogWarning("Buddy Say " + lMessage);
                 float lCallVolume = GetCallVolume();
-                Debug.LogWarning("Buddy Say volume previous " + lCallVolume);
                 SetCallVolume(0F);
-                Debug.LogWarning("Buddy Say volume during " + lCallVolume);
                 Buddy.Vocal.Say(lMessage, (lOutput) => {
-                    Debug.LogWarning("End speaking " + GetCallVolume());
                     SetCallVolume(lCallVolume);
-                    Debug.LogWarning("End speaking " + GetCallVolume());
                 });
             };
 
@@ -271,20 +245,11 @@ namespace BuddyApp.CoursTelepresence
             Micro.gameObject.SetActive(true);
             VideoFeedbackButton.gameObject.SetActive(true);
             Hangup.gameObject.SetActive(true);
-
         }
 
         private void OnWheelsMotion(WheelsMotion iWheelsMotion)
         {
-            //if (Math.Abs(iWheelsMotion.speed) < 0.1F)
-            //    iWheelsMotion.speed = 0F;
-
-            //if (Math.Abs(iWheelsMotion.angularVelocity) < 0.1F)
-            //    iWheelsMotion.angularVelocity = 0F;
-
             mTimeSinceMovement = Time.time;
-            Debug.LogWarning("speed: " + iWheelsMotion.speed + " angular: " + iWheelsMotion.angularVelocity);
-
             Buddy.Actuators.Wheels.SetVelocities(Wheels.MAX_LIN_VELOCITY * Mathf.Pow(iWheelsMotion.speed, 3),
                 Wheels.MAX_ANG_VELOCITY * Mathf.Pow(iWheelsMotion.angularVelocity, 3));
         }
@@ -301,19 +266,6 @@ namespace BuddyApp.CoursTelepresence
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-
-            //if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began && mSliderVolumeEnabled)
-            //{
-            //    // Check if finger is over a UI element
-            //    if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
-            //    {
-            //        Debug.Log("Touched the UI");
-            //        VolumeScrollbar.gameObject.SetActive(false);
-            //        Volume.gameObject.SetActive(true);
-            //        mSliderVolumeEnabled = false;
-            //    }
-            //}
-
             if (!Buddy.Actuators.Wheels.Locked && Time.time - mTimeSinceMovement > 0.5F) {
                 Buddy.Actuators.Wheels.SetVelocities(0F, 0F);
                 mTimeSinceMovement = Time.time;
@@ -380,7 +332,6 @@ namespace BuddyApp.CoursTelepresence
                 Volume.gameObject.SetActive(true);
             }
 
-
             if (mRTCManager.mVideoIsEnabled && !VideoFeedbackButton.gameObject.activeInHierarchy) {
                 GetGameObject(12).SetActive(true);
                 VideoFeedbackButton.gameObject.SetActive(true);
@@ -389,7 +340,6 @@ namespace BuddyApp.CoursTelepresence
                 GetGameObject(12).SetActive(false);
                 VideoFeedbackButton.gameObject.SetActive(false);
             }
-
 
             if (!mRTMManager.mStaticSteering)
                 if (Math.Abs(Buddy.Actuators.Head.No.Angle) > 5 && !Buddy.Actuators.Head.IsBusy) {
@@ -404,21 +354,16 @@ namespace BuddyApp.CoursTelepresence
         {
             Buddy.Actuators.Wheels.Stop();
             Buddy.GUI.Toaster.Hide();
-            //Buddy.GUI.Header.OnClickParameters.Clear();
-            //ManageGUIClose();
             if (mTimeMessage >= 0)
                 StopMessage();
             if (mHandUp) {
                 StopRaiseHand();
             }
-            Debug.LogError("call state exit");
-            //mRTMManager.Logout();
             mRTMManager.OnDisplayMessage = null;
             mRTMManager.OnSpeechMessage = null;
             mRTCManager.Leave();
             Destroy(VideoFeedbackImage.GetComponent<VideoSurface>());
             VideoFeedbackImage.GetComponent<RawImage>().texture = null;
-            //mRTCManager.DestroyRTC();
             VolumeScrollbar.gameObject.SetActive(false);
             Volume.gameObject.SetActive(false);
             Video.gameObject.SetActive(false);
@@ -427,18 +372,15 @@ namespace BuddyApp.CoursTelepresence
             GetGameObject(12).SetActive(false);
             Hangup.gameObject.SetActive(false);
             GetGameObject(18).SetActive(false);
-            Debug.LogError("fin call state exit");
         }
-
-
 
         private void StopRaiseHand()
         {
             mHandUp = false;
             TriggerGUI("HANDSUP END");
+            ResetTrigger("HANDSUP END");
             Buddy.Actuators.LEDs.Flash = false;
             Buddy.Behaviour.SetMood(Mood.NEUTRAL);
-            Debug.LogWarning("Stop raising hand");
         }
 
         private void StopMessage()
@@ -456,7 +398,6 @@ namespace BuddyApp.CoursTelepresence
             if (mDisplayed)
                 Buddy.GUI.Toaster.Hide();
         }
-
 
         //////////////// For Volume
         ///
@@ -527,18 +468,11 @@ namespace BuddyApp.CoursTelepresence
 
             },
            () => { Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.Get<Sprite>("os_icon_close", Context.OS),
-           () => { SaveParam(); Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.Get<Sprite>("os_icon_check", Context.OS)
+           () => { Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.Get<Sprite>("os_icon_check", Context.OS)
           );
-
 
             Buddy.GUI.Header.OnClickParameters.Clear();
             Buddy.GUI.Header.OnClickParameters.Add(CloseParameters);
-        }
-
-
-        private void SaveParam()
-        {
-
         }
 
         private void SetNavigationStatic(bool iValue)
@@ -574,15 +508,8 @@ namespace BuddyApp.CoursTelepresence
         {
             float lValue = iValue / 100F;
             if (Mathf.Abs(Buddy.Actuators.Speakers.Volume - lValue) > 0.05) {
-                Debug.Log("PRE Volume set to " + Buddy.Actuators.Speakers.Volume);
-                Debug.Log("PRE slider set to " + lValue);
                 Buddy.Actuators.Speakers.Volume = lValue;
-                //if (!Buddy.Actuators.Speakers.IsBusy)
-                //    Buddy.Actuators.Speakers.Effects.Play(SoundSample.BEEP_1);
-                Debug.Log("POST Volume set to " + Buddy.Actuators.Speakers.Volume);
             }
         }
     }
-
-
 }

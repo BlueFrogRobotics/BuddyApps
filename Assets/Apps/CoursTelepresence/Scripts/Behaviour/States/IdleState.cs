@@ -24,27 +24,20 @@ namespace BuddyApp.CoursTelepresence
 
         override public void Start()
         {
-            // This returns the GameObject named RTMCom.
             mRTMManager = GetComponent<RTMManager>();
             mRTCManager = GetComponent<RTCManager>();
            
             mCallButton = GetGameObject(10).GetComponent<Button>();
             mChannelId = Buddy.Platform.RobotUID+RandomString(10);
-            Debug.Log("channel");
-            Debug.Log(mChannelId);
 
             Buddy.Vocal.DefaultInputParameters.Grammars = new string[1] { "grammar" };
             Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
             Buddy.Vocal.DefaultInputParameters.RecognitionThreshold = 5000;
             Buddy.Vocal.OnTrigger.Add((lHotWord) => Buddy.Vocal.Listen("grammar", OnEndListen, SpeechRecognitionMode.GRAMMAR_ONLY));
-
         }
-
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            //if (Buddy.GUI.Toaster.IsBusy)
-            //    Buddy.GUI.Toaster.Hide();
             CoursTelepresenceData.Instance.CurrentState = CoursTelepresenceData.States.IDLE_STATE;
             Buddy.Behaviour.Mood = Mood.NEUTRAL;
             if (DBManager.Instance.ListUIDTablet.Count > 1)
@@ -54,7 +47,6 @@ namespace BuddyApp.CoursTelepresence
             Buddy.GUI.Header.DisplayParametersButton(true);
             GetGameObject(17).SetActive(false);
             GetGameObject(20).SetActive(true);
-            //Buddy.GUI.Header.OnClickParameters.Add(() => { Trigger("PARAMETERS"); });
             mAddListenerButtonCall = false;
             mCallButton.gameObject.SetActive(true);
             Color lColor;
@@ -64,17 +56,13 @@ namespace BuddyApp.CoursTelepresence
             NameStudent = GetGameObject(14).transform.GetChild(0).GetChild(0).gameObject;
             FirstNameStudent = GetGameObject(14).transform.GetChild(0).GetChild(1).gameObject;
             ClassStudent = GetGameObject(14).transform.GetChild(1).GetChild(0).gameObject;
-            //TODO : DECOM TEST
             int lIndexTab = mRTMManager.IndexTablet;
             NameStudent.GetComponent<Text>().text = DBManager.Instance.ListUserStudent[lIndexTab].Nom;
             FirstNameStudent.GetComponent<Text>().text = DBManager.Instance.ListUserStudent[lIndexTab].Prenom;
             ClassStudent.GetComponent<Text>().text = " - " + DBManager.Instance.ListUserStudent[lIndexTab].Organisme;
-            mRTMManager.OncallRequest = (CallRequest lCall) => { Debug.LogError("*************TRIGGER INCOMING CALL"); Trigger("INCOMING CALL"); };
+            mRTMManager.OncallRequest = (CallRequest lCall) => { Trigger("INCOMING CALL"); };
 
-            // Manage trigger and vocal
-           Buddy.Vocal.EnableTrigger = true;
-
-            
+            Buddy.Vocal.EnableTrigger = true;
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
@@ -98,17 +86,14 @@ namespace BuddyApp.CoursTelepresence
 
         private void LaunchCall()
         {
-            Debug.LogWarning("Join channel " + mChannelId + " waiting for tablet answer");
             Trigger("CALLING");
             mRTCManager.Join(mChannelId);
-            Debug.LogError("<color=blue> IDLE NAME PROF : " + DBManager.Instance.NameProf + "</color>");
             mRTMManager.RequestConnexion(mChannelId, DBManager.Instance.NameProf);
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            //Buddy.GUI.Header.OnClickParameters.Clear();
             GetGameObject(21).SetActive(false);
             Buddy.GUI.Header.DisplayParametersButton(false);
             mCallButton.gameObject.SetActive(false);
@@ -116,7 +101,6 @@ namespace BuddyApp.CoursTelepresence
             mRTMManager.OncallRequest = null;
             mCallButton.onClick.RemoveAllListeners();
             ResetTrigger("IDLE");
-            Debug.LogError("Idle state exit");
         }
 
         private string RandomString(int iLength)
@@ -134,7 +118,6 @@ namespace BuddyApp.CoursTelepresence
                     lRandom.Append(VALID[(int)(lNum % (uint)VALID.Length)]);
                 }
             }
-
             return lRandom.ToString();
         }
     }

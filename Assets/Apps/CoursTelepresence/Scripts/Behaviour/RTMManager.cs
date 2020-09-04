@@ -697,8 +697,8 @@ namespace BuddyApp.CoursTelepresence
             yield return GetToken(mBuddyId);
             Debug.Log("login");
             //Buddy.WebServices.Agoraio.Login(Buddy.Platform.RobotUID);
-            //Buddy.WebServices.Agoraio.Login(mBuddyId, mToken);
-            Buddy.WebServices.Agoraio.Login(mBuddyId);
+            Buddy.WebServices.Agoraio.Login(mBuddyId, mToken);
+            //Buddy.WebServices.Agoraio.Login(mBuddyId);
             IsInitialised = true;
         }
 
@@ -706,7 +706,7 @@ namespace BuddyApp.CoursTelepresence
         {
             //InitRTM();
             yield return GetToken(mBuddyId);
-            //Buddy.WebServices.Agoraio.RenewToken(mToken);
+            Buddy.WebServices.Agoraio.RenewToken(mToken);
             //Debug.Log("login");
             ////Buddy.WebServices.Agoraio.Login(Buddy.Platform.RobotUID);
             //Buddy.WebServices.Agoraio.Login(mBuddyId);

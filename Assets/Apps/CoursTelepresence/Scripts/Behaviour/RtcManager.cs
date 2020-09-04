@@ -103,10 +103,10 @@ namespace BuddyApp.CoursTelepresence
 
             // TODO uncomment to Change camera
             //mRtcEngine.SetExternalVideoSource(true, false);
-            mRtcEngine.JoinChannel(iChannel, null, 0);
+            //mRtcEngine.JoinChannel(iChannel, null, 0);
             mRtcEngine.OnError = OnError;
             InitButtons();
-            //StartCoroutine(JoinAsync(iChannel));
+            StartCoroutine(JoinAsync(iChannel));
 
             //mRtcEngine.OnTokenPrivilegeWillExpire = OnTokenPrivilegeWillExpire;
 
@@ -369,8 +369,10 @@ namespace BuddyApp.CoursTelepresence
 
             if (mRtcEngine == null)
                 return;
-
+            
+            mRtcEngine.OnNetworkQuality = null;
             mRtcEngine.LeaveChannel();
+
             mRtcEngine.DisableVideoObserver();
             if (rawVideo.GetComponent<VideoSurface>() != null)
                 Destroy(rawVideo.GetComponent<VideoSurface>());
