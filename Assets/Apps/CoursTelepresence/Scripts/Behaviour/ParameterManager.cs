@@ -26,13 +26,7 @@ namespace BuddyApp.CoursTelepresence
             mRTMManager = GetComponent<RTMManager>();
             mAnimator = GetComponent<Animator>();
         }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
+        
         public void Lauchparameters()
         {
             Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
@@ -62,27 +56,21 @@ namespace BuddyApp.CoursTelepresence
                     mButtonVerify = iBuilder.CreateWidget<TButton>();
                     mButtonVerify.SetLabel("Vérifier");
                     mButtonVerify.SetIcon(Buddy.Resources.Get<Sprite>("Atlas_Education_IconRefresh", Context.APP));
-
-
                     mButtonVerify.OnClick.Add(() =>
                     {
                         DBManager.Instance.StartDBManager();
                         mAnimator.SetTrigger("CONNECTING");
                         if (UIList.activeSelf)
                             UIList.SetActive(false);
-                        //mRTMManager.OnPingWithId = null;
                         DBManager.Instance.IsRefreshButtonPushed = false;
                         if (CoursTelepresenceData.Instance.ConnectivityProblem != ConnectivityProblem.LaunchDatabase)
                             CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.LaunchDatabase;
-                        
-                        //StartCoroutine(DBManager.Instance.RefreshPlanning());
                         CloseParameters();
-                        //mAnimator.Play("CONNECTING");
                     });
                 }
             },
             () => { CloseParameters(); }, Buddy.Resources.Get<Sprite>("os_icon_close", Context.OS),
-            () => { SaveParam(); CloseParameters(); }, Buddy.Resources.Get<Sprite>("os_icon_check", Context.OS)
+            () => { CloseParameters(); }, Buddy.Resources.Get<Sprite>("os_icon_check", Context.OS)
            );
 
             Buddy.GUI.Header.OnClickParameters.Clear();
@@ -99,20 +87,7 @@ namespace BuddyApp.CoursTelepresence
         public void UpdateVolume(float iValue)
         {
             float lValue = iValue / 100F;
-            //if (Mathf.Abs(Buddy.Actuators.Speakers.Volume - lValue) > 0.05)
-            //{
-                Debug.Log("PRE Volume set to " + Buddy.Actuators.Speakers.Volume);
-                Debug.Log("PRE slider set to " + lValue);
-                Buddy.Actuators.Speakers.Volume = lValue;
-                //if (!Buddy.Actuators.Speakers.IsBusy)
-                //    Buddy.Actuators.Speakers.Effects.Play(SoundSample.BEEP_1);
-                Debug.Log("POST Volume set to " + Buddy.Actuators.Speakers.Volume);
-            //}
-        }
-
-        private void SaveParam()
-        {
-
+            Buddy.Actuators.Speakers.Volume = lValue;
         }
 
         private void SetNavigationStatic(bool iValue)

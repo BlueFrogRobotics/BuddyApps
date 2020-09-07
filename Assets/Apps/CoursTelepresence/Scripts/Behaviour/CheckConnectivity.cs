@@ -59,7 +59,7 @@ namespace BuddyApp.CoursTelepresence
             OnRequestConnectionWifiOrMobileNetwork = CheckWifiAndMobileNetwork;
             OnNetworkWorking = CheckNetwork;
             if (OnRequestConnectionWifiOrMobileNetwork != null)
-                OnRequestConnectionWifiOrMobileNetwork(Buddy.IO.WiFi.CurrentWiFiNetwork.Connected/*, true*/);
+                OnRequestConnectionWifiOrMobileNetwork(Buddy.IO.WiFi.CurrentWiFiNetwork.Connected);
             OnRequestDatabase = CheckDatabase;
             OnLaunchDatabase = LaunchDatabase;
             OnErrorAgoraio = ErrorAgoraio;
@@ -105,6 +105,10 @@ namespace BuddyApp.CoursTelepresence
             }
         }
 
+        /// <summary>
+        /// Hide the UI, need a coroutine because the Invoke("myfunc", float itimer) doesn't work
+        /// </summary>
+        /// <param name="iWaitTime">wait time before the hide ui</param>
         private IEnumerator HideUiAndLaunchDB(float iWaitTime)
         {
             yield return new WaitForSeconds(iWaitTime);
@@ -112,6 +116,10 @@ namespace BuddyApp.CoursTelepresence
             CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.LaunchDatabase;
         }
 
+        /// <summary>
+        /// Hide the UI, need a coroutine because the Invoke("myfunc", float itimer) doesn't work
+        /// </summary>
+        /// <param name="iWaitTime">wait time before the hide ui</param>
         private IEnumerator HideUi(float iWaitTime)
         {
             yield return new WaitForSeconds(iWaitTime);
@@ -128,6 +136,7 @@ namespace BuddyApp.CoursTelepresence
             }
         }
 
+
         private IEnumerator UIRobotPeered(float iWaitTime)
         {
             yield return new WaitForSeconds(5F);
@@ -136,26 +145,11 @@ namespace BuddyApp.CoursTelepresence
             CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.None;
         }
 
-        public IEnumerator CheckInternetConnection(/*Action<bool> syncResult*/)
-        {
-            const string echoServer = "http://google.fr";
-
-            bool result;
-            while(true)
-            {
-                yield return new WaitForSeconds(0.2F);
-                using (var request = UnityWebRequest.Head(echoServer))
-                {
-                    request.timeout = 5;
-                    yield return request.SendWebRequest();
-                    result = !request.isNetworkError && !request.isHttpError && request.responseCode == 200;
-                    mRequestDone = true;
-                }
-                if(OnNetworkWorking != null)
-                    OnNetworkWorking(result);
-            }
-        }
-
+        /// <summary>
+        /// Display a message when the robot is not connected to the wifi
+        /// When agoraio is working, this function is never called
+        /// </summary>
+        /// <param name="iConnected"></param>
         private void CheckWifiAndMobileNetwork(bool iConnected)
         {
             if(!Buddy.GUI.Toaster.IsBusy && !iConnected)
@@ -177,6 +171,10 @@ namespace BuddyApp.CoursTelepresence
             }
         }
 
+        /// <summary>
+        /// Display a message when the robot is connected to the wifi but the network is not working
+        /// </summary>
+        /// <param name="iNetworkWorking"></param>
         private void CheckNetwork(bool iNetworkWorking)
         {
             if(!Buddy.GUI.Toaster.IsBusy && !iNetworkWorking)
@@ -198,7 +196,9 @@ namespace BuddyApp.CoursTelepresence
             }
         }
 
-        //Si c'est trop long -> repasser en vérification de la co
+        /// <summary>
+        /// Display a message if the robot can't connect to the database 
+        /// </summary>
         private void CheckDatabase()
         {
             if (!Buddy.GUI.Toaster.IsBusy)
@@ -219,6 +219,10 @@ namespace BuddyApp.CoursTelepresence
             }
         }
 
+        /// <summary>
+        /// Display a message during the connection to the database
+        /// </summary>
+        /// <param name="iLaunchDatabase"></param>
         private void LaunchDatabase(bool iLaunchDatabase)
         {
             if (!Buddy.GUI.Toaster.IsBusy && iLaunchDatabase)
@@ -237,6 +241,10 @@ namespace BuddyApp.CoursTelepresence
             }
         }
 
+        /// <summary>
+        /// display a message when agoraio send an error because the service agoraio stopped
+        /// </summary>
+        /// <param name="iIdError"></param>
         private void ErrorAgoraio(int iIdError)
         {
             if((iIdError == 104 || iIdError == 106 || iIdError == 107) && !Buddy.GUI.Toaster.IsBusy)

@@ -10,10 +10,6 @@ namespace BuddyApp.CoursTelepresence
 {
     public class UIManager : MonoBehaviour
     {
-        // TODO : Check hour to know which display of the header we need to display
-        // Check which message we need to send to the tablet to activate the call
-
-
         [SerializeField]
         private Text StudentName;
 
@@ -35,19 +31,12 @@ namespace BuddyApp.CoursTelepresence
         [SerializeField]
         private Image NetworkIcon;
 
-        // TODO this is tmp for testing purpose
         [SerializeField]
         private RectTransform TopSection;
-
-        //[SerializeField]
-        //private Button EndCallButton;
 
         private RTMManager mRTMManager;
 
         private float mTime;
-
-        //[SerializeField]
-        //private Text BatteryLevel;
 
         private static UIManager mInstance = null;
         private string mBatteryLevel;
@@ -95,18 +84,11 @@ namespace BuddyApp.CoursTelepresence
 
         private void Update()
         {
-            //if(mTime + 0.1F < Time.time)
-            //{
-            //    Ping.text = "";
-            //    PingHeader.text = "";
-            //}
-
             if(Time.time -  mTime > 6)
             {
                 Ping.text = "";
                 PingHeader.text = "";
             }
-
         }
 
         private void OnPingValue(int lValue)
@@ -193,54 +175,19 @@ namespace BuddyApp.CoursTelepresence
             }
         }
 
-        // Update is called once per frame
-        //void Update()
-        //{
-        //}
-
-
-        // TODO this is tmp for testing purpose
-        public void BatteryButton()
-        {
-            //if (Application.isEditor) {
-            //    Debug.Log("Change top section editor");
-            //    if (TopSection.pivot.y != 2.5F) {
-            //        Debug.Log("Change top section pre " + TopSection.pivot.y);
-            //        TopSection.pivot = new Vector2(TopSection.pivot.x, 2.5F);
-            //    } else {
-            //        Debug.Log("Change top section pre " + TopSection.pivot.y);
-            //        TopSection.pivot = new Vector3(TopSection.pivot.x, 1F);
-            //    }
-            //} else {
-            //    Debug.Log("Change top section out of editor");
-            //    if (TopSection.pivot.y != 2.5F) {
-            //        Debug.Log("Change top section pre " + TopSection.pivot.y);
-            //        TopSection.pivot = new Vector2(TopSection.pivot.x, 2.5F);
-            //    } else {
-            //        Debug.Log("Change top section pre " + TopSection.pivot.y);
-            //        TopSection.pivot = new Vector3(TopSection.pivot.x, 1F);
-            //    }
-
-            //}
-        }
-
         public void UpdateVolume(Slider lSlider)
         {
             if (Math.Abs(Buddy.Actuators.Speakers.Volume - lSlider.value) > 0.05) {
-                Debug.Log("PRE Volume set to " + Buddy.Actuators.Speakers.Volume);
-                Debug.Log("PRE slider set to " + lSlider.value);
+
                 Buddy.Actuators.Speakers.Volume = lSlider.value;
                 if (!Buddy.Actuators.Speakers.IsBusy)
                     Buddy.Actuators.Speakers.Effects.Play(SoundSample.BEEP_1);
-                Debug.Log("POST Volume set to " + Buddy.Actuators.Speakers.Volume);
             }
         }
 
         public void UpdateSlider(Slider lSlider)
         {
-            Debug.Log("PRE slider value " + lSlider.value);
             lSlider.value = Buddy.Actuators.Speakers.Volume;
-            Debug.Log("POST slider value " + lSlider.value);
         }
 
     }

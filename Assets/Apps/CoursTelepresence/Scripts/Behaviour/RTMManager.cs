@@ -22,7 +22,6 @@ namespace BuddyApp.CoursTelepresence
         // Number of messages per second
         private const float SENSORS_BROADCAST_FREQUENCY = 4;
 
-         
         private string mIdTablet;
         private string mBuddyId;
         private string mToken;
@@ -36,8 +35,6 @@ namespace BuddyApp.CoursTelepresence
         private bool mMovingYes;
         private bool mMovingNo;
 
-        private Animator mAnimator;
-        private float mLastAngle;
         private float mLastCommandTime;
         private float mLastYesCommandTime;
         private const string GET_TOKEN_URL = "https://teamnet-bfr.ey.r.appspot.com/rtmToken?account=";
@@ -50,8 +47,6 @@ namespace BuddyApp.CoursTelepresence
         // Use this for initialization
         void Start()
         {
-            // TODO: get it from DB
-            //SetTabletId("tablette123456");
             mBuddyId = Buddy.Platform.RobotUID;
             mMovingYes = false;
             mMovingNo = false;
@@ -64,11 +59,7 @@ namespace BuddyApp.CoursTelepresence
             OnActivateObstacle = SensorsBroadcast;
 
             mCallRequest = new CallRequest("", "");
-            mAnimator = GetComponent<Animator>();
             Debug.LogError("robot id: " + Buddy.Platform.RobotUID);
-            // Just to test
-            //AnswerCallRequest(true);
-            //RequestConnexion("myChannel", "Gregoire Pole");
         }
 
         // Update is called once per frame
@@ -76,13 +67,11 @@ namespace BuddyApp.CoursTelepresence
         {
             if (mSensorsBroadcast && !mStaticSteering && (Time.time - mLastBroadcastTime > 1 / SENSORS_BROADCAST_FREQUENCY)) {
                 mLastBroadcastTime = Time.time;
-
                 SensorsBroadcastRTM();
             }
 
             if (Time.time - mPingTime > 5.0F)
                 Ping();
-
 
             if (Buddy.Actuators.Head.Yes.IsBusy)
                 mMovingYes = true;
@@ -134,13 +123,9 @@ namespace BuddyApp.CoursTelepresence
             InformStaticSteering();
         }
 
-
         ////////////////////////
         /// SENDING COMMANDS ///
         //////////////////////// 
-
-
-
 
         /// <summary>
         /// Send a message to the tablet to connect
@@ -248,8 +233,6 @@ namespace BuddyApp.CoursTelepresence
             // TODO add when available
             float obstacleCenter = 0F; // Buddy.Sensors.UltrasonicSensors.Center.FilteredValue;
             float obstacleLeft = Buddy.Sensors.UltrasonicSensors.Left.FilteredValue;
-
-
             SendRTMMessage(Utils.SerializeJSON(new ObstacleSensors(obstacleRight, obstacleCenter, obstacleLeft)));
         }
 
@@ -301,9 +284,7 @@ namespace BuddyApp.CoursTelepresence
         {
             SendRTMMessage(Utils.SerializeJSON(new JsonMessage("ping", iIdPing.ToString())), iIdTablet);
         }
-
-
-
+        
         //////////////////////////////
         /// Callbacks on reception ///
         //////////////////////////////
@@ -334,8 +315,6 @@ namespace BuddyApp.CoursTelepresence
         private Action<bool> OnActivateObstacle { get; set; }
 
 
-
-
         /////////////////////
         /// RTM functions ///
         /////////////////////
@@ -343,7 +322,7 @@ namespace BuddyApp.CoursTelepresence
 
         public void SetTabletId(string iIdTablet)
         {
-            Debug.Log("New tablet ID: " + iIdTablet);
+            Debug.LogWarning("New tablet ID: " + iIdTablet);
             mIdTablet = iIdTablet;
         }
 
@@ -361,13 +340,12 @@ namespace BuddyApp.CoursTelepresence
         public void Logout()
         {
             Buddy.WebServices.Agoraio.Logout();
-            Debug.Log("logout");
         }
 
         private void SendRTMMessage(string iMessage)
         {
-            Debug.Log("message: " + iMessage);
-            Debug.Log("Sent to " + mIdTablet);
+            Debug.LogWarning("message: " + iMessage);
+            Debug.LogWarning("Sent to " + mIdTablet);
             if (string.IsNullOrEmpty(mIdTablet)) {
                 Debug.LogWarning("Can't send a message, no tablet ID");
                 return;
@@ -377,8 +355,8 @@ namespace BuddyApp.CoursTelepresence
 
         private void SendRTMMessage(string iMessage, string iIdTablet)
         {
-            Debug.Log("message: " + iMessage);
-            Debug.Log("Sent to " + iIdTablet);
+            Debug.LogWarning("message: " + iMessage);
+            Debug.LogWarning("Sent to " + iIdTablet);
             if (string.IsNullOrEmpty(iIdTablet))
             {
                 Debug.LogWarning("Can't send a message, no tablet ID");
@@ -387,7 +365,6 @@ namespace BuddyApp.CoursTelepresence
             Buddy.WebServices.Agoraio.SendPeerMessage(iIdTablet, iMessage);
         }
 
-
         /// <summary>
         /// This is call when a message is received from the tablet
         /// </summary>
@@ -395,14 +372,14 @@ namespace BuddyApp.CoursTelepresence
         private void OnMessage(string iMessage)
         {
             //iMessage = iMessage.Replace("," + mIdTablet, "");
-            Debug.Log("message received content " + iMessage);
+            Debug.LogWarning("message received content " + iMessage);
 
             if (iMessage.Contains("userName") && !iMessage.Contains("[METARTM]")) {
                 mCallRequest = Utils.UnserializeJSON<CallRequest>(iMessage);
                 OncallRequest(mCallRequest);
             } else if (iMessage.Contains("speed") && !iMessage.Contains("[METARTM]")) {
                 if (mStaticSteering)
-                    Debug.LogError("Can't move wheels while static steering is on!");
+                    Debug.LogWarning("Can't move wheels while static steering is on!");
                 else
                 {
                     WheelsMessage lMessage = Utils.UnserializeJSON<WheelsMessage>(iMessage);
@@ -419,9 +396,7 @@ namespace BuddyApp.CoursTelepresence
                     WheelsMotion lMotion = new WheelsMotion(lSpeed, -lAngular); 
                     if(OnWheelsMotion!=null)
                         OnWheelsMotion(lMotion);
-                    //OnWheelsMotion(Utils.UnserializeJSON<WheelsMotion>(iMessage));
                 }
-
             } else {
                 JsonMessage lMessage = Utils.UnserializeJSON<JsonMessage>(iMessage);
 
@@ -437,7 +412,6 @@ namespace BuddyApp.CoursTelepresence
                             if(OncallRequestAnswer!=null)
                                 OncallRequestAnswer(lBoolValue);
                         }
-
                         break;
 
                     case "ping":
@@ -460,14 +434,11 @@ namespace BuddyApp.CoursTelepresence
                             if (CoursTelepresenceData.Instance.CurrentState == CoursTelepresenceData.States.INCOMMING_CALL_STATE || CoursTelepresenceData.Instance.CurrentState == CoursTelepresenceData.States.CALL_STATE || CoursTelepresenceData.Instance.CurrentState == CoursTelepresenceData.States.CALLING_STATE)
                             {
                                 lAvailable = false;
-                                Debug.LogError("%%%%%%%%%%%%%%%%%%%%  LAVAILABLE BOOL : " + lAvailable);
                             }
                             else if(CoursTelepresenceData.Instance.CurrentState == CoursTelepresenceData.States.IDLE_STATE)
                             {
                                 lAvailable = true;
-                                Debug.LogError("%%%%%%%%%%%%%%%%%%%%  LAVAILABLE BOOL : " + lAvailable);
                             }
-
                             SendRTMMessage(Utils.SerializeJSON(
                                 new JsonMessage("informAvailable", lAvailable.ToString())));
                         }
@@ -493,7 +464,6 @@ namespace BuddyApp.CoursTelepresence
                             if(OnFrontalListening!=null)
                                 OnFrontalListening(lBoolValue);
                         }
-
                         break;
 
                     case "mood":
@@ -540,32 +510,17 @@ namespace BuddyApp.CoursTelepresence
                             else
                                 Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a mood");
                         } else {
-                            // Set the mood
-                            //BehaviourMovementPattern BIMotion = BehaviourMovementPattern.BODY_LOCAL_DISPLACEMENT;
-
-                            //if (mStaticSteering)
-                            //    BIMotion = BehaviourMovementPattern.HEAD;
-
-                            //Buddy.Behaviour.Interpreter.RunRandom(lMood, BIMotion, Buddy.Behaviour.SetMood(lMood));
                             Debug.LogWarning("moodBI wheels locked " + Buddy.Actuators.Wheels.Locked);
-                            //if (lMood == Mood.NEUTRAL)
-                            //    Buddy.Behaviour.Interpreter.Run("Neutral07");
-                            // else
-                            //Buddy.Behaviour.Interpreter.RunRandom(lMood);
-                            Buddy.Behaviour.Interpreter.RunRandom(lMood.ToString().ToLower());//, lPattern);
-
-                            // Triggers Callback
+                            Buddy.Behaviour.Interpreter.RunRandom(lMood.ToString().ToLower());
                             if (OnMoodBI != null)
                                 OnMoodBI(lMood);
                         }
-
                         break;
 
                     case "headYes":
                         if (!float.TryParse(lMessage.propertyValue.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out lFloatValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into an int");
                         } else {
-                            //Debug.LogWarning("head yes " + lFloatValue + " delta time: " + (Time.time - mLastYesCommandTime));
                             if (OnHeadYes != null) {
                                 OnHeadYes(Mathf.Pow(lFloatValue, 5) * 40F);
                                 mLastYesCommandTime = Time.time;
@@ -578,14 +533,12 @@ namespace BuddyApp.CoursTelepresence
                         if (!float.TryParse(lMessage.propertyValue.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out lFloatValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
                         } else {
-                            //Debug.LogWarning("head no " + lFloatValue + " delta time: " + (Time.time - mLastCommandTime));
                             if (OnHeadNo!=null)
-                               /* if(Time.time - mLastCommandTime > 0.2F || Math.Abs(mLastAngle - lFloatValue)> 0.15)*/ {
-                                    mLastCommandTime = Time.time;
-                                    OnHeadNo(Mathf.Pow(lFloatValue, 5) * -80F);
-                                }
+                            {
+                                mLastCommandTime = Time.time;
+                                OnHeadNo(Mathf.Pow(lFloatValue, 5) * -80F);
+                            }
                         } 
-
                         break;
 
                     case "headYesAbsolute":
@@ -596,9 +549,7 @@ namespace BuddyApp.CoursTelepresence
                                 OnHeadYesAbsolute(lFloatValue * YesHeadHinge.MAX_UP_ANGLE);
                             else
                                 OnHeadYesAbsolute(lFloatValue * YesHeadHinge.MAX_DOWN_ANGLE);
-
                         }
-
                         break;
 
                     case "headNoAbsolute":
@@ -642,14 +593,11 @@ namespace BuddyApp.CoursTelepresence
                         } else {
                             OnMicroThreshold(lFloatValue);
                         }
-
                         break;
 
                     case "askStaticSteering":
                         OnAskSteering();
-
                         break;
-
 
                     case "activateObstacleDetection":
                         if (!bool.TryParse(lMessage.propertyValue, out lBoolValue)) {
@@ -657,7 +605,6 @@ namespace BuddyApp.CoursTelepresence
                         } else {
                             OnActivateObstacle(lBoolValue);
                         }
-
                         break;
 
                     case "activateZoom":
@@ -666,22 +613,15 @@ namespace BuddyApp.CoursTelepresence
                         } else {
                             OnActivateZoom(lBoolValue);
                         }
-
                         break;
 
                     case "rawPhotoProfile":
-                        //if (!string.TryParse(lMessage.propertyValue, out lBoolValue))
-                        //{
-                        //    Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
-                        //}
-                        Debug.LogError("photo profiler");
-                        Debug.LogError(lMessage.propertyValue);
+                        Debug.LogError("photo profiler : " + lMessage.propertyValue);
                         if (string.IsNullOrEmpty(lMessage.propertyValue)) {
                             Debug.LogWarning("picture is empty");
                         } else {
                             OnPictureReceived(lMessage.propertyValue);
                         }
-
                         break;
 
                     default:
@@ -696,21 +636,14 @@ namespace BuddyApp.CoursTelepresence
             InitRTM();
             yield return GetToken(mBuddyId);
             Debug.Log("login");
-            //Buddy.WebServices.Agoraio.Login(Buddy.Platform.RobotUID);
             Buddy.WebServices.Agoraio.Login(mBuddyId, mToken);
-            //Buddy.WebServices.Agoraio.Login(mBuddyId);
             IsInitialised = true;
         }
 
         private IEnumerator RenewTokenAsync()
         {
-            //InitRTM();
             yield return GetToken(mBuddyId);
             Buddy.WebServices.Agoraio.RenewToken(mToken);
-            //Debug.Log("login");
-            ////Buddy.WebServices.Agoraio.Login(Buddy.Platform.RobotUID);
-            //Buddy.WebServices.Agoraio.Login(mBuddyId);
-            //IsInitialised = true;
         }
 
         private IEnumerator GetToken(string lId)

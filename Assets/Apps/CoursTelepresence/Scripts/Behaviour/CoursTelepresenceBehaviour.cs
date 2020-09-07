@@ -29,21 +29,12 @@ namespace BuddyApp.CoursTelepresence
             mRTMManager = GetComponent<RTMManager>();
             mRTCManager = GetComponent<RTCManager>();
 
-            /*
-			* You can setup your App activity here.
-			*/
             CoursTelepresenceActivity.Init(null, mRTMManager, mRTCManager);
-            Debug.Log("apres init dans awake");
         }
 
         void Start()
         {
-            /*
-			* Init your app data
-			*/
             mAppData = CoursTelepresenceData.Instance;
-
-
         }
 
 
