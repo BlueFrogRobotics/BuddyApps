@@ -3,17 +3,9 @@ using System.Collections.Generic;
 
 namespace BuddyApp.CoursTelepresence
 {
-    /* Data are stored in xml file for persistent data purpose */
     public class CoursTelepresenceData : AAppData
     {
-        /*
-         * Data getters / setters
-         */
-        public int MyValue { get; set; }
-
         public string Ping { get; set; }
-
-        public bool ConnectedToInternet { get; set; }
 
         public ConnectivityProblem ConnectivityProblem { get; set; }
 
@@ -34,9 +26,7 @@ namespace BuddyApp.CoursTelepresence
         }
 
         public States CurrentState { get; set; }
-        /*
-         * Data singleton access
-         */
+
         public static CoursTelepresenceData Instance
         {
             get

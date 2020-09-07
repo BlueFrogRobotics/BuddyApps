@@ -27,7 +27,6 @@ namespace BuddyApp.CoursTelepresence
         [SerializeField]
         private Image buttonEnableAudio;
 
-        //private string mChannel;
         public bool mVideoIsEnabled;
         private bool mAudioIsEnabled;
 
@@ -35,19 +34,13 @@ namespace BuddyApp.CoursTelepresence
 
         private uint mUid;
         private int mIndexImage;
-        private Texture2D mTexture;
         private const int WIDTH = 1280;
         private const int HEIGHT = 800;
-        //private UnityEngine.Rect mRect;
-        //private Texture2D mTextureShared;
         private bool mFrameProcessing;
-        //private int mDownSample;
 
         private string mToken;
 
         private const string GET_TOKEN_URL = "https://teamnet-bfr.ey.r.appspot.com/rtcToken?channelName=";
-
-
         public Action OnEndUserOffline { get; set; }
 
         private void Awake()
@@ -60,8 +53,6 @@ namespace BuddyApp.CoursTelepresence
         void Start()
         {
             mIndexImage = 100;
-            Debug.Log("test " + Time.time);
-
             InitRTC();
         }
 
@@ -96,8 +87,6 @@ namespace BuddyApp.CoursTelepresence
             mRtcEngine.OnJoinChannelSuccess = OnJoinChannelSuccess;
             mRtcEngine.OnUserJoined = OnUserJoined;
             mRtcEngine.OnUserOffline = OnUserOffline;
-            //mRtcEngine.OnFirstRemoteVideoDecoded = OnFirstRemoteVideoFrame;
-            //mRtcEngine.OnLocalVideoStats = OnLocalVideoStats;
             mRtcEngine.EnableVideo();
             mRtcEngine.EnableVideoObserver();
 
@@ -107,151 +96,18 @@ namespace BuddyApp.CoursTelepresence
             mRtcEngine.OnError = OnError;
             InitButtons();
             StartCoroutine(JoinAsync(iChannel));
-
-            //mRtcEngine.OnTokenPrivilegeWillExpire = OnTokenPrivilegeWillExpire;
-
-            //mRtcEngine.JoinChannelWithUserAccount(mToken, iChannel, Buddy.Platform.RobotUID);
-
         }
-
-        //IEnumerator ShareScreen()
-        //{
-        //    mFrameProcessing = true;
-        //    yield return new WaitForEndOfFrame();
-
-        //    if(mRect == null)
-        //        mRect = new UnityEngine.Rect(0, 0, UnityEngine.Screen.width, UnityEngine.Screen.height);
-
-        //    if (mTextureShared == null)
-        //        mTextureShared = new Texture2D((int)mRect.width, (int)mRect.height, TextureFormat.RGB24, false);
-
-        //    // Reads the Pixels of the rectangle you create.
-        //    mTextureShared.ReadPixels(mRect, 0, 0);
-        //    // Applies the Pixels read from the rectangle to the texture.
-        //    mTextureShared.Apply();
-        //    // Gets the Raw Texture data from the texture and apply it to an array of bytes.
-        //    //byte[] bytes = mTextureShared.GetRawTextureData();
-
-        //    // RGB24 to BGRA32Graphics.ConvertTexture
-        //    //byte[] bytes4 = new byte[(4 * bytes.Length) / 3];
-        //    byte[] bytes4 = new byte[mTextureShared.GetRawTextureData().Length / 2];
-        //    EncodeYUV420SP(bytes4, mTextureShared.GetRawTextureData(), mTextureShared.width, mTextureShared.height);
-
-        //    //int j = 0;
-        //    //for (int i = 0; i < bytes4.Length; i++) {
-        //    //    if (i % 4 == 3)
-        //    //        bytes4[i] = 255;
-        //    //    else {
-        //    //        if (j % 3 == 0)
-        //    //            bytes4[i] = bytes[j + 2];
-        //    //        else if (j % 3 == 1)
-        //    //            bytes4[i] = bytes[j];
-        //    //        else if (j % 3 == 2)
-        //    //            bytes4[i] = bytes[j - 2];
-        //    //        j++;
-        //    //    }
-        //    //}
-
-
-
-        //    // Gives enough space for the bytes array.
-        //    int size = Marshal.SizeOf(bytes4[0]) * bytes4.Length;
-        //    // Checks whether the IRtcEngine instance is existed.
-        //    IRtcEngine rtc = IRtcEngine.QueryEngine();
-        //    if (rtc != null) {
-        //        // Creates a new external video frame.
-        //        ExternalVideoFrame externalVideoFrame = new ExternalVideoFrame();
-        //        // Sets the buffer type of the video frame.
-        //        externalVideoFrame.type = ExternalVideoFrame.VIDEO_BUFFER_TYPE.VIDEO_BUFFER_RAW_DATA;
-        //        // Sets the format of the video pixel.
-        //        externalVideoFrame.format = ExternalVideoFrame.VIDEO_PIXEL_FORMAT.VIDEO_PIXEL_NV12;
-        //        // Applies raw data.
-        //        externalVideoFrame.buffer = bytes4;
-        //        // Sets the width (pixel) of the video frame.
-        //        externalVideoFrame.stride = (int)mRect.width;
-        //        // Sets the height (pixel) of the video frame.
-        //        externalVideoFrame.height = (int)mRect.height;
-        //        // Removes pixels from the sides of the frame
-        //        externalVideoFrame.cropLeft = 10;
-        //        externalVideoFrame.cropTop = 10;
-        //        externalVideoFrame.cropRight = 10;
-        //        externalVideoFrame.cropBottom = 10;
-        //        // Rotates the video frame (0, 90, 180, or 270)
-        //        externalVideoFrame.rotation = 180;
-        //        // Increments i with the video timestamp.
-        //        externalVideoFrame.timestamp = mIndexImage++;
-        //        // Pushes the external video frame with the frame you create.
-        //        rtc.PushVideoFrame(externalVideoFrame);
-        //        Debug.LogWarning("Shared screen");
-        //        mFrameProcessing = false;
-        //    }
-        //}
 
         private void UpdateVideoFrame(RGBCameraFrame iCameraFrame)
         {
-            //yield return new WaitForEndOfFrame();
-            // TMP hack
-            //mDownSample++;
-            if (!mFrameProcessing/* && mDownSample == 4*/)
+            if (!mFrameProcessing)
             {
-                //mDownSample = 0;
-                //if (mAudioIsEnabled) {
                 if (iCameraFrame != null && mVideoIsEnabled)
                 {
                     mFrameProcessing = true;
 
-                    // Convert texture RGB24 to BGRA32
-                    //mTexture = new Texture2D(Buddy.Sensors.RGBCamera.Frame.Width, Buddy.Sensors.RGBCamera.Frame.Height, TextureFormat.BGRA32, false);
-                    //mTexture.SetPixels(Buddy.Sensors.RGBCamera.Frame.Texture.GetPixels());
-                    //mTexture.Apply();
-
-                    // ERROR: unsupported format, this is likely because the device doesn't support this format as a rendertarget format
-                    //if (mTexture == null) {
-                    //    Debug.LogWarning("Pre texture BGRA32 ");
-                    //    mTexture = new Texture2D(Buddy.Sensors.RGBCamera.Frame.Width, Buddy.Sensors.RGBCamera.Frame.Height, TextureFormat.RGBA32, false);
-                    //    Debug.LogWarning("post texture BGRA32 ");
-                    //}
-
-                    //ERROR wrong figures for total and elemsize negative
-                    //Debug.LogWarning("Pre texture convertion SUPPORT BGRA?" + SystemInfo.SupportsTextureFormat(TextureFormat.BGRA32));
-                    //Graphics.ConvertTexture(iCameraFrame.Texture, mTexture);
-                    //Debug.LogWarning("pre mat");
-                    //Mat converted_image = iCameraFrame.Mat.clone();
-                    //Debug.LogWarning("mat height " + iCameraFrame.Mat.height());
-                    //Debug.LogWarning("mat width " + iCameraFrame.Mat.width());
-                    //Debug.LogWarning("total " + iCameraFrame.Mat.total());
-                    //Debug.LogWarning("mat elem size " + iCameraFrame.Mat.elemSize());
-                    //Debug.LogWarning("pre convert");
-                    //Imgproc.cvtColor(iCameraFrame.Mat.clone(), converted_image, Imgproc.COLOR_RGB2YUV_I420);
-                    //Debug.LogWarning("mat elem size " + iCameraFrame.Mat.elemSize());
-                    ////Imgproc.cvtColor(iCameraFrame.Mat, converted_image, Imgproc.COLOR_RGB2YUV_YV12);
-
-                    //// Gets the Raw Texture data from the texture and apply it to an array of bytes.
-                    //Debug.LogWarning("pre mat to bytes");
-                    //byte[] bytes4 = matToBytes(converted_image);
-                    //Debug.LogWarning("post mat to byte");
-                    //byte[] bytes = iCameraFrame.Texture.GetRawTextureData();
                     byte[] bytes4 = new byte[iCameraFrame.Texture.GetRawTextureData().Length / 2];
                     EncodeYUV420SP(bytes4, iCameraFrame.Texture.GetRawTextureData(), iCameraFrame.Width, iCameraFrame.Height);
-                    // RGB24 to BGRA32
-                    //byte[] bytes4 = new byte[(4 * bytes.Length) / 3];
-
-                    //int j = 0;
-                    //for (int i = 0; i < bytes4.Length; i++) {
-                    //    if (i % 4 == 3)
-                    //        bytes4[i] = 255;
-                    //    else {
-                    //        if (j % 3 == 0)
-                    //            bytes4[i] = bytes[j + 2];
-                    //        else if (j % 3 == 1)
-                    //            bytes4[i] = bytes[j];
-                    //        else if (j % 3 == 2)
-                    //            bytes4[i] = bytes[j - 2];
-                    //        j++;
-                    //    }
-                    //}
-
-
                     // Gives enough space for the bytes array.
                     int size = Marshal.SizeOf(bytes4[0]) * bytes4.Length;
                     // Checks whether the IRtcEngine instance is existed.
@@ -279,49 +135,21 @@ namespace BuddyApp.CoursTelepresence
                         // Sets the height (pixel) of the video frame.
                         externalVideoFrame.height = iCameraFrame.Height;
 
-                        // Removes pixels from the sides of the frame
-                        //externalVideoFrame.cropLeft = 10;
-                        //externalVideoFrame.cropTop = 10;
-                        //externalVideoFrame.cropRight = 10;
-                        //externalVideoFrame.cropBottom = 10;
                         // Rotates the video frame (0, 90, 180, or 270)
                         externalVideoFrame.rotation = 180;
                         // Increments i with the video timestamp.
                         externalVideoFrame.timestamp = mIndexImage++;
                         // Pushes the external video frame with the frame you create.
                         mRtcEngine.PushVideoFrame(externalVideoFrame);
-                        Debug.LogWarning("RGB cam");
                         mFrameProcessing = false;
                     }
                     else
                     {
                         Debug.LogWarning("No frame on RGB camera");
                     }
-                    //TMP hack
                 }
-                //} else
-                //StartCoroutine(ShareScreen());
             }
-
         }
-
-        //private byte[] matToBytes(Mat image)
-        //{
-        //    Debug.LogWarning("mat to byte");
-        //    Debug.LogWarning("mat to byte height " + image.height());
-        //    Debug.LogWarning("mat to byte width " + image.width());
-        //    Debug.LogWarning("mat to byte");
-        //    int size = image.height() * image.width() * 12;
-        //    Debug.LogWarning("mat to byte size " + size);
-        //    Debug.LogWarning("mat to byte 2 + total " + image.total());
-        //    Debug.LogWarning("mat to byte 2 + elemsize " + image.elemSize());
-        //    Debug.LogWarning("mat to byte 2 + size " + size);
-        //    byte[] bytes = new byte[size];  // you will have to delete[] that later
-        //    Debug.LogWarning("mat to byte 3");
-        //    image.get(0, 0, bytes);
-        //    Debug.LogWarning("mat to byte 4");
-        //    return bytes;
-        //}
 
         private void EncodeYUV420SP(byte[] yuv420sp, byte[] rgb, int width, int height)
         {
@@ -384,10 +212,10 @@ namespace BuddyApp.CoursTelepresence
         {
             if (mVideoIsEnabled) {
                 mRtcEngine.MuteLocalVideoStream(true);
-                buttonEnableVideo.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconVideoOff");//DisableSprite;
+                buttonEnableVideo.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconVideoOff");
             } else {
                 mRtcEngine.MuteLocalVideoStream(false);
-                buttonEnableVideo.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconVideoOn");//EnableVideoSprite;
+                buttonEnableVideo.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconVideoOn");
             }
             mVideoIsEnabled = !mVideoIsEnabled;
         }
@@ -396,13 +224,10 @@ namespace BuddyApp.CoursTelepresence
         {
             if (mAudioIsEnabled) {
                 mRtcEngine.MuteLocalAudioStream(true);
-                //mRtcEngine.DisableAudio();
                 buttonEnableAudio.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconMicroOff");
             } else {
                 mRtcEngine.MuteLocalAudioStream(false);
-                //mRtcEngine.EnableAudio();
-                buttonEnableAudio.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconMicroOn"); //EnableAudioSprite;
-
+                buttonEnableAudio.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconMicroOn");
             }
             mAudioIsEnabled = !mAudioIsEnabled;
         }
@@ -427,9 +252,6 @@ namespace BuddyApp.CoursTelepresence
         public void SetProfilePicture(string iData)
         {
             Debug.LogWarning("Set profile picture");
-
-            //byte[] decodedString = Base64.decode(ImgName, Base64.DEFAULT);
-            //Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
             byte[] newBytes = Convert.FromBase64String(iData);
 
             Texture2D tex = new Texture2D(16, 16);
@@ -449,8 +271,6 @@ namespace BuddyApp.CoursTelepresence
         private void OnJoinChannelSuccess(string channelName, uint uid, int elapsed)
         {
             Debug.Log("JoinChannelSuccessHandler: uid = " + uid);
-            //mRtcEngine.EnableDualStreamMode(true);
-            //mRtcEngine.SetLocalPublishFallbackOption(STREAM_FALLBACK_OPTIONS.STREAM_FALLBACK_OPTION_AUDIO_ONLY);
             mRtcEngine.OnNetworkQuality += (ID, TX, RX) => QualityCheck(ID, TX, RX);
             mUid = uid;
         }
@@ -460,12 +280,10 @@ namespace BuddyApp.CoursTelepresence
             
             if((iTX == 6 || iRX == 6) && iID != 0)
             {
-                //Debug.LogError("$$$$$$$$$$$$$$$$$$$$$ ID : " + iID + " $$$$$$ ITX : " + iTX + " $$$$$$$$$$ IRX : " + iRX);
                 CoursTelepresenceData.Instance.IsQualityNetworkGood = false;
             }
             else
             {
-                //Debug.LogError("$$$$$$$$$$$$$$$$$$$$$ ID : " + iID + " $$$$$$ ITX : " + iTX + " $$$$$$$$$$ IRX : " + iRX);
                 CoursTelepresenceData.Instance.IsQualityNetworkGood = true;
             }
         }
@@ -486,7 +304,6 @@ namespace BuddyApp.CoursTelepresence
                 lVideoSurface.SetEnable(true);
                 lVideoSurface.SetVideoSurfaceType(AgoraVideoSurfaceType.RawImage);
                 lVideoSurface.SetGameFps(30);
-                //VideoSurface.rectTransform.sizeDelta = SizeToParent(VideoSurface);
             }
         }
 
@@ -513,7 +330,6 @@ namespace BuddyApp.CoursTelepresence
             VideoSurface lVideoSurface = rawVideo.GetComponent<VideoSurface>();
             if (state == REMOTE_VIDEO_STATE.REMOTE_VIDEO_STATE_STOPPED)
             {
-                Debug.LogError("<color=blue>**********************************************VIDEO STOPPED****************************************** </color>");
                 if (lVideoSurface != null)
                 {
                     lVideoSurface.SetEnable(false);
@@ -525,10 +341,8 @@ namespace BuddyApp.CoursTelepresence
             else if (state == REMOTE_VIDEO_STATE.REMOTE_VIDEO_STATE_STARTING || state == REMOTE_VIDEO_STATE.REMOTE_VIDEO_STATE_DECODING /*&& reason != REMOTE_VIDEO_STATE_REASON.REMOTE_VIDEO_STATE_REASON_INTERNAL*/)
             {
                 rawVideo.gameObject.SetActive(true);
-                Debug.LogError("<color=blue>**********************************************VIDEO REACTIVATED****************************************** </color>");
                 if (lVideoSurface != null)
                 {
-                    Debug.LogError("<color=blue>**********************************************NOT NULL****************************************** </color>");
                     return;
                     lVideoSurface.SetEnable(false);
                     rawVideo.texture = null;
@@ -536,7 +350,6 @@ namespace BuddyApp.CoursTelepresence
                 }
                 else if (lVideoSurface == null)
                 {
-                    Debug.LogError("<color=blue>**********************************************NULL****************************************** </color>");
                     lVideoSurface = rawVideo.gameObject.AddComponent<VideoSurface>();
                     rawVideo.texture = null;
                 }
@@ -545,7 +358,6 @@ namespace BuddyApp.CoursTelepresence
                 lVideoSurface.SetEnable(true);
                 lVideoSurface.SetVideoSurfaceType(AgoraVideoSurfaceType.RawImage);
                 lVideoSurface.SetGameFps(30);
-                //VideoSurface.rectTransform.sizeDelta = SizeToParent(VideoSurface);
             }
         }
 
@@ -582,16 +394,6 @@ namespace BuddyApp.CoursTelepresence
             rawVideo.gameObject.SetActive(true);
             rawVideo.texture = tex;
         }
-
-        //private void OnLocalVideoStats(LocalVideoStats iLocalVideoStats)
-        //{
-        //    float lAspectRatio = (float)iLocalVideoStats.encodedFrameHeight / (float)iLocalVideoStats.encodedFrameWidth;
-        //    Debug.LogError("first local stats: " + iLocalVideoStats.encodedFrameWidth + " " + iLocalVideoStats.encodedFrameHeight + " " + lAspectRatio);
-        //    if (rawVideoLocal.texture == null)
-        //        return;
-        //    //rawVideoLocal.rectTransform.sizeDelta = new Vector2(360, 360 * lAspectRatio);
-        //    //rawVideoLocal.rectTransform.sizeDelta = new Vector2(iLocalVideoStats.encodedFrameWidth, 640);
-        //}
 
         private void FlipTextureVertically(Texture2D iTexture)
         {
@@ -663,12 +465,5 @@ namespace BuddyApp.CoursTelepresence
             mRtcEngine.RenewToken(mToken);
             Debug.Log("renew");
         }
-
-        public void TestLog()
-        {
-            Debug.Log("truc muche lol");
-
-        }
-
     }
 }

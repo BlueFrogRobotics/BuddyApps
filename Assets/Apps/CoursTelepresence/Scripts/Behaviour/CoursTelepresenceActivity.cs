@@ -14,25 +14,10 @@ namespace BuddyApp.CoursTelepresence
     {
         private RTMManager mRTMManager;
         private RTCManager mRTCManager;
-
-        /*
-		* Called before the App scene loading.
-		*/
-  //      public override void OnLoading(object[] iArgs)
-		//{
-            
-  //          ExtLog.I(ExtLogModule.APP, typeof(CoursTelepresenceActivity), LogStatus.START, LogInfo.LOADING, "On loading...");
-		//}
-
-		/*
-		* Called after every Awake() in your scene
-		*/
         public override void OnAwake()
         {
-            Debug.Log("debut onawake"); 
             mRTMManager = (RTMManager)Objects[0];
             mRTCManager = (RTCManager)Objects[1];
-            Debug.Log("fin onawake");
             ExtLog.I(ExtLogModule.APP, typeof(CoursTelepresenceActivity), LogStatus.START, LogInfo.RUNNING, "On awake...");
         }
 
@@ -53,8 +38,6 @@ namespace BuddyApp.CoursTelepresence
             ExtLog.I(ExtLogModule.APP, typeof(CoursTelepresenceActivity), LogStatus.START, LogInfo.STOPPING, "On quit...");
             mRTMManager.Logout();
             mRTCManager.Leave();
-            //mRTCManager.DestroyRTC();
-            Debug.LogWarning("quit cours telepresence");
         }
     }
 }
