@@ -328,41 +328,49 @@ namespace BuddyApp.CoursTelepresence
 
         private void InitRTM()
         {
+            Debug.LogError("INIT - RTMMANAGER");
             Buddy.WebServices.Agoraio.InitRTM();
             Buddy.WebServices.Agoraio.OnMessage = OnMessage;
+            Debug.LogError("INIT fin - RTMMANAGER");
         }
 
         private void Login()
         {
+            Debug.LogError("LOGIN - RTMMANAGER");
             StartCoroutine(LoginAsync());
+            Debug.LogError("LOGIN fin - RTMMANAGER");
         }
 
         public void Logout()
         {
+            Debug.LogError("LOGOUT - RTMMANAGER");
             Buddy.WebServices.Agoraio.Logout();
+            Debug.LogError("LOGOUT fin - RTMMANAGER");
         }
 
         private void SendRTMMessage(string iMessage)
         {
-            Debug.LogWarning("message: " + iMessage);
-            Debug.LogWarning("Sent to " + mIdTablet);
+            Debug.LogError("SENDRTMMANAGER - RTMMANAGER : message: " + iMessage);
+            Debug.LogError("Sent to " + mIdTablet);
             if (string.IsNullOrEmpty(mIdTablet)) {
-                Debug.LogWarning("Can't send a message, no tablet ID");
+                Debug.LogError(" SENDRTMMANAGER - RTMMANAGER :  Can't send a message, no tablet ID");
                 return;
             }
             Buddy.WebServices.Agoraio.SendPeerMessage(mIdTablet, iMessage);
+            Debug.LogError("SENDRTMMANAGER - RTMMANAGER fin");
         }
 
         private void SendRTMMessage(string iMessage, string iIdTablet)
         {
-            Debug.LogWarning("message: " + iMessage);
-            Debug.LogWarning("Sent to " + iIdTablet);
+            Debug.LogError("SENDRTMMANAGER 2 - RTMMANAGER : message: " + iMessage);
+            Debug.LogError("Sent to " + iIdTablet);
             if (string.IsNullOrEmpty(iIdTablet))
             {
-                Debug.LogWarning("Can't send a message, no tablet ID");
+                Debug.LogError("SENDRTMMANAGER 2 - RTMMANAGER : Can't send a message, no tablet ID");
                 return;
             }
             Buddy.WebServices.Agoraio.SendPeerMessage(iIdTablet, iMessage);
+            Debug.LogError("SENDRTMMANAGER 2 - RTMMANAGER fin");
         }
 
         /// <summary>
@@ -635,7 +643,6 @@ namespace BuddyApp.CoursTelepresence
         {
             InitRTM();
             yield return GetToken(mBuddyId);
-            Debug.Log("login");
             Buddy.WebServices.Agoraio.Login(mBuddyId, mToken);
             IsInitialised = true;
         }
