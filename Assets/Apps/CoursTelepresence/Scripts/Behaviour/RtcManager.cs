@@ -290,6 +290,7 @@ namespace BuddyApp.CoursTelepresence
 
         private void OnError(int iIdError, string iMessage)
         {
+            Debug.LogError("ON ERROR RTC MANAGER id + Message : " + iIdError + " - "  + iMessage);
             CheckConnectivity.Instance.OnErrorAgoraio(iIdError);
         }
 
