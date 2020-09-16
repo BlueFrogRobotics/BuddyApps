@@ -439,7 +439,7 @@ namespace BuddyApp.CoursTelepresence
                         else
                         {
                             bool lAvailable = true;
-                            if (CoursTelepresenceData.Instance.CurrentState == CoursTelepresenceData.States.INCOMMING_CALL_STATE || CoursTelepresenceData.Instance.CurrentState == CoursTelepresenceData.States.CALL_STATE || CoursTelepresenceData.Instance.CurrentState == CoursTelepresenceData.States.CALLING_STATE)
+                            if (CoursTelepresenceData.Instance.CurrentState == CoursTelepresenceData.States.INCOMMING_CALL_STATE || CoursTelepresenceData.Instance.CurrentState == CoursTelepresenceData.States.CALL_STATE || CoursTelepresenceData.Instance.CurrentState == CoursTelepresenceData.States.CALLING_STATE || CoursTelepresenceData.Instance.CurrentState == CoursTelepresenceData.States.CONNECTING_STATE )
                             {
                                 lAvailable = false;
                             }

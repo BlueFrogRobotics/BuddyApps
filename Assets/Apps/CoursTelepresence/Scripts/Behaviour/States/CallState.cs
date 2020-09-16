@@ -58,7 +58,11 @@ namespace BuddyApp.CoursTelepresence
             mRTCManager = GetComponent<RTCManager>();
             mRTMManager = GetComponent<RTMManager>();
 
-            VolumeScrollbar = GetGameObject(4).GetComponentInChildren<Slider>();
+            //if(Buddy.Sensors.Microphones.)
+                //set microphone 360 to true
+                //        Buddy.Sensors.Microphones.SwitchMicrophone( , true);
+
+                VolumeScrollbar = GetGameObject(4).GetComponentInChildren<Slider>();
             Volume = GetGameObject(5).GetComponentInChildren<Button>();
             Video = GetGameObject(6).GetComponentInChildren<Button>();
             Micro = GetGameObject(7).GetComponentInChildren<Button>();
@@ -225,6 +229,24 @@ namespace BuddyApp.CoursTelepresence
                     StopRaiseHand();
                 }
             };
+
+            //mRTMManager.OnFrontalListening = (lFrontalListening) =>
+            //{
+            //    if(lFrontalListening)
+            //    {
+            //        //set microphone 360 to false
+            //        Buddy.Sensors.Microphones.SwitchMicrophone( , false);
+            //        //set the front microphone to true
+            //        Buddy.Sensors.Microphones.SwitchMicrophone( , true);
+            //    }
+            //    else
+            //    {
+            //        //set microphone 360 to true
+            //        Buddy.Sensors.Microphones.SwitchMicrophone( , true);
+            //        //set the front microphone to false
+            //        Buddy.Sensors.Microphones.SwitchMicrophone( , false);
+            //    }
+            //};
 
             mRTMManager.OnSpeechMessage = (lMessage) => {
                 float lCallVolume = GetCallVolume();

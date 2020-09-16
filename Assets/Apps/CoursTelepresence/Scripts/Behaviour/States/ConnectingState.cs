@@ -11,6 +11,7 @@ namespace BuddyApp.CoursTelepresence
     {
         private bool mListDone;
         private RTMManager mRTMManager;
+        private RTCManager mRTCManager;
         private List<GameObject> mUsers;
         private List<float> mPingTime;
         private List<int> mWaitPing;
@@ -26,6 +27,7 @@ namespace BuddyApp.CoursTelepresence
         override public void Start()
         {
             mRTMManager = GetComponent<RTMManager>();
+            mRTCManager = GetComponent<RTCManager>();
             mInputFilter = GetGameObject(19).GetComponent<InputField>();
             GetGameObject(21).GetComponent<Button>().onClick.AddListener(() => { Trigger("CONNECTING"); });
             mUsers = new List<GameObject>();
@@ -35,6 +37,7 @@ namespace BuddyApp.CoursTelepresence
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            mRTCManager.Leave();
             CoursTelepresenceData.Instance.CurrentState = CoursTelepresenceData.States.CONNECTING_STATE;
             for (int i = 0; i < mUsers.Count; i++)
             {
