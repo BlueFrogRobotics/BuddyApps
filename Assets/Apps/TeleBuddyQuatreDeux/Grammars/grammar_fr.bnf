@@ -1,0 +1,10 @@
+#BNF+EMV2.1;
+!grammar app_grammar_fr;
+!start <yes>;
+!start <no>;
+!start <didntunderstand>;
+!start <callfriend>;
+<yes> : oui | ouais | [c'est] (d'accord | noté) | yep | affirmatif | ok | okay | entendu | fort bien | valider | confirmé | confirme | valide;
+<no> : non | nan | pas d'accord | nope | je ne veux pas | pas besoin | negatif;
+<callfriend> : appelle | appelle (ton|mon) ami | appelle l'élève | lance la connexion | lance l'appel | démarre | démarrer | lance | commence l'appel | commence | connecte toi ;
+<didntunderstand> : [je n'ai pas [bien] (compris | entendu)] peux tu (répéter | reformuler);
