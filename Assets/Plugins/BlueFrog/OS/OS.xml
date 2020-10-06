@@ -2018,7 +2018,7 @@
             least displacement since the last frame.
             </summary>
             <param name="iHumans">List of detected humans.</param>
-            <param name="iPoint">Represent the position of the human.</param>
+            <param name="ioPoint">Represent the position of the human.</param>
             <returns>On success return true, false otherwise.</returns>
         </member>
         <member name="M:BlueQuark.Internal.HumanTrackSubStrategy.ComputeSkeletonRelativePosition(BlueQuark.SkeletonEntity[],UnityEngine.Vector3@)">
@@ -2028,7 +2028,7 @@
             least displacement since the last frame.
             </summary>
             <param name="iSkeletons">List of detected skeleton.</param>
-            <param name="iPoint">Represent the position of the human.</param>
+            <param name="ioPoint">Represent the position of the human.</param>
             <returns>On success return true, false otherwise.</returns>
         </member>
         <member name="M:BlueQuark.Internal.HumanTrackSubStrategy.SkeletonToTarget(BlueQuark.SkeletonEntity)">
@@ -2046,7 +2046,7 @@
             least displacement since the last frame.
             </summary>
             <param name="iHumans">List of detected humans.</param>
-            <param name="iPoint">Represent the position of the human.</param>
+            <param name="ioPoint">Represent the position of the human.</param>
             <returns>On success return true, false otherwise.</returns>
         </member>
         <member name="M:BlueQuark.Internal.HumanTrackSubStrategy.ObstacleDetected">
@@ -2785,72 +2785,6 @@
             <summary>
             Global coordianation by odometry
             </summary>
-        </member>
-        <member name="T:BlueQuark.Internal.OLD.NetworkBroadcastResult">
-            <summary>
-            Structure for broadcast messages
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Internal.OLD.NetworkBroadcastResult.serverAddress">
-            <summary>
-            The address of the server that sent the broadcast
-            </summary>
-        </member>
-        <member name="F:BlueQuark.Internal.OLD.NetworkBroadcastResult.broadcastData">
-            <summary>
-            Content of the broadcast
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Internal.OLD.NetDiscovery">
-            <summary>
-            Unity Networking NetworkDiscovery added in this dll for namespace separation in dll reasons
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.OLD.NetDiscovery.StartAsClient">
-            <summary>
-            Starts the service as client and listens for broadcast
-            </summary>
-            <returns>True if started succesfully, false otherwise</returns>
-        </member>
-        <member name="M:BlueQuark.Internal.OLD.NetDiscovery.StartAsServer">
-            <summary>
-            Starts the service as server and emits a broadcast
-            </summary>
-            <returns>True if started succesfully, false otherwise</returns>
-        </member>
-        <member name="M:BlueQuark.Internal.OLD.NetDiscovery.StopBroadcast">
-            <summary>
-            Stops the broadcast service
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.OLD.NetDiscovery.OnReceivedBroadcast(System.String,System.String)">
-            <summary>
-            Callback called when a broadcast is received
-            </summary>
-            <param name="iFromAddress">Address that sent the broadcast</param>
-            <param name="iData">Body data of the broadcast</param>
-        </member>
-        <member name="T:BlueQuark.Internal.OLD.LocalListener">
-            <summary>
-            This class handles the Local Broadcast Listener and messages with the Smartphone app to launch local remote control
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Internal.OLD.LaunchTelepresence">
-            <summary>
-            Behaviour for starting RemoteControlApp
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Internal.OLD.BroadcastListener">
-            <summary>
-            This is to create a Broadcast client to let
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.OLD.BroadcastListener.OnReceivedBroadcast(System.String,System.String)">
-            <summary>
-            Own method to configure what to do when receiving a Broadcast
-            </summary>
-            <param name="iFromAddress">The address that send the broadcast</param>
-            <param name="iData">Data contained in the broadcast</param>
         </member>
         <member name="T:BlueQuark.Internal.DesireManager">
             <summary>
@@ -3739,47 +3673,6 @@
             Sub navigation strategy to turn until a reached angle or a specific condition.
             </summary>
         </member>
-        <member name="M:BlueQuark.Internal.BroadcastListener.StartAsClient">
-            <summary>
-            Starts the service as client and listens for broadcast
-            </summary>
-            <returns>True if started succesfully, false otherwise</returns>
-        </member>
-        <member name="M:BlueQuark.Internal.BroadcastListener.StartAsServer">
-            <summary>
-            Starts the service as server and emits a broadcast
-            </summary>
-            <returns>True if started succesfully, false otherwise</returns>
-        </member>
-        <member name="M:BlueQuark.Internal.BroadcastListener.StopBroadcast">
-            <summary>
-            Stops the broadcast service
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.BroadcastListener.OnReceivedBroadcast(System.String,System.String)">
-            <summary>
-            Own method to configure what to do when receiving a Broadcast
-            </summary>
-            <param name="iFromAddress">The address that send the broadcast</param>
-            <param name="iData">Data contained in the broadcast</param>
-        </member>
-        <member name="T:BlueQuark.Internal.LocalNetworkListener">
-            <summary>
-            This class handles the Local Broadcast Listener and messages with the Smartphone app to launch local remote control
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.WebRTCListenerULink.OnMessageReceived(System.String)">
-            <summary>
-            Used by Android plugin when chat message is received through WebRTC and send it back to user
-            </summary>
-            <param name="iChatMessage">Chat message received through WebRTC</param>
-        </member>
-        <member name="M:BlueQuark.Internal.WebRTCListenerULink.OnConnectionRequest(System.String)">
-            <summary>
-            Called by Android plugin when message is received from the PubSub of Crossbar
-            </summary>
-            <param name="iMessage"></param>
-        </member>
         <member name="M:BlueQuark.Internal.AESection.Finalize">
             <summary>
             Dipose the section.
@@ -4338,6 +4231,172 @@
         <member name="T:BlueQuark.Internal.TimeStamp">
             <summary>
             Represents a timestamp data
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.Clock.#ctor(System.Boolean,System.Single,System.Single,System.Int32,System.Action{BlueQuark.Internal.Clock},System.Action{BlueQuark.Internal.Clock})">
+            <summary>
+            Create a new instance of a Clock object.
+            </summary>
+            <param name="iIsAuto">To start automatically.</param>
+            <param name="iLimit">Time until the end of the cycle.</param>
+            <param name="iDelay">Delay before the start of counting.</param>
+            <param name="iRepeats">How many cycles to make.</param>
+            <param name="iActionWhile">Action to call each tick.</param>
+            <param name="iActionEnd">Action to call when the timer ends.</param>
+        </member>
+        <member name="M:BlueQuark.Internal.Clock.Auto(System.Action{BlueQuark.Internal.Clock})">
+            <summary>
+            The simplest clock that runs infinitely.
+            </summary>
+            <param name="iActionWhile">Callback on every tick.</param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Clock.Repeater(System.Action{BlueQuark.Internal.Clock},System.Single,System.Single,System.Int32,System.Boolean)">
+            <summary>
+            Timer that resets after reaching it's limit.
+            </summary>
+            <param name="iAction">Action to repeat.</param>
+            <param name="iRepeatTime">Repeat cycle time, in seconds.</param>
+            /// <param name="iDelay">Delay before timer start, in seconds.</param>
+            <param name="iRepeats">Number of repeats. 0 for infinite.</param>
+            <param name="iIsAuto">To start upon creation.</param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Clock.Timer(System.Single,System.Action{BlueQuark.Internal.Clock},System.Action{BlueQuark.Internal.Clock},System.Boolean)">
+            <summary>
+            Timer that runs for a limited amount of time and ends.
+            </summary>
+            <param name="iLimit">Time for the timer to run, in seconds.</param>
+            <param name="iActionEnd">Callback on reaching the limit.</param>
+            <param name="iActionWhile">Callback on every tick.</param>
+            <param name="iIsAuto">Will timer start automatically.</param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Clock.Stepper(System.Single,System.Action{BlueQuark.Internal.Clock},System.Action{BlueQuark.Internal.Clock})">
+            <summary>
+            Manual timer
+            </summary>
+            <param name="iLimit">Optional trigger for the final action.</param>
+            <param name="iActionEnd">Callback on reaching the limit.</param>
+            <param name="iActionWhile">Callback on every tick.</param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Clock.Timewatch(System.DateTime,System.Action{BlueQuark.Internal.Clock},System.Action{BlueQuark.Internal.Clock})">
+            <summary>
+            Timer set to an exact time.
+            </summary>
+            <param name="iTime">Goal time.</param>
+            <param name="iActionEnd">Callback on reaching the goal time.</param>
+            <param name="iActionWhile">Callback on every tick.</param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Clock.Timewatch(System.String,System.Action{BlueQuark.Internal.Clock},System.Action{BlueQuark.Internal.Clock})">
+            <summary>
+            Timer set to an exact time.
+            </summary>
+            <param name="iTime">Goal time as string to parse.</param>
+            <param name="iActionEnd">Callback on reaching the goal time.</param>
+            <param name="iActionWhile">Callback on every tick.</param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Clock.Tick(System.Single)">
+            <summary>
+            Adds time to timer
+            </summary>
+            <param name="iSeconds">Time in seconds to add. Default is Time.deltaTime.</param>
+        </member>
+        <member name="M:BlueQuark.Internal.Clock.Start">
+            <summary>
+            Start the timer from idle state or restart after the pause.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.Clock.Stop(System.Boolean)">
+            <summary>
+            Invoke reaching the limit.
+            </summary>
+            <param name="iWithCallback">To invoke final action.</param>
+        </member>
+        <member name="M:BlueQuark.Internal.Clock.StopAndReset(System.Single,System.Boolean)">
+            <summary>
+            Invoke reaching the limit and reset the timer.
+            </summary>
+            /// <param name="iLimit"></param>
+            <param name="iWithCallback">To invoke final action.</param>
+        </member>
+        <member name="M:BlueQuark.Internal.Clock.Reset(System.Single,System.Boolean)">
+            <summary>
+            Resets the timer to the start state.
+            </summary>
+            <param name="iLimit"></param>
+            <param name="iWithRepeats"></param>
+        </member>
+        <member name="M:BlueQuark.Internal.Clock.Restart">
+            <summary>
+            Restart the timer from the beginnning.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.Clock.SetLimit(System.Single)">
+            <summary>
+            Set timer finish time.
+            </summary>
+            <param name="iLimit"></param>
+        </member>
+        <member name="M:BlueQuark.Internal.Clock.Stamp(System.String,System.Boolean)">
+            <summary>
+            Add a new timestamp.
+            </summary>
+            <param name="iDescription">Optional description of a timestamp.</param>
+            <param name="iToRestart">To start a new cycle.</param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Internal.Clock.LogStamps">
+            <summary>
+            Log all the stamps in the format: "0.123s : Description".
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.Clock.IsGoing">
+            <summary>
+            If timer is not idle, on pause or stopped and has not reached the limit yet.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.Clock.IsPaused">
+            <summary>
+            If timer is set on pause before reaching the limit.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.Clock.IsFinished">
+            <summary>
+            If timer has reached its limit or is stopped manually.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.Clock.ElapsedTime">
+            <summary>
+            Time passed for current repeat cycle, in seconds.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.Clock.TimeSpan">
+            <summary>
+            Time passed for current repeat cycle.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.Clock.RemainingTime">
+            <summary>
+            Time until current repeat cycle ends, in seconds. Zero if timer is infinite.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.Clock.ElapsedRepeats">
+            <summary>
+            Number of repeats already passed.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.Clock.RemainingRepeats">
+            <summary>
+            Number of repeats until the timer ends. Zero if infinite repeats.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.Clock.Stamps">
+            <summary>
+            Array of stamps in the format (Time in secondqs, Description).
             </summary>
         </member>
         <member name="M:BlueQuark.Internal.APlatformULink.WaitForPendingComponentsAsync">
@@ -6315,14 +6374,28 @@
             Checks if the reference of an object is not null. Log error if false.
             </summary>
             <param name="iObject">The referennce of the object to check.</param>
-            <returns>Returns true if the object</returns>
+            <returns>Returns true if the object.</returns>
         </member>
         <member name="M:BlueQuark.Internal.APIGuard.AssertIsNull(System.Object)">
             <summary>
             Checks if the reference of an object is null. Log error if true.
             </summary>
             <param name="iObject">The referennce of the object to check.</param>
-            <returns>Returns true if the object</returns>
+            <returns>Returns true if the object.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.APIGuard.AssertIsFilePath(System.String)">
+            <summary>
+            Checks if the filesystem path leads to a file. Log error if true.
+            </summary>
+            <param name="iPath">Filesystem path to check.</param>
+            <returns>Returns true if it's a file path.</returns>
+        </member>
+        <member name="M:BlueQuark.Internal.APIGuard.AssertIsDirectoryPath(System.String)">
+            <summary>
+            Checks if the filesystem path leads to a directory. Log error if true.
+            </summary>
+            <param name="iPath">Filesystem path to check.</param>
+            <returns>Returns true if it's a directory path.</returns>
         </member>
         <member name="M:BlueQuark.Internal.APIGuard.GetCallingMethodName">
             <summary>
@@ -6842,48 +6915,25 @@
             <param name="iUtterance">The text to say</param>
             <param name="iOnEnSpeaking">callback called on end of output speech</param>
         </member>
-        <member name="T:BlueQuark.Internal.WebRTCListener">
+        <member name="M:BlueQuark.Internal.RESTMemoryStream.ToArray">
             <summary>
-            This part listens on the Crossbar server to know if there is any incoming call.
+            Returns the entire content of the stream as a byte array. This is not safe because the call to new byte[] may 
+            fail if the stream is large enough. Where possible use methods which operate on streams directly instead.
             </summary>
+            <returns>A byte[] containing the current data in the stream</returns>
         </member>
-        <member name="M:BlueQuark.Internal.WebRTCListener.PublishNotification(System.String)">
+        <member name="M:BlueQuark.Internal.RESTMemoryStream.ReadFrom(System.IO.Stream,System.Int64)">
             <summary>
-            Format of the notification is the following : BuddyID / Title @ Message
+            Reads length bytes from source into the this instance at the current position.
             </summary>
-            <param name="iMessage">Notification message to send</param>
+            <param name="iStream">The stream containing the data to copy</param>
+            <param name="iLength">The number of bytes to copy</param>
         </member>
-        <member name="M:BlueQuark.Internal.WebRTCListener.StartListener(System.String,System.String)">
+        <member name="M:BlueQuark.Internal.RESTMemoryStream.WriteTo(System.IO.Stream)">
             <summary>
-            Initialize the Java Android Object that handles PubSub messages from Crossbar
+            Writes the entire stream into destination, regardless of Position, which remains unchanged.
             </summary>
-            <param name="iUri">Crossbar uri</param>
-            <param name="iRealm">Name of the realm</param>
-        </member>
-        <member name="M:BlueQuark.Internal.WebRTCListener.WaitSTTFinished(System.String)">
-            <summary>
-            Wait until STT has finished listening and is free to use
-            </summary>
-            <param name="iChatMessage">The Chat message received to process</param>
-            <returns></returns>
-        </member>
-        <member name="M:BlueQuark.Internal.WebRTCListener.PublishConnectionRequest(System.String)">
-            <summary>
-            Use this to make a call towards another Buddy.
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Internal.WebRTCListener.SendNotification(System.String,System.String)">
-            <summary>
-            Send notification as Crossbar published event.
-            </summary>
-            <param name="iTitle">Title of the notification. Cannot be null or empty.</param>
-            <param name="iMessage">Body message of the notification. Cannot be null or empty.</param>
-        </member>
-        <member name="M:BlueQuark.Internal.WebRTCListener.ProcessAnswer(System.String)">
-            <summary>
-            Use this to send back the answer to the user.
-            </summary>
-            <param name="iAnswer">The text to send. Cannot be null or empty.</param>
+            <param name="iStream">The stream to write the content of this stream to</param>
         </member>
         <member name="T:BlueQuark.TaskOwner">
             <summary>
@@ -7101,16 +7151,6 @@
             Represents the no axe hinge of the robot (Yaw Euler axe).
             </summary>
         </member>
-        <member name="F:BlueQuark.NoHeadHinge.MAX_LEFT_ANGLE">
-            <summary>
-            Max reachable angle for this hinge. Value in degrees.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.NoHeadHinge.MAX_RIGHT_ANGLE">
-            <summary>
-            Min reachable angle for this hinge. Value in degrees.
-            </summary>
-        </member>
         <member name="F:BlueQuark.NoHeadHinge.DEFAULT_ANGLE">
             <summary>
             Default hinge angle. Value in degrees.
@@ -7197,16 +7237,6 @@
         <member name="T:BlueQuark.YesHeadHinge">
             <summary>
             Represents the yes axe hinge of the robot (Roll Euler axe).
-            </summary>
-        </member>
-        <member name="F:BlueQuark.YesHeadHinge.MAX_UP_ANGLE">
-            <summary>
-            Max reachable angle for this hinge in up position. Value in degrees.
-            </summary>
-        </member>
-        <member name="F:BlueQuark.YesHeadHinge.MAX_DOWN_ANGLE">
-            <summary>
-            Max reachable angle for this hinge in down position. Value in degrees.
             </summary>
         </member>
         <member name="F:BlueQuark.YesHeadHinge.DEFAULT_ANGLE">
@@ -10306,6 +10336,26 @@
             Represents the motherboard for high complexity algorithms.
             </summary>
         </member>
+        <member name="P:BlueQuark.MobileData.IsBusy">
+            <summary>
+            True if the wifi is currently busy (Connection, disconnection, retrieving...).
+            </summary>
+        </member>
+        <member name="P:BlueQuark.MobileData.Enabled">
+            <summary>
+            Enables/Disables the WiFi module.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.MobileData.Connect">
+            <summary>
+            Tries to connect to the network.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.MobileData.Disconnect">
+            <summary>
+            Disconnects from the network.
+            </summary>
+        </member>
         <member name="T:BlueQuark.HumanSearchResult">
             <summary>
             The results of a human search.
@@ -10443,6 +10493,11 @@
             <param name="iTargets">The users concerned by the reminder.</param>
             <param name="iRepetitionDays">Repetition of the reminder by week.</param>
             <param name="iReminderState">State of the reminder.</param>
+        </member>
+        <member name="T:BlueQuark.HDCameraType">
+            <summary>
+            Front or back camera.
+            </summary>
         </member>
         <member name="T:BlueQuark.FDotNavigation">
             <summary>
@@ -11041,353 +11096,6 @@
             <summary>
             Korean language.
             </summary>
-        </member>
-        <member name="T:BlueQuark.Remote.SayCmd">
-            <summary>
-            When executed : Set robot mood.
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Remote.SayCmd.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Remote.SayCmd.#ctor(System.String)">
-            <summary>
-            Default constructor.
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Remote.SayCmd.ExecuteImpl">
-            <summary>
-            Execute the command behaviour.
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Remote.SetMoodCmd">
-            <summary>
-            When executed : Set robot mood.
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Remote.SetMoodCmd.#ctor">
-            <summary>
-            Default constructor.
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Remote.SetMoodCmd.#ctor(System.String)">
-            <summary>
-            Default constructor.
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Remote.SetMoodCmd.ExecuteImpl">
-            <summary>
-            Execute the command behaviour.
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Remote.StartAppCmd">
-            <summary>
-            When executed : Set robot mood.
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Remote.StartAppCmd.#ctor">
-            <summary>
-            Default constructor.
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Remote.StartAppCmd.#ctor(System.String)">
-            <summary>
-            Default constructor.
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Remote.StartAppCmd.ExecuteImpl">
-            <summary>
-            Execute the command behaviour.
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Remote.StopWheelsCmd">
-            <summary>
-            When executed : Stops wheels motors.
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Remote.StopWheelsCmd.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Remote.StopWheelsCmd.ExecuteImpl">
-            <summary>
-            Executes the command behaviour.
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Remote.WebRTCListener">
-            <summary>
-            This part listens on the Crossbar server to know if there is any incoming call
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Remote.WebRTCListener.RemoteID">
-            <summary>
-            Used to know the Remote ID for RTC communication
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Remote.WebRTCListener.Ringing">
-            <summary>
-            Used to know if there is a call ongoing
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Remote.WebRTCListener.RemoteType">
-            <summary>
-            The type of the remote.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Remote.WebRTCListener.MessageFromChat">
-            <summary>
-            Use this to know if answer from STT comes from a Chat question
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Remote.WebRTCListener.PublishConnectionRequest(System.String)">
-            <summary>
-            Use this to make a call towards another Buddy
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Remote.WebRTCListener.OnConnectionRequest(System.String)">
-            <summary>
-            Called by Android plugin when message is received from the PubSub of Crossbar
-            </summary>
-            <param name="iMessage"></param>
-        </member>
-        <member name="M:BlueQuark.Remote.WebRTCListener.OnAndroidLog(System.String)">
-            <summary>
-            Called by Android plugin for Debug purposes
-            </summary>
-            <param name="iLogText"></param>
-        </member>
-        <member name="M:BlueQuark.Remote.WebRTCListener.SendNotification(System.String,System.String)">
-            <summary>
-            Sends notification as Crossbar published event
-            </summary>
-            <param name="iTitle">Title of the notification</param>
-            <param name="iMessage">Body message of the notification</param>
-        </member>
-        <member name="M:BlueQuark.Remote.WebRTCListener.ProcessAnswer(System.String)">
-            <summary>
-            Uses this to send back the answer to the user.
-            </summary>
-            <param name="iAnwser"></param>
-        </member>
-        <member name="M:BlueQuark.Remote.WebRTCListener.OnMessageReceived(System.String)">
-            <summary>
-            Used by Android plugin when a chat message is received through WebRTC and sends it back to user
-            </summary>
-            <param name="iChatMessage">Chat message received through WebRTC</param>
-        </member>
-        <member name="M:BlueQuark.Remote.WebRTCListener.PublishNotification(System.String)">
-            <summary>
-            Format of the notification is the following : BuddyID / Title @ Message
-            </summary>
-            <param name="iMessage">Notification message to send</param>
-        </member>
-        <member name="M:BlueQuark.Remote.WebRTCListener.StartListener(System.String,System.String)">
-            <summary>
-            Initializes the Java Android Object that handles PubSub messages from Crossbar
-            </summary>
-            <param name="iUri">Crossbar uri</param>
-            <param name="iRealm">Name of the realm</param>
-        </member>
-        <member name="M:BlueQuark.Remote.WebRTCListener.SendStatus">
-            <summary>
-            Waits until STT has finished listening and is free to use
-            </summary>
-            <param name="iChatMessage">The Chat message received to process</param>
-            <returns></returns>
-        </member>
-        <member name="T:BlueQuark.Remote.ARemoteCommand">
-            <summary>
-            Represents an embedded command sent remotely and executed on the robot.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Remote.ARemoteCommand.Timestamp">
-            <summary>
-            Timestamp of the command execution
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Remote.ARemoteCommand.Parameters">
-            <summary>
-            Parameters of the command
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Remote.ARemoteCommand.IsExecuted">
-            <summary>
-            Checks if the command has been executed
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Remote.ARemoteCommand.#ctor">
-            <summary>
-            Base constructor for deserialization
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Remote.ARemoteCommand.Execute">
-            <summary>
-            Executes the command behaviour defined in ExecuteImpl
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Remote.ARemoteCommand.ExecuteImpl">
-            <summary>
-            Executes the command behaviour.
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Remote.ARemoteCommand.UpdateParams(System.Int32[])">
-            <summary>
-            Updates params in existing command. Allows to avoid recreating a new command for the same purpose.
-            </summary>
-            <param name="iIntegers">Integers that will replace existing Integers in Parameters</param>
-            <returns>The updated command</returns>
-        </member>
-        <member name="M:BlueQuark.Remote.ARemoteCommand.UpdateParams(System.Single[])">
-            <summary>
-            Updates params in existing command. Allows to avoid recreating a new command for the same purpose.
-            </summary>
-            <param name="iSingles">Singles that will replace existing Singles in Parameters</param>
-            <returns>The updated command</returns>
-        </member>
-        <member name="M:BlueQuark.Remote.ARemoteCommand.UpdateParams(System.String[])">
-            <summary>
-            Updates params in existing command. Allows to avoid recreating a new command for the same purpose.
-            </summary>
-            <param name="iStrings">Strings that will replace existing Strings in Parameters</param>
-            <returns>The updated command</returns>
-        </member>
-        <member name="M:BlueQuark.Remote.ARemoteCommand.Serialize">
-            <summary>
-            Creates a custom byte array representing the command.
-            </summary>
-            <returns>The command serialization</returns>
-        </member>
-        <member name="M:BlueQuark.Remote.ARemoteCommand.Deserialize(System.String,System.Char,System.String)">
-            <summary>
-            Creates a command from a string containing successive bytes, separate by ","
-            </summary>
-            <param name="iBytes">The byte string</param>
-            <param name="iSeparator">Separator character between each byte</param>
-            <param name="iAssembly">The assembly where the command belongs</param>
-            <returns>The command, created and init</returns>
-        </member>
-        <member name="M:BlueQuark.Remote.ARemoteCommand.Deserialize(System.Byte[],System.String)">
-            <summary>
-            Creates a command from a byte array
-            </summary>
-            <param name="iBytes">The byte array</param>
-            <param name="iAssembly">The assembly where the command belongs</param>
-            <returns>The command, created and init</returns>
-        </member>
-        <member name="M:BlueQuark.Remote.ARemoteCommand.ToString">
-            <summary>
-            String basic serialization of the command
-            </summary>
-            <returns>Command string value for debug</returns>
-        </member>
-        <member name="T:BlueQuark.Remote.SetNoHingePositionCmd">
-            <summary>
-            When executed : Sets the angular position of the motor at a specific speed
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Remote.SetNoHingePositionCmd.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Remote.SetNoHingePositionCmd.#ctor(System.Single,System.Single)">
-            <summary>
-            When executed : Sets the angular position of the motor at a specific speed
-            </summary>
-            <param name="iAngle">Angle in degrees of the angular position</param>
-            <param name="iSpeed">Speed in degrees/sec of the motor</param>
-        </member>
-        <member name="M:BlueQuark.Remote.SetNoHingePositionCmd.ExecuteImpl">
-            <summary>
-            Executes the command behaviour.
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Remote.SetYesHingePositionCmd">
-            <summary>
-            When executed : Sets the angular position of the motor at a specific speed
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Remote.SetYesHingePositionCmd.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Remote.SetYesHingePositionCmd.#ctor(System.Single,System.Single)">
-            <summary>
-            When executed : Sets the angular position of the motor at a specific speed
-            </summary>
-            <param name="iAngle">Angle in degrees of the angular position</param>
-            <param name="iSpeed">Speed in degrees/sec of the motor</param>
-        </member>
-        <member name="M:BlueQuark.Remote.SetYesHingePositionCmd.ExecuteImpl">
-            <summary>
-            Executes the command behaviour.
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Remote.SetWheelsVelocitiesCmd">
-            <summary>
-            When executed : Controls the speed of the wheels, stops after the timeout.
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Remote.SetWheelsVelocitiesCmd.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Remote.SetWheelsVelocitiesCmd.#ctor(System.Single,System.Single)">
-            <summary>
-            When executed : Sets robot linear (meters / s) and angular (deg / s) velocities.
-            </summary>
-            <param name="iLinearVelocity">Rate of change (in meters by second) of an object position with in a certain time range<see href="https://en.wikipedia.org/wiki/Angular_velocity">Article</see></param>
-            <param name="iAngularVelocity">Rate (in degrees by second) at which it rotates around a chosen center point: that is, the time rate of change of its angular displacement relative to the origin<see href="https://physics.tutorvista.com/motion/linear-velocity.html">Article</see></param>
-        </member>
-        <member name="M:BlueQuark.Remote.SetWheelsVelocitiesCmd.ExecuteImpl">
-            <summary>
-            Executes the command behaviour.
-            </summary>
-        </member>
-        <member name="T:BlueQuark.Remote.RemoteCommandParameters">
-            <summary>
-            Represents parameters for command. Contains it own serialization implementation
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Remote.RemoteCommandParameters.Integers">
-            <summary>
-            Integer storage.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Remote.RemoteCommandParameters.Singles">
-            <summary>
-            Float storage.
-            </summary>
-        </member>
-        <member name="P:BlueQuark.Remote.RemoteCommandParameters.Strings">
-            <summary>
-            Unicode string storage.
-            </summary>
-        </member>
-        <member name="M:BlueQuark.Remote.RemoteCommandParameters.Serialize">
-            <summary>
-            Serialization to byte array of the current param
-            </summary>
-            <returns>Parameter byte array equivalent</returns>
-        </member>
-        <member name="M:BlueQuark.Remote.RemoteCommandParameters.Deserialize(System.Byte[],System.Int32@)">
-            <summary>
-            Create a new CommandParam object from the input byte array
-            </summary>
-            <param name="iBytes">The byte array</param>
-            <param name="ioIndex">The index at the end of the parameter area</param>
-            <returns>The new CommandParam</returns>
-        </member>
-        <member name="M:BlueQuark.Remote.RemoteCommandParameters.ToString">
-            <summary>
-            String basic serialization of the commandparam
-            </summary>
-            <returns>CommandParam string value for debug</returns>
         </member>
         <member name="T:BlueQuark.Geolocalization">
             <summary>
@@ -13321,6 +13029,11 @@
             </summary>
             <param name="iValue">The value to clamp.</param>
             <returns>The clamped value.</returns>
+        </member>
+        <member name="T:BlueQuark.AStringMask`1">
+            <summary>
+            
+            </summary>
         </member>
         <member name="T:BlueQuark.Cognitive">
             <summary>
@@ -15349,7 +15062,7 @@
             If more images are required, oFinished is false.
             </summary>
             <param name="iRGBFrame"></param>
-            <param name="oFinished"></param> 
+            <param name="ioFinished"></param> 
             <returns></returns>
         </member>
         <member name="M:BlueQuark.RoomDetector.SetMap(BlueQuark.Map)">
@@ -17199,6 +16912,26 @@
             Gets if the bluetooth module is enabled.
             </summary>
         </member>
+        <member name="P:BlueQuark.Bluetooth.Discoverable">
+            <summary>
+            Is device discoverable
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Bluetooth.Address">
+            <summary>
+            Bluetooth device address
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Bluetooth.DiscoverableTime">
+            <summary>
+            Time left until discoverability is off
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Bluetooth.Name">
+            <summary>
+            Name of the discoverable device
+            </summary>
+        </member>
         <member name="P:BlueQuark.Bluetooth.PairedDevices">
             <summary>
             Gets the paired devices.
@@ -17236,16 +16969,9 @@
             </summary>
             <seealso cref="T:BlueQuark.BluetoothActionStatus"/>
         </member>
-        <member name="M:BlueQuark.Bluetooth.Enable(System.Boolean,System.Double)">
+        <member name="P:BlueQuark.Bluetooth.OnDiscoverabilityStatusUpdate">
             <summary>
-            Enables bluetooth.
-            </summary>
-            <param name="iIsDiscoverable">Sets if buddy will be discoverable by others devices.</param>
-            <param name="iDiscoverableTimeOut">Sets the timeout during buddy will be discoverable.</param>
-        </member>
-        <member name="M:BlueQuark.Bluetooth.Disable">
-            <summary>
-            Disables bluetooth.
+            Callback array fired when discoverability time changes
             </summary>
         </member>
         <member name="M:BlueQuark.Bluetooth.PairWith(BlueQuark.BluetoothDevice,System.Action{BlueQuark.BluetoothDevice,BlueQuark.BluetoothActionStatus})">
@@ -17378,6 +17104,12 @@
             </summary>
             <seealso cref="T:BlueQuark.BluetoothActionStatus"/>
         </member>
+        <member name="M:BlueQuark.Bluetooth.Listen(System.Action{System.String})">
+            <summary>
+            Listen to incoming data.
+            </summary>
+            <param name="iCallback">Action to be invoked if any data received.</param>
+        </member>
         <member name="T:BlueQuark.IO">
             <summary>
             IO module containing all IO interfaces (Bluetooth, WiFi...) 
@@ -17389,6 +17121,11 @@
             </summary>
         </member>
         <member name="P:BlueQuark.IO.WiFi">
+            <summary>
+            Local wireless networking system management.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.IO.MobileData">
             <summary>
             Local wireless networking system management.
             </summary>
@@ -19278,6 +19015,7 @@
         <member name="P:BlueQuark.Battery.Level">
             <summary>
             Battery value, between 0 (empty) and 1 (full).
+            Returns 2.55 if not available
             </summary>
         </member>
         <member name="P:BlueQuark.Battery.IsJackPlugged">
@@ -19845,6 +19583,23 @@
             </summary>
             <returns>The current microphones state.</returns>
         </member>
+        <member name="P:BlueQuark.Microphones.MicrophoneTypes">
+            <summary>
+            Type of the audio input device
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Microphones.SwitchMicrophone(System.String,System.Boolean)">
+            <summary>
+            Switch audio input device state
+            </summary>
+            <param name="iDeviceID">Device name</param>
+            <param name="iStateTo">Turn on or off</param>
+        </member>
+        <member name="P:BlueQuark.Microphones.CurrentMicrophone">
+            <summary>
+            Currently active microphone
+            </summary>
+        </member>
         <member name="P:BlueQuark.Microphones.SoundOutputParameters">
             <summary>
             Source sound microphones parameters. Set null to restore default parameters.
@@ -20008,7 +19763,18 @@
             Set has no effect if the camera is not opened. Set during open will close and reopen the camera.
             </summary>
         </member>
+        <member name="P:BlueQuark.HDCamera.Type">
+            <summary>
+            Current camera type
+            </summary>
+        </member>
         <member name="M:BlueQuark.HDCamera.Open(BlueQuark.HDCameraMode)">
+            <summary>
+            Opens the device. May take a certain time.
+            </summary>
+            <param name="iMode">Mode to apply for the opening</param>
+        </member>
+        <member name="M:BlueQuark.HDCamera.Open(BlueQuark.HDCameraMode,BlueQuark.HDCameraType)">
             <summary>
             Opens the device. May take a certain time.
             </summary>
@@ -21987,6 +21753,11 @@
             Gray color used in UI.
             </summary>
         </member>
+        <member name="F:BlueQuark.Utils.GRAY_LIGHTER_COLOR2_32">
+            <summary>
+            Selection color used in UI.
+            </summary>
+        </member>
         <member name="F:BlueQuark.Utils.GRAY_COLOR">
             <summary>
             Gray color used in UI.
@@ -22397,6 +22168,22 @@
             <param name="iSeparator">Separator token, ';' by default.</param>
             <returns>The list of item. One string array per line.</returns>
         </member>
+        <member name="M:BlueQuark.Utils.UnserializeCSV(System.IO.StreamReader,System.Char)">
+            <summary>
+            Loads the list of item from the specified csv file.
+            </summary>
+            <param name="iStreamReader">Stream reader to load from.</param>
+            <param name="iSeparator">Separator token, ';' by default.</param>
+            <returns>The list of item. One string array per line.</returns>
+        </member>
+        <member name="M:BlueQuark.Utils.UnserializeCSVString(System.String,System.Char)">
+            <summary>
+            Loads the list of item from the specified csv string.
+            </summary>
+            <param name="iData">String in CSV format.</param>
+            <param name="iSeparator">Separator token, ';' by default.</param>
+            <returns>The list of item. One string array per line.</returns>
+        </member>
         <member name="M:BlueQuark.Utils.SerializeXML``1(``0,System.String)">
             <summary>
             Serializes an object. Auto add .xml extension at the end of the path.
@@ -22411,6 +22198,14 @@
             </summary>
             <typeparam name="T">Type of the objet to deserialize.</typeparam>
             <param name="iPath">Path to the file. Cannot be empty.</param>
+            <returns>The created object from the XML. Null if unexisting/bad file format or bad filename.</returns>
+        </member>
+        <member name="M:BlueQuark.Utils.UnserializeXML``1(System.IO.StreamReader)">
+            <summary>
+            Deserializes an xml stream into an object.
+            </summary>
+            <typeparam name="T">Type of the objet to deserialize.</typeparam>
+            <param name="iStreamReader">Stream with xml content.</param>
             <returns>The created object from the XML. Null if unexisting/bad file format or bad filename.</returns>
         </member>
         <member name="M:BlueQuark.Utils.UnserializeXMLString``1(System.String)">
@@ -22429,6 +22224,43 @@
             <param name="iPath">Path to the file. Cannot be empty.</param>
             <param name="iNodeName">Name of the node to unserialize. Cannot be empty.</param>
             <returns>The created object from the XML. Null if unexisting/bad file format or bad filename.</returns>
+        </member>
+        <member name="M:BlueQuark.Utils.SerializeYAML(System.Object)">
+            <summary>
+            Serializes object to YAML.
+            </summary>
+            <param name="iSerializableObject">Object to serialize.</param>
+            <returns>Serialized string.</returns>
+        </member>
+        <member name="M:BlueQuark.Utils.UnserializeYAML``1(System.String)">
+            <summary>
+            Deserializes custom object from a YAML string.
+            </summary>
+            <typeparam name="T">Type of object to deserialize to.</typeparam>
+            <param name="iData">YAML string.</param>
+            <returns>Deserialized object.</returns>
+        </member>
+        <member name="M:BlueQuark.Utils.UnserializeYAML``1(System.IO.StreamReader)">
+            <summary>
+            Deserializes custom object from a YAML stream.
+            </summary>
+            <typeparam name="T">Type of object to deserialize to.</typeparam>
+            <param name="iStreamReader">YAML stream.</param>
+            <returns>Deserialized object.</returns>
+        </member>
+        <member name="M:BlueQuark.Utils.UnserializeYAMLtoObject(System.String)">
+            <summary>
+            Deserializes object from a YAML string.
+            </summary>
+            <param name="iData">YAML string.</param>
+            <returns>Deserialized object.</returns>
+        </member>
+        <member name="M:BlueQuark.Utils.UnserializeYAMLtoObject(System.IO.StreamReader)">
+            <summary>
+            Deserializes object from a YAML stream.
+            </summary>
+            <param name="iStreamReader">YAML stream.</param>
+            <returns>Deserialized object.</returns>
         </member>
         <member name="M:BlueQuark.Utils.Uncompress(System.String,System.String)">
             <summary>
@@ -23362,35 +23194,12 @@
             <param name="iFileName">The file name.</param>
             <returns>The file name with the OS path prefix on it.</returns>
         </member>
-        <member name="M:BlueQuark.Utils.ParametersToWWWFormURLEncoded(System.Collections.Generic.IDictionary{System.String,System.String})">
-            <summary>
-            Converts a IDictionary to a string format.
-            </summary>
-            <param name="iParameters">The IDictionary to convert;</param>
-            <returns>The converted IDictionnary.</returns>
-        </member>
         <member name="M:BlueQuark.Utils.MD5(System.String)">
             <summary>
             Converts a input to MD5 Format.
             </summary>
             <param name="iInput">The input to convert.</param>
             <returns>The MD5 result.</returns>
-        </member>
-        <member name="M:BlueQuark.Utils.GetCookies(System.String)">
-            <summary>
-            Gets cookies of a URL.
-            </summary>
-            <param name="iURL">The url.</param>
-            <returns>The cookie collection.</returns>
-        </member>
-        <member name="M:BlueQuark.Utils.Post(System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.Net.CookieCollection)">
-            <summary>
-            Sends a post request to a URL.
-            </summary>
-            <param name="iURL">The URL.</param>
-            <param name="iParameters">The post parameters.</param>
-            <param name="iCookies">The cookies collection.</param>
-            <returns>The answer.</returns>
         </member>
         <member name="M:BlueQuark.Utils.XPathSearch(System.String,System.String)">
             <summary>
@@ -23525,8 +23334,8 @@
             </summary>
             <param name="iStart">The start vector.</param>
             <param name="iEnd">The end vector.</param>
-            <param name="iDist">Distance in meter.</param>
-            <param name="iAngle">Angle in degree.</param>
+            <param name="ioDist">Distance in meter.</param>
+            <param name="ioAngle">Angle in degree.</param>
         </member>
         <member name="M:BlueQuark.Utils.FormatAngle(System.Single)">
             <summary>
@@ -23601,15 +23410,33 @@
             </summary>
             <returns>Object of provided type.</returns>
         </member>
+        <member name="M:BlueQuark.Utils.UnserializeJSON``1(System.IO.StreamReader)">
+            <summary>
+            Deserializes JSON object from StreamReader.
+            </summary>
+            <returns>Object of provided type.</returns>
+        </member>
         <member name="M:BlueQuark.Utils.UnserializeJSONtoObject(System.String)">
             <summary>
             Deserializes JSON object from JSON string.
             </summary>
             <returns>Object of provided type.</returns>
         </member>
+        <member name="M:BlueQuark.Utils.UnserializeJSONtoObject(System.IO.StreamReader)">
+            <summary>
+            Deserializes JSON object from StreamReader.
+            </summary>
+            <returns>Object of provided type.</returns>
+        </member>
         <member name="M:BlueQuark.Utils.UnserializeJSONtoArray(System.String)">
             <summary>
             Deserializes JSON array from JSON string.
+            </summary>
+            <returns>Object of provided type.</returns>
+        </member>
+        <member name="M:BlueQuark.Utils.UnserializeJSONtoArray(System.IO.StreamReader)">
+            <summary>
+            Deserializes JSON array from StreamReader.
             </summary>
             <returns>Object of provided type.</returns>
         </member>
@@ -23665,6 +23492,13 @@
             Standard deviation
             </summary>
             <param name="iList">float values</param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Utils.FullName(BlueQuark.RESTMediaType)">
+            <summary>
+            Convert RESTMediaType.APP_FORM to 'application/x-www-form-urlencoded'
+            </summary>
+            <param name="iType">Media type.</param>
             <returns></returns>
         </member>
         <member name="T:BlueQuark.SpeechHotword">
@@ -28820,7 +28654,7 @@
         </member>
         <member name="T:BlueQuark.RadioError">
             <summary>
-            Represents the error that can occurs when using one of the Radio methods.
+            Represents the error that can occur when using one of the Radio methods.
             </summary>
         </member>
         <member name="F:BlueQuark.RadioError.NONE">
@@ -28991,30 +28825,753 @@
             </summary>
             <returns>the string</returns>
         </member>
-        <member name="T:BlueQuark.Twitter">
+        <member name="T:BlueQuark.REST">
             <summary>
-            Twitter component to post message on Twitter network.
+            Base toolkit to get or send data via HTTP
             </summary>
         </member>
-        <member name="P:BlueQuark.Twitter.IsBusy">
+        <member name="T:BlueQuark.REST.Method">
             <summary>
-            Returns true if a message is sending.
+            
             </summary>
         </member>
-        <member name="M:BlueQuark.Twitter.Tweet(System.String,UnityEngine.Texture2D,System.Action{System.Boolean})">
+        <member name="F:BlueQuark.REST.Method.GET">
             <summary>
-            Send a tweet.
+            
             </summary>
-            <param name="iMsg">Message of the tweet. 144 characters max.</param>
-            <param name="iImg">Image to send.</param>
-            <param name="iOnEndSending">Callback called on end of message sending.</param>
         </member>
-        <member name="M:BlueQuark.Twitter.Tweet(System.String,System.Action{System.Boolean})">
+        <member name="F:BlueQuark.REST.Method.POST">
             <summary>
-            Send a tweet.
+            
             </summary>
-            <param name="iMsg">Message of the tweet. 144 characters max.</param>
-            <param name="iOnEndSending">Callback called on end of message sending.</param>
+        </member>
+        <member name="F:BlueQuark.REST.Method.DELETE">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:BlueQuark.REST.Method.PUT">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:BlueQuark.REST.IsBusy">
+            <summary>
+            Returns true if data is being sent.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.REST.Get(BlueQuark.RESTRequest,System.Action{BlueQuark.RESTResponse},System.Func{BlueQuark.RESTResponse,System.String})">
+            <summary>
+            Send GET request to download file or get other data
+            </summary>
+            <param name="iRequest">Web request. You can also use a simple string to get from URL or a tuple of two strings to download data.</param>
+            <param name="iCallback">Action that will be called when file is downloaded or if an error occurs</param>
+            <param name="iProgressTitle">What will be written on progress bar. If null (by default), progress bar will not be shown.</param>
+        </member>
+        <member name="M:BlueQuark.REST.Get(System.String,System.String,System.Action{BlueQuark.RESTResponse},System.Func{BlueQuark.RESTResponse,System.String})">
+            <summary>
+            Send GET request to download file or get other data
+            </summary>
+            <param name="iURL">URL to get</param>
+            <param name="iSavePath">Where file will be written to</param>
+            <param name="iCallback">Action that will be called when file is downloaded or if an error occurs</param>
+            <param name="iProgressTitle">What will be written on progress bar. If null (by default), progress bar will not be shown.</param>
+        </member>
+        <member name="M:BlueQuark.REST.GetBatch(BlueQuark.RESTRequest[],System.Action{BlueQuark.RESTResponse},System.Func{BlueQuark.RESTResponse,System.String})">
+            <summary>
+            Send GET request to download file or get other data
+            </summary>
+            <param name="iRequests">Web requests. You can also use simple strings to get from URLs or tuples of two strings to download data.</param>
+            <param name="iCallback">Action that will be called when file is downloaded or if an error occurs.</param>
+            <param name="iProgressTitle">What will be written on progress bar. If null (by default), progress bar will not be shown.</param>
+        </member>
+        <member name="M:BlueQuark.REST.Post(System.String,BlueQuark.RESTForm,System.Action{BlueQuark.RESTResponse},System.Func{BlueQuark.RESTResponse,System.String})">
+            <summary>
+            Send POST request to download file or get other data
+            </summary>
+            <param name="iURL">URL to send request to.</param>
+            <param name="iForm">Form with request data.</param>
+            <param name="iCallback">Action that will be called when file is downloaded or if an error occurs.</param>
+            <param name="iProgressTitle">What will be written on progress bar. If null (by default), progress bar will not be shown.</param>
+        </member>
+        <member name="M:BlueQuark.REST.Post(System.String,System.Byte[],System.Action{BlueQuark.RESTResponse},System.Func{BlueQuark.RESTResponse,System.String})">
+            <summary>
+            Send POST request to download file or get other data
+            </summary>
+            <param name="iURL">URL to send request to.</param>
+            <param name="iBytes">Raw byte array.</param>
+            <param name="iCallback">Action that will be called when file is downloaded or if an error occurs.</param>
+            <param name="iProgressTitle">What will be written on progress bar. If null (by default), progress bar will not be shown.</param>
+        </member>
+        <member name="M:BlueQuark.REST.Post(System.String,System.String,BlueQuark.RESTForm,System.Action{BlueQuark.RESTResponse},System.Func{BlueQuark.RESTResponse,System.String})">
+            <summary>
+            Send POST request to download file or get other data
+            </summary>
+            <param name="iURL">URL to send request to.</param>
+            <param name="iForm">Form with request data.</param>
+            <param name="iSavePath">Where file will be written to</param>
+            <param name="iCallback">Action that will be called when file is downloaded or if an error occurs.</param>
+            <param name="iProgressTitle">What will be written on progress bar. If null (by default), progress bar will not be shown.</param>
+        </member>
+        <member name="M:BlueQuark.REST.Post(BlueQuark.RESTRequest,System.Action{BlueQuark.RESTResponse},System.Func{BlueQuark.RESTResponse,System.String})">
+            <summary>
+            Send POST request to download file or get other data
+            </summary>
+            <param name="iRequest">Web request with URL, form and optional download path. You can use a tuple of string and form.</param>
+            <param name="iCallback">Action that will be called when file is downloaded or if an error occurs.</param>
+            <param name="iProgressTitle">What will be written on progress bar. If null (by default), progress bar will not be shown.</param>
+        </member>
+        <member name="M:BlueQuark.REST.PostBatch(BlueQuark.RESTRequest[],System.Action{BlueQuark.RESTResponse},System.Func{BlueQuark.RESTResponse,System.String})">
+            <summary>
+            Send GET request to download file or get other data
+            </summary>
+            <param name="iRequests">Web requests. You can also use tuples of string and form.</param>
+            <param name="iCallback">Action that will be called when file is downloaded or if an error occurs.</param>
+            <param name="iProgressTitle">What will be written on progress bar. If null (by default), progress bar will not be shown.</param>
+        </member>
+        <member name="M:BlueQuark.REST.Send(BlueQuark.RESTRequest,System.Action{BlueQuark.RESTResponse},System.Func{BlueQuark.RESTResponse,System.String})">
+            <summary>
+            Send custom request to download file or get other data.
+            </summary>
+            <param name="iRequest">Web request.</param>
+            <param name="iCallback">Action that will be called when file is downloaded or if an error occurs</param>
+            <param name="iProgressTitle">What will be written on progress bar. If null (by default), progress bar will not be shown.</param>
+        </member>
+        <member name="M:BlueQuark.REST.SendBatch(BlueQuark.RESTRequest[],System.Action{BlueQuark.RESTResponse},System.Func{BlueQuark.RESTResponse,System.String})">
+            <summary>
+            Send multiple custom requests to download file or get other data.
+            </summary>
+            <param name="iRequests">Web requests.</param>
+            <param name="iCallback">Action that will be called when file is downloaded or if an error occurs.</param>
+            <param name="iProgressTitle">What will be written on progress bar. If null (by default), progress bar will not be shown.</param>
+        </member>
+        <member name="M:BlueQuark.REST.Delete(BlueQuark.RESTRequest,System.Action{BlueQuark.RESTResponse},System.Func{BlueQuark.RESTResponse,System.String})">
+            <summary>
+            Send DELETE request to remote server
+            </summary>
+            <param name="iRequest">Web request.</param>
+            <param name="iCallback">Action that will be called when request is finished or if an error occurs</param>
+            <param name="iProgressTitle">What will be written on progress bar. If null (by default), progress bar will not be shown.</param>
+        </member>
+        <member name="M:BlueQuark.REST.Delete(System.String,System.Action{BlueQuark.RESTResponse},System.Func{BlueQuark.RESTResponse,System.String})">
+            <summary>
+            Send DELETE request to remote server
+            </summary>
+            <param name="iURL">URL to get</param>
+            <param name="iCallback">Action that will be called when request is finished or if an error occurs</param>
+            <param name="iProgressTitle">What will be written on progress bar. If null (by default), progress bar will not be shown.</param>
+        </member>
+        <member name="M:BlueQuark.REST.LoadAppCertificate(System.String)">
+            <summary>
+            Register a new SSL certificate in App keychain.
+            </summary>
+            <param name="iName">Name of the certificate .pem file without extension.</param>
+        </member>
+        <member name="M:BlueQuark.REST.UnloadAppCertificate(System.String)">
+            <summary>
+            Unregister SSL certificate from App keychain.
+            </summary>
+            <param name="iName">Name of the certificate .pem file without extension.</param>
+        </member>
+        <member name="P:BlueQuark.REST.LocalIp">
+            <summary>
+            Local IP address of the machine
+            </summary>
+        </member>
+        <member name="M:BlueQuark.REST.LoadAppCertificates">
+            <summary>
+            Register all SSL certificates found in local Certificates folder to App keychain.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.REST.UnloadAppCertificates">
+            <summary>
+            Unregister all SSL certificates from App keychain.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.REST.LoadOSCertificate(System.String)">
+            <summary>
+            Register a new SSL certificate in OS keychain.
+            </summary>
+            <param name="iName">Name of the certificate .pem file without extension.</param>
+        </member>
+        <member name="M:BlueQuark.REST.UnloadOSCertificate(System.String)">
+            <summary>
+            Unregister SSL certificate from OS keychain.
+            </summary>
+            <param name="iName">Name of the certificate .pem file without extension.</param>
+        </member>
+        <member name="T:BlueQuark.RESTError">
+            <summary>
+            Types of errors that can happen during the network exchange.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTError.NONE">
+            <summary>
+            Empty or unknown error handler.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTError.NO_CONNECTION">
+            <summary>
+            Could not connect to the internet or was interrupted.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTError.FILE_CORRUPT">
+            <summary>
+            Final file size is not equal to the expected.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTError.RESPONSE_EMPTY">
+            <summary>
+            Response received does not contain any data.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTError.TIMEOUT">
+            <summary>
+            Response is being fetched too long.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.RESTForm">
+            <summary>
+            HTTP form data holder. Can contain strings or byte arrays.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.RESTFormContent">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:BlueQuark.RESTFormContent.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:BlueQuark.RESTFormContent.Filename">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:BlueQuark.RESTFormContent.HTTPContent">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:BlueQuark.RESTHeader">
+            <summary>
+            Header for HTTP request.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.RESTHeader.#ctor">
+            <summary>
+            Header for HTTP request. Use static methods to create different types of headers.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.RESTHeader.Custom(System.String,System.String)">
+            <summary>
+            Custom HTTP header.
+            </summary>
+            <param name="iName">Header title.</param>
+            <param name="iValue">Header text content.</param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.RESTHeader.Content(BlueQuark.RESTMediaType,System.String)">
+            <summary>
+            ContentType HTTP header.
+            </summary>
+            <param name="iType">Media type.</param>
+            <param name="iValue">Optional value (e.g., encoding).</param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.RESTHeader.Accept(BlueQuark.RESTMediaType)">
+            <summary>
+            Accept HTTP header.
+            </summary>
+            <param name="iType">Media type.</param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.RESTHeader.Authorization(System.String)">
+            <summary>
+            Authorization HTTP header.
+            </summary>
+            <param name="iValue">Header text content.</param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.RESTHeader.Bearer(System.String)">
+            <summary>
+            Authorization HTTP header with bearer token.
+            </summary>
+            <param name="iValue">Bearer token.</param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.RESTHeader.UserAgent(System.String)">
+            <summary>
+            User agent HTTP header.
+            </summary>
+            <param name="iValue">User agent info.</param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.RESTHeader.UserAgent(System.String,System.String)">
+            <summary>
+            User agent HTTP header.
+            </summary>
+            <param name="iName">Name of user agent.</param>
+            <param name="iVersion">User agent version.</param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.RESTHeader.Cookies(System.String)">
+            <summary>
+            Cookies HTTP header.
+            </summary>
+            <param name="iValue">Collection of cookies.</param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.RESTHeader.ApplyTo(System.Net.Http.HttpRequestMessage)">
+            <summary>
+            Add header to request message.
+            </summary>
+            <param name="iMessage">Message to add to.</param>
+        </member>
+        <member name="M:BlueQuark.RESTHeader.GetMediaTypeName(BlueQuark.RESTMediaType)">
+            <summary>
+            Convert RESTMediaType.APP_FORM to 'application/x-www-form-urlencoded'
+            </summary>
+            <param name="iType">Media type.</param>
+            <returns></returns>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.APP_JAVA">
+            <summary>
+            application/
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.APP_JAVASCRIPT">
+            <summary>
+            application/
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.APP_OCTET">
+            <summary>
+            application/
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.APP_OGG">
+            <summary>
+            application/ogg
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.APP_PDF">
+            <summary>
+            application/pdf
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.APP_XHTML">
+            <summary>
+            application/
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.APP_JSON">
+            <summary>
+            application/json
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.APP_LDJSON">
+            <summary>
+            application/
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.APP_XML">
+            <summary>
+            application/xml
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.APP_ZIP">
+            <summary>
+            application/zip
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.APP_FORM">
+            <summary>
+            application/x-www-form-urlencoded
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.AUDIO_MPEG">
+            <summary>
+            audio/mpeg
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.AUDIO_WMA">
+            <summary>
+            audio/wma
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.AUDIO_WAV">
+            <summary>
+            audio/wav
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.IMG_GIF">
+            <summary>
+            image/gif
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.IMG_JPEG">
+            <summary>
+            image/
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.IMG_PNG">
+            <summary>
+            image/png
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.IMG_TIFF">
+            <summary>
+            image/tiff
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.IMG_ICON">
+            <summary>
+            image/
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.IMG_SVG">
+            <summary>
+            image/svg
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.MULTI_MIXED">
+            <summary>
+            multipart/
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.MULTI_ALT">
+            <summary>
+            multipart/
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.MULTI_RELATED">
+            <summary>
+            multipart/
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.MULTI_FORM">
+            <summary>
+            multipart/
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.TEXT_CSS">
+            <summary>
+            text/
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.TEXT_CSV">
+            <summary>
+            text/
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.TEXT_HTML">
+            <summary>
+            text/
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.TEXT_JAVASCRIPT">
+            <summary>
+            text/
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.TEXT_PLAIN">
+            <summary>
+            text/
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.TEXT_XML">
+            <summary>
+            text/
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.VIDEO_MPEG">
+            <summary>
+            video/
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.VIDEO_MP4">
+            <summary>
+            video/
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.VIDEO_WMV">
+            <summary>
+            video/
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.VIDEO_MSV">
+            <summary>
+            video/
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.VIDEO_FLV">
+            <summary>
+            video/
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTMediaType.VIDEO_WEBM">
+            <summary>
+            video/
+            </summary>
+        </member>
+        <member name="T:BlueQuark.RESTRequest">
+            <summary>
+            Collection of REST request parameters.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.RESTRequest.URL">
+            <summary>
+            Remote path to send request to.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.RESTRequest.SavePath">
+            <summary>
+            Local path to save result to.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.RESTRequest.Form">
+            <summary>
+            Web multipart form.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.RESTRequest.RawContent">
+            <summary>
+            Raw content, e.g. byte array.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.RESTRequest.ByteContent">
+            <summary>
+            Raw byte array to send.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.RESTRequest.IsCritical">
+            <summary>
+            To stop batch request if this piece is missing.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.RESTRequest.Method">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:BlueQuark.RESTRequest.Headers">
+            <summary>
+            Headers of the request.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.RESTRequest.InternetAccessTimeout">
+            <summary>
+            How long to wait for internet. Default is 10s.
+            If 0, there will be no check.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.RESTRequest.Priority">
+            <summary>
+            Query priority in the queue. Default is 0.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.RESTRequest.GETRequest(System.String,System.String,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="iURL"></param>
+            <param name="iSavePath"></param>
+            <param name="iIsCritical"></param>
+        </member>
+        <member name="M:BlueQuark.RESTRequest.POSTRequest(System.String,BlueQuark.RESTForm,System.String,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="iURL"></param>
+            <param name="iForm"></param>
+            <param name="iSavePath"></param>
+            <param name="iIsCritical"></param>
+        </member>
+        <member name="M:BlueQuark.RESTRequest.POSTRequest(System.String,System.Byte[],System.String,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="iURL"></param>
+            <param name="iBytes"></param>
+            <param name="iSavePath"></param>
+            <param name="iIsCritical"></param>
+        </member>
+        <member name="P:BlueQuark.RESTRequest.Content">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:BlueQuark.RESTResponse">
+            <summary>
+            The result of the finished web request.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTResponse.ProgressUpload">
+            <summary>
+            Progress of query, 0 - 1
+            </summary>
+        </member>
+        <member name="P:BlueQuark.RESTResponse.FilePath">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:BlueQuark.RESTResponse.State">
+            <summary>
+            State of the parent request.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.RESTResponse.Error">
+            <summary>
+            Reason why exchange has failed or None
+            </summary>
+        </member>
+        <member name="P:BlueQuark.RESTResponse.ErrorDescription">
+            <summary>
+            Detailed description of an error, if any.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.RESTResponse.Stream">
+            <summary>
+            File or Memory stream assotiated with response.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.RESTResponse.#ctor(System.IO.Stream)">
+            <summary>
+            Response for REST request.
+            </summary>
+            <param name="iStream">Stream to use.</param>
+        </member>
+        <member name="M:BlueQuark.RESTResponse.#ctor(BlueQuark.RESTResponse,System.IO.Stream)">
+            <summary>
+            Response for REST request.
+            </summary>
+            <param name="iResponse">Other response to copy data from.</param>
+            <param name="iStream">Optional stream to use. If not provided, using stream from other response.</param>
+        </member>
+        <member name="P:BlueQuark.RESTResponse.CurrentProgress">
+            <summary>
+            Progress of query, 0 - 1
+            </summary>
+        </member>
+        <member name="P:BlueQuark.RESTResponse.Bytes">
+            <summary>
+            Raw received byte array
+            </summary>
+        </member>
+        <member name="M:BlueQuark.RESTResponse.AsText">
+            <summary>
+            Get text from bytes
+            </summary>
+            <returns>String data from stream.</returns>
+        </member>
+        <member name="M:BlueQuark.RESTResponse.AsJSON``1">
+            <summary>
+            Convert bytes to JSON and try to unserialize it to a custom type.
+            </summary>
+            <typeparam name="T">Custom type to unserialize to.</typeparam>
+            <returns>Deserialized object.</returns>
+        </member>
+        <member name="M:BlueQuark.RESTResponse.AsJSONObject">
+            <summary>
+            Convert bytes to JSON and try to unserialize it to object.
+            </summary>
+            <returns>Deserialized JSON object.</returns>
+        </member>
+        <member name="M:BlueQuark.RESTResponse.AsJSONArray">
+            <summary>
+            Convert bytes to JSON and try to unserialize it to array.
+            </summary>
+            <returns>Deserialized JSON array.</returns>
+        </member>
+        <member name="M:BlueQuark.RESTResponse.AsXML``1">
+            <summary>
+            Convert bytes to XML and try to unserialize it.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns>Deserialized XML object.</returns>
+        </member>
+        <member name="M:BlueQuark.RESTResponse.AsCSV(System.Char)">
+            <summary>
+            Convert bytes to CSV and try to unserialize it.
+            </summary>
+            <param name="iSeparator">Separator token, ';' by default.</param>
+            <returns>Deserialized CSV list.</returns>
+        </member>
+        <member name="M:BlueQuark.RESTResponse.AsYAML``1">
+            <summary>
+            Convert bytes to YAML and try to unserialize it.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns>Deserialized object.</returns>
+        </member>
+        <member name="M:BlueQuark.RESTResponse.AsYAMLObject">
+            <summary>
+            Convert bytes to YAML object.
+            </summary>
+            <returns>Deserialized YAML object.</returns>
+        </member>
+        <member name="M:BlueQuark.RESTResponse.AsTexture">
+            <summary>
+            Convert bytes to Texture.
+            </summary>
+            <returns>Texture2D</returns>
+        </member>
+        <member name="M:BlueQuark.RESTResponse.DoUsingStreamReader``1(System.Func{System.IO.StreamReader,``0})">
+            <summary>
+            Perform
+            </summary>
+            <typeparam name="T">Optional generic return type.</typeparam>
+            <param name="iAction">Action that uses StreamReader to return something.</param>
+            <returns>Result of provided action.</returns>
+        </member>
+        <member name="T:BlueQuark.RESTState">
+            <summary>
+            Current state of the REST request.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTState.IDLE">
+            <summary>
+            Request has not started.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTState.WAITING_INTERNET">
+            <summary>
+            Request is waiting for retry.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTState.READY">
+            <summary>
+            Request is ready to start.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTState.SENDING">
+            <summary>
+            Sending request or uploading data to the network.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTState.RECEIVING">
+            <summary>
+            Downloading data from the network.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTState.FINISHED">
+            <summary>
+            Finished processing current query.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTState.SUCCEEDED">
+            <summary>
+            Request has finished without known errors.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.RESTState.FAILED">
+            <summary>
+            Request has encountered some error. Check Error member.
+            </summary>
         </member>
         <member name="T:BlueQuark.Weather">
             <summary>
@@ -29323,9 +29880,9 @@
             Email password of the robot.
             </summary>
         </member>
-        <member name="P:BlueQuark.WebServices.Twitter">
+        <member name="P:BlueQuark.WebServices.REST">
             <summary>
-            Twitter API access to send tweet with or without picture attached.
+            Base toolkit to get or send data via HTTP
             </summary>
         </member>
         <member name="T:BlueQuark.Wikipedia">
@@ -29338,10 +29895,100 @@
             Returns true if a request is processing.
             </summary>
         </member>
-        <member name="M:BlueQuark.Wikipedia.SearchFor(System.String,System.Action{System.String})">
+        <member name="M:BlueQuark.Wikipedia.Search(System.String,System.Action{BlueQuark.WikiItem[]})">
             <summary>
-            Processes a search about the corresponding word.
+            Search Wikipedia for the corresponding word and get all results.
             </summary>
+            <param name="iWord">The word to define.</param>
+            <param name="iOnEndOfSearch">Callback with the retrieve response.</param>
+        </member>
+        <member name="M:BlueQuark.Wikipedia.Search(BlueQuark.ISO6391Code,System.String,System.Action{BlueQuark.WikiItem[]})">
+            <summary>
+            Search Wikipedia for the corresponding word and get all results.
+            </summary>
+            <param name="iLanguage">Language of the search.</param>
+            <param name="iWord">The word to define.</param>
+            <param name="iOnEndOfSearch">Callback with the retrieve response.</param>
+        </member>
+        <member name="M:BlueQuark.Wikipedia.Search(BlueQuark.ISO6391Code,System.String,System.Boolean,System.Boolean,System.Action{BlueQuark.WikiItem[]})">
+            <summary>
+            Search Wikipedia for the corresponding word and get all results.
+            </summary>
+            <param name="iLanguage">Language of the search.</param>
+            <param name="iWord">The word to define.</param>
+            <param name="iTitleOnly">Search only in article titles.</param>
+            <param name="iIsStrict">Search exactly the query provided.</param>
+            <param name="iOnEndOfSearch">Callback with the retrieve response.</param>
+        </member>
+        <member name="M:BlueQuark.Wikipedia.Search(System.String,System.Action{BlueQuark.WikiItem})">
+            <summary>
+            Search Wikipedia for the corresponding word and get the first result.
+            </summary>
+            <param name="iWord">The word to define.</param>
+            <param name="iOnEndOfSearch">Callback with the retrieve response.</param>
+        </member>
+        <member name="M:BlueQuark.Wikipedia.Search(BlueQuark.ISO6391Code,System.String,System.Action{BlueQuark.WikiItem})">
+            <summary>
+            Search Wikipedia for the corresponding word and get the first result.
+            </summary>
+            <param name="iLanguage">Language of the search.</param>
+            <param name="iWord">The word to define.</param>
+            <param name="iOnEndOfSearch">Callback with the retrieve response.</param>
+        </member>
+        <member name="M:BlueQuark.Wikipedia.Search(BlueQuark.ISO6391Code,System.String,System.Boolean,System.Boolean,System.Action{BlueQuark.WikiItem})">
+            <summary>
+            Search Wikipedia for the corresponding word and get the first result.
+            </summary>
+            <param name="iLanguage">Language of the search.</param>
+            <param name="iWord">The word to define.</param>
+            <param name="iTitleOnly">Search only in article titles.</param>
+            <param name="iIsStrict">Search exactly the query provided.</param>
+            <param name="iOnEndOfSearch">Callback with the retrieve response.</param>
+        </member>
+        <member name="M:BlueQuark.Wikipedia.GetDefinition(System.String,System.Action{System.String})">
+            <summary>
+            Get a short definition of the corresponding word.
+            </summary>
+            <param name="iWord">The word to define.</param>
+            <param name="iOnEndOfSearch">Callback with the retrieve response.</param>
+        </member>
+        <member name="M:BlueQuark.Wikipedia.GetDefinition(BlueQuark.ISO6391Code,System.String,System.Action{System.String})">
+            <summary>
+            Get a short definition of the corresponding word.
+            </summary>
+            <param name="iLanguage">Language of the search.</param>
+            <param name="iWord">The word to define.</param>
+            <param name="iOnEndOfSearch">Callback with the retrieve response.</param>
+        </member>
+        <member name="M:BlueQuark.Wikipedia.GetExtract(System.String,System.Action{System.String})">
+            <summary>
+            Get a description extract for the corresponding word.
+            </summary>
+            <param name="iWord">The word to define.</param>
+            <param name="iOnEndOfSearch">Callback with the retrieve response.</param>
+        </member>
+        <member name="M:BlueQuark.Wikipedia.GetExtract(BlueQuark.ISO6391Code,System.String,System.Action{System.String})">
+            <summary>
+            Get a description extract for the corresponding word.
+            </summary>
+            <param name="iLanguage">Language of the search.</param>
+            <param name="iWord">The word to define.</param>
+            <param name="iOnEndOfSearch">Callback with the retrieve response.</param>
+        </member>
+        <member name="M:BlueQuark.Wikipedia.GetImage(System.String,System.Action{UnityEngine.Texture2D})">
+            <summary>
+            Get a main image of the wikipedia search result for the corresponding word.
+            Null if word is not found or has no images.
+            </summary>
+            <param name="iWord">The word to define.</param>
+            <param name="iOnEndOfSearch">Callback with the retrieve response.</param>
+        </member>
+        <member name="M:BlueQuark.Wikipedia.GetImage(BlueQuark.ISO6391Code,System.String,System.Action{UnityEngine.Texture2D})">
+            <summary>
+            Get a main image of the wikipedia search result for the corresponding word.
+            Null if word is not found or has no images.
+            </summary>
+            <param name="iLanguage">Language of the search.</param>
             <param name="iWord">The word to define.</param>
             <param name="iOnEndOfSearch">Callback with the retrieve response.</param>
         </member>
@@ -29455,6 +30102,51 @@
         <member name="M:BlueQuark.EMail.ClearFileAttachment">
             <summary>
             Clears the list of file attached to the mail.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.WikiItem">
+            <summary>
+            Wikipedia search result.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.WikiItem.PageID">
+            <summary>
+            Article ID in wiki database.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.WikiItem.URL">
+            <summary>
+            URL of the article.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.WikiItem.Title">
+            <summary>
+            Title of the article.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.WikiItem.Definition">
+            <summary>
+            Short definition.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.WikiItem.Extract">
+            <summary>
+            First paragraph of the article.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.WikiItem.Image">
+            <summary>
+            URL of the main image of the article, if exists.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.WikiItem.Language">
+            <summary>
+            The language of the containing wiki.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.WikiItem.Index">
+            <summary>
+            Index in search results.
             </summary>
         </member>
     </members>

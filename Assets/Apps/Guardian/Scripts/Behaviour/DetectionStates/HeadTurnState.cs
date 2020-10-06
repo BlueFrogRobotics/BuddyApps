@@ -57,14 +57,14 @@ namespace BuddyApp.Guardian
             }
 			// else if middle and previous was left, go right
 			else if (mDetectionManager.PreviousScanLeft) {
-                Buddy.Actuators.Head.No.SetPosition(NoHeadHinge.MAX_RIGHT_ANGLE, NoHeadHinge.MAX_ANG_VELOCITY);
+                Buddy.Actuators.Head.No.SetPosition(Buddy.Actuators.Head.No.AngleMax, NoHeadHinge.MAX_ANG_VELOCITY);
 				mDetectionManager.PreviousScanLeft = false;
-                mAngleDestination = NoHeadHinge.MAX_RIGHT_ANGLE;
+                mAngleDestination = Buddy.Actuators.Head.No.AngleMax;
                 // else go left
             } else {
-                Buddy.Actuators.Head.No.SetPosition(NoHeadHinge.MAX_LEFT_ANGLE, NoHeadHinge.MAX_ANG_VELOCITY);
+                Buddy.Actuators.Head.No.SetPosition(Buddy.Actuators.Head.No.AngleMin, NoHeadHinge.MAX_ANG_VELOCITY);
 				mDetectionManager.PreviousScanLeft = true;
-                mAngleDestination = NoHeadHinge.MAX_LEFT_ANGLE;
+                mAngleDestination = Buddy.Actuators.Head.No.AngleMin;
 
             }
 

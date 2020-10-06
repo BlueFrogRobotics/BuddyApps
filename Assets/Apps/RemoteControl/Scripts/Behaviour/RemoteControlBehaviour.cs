@@ -1,5 +1,4 @@
 using BlueQuark;
-using BlueQuark.Remote;
 
 using Newtonsoft.Json.Linq;
 
@@ -159,15 +158,15 @@ namespace BuddyApp.RemoteControl
                 string lReceiver = "";
                 UserAccount[] lUsers = Buddy.Platform.Users.GetUsers();
                 foreach (UserAccount lUser in lUsers) {
-                    if (WebRTCListener.RemoteID.Trim() == lUser.Email) {
-                        lReceiver = lUser.FirstName;
-                    }
+                   // if (WebRTCListener.RemoteID.Trim() == lUser.Email) {
+                   //     lReceiver = lUser.FirstName;
+                   // }
                 }
                 string lTextToSay = "[user]";
                 if (string.IsNullOrEmpty(lReceiver)) {
-                    lTextToSay = lTextToSay.Replace("[user]", WebRTCListener.RemoteID);
-                    if (UserCalling)
-                        UserCalling.text = WebRTCListener.RemoteID;
+                   // lTextToSay = lTextToSay.Replace("[user]", WebRTCListener.RemoteID);
+                    //if (UserCalling)
+                       // UserCalling.text = WebRTCListener.RemoteID;
                 } else {
                     lTextToSay = lTextToSay.Replace("[user]", lReceiver);
                     if (UserCalling)

@@ -241,9 +241,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             float lValue = 0F;
             Debug.LogWarning("angle no: " + Buddy.Actuators.Head.No.Angle);
             if (Buddy.Actuators.Head.No.Angle > 0)
-                lValue = -Buddy.Actuators.Head.No.Angle / NoHeadHinge.MAX_LEFT_ANGLE;
+                lValue = -Buddy.Actuators.Head.No.Angle / Buddy.Actuators.Head.No.AngleMin;
             else
-                lValue = Buddy.Actuators.Head.No.Angle / NoHeadHinge.MAX_RIGHT_ANGLE;
+                lValue = Buddy.Actuators.Head.No.Angle / Buddy.Actuators.Head.No.AngleMax;
 
 
             SendRTMMessage(Utils.SerializeJSON(new JsonMessage("informNoAngle", lValue.ToString())));
@@ -255,7 +255,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             float lValue = 0F;
             Debug.LogWarning("angle yes: "+Buddy.Actuators.Head.Yes.Angle);
             if (Buddy.Actuators.Head.Yes.Angle > 0)
-                lValue = Buddy.Actuators.Head.Yes.Angle / YesHeadHinge.MAX_UP_ANGLE;
+                lValue = Buddy.Actuators.Head.Yes.Angle / Buddy.Actuators.Head.Yes.AngleMax;
             else
                 lValue = Buddy.Actuators.Head.Yes.Angle / 10F;//YesHeadHinge.MAX_DOWN_ANGLE;
 
@@ -554,9 +554,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into an int");
                         } else if(OnHeadYesAbsolute!=null){
                             if (lFloatValue > 0)
-                                OnHeadYesAbsolute(lFloatValue * YesHeadHinge.MAX_UP_ANGLE);
+                                OnHeadYesAbsolute(lFloatValue * Buddy.Actuators.Head.Yes.AngleMax);
                             else
-                                OnHeadYesAbsolute(lFloatValue * YesHeadHinge.MAX_DOWN_ANGLE);
+                                OnHeadYesAbsolute(lFloatValue * Buddy.Actuators.Head.Yes.AngleMin);
                         }
                         break;
 
@@ -564,7 +564,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                         if (!float.TryParse(lMessage.propertyValue.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out lFloatValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
                         } else if(OnHeadNoAbsolute!=null){
-                            OnHeadNoAbsolute(lFloatValue * NoHeadHinge.MAX_LEFT_ANGLE);
+                            OnHeadNoAbsolute(lFloatValue * Buddy.Actuators.Head.No.AngleMin);
                         }
 
                         break;
@@ -643,7 +643,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         {
             InitRTM();
             yield return GetToken(mBuddyId);
-            Buddy.WebServices.Agoraio.Login(mBuddyId, mToken);
+            // TODO put back token
+            Buddy.WebServices.Agoraio.Login(mBuddyId/*, mToken*/);
             IsInitialised = true;
         }
 

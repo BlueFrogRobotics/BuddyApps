@@ -1,7 +1,5 @@
 ﻿using BlueQuark;
 
-using BlueQuark.Remote;
-
 using UnityEngine;
 
 using UnityEngine.UI;
@@ -61,9 +59,9 @@ namespace BuddyApp.RemoteControl
         public void onMessage(string iMessage)
         {
             Debug.Log("new data : " + iMessage);
-            ARemoteCommand lCmd = ARemoteCommand.Deserialize(GetBytes(iMessage));
-            if (mBuddyMovement == true)
-                lCmd.Execute();
+            //ARemoteCommand lCmd = ARemoteCommand.Deserialize(GetBytes(iMessage));
+            //if (mBuddyMovement == true)
+                //lCmd.Execute();
         }
 
         private byte[] GetSensorsValue()

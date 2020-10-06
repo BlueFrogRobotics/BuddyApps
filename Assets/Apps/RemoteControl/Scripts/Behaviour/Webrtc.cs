@@ -1,7 +1,5 @@
 ﻿using BlueQuark;
 
-using BlueQuark.Remote;
-
 using UnityEngine;
 
 using UnityEngine.UI;
@@ -133,9 +131,9 @@ namespace BuddyApp.RemoteControl
         public void EnableWebRTC()
         {
             mLocalUser = Buddy.Platform.RobotUID;
-            mRemoteUser = WebRTCListener.RemoteID;
+            //mRemoteUser = WebRTCListener.RemoteID;
             Debug.Log("Local user is " + mLocalUser);
-            Debug.Log("Remote caller is " + WebRTCListener.RemoteID);
+            //Debug.Log("Remote caller is " + WebRTCListener.RemoteID);
 
             using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc")) {
                 using (AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer")) {
@@ -157,10 +155,10 @@ namespace BuddyApp.RemoteControl
         public void SetupWebRTC()
         {
             mLocalUser = Buddy.Platform.RobotUID;
-            mRemoteUser = WebRTCListener.RemoteID;
+            //mRemoteUser = WebRTCListener.RemoteID;
 
             Debug.Log("Local user is " + mLocalUser);
-            Debug.Log("Remote caller is " + WebRTCListener.RemoteID);
+            //Debug.Log("Remote caller is " + WebRTCListener.RemoteID);
 
             using (AndroidJavaClass cls = new AndroidJavaClass("my.maylab.unitywebrtc.Webrtc")) {
                 using (AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer")) {

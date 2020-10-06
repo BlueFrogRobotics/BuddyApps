@@ -1,12 +1,5 @@
 using BlueQuark;
 
-using UnityEngine;
-using UnityEngine.UI;
-
-using System;
-using System.Collections;
-using System.Collections.Generic;
-
 namespace BuddyApp.Agoraio
 {
     /* This class contains useful callback during your app process */

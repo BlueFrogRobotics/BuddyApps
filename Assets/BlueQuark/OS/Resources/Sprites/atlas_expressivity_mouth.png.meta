@@ -1,35 +1,84 @@
 fileFormatVersion: 2
 guid: a434339c6151bf54699066f082fa68c5
-timeCreated: 1522325986
-licenseType: Free
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: atlas_expressivity_mouth_zen_happy
-    21300002: atlas_expressivity_mouth_halfzen_happy
-    21300004: atlas_expressivity_mouth_neutral_happy
-    21300006: atlas_expressivity_mouth_halfexited_happy
-    21300008: atlas_expressivity_mouth_exited_happy
-    21300010: atlas_expressivity_mouth_zen_halfhappy
-    21300012: atlas_expressivity_mouth_halfzen_halfhappy
-    21300014: atlas_expressivity_mouth_neutral_halfhappy
-    21300016: atlas_expressivity_mouth_halfexited_halfhappy
-    21300018: atlas_expressivity_mouth_exited_halfhappy
-    21300020: atlas_expressivity_mouth_zen_neutral
-    21300022: atlas_expressivity_mouth_halfzen_neutral
-    21300024: atlas_expressivity_mouth_neutral_neutral
-    21300026: atlas_expressivity_mouth_halfexited_neutral
-    21300028: atlas_expressivity_mouth_exited_neutral
-    21300030: atlas_expressivity_mouth_zen_halfsad
-    21300032: atlas_expressivity_mouth_halfzen_halfsad
-    21300034: atlas_expressivity_mouth_neutral_halfsad
-    21300036: atlas_expressivity_mouth_halfexited_halfsad
-    21300038: atlas_expressivity_mouth_exited_halfsad
-    21300040: atlas_expressivity_mouth_zen_sad
-    21300042: atlas_expressivity_mouth_halfzen_sad
-    21300044: atlas_expressivity_mouth_neutral_sad
-    21300046: atlas_expressivity_mouth_halfexited_sad
-    21300048: atlas_expressivity_mouth_exited_sad
-  serializedVersion: 4
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: atlas_expressivity_mouth_zen_happy
+  - first:
+      213: 21300002
+    second: atlas_expressivity_mouth_halfzen_happy
+  - first:
+      213: 21300004
+    second: atlas_expressivity_mouth_neutral_happy
+  - first:
+      213: 21300006
+    second: atlas_expressivity_mouth_halfexited_happy
+  - first:
+      213: 21300008
+    second: atlas_expressivity_mouth_exited_happy
+  - first:
+      213: 21300010
+    second: atlas_expressivity_mouth_zen_halfhappy
+  - first:
+      213: 21300012
+    second: atlas_expressivity_mouth_halfzen_halfhappy
+  - first:
+      213: 21300014
+    second: atlas_expressivity_mouth_neutral_halfhappy
+  - first:
+      213: 21300016
+    second: atlas_expressivity_mouth_halfexited_halfhappy
+  - first:
+      213: 21300018
+    second: atlas_expressivity_mouth_exited_halfhappy
+  - first:
+      213: 21300020
+    second: atlas_expressivity_mouth_zen_neutral
+  - first:
+      213: 21300022
+    second: atlas_expressivity_mouth_halfzen_neutral
+  - first:
+      213: 21300024
+    second: atlas_expressivity_mouth_neutral_neutral
+  - first:
+      213: 21300026
+    second: atlas_expressivity_mouth_halfexited_neutral
+  - first:
+      213: 21300028
+    second: atlas_expressivity_mouth_exited_neutral
+  - first:
+      213: 21300030
+    second: atlas_expressivity_mouth_zen_halfsad
+  - first:
+      213: 21300032
+    second: atlas_expressivity_mouth_halfzen_halfsad
+  - first:
+      213: 21300034
+    second: atlas_expressivity_mouth_neutral_halfsad
+  - first:
+      213: 21300036
+    second: atlas_expressivity_mouth_halfexited_halfsad
+  - first:
+      213: 21300038
+    second: atlas_expressivity_mouth_exited_halfsad
+  - first:
+      213: 21300040
+    second: atlas_expressivity_mouth_zen_sad
+  - first:
+      213: 21300042
+    second: atlas_expressivity_mouth_halfzen_sad
+  - first:
+      213: 21300044
+    second: atlas_expressivity_mouth_neutral_sad
+  - first:
+      213: 21300046
+    second: atlas_expressivity_mouth_halfexited_sad
+  - first:
+      213: 21300048
+    second: atlas_expressivity_mouth_exited_sad
+  externalObjects: {}
+  serializedVersion: 10
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -37,6 +86,8 @@ TextureImporter:
     linearTexture: 0
     fadeOut: 0
     borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
     mipMapFadeDistanceStart: 1
     mipMapFadeDistanceEnd: 3
   bumpmap:
@@ -45,6 +96,8 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
   isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -52,10 +105,13 @@ TextureImporter:
   textureFormat: 1
   maxTextureSize: 2048
   textureSettings:
+    serializedVersion: 2
     filterMode: -1
     aniso: -1
-    mipBias: -1
-    wrapMode: -1
+    mipBias: -100
+    wrapU: -1
+    wrapV: -1
+    wrapW: -1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -64,41 +120,55 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
   textureType: 8
   textureShape: 1
+  singleChannelComponent: 0
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
   platformSettings:
-  - buildTarget: DefaultTexturePlatform
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
+    resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
-  - buildTarget: Standalone
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Standalone
     maxTextureSize: 2048
+    resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
-  - buildTarget: Android
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Android
     maxTextureSize: 2048
+    resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -114,7 +184,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 02305410000000000800000000000000
+      internalID: 21300000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: atlas_expressivity_mouth_halfzen_happy
       rect:
@@ -127,7 +205,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 22305410000000000800000000000000
+      internalID: 21300002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: atlas_expressivity_mouth_neutral_happy
       rect:
@@ -140,7 +226,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 42305410000000000800000000000000
+      internalID: 21300004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: atlas_expressivity_mouth_halfexited_happy
       rect:
@@ -153,7 +247,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 62305410000000000800000000000000
+      internalID: 21300006
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: atlas_expressivity_mouth_exited_happy
       rect:
@@ -166,7 +268,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 82305410000000000800000000000000
+      internalID: 21300008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: atlas_expressivity_mouth_zen_halfhappy
       rect:
@@ -179,7 +289,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: a2305410000000000800000000000000
+      internalID: 21300010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: atlas_expressivity_mouth_halfzen_halfhappy
       rect:
@@ -192,7 +310,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: c2305410000000000800000000000000
+      internalID: 21300012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: atlas_expressivity_mouth_neutral_halfhappy
       rect:
@@ -205,7 +331,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: e2305410000000000800000000000000
+      internalID: 21300014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: atlas_expressivity_mouth_halfexited_halfhappy
       rect:
@@ -218,7 +352,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 03305410000000000800000000000000
+      internalID: 21300016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: atlas_expressivity_mouth_exited_halfhappy
       rect:
@@ -231,7 +373,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 23305410000000000800000000000000
+      internalID: 21300018
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: atlas_expressivity_mouth_zen_neutral
       rect:
@@ -244,7 +394,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 43305410000000000800000000000000
+      internalID: 21300020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: atlas_expressivity_mouth_halfzen_neutral
       rect:
@@ -257,7 +415,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 63305410000000000800000000000000
+      internalID: 21300022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: atlas_expressivity_mouth_neutral_neutral
       rect:
@@ -270,7 +436,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 83305410000000000800000000000000
+      internalID: 21300024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: atlas_expressivity_mouth_halfexited_neutral
       rect:
@@ -283,7 +457,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: a3305410000000000800000000000000
+      internalID: 21300026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: atlas_expressivity_mouth_exited_neutral
       rect:
@@ -296,7 +478,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: c3305410000000000800000000000000
+      internalID: 21300028
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: atlas_expressivity_mouth_zen_halfsad
       rect:
@@ -309,7 +499,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: e3305410000000000800000000000000
+      internalID: 21300030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: atlas_expressivity_mouth_halfzen_halfsad
       rect:
@@ -322,7 +520,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 04305410000000000800000000000000
+      internalID: 21300032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: atlas_expressivity_mouth_neutral_halfsad
       rect:
@@ -335,7 +541,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 24305410000000000800000000000000
+      internalID: 21300034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: atlas_expressivity_mouth_halfexited_halfsad
       rect:
@@ -348,7 +562,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 44305410000000000800000000000000
+      internalID: 21300036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: atlas_expressivity_mouth_exited_halfsad
       rect:
@@ -361,7 +583,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 64305410000000000800000000000000
+      internalID: 21300038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: atlas_expressivity_mouth_zen_sad
       rect:
@@ -374,7 +604,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 84305410000000000800000000000000
+      internalID: 21300040
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: atlas_expressivity_mouth_halfzen_sad
       rect:
@@ -387,7 +625,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: a4305410000000000800000000000000
+      internalID: 21300042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: atlas_expressivity_mouth_neutral_sad
       rect:
@@ -400,7 +646,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: c4305410000000000800000000000000
+      internalID: 21300044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: atlas_expressivity_mouth_halfexited_sad
       rect:
@@ -413,7 +667,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: e4305410000000000800000000000000
+      internalID: 21300046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: atlas_expressivity_mouth_exited_sad
       rect:
@@ -426,9 +688,28 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 05305410000000000800000000000000
+      internalID: 21300048
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
   spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

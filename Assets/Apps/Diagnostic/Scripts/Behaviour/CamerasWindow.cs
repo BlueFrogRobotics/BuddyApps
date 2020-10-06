@@ -44,7 +44,9 @@ namespace BuddyApp.Diagnostic
         {
             SelectedCameraDropdown.onValueChanged.RemoveAllListeners();
             SelectedResolutionDropdown.onValueChanged.RemoveAllListeners();
-            CloseAllCam();
+            mHDCam.OnNewFrame.Clear();
+            mHDCam.Close();
+            //CloseAllCam();
         }
 
         private void OnCameraDropdownValueChanged()
@@ -54,21 +56,25 @@ namespace BuddyApp.Diagnostic
 
             switch (SelectedCameraDropdown.options[SelectedCameraDropdown.value].text)
             {
-                case "HD":
+                case "HD_BACK":
                     SelectedResolutionDropdown.AddOptions(new List<string>(Enum.GetNames(typeof(HDCameraMode))));
                     break;
 
-                case "RGB":
-                    SelectedResolutionDropdown.AddOptions(new List<string>(Enum.GetNames(typeof(RGBCameraMode))));
+                case "HD_FRONT":
+                    SelectedResolutionDropdown.AddOptions(new List<string>(Enum.GetNames(typeof(HDCameraMode))));
                     break;
 
-                case "DEPTH":
-                    SelectedResolutionDropdown.AddOptions(new List<string>(Enum.GetNames(typeof(DepthCameraMode))));
-                    break;
+                    //case "RGB":
+                    //    SelectedResolutionDropdown.AddOptions(new List<string>(Enum.GetNames(typeof(RGBCameraMode))));
+                    //    break;
 
-                case "INFRARED":
-                    SelectedResolutionDropdown.AddOptions(new List<string>(Enum.GetNames(typeof(InfraredCameraMode))));
-                    break;
+                    //case "DEPTH":
+                    //    SelectedResolutionDropdown.AddOptions(new List<string>(Enum.GetNames(typeof(DepthCameraMode))));
+                    //    break;
+
+                    //case "INFRARED":
+                    //    SelectedResolutionDropdown.AddOptions(new List<string>(Enum.GetNames(typeof(InfraredCameraMode))));
+                    //    break;
             }
 
             SelectedResolutionDropdown.value = 0;
@@ -83,29 +89,37 @@ namespace BuddyApp.Diagnostic
 
         private void OnResolutionDropdownValueChanged()
         {
-            CloseAllCam();
-            
+            mHDCam.OnNewFrame.Clear();
+            mHDCam.Close();
+            //CloseAllCam();
+
             switch (SelectedCameraDropdown.options[SelectedCameraDropdown.value].text)
             {
-                case "HD":
-                    mHDCam.Open((HDCameraMode)Enum.Parse(typeof(HDCameraMode), SelectedResolutionDropdown.options[SelectedResolutionDropdown.value].text));
+
+                case "HD_BACK":
+                    mHDCam.Open(HDCameraMode.COLOR_640X480_30FPS_RGB /*(HDCameraMode)Enum.Parse(typeof(HDCameraMode), SelectedResolutionDropdown.options[SelectedResolutionDropdown.value].text)*/, HDCameraType.BACK);
                     mHDCam.OnNewFrame.Add((iInput) => { SelectedImage.texture = iInput.Texture; });
                     break;
 
-                case "RGB":
-                    mRGBCam.Open((RGBCameraMode)Enum.Parse(typeof(RGBCameraMode), SelectedResolutionDropdown.options[SelectedResolutionDropdown.value].text));
-                    mRGBCam.OnNewFrame.Add((iInput) => { SelectedImage.texture = iInput.Texture; });
+                case "HD_FRONT":
+                    mHDCam.Open(HDCameraMode.COLOR_640X480_30FPS_RGB /*(HDCameraMode)Enum.Parse(typeof(HDCameraMode), SelectedResolutionDropdown.options[SelectedResolutionDropdown.value].text)*/, HDCameraType.FRONT);
+                    mHDCam.OnNewFrame.Add((iInput) => { SelectedImage.texture = iInput.Texture; });
                     break;
 
-                case "DEPTH":
-                    mDepthCam.Open((DepthCameraMode)Enum.Parse(typeof(DepthCameraMode), SelectedResolutionDropdown.options[SelectedResolutionDropdown.value].text));
-                    mDepthCam.OnNewFrame.Add((iInput) => { SelectedImage.texture = iInput.Texture; });
-                    break;
+                //case "RGB":
+                //    mRGBCam.Open((RGBCameraMode)Enum.Parse(typeof(RGBCameraMode), SelectedResolutionDropdown.options[SelectedResolutionDropdown.value].text));
+                //    mRGBCam.OnNewFrame.Add((iInput) => { SelectedImage.texture = iInput.Texture; });
+                //    break;
 
-                case "INFRARED":
-                    mInfraredCam.Open((InfraredCameraMode)Enum.Parse(typeof(InfraredCameraMode), SelectedResolutionDropdown.options[SelectedResolutionDropdown.value].text));
-                    mInfraredCam.OnNewFrame.Add((iInput) => { SelectedImage.texture = iInput.Texture; });
-                    break;
+                //case "DEPTH":
+                //    mDepthCam.Open((DepthCameraMode)Enum.Parse(typeof(DepthCameraMode), SelectedResolutionDropdown.options[SelectedResolutionDropdown.value].text));
+                //    mDepthCam.OnNewFrame.Add((iInput) => { SelectedImage.texture = iInput.Texture; });
+                //    break;
+
+                //case "INFRARED":
+                //    mInfraredCam.Open((InfraredCameraMode)Enum.Parse(typeof(InfraredCameraMode), SelectedResolutionDropdown.options[SelectedResolutionDropdown.value].text));
+                //    mInfraredCam.OnNewFrame.Add((iInput) => { SelectedImage.texture = iInput.Texture; });
+                //    break;
             }
         }
 

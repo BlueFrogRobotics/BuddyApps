@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: e6c5345fdad64a44c900fbf987b6eadc
 ModelImporter:
-  serializedVersion: 22
+  serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
     100002: Pied1
@@ -9,31 +9,75 @@ ModelImporter:
     100006: Pied1_002
     100008: Pied1_003
     100010: Plan
+    100012: Camera
+    100014: Lamp
+    100016: Pied1.001
+    100018: Pied1.002
+    100020: Pied1.003
     400000: //RootNode
     400002: Pied1
     400004: Pied1_001
     400006: Pied1_002
     400008: Pied1_003
     400010: Plan
+    400012: Camera
+    400014: Lamp
+    400016: Pied1.001
+    400018: Pied1.002
+    400020: Pied1.003
     2300000: Pied1
     2300002: Pied1_001
     2300004: Pied1_002
     2300006: Pied1_003
     2300008: Plan
+    2300010: Pied1.001
+    2300012: Pied1.002
+    2300014: Pied1.003
     3300000: Pied1
     3300002: Pied1_001
     3300004: Pied1_002
     3300006: Pied1_003
     3300008: Plan
+    3300010: Pied1.001
+    3300012: Pied1.002
+    3300014: Pied1.003
     4300000: Pied1_003
     4300002: Pied1_002
     4300004: Pied1_001
     4300006: Pied1
     4300008: Plan
+    4300010: Pied1.003
+    4300012: Pied1.002
+    4300014: Pied1.001
     7400000: Default Take
     9500000: //RootNode
     2186277476908879412: ImportLogs
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material
+    second: {fileID: 2100000, guid: 3230f24a236a2bc41922df86b7a6cd87, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.001
+    second: {fileID: 2100000, guid: 9c5c1d6ae812488478b38decbf2623cf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.002
+    second: {fileID: 2100000, guid: 18243d592822b5f459d3dfd4919c220d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.003
+    second: {fileID: 2100000, guid: 31fd662c7c0c8e049b8882a4b971fe03, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.004
+    second: {fileID: 2100000, guid: 45bf9f537837817489a767c136719b93, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -67,6 +111,7 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
     importVisibility: 0
     importBlendShapes: 1
     importCameras: 0
@@ -84,11 +129,16 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
@@ -103,7 +153,6 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 0

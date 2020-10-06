@@ -15,7 +15,7 @@ namespace BuddyApp.Diagnostic
         MOTORS,
         FACE,
         CAMERAS,
-        THERMAL,
+        //THERMAL,
         SENSORS,
         CONNEXION
     }
@@ -128,11 +128,11 @@ namespace BuddyApp.Diagnostic
                         camerasBT.color = BuddyBlue;
                         lrect_Cameras.height = 120;
                         break;
-                    case WindowType.THERMAL:
-                        DisableAllExcept(thermalRoot);
-                        thermalBT.color = BuddyBlue;
-                        lrect_Thermal.height = 120;
-                        break;
+                    //case WindowType.THERMAL:
+                    //    DisableAllExcept(thermalRoot);
+                    //    thermalBT.color = BuddyBlue;
+                    //    lrect_Thermal.height = 120;
+                    //    break;
                     case WindowType.SENSORS:
                         DisableAllExcept(sensorsRoot);
                         sensorsBT.color = BuddyBlue;
