@@ -1383,6 +1383,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4777f55bb04acef4092321cd4a19f383, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1541873296 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114593202672248826, guid: 4777f55bb04acef4092321cd4a19f383,
+    type: 2}
+  m_PrefabInternal: {fileID: 1541873295}
+  m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1 &1574727106 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1778441198634576, guid: 4777f55bb04acef4092321cd4a19f383,
@@ -1429,7 +1435,7 @@ MonoBehaviour:
   m_Script: {fileID: -366263244, guid: 13d60d68e83ad3a468be44f2f756339c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rawVideo: {fileID: 0}
+  rawVideo: {fileID: 1078149847}
   mStaticSteering: 0
 --- !u!4 &1669233717
 Transform:
@@ -1551,7 +1557,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rawVideo: {fileID: 1078149847}
-  rawVideoLocal: {fileID: 0}
+  rawVideoLocal: {fileID: 1541873296}
   buttonEnableVideo: {fileID: 228072823}
   buttonEnableAudio: {fileID: 421708962}
   mVideoIsEnabled: 0

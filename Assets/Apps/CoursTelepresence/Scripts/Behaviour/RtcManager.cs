@@ -42,6 +42,7 @@ namespace BuddyApp.CoursTelepresence
 
         private const string GET_TOKEN_URL = "https://teamnet-bfr.ey.r.appspot.com/rtcToken?channelName=";
         public Action OnEndUserOffline { get; set; }
+        public bool HasJoined { get; set; }
 
         private void Awake()
         {
@@ -54,10 +55,12 @@ namespace BuddyApp.CoursTelepresence
         {
             mIndexImage = 100;
             InitRTC();
+            //Join("test");
         }
 
         public void InitRTC()
         {
+            HasJoined = false;
             Buddy.WebServices.Agoraio.LoadEngine(CoursTelepresenceBehaviour.APP_ID);
             mRtcEngine = Buddy.WebServices.Agoraio.RtcEngine;
             mRtcEngine.OnStreamMessage = OnStreamMessage;
@@ -77,6 +80,7 @@ namespace BuddyApp.CoursTelepresence
 
         public void Join(string iChannel)
         {
+            Debug.LogError("join the channel: " + iChannel);
             // Start camera RGB
             mFrameProcessing = false;
             // TODO uncomment to Change camera
@@ -270,7 +274,8 @@ namespace BuddyApp.CoursTelepresence
 
         private void OnJoinChannelSuccess(string channelName, uint uid, int elapsed)
         {
-            Debug.Log("JoinChannelSuccessHandler: uid = " + uid);
+            Debug.LogError("JoinChannelSuccessHandler: uid = " + uid);
+            //HasJoined = true;
             mRtcEngine.OnNetworkQuality += (ID, TX, RX) => QualityCheck(ID, TX, RX);
             mUid = uid;
         }
@@ -296,7 +301,7 @@ namespace BuddyApp.CoursTelepresence
 
         private void OnUserJoined(uint uid, int elapsed)
         {
-            Debug.Log("[AGORAIO] onUserJoined: uid = " + uid + " elapsed = " + elapsed);
+            Debug.LogError("[AGORAIO] onUserJoined: uid = " + uid + " elapsed = " + elapsed);
             VideoSurface lVideoSurface = rawVideo.GetComponent<VideoSurface>();
             if (lVideoSurface == null && uid != mUid) {
                 rawVideo.gameObject.SetActive(true);
@@ -312,7 +317,7 @@ namespace BuddyApp.CoursTelepresence
         {
             // remove video stream
             Debug.Log("[AGORAIO] onUserOffline: uid = " + uid);
-            Debug.LogWarning("[AGORAIO] onUserOffline: uid = " + uid+" reason: "+reason);
+            Debug.LogError("[AGORAIO] onUserOffline: uid = " + uid+" reason: "+reason);
             if (reason == USER_OFFLINE_REASON.QUIT || reason == USER_OFFLINE_REASON.DROPPED)
             {
                 if(rawVideo.GetComponent<VideoSurface>()!=null)
@@ -437,6 +442,7 @@ namespace BuddyApp.CoursTelepresence
             string request = GET_TOKEN_URL + lId;
             using (UnityWebRequest www = UnityWebRequest.Get(request))
             {
+                www.useHttpContinue = false;
                 yield return www.SendWebRequest();
                 if (www.isHttpError || www.isNetworkError)
                 {
@@ -454,17 +460,22 @@ namespace BuddyApp.CoursTelepresence
 
         private IEnumerator JoinAsync(string iChannel)
         {
+            HasJoined = false;
+            Debug.LogError("debut join rtc");
             yield return GetToken(iChannel);
-            mRtcEngine.JoinChannelWithUserAccount(mToken, iChannel, Buddy.Platform.RobotUID);
-            mRtcEngine.OnTokenPrivilegeWillExpire = OnTokenPrivilegeWillExpire;
-            Debug.Log("join");
+            Debug.LogError("apres token rtc");
+            //mRtcEngine.JoinChannel(iChannel, null, 0);
+            mRtcEngine.JoinChannelWithUserAccount(mToken, iChannel, Buddy.Platform.RobotUID);//cest louche
+            //mRtcEngine.OnTokenPrivilegeWillExpire = OnTokenPrivilegeWillExpire;
+            HasJoined = true;
+            Debug.LogError("fin du join rtc");
         }
 
         private IEnumerator RenewTokenAsync()
         {
             yield return GetToken(Buddy.Platform.RobotUID);
             mRtcEngine.RenewToken(mToken);
-            Debug.Log("renew");
+            Debug.LogError("renew");
         }
     }
 }

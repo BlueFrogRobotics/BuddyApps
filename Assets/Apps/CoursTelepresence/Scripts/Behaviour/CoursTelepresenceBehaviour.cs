@@ -21,8 +21,9 @@ namespace BuddyApp.CoursTelepresence
         private RTMManager mRTMManager;
         private RTCManager mRTCManager;
 
-        public const string APP_ID = "dc949460a57e4fb0990a219b799ccf13";
-        //public const string APP_ID = "7b13f4916a6b43e0b23958b18926d596";
+        //public const string APP_ID = "dc949460a57e4fb0990a219b799ccf13";
+        //public const string APP_ID = "ad7263f90f8c41b9bbbea8e805fb315d";
+        public const string APP_ID = "7b13f4916a6b43e0b23958b18926d596";
 
         private void Awake()
         {

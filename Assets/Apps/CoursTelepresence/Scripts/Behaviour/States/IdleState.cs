@@ -5,6 +5,7 @@ using System;
 using UnityEngine.UI;
 using System.Text;
 using System.Security.Cryptography;
+using System.Collections;
 
 namespace BuddyApp.CoursTelepresence
 {
@@ -86,9 +87,19 @@ namespace BuddyApp.CoursTelepresence
 
         private void LaunchCall()
         {
-            Trigger("CALLING");
+            StartCoroutine(LaunchCallAsync());
+            
+        }
+
+        private IEnumerator LaunchCallAsync()
+        {
+            Debug.LogError("launch call");
             mRTCManager.Join(mChannelId);
+            while (!mRTCManager.HasJoined)
+                yield return null;
+            Debug.LogError("launch complete");
             mRTMManager.RequestConnexion(mChannelId, DBManager.Instance.NameProf);
+            Trigger("CALLING");
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

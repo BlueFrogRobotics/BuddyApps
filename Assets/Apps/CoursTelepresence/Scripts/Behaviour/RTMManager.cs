@@ -48,9 +48,10 @@ namespace BuddyApp.CoursTelepresence
         void Start()
         {
             mBuddyId = Buddy.Platform.RobotUID;
+            Debug.LogError("Buddy id: " + mBuddyId);
             mMovingYes = false;
             mMovingNo = false;
-            Buddy.Actuators.Wheels.Locked = true;
+            //Buddy.Actuators.Wheels.Locked = true;
             IsInitialised = false;
             Login();
             mPingId = 0;
@@ -65,7 +66,8 @@ namespace BuddyApp.CoursTelepresence
         // Update is called once per frame
         void Update()
         {
-            if (mSensorsBroadcast && !mStaticSteering && (Time.time - mLastBroadcastTime > 1 / SENSORS_BROADCAST_FREQUENCY)) {
+            if (mSensorsBroadcast && !mStaticSteering && (Time.time - mLastBroadcastTime > 1 / SENSORS_BROADCAST_FREQUENCY))
+            {
                 mLastBroadcastTime = Time.time;
                 SensorsBroadcastRTM();
             }
@@ -75,7 +77,8 @@ namespace BuddyApp.CoursTelepresence
 
             if (Buddy.Actuators.Head.Yes.IsBusy)
                 mMovingYes = true;
-            else if (mMovingYes) {
+            else if (mMovingYes)
+            {
                 // Robot just stopped
                 mMovingYes = false;
                 SendYesAngle();
@@ -83,7 +86,8 @@ namespace BuddyApp.CoursTelepresence
 
             if (Buddy.Actuators.Head.No.IsBusy)
                 mMovingNo = true;
-            else if (mMovingNo) {
+            else if (mMovingNo)
+            {
                 // Robot just stopped
                 mMovingNo = false;
                 SendNoAngle();
@@ -350,14 +354,14 @@ namespace BuddyApp.CoursTelepresence
 
         private void SendRTMMessage(string iMessage)
         {
-            Debug.LogError("SENDRTMMANAGER - RTMMANAGER : message: " + iMessage);
-            Debug.LogError("Sent to " + mIdTablet);
+            //Debug.LogError("SENDRTMMANAGER - RTMMANAGER : message: " + iMessage);
+            //Debug.LogError("Sent to " + mIdTablet);
             if (string.IsNullOrEmpty(mIdTablet)) {
                 Debug.LogError(" SENDRTMMANAGER - RTMMANAGER :  Can't send a message, no tablet ID");
                 return;
             }
             Buddy.WebServices.Agoraio.SendPeerMessage(mIdTablet, iMessage);
-            Debug.LogError("SENDRTMMANAGER - RTMMANAGER fin");
+            //Debug.LogError("SENDRTMMANAGER - RTMMANAGER fin");
         }
 
         private void SendRTMMessage(string iMessage, string iIdTablet)
@@ -641,9 +645,17 @@ namespace BuddyApp.CoursTelepresence
 
         private IEnumerator LoginAsync()
         {
+            Debug.LogError("avant init rtm ");
             InitRTM();
+            Debug.LogError("apres init rtm");
+            //yield return new WaitForSeconds(3);
+            //Debug.LogError("apres wait rtm");
+            //Buddy.WebServices.Agoraio.GetToken(GET_TOKEN_URL + mBuddyId);
             yield return GetToken(mBuddyId);
+            //mToken = "0067b13f4916a6b43e0b23958b18926d596IACzTupl8hAKEHxO6sZSZ5MODRbiXmO44s8McpjgNNKGKHE51f0AAAAAEAB2Yn0/v9h2XwEA6ANPlXVf";
+            Debug.LogError("avant login rtm");
             Buddy.WebServices.Agoraio.Login(mBuddyId, mToken);
+            Debug.LogError("apres login rtm");
             IsInitialised = true;
         }
 
@@ -655,22 +667,30 @@ namespace BuddyApp.CoursTelepresence
 
         private IEnumerator GetToken(string lId)
         {
+            float lTime = Time.time;
+            
             string request = GET_TOKEN_URL+ lId;
+            Debug.LogError("debut get token: "+request);
             using (UnityWebRequest www = UnityWebRequest.Get(request))
             {
+                www.useHttpContinue = false;
                 yield return www.SendWebRequest();
                 if (www.isHttpError || www.isNetworkError)
                 {
-                    Debug.Log("Request error " + www.error + " " + www.downloadHandler.text);
+                    Debug.LogError("Request error " + www.error + " " + www.downloadHandler.text);
                 }
                 else
                 {
+                    Debug.LogError("fin request");
                     string lRecoJson = www.downloadHandler.text;
+                    Debug.LogError("recu: "+lRecoJson);
                     Newtonsoft.Json.Linq.JObject lJsonNode = Utils.UnserializeJSONtoObject(lRecoJson);
                     Debug.LogError("token: " + lJsonNode["key"]);
                     mToken = (string)lJsonNode["key"];
                 }
             }
+            Debug.LogError("bon ben fini");
+            Debug.LogError("temps: " + (Time.time - lTime));
         }
 
         void OnApplicationQuit()
