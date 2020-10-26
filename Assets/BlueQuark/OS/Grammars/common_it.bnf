@@ -1,0 +1,16 @@
+#BNF+EMV2.1;
+!grammar common_it;
+!start <yes>;
+!start <no>;
+!start <quit>;
+!start <play>;
+!start <tutorial>;
+!start <parameters>;
+!start <didntunderstand>;
+<yes> : si | certo;
+<no> : no;
+<quit> : quit;
+<play> : play;
+<tutorial> : [launch] [the] tutorial;
+<parameters> : parameters | configure | configuration;
+<didntunderstand> :  [no ho capito [bene]] (potrebbe | puoi) ripetere;

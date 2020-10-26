@@ -613,7 +613,7 @@
             Maximal authorized threshold in percent before the motor is stopped by the torque control system.
             </summary>
         </member>
-        <!-- Commentaire XML incorrect pour le membre "P:BlueQuark.Internal.AHeadHinge`2.EnableTorqueControl" -->
+        <!-- Badly formed XML comment ignored for member "P:BlueQuark.Internal.AHeadHinge`2.EnableTorqueControl" -->
         <member name="M:BlueQuark.Internal.AHeadHinge`2.SetPID(System.Single,System.Single,System.Single)">
             <summary>
             Sets the proportional–integral–derivative controller. It is a control loop feedback mechanism.
@@ -652,6 +652,11 @@
         <member name="P:BlueQuark.Internal.AHeadHinge`2.LockedByUser">
             <summary>
             Locks/Unlocks the hinge from user. A locked hinge cannot move.
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.ExplorerPeekState">
+            <summary>
+            State for explorer peek button.
             </summary>
         </member>
         <member name="T:BlueQuark.Internal.IdleFaceState">
@@ -913,6 +918,144 @@
         <member name="T:BlueQuark.Internal.AudioBehaviourState">
             <summary>
             This state is used when Buddy detects a cliff
+            </summary>
+        </member>
+        <member name="T:BlueQuark.Internal.ELabeledLevel">
+            <summary>
+            Level sealed widget for Explorer GUI component.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.ELabeledLevel.OnClick">
+            <summary>
+            Called when the text is clicked.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.ELabeledLevel.Size">
+            <summary>
+            Sets the maximum level. Possible values 1 - 10.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.ELabeledLevel.SetLabel(System.String)">
+            <summary>
+            Sets the text.
+            </summary>
+            <param name="iText">The text to display.</param>
+        </member>
+        <member name="M:BlueQuark.Internal.ELabeledLevel.SetLevel(System.Int32)">
+            <summary>
+            Sets the level.
+            </summary>
+            <param name="iLevel">The level to display. Possible values 1 - 10.</param>
+        </member>
+        <member name="T:BlueQuark.Internal.EImage">
+            <summary>
+            Text sealed widget for Explorer GUI component.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.EImage.OnClick">
+            <summary>
+            Called when the text is clicked.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.EImage.SetImage(UnityEngine.Sprite)">
+            <summary>
+            Sets the image.
+            </summary>
+            <param name="iImage">The sprite to display.</param>
+        </member>
+        <member name="M:BlueQuark.Internal.EImage.SetImage(UnityEngine.Sprite,UnityEngine.Color)">
+            <summary>
+            Sets the image.
+            </summary>
+            <param name="iImage">The sprite to display.</param>
+            <param name="iColor">The color of the sprite.</param>
+        </member>
+        <member name="M:BlueQuark.Internal.EImage.SetImage(System.String,BlueQuark.Context)">
+            <summary>
+            Sets the image.
+            </summary>
+            <param name="iImageName">Name of the sprite.</param>
+            <param name="iContext">Context of the sprite.</param>
+        </member>
+        <member name="M:BlueQuark.Internal.EImage.SetImage(System.String,UnityEngine.Color,BlueQuark.Context)">
+            <summary>
+            Sets the image.
+            </summary>
+            <param name="iImageName">Name of the sprite.</param>
+            <param name="iColor">The color of the sprite.</param>
+            <param name="iContext">Context of the sprite.</param>
+        </member>
+        <member name="M:BlueQuark.Internal.EImage.SetColor(UnityEngine.Color)">
+            <summary>
+            Sets the image.
+            </summary>
+            <param name="iColor">Color of the sprite.</param>
+        </member>
+        <member name="M:BlueQuark.Internal.EImage.SetSize(System.Single,System.Single)">
+            <summary>
+            Sets the image size.
+            </summary>
+            <param name="iWidth">Width</param>
+            <param name="iHeight">Height</param>
+        </member>
+        <member name="M:BlueQuark.Internal.EImage.SetAlignment(UnityEngine.TextAlignment)">
+            <summary>
+            Sets image alignment.
+            </summary>
+            <param name="iAlignment">Alignment</param>
+        </member>
+        <member name="T:BlueQuark.Internal.EZone">
+            <summary>
+            Zone sealed widget for Explorer GUI component.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.EZone.OnClick">
+            <summary>
+            Called when clicked.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.EZone.OnBuild">
+            <summary>
+            Action that builds elements inside
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.EZone.Build">
+            <summary>
+            Build elements inside
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.EZone.Rebuild">
+            <summary>
+            Update elements inside
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.EZone.PairedToggle">
+            <summary>
+            Toggle that builds and clears the Zone
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.EZone.CreateWidget``1(System.Int32)">
+            <summary>
+            Add internal widget to the Zone.
+            </summary>
+            <typeparam name="W"></typeparam>
+            <param name="iColumn">Column index. 0 by default. Maximum 4.</param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueQuark.Internal.EZone.RemoveWidget(BlueQuark.Internal.AComponent)">
+            <summary>
+            Remove specific internal widget, if Zone contains it.
+            </summary>
+            <param name="iWidget"></param>
+        </member>
+        <member name="M:BlueQuark.Internal.EZone.RemoveAllWidgets">
+            <summary>
+            Remove and dispose all internal widgets.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.EZone.Clear">
+            <summary>
+            Remove and dispose all internal widgets.
             </summary>
         </member>
         <member name="T:BlueQuark.Internal.Unlocker">
@@ -3401,6 +3544,11 @@
             </summary>
             <param name="iWidget">The widget to add. Cannot be null.</param>
         </member>
+        <member name="M:BlueQuark.Internal.TVerticalLayout.AddSearch(System.String,UnityEngine.Sprite,System.Action{System.String})">
+            <summary>
+            Adds a vertical list search widget inside the list.
+            </summary>
+        </member>
         <member name="M:BlueQuark.Internal.TVerticalLayout.Remove(BlueQuark.TVerticalListBox)">
             <summary>
             Removes a vertical list widget from the list.
@@ -3677,6 +3825,14 @@
             <summary>
             Dipose the section.
             </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.AESection.CreateLayout``1(System.String,BlueQuark.Internal.AESection.SectionWidgetPosition)">
+            <summary>
+            Add new layout to the section
+            </summary>
+            <typeparam name="L">Layout type</typeparam>
+            <param name="iTitle">Title for scroll target and fanfold list</param>
+            <returns></returns>
         </member>
         <member name="T:BlueQuark.Internal.AEContentWidget`1">
             <summary>
@@ -4195,8 +4351,8 @@
             Enables/Disables the lock of the component. A locked motor cannot move.
             </summary>
         </member>
-        <!-- Commentaire XML incorrect pour le membre "P:BlueQuark.Internal.IMotor.TorqueThreshold" -->
-        <!-- Commentaire XML incorrect pour le membre "P:BlueQuark.Internal.IMotor.EnableTorqueControl" -->
+        <!-- Badly formed XML comment ignored for member "P:BlueQuark.Internal.IMotor.TorqueThreshold" -->
+        <!-- Badly formed XML comment ignored for member "P:BlueQuark.Internal.IMotor.EnableTorqueControl" -->
         <member name="T:BlueQuark.Internal.AppSandbox">
             <summary>
             Loads, unloads apps and store transited data.
@@ -5481,6 +5637,21 @@
             Slider sealed widget for Explorer GUI component.
             </summary>
         </member>
+        <member name="F:BlueQuark.Internal.ELabeledSlider.SliderType.NUMBER_CENTER">
+            <summary>
+            Changin number value in the center
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.ELabeledSlider.SliderType.TEXTS_NONUMBER">
+            <summary>
+            Describing labels (up to three), no number
+            </summary>
+        </member>
+        <member name="F:BlueQuark.Internal.ELabeledSlider.SliderType.TEXTS_NUMBER">
+            <summary>
+            Describing labels (up to three) and number value near the label
+            </summary>
+        </member>
         <member name="P:BlueQuark.Internal.ELabeledSlider.OnSlide">
             <summary>
             Called when the sliding value is changed.
@@ -5506,11 +5677,29 @@
             Should the value only be allowed to be whole numbers ?
             </summary>
         </member>
+        <member name="P:BlueQuark.Internal.ELabeledSlider.Type">
+            <summary>
+            Type of the slider.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.ELabeledSlider.IsInteractive">
+            <summary>
+            Can user change the slider value.
+            </summary>
+        </member>
         <member name="M:BlueQuark.Internal.ELabeledSlider.SetLabel(System.String)">
             <summary>
             Sets the left label.
             </summary>
             <param name="iText">The text to display</param>
+        </member>
+        <member name="M:BlueQuark.Internal.ELabeledSlider.SetTextValues(System.String,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="iTextLeft"></param>
+            <param name="iTextRight"></param>
+            <param name="iTextCenter"></param>
         </member>
         <member name="T:BlueQuark.Internal.EDropdown">
             <summary>
@@ -5711,6 +5900,11 @@
             Called when the icon is clicked.
             </summary>
         </member>
+        <member name="P:BlueQuark.Internal.EAppIcon.OnHold">
+            <summary>
+            Called when icon is hold.
+            </summary>
+        </member>
         <member name="M:BlueQuark.Internal.EAppIcon.SetAppInfo(BlueQuark.AppInfo)">
             <summary>
             Sets to store the app data.
@@ -5727,6 +5921,11 @@
             Called when the button is clicked.
             </summary>
         </member>
+        <member name="P:BlueQuark.Internal.EButton.Enabled">
+            <summary>
+            Set if button is enabled
+            </summary>
+        </member>
         <member name="M:BlueQuark.Internal.EButton.SetLabel(System.String)">
             <summary>
             Sets the button label.
@@ -5737,13 +5936,25 @@
             <summary>
             Display an optional icon on the left side of the button.
             </summary>
-            <param name="iSprite">The sprite to display. Null to hide</param>
+            <param name="iSprite">The sprite to display. Empty to hide</param>
+        </member>
+        <member name="M:BlueQuark.Internal.EButton.SetLeftIcon(System.String)">
+            <summary>
+            Display an optional icon on the left side of the button.
+            </summary>
+            <param name="iSpriteName">The name of sprite to display.</param>
         </member>
         <member name="M:BlueQuark.Internal.EButton.SetRightIcon(UnityEngine.Sprite)">
             <summary>
             Display an optional icon on the right side of the button.
             </summary>
-            <param name="iSprite">The sprite to display. Null to hide</param>
+            <param name="iSprite">The sprite to display. Empty to hide</param>
+        </member>
+        <member name="M:BlueQuark.Internal.EButton.SetRightIcon(System.String)">
+            <summary>
+            Display an optional icon on the right side of the button.
+            </summary>
+            <param name="iSpriteName">The name of sprite to display.</param>
         </member>
         <member name="T:BlueQuark.Internal.EText">
             <summary>
@@ -5797,6 +6008,11 @@
             Called when the Minimize button is clicked.
             </summary>
         </member>
+        <member name="P:BlueQuark.Internal.EFanfoldLayout.OnToggle">
+            <summary>
+            Called when the toggling value is changed.
+            </summary>
+        </member>
         <member name="P:BlueQuark.Internal.EFanfoldLayout.DisplaySelectAll">
             <summary>
             Display the select all button.
@@ -5812,11 +6028,53 @@
             Display the delete button.
             </summary>
         </member>
+        <member name="P:BlueQuark.Internal.EFanfoldLayout.DisplayToggle">
+            <summary>
+            Display the toggle.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.EFanfoldLayout.MinMaxEnabled">
+            <summary>
+            Display the toggle.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.EFanfoldLayout.Label">
+            <summary>
+            Top text label.
+            </summary>
+        </member>
         <member name="M:BlueQuark.Internal.EFanfoldLayout.SetLabel(System.String)">
             <summary>
             Sets the top text label of the layout group.
             </summary>
             <param name="iText">The text to display.</param>
+        </member>
+        <member name="M:BlueQuark.Internal.EFanfoldLayout.SetIcon(UnityEngine.Sprite)">
+            <summary>
+            Sets the left icon of the layout.
+            </summary>
+            <param name="iIcon">Image to show on icon. If empty or null, hides icon.</param>
+        </member>
+        <member name="M:BlueQuark.Internal.EFanfoldLayout.SetIcon(System.String)">
+            <summary>
+            Sets the left icon of the layout.
+            </summary>
+            <param name="iIcon">Image to show on icon. If empty or null, hides icon.</param>
+        </member>
+        <member name="P:BlueQuark.Internal.EFanfoldLayout.ToggleValue">
+            <summary>
+            The current selected toggling value.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.EFanfoldLayout.Maximize">
+            <summary>
+            Expand the layout.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Internal.EFanfoldLayout.Minimize">
+            <summary>
+            Compact the layout.
+            </summary>
         </member>
         <member name="T:BlueQuark.Internal.ETwoColumnsLayout">
             <summary>
@@ -5873,11 +6131,40 @@
             Top right icon for Explorer GUI component
             </summary>
         </member>
+        <member name="P:BlueQuark.Internal.ETopIcon.OnClick">
+            <summary>
+            Called when the icon is clicked.
+            </summary>
+        </member>
         <member name="M:BlueQuark.Internal.ETopIcon.SetIcon(UnityEngine.Sprite)">
             <summary>
             Sets the icon to display.
             </summary>
             <param name="iSprite">The sprite to display. Cannot be null</param>
+        </member>
+        <member name="M:BlueQuark.Internal.ETopIcon.SetSubicon(UnityEngine.Sprite)">
+            <summary>
+            Sets the subicon to display.
+            </summary>
+            <param name="iSprite">The sprite to display. Set to invisible if null. By default it is a dot.</param>
+        </member>
+        <member name="M:BlueQuark.Internal.ETopIcon.SetIconColor(UnityEngine.Color)">
+            <summary>
+            Set icon color
+            </summary>
+            <param name="iColor">Color to set.</param>
+        </member>
+        <member name="M:BlueQuark.Internal.ETopIcon.SetSubiconColor(UnityEngine.Color)">
+            <summary>
+            Set subicon color
+            </summary>
+            <param name="iColor">Color to set.</param>
+        </member>
+        <member name="M:BlueQuark.Internal.ETopIcon.SetVisible(System.Boolean)">
+            <summary>
+            Show or hide icon.
+            </summary>
+            <param name="iVisible">Visibility.</param>
         </member>
         <member name="T:BlueQuark.Internal.FFactory">
             <summary>
@@ -6530,7 +6817,7 @@
             Error returned by the remote API.
             </summary>
         </member>
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.Internal.GoogleSpeechStatus.AUDIO_FILE_NOT_FOUND" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.Internal.GoogleSpeechStatus.AUDIO_FILE_NOT_FOUND" -->
         <member name="F:BlueQuark.Internal.GoogleSpeechStatus.BUSY">
             <summary>
             Google speech is busy.
@@ -7151,6 +7438,16 @@
             Represents the no axe hinge of the robot (Yaw Euler axe).
             </summary>
         </member>
+        <member name="F:BlueQuark.NoHeadHinge.MAX_LEFT_ANGLE">
+            <summary>
+            Max reachable angle for this hinge. Value in degrees.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.NoHeadHinge.MAX_RIGHT_ANGLE">
+            <summary>
+            Min reachable angle for this hinge. Value in degrees.
+            </summary>
+        </member>
         <member name="F:BlueQuark.NoHeadHinge.DEFAULT_ANGLE">
             <summary>
             Default hinge angle. Value in degrees.
@@ -7237,6 +7534,16 @@
         <member name="T:BlueQuark.YesHeadHinge">
             <summary>
             Represents the yes axe hinge of the robot (Roll Euler axe).
+            </summary>
+        </member>
+        <member name="F:BlueQuark.YesHeadHinge.MAX_UP_ANGLE">
+            <summary>
+            Max reachable angle for this hinge in up position. Value in degrees.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.YesHeadHinge.MAX_DOWN_ANGLE">
+            <summary>
+            Max reachable angle for this hinge in down position. Value in degrees.
             </summary>
         </member>
         <member name="F:BlueQuark.YesHeadHinge.DEFAULT_ANGLE">
@@ -9315,7 +9622,7 @@
             Represents a behaviour instruction to make the robot speak.
             </summary>
         </member>
-        <!-- Commentaire XML incorrect pour le membre "P:BlueQuark.SayBehaviourInstruction.Key" -->
+        <!-- Badly formed XML comment ignored for member "P:BlueQuark.SayBehaviourInstruction.Key" -->
         <member name="P:BlueQuark.SayBehaviourInstruction.Utterance">
             <summary>
             Litteral utterance to say.
@@ -10336,6 +10643,29 @@
             Represents the motherboard for high complexity algorithms.
             </summary>
         </member>
+        <member name="T:BlueQuark.TVerticalListSearch">
+            <summary>
+            Box for vertical list of elements. Can be customized by adding right side button. 
+            </summary>
+            <seealso cref="T:BlueQuark.VerticalListToast"/>
+        </member>
+        <member name="P:BlueQuark.TVerticalListSearch.OnEndEdit">
+            <summary>
+            Called when the main part of the box is clicked.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.TVerticalListSearch.SetPlaceholder(System.String)">
+            <summary>
+            Set search placeholder
+            </summary>
+            <param name="iPlaceholder">Placeholder text</param>
+        </member>
+        <member name="M:BlueQuark.TVerticalListSearch.SetIcon(UnityEngine.Sprite)">
+            <summary>
+            Set search icon.
+            </summary>
+            <param name="iIcon">Icon sprite</param>
+        </member>
         <member name="P:BlueQuark.MobileData.IsBusy">
             <summary>
             True if the wifi is currently busy (Connection, disconnection, retrieving...).
@@ -10344,6 +10674,31 @@
         <member name="P:BlueQuark.MobileData.Enabled">
             <summary>
             Enables/Disables the WiFi module.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.MobileData.NetworkType">
+            <summary>
+            Type of network security.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.MobileData.CarrierName">
+            <summary>
+            Name of the network carrier.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.MobileData.SignalStrength">
+            <summary>
+            Strength of the signal (0-5).
+            </summary>
+        </member>
+        <member name="P:BlueQuark.MobileData.IsSimReady">
+            <summary>
+            If sim card is ready.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.MobileData.IMEI">
+            <summary>
+            IMEI of the SIM.
             </summary>
         </member>
         <member name="M:BlueQuark.MobileData.Connect">
@@ -10989,7 +11344,7 @@
             Create parameters for Thermal motion detection, with default values.
             </summary>
         </member>
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.ThermalMotionParameters.#ctor(System.Single,System.Single,System.Single,System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.ThermalMotionParameters.#ctor(System.Single,System.Single,System.Single,System.Int32)" -->
         <member name="T:BlueQuark.TinyYOLO3Model">
             <summary>
             Enumeration of the 80 classes that can be detected using the tiny yolo v3 model.
@@ -14407,6 +14762,11 @@
             </summary>
             <returns>The wished widget.</returns>
         </member>
+        <member name="M:BlueQuark.VerticalListToast.CreateSearch(System.String,UnityEngine.Sprite,System.Action{System.String})">
+            <summary>
+            Creates search for the list
+            </summary>
+        </member>
         <member name="M:BlueQuark.VerticalListToast.Remove(BlueQuark.TVerticalListBox)">
             <summary>
             Removes from the list the specified widget.
@@ -15043,7 +15403,7 @@
             <param name="iEnd">Index of end landmark</param>
             <returns>Found path index</returns>
         </member>
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.RoomDetector.FacingWall(OpenCVUnity.Mat)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.RoomDetector.FacingWall(OpenCVUnity.Mat)" -->
         <member name="M:BlueQuark.RoomDetector.JITInitialize(BlueQuark.Map,System.Boolean)">
             <summary>
             Initialize model by deserialization two config files
@@ -15361,6 +15721,11 @@
             Release.
             </summary>
         </member>
+        <member name="F:BlueQuark.AppVersionReleaseStatus.RELEASE_INTERNAL">
+            <summary>
+            Internal release
+            </summary>
+        </member>
         <member name="T:BlueQuark.Dialoger">
             <summary>
             Dialogers are like Toasters but works on a different layer (over the Toaster).
@@ -15429,29 +15794,9 @@
             Apps Explorer section. Browse, download and manage builtin and user apps.
             </summary>
         </member>
-        <member name="T:BlueQuark.CurrentUserSection">
-            <summary>
-            Current user panel to manage user info.
-            </summary>
-        </member>
-        <member name="T:BlueQuark.FilesSection">
-            <summary>
-            File Explorer section. Browse, and manage local and USB files.
-            </summary>
-        </member>
         <member name="T:BlueQuark.ParametersSection">
             <summary>
             Parameters Explorer section. Browse, and manage robot, GUI and app parameters.
-            </summary>
-        </member>
-        <member name="T:BlueQuark.SecuritySection">
-            <summary>
-            Security Explorer section.
-            </summary>
-        </member>
-        <member name="T:BlueQuark.UsersSection">
-            <summary>
-            Users Explorer section. Browse and manage local and remote profiles
             </summary>
         </member>
         <member name="T:BlueQuark.ISO6391Code">
@@ -15517,6 +15862,11 @@
         <member name="P:BlueQuark.WiFiNetwork.Connected">
             <summary>
             True if it is connected
+            </summary>
+        </member>
+        <member name="P:BlueQuark.WiFiNetwork.SecurityProtocol">
+            <summary>
+            Network security type
             </summary>
         </member>
         <member name="T:BlueQuark.GCVDetectionType">
@@ -16313,8 +16663,8 @@
             Current PID of the motor.
             </summary>
         </member>
-        <!-- Commentaire XML incorrect pour le membre "P:BlueQuark.Wheels.TorqueThreshold" -->
-        <!-- Commentaire XML incorrect pour le membre "P:BlueQuark.Wheels.EnableTorqueControl" -->
+        <!-- Badly formed XML comment ignored for member "P:BlueQuark.Wheels.TorqueThreshold" -->
+        <!-- Badly formed XML comment ignored for member "P:BlueQuark.Wheels.EnableTorqueControl" -->
         <member name="M:BlueQuark.Wheels.SetPIDs(System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)">
             <summary>
             Sets the proportional–integral–derivative controller. It is a control loop feedback mechanism.
@@ -16673,12 +17023,6 @@
             <param name="iAppParameters">The app's parameters. Will be given to the AppActivity at start.</param>
             <returns>The application category.</returns>
         </member>
-        <member name="M:BlueQuark.AppManager.OpenContextMenu(BlueQuark.AppInfo)">
-            <summary>
-            Opens context menu for application icon.
-            </summary>
-            <param name="iAppInfo"></param>
-        </member>
         <member name="M:BlueQuark.AppManager.Stop">
             <summary>
             Stops the current running app. No effect if no running app.
@@ -16829,6 +17173,11 @@
         <member name="P:BlueQuark.Platform.RobotUID">
             <summary>
             Gets the unique identifier for the robot.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Platform.RobotVersion">
+            <summary>
+            Gets the version of the robot.
             </summary>
         </member>
         <member name="P:BlueQuark.Platform.DotNetFrameworkVersion">
@@ -17185,19 +17534,34 @@
             Callback called when a connected USB drive is unconnected.
             </summary>
         </member>
-        <member name="P:BlueQuark.Storage.RemainingSpace">
+        <member name="P:BlueQuark.Storage.RemainingSpaceInternal">
             <summary>
-            Remaining drive space in bytes.
+            Remaining Internal drive space in bytes.
             </summary>
         </member>
-        <member name="P:BlueQuark.Storage.UsedSpace">
+        <member name="P:BlueQuark.Storage.UsedSpaceInternal">
             <summary>
-            Currently used drive space in bytes.
+            Currently used Internal drive space in bytes.
             </summary>
         </member>
-        <member name="P:BlueQuark.Storage.TotalSpace">
+        <member name="P:BlueQuark.Storage.TotalSpaceInternal">
             <summary>
-            Total drive space in bytes.
+            Total Internal drive space in bytes.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Storage.RemainingSpaceExternal">
+            <summary>
+            Remaining External drive space in bytes.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Storage.UsedSpaceExternal">
+            <summary>
+            Currently used External drive space in bytes.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Storage.TotalSpaceExternal">
+            <summary>
+            Total External drive space in bytes.
             </summary>
         </member>
         <member name="P:BlueQuark.Storage.EEPROMData">
@@ -17228,6 +17592,11 @@
             Enables/Disables the WiFi module.
             </summary>
         </member>
+        <member name="P:BlueQuark.WiFi.MACAddress">
+            <summary>
+            Network controller MAC address.
+            </summary>
+        </member>
         <member name="P:BlueQuark.WiFi.OnLocalNetworksUpdated">
             <summary>
             A callback array fired each time the local network list is updated.
@@ -17253,7 +17622,7 @@
             Gets the current connected network.
             </summary>
         </member>
-        <member name="M:BlueQuark.WiFi.ConnectTo(System.String,System.String,System.Action{System.Boolean})">
+        <member name="M:BlueQuark.WiFi.ConnectTo(System.String,System.String,System.Action{System.Boolean,System.String})">
             <summary>
             Tries to connect to the specified network.
             </summary>
@@ -17261,7 +17630,7 @@
             <param name="iPassword">Password of the network.</param>
             <param name="iOnConnectCallback">Callback called when the connection is established or failed.</param>
         </member>
-        <member name="M:BlueQuark.WiFi.ConnectTo(BlueQuark.WiFiNetwork,System.String,System.Action{System.Boolean})">
+        <member name="M:BlueQuark.WiFi.ConnectTo(BlueQuark.WiFiNetwork,System.String,System.Action{System.Boolean,System.String})">
             <summary>
             Tries to connect to the specified network.
             </summary>
@@ -17269,7 +17638,7 @@
             <param name="iPassword">Password of the network.</param>
             <param name="iOnConnectCallback">Callback called when the connection is established or failed.</param>
         </member>
-        <member name="M:BlueQuark.WiFi.ConnectToConfigured(BlueQuark.WiFiNetwork,System.Action{System.Boolean})">
+        <member name="M:BlueQuark.WiFi.ConnectToConfigured(BlueQuark.WiFiNetwork,System.Action{System.Boolean,System.String})">
             <summary>
             Tries to connect to a favorite network.
             </summary>
@@ -17283,7 +17652,7 @@
             <param name="iNetwork">The network to remove.s</param>
             <returns>Return true if success</returns>
         </member>
-        <member name="M:BlueQuark.WiFi.Disconnect">
+        <member name="M:BlueQuark.WiFi.Disconnect(System.Action{System.Boolean,System.String})">
             <summary>
             Disconnects from the current network.
             </summary>
@@ -20052,20 +20421,31 @@
         </member>
         <member name="M:BlueQuark.Explorer.Open``1">
             <summary>
-            Opens the wished session.
+            Opens the wished section.
             </summary>
             <typeparam name="S">Type of the Session to open.</typeparam>
             <seealso cref="T:BlueQuark.AppsSection"/>>
-            <seealso cref="T:BlueQuark.CurrentUserSection"/>>
-            <seealso cref="T:BlueQuark.FilesSection"/>>
+            <seealso cref="!:CurrentUserSection"/>>
+            <seealso cref="!:FilesSection"/>>
             <seealso cref="T:BlueQuark.ParametersSection"/>>
-            <seealso cref="T:BlueQuark.SecuritySection"/>>
-            <seealso cref="T:BlueQuark.UsersSection"/>>
+            <seealso cref="!:SecuritySection"/>>
+            <seealso cref="!:UsersSection"/>>
+        </member>
+        <member name="M:BlueQuark.Explorer.ReloadCurrentSection">
+            <summary>
+            Reload curently opened section.
+            </summary>
         </member>
         <member name="M:BlueQuark.Explorer.Close">
             <summary>
             Closes the Explorer.
             </summary>
+        </member>
+        <member name="M:BlueQuark.Explorer.ScrollTo(UnityEngine.RectTransform)">
+            <summary>
+            Scroll explorer panel to widget.
+            </summary>
+            <param name="iTarget"></param>
         </member>
         <member name="T:BlueQuark.Footer">
             <summary>
@@ -23172,9 +23552,9 @@
             <param name="iB">Point of the line.</param>
             <returns>The projection.</returns>
         </member>
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.Utils.CloseTo(System.Int32,System.Int32,System.Int32)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.Utils.CloseTo(System.Single,System.Single,System.Single)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.Utils.CloseTo(System.Double,System.Double,System.Double)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.Utils.CloseTo(System.Int32,System.Int32,System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.Utils.CloseTo(System.Single,System.Single,System.Single)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.Utils.CloseTo(System.Double,System.Double,System.Double)" -->
         <member name="M:BlueQuark.Utils.GetLocalIPAddress">
             <summary>
             Retrieves the local IP address.
@@ -26269,7 +26649,7 @@
         <member name="F:BlueQuark.AUDIO_REVERB_PRESET.AUDIO_REVERB_POPULAR">
             1: Pop music.
         </member>
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.AUDIO_REVERB_PRESET.AUDIO_REVERB_RNB" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.AUDIO_REVERB_PRESET.AUDIO_REVERB_RNB" -->
         <member name="F:BlueQuark.AUDIO_REVERB_PRESET.AUDIO_REVERB_ROCK">
             3: Rock music.
         </member>
@@ -26571,7 +26951,7 @@
         <member name="F:BlueQuark.RemoteAudioStats.receivedBitrate">
             The average bitrate (Kbps) of the received audio stream in the reported interval. 
         </member>
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.RemoteAudioStats.totalFrozenTime" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.RemoteAudioStats.totalFrozenTime" -->
         <member name="F:BlueQuark.RemoteAudioStats.frozenRate">
             The total audio freeze time as a percentage (%) of the total time when the audio is available. 
         </member>
@@ -26708,8 +27088,8 @@
         <member name="T:BlueQuark.LiveTranscoding">
             A struct for managing CDN live audio/video transcoding settings. 
         </member>
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.LiveTranscoding.width" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.LiveTranscoding.height" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.LiveTranscoding.width" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.LiveTranscoding.height" -->
         <member name="F:BlueQuark.LiveTranscoding.videoBitrate">
             Bitrate of the CDN live output video stream. The default value is 400 Kbps.
             
@@ -27354,7 +27734,7 @@
         <member name="T:BlueQuark.ScreenCaptureParameters">
             Screen sharing encoding parameters.
         </member>
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.ScreenCaptureParameters.dimensions" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.ScreenCaptureParameters.dimensions" -->
         <member name="F:BlueQuark.ScreenCaptureParameters.frameRate">
             The frame rate (fps) of the shared region.
             
@@ -27522,77 +27902,77 @@
         <member name="T:BlueQuark.VIDEO_PROFILE_TYPE">
             **DEPRECATED** Video profiles. 
         </member>
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_120P" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_120P_3" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_180P" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_180P_3" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_180P_4" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_240P" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_240P_3" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_240P_4" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_360P" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_360P_3" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_360P_4" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_360P_6" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_360P_7" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_360P_8" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_360P_9" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_360P_10" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_360P_11" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_480P" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_480P_3" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_480P_4" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_480P_6" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_480P_8" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_480P_9" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_480P_10" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_720P" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_720P_3" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_720P_5" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_720P_6" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_1080P" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_1080P_3" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_1080P_5" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_1440P" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_1440P_2" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_4K" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_4K_3" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_120P" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_120P_3" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_180P" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_180P_3" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_180P_4" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_240P" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_240P_3" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_240P_4" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_360P" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_360P_3" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_360P_4" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_360P_6" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_360P_7" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_360P_8" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_360P_9" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_360P_10" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_360P_11" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_480P" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_480P_3" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_480P_4" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_480P_6" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_480P_8" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_480P_9" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_480P_10" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_720P" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_720P_3" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_720P_5" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_720P_6" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_1080P" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_1080P_3" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_1080P_5" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_1440P" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_1440P_2" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_4K" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_4K_3" -->
-        <!-- Commentaire XML incorrect pour le membre "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_DEFAULT" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_120P" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_120P_3" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_180P" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_180P_3" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_180P_4" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_240P" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_240P_3" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_240P_4" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_360P" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_360P_3" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_360P_4" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_360P_6" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_360P_7" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_360P_8" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_360P_9" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_360P_10" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_360P_11" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_480P" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_480P_3" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_480P_4" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_480P_6" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_480P_8" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_480P_9" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_480P_10" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_720P" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_720P_3" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_720P_5" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_720P_6" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_1080P" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_1080P_3" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_1080P_5" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_1440P" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_1440P_2" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_4K" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_4K_3" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_120P" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_120P_3" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_180P" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_180P_3" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_180P_4" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_240P" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_240P_3" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_240P_4" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_360P" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_360P_3" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_360P_4" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_360P_6" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_360P_7" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_360P_8" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_360P_9" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_360P_10" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_360P_11" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_480P" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_480P_3" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_480P_4" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_480P_6" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_480P_8" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_480P_9" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_480P_10" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_720P" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_720P_3" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_720P_5" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_720P_6" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_1080P" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_1080P_3" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_1080P_5" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_1440P" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_1440P_2" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_4K" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_PORTRAIT_4K_3" -->
+        <!-- Badly formed XML comment ignored for member "F:BlueQuark.VIDEO_PROFILE_TYPE.VIDEO_PROFILE_DEFAULT" -->
         <member name="T:BlueQuark.CHANNEL_MEDIA_RELAY_ERROR">
             The definition of #CHANNEL_MEDIA_RELAY_ERROR. 
         </member>
@@ -27707,67 +28087,67 @@
             
              @return The version of the current SDK in the string format. For example, 2.9.1.
         </member>
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetChannelProfile(BlueQuark.CHANNEL_PROFILE)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetClientRole(BlueQuark.CLIENT_ROLE)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetLogFilter(BlueQuark.LOG_FILTER)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetLogFile(System.String)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.JoinChannel(System.String,System.String,System.UInt32)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.JoinChannelByKey(System.String,System.String,System.String,System.UInt32)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.RenewToken(System.String)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.LeaveChannel" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetParameters(System.String)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.GetCallId" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.Rate(System.String,System.Int32,System.String)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.Complain(System.String,System.String)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.EnableAudio" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.DisableAudio" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.MuteLocalAudioStream(System.Boolean)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.MuteAllRemoteAudioStreams(System.Boolean)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.MuteRemoteAudioStream(System.UInt32,System.Boolean)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetEnableSpeakerphone(System.Boolean)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetDefaultAudioRouteToSpeakerphone(System.Boolean)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.IsSpeakerphoneEnabled" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SwitchCamera" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetVideoProfile(BlueQuark.VIDEO_PROFILE_TYPE,System.Boolean)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.MuteLocalVideoStream(System.Boolean)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.MuteAllRemoteVideoStreams(System.Boolean)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.MuteRemoteVideoStream(System.UInt32,System.Boolean)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.EnableDualStreamMode(System.Boolean)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetEncryptionMode(System.String)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetEncryptionSecret(System.String)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.CreateDataStream(System.Boolean,System.Boolean)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SendStreamMessage(System.Int32,System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetChannelProfile(BlueQuark.CHANNEL_PROFILE)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetClientRole(BlueQuark.CLIENT_ROLE)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetLogFilter(BlueQuark.LOG_FILTER)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetLogFile(System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.JoinChannel(System.String,System.String,System.UInt32)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.JoinChannelByKey(System.String,System.String,System.String,System.UInt32)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.RenewToken(System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.LeaveChannel" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetParameters(System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.GetCallId" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.Rate(System.String,System.Int32,System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.Complain(System.String,System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.EnableAudio" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.DisableAudio" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.MuteLocalAudioStream(System.Boolean)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.MuteAllRemoteAudioStreams(System.Boolean)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.MuteRemoteAudioStream(System.UInt32,System.Boolean)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetEnableSpeakerphone(System.Boolean)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetDefaultAudioRouteToSpeakerphone(System.Boolean)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.IsSpeakerphoneEnabled" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SwitchCamera" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetVideoProfile(BlueQuark.VIDEO_PROFILE_TYPE,System.Boolean)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.MuteLocalVideoStream(System.Boolean)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.MuteAllRemoteVideoStreams(System.Boolean)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.MuteRemoteVideoStream(System.UInt32,System.Boolean)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.EnableDualStreamMode(System.Boolean)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetEncryptionMode(System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetEncryptionSecret(System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.CreateDataStream(System.Boolean,System.Boolean)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SendStreamMessage(System.Int32,System.String)" -->
         <member name="M:BlueQuark.IRtcEngine.SetSpeakerphoneVolume(System.Int32)">
             **DEPRECATED** Set the volume of the speaker.
             
             Please use {@link agora_gaming_rtc.IRtcEngine.AdjustRecordingSignalVolume AdjustRecordingSignalVolume} and {@link agora_gaming_rtc.IRtcEngine.AdjustPlaybackSignalVolume AdjustPlaybackSignalVolume} instead.
             
         </member>
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetVideoQualityParameters(System.Boolean)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.StartEchoTest" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.StartEchoTest(System.Int32)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.StopEchoTest" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.StartLastmileProbeTest(BlueQuark.LastmileProbeConfig)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.StopLastmileProbeTest" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.AddVideoWatermark(BlueQuark.RtcImage)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.AddVideoWatermark(System.String,BlueQuark.WatermarkOptions)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.ClearVideoWatermarks" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetRemoteVideoStreamType(System.UInt32,BlueQuark.REMOTE_VIDEO_STREAM_TYPE)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetMixedAudioFrameParameters(System.Int32,System.Int32)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetAudioMixingPosition(System.Int32)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.EnableAudioVolumeIndication(System.Int32,System.Int32,System.Boolean)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.AdjustRecordingSignalVolume(System.Int32)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.AdjustPlaybackSignalVolume(System.Int32)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.StartAudioMixing(System.String,System.Boolean,System.Boolean,System.Int32)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.StopAudioMixing" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.PauseAudioMixing" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.ResumeAudioMixing" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.AdjustAudioMixingVolume(System.Int32)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.GetAudioMixingDuration" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.GetAudioMixingCurrentPosition" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.StartAudioRecording(System.String,BlueQuark.AUDIO_RECORDING_QUALITY_TYPE)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.StartAudioRecording(System.String,System.Int32,BlueQuark.AUDIO_RECORDING_QUALITY_TYPE)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.StopAudioRecording" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetVideoQualityParameters(System.Boolean)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.StartEchoTest" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.StartEchoTest(System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.StopEchoTest" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.StartLastmileProbeTest(BlueQuark.LastmileProbeConfig)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.StopLastmileProbeTest" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.AddVideoWatermark(BlueQuark.RtcImage)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.AddVideoWatermark(System.String,BlueQuark.WatermarkOptions)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.ClearVideoWatermarks" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetRemoteVideoStreamType(System.UInt32,BlueQuark.REMOTE_VIDEO_STREAM_TYPE)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetMixedAudioFrameParameters(System.Int32,System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetAudioMixingPosition(System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.EnableAudioVolumeIndication(System.Int32,System.Int32,System.Boolean)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.AdjustRecordingSignalVolume(System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.AdjustPlaybackSignalVolume(System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.StartAudioMixing(System.String,System.Boolean,System.Boolean,System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.StopAudioMixing" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.PauseAudioMixing" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.ResumeAudioMixing" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.AdjustAudioMixingVolume(System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.GetAudioMixingDuration" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.GetAudioMixingCurrentPosition" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.StartAudioRecording(System.String,BlueQuark.AUDIO_RECORDING_QUALITY_TYPE)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.StartAudioRecording(System.String,System.Int32,BlueQuark.AUDIO_RECORDING_QUALITY_TYPE)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.StopAudioRecording" -->
         <member name="M:BlueQuark.IRtcEngine.GetAudioEffectManager">
             Retrieves the AudioEffectManager object.
             
@@ -27803,35 +28183,35 @@
             
             @return The VideoRender object.
         </member>
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.EnableVideo" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.DisableVideo" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.EnableLocalVideo(System.Boolean)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.EnableLocalAudio(System.Boolean)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.StartPreview" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.StopPreview" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.EnableVideoObserver" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.DisableVideoObserver" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetDefaultMuteAllRemoteAudioStreams(System.Boolean)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetDefaultMuteAllRemoteVideoStreams(System.Boolean)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.EnableLastmileTest" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.DisableLastmileTest" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.EnableVideo" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.DisableVideo" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.EnableLocalVideo(System.Boolean)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.EnableLocalAudio(System.Boolean)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.StartPreview" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.StopPreview" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.EnableVideoObserver" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.DisableVideoObserver" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetDefaultMuteAllRemoteAudioStreams(System.Boolean)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetDefaultMuteAllRemoteVideoStreams(System.Boolean)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.EnableLastmileTest" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.DisableLastmileTest" -->
         <member name="M:BlueQuark.IRtcEngine.GetConnectionState">
             Retrieves the connection state of the SDK.
             
             @return #CONNECTION_STATE_TYPE.
         </member>
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetAudioProfile(BlueQuark.AUDIO_PROFILE_TYPE,BlueQuark.AUDIO_SCENARIO_TYPE)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetVideoEncoderConfiguration(BlueQuark.VideoEncoderConfiguration)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.AdjustAudioMixingPlayoutVolume(System.Int32)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.AdjustAudioMixingPublishVolume(System.Int32)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetVolumeOfEffect(System.Int32,System.Int32)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetRecordingAudioFrameParameters(System.Int32,System.Int32,BlueQuark.RAW_AUDIO_FRAME_OP_MODE_TYPE,System.Int32)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetPlaybackAudioFrameParameters(System.Int32,System.Int32,BlueQuark.RAW_AUDIO_FRAME_OP_MODE_TYPE,System.Int32)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetLocalPublishFallbackOption(BlueQuark.STREAM_FALLBACK_OPTIONS)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetRemoteSubscribeFallbackOption(BlueQuark.STREAM_FALLBACK_OPTIONS)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetRemoteDefaultVideoStreamType(BlueQuark.REMOTE_VIDEO_STREAM_TYPE)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.AddPublishStreamUrl(System.String,System.Boolean)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.RemovePublishStreamUrl(System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetAudioProfile(BlueQuark.AUDIO_PROFILE_TYPE,BlueQuark.AUDIO_SCENARIO_TYPE)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetVideoEncoderConfiguration(BlueQuark.VideoEncoderConfiguration)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.AdjustAudioMixingPlayoutVolume(System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.AdjustAudioMixingPublishVolume(System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetVolumeOfEffect(System.Int32,System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetRecordingAudioFrameParameters(System.Int32,System.Int32,BlueQuark.RAW_AUDIO_FRAME_OP_MODE_TYPE,System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetPlaybackAudioFrameParameters(System.Int32,System.Int32,BlueQuark.RAW_AUDIO_FRAME_OP_MODE_TYPE,System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetLocalPublishFallbackOption(BlueQuark.STREAM_FALLBACK_OPTIONS)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetRemoteSubscribeFallbackOption(BlueQuark.STREAM_FALLBACK_OPTIONS)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetRemoteDefaultVideoStreamType(BlueQuark.REMOTE_VIDEO_STREAM_TYPE)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.AddPublishStreamUrl(System.String,System.Boolean)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.RemovePublishStreamUrl(System.String)" -->
         <member name="M:BlueQuark.IRtcEngine.GetErrorDescription(System.Int32)">
             Retrieves the description of a warning or error code.
             
@@ -27839,47 +28219,47 @@
               
              @return [Warning Code](./index.html#warn) or [Error Code](./index.html#error).
         </member>
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.EnableWebSdkInteroperability(System.Boolean)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetLiveTranscoding(BlueQuark.LiveTranscoding)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.PushVideoFrame(BlueQuark.ExternalVideoFrame)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetExternalVideoSource(System.Boolean,System.Boolean)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetExternalAudioSource(System.Boolean,System.Int32,System.Int32)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.PushAudioFrame(BlueQuark.AudioFrame)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.GetAudioMixingPlayoutVolume" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.GetAudioMixingPublishVolume" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.EnableSoundPositionIndication(System.Boolean)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetLocalVoiceChanger(BlueQuark.VOICE_CHANGER_PRESET)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetLocalVoiceReverbPreset(BlueQuark.AUDIO_REVERB_PRESET)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetLocalVoicePitch(System.Double)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetLocalVoiceEqualization(BlueQuark.AUDIO_EQUALIZATION_BAND_FREQUENCY,System.Int32)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetLocalVoiceReverb(BlueQuark.AUDIO_REVERB_TYPE,System.Int32)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetCameraCapturerConfiguration(BlueQuark.CameraCapturerConfiguration)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetRemoteUserPriority(System.UInt32,BlueQuark.PRIORITY_TYPE)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetLogFileSize(System.UInt32)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetExternalAudioSink(System.Boolean,System.Int32,System.Int32)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.RegisterLocalUserAccount(System.String,System.String)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.JoinChannelWithUserAccount(System.String,System.String,System.String)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.GetUserInfoByUserAccount(System.String)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.GetUserInfoByUid(System.UInt32)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetBeautyEffectOptions(System.Boolean,BlueQuark.BeautyOptions)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.StartScreenCaptureByDisplayId(System.UInt32,BlueQuark.Rectangle,BlueQuark.ScreenCaptureParameters)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.StartScreenCaptureByScreenRect(BlueQuark.Rectangle,BlueQuark.Rectangle,BlueQuark.ScreenCaptureParameters)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetScreenCaptureContentHint(BlueQuark.VideoContentHint)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.UpdateScreenCaptureParameters(BlueQuark.ScreenCaptureParameters)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.UpdateScreenCaptureRegion(BlueQuark.Rectangle)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.StopScreenCapture" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.AddInjectStreamUrl(System.String,BlueQuark.InjectStreamConfig)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.RemoveInjectStreamUrl(System.String)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.EnableLoopbackRecording(System.Boolean,System.String)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetAudioSessionOperationRestriction(BlueQuark.AUDIO_SESSION_OPERATION_RESTRICTION)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.StartChannelMediaRelay(BlueQuark.ChannelMediaRelayConfiguration)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.UpdateChannelMediaRelay(BlueQuark.ChannelMediaRelayConfiguration)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.StopChannelMediaRelay" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SwitchChannel(System.String,System.String)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetMirrorApplied(System.Boolean)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.SetInEarMonitoringVolume(System.Int32)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.StartScreenCaptureByWindowId(System.Int32,BlueQuark.Rectangle,BlueQuark.ScreenCaptureParameters)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.IRtcEngine.EnableInEarMonitoring(System.Boolean)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.EnableWebSdkInteroperability(System.Boolean)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetLiveTranscoding(BlueQuark.LiveTranscoding)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.PushVideoFrame(BlueQuark.ExternalVideoFrame)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetExternalVideoSource(System.Boolean,System.Boolean)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetExternalAudioSource(System.Boolean,System.Int32,System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.PushAudioFrame(BlueQuark.AudioFrame)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.GetAudioMixingPlayoutVolume" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.GetAudioMixingPublishVolume" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.EnableSoundPositionIndication(System.Boolean)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetLocalVoiceChanger(BlueQuark.VOICE_CHANGER_PRESET)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetLocalVoiceReverbPreset(BlueQuark.AUDIO_REVERB_PRESET)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetLocalVoicePitch(System.Double)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetLocalVoiceEqualization(BlueQuark.AUDIO_EQUALIZATION_BAND_FREQUENCY,System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetLocalVoiceReverb(BlueQuark.AUDIO_REVERB_TYPE,System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetCameraCapturerConfiguration(BlueQuark.CameraCapturerConfiguration)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetRemoteUserPriority(System.UInt32,BlueQuark.PRIORITY_TYPE)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetLogFileSize(System.UInt32)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetExternalAudioSink(System.Boolean,System.Int32,System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.RegisterLocalUserAccount(System.String,System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.JoinChannelWithUserAccount(System.String,System.String,System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.GetUserInfoByUserAccount(System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.GetUserInfoByUid(System.UInt32)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetBeautyEffectOptions(System.Boolean,BlueQuark.BeautyOptions)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.StartScreenCaptureByDisplayId(System.UInt32,BlueQuark.Rectangle,BlueQuark.ScreenCaptureParameters)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.StartScreenCaptureByScreenRect(BlueQuark.Rectangle,BlueQuark.Rectangle,BlueQuark.ScreenCaptureParameters)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetScreenCaptureContentHint(BlueQuark.VideoContentHint)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.UpdateScreenCaptureParameters(BlueQuark.ScreenCaptureParameters)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.UpdateScreenCaptureRegion(BlueQuark.Rectangle)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.StopScreenCapture" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.AddInjectStreamUrl(System.String,BlueQuark.InjectStreamConfig)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.RemoveInjectStreamUrl(System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.EnableLoopbackRecording(System.Boolean,System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetAudioSessionOperationRestriction(BlueQuark.AUDIO_SESSION_OPERATION_RESTRICTION)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.StartChannelMediaRelay(BlueQuark.ChannelMediaRelayConfiguration)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.UpdateChannelMediaRelay(BlueQuark.ChannelMediaRelayConfiguration)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.StopChannelMediaRelay" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SwitchChannel(System.String,System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetMirrorApplied(System.Boolean)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.SetInEarMonitoringVolume(System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.StartScreenCaptureByWindowId(System.Int32,BlueQuark.Rectangle,BlueQuark.ScreenCaptureParameters)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.IRtcEngine.EnableInEarMonitoring(System.Boolean)" -->
         <member name="M:BlueQuark.IRtcEngine.GetEngine(System.String)">
             Initializes the IRtcEngine.
             
@@ -27911,20 +28291,20 @@
         <member name="T:BlueQuark.AudioEffectManagerImpl">
             The definition of AudioEffectManagerImpl. 
         </member>
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioEffectManagerImpl.GetEffectsVolume" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioEffectManagerImpl.SetEffectsVolume(System.Int32)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioEffectManagerImpl.PlayEffect(System.Int32,System.String,System.Int32,System.Double,System.Double,System.Int32,System.Boolean)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioEffectManagerImpl.StopEffect(System.Int32)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioEffectManagerImpl.StopAllEffects" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioEffectManagerImpl.PreloadEffect(System.Int32,System.String)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioEffectManagerImpl.UnloadEffect(System.Int32)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioEffectManagerImpl.PauseEffect(System.Int32)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioEffectManagerImpl.PauseAllEffects" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioEffectManagerImpl.ResumeEffect(System.Int32)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioEffectManagerImpl.ResumeAllEffects" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioEffectManagerImpl.SetVoiceOnlyMode(System.Boolean)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioEffectManagerImpl.SetRemoteVoicePosition(System.UInt32,System.Double,System.Double)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioEffectManagerImpl.SetLocalVoicePitch(System.Double)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioEffectManagerImpl.GetEffectsVolume" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioEffectManagerImpl.SetEffectsVolume(System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioEffectManagerImpl.PlayEffect(System.Int32,System.String,System.Int32,System.Double,System.Double,System.Int32,System.Boolean)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioEffectManagerImpl.StopEffect(System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioEffectManagerImpl.StopAllEffects" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioEffectManagerImpl.PreloadEffect(System.Int32,System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioEffectManagerImpl.UnloadEffect(System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioEffectManagerImpl.PauseEffect(System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioEffectManagerImpl.PauseAllEffects" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioEffectManagerImpl.ResumeEffect(System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioEffectManagerImpl.ResumeAllEffects" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioEffectManagerImpl.SetVoiceOnlyMode(System.Boolean)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioEffectManagerImpl.SetRemoteVoicePosition(System.UInt32,System.Double,System.Double)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioEffectManagerImpl.SetLocalVoicePitch(System.Double)" -->
         <member name="T:BlueQuark.AudioPlaybackDeviceManager">
             The definition of AudioPlaybackDeviceManager. 
         </member>
@@ -27937,18 +28317,18 @@
              - true: Success.
              - false: Failure.
         </member>
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioPlaybackDeviceManager.ReleaseAAudioPlaybackDeviceManager" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioPlaybackDeviceManager.ReleaseAAudioPlaybackDeviceManager" -->
         <member name="M:BlueQuark.AudioPlaybackDeviceManager.GetAudioPlaybackDeviceCount">
             Retrieves the total number of the indexed audio playback devices in the system.
             
             @return Total number of the indexed audio playback devices.
         </member>
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioPlaybackDeviceManager.GetAudioPlaybackDevice(System.Int32,System.String@,System.String@)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioPlaybackDeviceManager.GetCurrentPlaybackDevice(System.String@)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioPlaybackDeviceManager.SetAudioPlaybackDevice(System.String)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioPlaybackDeviceManager.SetAudioPlaybackDeviceVolume(System.Int32)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioPlaybackDeviceManager.GetAudioPlaybackDeviceVolume" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioPlaybackDeviceManager.SetAudioPlaybackDeviceMute(System.Boolean)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioPlaybackDeviceManager.GetAudioPlaybackDevice(System.Int32,System.String@,System.String@)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioPlaybackDeviceManager.GetCurrentPlaybackDevice(System.String@)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioPlaybackDeviceManager.SetAudioPlaybackDevice(System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioPlaybackDeviceManager.SetAudioPlaybackDeviceVolume(System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioPlaybackDeviceManager.GetAudioPlaybackDeviceVolume" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioPlaybackDeviceManager.SetAudioPlaybackDeviceMute(System.Boolean)" -->
         <member name="M:BlueQuark.AudioPlaybackDeviceManager.IsAudioPlaybackDeviceMute">
             Retrieves the status of the current audio playback device.
             
@@ -27956,9 +28336,9 @@
             -true: Stops.
             -false: Doesn't stop.
         </member>
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioPlaybackDeviceManager.StartAudioPlaybackDeviceTest(System.String)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioPlaybackDeviceManager.StopAudioPlaybackDeviceTest" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioPlaybackDeviceManager.GetCurrentPlaybackDeviceInfo(System.String@,System.String@)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioPlaybackDeviceManager.StartAudioPlaybackDeviceTest(System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioPlaybackDeviceManager.StopAudioPlaybackDeviceTest" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioPlaybackDeviceManager.GetCurrentPlaybackDeviceInfo(System.String@,System.String@)" -->
         <member name="T:BlueQuark.AudioRawDataManager">
             The definition of AudioRawDataManager. 
         </member>
@@ -27991,13 +28371,13 @@
             @param uid The user ID.
             @param audioFrame See AudioFrame.
         </member>
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioRawDataManager.SetOnRecordAudioFrameCallback(BlueQuark.AudioRawDataManager.OnRecordAudioFrameHandler)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioRawDataManager.SetOnPlaybackAudioFrameCallback(BlueQuark.AudioRawDataManager.OnPlaybackAudioFrameHandler)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioRawDataManager.SetOnMixedAudioFrameCallback(BlueQuark.AudioRawDataManager.OnMixedAudioFrameHandler)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioRawDataManager.SetOnPlaybackAudioFrameBeforeMixingCallback(BlueQuark.AudioRawDataManager.OnPlaybackAudioFrameBeforeMixingHandler)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioRawDataManager.RegisterAudioRawDataObserver" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioRawDataManager.UnRegisterAudioRawDataObserver" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioRawDataManager.PullAudioFrame(System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int64,System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioRawDataManager.SetOnRecordAudioFrameCallback(BlueQuark.AudioRawDataManager.OnRecordAudioFrameHandler)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioRawDataManager.SetOnPlaybackAudioFrameCallback(BlueQuark.AudioRawDataManager.OnPlaybackAudioFrameHandler)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioRawDataManager.SetOnMixedAudioFrameCallback(BlueQuark.AudioRawDataManager.OnMixedAudioFrameHandler)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioRawDataManager.SetOnPlaybackAudioFrameBeforeMixingCallback(BlueQuark.AudioRawDataManager.OnPlaybackAudioFrameBeforeMixingHandler)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioRawDataManager.RegisterAudioRawDataObserver" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioRawDataManager.UnRegisterAudioRawDataObserver" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioRawDataManager.PullAudioFrame(System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int64,System.Int32)" -->
         <member name="T:BlueQuark.AudioRecordingDeviceManager">
             The definition of AudioRecordingDeviceManager. 
         </member>
@@ -28010,17 +28390,17 @@
              - true: Success.
              - false: Failure.
         </member>
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioRecordingDeviceManager.ReleaseAAudioRecordingDeviceManager" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioRecordingDeviceManager.ReleaseAAudioRecordingDeviceManager" -->
         <member name="M:BlueQuark.AudioRecordingDeviceManager.GetAudioRecordingDeviceCount">
             Retrieves the total number of the indexed audio recording devices in the system.
             
             @return Total number of the indexed audio recording devices.
         </member>
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioRecordingDeviceManager.GetAudioRecordingDevice(System.Int32,System.String@,System.String@)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioRecordingDeviceManager.GetCurrentRecordingDevice(System.String@)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioRecordingDeviceManager.SetAudioRecordingDeviceVolume(System.Int32)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioRecordingDeviceManager.GetAudioRecordingDeviceVolume" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioRecordingDeviceManager.SetAudioRecordingDeviceMute(System.Boolean)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioRecordingDeviceManager.GetAudioRecordingDevice(System.Int32,System.String@,System.String@)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioRecordingDeviceManager.GetCurrentRecordingDevice(System.String@)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioRecordingDeviceManager.SetAudioRecordingDeviceVolume(System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioRecordingDeviceManager.GetAudioRecordingDeviceVolume" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioRecordingDeviceManager.SetAudioRecordingDeviceMute(System.Boolean)" -->
         <member name="M:BlueQuark.AudioRecordingDeviceManager.IsAudioRecordingDeviceMute">
             Gets the status of the current audio recording device.
             
@@ -28028,10 +28408,10 @@
             -true: Stops.
             -false: Doesn't stop.
         </member>
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioRecordingDeviceManager.SetAudioRecordingDevice(System.String)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioRecordingDeviceManager.StartAudioRecordingDeviceTest(System.Int32)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioRecordingDeviceManager.StopAudioRecordingDeviceTest" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.AudioRecordingDeviceManager.GetCurrentRecordingDeviceInfo(System.String@,System.String@)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioRecordingDeviceManager.SetAudioRecordingDevice(System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioRecordingDeviceManager.StartAudioRecordingDeviceTest(System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioRecordingDeviceManager.StopAudioRecordingDeviceTest" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.AudioRecordingDeviceManager.GetCurrentRecordingDeviceInfo(System.String@,System.String@)" -->
         <member name="T:BlueQuark.IRtcEngineNative.EngineEventOnCaptureVideoFrame">
                     EngineEvent is only for engine, not for user,Please do not call this function.
         </member>
@@ -28047,17 +28427,17 @@
              - true: Success.
              - false: Failure.
         </member>
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.VideoDeviceManager.ReleaseAVideoDeviceManager" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.VideoDeviceManager.StartVideoDeviceTest(System.IntPtr)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.VideoDeviceManager.StopVideoDeviceTest" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.VideoDeviceManager.ReleaseAVideoDeviceManager" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.VideoDeviceManager.StartVideoDeviceTest(System.IntPtr)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.VideoDeviceManager.StopVideoDeviceTest" -->
         <member name="M:BlueQuark.VideoDeviceManager.GetVideoDeviceCount">
             Retrieves the total number of the indexed video recording devices in the system.
             
             @return Total number of the indexed video recording devices.
         </member>
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.VideoDeviceManager.GetVideoDevice(System.Int32,System.String@,System.String@)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.VideoDeviceManager.GetCurrentVideoDevice(System.String@)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.VideoDeviceManager.SetVideoDevice(System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.VideoDeviceManager.GetVideoDevice(System.Int32,System.String@,System.String@)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.VideoDeviceManager.GetCurrentVideoDevice(System.String@)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.VideoDeviceManager.SetVideoDevice(System.String)" -->
         <member name="T:BlueQuark.VideoRawDataManager">
             The definition of VideoRawDataManager. 
         </member>
@@ -28076,10 +28456,10 @@
             @param uid ID of the remote user who sends the current video frame.
             @param videoFrame See VideoFrame.
         </member>
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.VideoRawDataManager.SetOnCaptureVideoFrameCallback(BlueQuark.VideoRawDataManager.OnCaptureVideoFrameHandler)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.VideoRawDataManager.SetOnRenderVideoFrameCallback(BlueQuark.VideoRawDataManager.OnRenderVideoFrameHandler)" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.VideoRawDataManager.RegisterVideoRawDataObserver" -->
-        <!-- Commentaire XML incorrect pour le membre "M:BlueQuark.VideoRawDataManager.UnRegisterVideoRawDataObserver" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.VideoRawDataManager.SetOnCaptureVideoFrameCallback(BlueQuark.VideoRawDataManager.OnCaptureVideoFrameHandler)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.VideoRawDataManager.SetOnRenderVideoFrameCallback(BlueQuark.VideoRawDataManager.OnRenderVideoFrameHandler)" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.VideoRawDataManager.RegisterVideoRawDataObserver" -->
+        <!-- Badly formed XML comment ignored for member "M:BlueQuark.VideoRawDataManager.UnRegisterVideoRawDataObserver" -->
         <member name="M:BlueQuark.IVideoRender.SetVideoRenderMode(BlueQuark.VIDEO_RENDER_MODE)">
             		 * choose the rendreMode of video.
             		 * 1:  VIDEO_RENDER_MODE.RENDER_RAWDATA
@@ -29837,7 +30217,12 @@
         </member>
         <member name="P:BlueQuark.WebServices.HasInternetAccess">
             <summary>
-            Returns true if a internet access is available. A tests is performed on 8.8.8.8
+            Returns true if a internet access is available.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.WebServices.InternetConnectionType">
+            <summary>
+            Returns internet connection network type
             </summary>
         </member>
         <member name="P:BlueQuark.WebServices.EMailSender">

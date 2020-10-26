@@ -43,7 +43,7 @@
         </AssemblyRobotComponent>
         <AssemblyRobotComponent>
             <Name>Bluetooth</Name>
-            <Type>EMBEDDED</Type>
+            <Type>WINDOWS</Type>
         </AssemblyRobotComponent>
         <AssemblyRobotComponent>
             <Name>WiFi</Name>
@@ -51,7 +51,7 @@
         </AssemblyRobotComponent>
         <AssemblyRobotComponent>
             <Name>MobileData</Name>
-            <Type>EMBEDDED</Type>
+            <Type>WINDOWS</Type>
         </AssemblyRobotComponent>
         <AssemblyRobotComponent>
             <Name>GPIO</Name>
@@ -67,7 +67,7 @@
         </AssemblyRobotComponent>
         <AssemblyRobotComponent>
             <Name>Battery</Name>
-            <Type>EMBEDDED</Type>
+            <Type>WINDOWS</Type>
         </AssemblyRobotComponent>
         <AssemblyRobotComponent>
             <Name>CliffSensor</Name>
@@ -141,9 +141,13 @@
             <Name>Screen</Name>
             <Type>EMBEDDED</Type>
         </AssemblyRobotComponent>
-		<AssemblyRobotComponent>
+		    <AssemblyRobotComponent>
             <Name>Head</Name>
             <Type>EMBEDDED</Type>
+        </AssemblyRobotComponent>
+        <AssemblyRobotComponent>
+          <Name>WebServices</Name>
+          <Type>WINDOWS</Type>
         </AssemblyRobotComponent>
     </Components>
 </AssemblyRobotSettings>

@@ -598,9 +598,84 @@ TextureImporter:
     second: os_icon_alarmclock
   - first:
       213: 21300396
-    second: os_icon_wifi_00
+    second: os_icon_4g_01
+  - first:
+      213: 21300398
+    second: os_icon_4g_01
+  - first:
+      213: 21300400
+    second: os_icon_4g_01
+  - first:
+      213: 21300402
+    second: os_icon_4g_02
+  - first:
+      213: -4150569252593235580
+    second: os_icon_4g_03
+  - first:
+      213: -8142808690755390883
+    second: os_icon_4g_04
+  - first:
+      213: 2584316276893887913
+    second: os_icon_4g_05
+  - first:
+      213: -2003032015320331360
+    second: os_icon_dot
+  - first:
+      213: -1245944002680778312
+    second: os_icon_dot_stroke
+  - first:
+      213: 2351629903028873493
+    second: os_icon_signal
+  - first:
+      213: -545199523709554529
+    second: os_icon_dev_visible
+  - first:
+      213: -5133045490765457602
+    second: os_icon_dev_invisible
+  - first:
+      213: 2448727438912860348
+    second: os_icon_debug
+  - first:
+      213: -8654097346357397341
+    second: os_icon_key
+  - first:
+      213: 3536609486836395209
+    second: os_icon_shutdown
+  - first:
+      213: -4639531494624712246
+    second: os_icon_buddyb
+  - first:
+      213: 6429937812174161639
+    second: os_icon_unboot
+  - first:
+      213: 6429937812174161639
+    second: os_icon_appstatus_dev
+  - first:
+      213: 7788627311472837619
+    second: os_icon_appstatus_intrelease
+  - first:
+      213: -6174306522494853579
+    second: os_icon_appstatus_release
+  - first:
+      213: 4876390108488918848
+    second: os_icon_apps
+  - first:
+      213: -912897306644800214
+    second: os_icon_default_app
+  - first:
+      213: -4868155447252953939
+    second: os_icon_logo
+  - first:
+      213: -5827939343161928625
+    second: os_icon_health
+  - first:
+      213: -4406700954962224130
+    second: os_icon_game
+  - first:
+      213: 2004631097943299930
+    second: os_icon_edutainment
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -654,6 +729,7 @@ TextureImporter:
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -1320,27 +1396,6 @@ TextureImporter:
       bones: []
       spriteID: 1dc4112cb9c13f6439d58e5677965816
       internalID: 21300088
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: os_icon_default_app
-      rect:
-        serializedVersion: 2
-        x: 400
-        y: 848
-        width: 100
-        height: 100
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 997cd32d893a8584a88d45677c3ecf74
-      internalID: 21300090
       vertices: []
       indices: 
       edges: []
@@ -3992,7 +4047,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: os_icon_wifi_00
+      name: os_icon_version
       rect:
         serializedVersion: 2
         x: 800
@@ -4008,6 +4063,510 @@ TextureImporter:
       bones: []
       spriteID: cbfa8f8789090a44e876f099a7bf27a5
       internalID: 21300396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: os_icon_bluetooth
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 248
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9fe3b64cc8149944d81140621338e887
+      internalID: 21300398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: os_icon_4g_01
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 148
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bfc2468226aed0e439ae9f12dec49433
+      internalID: 21300400
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: os_icon_4g_02
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 148
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 186b8cb92585bef48b9946d6898844c0
+      internalID: 21300402
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: os_icon_4g_03
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 148
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 489858361473666c0800000000000000
+      internalID: -4150569252593235580
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: os_icon_4g_04
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 148
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d52bf8163aeeefe80800000000000000
+      internalID: -8142808690755390883
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: os_icon_4g_05
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 148
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ad258726f55dd320800000000000000
+      internalID: 2584316276893887913
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: os_icon_dot
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 248
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0abc81d9efcc334e0800000000000000
+      internalID: -2003032015320331360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: os_icon_dot_stroke
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 248
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b11f26e78485bee0800000000000000
+      internalID: -1245944002680778312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: os_icon_signal
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 148
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 519e835ffeaa2a020800000000000000
+      internalID: 2351629903028873493
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: os_icon_dev_visible
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 148
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f907499fbef0f68f0800000000000000
+      internalID: -545199523709554529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: os_icon_dev_invisible
+      rect:
+        serializedVersion: 2
+        x: 700
+        y: 148
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e37110b7252c3c8b0800000000000000
+      internalID: -5133045490765457602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: os_icon_debug
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 148
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb0372cb1a0abf120800000000000000
+      internalID: 2448727438912860348
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: os_icon_key
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 148
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a877ba905876e780800000000000000
+      internalID: -8654097346357397341
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: os_icon_shutdown
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 148
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9cce82c279f841130800000000000000
+      internalID: 3536609486836395209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: os_icon_buddyb
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 148
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac928aadfa21d9fb0800000000000000
+      internalID: -4639531494624712246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: os_icon_appstatus_dev
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 48
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7e64e767f5abb3950800000000000000
+      internalID: 6429937812174161639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: os_icon_appstatus_intrelease
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 48
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f38e3c1643c61c60800000000000000
+      internalID: 7788627311472837619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: os_icon_appstatus_release
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 48
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53e11504ee4705aa0800000000000000
+      internalID: -6174306522494853579
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: os_icon_apps
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 48
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 047e5baa7fa6ca340800000000000000
+      internalID: 4876390108488918848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: os_icon_default_app
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 48
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2d96018cbcb453f0800000000000000
+      internalID: -912897306644800214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: os_icon_logo
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 48
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da4da1fc966d07cb0800000000000000
+      internalID: -4868155447252953939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: os_icon_health
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 848
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f445f4e8b000f1fa0800000000000000
+      internalID: -5827939343161928625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: os_icon_game
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 48
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: efb1a1444d048d2c0800000000000000
+      internalID: -4406700954962224130
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: os_icon_edutainment
+      rect:
+        serializedVersion: 2
+        x: 700
+        y: 48
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a579c92dc51e1db10800000000000000
+      internalID: 2004631097943299930
       vertices: []
       indices: 
       edges: []

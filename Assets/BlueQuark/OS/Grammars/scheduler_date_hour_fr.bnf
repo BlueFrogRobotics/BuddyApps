@@ -1,0 +1,205 @@
+#BNF+EMV2.1;
+!grammar schedulr_date_hour_fr;
+
+/*
+**	Timespan rules
+*/
+
+!import <timespan_fr#in_days>;
+!import <timespan_fr#in_weeks>;
+!import <timespan_fr#in_months>;
+!import <timespan_fr#in_years>;
+!import <timespan_fr#in_hoursandminutes>;
+!import <timespan_fr#in_hours>;
+!import <timespan_fr#in_minutes>;
+
+/*
+**	Hour rules
+*/
+
+!import <hour_fr#atnoon>;
+!import <hour_fr#atprenoon>;
+!import <hour_fr#atpostnoon>;
+!import <hour_fr#atmidnight>;
+!import <hour_fr#atpremidnight>;
+!import <hour_fr#atpostmidnight>;
+!import <hour_fr#athours>;
+!import <hour_fr#atprehours>;
+!import <hour_fr#atposthours>;
+!import <hour_fr#atamhours>;
+!import <hour_fr#atpreamhours>;
+!import <hour_fr#atpostamhours>;
+!import <hour_fr#atpmhours>;
+!import <hour_fr#atprepmhours>;
+!import <hour_fr#atpostpmhours>;
+
+/*
+**	Date rules
+*/
+
+!import <date_fr#today>;
+!import <date_fr#tomorrow>;
+!import <date_fr#dayaftertomorrow>;
+!import <date_fr#nextdayofweek>;
+!import <date_fr#nextweek>;
+!import <date_fr#nextmonth>;
+!import <date_fr#nextyear>;
+!import <date_fr#nextday>;
+!import <date_fr#nextdate>;
+!import <date_fr#fulldate>;
+
+/*
+** Command rules
+*/
+
+
+!import <companion_commands_fr#buddylab>;
+!import <companion_commands_fr#calculationgame>;
+!import <companion_commands_fr#calendar>;
+!import <companion_commands_fr#canmove>;
+!import <companion_commands_fr#colourseen>;
+//!start <companion_commands_fr#copy>;
+!import <companion_commands_fr#dance>;
+!import <companion_commands_fr#date>;
+!import <companion_commands_fr#demoshort>;
+//!import <companion_commands_fr#demofull>;
+//!import <companion_commands_fr#detectobject>;
+!import <companion_commands_fr#dontmove>;
+!import <companion_commands_fr#dosomething>;
+!import <companion_commands_fr#fitness>;
+!import <companion_commands_fr#freezedance>;
+!import <companion_commands_fr#followme>;
+!import <companion_commands_fr#gallery>;
+!import <companion_commands_fr#guardian>;
+!import <companion_commands_fr#headdown>;
+!import <companion_commands_fr#headleft>;
+!import <companion_commands_fr#headright>;
+!import <companion_commands_fr#headup>;
+//!import <companion_commands_fr#heat>;
+!import <companion_commands_fr#hour>;
+!import <companion_commands_fr#humancounter>;
+!import <companion_commands_fr#ihateyou>;
+!import <companion_commands_fr#iloveyou>;
+!import <companion_commands_fr#iot>;
+!import <companion_commands_fr#joke>;
+!import <companion_commands_fr#listenjoke>;
+//!import <companion_commands_fr#jukebox>;
+!import <companion_commands_fr#kissme>;
+//!import <companion_commands_fr#lookatme>;
+!import <companion_commands_fr#memorygame>;
+!import <companion_commands_fr#mirror>;
+!import <companion_commands_fr#mood>;
+!import <companion_commands_fr#movebackward>;
+!import <companion_commands_fr#moveforward>;
+!import <companion_commands_fr#moveleft>;
+!import <companion_commands_fr#moveright>;
+!import <companion_commands_fr#nap>;
+!import <companion_commands_fr#photo>;
+!import <companion_commands_fr#play>;
+//!import <companion_commands_fr#pose>;
+!import <companion_commands_fr#profilingwhoami>;
+!import <companion_commands_fr#propose>;
+!import <companion_commands_fr#registerreminder>;
+!import <companion_commands_fr#repeat>;
+//!import <companion_commands_fr#rlgl>;
+!import <companion_commands_fr#story>;
+!import <companion_commands_fr#tellsomething>;
+//!import <companion_commands_fr#timer>;
+!import <companion_commands_fr#volume>;
+!import <companion_commands_fr#volumeset>;
+!import <companion_commands_fr#volumedown>;
+!import <companion_commands_fr#volumeup>;
+!import <companion_commands_fr#wander>;
+!import <companion_commands_fr#welcome>;
+!import <companion_commands_fr#wikipedia>;
+!import <companion_commands_fr#sick>;
+!import <companion_commands_fr#sad>;
+!import <companion_commands_fr#love>;
+!import <companion_commands_fr#happy>;
+!import <companion_commands_fr#tired>;
+!import <companion_commands_fr#angry>;
+!import <companion_commands_fr#grumpy>;
+!import <companion_commands_fr#scared>;
+// Now with freespeech only
+//!import <companion_commands_fr#radio>;
+!import <companion_commands_fr#quizz>;
+
+
+/*
+**	Rules that can be recognize
+*/
+
+!start <scheduler_date_hour>;
+
+/*
+**	Final rules to add reminder with a date and an hour
+*/
+
+<scheduler_date_hour> : <add_scheduler> (<date_entry> | <hour_entry>);
+
+/*
+**	All rules for date, with tag.
+*/
+
+<date_entry> : !tag(TODAY, <date_fr#today>)
+				| !tag(TOMORROW, <date_fr#tomorrow>)
+				| !tag(DAYFTERTOMORROW, <date_fr#dayaftertomorrow>)
+				| !tag(NEXTDAYOFWEEK, <date_fr#nextdayofweek>)
+				| !tag(NEXTWEEK, <date_fr#nextweek>)
+				| !tag(NEXTMONTH, <date_fr#nextmonth>)
+				| !tag(NEXTYEAR, <date_fr#nextyear>)
+				| !tag(NEXTDAY, <date_fr#nextday>)
+				| !tag(NEXTDATE, <date_fr#nextdate>)
+				| !tag(FULLDATE, <date_fr#fulldate>)
+				| !tag(INYEARS, <timespan_fr#in_years>)
+				| !tag(INMONTHS, <timespan_fr#in_months>)
+				| !tag(INWEEKS, <timespan_fr#in_months>)
+				| !tag(INDAYS, <timespan_fr#in_days>);
+
+/*
+**	All rules for hour, with tag.
+*/
+
+<hour_entry> : !tag(ATNOON, <hour_fr#atnoon>)
+				| !tag(ATPRENOON, <hour_fr#atprenoon>)
+				| !tag(ATPOSTNOON, <hour_fr#atpostnoon>)
+				| !tag(ATMIDNIGHT, <hour_fr#atmidnight>)
+				| !tag(ATPREMIDNIGHT, <hour_fr#atpremidnight>)
+				| !tag(ATPOSTMIDNIGHT, <hour_fr#atpostmidnight>)
+				| !tag(ATHOURS, <hour_fr#athours>)
+				| !tag(ATPREHOURS, <hour_fr#atprehours>)
+				| !tag(ATPOSTHOURS, <hour_fr#atposthours>)
+				| !tag(ATAMHOURS, <hour_fr#atamhours>)
+				| !tag(ATPREAMHOURS, <hour_fr#atpreamhours>)
+				| !tag(ATPOSTAMHOURS, <hour_fr#atpostamhours>)
+				| !tag(ATPMHOURS, <hour_fr#atpmhours>)
+				| !tag(ATPREPMHOURS, <hour_fr#atprepmhours>)
+				| !tag(ATPOSTPMHOURS, <hour_fr#atpostpmhours>)
+				| !tag(INHOURS, <timespan_fr#in_hours>)
+				| !tag(INMINUTES, <timespan_fr#in_minutes>)
+				| !tag(INHOURSANDMINUTES, <timespan_fr#in_hoursandminutes>);
+/*
+**	Key sequence
+*/
+
+<asklaunch> : [<canyou>] (open | launch | play) [[the] application];
+<command> : <companion_commands_fr#buddylab> | <companion_commands_fr#calculationgame> | <companion_commands_fr#calendar>
+| <companion_commands_fr#canmove> | <companion_commands_fr#colourseen> | <companion_commands_fr#dance>
+| <companion_commands_fr#date> | <companion_commands_fr#demoshort> | <companion_commands_fr#dontmove>| <companion_commands_fr#dosomething>
+| <companion_commands_fr#fitness> | <companion_commands_fr#freezedance> | <companion_commands_fr#followme>
+| <companion_commands_fr#gallery> | <companion_commands_fr#guardian> | <companion_commands_fr#headdown> 
+| <companion_commands_fr#headleft> | <companion_commands_fr#headright> | <companion_commands_fr#headup>
+| <companion_commands_fr#hour> | <companion_commands_fr#humancounter> | <companion_commands_fr#ihateyou>
+| <companion_commands_fr#iloveyou> | <companion_commands_fr#iot> | <companion_commands_fr#joke>
+| <companion_commands_fr#listenjoke> | <companion_commands_fr#kissme> | <companion_commands_fr#memorygame>
+| <companion_commands_fr#mirror> | <companion_commands_fr#mood> | <companion_commands_fr#movebackward>
+| <companion_commands_fr#moveforward> | <companion_commands_fr#moveleft> | <companion_commands_fr#moveright>
+| <companion_commands_fr#nap> | <companion_commands_fr#photo> | <companion_commands_fr#play>
+| <companion_commands_fr#profilingwhoami> | <companion_commands_fr#propose> | <companion_commands_fr#registerreminder>
+| <companion_commands_fr#repeat> | <companion_commands_fr#story> | <companion_commands_fr#tellsomething> | <companion_commands_fr#volume>
+| <companion_commands_fr#volumeset> | <companion_commands_fr#volumedown> | <companion_commands_fr#volumeup> 
+| <companion_commands_fr#wander> | <companion_commands_fr#welcome> | <companion_commands_fr#wikipedia> 
+| <companion_commands_fr#sick> | <companion_commands_fr#sad> | <companion_commands_fr#love>
+| <companion_commands_fr#happy> | <companion_commands_fr#tired> | <companion_commands_fr#angry>
+| <companion_commands_fr#grumpy> | <companion_commands_fr#scared> | <companion_commands_fr#quizz>;
+<add_scheduler> : [<asklaunch> | add | programm | resgister | execute] [(a | the) task | (an | the) application] <command>;
