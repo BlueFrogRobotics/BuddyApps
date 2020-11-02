@@ -44,6 +44,8 @@ namespace BuddyApp.CoursTelepresence
         public Action OnEndUserOffline { get; set; }
         public bool HasJoined { get; set; }
 
+        private float mTime;
+
         private void Awake()
         {
             if (Application.isEditor)
@@ -56,6 +58,11 @@ namespace BuddyApp.CoursTelepresence
             mIndexImage = 100;
             InitRTC();
             //Join("test");
+        }
+
+        private void Update()
+        {
+            mTime += Time.deltaTime;
         }
 
         public void InitRTC()
@@ -272,12 +279,40 @@ namespace BuddyApp.CoursTelepresence
             rawVideo.texture = tex;
         }
 
+        public void SetProfilePicture(string iData, int iWidth, int iHeight)
+        {
+            Debug.LogWarning("Set profile picture");
+            byte[] newBytes = Convert.FromBase64String(iData);
+            Texture2D tex = new Texture2D(iWidth, iHeight);
+            tex.LoadImage(newBytes);
+            tex.Apply();
+            FlipTextureVertically(tex);
+            VideoSurface lVideoSurface = rawVideo.GetComponent<VideoSurface>();
+            if (lVideoSurface != null)
+            {
+                lVideoSurface.SetEnable(false);
+                Destroy(rawVideo.GetComponent<VideoSurface>());
+            }
+            rawVideo.gameObject.SetActive(true);
+            rawVideo.texture = tex;
+
+            Debug.LogError("***********HEIGHT : " + rawVideo.texture.height + " ********WIDTH : " + rawVideo.texture.width);
+        }
+
         private void OnJoinChannelSuccess(string channelName, uint uid, int elapsed)
         {
             Debug.LogError("JoinChannelSuccessHandler: uid = " + uid);
             //HasJoined = true;
+            mTime = 0F;
             mRtcEngine.OnNetworkQuality += (ID, TX, RX) => QualityCheck(ID, TX, RX);
+            mRtcEngine.OnRtcStats = OnRtcStats;
             mUid = uid;
+        }
+
+        private void OnRtcStats(RtcStats stats)
+        {
+            uint total = stats.txBytes + stats.rxBytes;
+            Debug.LogWarning("time: "+mTime+"total: " + total);
         }
 
         private void QualityCheck(uint iID, int iTX, int iRX)

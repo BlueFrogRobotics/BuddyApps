@@ -58,6 +58,8 @@ namespace BuddyApp.CoursTelepresence
             mRTCManager = GetComponent<RTCManager>();
             mRTMManager = GetComponent<RTMManager>();
 
+            Buddy.WebServices.Agoraio.ImageReceived = (width, height, data) => mRTCManager.SetProfilePicture(data, width, height);
+
             VolumeScrollbar = GetGameObject(4).GetComponentInChildren<Slider>();
             Volume = GetGameObject(5).GetComponentInChildren<Button>();
             Video = GetGameObject(6).GetComponentInChildren<Button>();
@@ -94,8 +96,18 @@ namespace BuddyApp.CoursTelepresence
             Hangup.onClick.AddListener(OnHangup);
 
             mRTMManager.OnWheelsMotion = OnWheelsMotion;
-            mRTMManager.OnHeadNoAbsolute = Buddy.Actuators.Head.No.SetPosition;
-            mRTMManager.OnHeadYesAbsolute = Buddy.Actuators.Head.Yes.SetPosition;
+            mRTMManager.OnHeadNoAbsolute = (lAngle) =>
+            {
+                Debug.LogWarning("head no absolute " + lAngle);
+                float lCoeff = Mathf.Abs(lAngle - Buddy.Actuators.Head.No.Angle) / Buddy.Actuators.Head.No.AngleMax;
+                Buddy.Actuators.Head.No.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.No.Angle, Buddy.Actuators.Head.No.AngleMin, Buddy.Actuators.Head.No.AngleMax), lCoeff * 70F, AccDecMode.SMOOTH);
+            };
+            mRTMManager.OnHeadYesAbsolute = (lAngle) =>
+            {
+                Debug.LogWarning("head yes absolute " + lAngle);
+                float lCoeff = 0.6F;// Mathf.Abs(lAngle - Buddy.Actuators.Head.Yes.Angle) / Buddy.Actuators.Head.Yes.AngleMax;
+                Buddy.Actuators.Head.Yes.SetPosition(Mathf.Clamp(lAngle+ Buddy.Actuators.Head.Yes.Angle, Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax), lCoeff * 20F, AccDecMode.SMOOTH);
+            };
             mRTMManager.OnHeadNo = (lAngle) => {
                 if (lAngle * mPreviousAngle < 0) {
                     // Dirty way to clean the queue. Need new function in OS to do this
@@ -118,12 +130,12 @@ namespace BuddyApp.CoursTelepresence
                 if (lAngle * mPreviousAngle < 0) {
                     // Dirty way to clean the queue. Need new function in OS to do this
                     Buddy.Actuators.Head.Yes.Stop();
-                    Buddy.Actuators.Head.Yes.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, -10F, 37F), Mathf.Clamp(Math.Abs(lAngle) * 4, 5F, 80F), AccDecMode.HIGH);
+                    Buddy.Actuators.Head.Yes.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax), Mathf.Clamp(Math.Abs(lAngle) * 4, 5F, 80F), AccDecMode.HIGH);
                     Debug.LogWarning("Time between YES sent command " + (Time.time - mPreviousYesAngleTime));
                     mPreviousYesAngleTime = Time.time;
                     mPreviousAngle = lAngle;
                 } else if (!Buddy.Actuators.Head.Yes.IsBusy) {
-                    Buddy.Actuators.Head.Yes.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, -10F, 37F), Mathf.Clamp(Math.Abs(lAngle) * 4, 5F, 80F), AccDecMode.SMOOTH);
+                    Buddy.Actuators.Head.Yes.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax), Mathf.Clamp(Math.Abs(lAngle) * 4, 5F, 80F), AccDecMode.SMOOTH);
                     mPreviousAngle = lAngle;
                     Debug.LogWarning("Time between YES sent command " + (Time.time - mPreviousYesAngleTime));
                     mPreviousYesAngleTime = Time.time;
@@ -220,7 +232,7 @@ namespace BuddyApp.CoursTelepresence
                     Buddy.Actuators.LEDs.SetBodyLights(60, 100, 93);
                     Buddy.Actuators.LEDs.SetBodyPattern(LEDPulsePattern.BASIC_BLINK);
                     TriggerGUI("HANDSUP START");
-                    ResetTrigger("HANDSUP START");
+                    //ResetTrigger("HANDSUP START");
                 } else {
                     StopRaiseHand();
                 }
@@ -250,8 +262,8 @@ namespace BuddyApp.CoursTelepresence
         private void OnWheelsMotion(WheelsMotion iWheelsMotion)
         {
             mTimeSinceMovement = Time.time;
-            Buddy.Actuators.Wheels.SetVelocities(Wheels.MAX_LIN_VELOCITY * Mathf.Pow(iWheelsMotion.speed, 3),
-                Wheels.MAX_ANG_VELOCITY * Mathf.Pow(iWheelsMotion.angularVelocity, 3));
+            Buddy.Actuators.Wheels.SetVelocities(1.2F*Wheels.MAX_LIN_VELOCITY * Mathf.Pow(iWheelsMotion.speed, 3),
+                0.5F*Wheels.MAX_ANG_VELOCITY * Mathf.Pow(iWheelsMotion.angularVelocity, 3));
         }
 
         private bool IsPointerOverUIObject()
@@ -378,7 +390,7 @@ namespace BuddyApp.CoursTelepresence
         {
             mHandUp = false;
             TriggerGUI("HANDSUP END");
-            ResetTrigger("HANDSUP END");
+            //ResetTrigger("HANDSUP END");
             Buddy.Actuators.LEDs.Flash = false;
             Buddy.Behaviour.SetMood(Mood.NEUTRAL);
         }

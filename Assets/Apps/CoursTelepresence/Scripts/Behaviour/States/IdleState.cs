@@ -95,7 +95,7 @@ namespace BuddyApp.CoursTelepresence
         {
             Debug.LogError("launch call");
             mRTCManager.Join(mChannelId);
-            while (!mRTCManager.HasJoined)
+            //while (!mRTCManager.HasJoined)
                 yield return null;
             Debug.LogError("launch complete");
             mRTMManager.RequestConnexion(mChannelId, DBManager.Instance.NameProf);

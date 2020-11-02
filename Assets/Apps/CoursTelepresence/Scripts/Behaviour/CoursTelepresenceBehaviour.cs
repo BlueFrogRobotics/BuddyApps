@@ -31,6 +31,8 @@ namespace BuddyApp.CoursTelepresence
             mRTCManager = GetComponent<RTCManager>();
 
             CoursTelepresenceActivity.Init(null, mRTMManager, mRTCManager);
+            float truc = -0.9F;
+            Debug.Log("lollllllll "+Mathf.Lerp(-10, 30, (truc + 1.0F) / 2));
         }
 
         void Start()

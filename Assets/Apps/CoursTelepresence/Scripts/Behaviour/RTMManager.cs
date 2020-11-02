@@ -63,6 +63,22 @@ namespace BuddyApp.CoursTelepresence
             Debug.LogError("robot id: " + Buddy.Platform.RobotUID);
         }
 
+        public void SetHeadADroite()
+        {
+            string msg= "{ \"propertyName\": \"headYesAbsolute\", \"propertyValue\": \"-0.7\" } ";
+            OnMessage(msg);
+            string msg2 = "{ \"propertyName\": \"headNoAbsolute\", \"propertyValue\": \"0.5\" } ";
+            OnMessage(msg2);
+        }
+
+        public void SetHeadAGauche()
+        {
+            string msg = "{ \"propertyName\": \"headYesAbsolute\", \"propertyValue\": \"0.7\" } ";
+            OnMessage(msg);
+            string msg2 = "{ \"propertyName\": \"headNoAbsolute\", \"propertyValue\": \"-0.5\" } ";
+            OnMessage(msg2);
+        }
+
         // Update is called once per frame
         void Update()
         {
@@ -245,9 +261,9 @@ namespace BuddyApp.CoursTelepresence
             float lValue = 0F;
             Debug.LogWarning("angle no: " + Buddy.Actuators.Head.No.Angle);
             if (Buddy.Actuators.Head.No.Angle > 0)
-                lValue = -Buddy.Actuators.Head.No.Angle / NoHeadHinge.MAX_LEFT_ANGLE;
+                lValue = -Buddy.Actuators.Head.No.Angle / Buddy.Actuators.Head.No.AngleMin;
             else
-                lValue = Buddy.Actuators.Head.No.Angle / NoHeadHinge.MAX_RIGHT_ANGLE;
+                lValue = Buddy.Actuators.Head.No.Angle / Buddy.Actuators.Head.No.AngleMax;
 
 
             SendRTMMessage(Utils.SerializeJSON(new JsonMessage("informNoAngle", lValue.ToString())));
@@ -259,9 +275,9 @@ namespace BuddyApp.CoursTelepresence
             float lValue = 0F;
             Debug.LogWarning("angle yes: "+Buddy.Actuators.Head.Yes.Angle);
             if (Buddy.Actuators.Head.Yes.Angle > 0)
-                lValue = Buddy.Actuators.Head.Yes.Angle / YesHeadHinge.MAX_UP_ANGLE;
+                lValue = Buddy.Actuators.Head.Yes.Angle / Buddy.Actuators.Head.Yes.AngleMax;
             else
-                lValue = Buddy.Actuators.Head.Yes.Angle / 10F;//YesHeadHinge.MAX_DOWN_ANGLE;
+                lValue = Buddy.Actuators.Head.Yes.Angle / Buddy.Actuators.Head.Yes.AngleMin;
 
             SendRTMMessage(Utils.SerializeJSON(new JsonMessage("informYesAngle", lValue.ToString())));
             Debug.LogWarning("inform yes: " + lValue.ToString());
@@ -557,10 +573,10 @@ namespace BuddyApp.CoursTelepresence
                         if (!float.TryParse(lMessage.propertyValue.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out lFloatValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into an int");
                         } else if(OnHeadYesAbsolute!=null){
-                            if (lFloatValue > 0)
-                                OnHeadYesAbsolute(lFloatValue * YesHeadHinge.MAX_UP_ANGLE);
-                            else
-                                OnHeadYesAbsolute(lFloatValue * YesHeadHinge.MAX_DOWN_ANGLE);
+                            //if (lFloatValue > 0)
+                            OnHeadYesAbsolute(Mathf.Lerp(Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax, (lFloatValue + 1.0F) / 2F));
+                            //else
+                            //    OnHeadYesAbsolute(lFloatValue * Buddy.Actuators.Head.Yes.AngleMin);
                         }
                         break;
 
@@ -568,7 +584,7 @@ namespace BuddyApp.CoursTelepresence
                         if (!float.TryParse(lMessage.propertyValue.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out lFloatValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
                         } else if(OnHeadNoAbsolute!=null){
-                            OnHeadNoAbsolute(lFloatValue * NoHeadHinge.MAX_LEFT_ANGLE);
+                            OnHeadNoAbsolute(Mathf.Lerp(Buddy.Actuators.Head.No.AngleMin, Buddy.Actuators.Head.No.AngleMax, (lFloatValue + 1.0F) / 2F));
                         }
 
                         break;
