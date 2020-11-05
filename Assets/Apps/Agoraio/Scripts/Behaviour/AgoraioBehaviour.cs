@@ -42,7 +42,7 @@ namespace BuddyApp.Agoraio
 
         public void InitRTM()
         {
-            Buddy.WebServices.Agoraio.InitRTM();
+            //Buddy.WebServices.Agoraio.InitRTM();
             Buddy.WebServices.Agoraio.OnMessage = OnMessage;
             text.text = "initialized"; 
         }

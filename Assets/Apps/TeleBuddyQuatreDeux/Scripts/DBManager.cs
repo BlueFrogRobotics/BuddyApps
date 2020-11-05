@@ -23,9 +23,28 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             }
         }
 
+        /// <summary>
+        /// ZOHO V2
+        /// </summary>
+        /// 
+        private TokenData mTokenData;
+        private static string mRefresh_Token;
+        private bool mRefreshTokenDownloaded;
+
+        private const string TOKEN_REFRESH = "1000.40941a3170f32aabd46f944f413b29f0.2de9752287fec953a4759ace033704df";
+        private const string CLIENT_ID = "1000.H33KJH9WVF674U3XC87QZXU825YETR";
+        private const string CLIENT_SECRET = "5899144bd40ce6fd7b8be909137050b6f9f93021d7";
+        private string REQUEST_ACCESSTOKEN_WITH_REFRESHTOKEN = "https://accounts.zoho.eu/oauth/v2/token?refresh_token=" + TOKEN_REFRESH + "&client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&grant_type=refresh_token";
+        //private const string REQUEST_ZOHO_REFRESH_TOKEN = "https://accounts.zoho.eu/oauth/v2/token?grant_type=authorization_code&code=" + "CODE SECRET "+ "&client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET;
+
+
+
+
+        private static string mAccessToken;
+
         private const string TOKEN = "98bb0865eb455a6e61a993a43f63d601";
-        private const string GET_USER_TABLET = "https://creator.zoho.eu/api/json/flotte/view/all_liaison_device_user?authtoken=" + TOKEN + "&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true&criteria=User.idUser==";
-        private const string GET_ALL_LIAISON = "https://creator.zoho.eu/api/json/flotte/view/all_liaison_device_user?authtoken=" + TOKEN + "&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true&criteria=Device.Uid==";
+        private string GET_USER_TABLET = "https://creator.zoho.eu/api/json/flotte/view/all_liaison_device_user?authtoken=" + TOKEN + "&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true&criteria=User.idUser==";
+        private string GET_ALL_LIAISON = "https://creator.zoho.eu/api/json/flotte/view/all_liaison_device_user?authtoken=" + TOKEN + "&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true&criteria=Device.Uid==";
         private const string TABLET_TYPE_DEVICE = "Tablette";
 
         private DeviceUserLiaison mDeviceUserLiaison;
@@ -73,6 +92,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         // Use this for initialization
         void Start()
         {
+            mRefreshTokenDownloaded = false;
             mDeviceUserLiaisonList = new List<DeviceUserLiaison>();
             ListUIDTablet = new List<string>();
             ListUserStudent = new List<User>();
@@ -90,9 +110,12 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         /// </summary>
         public void StartDBManager()
         {
+            Debug.LogError("DB MANAGER : START DB MANAGER");
             IsCheckPlanning = false;
             LaunchDb = true;
+            Debug.LogError("<color=green>DB MANAGER : LAUNCH DB ENUM 1 </color>");
             TeleBuddyQuatreDeuxData.Instance.ConnectivityProblem = ConnectivityProblem.LaunchDatabase;
+            Debug.LogError("<color=green>DB MANAGER : LAUNCH DB ENUM 2 </color>");
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("fr-FR");
             mPlanning = false;
             Peering = false;
@@ -105,8 +128,11 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             TeleBuddyQuatreDeuxData.Instance.AllPlanning.Clear();
             mListTabletUser.Clear();
 
+            //ZOHO V2 
+            //if (!mRefreshTokenDownloaded)
+            //    StartCoroutine(GetAccessTokenWithRefreshToken());
             if (!IsRefreshButtonPushed)
-                StartCoroutine(GetUserIdFromUID(Buddy.Platform.RobotUID));  
+                StartCoroutine(GetUserIdFromUID(Buddy.Platform.RobotUID));
             //StartCoroutine(GetUserIdFromUID("EED7BF3ABE076D2D7A40"));
         }
 
@@ -137,15 +163,99 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         }
 
         /// <summary>
+        /// Retrieve Tokens from request for ZOHO V2
+        /// </summary>
+        /// <returns></returns>
+        //private IEnumerator GetToken()
+        //{
+        //    Debug.LogError("<color=green>******DB MANAGER : GET TOKEN with request : " + REQUEST_ZOHO_REFRESH_TOKEN + " *******</color>");
+        //    yield return new WaitForSeconds(2F);
+        //    using (UnityWebRequest lRequestToken = UnityWebRequest.Get(REQUEST_ZOHO_REFRESH_TOKEN))
+        //    {
+        //        yield return lRequestToken.SendWebRequest();
+        //        if (lRequestToken.isHttpError || lRequestToken.isNetworkError)
+        //        {
+        //            Debug.LogError("Request from GetToken error " + lRequestToken.error + " " + lRequestToken.downloadHandler.text);
+        //            TeleBuddyQuatreDeuxData.Instance.ConnectivityProblem = ConnectivityProblem.DatabaseProblem;
+        //        }
+        //        else
+        //        {
+        //            string lResultRequestToken = lRequestToken.downloadHandler.text;
+        //            Debug.LogError("<color=green>******DB MANAGER : RESULT TOKEN request : " + lResultRequestToken + " *******</color>");
+
+        //            try
+        //            {
+        //                mTokenData = Utils.UnserializeJSON<TokenData>(lResultRequestToken);
+        //                Debug.LogError("<color=green>******DB MANAGER : RESULT token data class : Access data : " + mTokenData.Access_Token + " API DOMAIN : " + mTokenData.Api_Domain + " EXPIRE IN : " + mTokenData.Expires_In + " REFRESH TOKEN : " + mTokenData.Refresh_Token + " TOKEN TYPE : " + mTokenData.Token_Type + " *******</color>");
+        //                mRefresh_Token = mTokenData.Refresh_Token;
+        //                if(!string.IsNullOrEmpty(mTokenData.Refresh_Token))
+        //                {
+        //                    //ZOHO V2 voir si on doit envoyer en param le refresh token
+        //                    StartCoroutine(GetUserIdFromUID(Buddy.Platform.RobotUID));
+        //                }
+        //            }
+        //            catch (Exception e)
+        //            {
+        //                Debug.LogError("Error parsing robot device request answer : " + e.Message);
+        //            }
+        //        }
+        //    }
+        //}
+
+        /// <summary>
+        /// Retrieves Access token with Refresh token for ZOHO V2
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator GetAccessTokenWithRefreshToken()
+        {
+            //https://accounts.zoho.eu/oauth/v2/token?refresh_token=1000.40941a3170f32aabd46f944f413b29f0.2de9752287fec953a4759ace033704df&client_id=1000.H33KJH9WVF674U3XC87QZXU825YETR&client_secret=5899144bd40ce6fd7b8be909137050b6f9f93021d7&grant_type=refresh_token
+            Debug.LogError("<color=green>******DB MANAGER : GET ACCESS TOKEN with request : " + REQUEST_ACCESSTOKEN_WITH_REFRESHTOKEN + " *******</color>");
+            yield return new WaitForSeconds(2F);
+            using (UnityWebRequest lRequestToken = UnityWebRequest.Post(REQUEST_ACCESSTOKEN_WITH_REFRESHTOKEN, ""))
+            {
+                yield return lRequestToken.SendWebRequest();
+                if (lRequestToken.isHttpError || lRequestToken.isNetworkError)
+                {
+                    Debug.LogError("Request from GetAccessTokenWithRefreshToken error " + lRequestToken.error + " " + lRequestToken.downloadHandler.text);
+                    TeleBuddyQuatreDeuxData.Instance.ConnectivityProblem = ConnectivityProblem.DatabaseProblem;
+                }
+                else
+                {
+                    string lResultRequestToken = lRequestToken.downloadHandler.text;
+                    Debug.LogError("<color=green>******DB MANAGER : RESULT ACCESS TOKEN request : " + lResultRequestToken + " *******</color>");
+
+                    try
+                    {
+                        mTokenData = Utils.UnserializeJSON<TokenData>(lResultRequestToken);
+                        Debug.LogError("<color=green>******DB MANAGER : RESULT token data class : Access data : " + mTokenData.Access_Token + " API DOMAIN : " + mTokenData.Api_Domain + " EXPIRE IN : " + mTokenData.Expires_In + " REFRESH TOKEN : " + mTokenData.Refresh_Token + " TOKEN TYPE : " + mTokenData.Token_Type + " *******</color>");
+                        
+                        if (!string.IsNullOrEmpty(mTokenData.Refresh_Token))
+                        {
+                            //ZOHO V2 voir si on doit envoyer en param le refresh token
+                            mAccessToken = mTokenData.Access_Token;
+                            StartCoroutine(GetUserIdFromUID(Buddy.Platform.RobotUID));
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogError("Error parsing robot device request answer : " + e.Message);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Connection to the DB. Search for the robot name and all the users of this robot then launch an other coroutine.
         /// </summary>
         /// <param name="iRobotUID">UID of the robot</param>
         /// <returns></returns>
         private IEnumerator GetUserIdFromUID(string iRobotUID)
         {
-            yield return new WaitForSeconds(5F);
+            Debug.LogError("DB MANAGER : FIRST REQUEST");
+            yield return new WaitForSeconds(2F);
             mDeviceUserLiaisonList.Clear();
             string lRequest = GET_ALL_LIAISON + '"' + iRobotUID + '"';
+            Debug.LogError("Request from GetUserIdFromUID LREREQUEST :" + lRequest);
             using (UnityWebRequest lRequestDevice = UnityWebRequest.Get(lRequest))
             {
                 yield return lRequestDevice.SendWebRequest();

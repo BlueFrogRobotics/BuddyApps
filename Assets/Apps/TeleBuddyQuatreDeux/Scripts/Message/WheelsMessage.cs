@@ -18,4 +18,4 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             angularVelocity = iAngularVelocity;
         }
     }
-}
+} 

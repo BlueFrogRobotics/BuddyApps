@@ -38,6 +38,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private const int HEIGHT = 800;
         private bool mFrameProcessing;
 
+
+        private int mCamType;
         private string mToken;
 
         private const string GET_TOKEN_URL = "https://teamnet-bfr.ey.r.appspot.com/rtcToken?channelName=";
@@ -66,6 +68,12 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             rawVideo.gameObject.SetActive(false);
         }
 
+        public void SwitchCam()
+        {
+            Debug.LogError("RTC MANAGER : SWITCH CAMERA");
+            mRtcEngine.SwitchCamera();
+        }
+
         public void InitButtons()
         {
             mVideoIsEnabled = true;
@@ -82,13 +90,21 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             // TODO uncomment to Change camera
             //Buddy.Sensors.RGBCamera.Open(RGBCameraMode.COLOR_320X240_15FPS_RGB);
             //Buddy.Sensors.RGBCamera.OnNewFrame.Add(UpdateVideoFrame);
-            
+
+            //if (Buddy.Sensors.HDCamera.IsOpen)
+            //    Buddy.Sensors.HDCamera.Close();
+            //mCamType = 0;
+            //Buddy.Sensors.HDCamera.Open(HDCameraMode.COLOR_640X480_30FPS_RGB, (HDCameraType)mCamType);
+            //Buddy.Sensors.HDCamera.OnNewFrame.Add((iFrame) => UpdateVideoFrame(iFrame));
+
             mRtcEngine.OnRemoteVideoStateChanged = OnRemoteVideoStateChanged;
             mRtcEngine.OnJoinChannelSuccess = OnJoinChannelSuccess;
             mRtcEngine.OnUserJoined = OnUserJoined;
             mRtcEngine.OnUserOffline = OnUserOffline;
             mRtcEngine.EnableVideo();
             mRtcEngine.EnableVideoObserver();
+
+            
 
             // TODO uncomment to Change camera
             //mRtcEngine.SetExternalVideoSource(true, false);
@@ -98,7 +114,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             StartCoroutine(JoinAsync(iChannel));
         }
 
-        private void UpdateVideoFrame(RGBCameraFrame iCameraFrame)
+        private void UpdateVideoFrame(HDCameraFrame iCameraFrame)
         {
             if (!mFrameProcessing)
             {
@@ -145,7 +161,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     }
                     else
                     {
-                        Debug.LogWarning("No frame on RGB camera");
+                        Debug.LogError("No frame on HD camera");
                     }
                 }
             }
@@ -249,12 +265,11 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             }
         }
 
-        public void SetProfilePicture(string iData)
+        public void SetProfilePicture(string iData, int iWidth, int iHeight)
         {
-            Debug.LogWarning("Set profile picture");
+            Debug.LogError("Set profile picture");
             byte[] newBytes = Convert.FromBase64String(iData);
-
-            Texture2D tex = new Texture2D(16, 16);
+            Texture2D tex = new Texture2D(iWidth, iHeight);
             tex.LoadImage(newBytes);
             tex.Apply();
             FlipTextureVertically(tex);
@@ -266,26 +281,29 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             }
             rawVideo.gameObject.SetActive(true);
             rawVideo.texture = tex;
+
+            Debug.LogError("***********HEIGHT : " + rawVideo.texture.height + " ********WIDTH : " + rawVideo.texture.width);
         }
 
         private void OnJoinChannelSuccess(string channelName, uint uid, int elapsed)
         {
             Debug.Log("JoinChannelSuccessHandler: uid = " + uid);
-            mRtcEngine.OnNetworkQuality += (ID, TX, RX) => QualityCheck(ID, TX, RX);
+            if(mRtcEngine.OnNetworkQuality != null)
+                mRtcEngine.OnNetworkQuality += (ID, TX, RX) => QualityCheck(ID, TX, RX);
             mUid = uid;
         }
 
         private void QualityCheck(uint iID, int iTX, int iRX)
         {
             
-            if((iTX == 6 || iRX == 6) && iID != 0)
-            {
-                TeleBuddyQuatreDeuxData.Instance.IsQualityNetworkGood = false;
-            }
-            else
-            {
-                TeleBuddyQuatreDeuxData.Instance.IsQualityNetworkGood = true;
-            }
+            //if((iTX == 6 || iRX == 6) && iID != 0)
+            //{
+            //    TeleBuddyQuatreDeuxData.Instance.IsQualityNetworkGood = false;
+            //}
+            //else
+            //{
+            //    TeleBuddyQuatreDeuxData.Instance.IsQualityNetworkGood = true;
+            //}
         }
 
         private void OnError(int iIdError, string iMessage)
@@ -325,7 +343,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private void OnRemoteVideoStateChanged(uint uid, REMOTE_VIDEO_STATE state, REMOTE_VIDEO_STATE_REASON reason, int elapsed)
         {
-            Debug.LogWarning("remote video " + state + " reason "+reason);
+            Debug.LogError("RTC MANAGER : remote video " + state + " reason "+reason);
             if (uid == mUid)
                 return;
             VideoSurface lVideoSurface = rawVideo.GetComponent<VideoSurface>();
@@ -465,6 +483,12 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             yield return GetToken(Buddy.Platform.RobotUID);
             mRtcEngine.RenewToken(mToken);
             Debug.Log("renew");
+        }
+
+        private void OnDestroy()
+        {
+            Debug.LogError("ON DESTROY RTC LEAVE");
+            Leave();
         }
     }
 }
