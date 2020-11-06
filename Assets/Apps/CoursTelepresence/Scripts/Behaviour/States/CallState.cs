@@ -105,7 +105,7 @@ namespace BuddyApp.CoursTelepresence
             mRTMManager.OnHeadYesAbsolute = (lAngle) =>
             {
                 Debug.LogWarning("head yes absolute " + lAngle);
-                float lCoeff = 0.6F;// Mathf.Abs(lAngle - Buddy.Actuators.Head.Yes.Angle) / Buddy.Actuators.Head.Yes.AngleMax;
+                float lCoeff = 1F;// Mathf.Abs(lAngle - Buddy.Actuators.Head.Yes.Angle) / Buddy.Actuators.Head.Yes.AngleMax;
                 Buddy.Actuators.Head.Yes.SetPosition(Mathf.Clamp(lAngle+ Buddy.Actuators.Head.Yes.Angle, Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax), lCoeff * 20F, AccDecMode.SMOOTH);
             };
             mRTMManager.OnHeadNo = (lAngle) => {
@@ -247,7 +247,21 @@ namespace BuddyApp.CoursTelepresence
             };
 
             mRTMManager.OnActivateZoom = (lZoom) => {
-                mRTCManager.SendPicture(Buddy.Sensors.HDCamera.Frame.Texture);
+                mRTMManager.SendImage();
+                //mRTCManager.SendPicture(Buddy.Sensors.HDCamera.Frame.Texture);
+            };
+            mRTMManager.OnTakePhoto = (lTakePhoto) =>
+            {
+                Debug.LogError("CALLSTATE TAKE PHOTO WITH TAKEPHOTOGRAPH");
+                //Save image from open camera on the robot
+
+                //test
+                mRTMManager.SendImage();
+                Debug.LogError("CALLSTATE TAKE PHOTO WITH TAKEPHOTOGRAPH WITH PATH BACKGROUND : " + Buddy.Resources.AppSpritesPath + "background.jpg");
+
+                //Buddy.Sensors.HDCamera.TakePhotograph(OnPhotoTaken);
+                //Buddy.WebServices.Agoraio.SendPicture(DBManager.Instance.ListUIDTablet[TeleBuddyQuatreDeuxData.Instance.IndexTablet], mPhotoSentPath);
+
             };
 
             mRTMManager.OnPictureReceived = (data) => mRTCManager.SetProfilePicture(data);

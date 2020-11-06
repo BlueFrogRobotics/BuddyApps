@@ -234,6 +234,12 @@ namespace BuddyApp.CoursTelepresence
             SendRTMMessage(Utils.SerializeJSON(new JsonMessage("askAvailable", true.ToString())), iId);
         }
 
+        public void SendImage()
+        {
+            Debug.LogError("avant send picture");
+            Buddy.WebServices.Agoraio.SendPicture(mIdTablet, Buddy.Resources.AppSpritesPath + "big-icon.png");
+            Debug.LogError("apres send picture");
+        }
 
         /// <summary>
         /// Inform that BI is finished
@@ -328,6 +334,7 @@ namespace BuddyApp.CoursTelepresence
         public Action<string> OnPictureReceived { get; set; }
         public Action<CallRequest> OncallRequest { get; set; }
         public Action<WheelsMotion> OnWheelsMotion { get; set; }
+        public Action<bool> OnTakePhoto { get; set; }
 
 
         // These callback are managed internaly
@@ -584,7 +591,7 @@ namespace BuddyApp.CoursTelepresence
                         if (!float.TryParse(lMessage.propertyValue.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out lFloatValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
                         } else if(OnHeadNoAbsolute!=null){
-                            OnHeadNoAbsolute(Mathf.Lerp(Buddy.Actuators.Head.No.AngleMin, Buddy.Actuators.Head.No.AngleMax, (lFloatValue + 1.0F) / 2F));
+                            OnHeadNoAbsolute(-Mathf.Lerp(Buddy.Actuators.Head.No.AngleMin, Buddy.Actuators.Head.No.AngleMax, (lFloatValue + 1.0F) / 2F));
                         }
 
                         break;
@@ -640,6 +647,16 @@ namespace BuddyApp.CoursTelepresence
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
                         } else {
                             OnActivateZoom(lBoolValue);
+                        }
+                        break;
+                    case "requestPhoto":
+                        if (!bool.TryParse(lMessage.propertyValue, out lBoolValue))
+                        {
+                            Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
+                        }
+                        else
+                        {
+                            OnTakePhoto(lBoolValue);
                         }
                         break;
 
