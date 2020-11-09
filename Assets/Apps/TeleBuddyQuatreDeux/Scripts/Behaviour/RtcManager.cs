@@ -226,6 +226,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         public void SwitchVideoState()
         {
+            Debug.LogError("SWITCH VIDEO STATE");
             if (mVideoIsEnabled) {
                 mRtcEngine.MuteLocalVideoStream(true);
                 buttonEnableVideo.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconVideoOff");
@@ -238,6 +239,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         public void SwitchAudioState()
         {
+            Debug.LogError("SWITCH AUDIO STATE");
             if (mAudioIsEnabled) {
                 mRtcEngine.MuteLocalAudioStream(true);
                 buttonEnableAudio.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconMicroOff");

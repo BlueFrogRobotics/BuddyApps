@@ -65,6 +65,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         public string Password;
         public string Planning;
         public bool NeedPlanning;
+        public string RTMToken;
+        public string RTCToken;
+        public string AppID;
 
     }
     [Serializable]
@@ -183,6 +186,15 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         [JsonProperty(PropertyName = "Device.Organisme_idOrganisme1")]
         public string DeviceOrganisme_idOrganisme1;
+
+        [JsonProperty(PropertyName = "Device.Device_RTM")]
+        public string DeviceRTM;
+
+        [JsonProperty(PropertyName = "Device.Device_RTC")]
+        public string DeviceRTC;
+
+        [JsonProperty(PropertyName = "Device.AppID")]
+        public string DeviceAppID;
     }
 
     [Serializable]

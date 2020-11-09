@@ -43,8 +43,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private static string mAccessToken;
 
         private const string TOKEN = "98bb0865eb455a6e61a993a43f63d601";
-        private string GET_USER_TABLET = "https://creator.zoho.eu/api/json/flotte/view/all_liaison_device_user?authtoken=" + TOKEN + "&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true&criteria=User.idUser==";
-        private string GET_ALL_LIAISON = "https://creator.zoho.eu/api/json/flotte/view/all_liaison_device_user?authtoken=" + TOKEN + "&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true&criteria=Device.Uid==";
+        private string ROOT_LINK_DB = "https://creator.zoho.eu/api/v2/bluefrogrobotics/flotte/report/all_liaison_device_user?authtoken=";
+        private string GET_USER_TABLET =  "&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true&criteria=User.idUser==";
+        private string GET_ALL_LIAISON = "&scope=creatorapi&zc_ownername=bluefrogrobotics&raw=true&criteria=Device.Uid==";
         private const string TABLET_TYPE_DEVICE = "Tablette";
 
         private DeviceUserLiaison mDeviceUserLiaison;
@@ -129,10 +130,10 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mListTabletUser.Clear();
 
             //ZOHO V2 
-            //if (!mRefreshTokenDownloaded)
-            //    StartCoroutine(GetAccessTokenWithRefreshToken());
-            if (!IsRefreshButtonPushed)
-                StartCoroutine(GetUserIdFromUID(Buddy.Platform.RobotUID));
+            if (!mRefreshTokenDownloaded)
+                StartCoroutine(GetAccessTokenWithRefreshToken());
+            //if (!IsRefreshButtonPushed)
+            //    StartCoroutine(GetUserIdFromUID(Buddy.Platform.RobotUID));
             //StartCoroutine(GetUserIdFromUID("EED7BF3ABE076D2D7A40"));
         }
 
@@ -209,8 +210,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private IEnumerator GetAccessTokenWithRefreshToken()
         {
             //https://accounts.zoho.eu/oauth/v2/token?refresh_token=1000.40941a3170f32aabd46f944f413b29f0.2de9752287fec953a4759ace033704df&client_id=1000.H33KJH9WVF674U3XC87QZXU825YETR&client_secret=5899144bd40ce6fd7b8be909137050b6f9f93021d7&grant_type=refresh_token
-            Debug.LogError("<color=green>******DB MANAGER : GET ACCESS TOKEN with request : " + REQUEST_ACCESSTOKEN_WITH_REFRESHTOKEN + " *******</color>");
-            yield return new WaitForSeconds(2F);
+            Debug.LogError("<color=green>******DB MANAGER : GET ACCESS TOKEN with request : " + REQUEST_ACCESSTOKEN_WITH_REFRESHTOKEN + " *******</color>"); 
+            yield return new WaitForSeconds(0F);
             using (UnityWebRequest lRequestToken = UnityWebRequest.Post(REQUEST_ACCESSTOKEN_WITH_REFRESHTOKEN, ""))
             {
                 yield return lRequestToken.SendWebRequest();
@@ -229,11 +230,12 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                         mTokenData = Utils.UnserializeJSON<TokenData>(lResultRequestToken);
                         Debug.LogError("<color=green>******DB MANAGER : RESULT token data class : Access data : " + mTokenData.Access_Token + " API DOMAIN : " + mTokenData.Api_Domain + " EXPIRE IN : " + mTokenData.Expires_In + " REFRESH TOKEN : " + mTokenData.Refresh_Token + " TOKEN TYPE : " + mTokenData.Token_Type + " *******</color>");
                         
-                        if (!string.IsNullOrEmpty(mTokenData.Refresh_Token))
+                        if (!string.IsNullOrEmpty(mTokenData.Access_Token))
                         {
                             //ZOHO V2 voir si on doit envoyer en param le refresh token
                             mAccessToken = mTokenData.Access_Token;
-                            StartCoroutine(GetUserIdFromUID(Buddy.Platform.RobotUID));
+                            Debug.LogError(" ACCESS TOKEN " + mAccessToken);
+                            StartCoroutine(GetUserIdFromUID(Buddy.Platform.RobotUID, mAccessToken));
                         }
                     }
                     catch (Exception e)
@@ -249,15 +251,19 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         /// </summary>
         /// <param name="iRobotUID">UID of the robot</param>
         /// <returns></returns>
-        private IEnumerator GetUserIdFromUID(string iRobotUID)
+        private IEnumerator GetUserIdFromUID(string iRobotUID, string iToken)
         {
             Debug.LogError("DB MANAGER : FIRST REQUEST");
             yield return new WaitForSeconds(2F);
             mDeviceUserLiaisonList.Clear();
-            string lRequest = GET_ALL_LIAISON + '"' + iRobotUID + '"';
-            Debug.LogError("Request from GetUserIdFromUID LREREQUEST :" + lRequest);
-            using (UnityWebRequest lRequestDevice = UnityWebRequest.Get(lRequest))
+           // string lRequest = ROOT_LINK_DB + iToken + GET_ALL_LIAISON + '"' + iRobotUID + '"';
+            //string uidSC = "0743B88DAFFC511AE3BA";
+            string lRequest2 = "https://creator.zoho.eu/api/v2/bluefrogrobotics/flotte/report/all_liaison_device_user?criteria=Device.Uid==" + '"' + iRobotUID + '"';
+
+            Debug.LogError("Request from GetUserIdFromUID LREREQUEST :" + lRequest2);
+            using (UnityWebRequest lRequestDevice = UnityWebRequest.Get(lRequest2))
             {
+                lRequestDevice.SetRequestHeader("Authorization", "Zoho-oauthtoken " + iToken);
                 yield return lRequestDevice.SendWebRequest();
                 if (lRequestDevice.isHttpError || lRequestDevice.isNetworkError)
                 {
@@ -299,34 +305,36 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         }
 
         /// <summary>
-        /// Search for all th informations linked to all the users of this robot.
+        /// Search for all the informations linked to all the users of this robot.
         /// </summary>
         /// <param name="iListDeviceUserLiaison">List of user for the robot</param>
         /// <returns></returns>
         private IEnumerator GetInfoForUsers(List<DeviceUserLiaison> iListDeviceUserLiaison)
         {
-            string lRequest = GET_USER_TABLET;
-
+            //string lRequest = GET_USER_TABLET;
+            string lRequest2 = "https://creator.zoho.eu/api/v2/bluefrogrobotics/flotte/report/all_liaison_device_user?criteria=User.idUser==";
+            Debug.LogError(" ACCESS TOKEN GET INFO FOR USER" + mAccessToken);
             if (iListDeviceUserLiaison.Count == 1)
             {
-                lRequest += iListDeviceUserLiaison[0].UserIdUser.ToString();
+                lRequest2 += iListDeviceUserLiaison[0].UserIdUser.ToString();
 
-                Debug.LogError("<color=green>REQUEST DEUXIEME : " + lRequest + "</color>");
+                Debug.LogError("<color=green>REQUEST DEUXIEME : " + lRequest2 + "</color>");
             }
             else
             {
-                lRequest += iListDeviceUserLiaison[0].UserIdUser.ToString();
+                lRequest2 += iListDeviceUserLiaison[0].UserIdUser.ToString();
                 for (int i = 1; i < iListDeviceUserLiaison.Count; ++i)
                 {
                     if (iListDeviceUserLiaison[i].UserIdUser.HasValue)
                     {
-                        lRequest += "||User.idUser==" + iListDeviceUserLiaison[i].UserIdUser.ToString();
+                        lRequest2 += "||User.idUser==" + iListDeviceUserLiaison[i].UserIdUser.ToString();
                     }
                 }
             }
 
-            using (UnityWebRequest lRequestDevice = UnityWebRequest.Get(lRequest))
+            using (UnityWebRequest lRequestDevice = UnityWebRequest.Get(lRequest2))
             {
+                lRequestDevice.SetRequestHeader("Authorization", "Zoho-oauthtoken " + mAccessToken);
                 yield return lRequestDevice.SendWebRequest();
                 mListTabletUser.Clear();
                 mListRobotUser.Clear();
@@ -367,6 +375,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                                 UserStudent.Organisme = lOrgaSplit[1].Trim();
                                 UserStudent.Planning = lDeviceUserLiaison.PlanningidPlanning;
                                 UserStudent.NeedPlanning = lDeviceUserLiaison.DeviceNeedPlanning;
+                                UserStudent.RTCToken = lDeviceUserLiaison.DeviceRTC;
+                                UserStudent.RTMToken = lDeviceUserLiaison.DeviceRTM;
+                                UserStudent.AppID = lDeviceUserLiaison.DeviceAppID;
                                 ListUserStudent.Add(UserStudent);
                                 ListUIDTablet.Add(lDeviceUserLiaison.DeviceUid);
                             }

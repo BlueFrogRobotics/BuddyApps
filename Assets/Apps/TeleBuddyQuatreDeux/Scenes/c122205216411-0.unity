@@ -319,6 +319,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1435204613141568, guid: e587b3a1972a70141899306af99c5aa6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1494878067258316, guid: e587b3a1972a70141899306af99c5aa6, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -396,18 +400,18 @@ PrefabInstance:
     - target: {fileID: 114088296486883100, guid: e587b3a1972a70141899306af99c5aa6,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: 
+      value: SwitchAudioState
       objectReference: {fileID: 0}
     - target: {fileID: 114088296486883100, guid: e587b3a1972a70141899306af99c5aa6,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: 
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 114088296486883100, guid: e587b3a1972a70141899306af99c5aa6,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1669233715}
+      objectReference: {fileID: 1669233719}
     - target: {fileID: 114092030725468884, guid: e587b3a1972a70141899306af99c5aa6,
         type: 3}
       propertyPath: m_Sprite
@@ -653,18 +657,18 @@ PrefabInstance:
     - target: {fileID: 114850179751918908, guid: e587b3a1972a70141899306af99c5aa6,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: 
+      value: SwitchVideoState
       objectReference: {fileID: 0}
     - target: {fileID: 114850179751918908, guid: e587b3a1972a70141899306af99c5aa6,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: 
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 114850179751918908, guid: e587b3a1972a70141899306af99c5aa6,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1669233715}
+      objectReference: {fileID: 1669233719}
     - target: {fileID: 114852788329814374, guid: e587b3a1972a70141899306af99c5aa6,
         type: 3}
       propertyPath: m_Sprite
