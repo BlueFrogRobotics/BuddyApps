@@ -5,7 +5,7 @@
     <CommercialName>Diagnostic</CommercialName>
     <MainScene>0</MainScene>
     <Authors>bfr-dev</Authors>
-    <Version>1.3.0.4</Version>
+    <Version>1.3.0.8</Version>
     <VersionStatus>NONE</VersionStatus>
     <VersionName>1.3.0 new archi</VersionName>
     <Category>UTILITY</Category>
@@ -59,39 +59,7 @@
             <IsValid>false</IsValid>
         </AppPermission>
         <AppPermission>
-            <Type>CAMERA_API_ACCESS</Type>
-            <IsValid>true</IsValid>
-        </AppPermission>
-        <AppPermission>
-            <Type>MOVE_API_ACCESS</Type>
-            <IsValid>true</IsValid>
-        </AppPermission>
-        <AppPermission>
-            <Type>VISUAL_API_ACCESS</Type>
-            <IsValid>true</IsValid>
-        </AppPermission>
-        <AppPermission>
-            <Type>AUDIO_API_ACCESS</Type>
-            <IsValid>true</IsValid>
-        </AppPermission>
-        <AppPermission>
-            <Type>USERS_DATA_ACCESS</Type>
-            <IsValid>false</IsValid>
-        </AppPermission>
-        <AppPermission>
-            <Type>USERS_MEDIA_DATA_ACCESS</Type>
-            <IsValid>false</IsValid>
-        </AppPermission>
-        <AppPermission>
-            <Type>PROCEDURAL_MEMORY</Type>
-            <IsValid>false</IsValid>
-        </AppPermission>
-        <AppPermission>
-            <Type>SEMANTIC_MEMORY</Type>
-            <IsValid>false</IsValid>
-        </AppPermission>
-        <AppPermission>
-            <Type>DECLARATIVE_MEMORY</Type>
+            <Type>AUTOLOAD_SSL_CERTIFICATES</Type>
             <IsValid>false</IsValid>
         </AppPermission>
     </Permissions>

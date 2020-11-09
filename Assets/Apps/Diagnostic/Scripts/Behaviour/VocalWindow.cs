@@ -158,7 +158,6 @@ namespace BuddyApp.Diagnostic
         private Color mWhite = new Color(1f, 1f, 1f);
 
         private Timer mTimeTrigger;
-        private NoiseDetector mNoiseDetector;
 
         private bool mBIsPlaying = false;
 
@@ -168,9 +167,9 @@ namespace BuddyApp.Diagnostic
         // Last audio recorded
         private Queue<AudioClip> mListAudio = new Queue<AudioClip>();
 
+        private Text mRecordButtonText;
+        private Image mRecordButtonIcon;
         private AudioClip mAudioClip;
-
-        private int mIPreviousMicroIndex = 0;
 
         private Image mSoundLocField;
         private int mSoundLocAngle;
@@ -230,12 +229,15 @@ namespace BuddyApp.Diagnostic
             StartCoroutine(GetFreespeechCredentials());
             PlayMusic.GetComponentsInChildren<Image>()[1].sprite = mPlayBig;
 
+            mRecordButtonText = RecordButton.GetComponentsInChildren<Text>()[0];
+            mRecordButtonIcon = RecordButton.GetComponentsInChildren<Image>()[1];
+
             TriggerScore.text = "--";
         }
 
         private void InitRecordDropDown()
         {
-            RecordDropdown.options.Add(new Dropdown.OptionData("PREVIOUSLY RECORDED AUDIO FILES"));
+            RecordDropdown.options.Add(new Dropdown.OptionData("AUDIO FILES"));
 
             if (Directory.Exists(Buddy.Resources.AppRawDataPath))
                 foreach (string lPath in Directory.GetFiles(Buddy.Resources.AppRawDataPath)) {
@@ -374,29 +376,29 @@ namespace BuddyApp.Diagnostic
 
 
 
-            if (mIsRecording) {
-                if (!PlayRecordButton.interactable) {
+            //if (mIsRecording) {
+            //    if (!PlayRecordButton.interactable) {
 
-                    int lMicroIdx = mNoiseDetector.MicrophoneIdx;
+            //        int lMicroIdx = mNoiseDetector.MicrophoneIdx;
 
-                    if (lMicroIdx < mIPreviousMicroIndex && null != mAudioClip && mAudioClip.length > 1F) {
-                        mListAudio.Enqueue(mAudioClip);
-                        mAudioClip = null;
-                    }
+            //        if (lMicroIdx < mIPreviousMicroIndex && null != mAudioClip && mAudioClip.length > 1F) {
+            //            mListAudio.Enqueue(mAudioClip);
+            //            mAudioClip = null;
+            //        }
 
 
-                    if (mNoiseDetector.MicrophoneData != null) {
-                        ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "Recording : Save new state" + lMicroIdx);
-                        mAudioClip = AudioClip.Create(mNoiseDetector.RecordClip.name, mNoiseDetector.RecordClip.samples, mNoiseDetector.RecordClip.channels, mNoiseDetector.RecordClip.frequency, false);
+            //        if (mNoiseDetector.MicrophoneData != null) {
+            //            ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "Recording : Save new state" + lMicroIdx);
+            //            mAudioClip = AudioClip.Create(mNoiseDetector.RecordClip.name, mNoiseDetector.RecordClip.samples, mNoiseDetector.RecordClip.channels, mNoiseDetector.RecordClip.frequency, false);
 
-                        float[] samples = new float[mNoiseDetector.RecordClip.samples * mNoiseDetector.RecordClip.channels];
+            //            float[] samples = new float[mNoiseDetector.RecordClip.samples * mNoiseDetector.RecordClip.channels];
 
-                        mNoiseDetector.RecordClip.GetData(samples, 0);
-                        mAudioClip.SetData(samples, 0);
-                    }
-                    mIPreviousMicroIndex = lMicroIdx;
-                }
-            }
+            //            mNoiseDetector.RecordClip.GetData(samples, 0);
+            //            mAudioClip.SetData(samples, 0);
+            //        }
+            //        mIPreviousMicroIndex = lMicroIdx;
+            //    }
+            //}
         }
 
         public void OnEnable()
@@ -592,7 +594,7 @@ namespace BuddyApp.Diagnostic
             RecordButton.GetComponentsInChildren<Text>()[0].text = "START RECORDING";
             RecordButton.onClick.AddListener(OnRecordingButtonClick);
             PlayRecordButton.onClick.AddListener(OnPlayRecordButtonClick);
-            PlayRecordButton.GetComponentsInChildren<Text>()[0].text = "PLAY RECORDED";
+            PlayRecordButton.GetComponentsInChildren<Text>()[0].text = "PLAY";
             
             //Play Music
             PlayMusic.GetComponentsInChildren<Text>()[0].text = "SWITCH MICRO TO USB";
@@ -763,44 +765,46 @@ namespace BuddyApp.Diagnostic
 
         private void OnRecordingButtonClick()
         {
-            //avoir des ref des text plutot que de faire des getcomponentsinchildren a chaque clic qui reste bad niveau opti meme si ça ne change pas grand chose ici
-            if (string.Equals("START RECORDING", RecordButton.GetComponentsInChildren<Text>()[0].text)) {
+            if (string.Equals("START RECORDING", mRecordButtonText.text)) {
                 if (!mIsRecording) {
                     PlayRecordButton.interactable = false;
-                    RecordButton.GetComponentsInChildren<Text>()[0].text = "STOP RECORDING";
-                    RecordButton.GetComponentsInChildren<Image>()[1].sprite = mStop;
+                    mRecordButtonText.text = "STOP RECORDING";
+                    mRecordButtonIcon.sprite = mStop;
 
                     // Save first AudioClip and callback when new sound detected.
                     mListAudio.Clear();
                     mAudioClip = null;
                     mIsRecording = true;
 
-                    // Used to start microphone?
-                    //mNoiseDetector.OnDetect.Add((iInput) => { });
-                    mIPreviousMicroIndex = 0;
+                    StartRecording();
                 }
                 return;
             }
 
-            if (string.Equals("STOP RECORDING", RecordButton.GetComponentsInChildren<Text>()[0].text)) {
-                RecordButton.GetComponentsInChildren<Text>()[0].text = "START RECORDING";
-                RecordButton.GetComponentsInChildren<Image>()[1].sprite = mRecord;
-                StartCoroutine(StopAsync());
+            if (string.Equals("STOP RECORDING", mRecordButtonText.text)) {
+                mRecordButtonText.text = "START RECORDING";
+                mRecordButtonIcon.sprite = mRecord;
+                StopRecording();
             }
         }
 
-        private IEnumerator StopAsync()
+        private void StartRecording()
         {
-            yield return new WaitForSeconds(4F);
+            mAudioClip = Microphone.Start(Microphone.devices[0], false, 10, 44100);
+        }
+
+        private void StopRecording()
+        {
+            Microphone.End(Microphone.devices[0]);
+
             mIsRecording = false;
             PlayRecordButton.interactable = true;
 
-            //mNoiseDetector.OnDetect.Clear();
-            if (null != mAudioClip)// && mNoiseDetector.MicrophoneIdx > mIPreviousMicroIndex)
+            if (mAudioClip != null)
                 mListAudio.Enqueue(mAudioClip);
 
-
-            if (mListAudio.Count > 0) {
+            if (mListAudio.Count > 0)
+            {
                 mListRecorded.Add(new Queue<AudioClip>(mListAudio));
                 Utils.Save(Buddy.Resources.AppRawDataPath + "record_" + RecordDropdown.options.Count.ToString(), Utils.Combine(mListAudio.ToArray()));
                 mListAudio.Clear();
