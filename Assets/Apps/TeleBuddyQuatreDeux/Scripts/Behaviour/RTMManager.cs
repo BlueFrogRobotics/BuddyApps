@@ -59,7 +59,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             OnActivateObstacle = SensorsBroadcast;
 
             mCallRequest = new CallRequest("", "");
-            Debug.LogError("robot id: " + Buddy.Platform.RobotUID);
+            //Debug.LogError("robot id: " + Buddy.Platform.RobotUID);
         }
 
         // Update is called once per frame
@@ -308,7 +308,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         public Action<string> OnPictureReceived { get; set; }
         public Action<CallRequest> OncallRequest { get; set; }
         public Action<WheelsMotion> OnWheelsMotion { get; set; }
-
+        public Action<bool> OnTakePhoto { get; set; }
 
         // These callback are managed internaly
         private Action OnAskSteering { get; set; }
@@ -329,8 +329,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private void InitRTM()
         {
             Debug.LogError("INIT - RTMMANAGER");
-            Buddy.WebServices.Agoraio.InitRTM();
+            Buddy.WebServices.Agoraio.InitRTM(TeleBuddyQuatreDeuxBehaviour.APP_ID);
             Buddy.WebServices.Agoraio.OnMessage = OnMessage;
+            
             Debug.LogError("INIT fin - RTMMANAGER");
         }
 
@@ -350,18 +351,21 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private void SendRTMMessage(string iMessage)
         {
-            Debug.LogError("SENDRTMMANAGER - RTMMANAGER : message: " + iMessage);
-            Debug.LogError("Sent to " + mIdTablet);
+            if(!iMessage.Contains("ping") && !iMessage.Contains("pingAck"))
+                Debug.LogError("SENDRTMMANAGER - RTMMANAGER : message: " + iMessage);
+            //Debug.LogError("Sent to " + mIdTablet);
             if (string.IsNullOrEmpty(mIdTablet)) {
                 Debug.LogError(" SENDRTMMANAGER - RTMMANAGER :  Can't send a message, no tablet ID");
                 return;
             }
             Buddy.WebServices.Agoraio.SendPeerMessage(mIdTablet, iMessage);
-            Debug.LogError("SENDRTMMANAGER - RTMMANAGER fin");
+            //Debug.LogError("SENDRTMMANAGER - RTMMANAGER fin");
         }
+
 
         private void SendRTMMessage(string iMessage, string iIdTablet)
         {
+            
             Debug.LogError("SENDRTMMANAGER 2 - RTMMANAGER : message: " + iMessage);
             Debug.LogError("Sent to " + iIdTablet);
             if (string.IsNullOrEmpty(iIdTablet))
@@ -622,7 +626,16 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                             OnActivateZoom(lBoolValue);
                         }
                         break;
-
+                    case "requestPhoto":
+                        if(!bool.TryParse(lMessage.propertyValue, out lBoolValue))
+                        {
+                            Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
+                        }
+                        else
+                        {
+                            OnTakePhoto(lBoolValue);
+                        }
+                        break;
                     case "rawPhotoProfile":
                         Debug.LogError("photo profiler : " + lMessage.propertyValue);
                         if (string.IsNullOrEmpty(lMessage.propertyValue)) {
@@ -643,8 +656,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         {
             InitRTM();
             yield return GetToken(mBuddyId);
-            // TODO put back token
-            Buddy.WebServices.Agoraio.Login(mBuddyId/*, mToken*/);
+            //WAIT WALID
+            Buddy.WebServices.Agoraio.Login(mBuddyId, mToken);
             IsInitialised = true;
         }
 
@@ -676,6 +689,13 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         void OnApplicationQuit()
         {
+            Debug.LogError("ON APPLICATION QUIT");
+            Logout();
+        }
+
+        private void OnDestroy()
+        {
+            Debug.LogError("ON DESTROY LOGOUT RTM");
             Logout();
         }
     }

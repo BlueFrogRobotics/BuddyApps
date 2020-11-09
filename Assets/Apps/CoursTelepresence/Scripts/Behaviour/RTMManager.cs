@@ -329,7 +329,7 @@ namespace BuddyApp.CoursTelepresence
         private void InitRTM()
         {
             Debug.LogError("INIT - RTMMANAGER");
-            Buddy.WebServices.Agoraio.InitRTM();
+            //Buddy.WebServices.Agoraio.InitRTM();
             Buddy.WebServices.Agoraio.OnMessage = OnMessage;
             Debug.LogError("INIT fin - RTMMANAGER");
         }

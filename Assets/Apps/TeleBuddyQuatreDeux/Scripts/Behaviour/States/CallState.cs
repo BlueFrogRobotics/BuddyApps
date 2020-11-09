@@ -45,8 +45,11 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private RTCManager mRTCManager;
         private RTMManager mRTMManager;
+        
+        private string mPhotoSentPath;
 
-        private HDCamera mHDCam;
+        private HDCamera mCam = Buddy.Sensors.HDCamera;
+        private int mCamType;
 
         private static AndroidJavaObject audioManager;
         // Use this for initialization
@@ -58,11 +61,14 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mRTCManager = GetComponent<RTCManager>();
             mRTMManager = GetComponent<RTMManager>();
 
-            //if(Buddy.Sensors.Microphones.)
+            if(Buddy.Sensors.Microphones.CurrentMicrophone.ToString() != "DEVICE_IN_AMBIENT")
+            {
                 //set microphone 360 to true
-                //        Buddy.Sensors.Microphones.SwitchMicrophone( , true);
+                Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_AMBIENT", true);
+            }
+            Buddy.WebServices.Agoraio.ImageReceived = (width, height, data) => mRTCManager.SetProfilePicture(data, width, height);
 
-                VolumeScrollbar = GetGameObject(4).GetComponentInChildren<Slider>();
+            VolumeScrollbar = GetGameObject(4).GetComponentInChildren<Slider>();
             Volume = GetGameObject(5).GetComponentInChildren<Button>();
             Video = GetGameObject(6).GetComponentInChildren<Button>();
             Micro = GetGameObject(7).GetComponentInChildren<Button>();
@@ -172,6 +178,13 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             TeleBuddyQuatreDeuxData.Instance.CurrentState = TeleBuddyQuatreDeuxData.States.CALL_STATE;
+
+
+            //if (mCam.IsOpen)
+            //    mCam.Close();
+            //mCamType = 0;
+            //mCam.Open(HDCameraMode.COLOR_640X480_30FPS_RGB, (HDCameraType)mCamType);
+
             mSliderVolumeEnabled = false;
             mTimer = 0F;
             mTimerEndCall = 0F;
@@ -190,6 +203,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             GetGameObject(18).SetActive(true);
             VideoFeedbackIcon.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconCloseFeedback");
 
+
+            
             mRTCManager.OnEndUserOffline = () => Buddy.GUI.Dialoger.Display<IconToast>("Communication coupée").
             With(Buddy.Resources.Get<Sprite>("os_icon_phoneoff_big"),
                 () => {
@@ -204,6 +219,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     Trigger("IDLE");
                 }
                 );
+
+            
 
             mRTMManager.OnDisplayMessage = (lMessage) => {
                 Message.text = lMessage;
@@ -230,43 +247,88 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 }
             };
 
-            //mRTMManager.OnFrontalListening = (lFrontalListening) =>
-            //{
-            //    if(lFrontalListening)
-            //    {
-            //        //set microphone 360 to false
-            //        Buddy.Sensors.Microphones.SwitchMicrophone( , false);
-            //        //set the front microphone to true
-            //        Buddy.Sensors.Microphones.SwitchMicrophone( , true);
-            //    }
-            //    else
-            //    {
-            //        //set microphone 360 to true
-            //        Buddy.Sensors.Microphones.SwitchMicrophone( , true);
-            //        //set the front microphone to false
-            //        Buddy.Sensors.Microphones.SwitchMicrophone( , false);
-            //    }
-            //};
+            mRTMManager.OnFrontalListening = (lFrontalListening) =>
+            {
+                if (lFrontalListening)
+                {
+                    //set microphone 360 to false
+                    Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_AMBIENT", false);
+                    //set the front microphone to true
+                    Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_BACK_MIC", true);
+                    Debug.LogError("MICRO ENABLED : " + Buddy.Sensors.Microphones.CurrentMicrophone.ToString());
+
+                }
+                else
+                {
+                    //set the front microphone to false
+                    Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_BACK_MIC", false);
+                    //set microphone 360 to true
+                    Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_AMBIENT", true);
+                    Debug.LogError("MICRO ENABLED : " + Buddy.Sensors.Microphones.CurrentMicrophone.ToString());
+                }
+            };
 
             mRTMManager.OnSpeechMessage = (lMessage) => {
-                float lCallVolume = GetCallVolume();
-                SetCallVolume(0F);
-                Buddy.Vocal.Say(lMessage, (lOutput) => {
-                    SetCallVolume(lCallVolume);
-                });
+                //VOCON
+                //float lCallVolume = GetCallVolume();
+                //SetCallVolume(0F);
+                //Buddy.Vocal.Say(lMessage, (lOutput) => {
+                //    SetCallVolume(lCallVolume);
+                //});
             };
 
             mRTMManager.OnActivateZoom = (lZoom) => {
-                mRTCManager.SendPicture(Buddy.Sensors.HDCamera.Frame.Texture);
+                //Voir la cam open et switch
+                //mRTCManager.SendPicture(Buddy.Sensors.HDCamera.Frame.Texture);
+
+                //mCam.Close();
+                //mCamType = mCamType == 0 ? 1 : 0;
+                //mCam.Open(HDCameraMode.COLOR_640X480_30FPS_RGB, (HDCameraType)mCamType);
+                mRTCManager.SwitchCam();
+                //mCam.OnNewFrame.Add(iFrame => );
+                
             };
 
-            mRTMManager.OnPictureReceived = (data) => mRTCManager.SetProfilePicture(data);
+            mRTMManager.OnTakePhoto = (lTakePhoto) =>
+            {
+                Debug.LogError("CALLSTATE TAKE PHOTO WITH TAKEPHOTOGRAPH");
+                //Save image from open camera on the robot
+
+                //test
+                Buddy.WebServices.Agoraio.SendPicture(DBManager.Instance.ListUIDTablet[TeleBuddyQuatreDeuxData.Instance.IndexTablet], Buddy.Resources.AppSpritesPath + "background.jpg");
+                Debug.LogError("CALLSTATE TAKE PHOTO WITH TAKEPHOTOGRAPH WITH PATH BACKGROUND : " + Buddy.Resources.AppSpritesPath + "background.jpg");
+
+                //Buddy.Sensors.HDCamera.TakePhotograph(OnPhotoTaken);
+                //Buddy.WebServices.Agoraio.SendPicture(DBManager.Instance.ListUIDTablet[TeleBuddyQuatreDeuxData.Instance.IndexTablet], mPhotoSentPath);
+
+            };
+
+            //mRTMManager.OnPictureReceived = (data) => mRTCManager.SetProfilePicture(data);
 
             Volume.gameObject.SetActive(true);
             Video.gameObject.SetActive(true);
             Micro.gameObject.SetActive(true);
             VideoFeedbackButton.gameObject.SetActive(true);
             Hangup.gameObject.SetActive(true);
+        }
+
+        private void OnPhotoTaken(Photograph iMyPhoto)
+        {
+            if (iMyPhoto == null)
+            {
+                Debug.LogError("OnFinish take photo, iPhoto null");
+                return;
+            }
+            Debug.LogError("CALL STATE : PHOTO TAKEN");
+            // test to display photo
+            Sprite mPhotoSprite = Sprite.Create(iMyPhoto.Image.texture, new UnityEngine.Rect(0, 0, iMyPhoto.Image.texture.width, iMyPhoto.Image.texture.height), new Vector2(0.5F, 0.5F));
+            //OU (la deuxième version bugguait à un moment)
+            Sprite mPhotoSpriteSecondVersion = iMyPhoto.Image;
+            //test pour voir l'image
+            //Buddy.GUI.Toaster.Display<PictureToast>().With(iMyPhoto.Image);
+
+            iMyPhoto.Save();
+            mPhotoSentPath = iMyPhoto.FullPath;
         }
 
         private void OnWheelsMotion(WheelsMotion iWheelsMotion)
@@ -288,6 +350,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+
             if (!Buddy.Actuators.Wheels.Locked && Time.time - mTimeSinceMovement > 0.5F) {
                 Buddy.Actuators.Wheels.SetVelocities(0F, 0F);
                 mTimeSinceMovement = Time.time;
@@ -315,33 +378,33 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 Buddy.GUI.Dialoger.Hide();
 
 
-            if (!TeleBuddyQuatreDeuxData.Instance.IsQualityNetworkGood) {
-                mTimer += Time.deltaTime;
-                if (mTimer >= 30F && !mDisplayed) {
-                    mDisplayed = true;
-                    Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
-                        TText lText = iBuilder.CreateWidget<TText>();
-                        lText.SetLabel(Buddy.Resources.GetString("edunotconnected"));
-                    }, null, null,
-                    () => {
-                        mDisplayed = false;
-                        Buddy.GUI.Toaster.Hide();
-                        mTimer = 0F;
-                    }
-                    );
-                } else if (mTimer > 38F) {
-                    mDisplayed = false;
-                    Buddy.GUI.Toaster.Hide();
-                    ManageGUIClose();
-                    Trigger("IDLE");
-                }
-            } else {
-                mTimer = 0F;
-                if (mDisplayed) {
-                    mDisplayed = false;
-                    Buddy.GUI.Toaster.Hide();
-                }
-            }
+            //if (!TeleBuddyQuatreDeuxData.Instance.IsQualityNetworkGood) {
+            //    mTimer += Time.deltaTime;
+            //    if (mTimer >= 30F && !mDisplayed) {
+            //        mDisplayed = true;
+            //        Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
+            //            TText lText = iBuilder.CreateWidget<TText>();
+            //            lText.SetLabel(Buddy.Resources.GetString("edunotconnected"));
+            //        }, null, null,
+            //        () => {
+            //            mDisplayed = false;
+            //            Buddy.GUI.Toaster.Hide();
+            //            mTimer = 0F;
+            //        }
+            //        );
+            //    } else if (mTimer > 38F) {
+            //        mDisplayed = false;
+            //        Buddy.GUI.Toaster.Hide();
+            //        ManageGUIClose();
+            //        Trigger("IDLE");
+            //    }
+            //} else {
+            //    mTimer = 0F;
+            //    if (mDisplayed) {
+            //        mDisplayed = false;
+            //        Buddy.GUI.Toaster.Hide();
+            //    }
+            //}
 
             if (mTimeMessage >= 0) {
                 mTimeMessage -= Time.deltaTime;

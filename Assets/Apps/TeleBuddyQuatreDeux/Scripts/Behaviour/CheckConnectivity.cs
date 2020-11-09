@@ -59,7 +59,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             OnRequestConnectionWifiOrMobileNetwork = CheckWifiAndMobileNetwork;
             OnNetworkWorking = CheckNetwork;
             if (OnRequestConnectionWifiOrMobileNetwork != null)
-                OnRequestConnectionWifiOrMobileNetwork(Buddy.IO.WiFi.CurrentWiFiNetwork.Connected);
+                OnRequestConnectionWifiOrMobileNetwork(/*Buddy.IO.WiFi.CurrentWiFiNetwork.Connected*/true); // VERSION42
             OnRequestDatabase = CheckDatabase;
             OnLaunchDatabase = LaunchDatabase;
             OnErrorAgoraio = ErrorAgoraio;
@@ -67,20 +67,27 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private void Update()
         {
+            //Debug.LogError("<color=green>CHECK CO : " + TeleBuddyQuatreDeuxData.Instance.ConnectivityProblem.ToString() +  "</color>");
+
             mRefreshTime += Time.deltaTime;
             mTimerUIDatabase += Time.deltaTime;
-            if (!Buddy.IO.WiFi.CurrentWiFiNetwork.Connected)
-                TeleBuddyQuatreDeuxData.Instance.ConnectivityProblem = ConnectivityProblem.WifiProblem;
+            // VERSION42
+            //if (!Buddy.IO.WiFi.CurrentWiFiNetwork.Connected)
+            //    TeleBuddyQuatreDeuxData.Instance.ConnectivityProblem = ConnectivityProblem.WifiProblem;
+
+
+
             //if(Buddy.IO.WiFi.CurrentWiFiNetwork.Connected && !Buddy.WebServices.HasInternetAccess)
             //    CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.NetworkProblem;
 
             if ((mRefreshTime > REFRESH_TIME || mRequestDone) && TeleBuddyQuatreDeuxData.Instance.ConnectivityProblem != ConnectivityProblem.None)
             {
+                Debug.Log("CHECKCO : UPDATE SWITCH");
                 switch (TeleBuddyQuatreDeuxData.Instance.ConnectivityProblem)
                 {
                     case ConnectivityProblem.WifiProblem:
                         if (OnRequestConnectionWifiOrMobileNetwork != null)
-                            OnRequestConnectionWifiOrMobileNetwork(Buddy.IO.WiFi.CurrentWiFiNetwork.Connected/*, true*/);
+                            OnRequestConnectionWifiOrMobileNetwork(/*Buddy.IO.WiFi.CurrentWiFiNetwork.Connected/*, */true); // VERSION42
                         break;
                     case ConnectivityProblem.NetworkProblem:
                         if(OnNetworkWorking != null)
@@ -91,11 +98,13 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     case ConnectivityProblem.TelepresenceServiceProblem:
                         break;
                     case ConnectivityProblem.LaunchDatabase:
+                        Debug.Log("CHECKCO : LAUNCH DB");
                         if (OnLaunchDatabase != null)
                             OnLaunchDatabase(DBManager.Instance.LaunchDb);
                         break;
                     case ConnectivityProblem.DatabaseProblem:
-                        if(OnRequestDatabase != null)
+                        Debug.Log("CHECKCO : DB PROBLEM");
+                        if (OnRequestDatabase != null)
                             OnRequestDatabase();
                         break;
                     default:
@@ -203,6 +212,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         {
             if (!Buddy.GUI.Toaster.IsBusy)
             {
+                Debug.LogError("<color=green>CHECK CO : CHECK DB WITHOUT TOASTER</color>");
                 Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
                     TText lText = iBuilder.CreateWidget<TText>();
                     lText.SetLabel(Buddy.Resources.GetString("edudbproblem"));
@@ -211,6 +221,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             }
             else
             {
+                Debug.LogError("<color=green>CHECK CO : CHECK DB WITH TOASTER</color>");
                 DBManager.Instance.IsRefreshButtonPushed = true;
                 TeleBuddyQuatreDeuxData.Instance.ConnectivityProblem = ConnectivityProblem.LaunchDatabase;
                 TeleBuddyQuatreDeuxData.Instance.InitializeDone = false;

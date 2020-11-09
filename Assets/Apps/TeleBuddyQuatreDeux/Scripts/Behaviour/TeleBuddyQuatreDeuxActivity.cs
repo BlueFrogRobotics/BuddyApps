@@ -16,9 +16,11 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private RTCManager mRTCManager;
         public override void OnAwake()
         {
+            Debug.LogError("TELEBUDDY AWAKE");
             mRTMManager = (RTMManager)Objects[0];
             mRTCManager = (RTCManager)Objects[1];
             ExtLog.I(ExtLogModule.APP, typeof(TeleBuddyQuatreDeuxActivity), LogStatus.START, LogInfo.RUNNING, "On awake...");
+            Debug.LogError("TELEBUDDY FIN AWAKE");
         }
 
         /*
@@ -35,6 +37,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 		*/
         public override void OnQuit()
         {
+            Debug.LogError("TELEBUDDY QUIT");
             ExtLog.I(ExtLogModule.APP, typeof(TeleBuddyQuatreDeuxActivity), LogStatus.START, LogInfo.STOPPING, "On quit...");
             mRTMManager.Logout();
             mRTCManager.Leave();

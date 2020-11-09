@@ -30,10 +30,11 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mCallButton = GetGameObject(10).GetComponent<Button>();
             mChannelId = Buddy.Platform.RobotUID+RandomString(10);
 
-            Buddy.Vocal.DefaultInputParameters.Grammars = new string[1] { "grammar" };
-            Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
-            Buddy.Vocal.DefaultInputParameters.RecognitionThreshold = 5000;
-            Buddy.Vocal.OnTrigger.Add((lHotWord) => Buddy.Vocal.Listen("grammar", OnEndListen, SpeechRecognitionMode.GRAMMAR_ONLY));
+            //VOCON
+            //Buddy.Vocal.DefaultInputParameters.Grammars = new string[1] { "grammar" };
+            //Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
+            //Buddy.Vocal.DefaultInputParameters.RecognitionThreshold = 5000;
+            //Buddy.Vocal.OnTrigger.Add((lHotWord) => Buddy.Vocal.Listen("grammar", OnEndListen, SpeechRecognitionMode.GRAMMAR_ONLY));
         }
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -48,6 +49,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             GetGameObject(17).SetActive(false);
             GetGameObject(20).SetActive(true);
             mAddListenerButtonCall = false;
+            Debug.LogError("IDLE STATE : AVANT SETACTIVE BUTTON CALL");
             mCallButton.gameObject.SetActive(true);
             Color lColor;
             lColor = mCallButton.GetComponent<Image>().color;
@@ -97,7 +99,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             GetGameObject(21).SetActive(false);
             Buddy.GUI.Header.DisplayParametersButton(false);
             mCallButton.gameObject.SetActive(false);
-            Buddy.Vocal.EnableTrigger = false;
+            //VOCON
+            //Buddy.Vocal.EnableTrigger = false;
             mRTMManager.OncallRequest = null;
             mCallButton.onClick.RemoveAllListeners();
             ResetTrigger("IDLE");

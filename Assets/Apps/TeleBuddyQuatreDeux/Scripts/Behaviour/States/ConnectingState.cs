@@ -26,6 +26,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         override public void Start()
         {
+           
             mRTMManager = GetComponent<RTMManager>();
             mRTCManager = GetComponent<RTCManager>();
             mInputFilter = GetGameObject(19).GetComponent<InputField>();
@@ -37,6 +38,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            Debug.LogError("CONNECTING STATE -----------------------------------");
             mRTCManager.Leave();
             TeleBuddyQuatreDeuxData.Instance.CurrentState = TeleBuddyQuatreDeuxData.States.CONNECTING_STATE;
             for (int i = 0; i < mUsers.Count; i++)
@@ -90,6 +92,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             {
                 if (DBManager.Instance.ListUIDTablet.Count == 1)
                 {
+                    Debug.LogError("<color=green>SHOW ONE USER</color>");
                     mListDone = true;
                     ButtonClick(0);
                 }
@@ -97,6 +100,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 {
                     if (!mDisplayList)
                     {
+                        Debug.LogError("<color=green>SHOW LIST</color>");
                         mDisplayList = true;
                         GetGameObject(17).SetActive(true);
 
@@ -169,6 +173,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private void ButtonClick(int iIndexList)
         {
+            TeleBuddyQuatreDeuxData.Instance.IndexTablet = iIndexList;
             DBManager.Instance.FillPlanningStart(DBManager.Instance.ListUserStudent[iIndexList].Nom, DBManager.Instance.ListUserStudent[iIndexList].Prenom);
             mRTMManager.SetTabletId(DBManager.Instance.ListUIDTablet[iIndexList]);
             mRTMManager.IndexTablet = iIndexList;
