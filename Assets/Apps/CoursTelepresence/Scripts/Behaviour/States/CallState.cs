@@ -98,8 +98,18 @@ namespace BuddyApp.CoursTelepresence
             Hangup.onClick.AddListener(OnHangup);
 
             mRTMManager.OnWheelsMotion = OnWheelsMotion;
-            mRTMManager.OnHeadNoAbsolute = Buddy.Actuators.Head.No.SetPosition;
-            mRTMManager.OnHeadYesAbsolute = Buddy.Actuators.Head.Yes.SetPosition;
+            mRTMManager.OnHeadNoAbsolute = (lAngle) =>
+            {
+                Debug.LogWarning("head no absolute " + lAngle);
+                float lCoeff = Mathf.Abs(lAngle - Buddy.Actuators.Head.No.Angle) / Buddy.Actuators.Head.No.AngleMax;
+                Buddy.Actuators.Head.No.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.No.Angle, Buddy.Actuators.Head.No.AngleMin, Buddy.Actuators.Head.No.AngleMax), lCoeff * 70F, AccDecMode.SMOOTH);
+            };
+            mRTMManager.OnHeadYesAbsolute = (lAngle) =>
+            {
+                Debug.LogWarning("head yes absolute " + lAngle);
+                float lCoeff = 1F;// Mathf.Abs(lAngle - Buddy.Actuators.Head.Yes.Angle) / Buddy.Actuators.Head.Yes.AngleMax;
+                Buddy.Actuators.Head.Yes.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax), lCoeff * 20F, AccDecMode.SMOOTH);
+            };
             mRTMManager.OnHeadNo = (lAngle) => {
                 if (lAngle * mPreviousAngle < 0) {
                     // Dirty way to clean the queue. Need new function in OS to do this

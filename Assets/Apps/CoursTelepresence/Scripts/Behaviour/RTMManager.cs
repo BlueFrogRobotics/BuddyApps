@@ -553,10 +553,11 @@ namespace BuddyApp.CoursTelepresence
                         if (!float.TryParse(lMessage.propertyValue.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out lFloatValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into an int");
                         } else if(OnHeadYesAbsolute!=null){
-                            if (lFloatValue > 0)
-                                OnHeadYesAbsolute(lFloatValue * Buddy.Actuators.Head.Yes.AngleMax);
-                            else
-                                OnHeadYesAbsolute(lFloatValue * Buddy.Actuators.Head.Yes.AngleMin);
+                            OnHeadYesAbsolute(Mathf.Lerp(Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax, (lFloatValue + 1.0F) / 2F));
+                            //if (lFloatValue > 0)
+                            //    OnHeadYesAbsolute(lFloatValue * Buddy.Actuators.Head.Yes.AngleMax);
+                            //else
+                            //    OnHeadYesAbsolute(lFloatValue * Buddy.Actuators.Head.Yes.AngleMin);
                         }
                         break;
 
@@ -564,7 +565,8 @@ namespace BuddyApp.CoursTelepresence
                         if (!float.TryParse(lMessage.propertyValue.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out lFloatValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
                         } else if(OnHeadNoAbsolute!=null){
-                            OnHeadNoAbsolute(lFloatValue * Buddy.Actuators.Head.No.AngleMin);
+                            OnHeadNoAbsolute(Mathf.Lerp(Buddy.Actuators.Head.No.AngleMin, Buddy.Actuators.Head.No.AngleMax, (lFloatValue + 1.0F) / 2F));
+                            //OnHeadNoAbsolute(lFloatValue * Buddy.Actuators.Head.No.AngleMin);
                         }
 
                         break;
@@ -643,8 +645,7 @@ namespace BuddyApp.CoursTelepresence
         {
             InitRTM();
             yield return GetToken(mBuddyId);
-            // TODO update this
-            Buddy.WebServices.Agoraio.Login(mBuddyId/*, mToken*/);
+            Buddy.WebServices.Agoraio.Login(mBuddyId, mToken);
             IsInitialised = true;
         }
 
