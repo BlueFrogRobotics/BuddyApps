@@ -225,7 +225,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 DBManager.Instance.IsRefreshButtonPushed = true;
                 TeleBuddyQuatreDeuxData.Instance.ConnectivityProblem = ConnectivityProblem.LaunchDatabase;
                 TeleBuddyQuatreDeuxData.Instance.InitializeDone = false;
-                DBManager.Instance.StartDBManager();
+                DBManager.Instance.StartDBManager();//TODO WALID: commenter ca pour tester si y a toujours l'acces denied
                 Animator.SetTrigger("CONNECTING");
             }
         }

@@ -329,7 +329,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private void InitRTM()
         {
             Debug.LogError("INIT - RTMMANAGER");
-            Buddy.WebServices.Agoraio.InitRTM(TeleBuddyQuatreDeuxBehaviour.APP_ID);
+            Buddy.WebServices.Agoraio.InitRTM(TeleBuddyQuatreDeuxBehaviour.APP_ID);//TODO WALID: attendre que la requete zoho soit terminé avant etremplacer par l'app id recu
             Buddy.WebServices.Agoraio.OnMessage = OnMessage;
             
             Debug.LogError("INIT fin - RTMMANAGER");
@@ -671,6 +671,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private IEnumerator GetToken(string lId)
         {
+            //TODO WALID: remplacer la requete par la requete zoho pour le token rtm
             string request = GET_TOKEN_URL+ lId;
             using (UnityWebRequest www = UnityWebRequest.Get(request))
             {

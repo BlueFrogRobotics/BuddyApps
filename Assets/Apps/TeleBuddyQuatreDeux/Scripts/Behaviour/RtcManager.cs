@@ -60,7 +60,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         public void InitRTC()
         {
-            Buddy.WebServices.Agoraio.LoadEngine(TeleBuddyQuatreDeuxBehaviour.APP_ID);
+            Buddy.WebServices.Agoraio.LoadEngine(TeleBuddyQuatreDeuxBehaviour.APP_ID);//TODO WALID: attendre que la requete zoho soit terminé avant etremplacer par l'app id recu
             mRtcEngine = Buddy.WebServices.Agoraio.RtcEngine;
             mRtcEngine.OnStreamMessage = OnStreamMessage;
             mVideoIsEnabled = true;
@@ -454,6 +454,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private IEnumerator GetToken(string lId)
         {
+            //TODO WALID: remplacer la requete par la requete zoho pour le token rtc
             string request = GET_TOKEN_URL + lId;
             using (UnityWebRequest www = UnityWebRequest.Get(request))
             {
