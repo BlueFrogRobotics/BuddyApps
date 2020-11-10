@@ -58,7 +58,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             NameStudent = GetGameObject(14).transform.GetChild(0).GetChild(0).gameObject;
             FirstNameStudent = GetGameObject(14).transform.GetChild(0).GetChild(1).gameObject;
             ClassStudent = GetGameObject(14).transform.GetChild(1).GetChild(0).gameObject;
-            int lIndexTab = mRTMManager.IndexTablet;
+            int lIndexTab = /*mRTMManager.IndexTablet*/ TeleBuddyQuatreDeuxData.Instance.IndexTablet;
             NameStudent.GetComponent<Text>().text = DBManager.Instance.ListUserStudent[lIndexTab].Nom;
             FirstNameStudent.GetComponent<Text>().text = DBManager.Instance.ListUserStudent[lIndexTab].Prenom;
             ClassStudent.GetComponent<Text>().text = " - " + DBManager.Instance.ListUserStudent[lIndexTab].Organisme;

@@ -52,7 +52,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mMovingNo = false;
             Buddy.Actuators.Wheels.Locked = true;
             IsInitialised = false;
-            Login();
+            //Login();
             mPingId = 0;
             mStaticSteering = true;
             OnAskSteering = InformStaticSteering;
@@ -329,13 +329,13 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private void InitRTM()
         {
             Debug.LogError("INIT - RTMMANAGER");
-            Buddy.WebServices.Agoraio.InitRTM(TeleBuddyQuatreDeuxBehaviour.APP_ID);//TODO WALID: attendre que la requete zoho soit terminé avant etremplacer par l'app id recu
+            Buddy.WebServices.Agoraio.InitRTM(/*TeleBuddyQuatreDeuxBehaviour.APP_ID*/ DBManager.Instance.ListUserStudent[TeleBuddyQuatreDeuxData.Instance.IndexTablet].AppID);//TODO WALID: attendre que la requete zoho soit terminé avant etremplacer par l'app id recu //TODO MC : tout est fait dans connectingstate ButtonClick()
             Buddy.WebServices.Agoraio.OnMessage = OnMessage;
             
             Debug.LogError("INIT fin - RTMMANAGER");
         }
 
-        private void Login()
+        public void Login()
         {
             Debug.LogError("LOGIN - RTMMANAGER");
             StartCoroutine(LoginAsync());
@@ -671,23 +671,25 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private IEnumerator GetToken(string lId)
         {
-            //TODO WALID: remplacer la requete par la requete zoho pour le token rtm
-            string request = GET_TOKEN_URL+ lId;
-            using (UnityWebRequest www = UnityWebRequest.Get(request))
-            {
-                yield return www.SendWebRequest();
-                if (www.isHttpError || www.isNetworkError)
-                {
-                    Debug.Log("Request error " + www.error + " " + www.downloadHandler.text);
-                }
-                else
-                {
-                    string lRecoJson = www.downloadHandler.text;
-                    Newtonsoft.Json.Linq.JObject lJsonNode = Utils.UnserializeJSONtoObject(lRecoJson);
-                    Debug.LogError("token: " + lJsonNode["key"]);
-                    mToken = (string)lJsonNode["key"];
-                }
-            }
+            //TODO WALID: remplacer la requete par la requete zoho pour le token rtm //TODO MC : token rtm récup dans ConnectingState Buttonclick()
+            yield return new WaitForSeconds(0.1F);
+            mToken = DBManager.Instance.ListUserStudent[TeleBuddyQuatreDeuxData.Instance.IndexTablet].RTMToken;
+            //string request = GET_TOKEN_URL+ lId;
+            //using (UnityWebRequest www = UnityWebRequest.Get(request))
+            //{
+            //    yield return www.SendWebRequest();
+            //    if (www.isHttpError || www.isNetworkError)
+            //    {
+            //        Debug.Log("Request error " + www.error + " " + www.downloadHandler.text);
+            //    }
+            //    else
+            //    {
+            //        string lRecoJson = www.downloadHandler.text;
+            //        Newtonsoft.Json.Linq.JObject lJsonNode = Utils.UnserializeJSONtoObject(lRecoJson);
+            //        Debug.LogError("token: " + lJsonNode["key"]);
+            //        mToken = (string)lJsonNode["key"];
+            //    }
+            //}
         }
 
         void OnApplicationQuit()

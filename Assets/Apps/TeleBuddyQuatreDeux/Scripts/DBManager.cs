@@ -378,6 +378,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                                 UserStudent.RTCToken = lDeviceUserLiaison.DeviceRTC;
                                 UserStudent.RTMToken = lDeviceUserLiaison.DeviceRTM;
                                 UserStudent.AppID = lDeviceUserLiaison.DeviceAppID;
+
+                                Debug.LogError(" ###################################### RTC TOKEN : " + UserStudent.RTCToken + " RTM TOKEN : " + UserStudent.RTMToken + " app id : " + UserStudent.AppID);
                                 ListUserStudent.Add(UserStudent);
                                 ListUIDTablet.Add(lDeviceUserLiaison.DeviceUid);
                             }

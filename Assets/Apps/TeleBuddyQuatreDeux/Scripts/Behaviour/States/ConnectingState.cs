@@ -176,10 +176,12 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             TeleBuddyQuatreDeuxData.Instance.IndexTablet = iIndexList;
             DBManager.Instance.FillPlanningStart(DBManager.Instance.ListUserStudent[iIndexList].Nom, DBManager.Instance.ListUserStudent[iIndexList].Prenom);
             mRTMManager.SetTabletId(DBManager.Instance.ListUIDTablet[iIndexList]);
-            mRTMManager.IndexTablet = iIndexList;
+            //mRTMManager.IndexTablet = iIndexList;
             DBManager.Instance.IndexPlanning = iIndexList;
             DBManager.Instance.IsCheckPlanning = true;
             GetGameObject(17).SetActive(false);
+            mRTCManager.InitNewVersionRTC(DBManager.Instance.ListUserStudent[iIndexList].AppID);
+            mRTMManager.Login();
             Trigger("IDLE");
         }
 

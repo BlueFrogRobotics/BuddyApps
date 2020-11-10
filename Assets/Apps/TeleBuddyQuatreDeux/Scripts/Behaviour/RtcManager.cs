@@ -55,12 +55,22 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         void Start()
         {
             mIndexImage = 100;
-            InitRTC();
+            //InitRTC();
         }
 
         public void InitRTC()
         {
-            Buddy.WebServices.Agoraio.LoadEngine(TeleBuddyQuatreDeuxBehaviour.APP_ID);//TODO WALID: attendre que la requete zoho soit terminé avant etremplacer par l'app id recu
+            Buddy.WebServices.Agoraio.LoadEngine(TeleBuddyQuatreDeuxBehaviour.APP_ID);//TODO WALID: attendre que la requete zoho soit terminé avant etremplacer par l'app id recu //TODO MC : j'ai créé un nouvel init qui prend l'app id en fonction du user choisi dans la liste donc appelé dans ConnectingState ButtonClick()
+            mRtcEngine = Buddy.WebServices.Agoraio.RtcEngine;
+            mRtcEngine.OnStreamMessage = OnStreamMessage;
+            mVideoIsEnabled = true;
+            mAudioIsEnabled = true;
+            rawVideo.gameObject.SetActive(false);
+        }
+
+        public void InitNewVersionRTC(string iAppID)
+        {
+            Buddy.WebServices.Agoraio.LoadEngine(iAppID);
             mRtcEngine = Buddy.WebServices.Agoraio.RtcEngine;
             mRtcEngine.OnStreamMessage = OnStreamMessage;
             mVideoIsEnabled = true;
@@ -454,23 +464,25 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private IEnumerator GetToken(string lId)
         {
-            //TODO WALID: remplacer la requete par la requete zoho pour le token rtc
-            string request = GET_TOKEN_URL + lId;
-            using (UnityWebRequest www = UnityWebRequest.Get(request))
-            {
-                yield return www.SendWebRequest();
-                if (www.isHttpError || www.isNetworkError)
-                {
-                    Debug.Log("Request error " + www.error + " " + www.downloadHandler.text);
-                }
-                else
-                {
-                    string lRecoJson = www.downloadHandler.text;
-                    Newtonsoft.Json.Linq.JObject lJsonNode = Utils.UnserializeJSONtoObject(lRecoJson);
-                    Debug.LogError("token: " + lJsonNode["key"]);
-                    mToken = (string)lJsonNode["key"];
-                }
-            }
+            yield return new WaitForSeconds(0.1F);
+            mToken = DBManager.Instance.ListUserStudent[TeleBuddyQuatreDeuxData.Instance.IndexTablet].RTCToken; 
+            //TODO WALID: remplacer la requete par la requete zoho pour le token rtc //TODO MC : du coup le token est récup avec le user dans ConnectingState ButtonClick()
+            //string request = GET_TOKEN_URL + lId;
+            //using (UnityWebRequest www = UnityWebRequest.Get(request))
+            //{
+            //    yield return www.SendWebRequest();
+            //    if (www.isHttpError || www.isNetworkError)
+            //    {
+            //        Debug.Log("Request error " + www.error + " " + www.downloadHandler.text);
+            //    }
+            //    else
+            //    {
+            //        string lRecoJson = www.downloadHandler.text;
+            //        Newtonsoft.Json.Linq.JObject lJsonNode = Utils.UnserializeJSONtoObject(lRecoJson);
+            //        Debug.LogError("token: " + lJsonNode["key"]);
+            //        mToken = (string)lJsonNode["key"];
+            //    }
+            //}
         }
 
         private IEnumerator JoinAsync(string iChannel)
