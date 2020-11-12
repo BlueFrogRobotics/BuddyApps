@@ -242,7 +242,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     TText lText = iBuilder.CreateWidget<TText>();
                     lText.SetLabel(Buddy.Resources.GetString("educonnectingdb"));
                 });
-                StartCoroutine(HideUi(9F));
+                StartCoroutine(HideUi(15F));
             }
             else if (!iLaunchDatabase)
             {

@@ -204,7 +204,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         //}
 
         /// <summary>
-        /// Retrieves Access token with Refresh token for ZOHO V2
+        /// Retrieves Access token with Refresh token for ZOHO V2 
         /// </summary>
         /// <returns></returns>
         private IEnumerator GetAccessTokenWithRefreshToken()
@@ -276,18 +276,24 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     Debug.LogError("Result from GetUserIdFromUID with Robot UID : " + lRes);
                     try
                     {
-                        DeviceUserLiaisonList devices = Utils.UnserializeJSON<DeviceUserLiaisonList>(lRes);
-
+                        Debug.LogError("<color=red>GetInfoFromUID 1</color>");
+                        DeviceUserLiaisonList devices = new DeviceUserLiaisonList();
+                        devices = Utils.UnserializeJSON<DeviceUserLiaisonList>(lRes);
+                        Debug.LogError("<color=red>GetInfoFromUID 2 : " + devices.Device_user.Length +  "</color>");
                         mRobotName = devices.Device_user[0].DeviceNom;
+
                         if (devices != null)
                         {
+                            Debug.LogError("<color=red>GetInfoFromUID 3</color>");
                             for (int i = 0; i < devices.Device_user.Length; ++i)
                             {
                                 mDeviceUserLiaison = devices.Device_user[i];
                                 mDeviceUserLiaisonList.Add(mDeviceUserLiaison);
                             }
+                            Debug.LogError("<color=red>GetInfoFromUID 4</color>");
                             if (mDeviceUserLiaisonList.Count > 0)
                             {
+                                Debug.LogError("<color=red>GetInfoFromUID 5</color>");
                                 StartCoroutine(GetInfoForUsers(mDeviceUserLiaisonList));
                             }
                         }
@@ -350,10 +356,12 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     Debug.LogError("Result from GetInfoForUsers : " + lRes);
                     try
                     {
+                        Debug.LogError("<color=red>GetInfoForUsers 1</color>");
                         DeviceUserLiaisonList devices = Utils.UnserializeJSON<DeviceUserLiaisonList>(lRes);
-
+                        Debug.LogError("<color=red>GetInfoForUsers 2</color>");
                         if (devices != null) 
                         {
+                            Debug.LogError("<color=red>GetInfoForUsers 3</color>");
                             foreach (DeviceUserLiaison lLiaison in devices.Device_user)
                             {
                                 if (lLiaison.DeviceType_device.Contains(TABLET_TYPE_DEVICE))
@@ -365,7 +373,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                                     mListRobotUser.Add(lLiaison);
                                 }
                             }
-
+                            Debug.LogError("<color=red>GetInfoForUsers 4</color>");
                             foreach (DeviceUserLiaison lDeviceUserLiaison in mListTabletUser)
                             {
                                 UserStudent = new User();
@@ -383,8 +391,10 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                                 ListUserStudent.Add(UserStudent);
                                 ListUIDTablet.Add(lDeviceUserLiaison.DeviceUid);
                             }
+                            Debug.LogError("<color=red>GetInfoForUsers 5</color>");
                             if (mListTabletUser.Count > 0 && ListUserStudent.Count > 0)
                             {
+                                Debug.LogError("<color=red>GetInfoForUsers 5.1 mListTabletUser.Count : " + mListTabletUser.Count + " ListUserStudent.Count :  " + ListUserStudent.Count + "</color>");
                                 Peering = true;
                                 if (!string.IsNullOrEmpty(ListUserStudent[0].Nom)
                                     && !string.IsNullOrEmpty(ListUserStudent[0].Prenom)

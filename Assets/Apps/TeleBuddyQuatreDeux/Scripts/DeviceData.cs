@@ -129,8 +129,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         [JsonProperty(PropertyName = "User.Nom")]
         public string UserNom;
 
-        [JsonProperty(PropertyName = "Device.Etat")]
-        public string DeviceEtat;
+        //[JsonProperty(PropertyName = "Device.Etat")]
+        //public string DeviceEtat;
 
         [JsonProperty(PropertyName = "Device.idDevice")]
         public int? DeviceIdDevice;
@@ -138,17 +138,24 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         [JsonProperty(PropertyName = "Device.Organisme_Type_organisme")]
         public string DeviceOrganisme_Type_organisme;
 
-        public string Groupes_Users;
-
         public string ID;
+
+        //public string Groupes_Users;
 
         [JsonProperty(PropertyName = "User.Organisme")]
         public string UserOrganisme;
 
         public int? idDevice_User;
 
+        public string Modified_User;
+
         [JsonProperty(PropertyName = "Device.Position_GPS")]
         public string DevicePosition_GPS;
+
+        public string Modified_Time;
+
+        [JsonProperty(PropertyName = "Device.AppID")]
+        public string DeviceAppID;
 
         public string Device;
 
@@ -170,6 +177,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         [JsonProperty(PropertyName = "User.Identifiant")]
         public string UserIdentifiant;
 
+        [JsonProperty(PropertyName = "Device.Device_RTC")]
+        public string DeviceRTC;
+
         [JsonProperty(PropertyName = "Planning.idPlanning")]
         public string PlanningidPlanning;
 
@@ -182,19 +192,15 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         [JsonProperty(PropertyName = "Device.Need_planning")]
         public bool DeviceNeedPlanning;
 
-        public string Groupes_fabricants;
-
-        [JsonProperty(PropertyName = "Device.Organisme_idOrganisme1")]
-        public string DeviceOrganisme_idOrganisme1;
+        //public string Groupes_fabricants;
 
         [JsonProperty(PropertyName = "Device.Device_RTM")]
         public string DeviceRTM;
 
-        [JsonProperty(PropertyName = "Device.Device_RTC")]
-        public string DeviceRTC;
+        [JsonProperty(PropertyName = "Device.Organisme_idOrganisme1")]
+        public string DeviceOrganisme_idOrganisme1;
 
-        [JsonProperty(PropertyName = "Device.AppID")]
-        public string DeviceAppID;
+
     }
 
     [Serializable]
