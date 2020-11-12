@@ -106,31 +106,35 @@ namespace BuddyApp.TeleBuddyQuatreDeux
     [Serializable]
     public class DeviceUserLiaison
     {
-        public string User;
+        [JsonProperty(PropertyName = "Device.AppID")]
+        public string DeviceAppID;
+
+        [JsonProperty(PropertyName = "Device.Type_device")]
+        public string DeviceType_device;
 
         [JsonProperty(PropertyName = "User.Prenom")]
         public string UserPrenom;
 
+        [JsonProperty(PropertyName = "Device.Uid")]
+        public string DeviceUid;
+
         [JsonProperty(PropertyName = "Device.Organisme")]
         public string DeviceOrganisme;
+
+        [JsonProperty(PropertyName = "Device.Organisme_fabricant")]
+        public string DeviceOrganismeFabricant;
 
         [JsonProperty(PropertyName = "User.Type_user")]
         public string UserType_user;
 
-        [JsonProperty(PropertyName = "Device.Organisme_Reference")]
-        public string DeviceOrganisme_Reference;
-
         [JsonProperty(PropertyName = "User.idUser")]
         public int? UserIdUser;
-
-        [JsonProperty(PropertyName = "Device.Organisme_Ville")]
-        public string DeviceOrganisme_Ville;
 
         [JsonProperty(PropertyName = "User.Nom")]
         public string UserNom;
 
-        //[JsonProperty(PropertyName = "Device.Etat")]
-        //public string DeviceEtat;
+        [JsonProperty(PropertyName = "Device.Etat")]
+        public string DeviceEtat;
 
         [JsonProperty(PropertyName = "Device.idDevice")]
         public int? DeviceIdDevice;
@@ -138,67 +142,98 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         [JsonProperty(PropertyName = "Device.Organisme_Type_organisme")]
         public string DeviceOrganisme_Type_organisme;
 
-        public string ID;
-
-        //public string Groupes_Users;
-
-        [JsonProperty(PropertyName = "User.Organisme")]
-        public string UserOrganisme;
-
-        public int? idDevice_User;
-
-        public string Modified_User;
-
-        [JsonProperty(PropertyName = "Device.Position_GPS")]
-        public string DevicePosition_GPS;
-
-        public string Modified_Time;
-
-        [JsonProperty(PropertyName = "Device.AppID")]
-        public string DeviceAppID;
-
-        public string Device;
-
-        [JsonProperty(PropertyName = "Device.Type_device")]
-        public string DeviceType_device;
-
-        [JsonProperty(PropertyName = "Device.Uid")]
-        public string DeviceUid;
-
-        [JsonProperty(PropertyName = "Device.Organisme_Nom")]
-        public string DeviceOrganisme_Nom;
-
-        [JsonProperty(PropertyName = "Device.Qualite_signal")]
-        public string DeviceQualite_signal;
-
-        [JsonProperty(PropertyName = "Device.Batterie")]
-        public string DeviceBatterie;
-
-        [JsonProperty(PropertyName = "User.Identifiant")]
-        public string UserIdentifiant;
+        [JsonProperty(PropertyName = "Device.Channel_id")]
+        public string DeviceChannelID;
 
         [JsonProperty(PropertyName = "Device.Device_RTC")]
         public string DeviceRTC;
 
-        [JsonProperty(PropertyName = "Planning.idPlanning")]
-        public string PlanningidPlanning;
-
         [JsonProperty(PropertyName = "Device.Organisme_Organisme_Parent")]
         public string DeviceOrganisme_Organisme_Parent;
+
+        public string ID;
+
+        [JsonProperty(PropertyName = "User.Organisme")]
+        public string UserOrganisme;
 
         [JsonProperty(PropertyName = "Device.Nom")]
         public string DeviceNom;
 
+        public string[] Planning;
+
+        [JsonProperty(PropertyName = "Device.Heure_expiration")]
+        public string DeviceHeureExpiration;
+
         [JsonProperty(PropertyName = "Device.Need_planning")]
         public bool DeviceNeedPlanning;
-
-        //public string Groupes_fabricants;
 
         [JsonProperty(PropertyName = "Device.Device_RTM")]
         public string DeviceRTM;
 
-        [JsonProperty(PropertyName = "Device.Organisme_idOrganisme1")]
-        public string DeviceOrganisme_idOrganisme1;
+        [JsonProperty(PropertyName = "Device.Model")]
+        public string DeviceModel;
+
+
+        //public string User;
+
+
+
+
+        //[JsonProperty(PropertyName = "Device.Organisme_Reference")]
+        //public string DeviceOrganisme_Reference;
+
+
+        //[JsonProperty(PropertyName = "Device.Organisme_Ville")]
+        //public string DeviceOrganisme_Ville;
+
+
+        ////[JsonProperty(PropertyName = "Device.Etat")]
+        ////public string DeviceEtat;
+
+
+
+
+        ////public string Groupes_Users;
+
+
+        //public int? idDevice_User;
+
+        //public string Modified_User;
+
+        //[JsonProperty(PropertyName = "Device.Position_GPS")]
+        //public string DevicePosition_GPS;
+
+        //public string Modified_Time;
+
+
+        //public string Device;
+
+
+
+        //[JsonProperty(PropertyName = "Device.Organisme_Nom")]
+        //public string DeviceOrganisme_Nom;
+
+        //[JsonProperty(PropertyName = "Device.Qualite_signal")]
+        //public string DeviceQualite_signal;
+
+        //[JsonProperty(PropertyName = "Device.Batterie")]
+        //public string DeviceBatterie;
+
+        //[JsonProperty(PropertyName = "User.Identifiant")]
+        //public string UserIdentifiant;
+
+
+        [JsonProperty(PropertyName = "Planning.idPlanning")]
+        public string PlanningidPlanning;
+
+
+
+
+        ////public string Groupes_fabricants;
+
+
+        //[JsonProperty(PropertyName = "Device.Organisme_idOrganisme1")]
+        //public string DeviceOrganisme_idOrganisme1;
 
 
     }
