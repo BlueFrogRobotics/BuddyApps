@@ -80,6 +80,14 @@ namespace BuddyApp.TeleBuddyQuatreDeux
     [Serializable]
     public class Planning
     {
+
+        public string display_value;
+        public string ID;
+    }
+
+    [Serializable]
+    public class PlanningInfo
+    {
         public string Date_Fin;
         [JsonProperty(PropertyName = "Device.idDevice")]
         public int? DeviceId;
@@ -128,7 +136,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         public string UserType_user;
 
         [JsonProperty(PropertyName = "User.idUser")]
-        public int? UserIdUser;
+        public string UserIdUser;
 
         [JsonProperty(PropertyName = "User.Nom")]
         public string UserNom;
@@ -159,7 +167,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         [JsonProperty(PropertyName = "Device.Nom")]
         public string DeviceNom;
 
-        public string[] Planning;
+        public PlanningList Planning;
 
         [JsonProperty(PropertyName = "Device.Heure_expiration")]
         public string DeviceHeureExpiration;
@@ -174,68 +182,6 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         public string DeviceModel;
 
 
-        //public string User;
-
-
-
-
-        //[JsonProperty(PropertyName = "Device.Organisme_Reference")]
-        //public string DeviceOrganisme_Reference;
-
-
-        //[JsonProperty(PropertyName = "Device.Organisme_Ville")]
-        //public string DeviceOrganisme_Ville;
-
-
-        ////[JsonProperty(PropertyName = "Device.Etat")]
-        ////public string DeviceEtat;
-
-
-
-
-        ////public string Groupes_Users;
-
-
-        //public int? idDevice_User;
-
-        //public string Modified_User;
-
-        //[JsonProperty(PropertyName = "Device.Position_GPS")]
-        //public string DevicePosition_GPS;
-
-        //public string Modified_Time;
-
-
-        //public string Device;
-
-
-
-        //[JsonProperty(PropertyName = "Device.Organisme_Nom")]
-        //public string DeviceOrganisme_Nom;
-
-        //[JsonProperty(PropertyName = "Device.Qualite_signal")]
-        //public string DeviceQualite_signal;
-
-        //[JsonProperty(PropertyName = "Device.Batterie")]
-        //public string DeviceBatterie;
-
-        //[JsonProperty(PropertyName = "User.Identifiant")]
-        //public string UserIdentifiant;
-
-
-        [JsonProperty(PropertyName = "Planning.idPlanning")]
-        public string PlanningidPlanning;
-
-
-
-
-        ////public string Groupes_fabricants;
-
-
-        //[JsonProperty(PropertyName = "Device.Organisme_idOrganisme1")]
-        //public string DeviceOrganisme_idOrganisme1;
-
-
     }
 
     [Serializable]
@@ -243,5 +189,69 @@ namespace BuddyApp.TeleBuddyQuatreDeux
     {
         public DeviceUserLiaison[] Device_user;
     }
+
+
+
+    //public string User;
+
+
+
+
+    //[JsonProperty(PropertyName = "Device.Organisme_Reference")]
+    //public string DeviceOrganisme_Reference;
+
+
+    //[JsonProperty(PropertyName = "Device.Organisme_Ville")]
+    //public string DeviceOrganisme_Ville;
+
+
+    ////[JsonProperty(PropertyName = "Device.Etat")]
+    ////public string DeviceEtat;
+
+
+
+
+    ////public string Groupes_Users;
+
+
+    //public int? idDevice_User;
+
+    //public string Modified_User;
+
+    //[JsonProperty(PropertyName = "Device.Position_GPS")]
+    //public string DevicePosition_GPS;
+
+    //public string Modified_Time;
+
+
+    //public string Device;
+
+
+
+    //[JsonProperty(PropertyName = "Device.Organisme_Nom")]
+    //public string DeviceOrganisme_Nom;
+
+    //[JsonProperty(PropertyName = "Device.Qualite_signal")]
+    //public string DeviceQualite_signal;
+
+    //[JsonProperty(PropertyName = "Device.Batterie")]
+    //public string DeviceBatterie;
+
+    //[JsonProperty(PropertyName = "User.Identifiant")]
+    //public string UserIdentifiant;
+
+
+    //[JsonProperty(PropertyName = "Planning.idPlanning")]
+    //public string PlanningidPlanning;
+
+
+
+
+    ////public string Groupes_fabricants;
+
+
+    //[JsonProperty(PropertyName = "Device.Organisme_idOrganisme1")]
+    //public string DeviceOrganisme_idOrganisme1;
+
 }
 
