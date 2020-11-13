@@ -167,7 +167,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         [JsonProperty(PropertyName = "Device.Nom")]
         public string DeviceNom;
 
-        public PlanningList Planning;
+        public List<Planning> Planning;
 
         [JsonProperty(PropertyName = "Device.Heure_expiration")]
         public string DeviceHeureExpiration;
@@ -187,7 +187,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
     [Serializable]
     public class DeviceUserLiaisonList
     {
-        public DeviceUserLiaison[] Device_user;
+        public int code;
+        public DeviceUserLiaison[] data;
     }
 
 

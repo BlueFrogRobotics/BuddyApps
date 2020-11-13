@@ -257,8 +257,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             yield return new WaitForSeconds(2F);
             mDeviceUserLiaisonList.Clear();
            // string lRequest = ROOT_LINK_DB + iToken + GET_ALL_LIAISON + '"' + iRobotUID + '"';
-            //string uidSC = "0743B88DAFFC511AE3BA";
-            string lRequest2 = "https://creator.zoho.eu/api/v2/bluefrogrobotics/flotte/report/all_liaison_device_user?criteria=Device.Uid==" + '"' + iRobotUID + '"';
+            string uidSC = "0743B88DAFFC511AE3BA";
+            string lRequest2 = "https://creator.zoho.eu/api/v2/bluefrogrobotics/flotte/report/all_liaison_device_user?criteria=Device.Uid==" + '"' + /*iRobotUID*/uidSC + '"';
 
             Debug.LogError("Request from GetUserIdFromUID LREREQUEST :" + lRequest2);
             using (UnityWebRequest lRequestDevice = UnityWebRequest.Get(lRequest2))
@@ -278,15 +278,15 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     {
                         Debug.LogError("<color=red>GetInfoFromUID 1</color>");
                         DeviceUserLiaisonList devices = Utils.UnserializeJSON<DeviceUserLiaisonList>(lRes);
-                        Debug.LogError("<color=red>GetInfoFromUID 2 : " + devices.Device_user.Length +  "</color>");
-                        mRobotName = devices.Device_user[0].DeviceNom;
+                        Debug.LogError("<color=red>GetInfoFromUID 2 : " + devices.data.Length +  "</color>");
+                        mRobotName = devices.data[0].DeviceNom;
 
                         if (devices != null)
                         {
                             Debug.LogError("<color=red>GetInfoFromUID 3</color>");
-                            for (int i = 0; i < devices.Device_user.Length; ++i)
+                            for (int i = 0; i < devices.data.Length; ++i)
                             {
-                                mDeviceUserLiaison = devices.Device_user[i];
+                                mDeviceUserLiaison = devices.data[i];
                                 mDeviceUserLiaisonList.Add(mDeviceUserLiaison);
                             }
                             Debug.LogError("<color=red>GetInfoFromUID 4</color>");
@@ -361,7 +361,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                         if (devices != null) 
                         {
                             Debug.LogError("<color=red>GetInfoForUsers 3</color>");
-                            foreach (DeviceUserLiaison lLiaison in devices.Device_user)
+                            foreach (DeviceUserLiaison lLiaison in devices.data)
                             {
                                 if (lLiaison.DeviceType_device.Contains(TABLET_TYPE_DEVICE))
                                 {
