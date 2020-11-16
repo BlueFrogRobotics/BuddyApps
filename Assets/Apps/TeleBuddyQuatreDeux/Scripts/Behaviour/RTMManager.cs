@@ -659,7 +659,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             InitRTM();
             yield return GetToken(mBuddyId);
             //WAIT WALID
-            Buddy.WebServices.Agoraio.Login(mBuddyId, mToken);
+            string lId = TeleBuddyQuatreDeuxBehaviour.EncodeToSHA256(TeleBuddyQuatreDeuxBehaviour.EncodeToMD5(mBuddyId));
+            Buddy.WebServices.Agoraio.Login(lId, mToken);
             IsInitialised = true;
         }
 
