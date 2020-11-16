@@ -38,7 +38,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         //private const string REQUEST_ZOHO_REFRESH_TOKEN = "https://accounts.zoho.eu/oauth/v2/token?grant_type=authorization_code&code=" + "CODE SECRET "+ "&client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET;
 
 
-
+        public string mRobotTokenRTM { get; private set; }
+        public string mRobotTokenRTC { get; private set; }
 
         private static string mAccessToken;
 
@@ -257,8 +258,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             yield return new WaitForSeconds(2F);
             mDeviceUserLiaisonList.Clear();
            // string lRequest = ROOT_LINK_DB + iToken + GET_ALL_LIAISON + '"' + iRobotUID + '"';
-            string uidSC = "0743B88DAFFC511AE3BA";
-            string lRequest2 = "https://creator.zoho.eu/api/v2/bluefrogrobotics/flotte/report/all_liaison_device_user?criteria=Device.Uid==" + '"' + /*iRobotUID*/uidSC + '"';
+            //string uidSC = "0743B88DAFFC511AE3BA";
+            string lRequest2 = "https://creator.zoho.eu/api/v2/bluefrogrobotics/flotte/report/all_liaison_device_user?criteria=Device.Uid==" + '"' + iRobotUID/*uidSC*/ + '"';
 
             Debug.LogError("Request from GetUserIdFromUID LREREQUEST :" + lRequest2);
             using (UnityWebRequest lRequestDevice = UnityWebRequest.Get(lRequest2))
@@ -369,6 +370,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                                 }
                                 if(lLiaison.DeviceType_device.Contains("Robot") && !string.IsNullOrEmpty(mRobotName) && mRobotName.Equals(lLiaison.DeviceNom))
                                 {
+                                    mRobotTokenRTC = lLiaison.DeviceRTC;
+                                    mRobotTokenRTM = lLiaison.DeviceRTM;
                                     mListRobotUser.Add(lLiaison);
                                 }
                             }
@@ -380,13 +383,22 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                                 UserStudent.Prenom = lDeviceUserLiaison.UserPrenom;
                                 string[] lOrgaSplit = lDeviceUserLiaison.UserOrganisme.Split('-');
                                 UserStudent.Organisme = lOrgaSplit[1].Trim();
+                                for(int i = 0; i < lDeviceUserLiaison.Planning.Count; ++i)
+                                {
+                                    if(i == 0)
+                                    {
+                                        UserStudent.Planning = lDeviceUserLiaison.Planning[i].display_value;
+                                    }
+
+                                    UserStudent.Planning += "," + lDeviceUserLiaison.Planning[i].display_value;
+                                }
                                 //UserStudent.Planning = lDeviceUserLiaison.PlanningidPlanning;
                                 UserStudent.NeedPlanning = lDeviceUserLiaison.DeviceNeedPlanning;
                                 UserStudent.RTCToken = lDeviceUserLiaison.DeviceRTC;
                                 UserStudent.RTMToken = lDeviceUserLiaison.DeviceRTM;
                                 UserStudent.AppID = lDeviceUserLiaison.DeviceAppID;
 
-                                Debug.LogError(" ###################################### RTC TOKEN : " + UserStudent.RTCToken + " RTM TOKEN : " + UserStudent.RTMToken + " app id : " + UserStudent.AppID);
+                                Debug.LogError(" ###################################### RTC TOKEN : " + UserStudent.RTCToken + " RTM TOKEN : " + UserStudent.RTMToken + " app id : " + UserStudent.AppID + " planning user : " + UserStudent.Planning);
                                 ListUserStudent.Add(UserStudent);
                                 ListUIDTablet.Add(lDeviceUserLiaison.DeviceUid);
                             }
@@ -428,108 +440,117 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         /// <param name="iFirstName">First name of the student chosen</param>
         public void FillPlanningStart(string iName, string iFirstName)
         {
-            //CanStartCourse = false;
-            //TeleBuddyQuatreDeuxData.Instance.AllPlanning.Clear();
-            //lAllPlaningList.Clear();
-            //lPlanningBuffer.Clear();
-            //foreach (DeviceUserLiaison lLiaison in mListRobotUser)
-            //{
-            //    if (!string.IsNullOrEmpty(lLiaison.UserNom) && !string.IsNullOrEmpty(lLiaison.UserPrenom) && lLiaison.UserNom == iName && lLiaison.UserPrenom == iFirstName)
-            //    {
+            CanStartCourse = false;
+            TeleBuddyQuatreDeuxData.Instance.AllPlanning.Clear();
+            lAllPlaningList.Clear();
+            lPlanningBuffer.Clear();
+            string lPlanningString = "";
+            foreach (DeviceUserLiaison lLiaison in mListRobotUser)
+            {
+                if (!string.IsNullOrEmpty(lLiaison.UserNom) && !string.IsNullOrEmpty(lLiaison.UserPrenom) && lLiaison.UserNom == iName && lLiaison.UserPrenom == iFirstName)
+                {
+                    for (int i = 0; i < lLiaison.Planning.Count; ++i)
+                    {
+                        if (i == 0)
+                        {
+                            lPlanningString = lLiaison.Planning[i].display_value;
+                        }
 
-            //        if(string.IsNullOrEmpty(lLiaison.PlanningidPlanning) || lLiaison.PlanningidPlanning == " " || lLiaison.PlanningidPlanning == "")
-            //        {
-            //            TeleBuddyQuatreDeuxData.Instance.AllPlanning.Add(" ");
-            //        }
+                        lPlanningString += "," + lLiaison.Planning[i].display_value;
+                    }
+                    if (string.IsNullOrEmpty(lPlanningString) || lPlanningString == " " || lPlanningString == "")
+                    {
+                        TeleBuddyQuatreDeuxData.Instance.AllPlanning.Add(" ");
+                    }
+                    Debug.LogError("FILL PLANNING TEST PLANNING : " + lPlanningString);
+                    if (lPlanningString.Contains(",") || !lLiaison.DeviceNeedPlanning)
+                    {
+                        string[] lAllPlanning;
+                        if (!lLiaison.DeviceNeedPlanning)
+                        {
+                            List<string> lBuffer = new List<string>();
+                            DateTime lDateTimeNow = DateTime.Now;
+                            lBuffer.Add("000&" + lDateTimeNow + "&" + lDateTimeNow.AddDays(100) + "&");
+                            lAllPlanning = lBuffer.ToArray();
+                        }
+                        else
+                            lAllPlanning = lPlanningString.Split(',');
 
-            //        if(lLiaison.PlanningidPlanning.Contains(",") || !lLiaison.DeviceNeedPlanning)
-            //        {
-            //            string[] lAllPlanning;
-            //            if (!lLiaison.DeviceNeedPlanning)
-            //            {
-            //                List<string> lBuffer = new List<string>();
-            //                DateTime lDateTimeNow = DateTime.Now;
-            //                lBuffer.Add("000&" + lDateTimeNow + "&" + lDateTimeNow.AddDays(100)+ "&");
-            //                lAllPlanning = lBuffer.ToArray();
-            //            }
-            //            else
-            //                lAllPlanning = lLiaison.PlanningidPlanning.Split(',');
+                        int index = 0;
+                        lAllPlaningList.AddRange(lAllPlanning);
+                        foreach (string lPlanning in lAllPlaningList)
+                        {
+                            string[] lAllPlanningListSplit = lPlanning.Split('&');
+                            DateTime lDateNowTest = DateTime.Now;
+                            DateTime lPlanningEnd = DateTime.ParseExact(lAllPlanningListSplit[2].Replace("-", "/"), "dd/MM/yyyy HH:mm:ss", CultureInfo.CurrentCulture);
 
-            //            int index = 0;
-            //            lAllPlaningList.AddRange(lAllPlanning);
-            //            foreach(string lPlanning in lAllPlaningList)
-            //            {
-            //                string[] lAllPlanningListSplit = lPlanning.Split('&');
-            //                DateTime lDateNowTest = DateTime.Now;
-            //                DateTime lPlanningEnd = DateTime.ParseExact(lAllPlanningListSplit[2].Replace("-", "/"), "dd/MM/yyyy HH:mm:ss", CultureInfo.CurrentCulture);
-                             
-            //                TimeSpan lSpan = lPlanningEnd.Subtract(lDateNowTest);
-            //                if (lSpan.TotalMinutes < 0F)
-            //                {
-            //                    lPlanningBuffer.Add(lAllPlaningList[index]);
-            //                }
-            //                ++index;
-            //            }
-            //            lAllPlaningList.RemoveAll(item => lPlanningBuffer.Contains(item));
+                            TimeSpan lSpan = lPlanningEnd.Subtract(lDateNowTest);
+                            if (lSpan.TotalMinutes < 0F)
+                            {
+                                lPlanningBuffer.Add(lAllPlaningList[index]);
+                            }
+                            ++index;
+                        }
+                        lAllPlaningList.RemoveAll(item => lPlanningBuffer.Contains(item));
 
-            //            if (lAllPlaningList.Count == 0)
-            //                return;
+                        if (lAllPlaningList.Count == 0)
+                            return;
 
-            //            lAllPlanning = lAllPlaningList.ToArray();
+                        lAllPlanning = lAllPlaningList.ToArray();
 
-            //            List<DateTime> lSortDateTime = new List<DateTime>();
-            //            for (int i = 0; i < lAllPlanning.Length; ++i)
-            //            {
-            //                string[] lSplitDateAllPlanning = lAllPlanning[i].Split('&');
-            //                DateTime lPlanning = new DateTime();
-            //                string lRightFormatDate = lSplitDateAllPlanning[1].Replace("-", "/").TrimEnd().TrimStart();
+                        List<DateTime> lSortDateTime = new List<DateTime>();
+                        for (int i = 0; i < lAllPlanning.Length; ++i)
+                        {
+                            string[] lSplitDateAllPlanning = lAllPlanning[i].Split('&');
+                            DateTime lPlanning = new DateTime();
+                            string lRightFormatDate = lSplitDateAllPlanning[1].Replace("-", "/").TrimEnd().TrimStart();
 
-            //                lPlanning = DateTime.ParseExact(lRightFormatDate, "dd/MM/yyyy HH:mm:ss", mProviderFR);
-            //                lSortDateTime.Add(lPlanning);
+                            lPlanning = DateTime.ParseExact(lRightFormatDate, "dd/MM/yyyy HH:mm:ss", mProviderFR);
+                            lSortDateTime.Add(lPlanning);
 
-            //            }
-            //            if(lSortDateTime.Count > 1)
-            //                lSortDateTime.Sort(delegate (DateTime d1, DateTime d2) { return DateTime.Compare(d1, d2); });
+                        }
+                        if (lSortDateTime.Count > 1)
+                            lSortDateTime.Sort(delegate (DateTime d1, DateTime d2) { return DateTime.Compare(d1, d2); });
 
-            //            for (int j = 0; j < lSortDateTime.Count; ++j)
-            //            {
-            //                for  (int i = 0; i < lAllPlanning.Length; ++i)
-            //                {
-            //                    if (lAllPlanning[i].Replace("-", "/").Contains(lSortDateTime[j].ToString()))
-            //                    {
-            //                        TeleBuddyQuatreDeuxData.Instance.AllPlanning.Add(lAllPlanning[i]);
-            //                    }
-            //                }
-                                
-            //            }
-            //            if(TeleBuddyQuatreDeuxData.Instance.AllPlanning.Count > 0)
-            //            {
-            //                for (int k = 0; k < TeleBuddyQuatreDeuxData.Instance.AllPlanning.Count; ++k)
-            //                {
-            //                    if (TeleBuddyQuatreDeuxData.Instance.AllPlanning[k] == " ")
-            //                        TeleBuddyQuatreDeuxData.Instance.AllPlanning.RemoveAt(k);
-            //                }
-            //            }
-            //            mPlanning = true;
-            //            break;
-            //        }
-            //        else
-            //        {
-            //            if (!lLiaison.DeviceNeedPlanning)
-            //            {
-            //                string lPlanning;
-            //                DateTime lDateTimeNow = DateTime.Now;
-            //                lPlanning = "000&" + lDateTimeNow + "&" + lDateTimeNow.AddDays(100) + "&";
-            //                TeleBuddyQuatreDeuxData.Instance.AllPlanning.Add(lPlanning);
-            //            }
-            //            else
-            //                TeleBuddyQuatreDeuxData.Instance.AllPlanning.Add(lLiaison.PlanningidPlanning);
+                        for (int j = 0; j < lSortDateTime.Count; ++j)
+                        {
+                            for (int i = 0; i < lAllPlanning.Length; ++i)
+                            {
+                                if (lAllPlanning[i].Replace("-", "/").Contains(lSortDateTime[j].ToString()))
+                                {
+                                    TeleBuddyQuatreDeuxData.Instance.AllPlanning.Add(lAllPlanning[i]);
+                                }
+                            }
 
-            //            mPlanning = true;
-            //            break;
-            //        }
-            //    }
-            //}
+                        }
+                        if (TeleBuddyQuatreDeuxData.Instance.AllPlanning.Count > 0)
+                        {
+                            for (int k = 0; k < TeleBuddyQuatreDeuxData.Instance.AllPlanning.Count; ++k)
+                            {
+                                if (TeleBuddyQuatreDeuxData.Instance.AllPlanning[k] == " ")
+                                    TeleBuddyQuatreDeuxData.Instance.AllPlanning.RemoveAt(k);
+                            }
+                        }
+                        mPlanning = true;
+                        break;
+                    }
+                    else
+                    {
+                        if (!lLiaison.DeviceNeedPlanning)
+                        {
+                            string lPlanning;
+                            DateTime lDateTimeNow = DateTime.Now;
+                            lPlanning = "000&" + lDateTimeNow + "&" + lDateTimeNow.AddDays(100) + "&";
+                            TeleBuddyQuatreDeuxData.Instance.AllPlanning.Add(lPlanning);
+                        }
+                        else
+                            TeleBuddyQuatreDeuxData.Instance.AllPlanning.Add(lPlanningString);
+
+                        mPlanning = true;
+                        break;
+                    }
+                }
+            }
         }
 
         /// <summary>

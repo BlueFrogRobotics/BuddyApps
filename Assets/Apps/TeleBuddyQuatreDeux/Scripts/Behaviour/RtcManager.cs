@@ -465,7 +465,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private IEnumerator GetToken(string lId)
         {
             yield return new WaitForSeconds(0.1F);
-            mToken = DBManager.Instance.ListUserStudent[TeleBuddyQuatreDeuxData.Instance.IndexTablet].RTCToken; 
+            //mToken = DBManager.Instance.ListUserStudent[TeleBuddyQuatreDeuxData.Instance.IndexTablet].RTCToken; 
+            mToken = DBManager.Instance.mRobotTokenRTC;
+
             //TODO WALID: remplacer la requete par la requete zoho pour le token rtc //TODO MC : du coup le token est récup avec le user dans ConnectingState ButtonClick()
             //string request = GET_TOKEN_URL + lId;
             //using (UnityWebRequest www = UnityWebRequest.Get(request))

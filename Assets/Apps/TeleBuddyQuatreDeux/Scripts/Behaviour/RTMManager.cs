@@ -7,8 +7,6 @@ using System;
 using System.Globalization;
 using UnityEngine.UI;
 using UnityEngine.Networking;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace BuddyApp.TeleBuddyQuatreDeux
 {
@@ -59,6 +57,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mStaticSteering = true;
             OnAskSteering = InformStaticSteering;
             OnActivateObstacle = SensorsBroadcast;
+
             mCallRequest = new CallRequest("", "");
             //Debug.LogError("robot id: " + Buddy.Platform.RobotUID);
         }
@@ -660,9 +659,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             InitRTM();
             yield return GetToken(mBuddyId);
             //WAIT WALID
-            string lId = TeleBuddyQuatreDeuxBehaviour.EncodeToSHA256(TeleBuddyQuatreDeuxBehaviour.EncodeToMD5(mBuddyId));
-            Debug.LogError("log rtm: " + lId + " token: " + mToken);
-            Buddy.WebServices.Agoraio.Login(lId, mToken);
+            Buddy.WebServices.Agoraio.Login(mBuddyId, mToken);
             IsInitialised = true;
         }
 
@@ -676,9 +673,10 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         {
             //TODO WALID: remplacer la requete par la requete zoho pour le token rtm //TODO MC : token rtm récup dans ConnectingState Buttonclick()
             yield return new WaitForSeconds(0.1F);
-            Debug.LogError("app id rtm: " + DBManager.Instance.ListUserStudent[TeleBuddyQuatreDeuxData.Instance.IndexTablet].AppID);
-            Debug.LogError("token rtm: " + DBManager.Instance.ListUserStudent[TeleBuddyQuatreDeuxData.Instance.IndexTablet].RTMToken);
-            mToken = DBManager.Instance.ListUserStudent[TeleBuddyQuatreDeuxData.Instance.IndexTablet].RTMToken;
+            //mToken = DBManager.Instance.ListUserStudent[TeleBuddyQuatreDeuxData.Instance.IndexTablet].RTMToken;
+            mToken = DBManager.Instance.mRobotTokenRTM;
+
+
             //string request = GET_TOKEN_URL+ lId;
             //using (UnityWebRequest www = UnityWebRequest.Get(request))
             //{
