@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 
 namespace BuddyApp.TeleBuddyQuatreDeux
 {
@@ -37,6 +38,39 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mAppData = TeleBuddyQuatreDeuxData.Instance;
         }
 
+        public static string EncodeToSHA256(string iInput)
+        {
+            using (System.Security.Cryptography.SHA256 lSha256 = System.Security.Cryptography.SHA256.Create())
+            {
+                byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(iInput);
+                byte[] hashBytes = lSha256.ComputeHash(inputBytes);
+                
+                byte[] lBytes = lSha256.ComputeHash(inputBytes);
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < lBytes.Length; i++)
+                {
+                    sb.Append(lBytes[i].ToString("x2"));
+                }
+                return sb.ToString();
+            }
+        }
+
+        public static string EncodeToMD5(string iInput)
+        {
+            using (System.Security.Cryptography.MD5 lMd5 = System.Security.Cryptography.MD5.Create())
+            {
+                byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(iInput);
+                byte[] hashBytes = lMd5.ComputeHash(inputBytes);
+
+                byte[] lBytes = lMd5.ComputeHash(inputBytes);
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < lBytes.Length; i++)
+                {
+                    sb.Append(lBytes[i].ToString("x2"));
+                }
+                return sb.ToString();
+            }
+        }
 
     }
 }
