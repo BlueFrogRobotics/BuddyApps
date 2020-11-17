@@ -337,7 +337,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     }
                 }
             }
-
+            Debug.LogError("<color=green>REQUEST DEUXIEME fin : " + lRequest2 + "</color>");
             using (UnityWebRequest lRequestDevice = UnityWebRequest.Get(lRequest2))
             {
                 lRequestDevice.SetRequestHeader("Authorization", "Zoho-oauthtoken " + mAccessToken);
@@ -376,46 +376,27 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                                 }
                             }
                             Debug.LogError("<color=red>GetInfoForUsers 4</color>");
-                            foreach (DeviceUserLiaison lDeviceUserLiaison in mListTabletUser)
+                            foreach (DeviceUserLiaison lDeviceUserLiaison in mListRobotUser)
                             {
                                 UserStudent = new User();
                                 UserStudent.Nom = lDeviceUserLiaison.UserNom;
                                 UserStudent.Prenom = lDeviceUserLiaison.UserPrenom;
                                 string[] lOrgaSplit = lDeviceUserLiaison.UserOrganisme.Split('-');
                                 UserStudent.Organisme = lOrgaSplit[1].Trim();
-                                Debug.LogError("PLANNING TEST : " + lDeviceUserLiaison.PlanningInfos.Count);
                                 for (int i = 0; i < lDeviceUserLiaison.PlanningInfos.Count; ++i)
                                 {
                                     if (i == 0)
                                     {
-                                        Debug.LogError("PLANNING TEST : " + lDeviceUserLiaison.PlanningInfos[i].display_value);
                                         UserStudent.Planning = lDeviceUserLiaison.PlanningInfos[i].display_value;
                                     }
                                     else
                                     {
-                                        Debug.LogError("PLANNING TEST : " + lDeviceUserLiaison.PlanningInfos[i].display_value);
                                         UserStudent.Planning += "," + lDeviceUserLiaison.PlanningInfos[i].display_value;
                                     }
                                     Debug.LogError("PLANNING TEST : " + UserStudent.Planning);
 
                                 }
 
-                                //Debug.LogError("PLANNING TEST : " + lDeviceUserLiaison.Planning.Planning.Length);
-                                //for (int i = 0; i < lDeviceUserLiaison.Planning.Planning.Length; ++i)
-                                //{
-                                //    if (i == 0)
-                                //    {
-                                //        Debug.LogError("PLANNING TEST : " + lDeviceUserLiaison.Planning.Planning[i].display_value);
-                                //        UserStudent.Planning = lDeviceUserLiaison.Planning.Planning[i].display_value;
-                                //    }
-                                //    else
-                                //    {
-                                //        Debug.LogError("PLANNING TEST : " + lDeviceUserLiaison.Planning.Planning[i].display_value);
-                                //        UserStudent.Planning += "," + lDeviceUserLiaison.Planning.Planning[i].display_value;
-                                //    }
-                                //    Debug.LogError("PLANNING TEST : " + UserStudent.Planning);
-
-                                //}
 
                                 //UserStudent.Planning = lDeviceUserLiaison.PlanningidPlanning;
                                 UserStudent.NeedPlanning = lDeviceUserLiaison.DeviceNeedPlanning;
@@ -483,16 +464,6 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
                         lPlanningString += "," + lLiaison.PlanningInfos[i].display_value;
                     }
-
-                    //for (int i = 0; i < lLiaison.Planning.Planning.Length; ++i)
-                    //{
-                    //    if (i == 0)
-                    //    {
-                    //        lPlanningString = lLiaison.Planning.Planning[i].display_value;
-                    //    }
-
-                    //    lPlanningString += "," + lLiaison.Planning.Planning[i].display_value;
-                    //}
 
                     if (string.IsNullOrEmpty(lPlanningString) || lPlanningString == " " || lPlanningString == "")
                     {
