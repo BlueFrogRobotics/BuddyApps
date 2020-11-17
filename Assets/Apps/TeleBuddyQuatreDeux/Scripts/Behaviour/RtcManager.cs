@@ -491,7 +491,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         {
             yield return GetToken(iChannel);
             string lId = TeleBuddyQuatreDeuxBehaviour.EncodeToSHA256(TeleBuddyQuatreDeuxBehaviour.EncodeToMD5(Buddy.Platform.RobotUID));
-            mRtcEngine.JoinChannelWithUserAccount(mToken, iChannel, lId);
+            //mRtcEngine.JoinChannelWithUserAccount(mToken, iChannel, lId);
+            mRtcEngine.JoinChannelWithUserAccount(mToken, lId, lId);
             mRtcEngine.OnTokenPrivilegeWillExpire = OnTokenPrivilegeWillExpire;
             Debug.Log("join");
         }
