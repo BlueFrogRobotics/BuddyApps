@@ -80,7 +80,6 @@ namespace BuddyApp.TeleBuddyQuatreDeux
     [Serializable]
     public class Planning
     {
-
         public string display_value;
         public string ID;
     }
@@ -167,7 +166,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         [JsonProperty(PropertyName = "Device.Nom")]
         public string DeviceNom;
 
-        public List<Planning> Planning;
+        [JsonProperty(PropertyName = "Planning")]
+        public List<Planning> PlanningInfos;
 
         [JsonProperty(PropertyName = "Device.Heure_expiration")]
         public string DeviceHeureExpiration;

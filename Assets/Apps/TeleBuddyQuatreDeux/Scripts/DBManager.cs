@@ -383,15 +383,40 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                                 UserStudent.Prenom = lDeviceUserLiaison.UserPrenom;
                                 string[] lOrgaSplit = lDeviceUserLiaison.UserOrganisme.Split('-');
                                 UserStudent.Organisme = lOrgaSplit[1].Trim();
-                                for(int i = 0; i < lDeviceUserLiaison.Planning.Count; ++i)
+                                Debug.LogError("PLANNING TEST : " + lDeviceUserLiaison.PlanningInfos.Count);
+                                for (int i = 0; i < lDeviceUserLiaison.PlanningInfos.Count; ++i)
                                 {
-                                    if(i == 0)
+                                    if (i == 0)
                                     {
-                                        UserStudent.Planning = lDeviceUserLiaison.Planning[i].display_value;
+                                        Debug.LogError("PLANNING TEST : " + lDeviceUserLiaison.PlanningInfos[i].display_value);
+                                        UserStudent.Planning = lDeviceUserLiaison.PlanningInfos[i].display_value;
                                     }
+                                    else
+                                    {
+                                        Debug.LogError("PLANNING TEST : " + lDeviceUserLiaison.PlanningInfos[i].display_value);
+                                        UserStudent.Planning += "," + lDeviceUserLiaison.PlanningInfos[i].display_value;
+                                    }
+                                    Debug.LogError("PLANNING TEST : " + UserStudent.Planning);
 
-                                    UserStudent.Planning += "," + lDeviceUserLiaison.Planning[i].display_value;
                                 }
+
+                                //Debug.LogError("PLANNING TEST : " + lDeviceUserLiaison.Planning.Planning.Length);
+                                //for (int i = 0; i < lDeviceUserLiaison.Planning.Planning.Length; ++i)
+                                //{
+                                //    if (i == 0)
+                                //    {
+                                //        Debug.LogError("PLANNING TEST : " + lDeviceUserLiaison.Planning.Planning[i].display_value);
+                                //        UserStudent.Planning = lDeviceUserLiaison.Planning.Planning[i].display_value;
+                                //    }
+                                //    else
+                                //    {
+                                //        Debug.LogError("PLANNING TEST : " + lDeviceUserLiaison.Planning.Planning[i].display_value);
+                                //        UserStudent.Planning += "," + lDeviceUserLiaison.Planning.Planning[i].display_value;
+                                //    }
+                                //    Debug.LogError("PLANNING TEST : " + UserStudent.Planning);
+
+                                //}
+
                                 //UserStudent.Planning = lDeviceUserLiaison.PlanningidPlanning;
                                 UserStudent.NeedPlanning = lDeviceUserLiaison.DeviceNeedPlanning;
                                 UserStudent.RTCToken = lDeviceUserLiaison.DeviceRTC;
@@ -449,15 +474,26 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             {
                 if (!string.IsNullOrEmpty(lLiaison.UserNom) && !string.IsNullOrEmpty(lLiaison.UserPrenom) && lLiaison.UserNom == iName && lLiaison.UserPrenom == iFirstName)
                 {
-                    for (int i = 0; i < lLiaison.Planning.Count; ++i)
+                    for (int i = 0; i < lLiaison.PlanningInfos.Count; ++i)
                     {
                         if (i == 0)
                         {
-                            lPlanningString = lLiaison.Planning[i].display_value;
+                            lPlanningString = lLiaison.PlanningInfos[i].display_value;
                         }
 
-                        lPlanningString += "," + lLiaison.Planning[i].display_value;
+                        lPlanningString += "," + lLiaison.PlanningInfos[i].display_value;
                     }
+
+                    //for (int i = 0; i < lLiaison.Planning.Planning.Length; ++i)
+                    //{
+                    //    if (i == 0)
+                    //    {
+                    //        lPlanningString = lLiaison.Planning.Planning[i].display_value;
+                    //    }
+
+                    //    lPlanningString += "," + lLiaison.Planning.Planning[i].display_value;
+                    //}
+
                     if (string.IsNullOrEmpty(lPlanningString) || lPlanningString == " " || lPlanningString == "")
                     {
                         TeleBuddyQuatreDeuxData.Instance.AllPlanning.Add(" ");
