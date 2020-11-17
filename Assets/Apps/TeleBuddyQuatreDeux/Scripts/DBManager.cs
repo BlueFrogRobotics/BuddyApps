@@ -406,7 +406,11 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
                                 Debug.LogError(" ###################################### RTC TOKEN : " + UserStudent.RTCToken + " RTM TOKEN : " + UserStudent.RTMToken + " app id : " + UserStudent.AppID + " planning user : " + UserStudent.Planning);
                                 ListUserStudent.Add(UserStudent);
+                            }
+                            foreach(DeviceUserLiaison lDeviceUserLiaison in mListTabletUser)
+                            {
                                 ListUIDTablet.Add(lDeviceUserLiaison.DeviceUid);
+
                             }
                             Debug.LogError("<color=red>GetInfoForUsers 5</color>");
                             if (mListTabletUser.Count > 0 && ListUserStudent.Count > 0)

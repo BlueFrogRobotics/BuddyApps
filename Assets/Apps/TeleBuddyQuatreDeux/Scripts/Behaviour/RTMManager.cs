@@ -322,8 +322,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         public void SetTabletId(string iIdTablet)
         {
-            Debug.LogWarning("New tablet ID: " + iIdTablet);
-            mIdTablet = iIdTablet;
+            string lIdTablet = TeleBuddyQuatreDeuxBehaviour.EncodeToSHA256(TeleBuddyQuatreDeuxBehaviour.EncodeToMD5(iIdTablet));
+            Debug.LogWarning("New tablet ID: " + lIdTablet);
+            mIdTablet = lIdTablet;
         }
 
         private void InitRTM()
@@ -352,7 +353,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private void SendRTMMessage(string iMessage)
         {
             if(!iMessage.Contains("ping") && !iMessage.Contains("pingAck"))
-                Debug.LogError("SENDRTMMANAGER - RTMMANAGER : message: " + iMessage);
+                Debug.LogError("SENDRTMMANAGER - RTMMANAGER : message: " + iMessage+" idtablet: "+ mIdTablet);
             //Debug.LogError("Sent to " + mIdTablet);
             if (string.IsNullOrEmpty(mIdTablet)) {
                 Debug.LogError(" SENDRTMMANAGER - RTMMANAGER :  Can't send a message, no tablet ID");
