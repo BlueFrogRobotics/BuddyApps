@@ -88,7 +88,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 mPingStarted += Time.deltaTime;
             }
             mTimerRefreshPing += Time.deltaTime;
-            if (((DBManager.Instance.Peering && DBManager.Instance.InfoRequestedDone ) || DBManager.Instance.CanStartCourse) && TeleBuddyQuatreDeuxData.Instance.InitializeDone && !mListDone )
+            if (((DBManager.Instance.Peering && DBManager.Instance.InfoRequestedDone && !string.IsNullOrEmpty(DBManager.Instance.mRobotTokenRTM)) || DBManager.Instance.CanStartCourse) && TeleBuddyQuatreDeuxData.Instance.InitializeDone && !mListDone )
             {
                 if (DBManager.Instance.ListUIDTablet.Count == 1)
                 {
@@ -118,7 +118,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                         lButtonUser.transform.GetChild(0).GetChild(2).GetComponent<Image>().color = new Color(200, 0, 0);
                         lButtonUser.transform.GetChild(2).GetComponent<Image>().color = new Color(200, 0, 0);
                         lButtonUser.transform.GetChild(4).GetComponent<Image>().color = new Color(255, 255, 255, 0);
-                        mRTMManager.Ping(DBManager.Instance.ListUIDTablet[i], i);
+                        //mRTMManager.Ping(DBManager.Instance.ListUIDTablet[i], i);
                         mPingTime.Add(Time.time);
                         mWaitPing.Add(0);
                     }
@@ -134,7 +134,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                         
                     if (lTime > 5F)
                     {
-                    mRTMManager.Ping(DBManager.Instance.ListUIDTablet[i], i);
+                   // mRTMManager.Ping(DBManager.Instance.ListUIDTablet[i], i);
                         mPingTime[i] = Time.time;
                         if (mPingStarted > 6F)
                         {
