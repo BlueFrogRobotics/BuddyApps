@@ -47,6 +47,10 @@ namespace BuddyApp.CoursTelepresence
         // Use this for initialization
         void Start()
         {
+            float lFloatValue = -0.8f;
+            float test = Mathf.Lerp(-10, 37, (lFloatValue + 1.0F) / 2F);
+            Debug.LogWarning("test!!!: " + test);
+
             mBuddyId = Buddy.Platform.RobotUID;
             Debug.LogError("Buddy id: " + mBuddyId);
             mMovingYes = false;
@@ -262,11 +266,11 @@ namespace BuddyApp.CoursTelepresence
             SendRTMMessage(Utils.SerializeJSON(new ObstacleSensors(obstacleRight, obstacleCenter, obstacleLeft)));
         }
 
-        private void SendNoAngle()
+        public void SendNoAngle()
         {
             float lValue = 0F;
             Debug.LogWarning("angle no: " + Buddy.Actuators.Head.No.Angle);
-            if (Buddy.Actuators.Head.No.Angle > 0)
+            if (Buddy.Actuators.Head.No.Angle < 0)
                 lValue = -Buddy.Actuators.Head.No.Angle / Buddy.Actuators.Head.No.AngleMin;
             else
                 lValue = Buddy.Actuators.Head.No.Angle / Buddy.Actuators.Head.No.AngleMax;
@@ -276,7 +280,7 @@ namespace BuddyApp.CoursTelepresence
             Debug.LogWarning("inform no: " + lValue.ToString());
         }
 
-        private void SendYesAngle()
+        public void SendYesAngle()
         {
             float lValue = 0F;
             Debug.LogWarning("angle yes: "+Buddy.Actuators.Head.Yes.Angle);
@@ -591,7 +595,7 @@ namespace BuddyApp.CoursTelepresence
                         if (!float.TryParse(lMessage.propertyValue.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out lFloatValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
                         } else if(OnHeadNoAbsolute!=null){
-                            OnHeadNoAbsolute(-Mathf.Lerp(Buddy.Actuators.Head.No.AngleMin, Buddy.Actuators.Head.No.AngleMax, (lFloatValue + 1.0F) / 2F));
+                            OnHeadNoAbsolute(Mathf.Lerp(-30F, 30F/*Buddy.Actuators.Head.No.AngleMin, Buddy.Actuators.Head.No.AngleMax*/, (lFloatValue + 1.0F) / 2F));
                         }
 
                         break;
