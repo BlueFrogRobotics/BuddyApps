@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using BlueQuark;
 using OpenCVUnity;
+using System.IO;
 
 namespace BuddyApp.Diagnostic
 {
@@ -20,10 +21,17 @@ namespace BuddyApp.Diagnostic
         [SerializeField]
         private Dropdown SelectedResolutionDropdown;
 
+        [SerializeField]
+        private Text CPUTemperature;
+
+        [SerializeField]
+        private Text BODYTemperature;
+
         private HDCamera mHDCam;
         private RGBCamera mRGBCam;
         private DepthCamera mDepthCam;
         private InfraredCamera mInfraredCam;
+        private float mTimeRefresh;
 
         public void OnEnable()
         {
@@ -38,6 +46,17 @@ namespace BuddyApp.Diagnostic
             SelectedCameraDropdown.onValueChanged.AddListener(delegate {
                 OnCameraDropdownValueChanged();
             });
+        }
+
+
+        private void Update()
+        {
+            mTimeRefresh += Time.deltaTime;
+            if (mTimeRefresh >= DiagnosticBehaviour.REFRESH_TIMER) {
+                BODYTemperature.text = Buddy.Sensors.IMU.Temperature + " °";
+                CPUTemperature.text = File.ReadAllText("/sys/class/thermal/thermal_zone0/temp").Replace("000", "") + " °";
+                mTimeRefresh = 0F;
+            }
         }
 
         public void OnDisable()
@@ -97,12 +116,12 @@ namespace BuddyApp.Diagnostic
             {
 
                 case "HD_BACK":
-                    mHDCam.Open(HDCameraMode.COLOR_640X480_30FPS_RGB /*(HDCameraMode)Enum.Parse(typeof(HDCameraMode), SelectedResolutionDropdown.options[SelectedResolutionDropdown.value].text)*/, HDCameraType.BACK);
+                    mHDCam.Open((HDCameraMode)Enum.Parse(typeof(HDCameraMode), SelectedResolutionDropdown.options[SelectedResolutionDropdown.value].text), HDCameraType.BACK);
                     mHDCam.OnNewFrame.Add((iInput) => { SelectedImage.texture = iInput.Texture; });
                     break;
 
                 case "HD_FRONT":
-                    mHDCam.Open(HDCameraMode.COLOR_640X480_30FPS_RGB /*(HDCameraMode)Enum.Parse(typeof(HDCameraMode), SelectedResolutionDropdown.options[SelectedResolutionDropdown.value].text)*/, HDCameraType.FRONT);
+                    mHDCam.Open((HDCameraMode)Enum.Parse(typeof(HDCameraMode), SelectedResolutionDropdown.options[SelectedResolutionDropdown.value].text), HDCameraType.FRONT);
                     mHDCam.OnNewFrame.Add((iInput) => { SelectedImage.texture = iInput.Texture; });
                     break;
 
