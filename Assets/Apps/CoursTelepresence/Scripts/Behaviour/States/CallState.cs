@@ -99,14 +99,14 @@ namespace BuddyApp.CoursTelepresence
             mRTMManager.OnHeadNoAbsolute = (lAngle) =>
             {
                 Debug.LogWarning("head no absolute " + lAngle);
-                float lCoeff = 1.0F;//Mathf.Abs(lAngle - Buddy.Actuators.Head.No.Angle) / Buddy.Actuators.Head.No.AngleMax;
-                Buddy.Actuators.Head.No.SetPosition(-Mathf.Clamp(lAngle + Buddy.Actuators.Head.No.Angle, Buddy.Actuators.Head.No.AngleMin, Buddy.Actuators.Head.No.AngleMax), 30F/*lCoeff * 70F*/, AccDecMode.SMOOTH);
+                float lCoeff = Mathf.Abs(lAngle - Buddy.Actuators.Head.No.Angle) / Buddy.Actuators.Head.No.AngleMax;
+                Buddy.Actuators.Head.No.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.No.Angle, Buddy.Actuators.Head.No.AngleMin, Buddy.Actuators.Head.No.AngleMax), lCoeff * 70F, AccDecMode.SMOOTH);
             };
             mRTMManager.OnHeadYesAbsolute = (lAngle) =>
             {
                 Debug.LogWarning("head yes absolute " + lAngle);
-                float lCoeff = 0.8F;// Mathf.Abs(lAngle - Buddy.Actuators.Head.Yes.Angle) / Buddy.Actuators.Head.Yes.AngleMax;
-                Buddy.Actuators.Head.Yes.SetPosition(Mathf.Clamp(lAngle+ Buddy.Actuators.Head.Yes.Angle, -100, 100/*Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax*/), 15F/*lCoeff * 20F*/, AccDecMode.SMOOTH);
+                float lCoeff = 0.6F;// Mathf.Abs(lAngle - Buddy.Actuators.Head.Yes.Angle) / Buddy.Actuators.Head.Yes.AngleMax;
+                Buddy.Actuators.Head.Yes.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax), lCoeff * 20F, AccDecMode.SMOOTH);
             };
             mRTMManager.OnHeadNo = (lAngle) => {
                 if (lAngle * mPreviousAngle < 0) {

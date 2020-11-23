@@ -7101,6 +7101,16 @@
             Represents the no axe hinge of the robot (Yaw Euler axe).
             </summary>
         </member>
+        <member name="F:BlueQuark.NoHeadHinge.MAX_LEFT_ANGLE">
+            <summary>
+            Max reachable angle for this hinge. Value in degrees.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.NoHeadHinge.MAX_RIGHT_ANGLE">
+            <summary>
+            Min reachable angle for this hinge. Value in degrees.
+            </summary>
+        </member>
         <member name="F:BlueQuark.NoHeadHinge.DEFAULT_ANGLE">
             <summary>
             Default hinge angle. Value in degrees.
@@ -7187,6 +7197,16 @@
         <member name="T:BlueQuark.YesHeadHinge">
             <summary>
             Represents the yes axe hinge of the robot (Roll Euler axe).
+            </summary>
+        </member>
+        <member name="F:BlueQuark.YesHeadHinge.MAX_UP_ANGLE">
+            <summary>
+            Max reachable angle for this hinge in up position. Value in degrees.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.YesHeadHinge.MAX_DOWN_ANGLE">
+            <summary>
+            Max reachable angle for this hinge in down position. Value in degrees.
             </summary>
         </member>
         <member name="F:BlueQuark.YesHeadHinge.DEFAULT_ANGLE">
