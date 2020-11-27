@@ -116,12 +116,12 @@ namespace BuddyApp.DiagnosticProd
             {
 
                 case "HD_FOCUS":
-                    mHDCam.Open((HDCameraMode)Enum.Parse(typeof(HDCameraMode), SelectedResolutionDropdown.options[SelectedResolutionDropdown.value].text), HDCameraType.BACK);
+                    mHDCam.Open(Enum.GetValues(typeof(HDCameraMode)).Cast<HDCameraMode>().Last(), HDCameraType.BACK);
                     mHDCam.OnNewFrame.Add((iInput) => { SelectedImage.texture = iInput.Texture; });
                     break;
 
                 case "HD_WIDE_ANGLE":
-                    mHDCam.Open((HDCameraMode)Enum.Parse(typeof(HDCameraMode), SelectedResolutionDropdown.options[SelectedResolutionDropdown.value].text), HDCameraType.FRONT);
+                    mHDCam.Open(Enum.GetValues(typeof(HDCameraMode)).Cast<HDCameraMode>().Last(), HDCameraType.FRONT);
                     mHDCam.OnNewFrame.Add((iInput) => { SelectedImage.texture = iInput.Texture; });
                     break;
 

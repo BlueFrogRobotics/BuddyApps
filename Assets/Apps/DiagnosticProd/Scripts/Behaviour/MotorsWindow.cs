@@ -86,16 +86,23 @@ namespace BuddyApp.DiagnosticProd
         private YesHeadHinge mYesHinge;
         private NoHeadHinge mNoHinge;
 
-        private bool mIsYesPushed;
-        private bool mIsNoPushed;
-
         private float mTimer;
+        private bool mActivationNoRight;
+        private bool mActivationNoLeft;
+        private bool mActivationYesTop;
+        private bool mActivationYesDown;
+        private float mLastMotionTime;
+        private float mLastYesAngle;
+        private float mLastNoAngle;
 
         void Start()
         {
-            mIsYesPushed = false;
-            mIsNoPushed = false;
-
+            mActivationNoRight = false;
+            mActivationNoLeft = false;
+            mActivationYesTop = false;
+            mActivationYesDown = false;
+            mLastNoAngle = -1000F;
+            mLastYesAngle = -1000F;
             mTimer = 0F;
 
             NoAngle.text = Buddy.Actuators.Head.No.Angle.ToString("0.000");
@@ -189,6 +196,38 @@ namespace BuddyApp.DiagnosticProd
             YOdom.text = Buddy.Actuators.Wheels.Odometry.y.ToString("f3") + "m";
             Cap.text = Buddy.Actuators.Wheels.Odometry.z.ToString("f3") + " °";
 
+            // => 0.2F seems not enough...
+            if (Time.time - mLastMotionTime > 0.2F) {
+                if (mLastNoAngle != mNoHinge.Angle) {
+                    if (mActivationNoLeft) {
+                        mLastNoAngle = mNoHinge.Angle;
+                        Debug.LogError("MOVE No left " + (mNoHinge.Angle + 5F));
+                        mNoHinge.SetPosition(mNoHinge.Angle + 5F);
+                        mLastMotionTime = Time.time;
+                    }
+
+                    if (mActivationNoRight) {
+                        mLastNoAngle = mNoHinge.Angle;
+                        Debug.LogError("MOVE NO right " + (mNoHinge.Angle - 5F));
+                        mNoHinge.SetPosition(mNoHinge.Angle - 5F);
+                        mLastMotionTime = Time.time;
+                    }
+                }
+                if (mLastYesAngle != mYesHinge.Angle) {
+                    if (mActivationYesTop) {
+                        mLastYesAngle = mYesHinge.Angle;
+                        Debug.LogError("MOVE YES TOP " + mYesHinge.Angle + 5F);
+                        mYesHinge.SetPosition(mYesHinge.Angle + 5F);
+                        mLastMotionTime = Time.time;
+                    }
+                    if (mActivationYesDown) {
+                        mLastYesAngle = mYesHinge.Angle;
+                        Debug.LogError("MOVE YES down " + (mYesHinge.Angle - 5F));
+                        mYesHinge.SetPosition(mYesHinge.Angle - 5F);
+                        mLastMotionTime = Time.time;
+                    }
+                }
+            }
         }
 
         public void MoveDistance()
@@ -254,78 +293,65 @@ namespace BuddyApp.DiagnosticProd
             Buddy.Navigation.Run<DisplacementStrategy>().Move(-0.5F, 1F, ObstacleAvoidanceType.NONE);
         }
 
-        public void MoveYesTop()
+        public void MoveYesTop(bool iActivate)
         {
-            if(!mIsYesPushed)
-            {
-                //Debug.LogError("MOVE YES TOP");
-                mIsYesPushed = true;
-                mYesHinge.SetPosition(mYesHinge.Angle + 5F, (iFloatOnEnd) => { OnResetBoolHead(iFloatOnEnd); });
-                //StartCoroutine(ResetHeadBool());
-            }
+            Debug.LogError("MOVE YES TOP " + iActivate);
+            mActivationYesTop = iActivate;
+            if (!iActivate)
+                mLastYesAngle = -1000F;
         }
 
-        public void MoveYesDown()
+        public void MoveYesDown(bool iActivate)
         {
-            if (!mIsYesPushed)
-            {
-                mIsYesPushed = true;
-                mYesHinge.SetPosition(mYesHinge.Angle - 5F, (iFloatOnEnd) => { OnResetBoolHead(iFloatOnEnd); } );
-                //StartCoroutine(ResetHeadBool());
-            }
+            Debug.LogError("MOVE YES Down " + iActivate);
+            mActivationYesDown = iActivate;
+            if (!iActivate)
+                mLastYesAngle = -1000F;
         }
 
-        public void MoveNoLeft()
+        public void MoveNoLeft(bool iActivate)
         {
-            if (!mIsNoPushed)
-            {
-                mIsNoPushed = true;
-                mNoHinge.SetPosition(mNoHinge.Angle - 5F, (iFloatOnEnd) => { OnResetBoolHead(iFloatOnEnd); });
-            }
+            Debug.LogError("MOVE no left " + iActivate);
+            mActivationNoLeft = iActivate;
+            if (!iActivate)
+                mLastNoAngle = -1000F;
         }
 
-        public void MoveNoRight()
+        public void MoveNoRight(bool iActivate)
         {
-            if (!mIsNoPushed)
-            {
-                mIsNoPushed = true;
-                mNoHinge.SetPosition(mNoHinge.Angle + 5F, (iFloatOnEnd) => { OnResetBoolHead(iFloatOnEnd); });
-            }
+            Debug.LogError("MOVE no right " + iActivate);
+            mActivationNoRight = iActivate;
+            if (!iActivate)
+                mLastNoAngle = -1000F;
         }
 
-        public void Calibration()
+        public void GoToZeroFromMax()
         {
 
-            mYesHinge.SetPosition(mYesHinge.Angle -40F, (iFloatA) => { mNoHinge.SetPosition(mNoHinge.Angle + 70F, (iFloatB) => { Buddy.Actuators.Head.SetZeroPosition();  });  });
-           
+            mYesHinge.SetPosition(mYesHinge.Angle - 40F, (iFloatA) => { mNoHinge.SetPosition(mNoHinge.Angle + 70F, (iFloatB) => { /*Buddy.Actuators.Head.SetZeroPosition();*/  }); });
+
         }
 
-        private IEnumerator ResetHeadBool()
+        public void CalibrateZero()
         {
-            yield return new WaitForSeconds(0.2F);
-            mIsYesPushed = false;
-            mIsNoPushed = false;
+            Buddy.Actuators.Head.SetZeroPosition();
+
         }
 
-        private void OnResetBoolHead(float iFloatOnEnd)
-        {
-            mIsYesPushed = false;
-            mIsNoPushed = false;
-        }
 
     }
 
 
-//    1) Sur la page motors test Motion: on simplifie à l'extrême et on met juste un bouton qui dit avance qu'on on appuie dessus et au autre avec recul
-//Remarque: la vitesse est mise par défaut à la vitesse Max.Pas d'intervention supplémentaire que d'appuyer sur avance ou recul pour tester les moteurs Motion.
-//=> 50 cm et désactivation des cliffs si possible
-//2) Sur la page Motors test YES/NO : on simplifie et on met simplement 5 boutons.
-//pour YES un bouton qui fait avancer de +5 deg en +5 degres tant que le bouton est appuyé
-//pour YES un bouton qui fait avancer de -5 deg en -5 degres tant que le bouton est appuyé
-//pour NO un bouton qui fait avancer de +5 deg en +5 degres tant que le bouton est appuyé
-//pour NO un bouton qui fait avancer de -5 deg en -5 degres tant que le bouton est appuyé
-//=> Commande envoyée toutes les 200 ms max pour éviter écrasement de la requête
-// Le but pour l'opérateur est d'emmener la tête en butée en bas à droite.
-//Une fois arrivé en butée, il appuie sur un bouton CALIBRATION TETE qui permet d'écrire dans le fichier de config le bon paramètre (il faut faire le calcul pour retrouver la position 0)
-//Une fois le bouton appuyé et le peramètre enregistré, la tête vient se repositionner au 0,0 qui est donné par la nouvelle calibration.
+    //    1) Sur la page motors test Motion: on simplifie à l'extrême et on met juste un bouton qui dit avance qu'on on appuie dessus et au autre avec recul
+    //Remarque: la vitesse est mise par défaut à la vitesse Max.Pas d'intervention supplémentaire que d'appuyer sur avance ou recul pour tester les moteurs Motion.
+    //=> 50 cm et désactivation des cliffs si possible
+    //2) Sur la page Motors test YES/NO : on simplifie et on met simplement 5 boutons.
+    //pour YES un bouton qui fait avancer de +5 deg en +5 degres tant que le bouton est appuyé
+    //pour YES un bouton qui fait avancer de -5 deg en -5 degres tant que le bouton est appuyé
+    //pour NO un bouton qui fait avancer de +5 deg en +5 degres tant que le bouton est appuyé
+    //pour NO un bouton qui fait avancer de -5 deg en -5 degres tant que le bouton est appuyé
+    //=> Commande envoyée toutes les 200 ms max pour éviter écrasement de la requête
+    // Le but pour l'opérateur est d'emmener la tête en butée en bas à droite.
+    //Une fois arrivé en butée, il appuie sur un bouton CALIBRATION TETE qui permet d'écrire dans le fichier de config le bon paramètre (il faut faire le calcul pour retrouver la position 0)
+    //Une fois le bouton appuyé et le peramètre enregistré, la tête vient se repositionner au 0,0 qui est donné par la nouvelle calibration.
 }
