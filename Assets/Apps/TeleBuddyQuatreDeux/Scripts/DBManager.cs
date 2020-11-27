@@ -70,6 +70,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private string mRobotName;
 
+        private bool mDisplayBeforeEnd;
+
         public bool LaunchDb { get; set; }
 
         private bool mPlanning;
@@ -113,6 +115,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         public void StartDBManager()
         {
             Debug.LogError("DB MANAGER : START DB MANAGER");
+            mDisplayBeforeEnd = false;
             IsCheckPlanning = false;
             LaunchDb = true;
             Debug.LogError("<color=green>DB MANAGER : LAUNCH DB ENUM 1 </color>");
@@ -147,6 +150,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 mSpan = mPlanningEnd.Subtract(mDateNow);
                 if (mSpan.TotalMinutes < 5F)
                 {
+
+                    DisplayUIBeforeEnd();
+
                     if (mSpan.TotalMinutes < 0F)
                     {
                         if(TeleBuddyQuatreDeuxData.Instance.AllPlanning.Count > 0)
@@ -155,6 +161,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                         }
                         CanEndCourse = true;
                         CanStartCourse = false;
+
                     }
                 }
             }
@@ -162,6 +169,28 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             {
                 CheckStartPlanning();
             }
+        }
+
+        private void DisplayUIBeforeEnd()
+        {
+            if(!mDisplayBeforeEnd)
+            {
+                mDisplayBeforeEnd = true;
+                Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
+                    TText lText = iBuilder.CreateWidget<TText>();
+                    lText.SetLabel(Buddy.Resources.GetString("eduendplanning"));
+                });
+                StartCoroutine(HideUIAfterTimer(5F));
+
+            }
+
+        }
+
+        private IEnumerator HideUIAfterTimer(float iTimeHideUI)
+        {
+            yield return new WaitForSeconds(iTimeHideUI);
+            if (Buddy.GUI.Toaster.IsBusy)
+                Buddy.GUI.Toaster.Hide();
         }
 
         /// <summary>
@@ -605,6 +634,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                         mPlanningEnd = DateTime.ParseExact(mCurrentPlanning.Date_Fin.Replace("-", "/"), "dd/MM/yyyy HH:mm:ss", mProviderFR);
                         CanStartCourse = true;
                         CanEndCourse = false;
+                        mDisplayBeforeEnd = false;
                     }
                 }
                 else

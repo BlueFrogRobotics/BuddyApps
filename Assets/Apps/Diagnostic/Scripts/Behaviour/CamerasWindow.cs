@@ -75,11 +75,11 @@ namespace BuddyApp.Diagnostic
 
             switch (SelectedCameraDropdown.options[SelectedCameraDropdown.value].text)
             {
-                case "HD_BACK":
+                case "HD_FOCUS":
                     SelectedResolutionDropdown.AddOptions(new List<string>(Enum.GetNames(typeof(HDCameraMode))));
                     break;
 
-                case "HD_FRONT":
+                case "HD_WIDE_ANGLE":
                     SelectedResolutionDropdown.AddOptions(new List<string>(Enum.GetNames(typeof(HDCameraMode))));
                     break;
 

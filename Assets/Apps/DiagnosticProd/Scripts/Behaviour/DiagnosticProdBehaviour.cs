@@ -1,12 +1,13 @@
-using UnityEngine.UI;
+using BlueQuark;
 
 using UnityEngine;
+using UnityEngine.UI;
 
-using BlueQuark;
-using System.Collections.Generic;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
-namespace BuddyApp.Diagnostic
+namespace BuddyApp.DiagnosticProd
 {
     public enum WindowType : int
     {
@@ -19,9 +20,8 @@ namespace BuddyApp.Diagnostic
         SENSORS,
         CONNEXION
     }
-
     /* A basic monobehaviour as "AI" behaviour for your app */
-    public sealed class DiagnosticBehaviour : MonoBehaviour
+    public class DiagnosticProdBehaviour : MonoBehaviour
     {
 
         [SerializeField]
@@ -31,7 +31,7 @@ namespace BuddyApp.Diagnostic
         [SerializeField]
         private GameObject motorsRoot;
         [SerializeField]
-        private GameObject faceRoot;
+        private GameObject faceRoot; 
         [SerializeField]
         private GameObject camerasRoot;
         [SerializeField]
@@ -86,8 +86,10 @@ namespace BuddyApp.Diagnostic
 
         public void SetWindow(int iIndex)
         {
+            //Debug.LogError("CHANGE window diag");
             WindowType lType = (WindowType)iIndex;
-            if (mCurrentWindow != lType) {
+            if (mCurrentWindow != lType)
+            {
                 mCurrentWindow = lType;
                 Rect lrect_Vocal = vocalBT.GetComponent<RectTransform>().rect;
                 lrect_Vocal.height = 100;
@@ -105,7 +107,8 @@ namespace BuddyApp.Diagnostic
                 lrect_Sensors.height = 100;
                 Rect lrect_Connexion = connexionBT.GetComponent<RectTransform>().rect;
                 lrect_Connexion.height = 100;
-                switch (mCurrentWindow) {
+                switch (mCurrentWindow)
+                {
                     case WindowType.VOCAL:
                         DisableAllExcept(vocalRoot);
                         vocalBT.color = BuddyBlue;
