@@ -558,19 +558,24 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                         if (!float.TryParse(lMessage.propertyValue.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out lFloatValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into an int");
                         } else if(OnHeadYesAbsolute!=null){
+                            Debug.LogWarning("Angle Yes received, ask to go " + lFloatValue);
+                            Debug.LogWarning("Angle Yes received, we go at " + Mathf.Lerp(Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax, (lFloatValue + 1.0F) / 2F) + " from " + Buddy.Actuators.Head.Yes );
                             OnHeadYesAbsolute(Mathf.Lerp(Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax, (lFloatValue + 1.0F) / 2F));
                             //if (lFloatValue > 0)
                             //    OnHeadYesAbsolute(lFloatValue * Buddy.Actuators.Head.Yes.AngleMax);
                             //else
                             //    OnHeadYesAbsolute(lFloatValue * Buddy.Actuators.Head.Yes.AngleMin);
+
                         }
                         break;
 
                     case "headNoAbsolute":
                         if (!float.TryParse(lMessage.propertyValue.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out lFloatValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
-                        } else if(OnHeadNoAbsolute!=null){
-                            OnHeadNoAbsolute(Mathf.Lerp(Buddy.Actuators.Head.No.AngleMin, Buddy.Actuators.Head.No.AngleMax, (lFloatValue + 1.0F) / 2F));
+                        } else if(OnHeadNoAbsolute!=null) {
+                            Debug.LogWarning("Angle No received, ask to go " + lFloatValue);
+                            Debug.LogWarning("Angle No received, we go at " + Mathf.Lerp(Buddy.Actuators.Head.No.AngleMin, Buddy.Actuators.Head.No.AngleMax, (lFloatValue + 1.0F) / 2F) + " from " + Buddy.Actuators.Head.No);
+                            OnHeadNoAbsolute(-Mathf.Lerp(Buddy.Actuators.Head.No.AngleMin, Buddy.Actuators.Head.No.AngleMax, (lFloatValue + 1.0F) / 2F));
                             //OnHeadNoAbsolute(lFloatValue * Buddy.Actuators.Head.No.AngleMin);
                         }
 

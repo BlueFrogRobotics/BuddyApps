@@ -45,11 +45,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private RTCManager mRTCManager;
         private RTMManager mRTMManager;
-        
-        private string mPhotoSentPath;
 
-        private HDCamera mCam = Buddy.Sensors.HDCamera;
-        private int mCamType;
+        private string mPhotoSentPath;
 
         private static AndroidJavaObject audioManager;
         // Use this for initialization
@@ -61,10 +58,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mRTCManager = GetComponent<RTCManager>();
             mRTMManager = GetComponent<RTMManager>();
 
-            if(Buddy.Sensors.Microphones.CurrentMicrophone.ToString() != "DEVICE_IN_AMBIENT")
-            {
+            if (Buddy.Sensors.Microphones.CurrentMicrophone.ToString() != "DEVICE_IN_USB_DEVICE") {
                 //set microphone 360 to true
-                Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_AMBIENT", true);
+                Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", true);
             }
             Buddy.WebServices.Agoraio.ImageReceived = (width, height, data) => mRTCManager.SetProfilePicture(data, width, height);
 
@@ -104,14 +100,12 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             Hangup.onClick.AddListener(OnHangup);
 
             mRTMManager.OnWheelsMotion = OnWheelsMotion;
-            mRTMManager.OnHeadNoAbsolute = (lAngle) =>
-            {
+            mRTMManager.OnHeadNoAbsolute = (lAngle) => {
                 Debug.LogWarning("head no absolute " + lAngle);
                 float lCoeff = Mathf.Abs(lAngle - Buddy.Actuators.Head.No.Angle) / Buddy.Actuators.Head.No.AngleMax;
                 Buddy.Actuators.Head.No.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.No.Angle, Buddy.Actuators.Head.No.AngleMin, Buddy.Actuators.Head.No.AngleMax), lCoeff * 70F, AccDecMode.SMOOTH);
             };
-            mRTMManager.OnHeadYesAbsolute = (lAngle) =>
-            {
+            mRTMManager.OnHeadYesAbsolute = (lAngle) => {
                 Debug.LogWarning("head yes absolute " + lAngle);
                 float lCoeff = 1F;// Mathf.Abs(lAngle - Buddy.Actuators.Head.Yes.Angle) / Buddy.Actuators.Head.Yes.AngleMax;
                 Buddy.Actuators.Head.Yes.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax), lCoeff * 20F, AccDecMode.SMOOTH);
@@ -190,11 +184,6 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             TeleBuddyQuatreDeuxData.Instance.CurrentState = TeleBuddyQuatreDeuxData.States.CALL_STATE;
 
 
-            //if (mCam.IsOpen)
-            //    mCam.Close();
-            //mCamType = 0;
-            //mCam.Open(HDCameraMode.COLOR_640X480_30FPS_RGB, (HDCameraType)mCamType);
-
             mSliderVolumeEnabled = false;
             mTimer = 0F;
             mTimerEndCall = 0F;
@@ -214,7 +203,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             VideoFeedbackIcon.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconCloseFeedback");
 
 
-            
+
             mRTCManager.OnEndUserOffline = () => Buddy.GUI.Dialoger.Display<IconToast>("Communication coupée").
             With(Buddy.Resources.Get<Sprite>("os_icon_phoneoff_big"),
                 () => {
@@ -230,7 +219,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 }
                 );
 
-            
+
 
             mRTMManager.OnDisplayMessage = (lMessage) => {
                 Message.text = lMessage;
@@ -257,23 +246,19 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 }
             };
 
-            mRTMManager.OnFrontalListening = (lFrontalListening) =>
-            {
-                if (lFrontalListening)
-                {
+            mRTMManager.OnFrontalListening = (lFrontalListening) => {
+                if (lFrontalListening) {
                     //set microphone 360 to false
-                    Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_AMBIENT", false);
+                    Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", false);
                     //set the front microphone to true
-                    Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_BACK_MIC", true);
+                    Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", true);
                     Debug.LogError("MICRO ENABLED : " + Buddy.Sensors.Microphones.CurrentMicrophone.ToString());
 
-                }
-                else
-                {
+                } else {
                     //set the front microphone to false
-                    Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_BACK_MIC", false);
+                    Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", false);
                     //set microphone 360 to true
-                    Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_AMBIENT", true);
+                    Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", true);
                     Debug.LogError("MICRO ENABLED : " + Buddy.Sensors.Microphones.CurrentMicrophone.ToString());
                 }
             };
@@ -288,19 +273,10 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             };
 
             mRTMManager.OnActivateZoom = (lZoom) => {
-                //Voir la cam open et switch
-                //mRTCManager.SendPicture(Buddy.Sensors.HDCamera.Frame.Texture);
-
-                //mCam.Close();
-                //mCamType = mCamType == 0 ? 1 : 0;
-                //mCam.Open(HDCameraMode.COLOR_640X480_30FPS_RGB, (HDCameraType)mCamType);
                 mRTCManager.SwitchCam();
-                //mCam.OnNewFrame.Add(iFrame => );
-                
             };
 
-            mRTMManager.OnTakePhoto = (lTakePhoto) =>
-            {
+            mRTMManager.OnTakePhoto = (lTakePhoto) => {
                 Debug.LogError("CALLSTATE TAKE PHOTO WITH TAKEPHOTOGRAPH");
                 //Save image from open camera on the robot
 
@@ -324,8 +300,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private void OnPhotoTaken(Photograph iMyPhoto)
         {
-            if (iMyPhoto == null)
-            {
+            if (iMyPhoto == null) {
                 Debug.LogError("OnFinish take photo, iPhoto null");
                 return;
             }
