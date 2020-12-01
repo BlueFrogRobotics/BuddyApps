@@ -175,7 +175,7 @@ namespace BuddyApp.DiagnosticProd
         private int mSoundLocAngle;
         private float mSoundLocPreviousTreatedAngle;
         private bool mMicState;
-        
+
 
         public void OnClickTabs(TAB iClickedTab)
         {
@@ -371,6 +371,11 @@ namespace BuddyApp.DiagnosticProd
         {
             UpdateSoundLocalization();
 
+            if (Buddy.Sensors.Microphones.CurrentMicrophone.Code != "DEVICE_IN_USB_DEVICE")
+                PlayMusic.GetComponentsInChildren<Text>()[0].text = "FRONTAL MICROPHONE ACTIVATED";
+            else
+                PlayMusic.GetComponentsInChildren<Text>()[0].text = "MICRO ARRAY ACTIVATED";
+
             if (mBIsPlaying) // Playing record
                 if (null == ReplayAudioSource.clip || !ReplayAudioSource.isPlaying)
                     // turn off
@@ -406,17 +411,17 @@ namespace BuddyApp.DiagnosticProd
         public void OnEnable()
         {
             StartCoroutine(GetFreespeechCredentials());
-            
+
             // Tabs
             TabButton[(int)TAB.TRIGGER].onClick.AddListener(() => { OnClickTabs(TAB.TRIGGER); });
             TabButton[(int)TAB.LOCALIZATION].onClick.AddListener(() => { OnClickTabs(TAB.LOCALIZATION); });
             TabButton[(int)TAB.BEAMFORMING].onClick.AddListener(() => { OnClickTabs(TAB.BEAMFORMING); });
             TabButton[(int)TAB.ECHO_CANCELLATION].onClick.AddListener(() => { OnClickTabs(TAB.ECHO_CANCELLATION); });
-            
+
             foreach (GameObject img in Circles) {
                 img.GetComponentsInChildren<Image>()[1].color = STATUS_OFF_RED_COLOR;
             }
-            
+
             List<GameObject> lContentsStart = new List<GameObject>();
             int lChildCounts = TabContent[(int)TAB.BEAMFORMING].transform.childCount;
             for (int i = 0; i < lChildCounts; i++)
@@ -426,7 +431,7 @@ namespace BuddyApp.DiagnosticProd
             foreach (GameObject lContent in lContentsStart)
                 lContent.SetActive(false);
             lContentsStart[1].SetActive(true);
-            
+
             // Trigger
             TriggerToggle.onValueChanged.AddListener((iValue) => {
                 Buddy.Vocal.EnableTrigger = iValue;
@@ -440,7 +445,7 @@ namespace BuddyApp.DiagnosticProd
             TriggerDropdown.onValueChanged.AddListener((iInput) => OnSearchTriggerOption(iInput));
             TriggerTreshText.text = FloatToShort(TriggerTreshSlider.value * 10).ToString();
             TriggerTreshSlider.onValueChanged.AddListener((iInput) => OnSliderThresholdChange(iInput));
-            
+
             // Localization
             Buddy.Sensors.Microphones.EnableSoundLocalization = LocalizationToggle.isOn;
             LocalizationToggle.onValueChanged.AddListener((iValue) => {
@@ -456,7 +461,7 @@ namespace BuddyApp.DiagnosticProd
 
             LocalizationTreshText.text = LocalizationTreshSlider.value.ToString();
             LocalizationTreshSlider.onValueChanged.AddListener((iInput) => OnChangeThresholdLocalization(iInput));
-            
+
             // BeamForming            
             BeamFormingDropDown.value = 5;
             BeamFormingDropDown.onValueChanged.AddListener((iInput) => OnDirectionBeam(iInput));
@@ -486,6 +491,7 @@ namespace BuddyApp.DiagnosticProd
                 }
             });
 
+
             // EchoCancellation
             EchoCancellationToggle.onValueChanged.AddListener((iValue) => {
                 // Get all child gameobject of EchoCancellation for mutual exclusion
@@ -510,7 +516,7 @@ namespace BuddyApp.DiagnosticProd
                     lContents[2].SetActive(false);
                 }
             });
-            
+
             // Volume slider init & callback
             VolumeSlider.value = (int)(Buddy.Actuators.Speakers.Volume * 100F);
             VolumeSliderText.text = VolumeSlider.value.ToString();
@@ -519,10 +525,11 @@ namespace BuddyApp.DiagnosticProd
                 VolumeSliderText.text = iVolume.ToString();
             });
 
+
             // Initialize listen.
             Buddy.Vocal.DefaultInputParameters = new SpeechInputParameters() {
-                Grammars = new string[] { "common" },
-                RecognitionThreshold = 5000
+                Grammars = new string[] { "common", "companion_commands", "companion_questions" },
+                RecognitionThreshold = 3000
             };
 
             Buddy.Vocal.OnEndListening.Clear();
@@ -575,7 +582,7 @@ namespace BuddyApp.DiagnosticProd
                 mTimeTrigger.Elapsed += OnTriggerTimedEvent;
                 mTimeTrigger.Start();
             });
-            
+
             Buddy.Vocal.OnCompleteTrigger.Add((iInput) => {
                 TriggerScore.text = iInput.RecognitionScore.ToString();
             });
@@ -586,18 +593,18 @@ namespace BuddyApp.DiagnosticProd
                 RecordDropdown.interactable = false;
             else
                 RecordDropdown.interactable = true;
-            
+
 
             //Button Reset List
             ResetList.onClick.AddListener(OnClicResetList);
-            
+
             // Recording
             //mNoiseDetector = Buddy.Perception.NoiseDetector;
             RecordButton.GetComponentsInChildren<Text>()[0].text = "START RECORDING";
             RecordButton.onClick.AddListener(OnRecordingButtonClick);
             PlayRecordButton.onClick.AddListener(OnPlayRecordButtonClick);
             PlayRecordButton.GetComponentsInChildren<Text>()[0].text = "PLAY";
-            
+
             //Play Music
             PlayMusic.GetComponentsInChildren<Text>()[0].text = "SWITCH MICRO TO USB";
             PlayMusic.GetComponentsInChildren<Image>()[1].sprite = Buddy.Resources.Get<Sprite>("os_icon_play_big");
@@ -697,19 +704,19 @@ namespace BuddyApp.DiagnosticProd
 
         private void OnPlayMusic()
         {
-            if (mMicState) {
+
+            if (Buddy.Sensors.Microphones.CurrentMicrophone.Code == "DEVICE_IN_USB_DEVICE") {
                 Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", false);
                 Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", true);
-                PlayMusic.GetComponentsInChildren<Text>()[0].text = "SWITCH MICRO TO USB";
-                mMicState = false;
+                PlayMusic.GetComponentsInChildren<Text>()[0].text = "CURRENT = FRONTAL MICROPHONE";
             } else {
                 Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", false);
                 Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", true);
-                PlayMusic.GetComponentsInChildren<Text>()[0].text = "SWITCH MICRO TO HEADSET";
-                mMicState = true;
+                PlayMusic.GetComponentsInChildren<Text>()[0].text = "CURRENT = MICRO ARRAY";
             }
 
             return;
+
             AudioSource lAudioSource = ReplayAudioSource.GetComponent<AudioSource>();
             if (Equals("PLAY MUSIC", PlayMusicText.text)) {
                 PlayMusic.GetComponentsInChildren<Image>()[1].sprite = mStopBig;
@@ -807,8 +814,7 @@ namespace BuddyApp.DiagnosticProd
             if (mAudioClip != null)
                 mListAudio.Enqueue(mAudioClip);
 
-            if (mListAudio.Count > 0)
-            {
+            if (mListAudio.Count > 0) {
                 mListRecorded.Add(new Queue<AudioClip>(mListAudio));
                 Utils.Save(Buddy.Resources.AppRawDataPath + "record_" + RecordDropdown.options.Count.ToString(), Utils.Combine(mListAudio.ToArray()));
                 mListAudio.Clear();

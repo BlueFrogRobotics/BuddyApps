@@ -384,11 +384,12 @@ namespace BuddyApp.AutomatedTest
             Buddy.Sensors.RGBCamera.Close();
         }
 
+
         public IEnumerator TakePhotoHdTests()
         {
             // --- INIT HDCam & TakePhoto with it ---
             DebugColor("---- TAKEPHOTOGRAPH HDCAM ----", "red");
-            Buddy.Sensors.HDCamera.Open(HDCameraMode.COLOR_640X480_30FPS_RGB);
+            Buddy.Sensors.HDCamera.Open(HDCameraMode.COLOR_528X392_30FPS_RGB);
             Buddy.Sensors.HDCamera.TakePhotograph(OnFinish);
             DisplayTestUi("takephotohd");
 
@@ -397,6 +398,7 @@ namespace BuddyApp.AutomatedTest
             // --- Wait for User ---
             while (mTestInProcess)
                 yield return null;
+
 
             //  --- EXIT ---
             DebugColor("---- TAKEPHOTOGRAPH HDCAM  END----", "red");

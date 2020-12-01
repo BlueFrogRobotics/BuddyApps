@@ -115,12 +115,12 @@ namespace BuddyApp.Diagnostic
             switch (SelectedCameraDropdown.options[SelectedCameraDropdown.value].text)
             {
 
-                case "HD_BACK":
+                case "HD_FOCUS":
                     mHDCam.Open((HDCameraMode)Enum.Parse(typeof(HDCameraMode), SelectedResolutionDropdown.options[SelectedResolutionDropdown.value].text), HDCameraType.BACK);
                     mHDCam.OnNewFrame.Add((iInput) => { SelectedImage.texture = iInput.Texture; });
                     break;
 
-                case "HD_FRONT":
+                case "HD_WIDE_ANGLE":
                     mHDCam.Open((HDCameraMode)Enum.Parse(typeof(HDCameraMode), SelectedResolutionDropdown.options[SelectedResolutionDropdown.value].text), HDCameraType.FRONT);
                     mHDCam.OnNewFrame.Add((iInput) => { SelectedImage.texture = iInput.Texture; });
                     break;
@@ -144,6 +144,7 @@ namespace BuddyApp.Diagnostic
 
         private void CloseAllCam()
         {
+
             mHDCam.OnNewFrame.Clear();
             mRGBCam.OnNewFrame.Clear();
             mDepthCam.OnNewFrame.Clear();

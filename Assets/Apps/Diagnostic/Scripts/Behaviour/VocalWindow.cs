@@ -174,7 +174,6 @@ namespace BuddyApp.Diagnostic
         private Image mSoundLocField;
         private int mSoundLocAngle;
         private float mSoundLocPreviousTreatedAngle;
-        private bool mMicState;
 
         public void OnClickTabs(TAB iClickedTab)
         {
@@ -369,7 +368,12 @@ namespace BuddyApp.Diagnostic
         {
             UpdateSoundLocalization();
 
-            if (mBIsPlaying) // Playing record
+            if (Buddy.Sensors.Microphones.CurrentMicrophone.Code != "DEVICE_IN_USB_DEVICE")
+                PlayMusic.GetComponentsInChildren<Text>()[0].text = "FRONTAL MICROPHONE ACTIVATED";
+            else
+                PlayMusic.GetComponentsInChildren<Text>()[0].text = "MICRO ARRAY ACTIVATED";
+
+                if (mBIsPlaying) // Playing record
                 if (null == ReplayAudioSource.clip || !ReplayAudioSource.isPlaying)
                     // turn off
                     OnPlayRecordButtonClick();
@@ -519,8 +523,8 @@ namespace BuddyApp.Diagnostic
 
             // Initialize listen.
             Buddy.Vocal.DefaultInputParameters = new SpeechInputParameters() {
-                Grammars = new string[] { "common" },
-                RecognitionThreshold = 5000
+                Grammars = new string[] { "common", "companion_commands", "companion_questions" },
+                RecognitionThreshold = 3000
             };
 
             Buddy.Vocal.OnEndListening.Clear();
@@ -694,16 +698,14 @@ namespace BuddyApp.Diagnostic
 
         private void OnPlayMusic()
         {
-            if (mMicState) {
+            if (Buddy.Sensors.Microphones.CurrentMicrophone.Code == "DEVICE_IN_USB_DEVICE") {
                 Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", false);
                 Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", true);
-                PlayMusic.GetComponentsInChildren<Text>()[0].text = "SWITCH MICRO TO USB";
-                mMicState = false;
+                PlayMusic.GetComponentsInChildren<Text>()[0].text = "FRONTAL MICROPHONE ACTIVATED";
             } else {
                 Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", false);
                 Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", true);
-                PlayMusic.GetComponentsInChildren<Text>()[0].text = "SWITCH MICRO TO HEADSET";
-                mMicState = true;
+                PlayMusic.GetComponentsInChildren<Text>()[0].text = "MICRO ARRAY ACTIVATED";
             }
 
             return;

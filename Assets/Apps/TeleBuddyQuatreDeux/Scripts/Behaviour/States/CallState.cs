@@ -58,7 +58,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mRTCManager = GetComponent<RTCManager>();
             mRTMManager = GetComponent<RTMManager>();
 
-            if (Buddy.Sensors.Microphones.CurrentMicrophone.ToString() != "DEVICE_IN_USB_DEVICE") {
+            if (Buddy.Sensors.Microphones.CurrentMicrophone.Code != "DEVICE_IN_USB_DEVICE") {
                 //set microphone 360 to true
                 Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", true);
             }
@@ -252,14 +252,14 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", false);
                     //set the front microphone to true
                     Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", true);
-                    Debug.LogError("MICRO ENABLED : " + Buddy.Sensors.Microphones.CurrentMicrophone.ToString());
+                    Debug.LogError("MICRO ENABLED : " + Buddy.Sensors.Microphones.CurrentMicrophone.Code);
 
                 } else {
                     //set the front microphone to false
                     Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", false);
                     //set microphone 360 to true
                     Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", true);
-                    Debug.LogError("MICRO ENABLED : " + Buddy.Sensors.Microphones.CurrentMicrophone.ToString());
+                    Debug.LogError("MICRO ENABLED : " + Buddy.Sensors.Microphones.CurrentMicrophone.Code);
                 }
             };
 
