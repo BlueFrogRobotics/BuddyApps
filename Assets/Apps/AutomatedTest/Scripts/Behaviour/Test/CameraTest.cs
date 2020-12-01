@@ -389,7 +389,8 @@ namespace BuddyApp.AutomatedTest
         {
             // --- INIT HDCam & TakePhoto with it ---
             DebugColor("---- TAKEPHOTOGRAPH HDCAM ----", "red");
-            Buddy.Sensors.HDCamera.Open(HDCameraMode.COLOR_528X392_30FPS_RGB);
+            //GREG PROB
+            //Buddy.Sensors.HDCamera.Open(HDCameraMode.COLOR_528X392_30FPS_RGB);
             Buddy.Sensors.HDCamera.TakePhotograph(OnFinish);
             DisplayTestUi("takephotohd");
 

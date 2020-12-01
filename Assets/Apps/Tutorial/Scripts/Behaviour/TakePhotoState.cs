@@ -27,12 +27,13 @@ namespace BuddyApp.Tutorial
 				Buddy.Sensors.HDCamera.TakePhotograph(OnFinish, true);
 			});
 
-			// We open the camera and set the resolution and frame rate.
-			Buddy.Sensors.HDCamera.Open(HDCameraMode.COLOR_528X392_30FPS_RGB);
+            // We open the camera and set the resolution and frame rate.
+            //GREG PROB
+            //Buddy.Sensors.HDCamera.Open(HDCameraMode.COLOR_528X392_30FPS_RGB);
 
-			// We define the function to be called when a new frame is received
-			// from the camera
-			mCameraTexture = Utils.MatToTexture2D(Buddy.Sensors.HDCamera.Frame.Mat);
+            // We define the function to be called when a new frame is received
+            // from the camera
+            mCameraTexture = Utils.MatToTexture2D(Buddy.Sensors.HDCamera.Frame.Mat);
 			Buddy.Sensors.HDCamera.OnNewFrame.Add((iInput) => OnFrameCaptured(iInput));
 
 			// We display the camera feedback
