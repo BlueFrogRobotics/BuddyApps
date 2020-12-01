@@ -197,6 +197,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             lVideoSurface.SetEnable(true);
             lVideoSurface.SetVideoSurfaceType(AgoraVideoSurfaceType.RawImage);
             lVideoSurface.SetGameFps(30);
+            lVideoSurface.EnableFilpTextureApply(false, true);
 
             GetGameObject(12).SetActive(true);
             GetGameObject(18).SetActive(true);
