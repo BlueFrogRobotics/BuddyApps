@@ -438,7 +438,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                             }
                             foreach(DeviceUserLiaison lDeviceUserLiaison in mListTabletUser)
                             {
-                                ListUIDTablet.Add(lDeviceUserLiaison.DeviceUid);
+                                //ListUIDTablet.Add(lDeviceUserLiaison.DeviceUid);
+                                ListUIDTablet.Add(lDeviceUserLiaison.DeviceIdDevice+ lDeviceUserLiaison.UserIdUser);
 
                             }
                             Debug.LogError("<color=red>GetInfoForUsers 5</color>");
