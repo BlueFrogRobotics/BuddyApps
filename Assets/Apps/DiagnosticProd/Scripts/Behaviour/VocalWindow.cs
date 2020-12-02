@@ -371,11 +371,10 @@ namespace BuddyApp.DiagnosticProd
         {
             UpdateSoundLocalization();
 
-            //GREG PROB
-            //if (Buddy.Sensors.Microphones.CurrentMicrophone.Code != "DEVICE_IN_USB_DEVICE")
-            //    PlayMusic.GetComponentsInChildren<Text>()[0].text = "FRONTAL MICROPHONE ACTIVATED";
-            //else
-            //    PlayMusic.GetComponentsInChildren<Text>()[0].text = "MICRO ARRAY ACTIVATED";
+            if (Buddy.Sensors.Microphones.CurrentMicrophone.Code != "DEVICE_IN_USB_DEVICE")
+                PlayMusic.GetComponentsInChildren<Text>()[0].text = "FRONTAL MICROPHONE ACTIVATED";
+            else
+                PlayMusic.GetComponentsInChildren<Text>()[0].text = "MICRO ARRAY ACTIVATED";
 
             if (mBIsPlaying) // Playing record
                 if (null == ReplayAudioSource.clip || !ReplayAudioSource.isPlaying)
@@ -705,16 +704,15 @@ namespace BuddyApp.DiagnosticProd
 
         private void OnPlayMusic()
         {
-            //GREG PROB
-            //if (Buddy.Sensors.Microphones.CurrentMicrophone.Code == "DEVICE_IN_USB_DEVICE") {
-            //    Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", false);
-            //    Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", true);
-            //    PlayMusic.GetComponentsInChildren<Text>()[0].text = "CURRENT = FRONTAL MICROPHONE";
-            //} else {
-            //    Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", false);
-            //    Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", true);
-            //    PlayMusic.GetComponentsInChildren<Text>()[0].text = "CURRENT = MICRO ARRAY";
-            //}
+            if (Buddy.Sensors.Microphones.CurrentMicrophone.Code == "DEVICE_IN_USB_DEVICE") {
+                Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", false);
+                Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", true);
+                PlayMusic.GetComponentsInChildren<Text>()[0].text = "CURRENT = FRONTAL MICROPHONE";
+            } else {
+                Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", false);
+                Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", true);
+                PlayMusic.GetComponentsInChildren<Text>()[0].text = "CURRENT = MICRO ARRAY";
+            }
 
             return;
 

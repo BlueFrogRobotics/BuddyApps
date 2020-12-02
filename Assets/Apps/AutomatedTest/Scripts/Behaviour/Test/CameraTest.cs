@@ -131,8 +131,7 @@ namespace BuddyApp.AutomatedTest
             if (mMatDetect == null)
                 return true;
             //Draw circle on every motions detected on the detect layer
-            foreach (MotionEntity lEntity in iMotions)
-            {
+            foreach (MotionEntity lEntity in iMotions) {
                 Imgproc.circle(mMatDetect, Utils.Center(lEntity.RectInFrame), 3, mColorOfDisplay, 3);
             }
 
@@ -145,8 +144,7 @@ namespace BuddyApp.AutomatedTest
             Utils.MatToTexture2D(mMatDetect, mTextureCam);
 
             // Valid the test in auto mode, at the first detection
-            if (Mode == TestMode.M_AUTO && mTestAutoEvaluated == false)
-            {
+            if (Mode == TestMode.M_AUTO && mTestAutoEvaluated == false) {
                 mTestAutoEvaluated = true;
                 mResultPool.Add("motiondetect", true);
                 mTestInProcess = false;
@@ -190,8 +188,7 @@ namespace BuddyApp.AutomatedTest
             if (mMatDetect == null)
                 return true;
             //Draw rectangle on each human detected on the detect layer
-            foreach (FaceEntity lEntity in iFaces)
-            {
+            foreach (FaceEntity lEntity in iFaces) {
                 Imgproc.rectangle(mMatDetect, lEntity.BoundingBox.tl(), lEntity.BoundingBox.br(), mColorOfDisplay);
             }
 
@@ -204,8 +201,7 @@ namespace BuddyApp.AutomatedTest
             Utils.MatToTexture2D(mMatDetect, mTextureCam);
 
             // Valid the test in auto mode, at the first detection
-            if (Mode == TestMode.M_AUTO && mTestAutoEvaluated == false)
-            {
+            if (Mode == TestMode.M_AUTO && mTestAutoEvaluated == false) {
                 mTestAutoEvaluated = true;
                 mResultPool.Add("facedetect", true);
                 mTestInProcess = false;
@@ -256,8 +252,7 @@ namespace BuddyApp.AutomatedTest
             if (mMatDetect == null)
                 return true;
             //Draw rectangle on each human detected on the detect layer
-            foreach (HumanEntity lEntity in iHumans)
-            {
+            foreach (HumanEntity lEntity in iHumans) {
                 Imgproc.rectangle(mMatDetect, lEntity.BoundingBox.tl(), lEntity.BoundingBox.br(), mColorOfDisplay);
             }
 
@@ -269,8 +264,7 @@ namespace BuddyApp.AutomatedTest
             Utils.MatToTexture2D(mMatDetect, mTextureCam);
 
             // Valid the test in auto mode, at the first detection
-            if (Mode == TestMode.M_AUTO && mTestAutoEvaluated == false)
-            {
+            if (Mode == TestMode.M_AUTO && mTestAutoEvaluated == false) {
                 mTestAutoEvaluated = true;
                 mResultPool.Add("humandetect", true);
                 mTestInProcess = false;
@@ -289,8 +283,7 @@ namespace BuddyApp.AutomatedTest
             mTextureCam = new Texture2D(Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height);
             // Setting of the callback to use camera data
             Buddy.Sensors.RGBCamera.OnNewFrame.Add((iInput) => OnFrameCaptured(iInput));
-            if (Buddy.Perception.SkeletonDetector.OnDetect.Count == 0)
-            {
+            if (Buddy.Perception.SkeletonDetector.OnDetect.Count == 0) {
                 Buddy.Sensors.RGBCamera.Open(RGBCameraMode.COLOR_320X240_30FPS_RGB);
                 Buddy.Perception.SkeletonDetector.OnDetect.AddP(OnSkeletonDetect);
             }
@@ -325,10 +318,8 @@ namespace BuddyApp.AutomatedTest
             // Calcul the center of the img
             Point lCenter = new Point(lWidth / 2, lHeight / 2);
 
-            foreach (SkeletonEntity lSkeleton in iSkeleton)
-            {
-                foreach (SkeletonJoint lJoint in lSkeleton.Joints)
-                {
+            foreach (SkeletonEntity lSkeleton in iSkeleton) {
+                foreach (SkeletonJoint lJoint in lSkeleton.Joints) {
                     // Calcul the local position of the joint
                     Point lLocal = new Point(lJoint.WorldPosition.x / lJoint.WorldPosition.z, lJoint.WorldPosition.y / lJoint.WorldPosition.z);
                     // Conversion of the local position, in the img
@@ -352,8 +343,7 @@ namespace BuddyApp.AutomatedTest
             Utils.MatToTexture2D(mMatDetect, mTextureCam);
 
             // Valid the test in auto mode, at the first detection
-            if (Mode == TestMode.M_AUTO && mTestAutoEvaluated == false)
-            {
+            if (Mode == TestMode.M_AUTO && mTestAutoEvaluated == false) {
                 mTestAutoEvaluated = true;
                 mResultPool.Add("skeletondetect", true);
                 mTestInProcess = false;
@@ -389,8 +379,8 @@ namespace BuddyApp.AutomatedTest
         {
             // --- INIT HDCam & TakePhoto with it ---
             DebugColor("---- TAKEPHOTOGRAPH HDCAM ----", "red");
-            //GREG PROB
-            //Buddy.Sensors.HDCamera.Open(HDCameraMode.COLOR_528X392_30FPS_RGB);
+
+            Buddy.Sensors.HDCamera.Open(HDCameraMode.COLOR_528X392_30FPS_RGB);
             Buddy.Sensors.HDCamera.TakePhotograph(OnFinish);
             DisplayTestUi("takephotohd");
 
@@ -399,8 +389,7 @@ namespace BuddyApp.AutomatedTest
             // --- Wait for User ---
             while (mTestInProcess)
                 yield return null;
-
-
+            
             //  --- EXIT ---
             DebugColor("---- TAKEPHOTOGRAPH HDCAM  END----", "red");
             Buddy.Sensors.HDCamera.Close();
@@ -410,8 +399,7 @@ namespace BuddyApp.AutomatedTest
 
         private void OnFinish(Photograph iMyPhoto)
         {
-            if (iMyPhoto == null)
-            {
+            if (iMyPhoto == null) {
                 DebugColor("OnFinish take photo, iPhoto null", "red");
                 return;
             }

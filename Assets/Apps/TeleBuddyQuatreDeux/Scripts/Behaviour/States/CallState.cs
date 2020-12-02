@@ -58,11 +58,10 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mRTCManager = GetComponent<RTCManager>();
             mRTMManager = GetComponent<RTMManager>();
 
-            //GREG PROB
-            //if (Buddy.Sensors.Microphones.CurrentMicrophone.Code != "DEVICE_IN_USB_DEVICE") {
-            //    //set microphone 360 to true
-            //    Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", true);
-            //}
+            if (Buddy.Sensors.Microphones.CurrentMicrophone.Code != "DEVICE_IN_USB_DEVICE") {
+                //set microphone 360 to true
+                Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", true);
+            }
             Buddy.WebServices.Agoraio.ImageReceived = (width, height, data) => mRTCManager.SetProfilePicture(data, width, height);
 
             VolumeScrollbar = GetGameObject(4).GetComponentInChildren<Slider>();
@@ -254,16 +253,16 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", false);
                     //set the front microphone to true
                     Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", true);
-                    //GREG PROB
-                    //Debug.LogError("MICRO ENABLED : " + Buddy.Sensors.Microphones.CurrentMicrophone.Code);
+                   
+                    Debug.Log("MICRO ENABLED : " + Buddy.Sensors.Microphones.CurrentMicrophone.Code);
 
                 } else {
                     //set the front microphone to false
                     Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", false);
                     //set microphone 360 to true
                     Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", true);
-                    //GREG PROB
-                    //Debug.LogError("MICRO ENABLED : " + Buddy.Sensors.Microphones.CurrentMicrophone.Code);
+                    
+                    Debug.Log("MICRO ENABLED : " + Buddy.Sensors.Microphones.CurrentMicrophone.Code);
                 }
             };
 
