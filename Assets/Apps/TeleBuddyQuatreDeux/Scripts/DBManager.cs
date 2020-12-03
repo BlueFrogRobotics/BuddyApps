@@ -40,6 +40,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         public string mRobotTokenRTM { get; private set; }
         public string mRobotTokenRTC { get; private set; }
+        public string RobotConnexionId { get; private set; }
 
         private static string mAccessToken;
 
@@ -401,6 +402,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                                 {
                                     mRobotTokenRTC = lLiaison.DeviceRTC;
                                     mRobotTokenRTM = lLiaison.DeviceRTM;
+                                    RobotConnexionId = "" + lLiaison.DeviceIdDevice;
                                     mListRobotUser.Add(lLiaison);
                                 }
                             }
@@ -428,7 +430,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
 
                                 //UserStudent.Planning = lDeviceUserLiaison.PlanningidPlanning;
-                                UserStudent.NeedPlanning = lDeviceUserLiaison.DeviceNeedPlanning;
+                                UserStudent.NeedPlanning = lDeviceUserLiaison.DeviceNeedPlanning; 
                                 UserStudent.RTCToken = lDeviceUserLiaison.DeviceRTC;
                                 UserStudent.RTMToken = lDeviceUserLiaison.DeviceRTM;
                                 UserStudent.AppID = lDeviceUserLiaison.DeviceAppID;
@@ -439,7 +441,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                             foreach(DeviceUserLiaison lDeviceUserLiaison in mListTabletUser)
                             {
                                 //ListUIDTablet.Add(lDeviceUserLiaison.DeviceUid);
-                                ListUIDTablet.Add(lDeviceUserLiaison.DeviceIdDevice+ lDeviceUserLiaison.UserIdUser);
+                                ListUIDTablet.Add(""+lDeviceUserLiaison.UserIdUser);
+                                //ListUIDTablet.Add(""+lDeviceUserLiaison.DeviceIdDevice+ lDeviceUserLiaison.UserIdUser);
+                                //ListUIDTablet.Add("17578");
 
                             }
                             Debug.LogError("<color=red>GetInfoForUsers 5</color>");

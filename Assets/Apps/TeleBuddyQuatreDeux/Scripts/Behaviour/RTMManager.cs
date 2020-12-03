@@ -322,6 +322,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         public void SetTabletId(string iIdTablet)
         {
+            Debug.LogWarning("before crypt tablet ID: " + iIdTablet);
             string lIdTablet = TeleBuddyQuatreDeuxBehaviour.EncodeToSHA256(TeleBuddyQuatreDeuxBehaviour.EncodeToMD5(iIdTablet));
             Debug.LogWarning("New tablet ID: " + lIdTablet);
             mIdTablet = lIdTablet;
