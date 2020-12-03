@@ -58,6 +58,14 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             //InitRTC();
         }
 
+        public string TakePhoto()
+        {
+            Debug.LogError("take photo in rtc maanger");
+            string iPathPhoto = "";
+            return iPathPhoto;
+        }
+
+
         public void InitRTC()
         {
             Buddy.WebServices.Agoraio.LoadEngine(TeleBuddyQuatreDeuxBehaviour.APP_ID);//TODO WALID: attendre que la requete zoho soit terminé avant etremplacer par l'app id recu //TODO MC : j'ai créé un nouvel init qui prend l'app id en fonction du user choisi dans la liste donc appelé dans ConnectingState ButtonClick()
