@@ -282,8 +282,12 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mRTMManager.OnTakePhoto = (lTakePhoto) => {
                 Debug.LogError("CALLSTATE TAKE PHOTO WITH TAKEPHOTOGRAPH");
                 //Save image from open camera on the robot
-                string iPathPhotoSaved;
-                iPathPhotoSaved = mRTCManager.TakePhoto();
+                Utils.DeleteFile(Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
+                Texture2D iPhotoFromRobot =(Texture2D)GetGameObject(12).GetComponentInChildren<RawImage>().texture;
+                Utils.SaveTextureToFile(iPhotoFromRobot, Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
+                Debug.LogError("CALLSTATE TAKE PHOTO WITH TAKEPHOTOGRAPH PATH : " + Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
+                string iPathPhotoSaved = Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg";
+                //iPathPhotoSaved = mRTCManager.TakePhoto();
                 Debug.LogError("path photo saved : " + iPathPhotoSaved);
                 //test
                 Buddy.WebServices.Agoraio.SendPicture(DBManager.Instance.ListUIDTablet[TeleBuddyQuatreDeuxData.Instance.IndexTablet],/* Buddy.Resources.AppSpritesPath + "background.jpg"*/iPathPhotoSaved);
@@ -302,6 +306,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             VideoFeedbackButton.gameObject.SetActive(true);
             Hangup.gameObject.SetActive(true);
         }
+
 
         private void OnPhotoTaken(Photograph iMyPhoto)
         {
