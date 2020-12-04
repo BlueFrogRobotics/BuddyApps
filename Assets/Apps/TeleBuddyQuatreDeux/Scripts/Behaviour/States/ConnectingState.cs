@@ -176,7 +176,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             TeleBuddyQuatreDeuxData.Instance.IndexTablet = iIndexList;
             DBManager.Instance.FillPlanningStart(DBManager.Instance.ListUserStudent[iIndexList].Nom, DBManager.Instance.ListUserStudent[iIndexList].Prenom);
             //mRTMManager.SetTabletId(DBManager.Instance.ListUIDTablet[iIndexList]);
-            mRTMManager.SetTabletId(DBManager.Instance.RobotConnexionId + DBManager.Instance.ListUIDTablet[iIndexList]);
+            mRTMManager.SetTabletId(DBManager.Instance.RobotConnexionId + DBManager.Instance.ListUserStudent[iIndexList].ID);
             //mRTMManager.IndexTablet = iIndexList;
             DBManager.Instance.IndexPlanning = iIndexList;
             DBManager.Instance.IsCheckPlanning = true;
