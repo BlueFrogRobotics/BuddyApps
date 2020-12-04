@@ -42,6 +42,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         public bool IsInitialised { get; internal set; }
 
         public int IndexTablet { get; set; }
+        public string IdConnectionTablet { get { return mIdTablet; } }
 
 
         // Use this for initialization

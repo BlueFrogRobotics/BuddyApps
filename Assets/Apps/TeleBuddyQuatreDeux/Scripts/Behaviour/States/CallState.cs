@@ -290,7 +290,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 //iPathPhotoSaved = mRTCManager.TakePhoto();
                 Debug.LogError("path photo saved : " + iPathPhotoSaved);
                 //test
-                Buddy.WebServices.Agoraio.SendPicture(DBManager.Instance.ListUIDTablet[TeleBuddyQuatreDeuxData.Instance.IndexTablet],/* Buddy.Resources.AppSpritesPath + "background.jpg"*/iPathPhotoSaved);
+                //Buddy.WebServices.Agoraio.SendPicture(DBManager.Instance.ListUIDTablet[TeleBuddyQuatreDeuxData.Instance.IndexTablet],/* Buddy.Resources.AppSpritesPath + "background.jpg"*/iPathPhotoSaved);
+                Buddy.WebServices.Agoraio.SendPicture(mRTMManager.IdConnectionTablet,/* Buddy.Resources.AppSpritesPath + "background.jpg"*/iPathPhotoSaved);
                 Debug.LogError("CALLSTATE TAKE PHOTO WITH TAKEPHOTOGRAPH WITH PATH BACKGROUND : " + Buddy.Resources.AppSpritesPath + "background.jpg");
 
                 //Buddy.Sensors.HDCamera.TakePhotograph(OnPhotoTaken);
