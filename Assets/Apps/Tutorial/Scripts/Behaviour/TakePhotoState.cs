@@ -28,8 +28,8 @@ namespace BuddyApp.Tutorial
 			});
 
             // We open the camera and set the resolution and frame rate.
-            //GREG PROB
-            //Buddy.Sensors.HDCamera.Open(HDCameraMode.COLOR_528X392_30FPS_RGB);
+            
+            Buddy.Sensors.HDCamera.Open(HDCameraMode.COLOR_528X392_30FPS_RGB);
 
             // We define the function to be called when a new frame is received
             // from the camera
