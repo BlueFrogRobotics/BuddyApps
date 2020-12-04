@@ -60,8 +60,12 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         public string TakePhoto()
         {
+            Utils.DeleteFile(Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
             Debug.LogError("take photo in rtc maanger");
             string iPathPhoto = "";
+            Texture2D iPhotoTaken = (Texture2D)rawVideo.GetComponent<RawImage>().texture;
+            Utils.SaveTextureToFile(iPhotoTaken, Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
+            iPathPhoto = Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg";
             return iPathPhoto;
         }
 
