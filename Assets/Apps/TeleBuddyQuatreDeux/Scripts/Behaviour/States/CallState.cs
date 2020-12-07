@@ -241,7 +241,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     Buddy.Actuators.LEDs.SetBodyLights(60, 100, 93);
                     Buddy.Actuators.LEDs.SetBodyPattern(LEDPulsePattern.BASIC_BLINK);
                     TriggerGUI("HANDSUP START");
-                    ResetTrigger("HANDSUP START");
+                    //ResetTrigger("HANDSUP START");
                 } else {
                     StopRaiseHand();
                 }
@@ -459,7 +459,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         {
             mHandUp = false;
             TriggerGUI("HANDSUP END");
-            ResetTrigger("HANDSUP END");
+            //ResetTrigger("HANDSUP END");
             Buddy.Actuators.LEDs.Flash = false;
             Buddy.Behaviour.SetMood(Mood.NEUTRAL);
         }
