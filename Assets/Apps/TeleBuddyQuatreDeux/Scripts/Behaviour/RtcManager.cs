@@ -123,6 +123,10 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mRtcEngine.OnJoinChannelSuccess = OnJoinChannelSuccess;
             mRtcEngine.OnUserJoined = OnUserJoined;
             mRtcEngine.OnUserOffline = OnUserOffline;
+            VideoEncoderConfiguration videoEncoder=new VideoEncoderConfiguration();
+            videoEncoder.orientationMode = ORIENTATION_MODE.ORIENTATION_MODE_FIXED_PORTRAIT;
+            mRtcEngine.SetVideoEncoderConfiguration(videoEncoder);
+
             mRtcEngine.EnableVideo();
             mRtcEngine.EnableVideoObserver();
 
