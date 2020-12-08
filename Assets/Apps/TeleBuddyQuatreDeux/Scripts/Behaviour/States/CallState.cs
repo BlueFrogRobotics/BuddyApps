@@ -268,11 +268,12 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
             mRTMManager.OnSpeechMessage = (lMessage) => {
                 //VOCON
-                //float lCallVolume = GetCallVolume();
-                //SetCallVolume(0F);
-                //Buddy.Vocal.Say(lMessage, (lOutput) => {
-                //    SetCallVolume(lCallVolume);
-                //});
+                float lCallVolume = GetCallVolume();
+                SetCallVolume(0F);
+                Buddy.Vocal.Say(lMessage, (lOutput) =>
+                {
+                    SetCallVolume(lCallVolume);
+                });
             };
 
             mRTMManager.OnActivateZoom = (lZoom) => {
