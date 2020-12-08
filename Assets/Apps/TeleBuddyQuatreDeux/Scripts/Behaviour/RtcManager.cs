@@ -126,7 +126,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             VideoEncoderConfiguration videoEncoder=new VideoEncoderConfiguration();
             videoEncoder.orientationMode = ORIENTATION_MODE.ORIENTATION_MODE_FIXED_PORTRAIT;
             mRtcEngine.SetVideoEncoderConfiguration(videoEncoder);
-
+            mRtcEngine.SetAudioProfile(AUDIO_PROFILE_TYPE.AUDIO_PROFILE_SPEECH_STANDARD, AUDIO_SCENARIO_TYPE.AUDIO_SCENARIO_EDUCATION);
             mRtcEngine.EnableVideo();
             mRtcEngine.EnableVideoObserver();
 
