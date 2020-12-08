@@ -242,9 +242,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             float lValue = 0F;
             Debug.LogWarning("angle no: " + Buddy.Actuators.Head.No.Angle);
             if (Buddy.Actuators.Head.No.Angle > 0)
-                lValue = -Buddy.Actuators.Head.No.Angle / Buddy.Actuators.Head.No.AngleMin;
+                lValue = Mathf.Abs(Buddy.Actuators.Head.No.Angle / Buddy.Actuators.Head.No.AngleMax);
             else
-                lValue = Buddy.Actuators.Head.No.Angle / Buddy.Actuators.Head.No.AngleMax;
+                lValue = -Mathf.Abs(Buddy.Actuators.Head.No.Angle / Buddy.Actuators.Head.No.AngleMin);
 
 
             SendRTMMessage(Utils.SerializeJSON(new JsonMessage("informNoAngle", lValue.ToString())));
