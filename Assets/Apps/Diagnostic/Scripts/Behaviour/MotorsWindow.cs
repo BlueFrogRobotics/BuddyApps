@@ -101,30 +101,22 @@ namespace BuddyApp.Diagnostic
 
             linearVelocitySetter.wholeNumbers = false;
             linearVelocitySetter.value = 0.0F;
-            linearVelocitySetter.minValue = -0.6F;
-            linearVelocitySetter.maxValue = 0.6F;
 
             TimeMove.AddOptions(new List<string>() { "MOVE", "1s", "2s", "3s", "5s", "7s", "10s" });
 
             AngularVelocityWheelsSetter.wholeNumbers = true;
             AngularVelocityWheelsSetter.value = 0.0F;
-            AngularVelocityWheelsSetter.minValue = -100F;
-            AngularVelocityWheelsSetter.maxValue = 100F;
 
             anglePosSetter.wholeNumbers = true;
             anglePosSetter.value = 0.0F;
-            anglePosSetter.minValue = 0F;
-            anglePosSetter.maxValue = 360F;
 
             distanceSetter.wholeNumbers = false;
             distanceSetter.value = 0.0F;
-            distanceSetter.minValue = 0F;
-            distanceSetter.maxValue = 10F;
 
             yesHingeAngleSetter.wholeNumbers = true;
             yesHingeAngleSetter.value = 0F;
-            yesHingeAngleSetter.minValue = -10F;
-            yesHingeAngleSetter.maxValue = 37F;
+            yesHingeAngleSetter.minValue = -50F;
+            yesHingeAngleSetter.maxValue = 50F;
 
             noHingeAngleSetter.wholeNumbers = true;
             noHingeAngleSetter.value = 0F;
@@ -164,10 +156,10 @@ namespace BuddyApp.Diagnostic
                 YesHingeAngleGetterFeedbackB.fillAmount = (mYesHinge.Angle / 60.00f) * 0.15f;
             }
 
-            linearVelocity.text = linearVelocitySetter.value.ToString("0.00");
-            distance.text = mDiagBehaviour.ExpScale(Math.Round(distanceSetter.value, 2) / 10D, 2D, 10D).ToString("0.00");
-            AngularVelocityWheelsText.text = AngularVelocityWheelsSetter.value.ToString("0.00");
-            angleBack.text = (mDiagBehaviour.ExpScale(anglePosSetter.value / 360D, 40D, 360D)).ToString("0");
+            linearVelocity.text = mDiagBehaviour.ExpScale(Math.Round(linearVelocitySetter.value, 2) / 10000D, 1000D, 10000D).ToString("0");
+            distance.text = mDiagBehaviour.ExpScale(Math.Round(distanceSetter.value, 2) / 10000D, 1000D, 10000D).ToString("0");
+            AngularVelocityWheelsText.text = mDiagBehaviour.ExpScale(Math.Round(AngularVelocityWheelsSetter.value, 2) / 10000D, 1000D, 10000D).ToString("0");
+            angleBack.text = (mDiagBehaviour.ExpScale(anglePosSetter.value / 10000D, 1000D, 10000D)).ToString("0");
             noAngleBack.text = noHingeAngleSetter.value.ToString();
             yesAngleBack.text = yesHingeAngleSetter.value.ToString();
             hingeSpeedBack.text = (mDiagBehaviour.ExpScale(hingeSpeedSetter.value / 100D, 10D, 100D)).ToString("0.0");
@@ -181,7 +173,22 @@ namespace BuddyApp.Diagnostic
 
         public void MoveDistance()
         {
-            Buddy.Navigation.Run<DisplacementStrategy>().Move(float.Parse(distance.text), float.Parse(linearVelocity.text), ObstacleAvoidanceType.NONE);
+
+
+            Debug.Log("getting yes " + Buddy.Actuators.Head.Yes.TorqueThreshold.ToString() + " mA and " + Buddy.Actuators.Head.Yes.SecurityTimeThreshold.ToString() + " ms)");
+            Debug.Log("getting no " + Buddy.Actuators.Head.No.TorqueThreshold.ToString() + " mA and " + Buddy.Actuators.Head.No.SecurityTimeThreshold.ToString() + " ms)");
+
+            Debug.Log("setting yes to " + int.Parse(distance.text) + " mA and " + int.Parse(linearVelocity.text).ToString() + " ms)" );
+
+            Buddy.Actuators.Head.Yes.TorqueThreshold = int.Parse(distance.text);
+            Buddy.Actuators.Head.Yes.SecurityTimeThreshold = int.Parse(linearVelocity.text);
+
+            Debug.Log("setting no to " + int.Parse(AngularVelocityWheelsText.text) + " mA and " + int.Parse(angleBack.text).ToString() + " ms)");
+
+            Buddy.Actuators.Head.No.TorqueThreshold = int.Parse(AngularVelocityWheelsText.text);
+            Buddy.Actuators.Head.No.SecurityTimeThreshold = int.Parse(angleBack.text);
+
+            //Buddy.Navigation.Run<DisplacementStrategy>().Move(float.Parse(distance.text), float.Parse(linearVelocity.text), ObstacleAvoidanceType.NONE);
         }
 
         public void DelayedMoveDistance()
