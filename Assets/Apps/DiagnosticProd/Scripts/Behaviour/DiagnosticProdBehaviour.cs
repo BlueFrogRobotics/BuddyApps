@@ -40,6 +40,9 @@ namespace BuddyApp.DiagnosticProd
         private GameObject sensorsRoot;
         [SerializeField]
         private GameObject connexionRoot;
+        [SerializeField]
+        private GameObject serialRoot;
+
 
         [SerializeField]
         private GameObject Canvas;
@@ -60,6 +63,8 @@ namespace BuddyApp.DiagnosticProd
         private Image sensorsBT;
         [SerializeField]
         private Image connexionBT;
+        [SerializeField]
+        private Image serialBT;
 
         private List<GameObject> mRoots;
         private List<Image> mBTs;

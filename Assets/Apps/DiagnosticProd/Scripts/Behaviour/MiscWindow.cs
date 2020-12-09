@@ -77,7 +77,7 @@ namespace BuddyApp.DiagnosticProd
             // a tester
             AmplifierSlider.value = 0;
 
-            mBatteryLevel = SystemInfo.batteryLevel * 100F;
+            mBatteryLevel = Buddy.Sensors.Battery.Level * 100F;
             mBatterySaved = mBatteryLevel;
             SliderBattery.value = mBatteryLevel / 100F;
             //Version :
@@ -121,12 +121,12 @@ namespace BuddyApp.DiagnosticProd
 
             }
 
-            mBatteryLevel = SystemInfo.batteryLevel * 100F;
+            mBatteryLevel = Buddy.Sensors.Battery.Level * 100F;
             if (mBatterySaved != mBatteryLevel) {
                 mBatterySaved = mBatteryLevel;
                 SliderBattery.value = mBatteryLevel / 100F;
             }
-            BatteryPercent.text = (SystemInfo.batteryLevel * 100).ToString();
+            BatteryPercent.text = (Buddy.Sensors.Battery.Level * 100).ToString();
 
             UpdateBatteryStatus();
         }

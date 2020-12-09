@@ -82,6 +82,10 @@ namespace BuddyApp.DiagnosticProd
         [SerializeField]
         private Text hingeSpeedBack;
 
+        [SerializeField]
+        private Text LastCommand;
+        private string mLastCommandSent;
+
         private Wheels mWheels;
         private YesHeadHinge mYesHinge;
         private NoHeadHinge mNoHinge;
@@ -152,10 +156,13 @@ namespace BuddyApp.DiagnosticProd
             hingeSpeedSetter.value = 0F;
             hingeSpeedSetter.minValue = 0F;
             hingeSpeedSetter.maxValue = 100F;
+
+            mLastCommandSent = "";
         }
 
         void Update()
         {
+            
             mTimer += Time.deltaTime;
 
             // Draw Head No Angle Feedback
@@ -202,6 +209,7 @@ namespace BuddyApp.DiagnosticProd
                     if (mActivationNoLeft) {
                         mLastNoAngle = mNoHinge.Angle;
                         Debug.LogError("MOVE No left " + (mNoHinge.Angle + 5F));
+                        mLastCommandSent = "mNoHinge.SetPosition(" + (mNoHinge.Angle + 5F) + ");";
                         mNoHinge.SetPosition(mNoHinge.Angle + 5F);
                         mLastMotionTime = Time.time;
                     }
@@ -209,6 +217,7 @@ namespace BuddyApp.DiagnosticProd
                     if (mActivationNoRight) {
                         mLastNoAngle = mNoHinge.Angle;
                         Debug.LogError("MOVE NO right " + (mNoHinge.Angle - 5F));
+                        mLastCommandSent = "mNoHinge.SetPosition(" + (mNoHinge.Angle - 5F) + ");";
                         mNoHinge.SetPosition(mNoHinge.Angle - 5F);
                         mLastMotionTime = Time.time;
                     }
@@ -217,17 +226,21 @@ namespace BuddyApp.DiagnosticProd
                     if (mActivationYesTop) {
                         mLastYesAngle = mYesHinge.Angle;
                         Debug.LogError("MOVE YES TOP " + mYesHinge.Angle + 5F);
+                        mLastCommandSent = "mYesHinge.SetPosition(" + (mYesHinge.Angle + 5F) + ");";
                         mYesHinge.SetPosition(mYesHinge.Angle + 5F);
                         mLastMotionTime = Time.time;
                     }
                     if (mActivationYesDown) {
                         mLastYesAngle = mYesHinge.Angle;
                         Debug.LogError("MOVE YES down " + (mYesHinge.Angle - 5F));
+                        mLastCommandSent = "mYesHinge.SetPosition(" + (mYesHinge.Angle - 5F) + ");";
                         mYesHinge.SetPosition(mYesHinge.Angle - 5F);
                         mLastMotionTime = Time.time;
                     }
                 }
+                LastCommand.text = mLastCommandSent;
             }
+            LastCommand.text = mLastCommandSent;
         }
 
         public void MoveDistance()
@@ -285,11 +298,13 @@ namespace BuddyApp.DiagnosticProd
 
         public void MoveForward()
         {
+            mLastCommandSent = "Buddy.Navigation.Run<DisplacementStrategy>().Move(0.5F, 1F, ObstacleAvoidanceType.NONE);";
             Buddy.Navigation.Run<DisplacementStrategy>().Move(0.5F, 1F, ObstacleAvoidanceType.NONE);
         }
 
         public void MoveBackward()
         {
+            mLastCommandSent = "Buddy.Navigation.Run<DisplacementStrategy>().Move(-0.5F, 1F, ObstacleAvoidanceType.NONE);";
             Buddy.Navigation.Run<DisplacementStrategy>().Move(-0.5F, 1F, ObstacleAvoidanceType.NONE);
         }
 
@@ -327,17 +342,30 @@ namespace BuddyApp.DiagnosticProd
 
         public void GoToZeroFromMax()
         {
-
+            mLastCommandSent = " ";
             mYesHinge.SetPosition(mYesHinge.Angle - 40F, (iFloatA) => { mNoHinge.SetPosition(mNoHinge.Angle + 70F, (iFloatB) => { /*Buddy.Actuators.Head.SetZeroPosition();*/  }); });
 
         }
 
         public void CalibrateZero()
         {
+            mLastCommandSent = " ";
             Buddy.Actuators.Head.SetZeroPosition();
 
         }
 
+        public void UnlockWheels()
+        {
+            Debug.LogError("UnlockWheels");
+            Buddy.Actuators.Wheels.UnlockWheels();
+        }
+
+        public void SetPosZero()
+        {
+            mLastCommandSent = " ";
+            mNoHinge.SetPosition(0F, (iFloat) => { mYesHinge.SetPosition(0); });
+
+        }
 
     }
 
