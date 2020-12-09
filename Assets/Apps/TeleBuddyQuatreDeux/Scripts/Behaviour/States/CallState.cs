@@ -60,6 +60,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
             if (Buddy.Sensors.Microphones.CurrentMicrophone.Code != "DEVICE_IN_USB_DEVICE") {
                 //set microphone 360 to true
+                Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", false);
                 Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", true);
             }
             Buddy.WebServices.Agoraio.ImageReceived = (width, height, data) => mRTCManager.SetProfilePicture(data, width, height);
