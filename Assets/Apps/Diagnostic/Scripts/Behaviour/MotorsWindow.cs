@@ -180,13 +180,17 @@ namespace BuddyApp.Diagnostic
 
             Debug.Log("setting yes to " + int.Parse(distance.text) + " mA and " + int.Parse(linearVelocity.text).ToString() + " ms)" );
 
-            Buddy.Actuators.Head.Yes.TorqueThreshold = int.Parse(distance.text);
-            Buddy.Actuators.Head.Yes.SecurityTimeThreshold = int.Parse(linearVelocity.text);
+            //Buddy.Actuators.Head.Yes.TorqueThreshold = int.Parse(distance.text);
+            //Buddy.Actuators.Head.Yes.SecurityTimeThreshold = int.Parse(linearVelocity.text);
+
+            Buddy.Actuators.Head.Yes.SetTorque(int.Parse(distance.text), int.Parse(linearVelocity.text));
 
             Debug.Log("setting no to " + int.Parse(AngularVelocityWheelsText.text) + " mA and " + int.Parse(angleBack.text).ToString() + " ms)");
 
-            Buddy.Actuators.Head.No.TorqueThreshold = int.Parse(AngularVelocityWheelsText.text);
-            Buddy.Actuators.Head.No.SecurityTimeThreshold = int.Parse(angleBack.text);
+            //Buddy.Actuators.Head.No.TorqueThreshold = int.Parse(AngularVelocityWheelsText.text);
+            //Buddy.Actuators.Head.No.SecurityTimeThreshold = int.Parse(angleBack.text);
+
+            Buddy.Actuators.Head.No.SetTorque(int.Parse(AngularVelocityWheelsText.text), int.Parse(angleBack.text));
 
             //Buddy.Navigation.Run<DisplacementStrategy>().Move(float.Parse(distance.text), float.Parse(linearVelocity.text), ObstacleAvoidanceType.NONE);
         }

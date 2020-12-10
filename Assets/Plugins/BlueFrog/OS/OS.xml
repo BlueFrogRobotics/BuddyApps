@@ -610,12 +610,12 @@
         </member>
         <member name="P:BlueQuark.Internal.AHeadHinge`2.TorqueThreshold">
             <summary>
-            Maximal authorized threshold in percent before the motor is stopped by the torque control system.
+            Maximal authorized threshold in mA before the motor is stopped by the torque control system.
             </summary>
         </member>
         <member name="P:BlueQuark.Internal.AHeadHinge`2.SecurityTimeThreshold">
             <summary>
-            Maximal authorized threshold in percent before the motor is stopped by the torque control system.
+            Maximal authorized threshold in mA before the motor is stopped by the torque control system.
             </summary>
         </member>
         <!-- Commentaire XML incorrect pour le membre "P:BlueQuark.Internal.AHeadHinge`2.EnableTorqueControl" -->
@@ -643,6 +643,11 @@
             Automatically detect and set the zero of the robot's head.
             </summary>
             <param name="iOnSet">Callback called when the set is done.</param>
+        </member>
+        <member name="M:BlueQuark.Internal.AHeadHinge`2.SetTorque(System.Int32,System.Int32)">
+            <summary>
+            Automatically detect and set the zero of the robot's head.
+            </summary>
         </member>
         <member name="P:BlueQuark.Internal.AHeadHinge`2.LockedByVocal">
             <summary>
@@ -16663,6 +16668,11 @@
         <member name="M:BlueQuark.Wheels.ImmediateStop">
             <summary>
             Process an urgent stop.
+            </summary>
+        </member>
+        <member name="M:BlueQuark.Wheels.UnlockWheels">
+            <summary>
+            Unlock the wheels.
             </summary>
         </member>
         <member name="M:BlueQuark.Wheels.CreateRelativeOdometry">
