@@ -222,6 +222,7 @@ namespace BuddyApp.Diagnostic
 
         public void SetYesPos()
         {
+            Debug.Log("set pose yes with " + yesHingeAngleSetter.value + " " + float.Parse(hingeSpeedBack.text));
             mYesHinge.SetPosition(yesHingeAngleSetter.value, float.Parse(hingeSpeedBack.text));
         }
 
