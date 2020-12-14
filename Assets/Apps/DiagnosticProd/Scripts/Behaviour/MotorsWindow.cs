@@ -162,7 +162,6 @@ namespace BuddyApp.DiagnosticProd
 
         void Update()
         {
-
             mTimer += Time.deltaTime;
 
             // Draw Head No Angle Feedback
@@ -208,16 +207,18 @@ namespace BuddyApp.DiagnosticProd
                 if (mLastNoAngle != mNoHinge.Angle) {
                     if (mActivationNoLeft) {
                         mLastNoAngle = mNoHinge.Angle;
-                        Debug.LogError("MOVE No left " + (mNoHinge.Angle + 5F));
-                        mLastCommandSent = "mNoHinge.SetPosition(" + (mNoHinge.Angle + 5F) + ");";
+                        mLastCommandSent = "MOVE HEAD LEFT TO " + Mathf.Clamp(mNoHinge.Angle + 5F, Buddy.Actuators.Head.No.AngleMin, Buddy.Actuators.Head.No.AngleMax) + "°";
+                        if (mNoHinge.Angle + 5 >= Buddy.Actuators.Head.No.AngleMax)
+                            mLastCommandSent += " (MAX LEFT)"; 
                         mNoHinge.SetPosition(mNoHinge.Angle + 5F);
                         mLastMotionTime = Time.time;
                     }
 
                     if (mActivationNoRight) {
                         mLastNoAngle = mNoHinge.Angle;
-                        Debug.LogError("MOVE NO right " + (mNoHinge.Angle - 5F));
-                        mLastCommandSent = "mNoHinge.SetPosition(" + (mNoHinge.Angle - 5F) + ");";
+                        mLastCommandSent = "MOVE HEAD RIGHT TO " + Mathf.Clamp(mNoHinge.Angle - 5F, Buddy.Actuators.Head.No.AngleMin, Buddy.Actuators.Head.No.AngleMax) + "°";
+                        if (mNoHinge.Angle - 5 <= Buddy.Actuators.Head.No.AngleMin)
+                            mLastCommandSent += " (MAX RIGHT)";
                         mNoHinge.SetPosition(mNoHinge.Angle - 5F);
                         mLastMotionTime = Time.time;
                     }
@@ -225,15 +226,17 @@ namespace BuddyApp.DiagnosticProd
                 if (mLastYesAngle != mYesHinge.Angle) {
                     if (mActivationYesTop) {
                         mLastYesAngle = mYesHinge.Angle;
-                        Debug.LogError("MOVE YES TOP " + mYesHinge.Angle + 5F);
-                        mLastCommandSent = "mYesHinge.SetPosition(" + (mYesHinge.Angle + 5F) + ");";
+                        mLastCommandSent = "MOVE HEAD UP TO " + Mathf.Clamp(mYesHinge.Angle + 5F, Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax) + "°";
+                        if (mYesHinge.Angle + 5 >= Buddy.Actuators.Head.Yes.AngleMin)
+                            mLastCommandSent += " (MAX UP)";
                         mYesHinge.SetPosition(mYesHinge.Angle + 5F);
                         mLastMotionTime = Time.time;
                     }
                     if (mActivationYesDown) {
                         mLastYesAngle = mYesHinge.Angle;
-                        Debug.LogError("MOVE YES down " + (mYesHinge.Angle - 5F));
-                        mLastCommandSent = "mYesHinge.SetPosition(" + (mYesHinge.Angle - 5F) + ");";
+                        mLastCommandSent = "MOVE HEAD DOWN TO " + Mathf.Clamp(mYesHinge.Angle - 5F, Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax) + "°";
+                        if (mYesHinge.Angle - 5 <= Buddy.Actuators.Head.Yes.AngleMin)
+                            mLastCommandSent += " (MAX DOWN)";
                         mYesHinge.SetPosition(mYesHinge.Angle - 5F);
                         mLastMotionTime = Time.time;
                     }
@@ -298,13 +301,13 @@ namespace BuddyApp.DiagnosticProd
 
         public void MoveForward()
         {
-            mLastCommandSent = "Buddy.Navigation.Move(0.5F, 1F);";
+            mLastCommandSent = "MOVE 0.5m FORWARD AT 1 m/s";
             Buddy.Navigation.Run<DisplacementStrategy>().Move(0.5F, 1F, ObstacleAvoidanceType.NONE);
         }
 
         public void MoveBackward()
         {
-            mLastCommandSent = "Buddy.Navigation.Move(-0.5F, 1F);";
+            mLastCommandSent = "MOVE 0.5m BACKWARD AT 1 m/s";
             Buddy.Navigation.Run<DisplacementStrategy>().Move(-0.5F, 1F, ObstacleAvoidanceType.NONE);
         }
 
@@ -342,14 +345,14 @@ namespace BuddyApp.DiagnosticProd
 
         public void GoToZeroFromMax()
         {
-            mLastCommandSent = "Head.SetPosition(" + (mYesHinge.Angle - 40F) + "," + (mNoHinge.Angle + 70F) + ")";
+            mLastCommandSent = "HEAD SET POSITION TO (" + (mYesHinge.Angle - 40F) + "°, " + (mNoHinge.Angle + 70F) + "°)";
             mYesHinge.SetPosition(mYesHinge.Angle - 40F, (iFloatA) => { mNoHinge.SetPosition(mNoHinge.Angle + 70F, (iFloatB) => { /*Buddy.Actuators.Head.SetZeroPosition();*/  }); });
 
         }
 
         public void CalibrateZero()
         {
-            mLastCommandSent = "Head.CalibrateZeroPosition()";
+            mLastCommandSent = "HEAD ZERO CALIBRATED";
             Buddy.Actuators.Head.SetZeroPosition();
 
         }
@@ -357,13 +360,13 @@ namespace BuddyApp.DiagnosticProd
         public void UnlockWheels()
         {
             Debug.LogError("UnlockWheels");
-            mLastCommandSent = "Wheels.UnlockWheels()";
+            mLastCommandSent = "WHEELS UNLOCKED";
             Buddy.Actuators.Wheels.UnlockWheels();
         }
 
         public void SetPosZero()
         {
-            mLastCommandSent = "Head.SetPosition(0F, 0F)";
+            mLastCommandSent = "HEAD POSITION TO (0°, 0°)";
             mNoHinge.SetPosition(0F, (iFloat) => { mYesHinge.SetPosition(0); });
 
         }

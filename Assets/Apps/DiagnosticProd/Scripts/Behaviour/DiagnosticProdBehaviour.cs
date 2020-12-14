@@ -73,6 +73,7 @@ namespace BuddyApp.DiagnosticProd
         private WindowType mCurrentWindow;
         private Color BuddyBlue = new Color(0.0f, 0.831f, 0.819f);
         private Color White = new Color(1f, 1f, 1f);
+        private float mPreviousBrigthness;
         public const float REFRESH_TIMER = 0.5F;
 
         void Start()
@@ -94,6 +95,10 @@ namespace BuddyApp.DiagnosticProd
         {
             //Debug.LogError("CHANGE window diag");
             WindowType lType = (WindowType)iIndex;
+
+            if (mCurrentWindow == WindowType.SERIAL && mCurrentWindow != lType)
+                Buddy.GUI.Screen.Brightness = mPreviousBrigthness;
+
             if (mCurrentWindow != lType)
             {
                 mCurrentWindow = lType;
@@ -115,6 +120,8 @@ namespace BuddyApp.DiagnosticProd
                 lrect_Connexion.height = 100;
                 Rect lrect_Serial = serialBT.GetComponent<RectTransform>().rect;
                 lrect_Serial.height = 100;
+                
+
                 switch (mCurrentWindow)
                 {
                     case WindowType.VOCAL:
@@ -158,6 +165,8 @@ namespace BuddyApp.DiagnosticProd
                         lrect_Connexion.height = 120;
                         break;
                     case WindowType.SERIAL:
+                        mPreviousBrigthness = Buddy.GUI.Screen.Brightness;
+                        Buddy.GUI.Screen.Brightness = 1;
                         DisableAllExcept(serialRoot);
                         serialBT.color = BuddyBlue;
                         lrect_Serial.height = 120;
