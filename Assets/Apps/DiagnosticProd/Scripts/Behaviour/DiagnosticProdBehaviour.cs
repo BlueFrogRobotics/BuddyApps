@@ -18,7 +18,8 @@ namespace BuddyApp.DiagnosticProd
         CAMERAS,
         //THERMAL,
         SENSORS,
-        CONNEXION
+        CONNEXION,
+        SERIAL
     }
     /* A basic monobehaviour as "AI" behaviour for your app */
     public class DiagnosticProdBehaviour : MonoBehaviour
@@ -79,11 +80,11 @@ namespace BuddyApp.DiagnosticProd
             //Canvas.GetComponent<Canvas>().sortingOrder = 1;
             mRoots = new List<GameObject>() { vocalRoot,
                 ledRoot, motorsRoot, faceRoot,
-                camerasRoot, thermalRoot, sensorsRoot, connexionRoot
+                camerasRoot, thermalRoot, sensorsRoot, connexionRoot, serialRoot
             };
             mBTs = new List<Image>() { vocalBT,
                 ledBT, motorsBT, faceBT,
-                camerasBT, thermalBT, sensorsBT, connexionBT
+                camerasBT, thermalBT, sensorsBT, connexionBT, serialBT
             };
             mCurrentWindow = WindowType.CAMERAS;
             SetWindow(0);
@@ -112,6 +113,8 @@ namespace BuddyApp.DiagnosticProd
                 lrect_Sensors.height = 100;
                 Rect lrect_Connexion = connexionBT.GetComponent<RectTransform>().rect;
                 lrect_Connexion.height = 100;
+                Rect lrect_Serial = serialBT.GetComponent<RectTransform>().rect;
+                lrect_Serial.height = 100;
                 switch (mCurrentWindow)
                 {
                     case WindowType.VOCAL:
@@ -153,6 +156,11 @@ namespace BuddyApp.DiagnosticProd
                         DisableAllExcept(connexionRoot);
                         connexionBT.color = BuddyBlue;
                         lrect_Connexion.height = 120;
+                        break;
+                    case WindowType.SERIAL:
+                        DisableAllExcept(serialRoot);
+                        serialBT.color = BuddyBlue;
+                        lrect_Serial.height = 120;
                         break;
                 }
             }
