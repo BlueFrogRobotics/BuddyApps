@@ -151,8 +151,11 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 mSpan = mPlanningEnd.Subtract(mDateNow);
                 if (mSpan.TotalMinutes < 5F)
                 {
-
-                    DisplayUIBeforeEnd();
+                    if (!mDisplayBeforeEnd && TeleBuddyQuatreDeuxData.Instance.CurrentState == TeleBuddyQuatreDeuxData.States.CALL_STATE)
+                    {
+                        mDisplayBeforeEnd = true;
+                        DisplayUIBeforeEnd();
+                    }
 
                     if (mSpan.TotalMinutes < 0F)
                     {
@@ -174,17 +177,12 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private void DisplayUIBeforeEnd()
         {
-            if(!mDisplayBeforeEnd)
-            {
-                mDisplayBeforeEnd = true;
-                Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
-                    TText lText = iBuilder.CreateWidget<TText>();
-                    lText.SetLabel(Buddy.Resources.GetString("eduendplanning"));
-                });
-                StartCoroutine(HideUIAfterTimer(5F));
 
-            }
-
+            Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
+                TText lText = iBuilder.CreateWidget<TText>();
+                lText.SetLabel(Buddy.Resources.GetString("eduendplanning"));
+            });
+            StartCoroutine(HideUIAfterTimer(5F));
         }
 
         private IEnumerator HideUIAfterTimer(float iTimeHideUI)

@@ -17,6 +17,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         public int IndexTablet { get; set; }
 
+
         public enum States
         {
             CALLING_STATE,
