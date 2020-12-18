@@ -44,6 +44,10 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private const string GET_TOKEN_URL = "https://teamnet-bfr.ey.r.appspot.com/rtcToken?channelName=";
         public Action OnEndUserOffline { get; set; }
+        private int lastSample = 0;
+        private AudioClip lAudioClip;
+        private int idSound = 0;
+        private bool mIsConnecting=false;
 
         private void Awake()
         {
@@ -55,7 +59,54 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         void Start()
         {
             mIndexImage = 100;
+            Debug.Log("MICRO avant");
+            //lAudioClip = Microphone.Start(null, true, 10, 44100);// Buddy.Sensors.Microphones.SamplingRate);//44100
+            Debug.Log("MICRO apres");
             //InitRTC();
+        }
+
+        //private void Update()
+        //{
+        //    if (mIsConnecting)
+        //    {
+        //        AudioFrame audioFrame = new AudioFrame();
+        //        Debug.Log("MICRO1");
+        //        //Buddy.Sensors.Microphones.
+        //        int pos = Microphone.GetPosition(null);
+        //        Debug.Log("MICRO2 " + pos);
+        //        if (lastSample > pos)
+        //            lastSample = 0;
+        //        int diff = pos - lastSample;
+        //        Debug.Log("MICRO2bis " + diff);
+
+        //        if (diff > 0)
+        //        { 
+        //            float[] samples = new float[diff * lAudioClip.channels];
+        //            Debug.Log("MICRO3");
+        //            lAudioClip.GetData(samples, lastSample);
+        //            audioFrame.buffer = ToByteArray(samples);
+        //            Debug.Log("MICRO4");
+        //            audioFrame.channels = 1;
+        //            audioFrame.type = AUDIO_FRAME_TYPE.FRAME_TYPE_PCM16;
+        //            mRtcEngine.PushAudioFrame(audioFrame);
+        //        }
+        //        Debug.Log("MICRO5");
+        //        lastSample = pos;
+        //    }
+        //}
+
+        private byte[] ToByteArray(float[] floatArray)
+        {
+            int len = floatArray.Length * 4;
+            byte[] byteArray = new byte[len];
+            int pos = 0;
+            foreach (float f in floatArray)
+            {
+                byte[] data = System.BitConverter.GetBytes(f);
+                System.Array.Copy(data, 0, byteArray, pos, 4);
+                pos += 4;
+            }
+            return byteArray;
         }
 
         public string TakePhoto()
@@ -75,9 +126,11 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             Buddy.WebServices.Agoraio.LoadEngine(TeleBuddyQuatreDeuxBehaviour.APP_ID);//TODO WALID: attendre que la requete zoho soit terminé avant etremplacer par l'app id recu //TODO MC : j'ai créé un nouvel init qui prend l'app id en fonction du user choisi dans la liste donc appelé dans ConnectingState ButtonClick()
             mRtcEngine = Buddy.WebServices.Agoraio.RtcEngine;
             mRtcEngine.OnStreamMessage = OnStreamMessage;
+            //mRtcEngine.GetAudioRecordingDeviceManager().SetAudioRecordingDevice("1");
             mVideoIsEnabled = true;
             mAudioIsEnabled = true;
             rawVideo.gameObject.SetActive(false);
+            
         }
 
         public void InitNewVersionRTC(string iAppID)
@@ -88,6 +141,11 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mVideoIsEnabled = true;
             mAudioIsEnabled = true;
             rawVideo.gameObject.SetActive(false);
+            //Debug.Log("NUM OF RECORDING DEVICE: " + mRtcEngine.GetAudioRecordingDeviceManager().GetAudioRecordingDeviceCount());
+            //string name = "";
+            //string id = "";
+            //mRtcEngine.GetAudioRecordingDeviceManager().GetCurrentRecordingDeviceInfo(ref name, ref id);
+            //Debug.Log("CURRENT RECORDING DEVICE NAME " + name + " ID: " + id);
         }
 
         public void SwitchCam()
@@ -103,6 +161,16 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             buttonEnableVideo.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconVideoOn");//EnableVideoSprite;
             buttonEnableAudio.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconMicroOn"); //EnableAudioSprite;
 
+        }
+
+        public void SetMicrophone(string iId)
+        {
+            mRtcEngine.GetAudioRecordingDeviceManager().SetAudioRecordingDevice(iId);
+            Debug.Log("NUM OF RECORDING DEVICE: " + mRtcEngine.GetAudioRecordingDeviceManager().GetAudioRecordingDeviceCount());
+            string name = "";
+            string id = "";
+            mRtcEngine.GetAudioRecordingDeviceManager().GetCurrentRecordingDeviceInfo(ref name, ref id);
+            Debug.Log("CURRENT RECORDING DEVICE NAME " + name + " ID: " + id);
         }
 
         public void Join(string iChannel)
@@ -129,8 +197,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             //mRtcEngine.SetAudioProfile(AUDIO_PROFILE_TYPE.AUDIO_PROFILE_MUSIC_HIGH_QUALITY, AUDIO_SCENARIO_TYPE.AUDIO_SCENARIO_DEFAULT);
             mRtcEngine.EnableVideo();
             mRtcEngine.EnableVideoObserver();
-
-            
+            //mRtcEngine.SetExternalAudioSource(true, Buddy.Sensors.Microphones.SamplingRate, 1);
 
             // TODO uncomment to Change camera
             //mRtcEngine.SetExternalVideoSource(true, false);
@@ -236,7 +303,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             //TODO uncomment to change camera
             //Buddy.Sensors.RGBCamera.OnNewFrame.Remove(UpdateVideoFrame);
             //Buddy.Sensors.RGBCamera.Close();
-
+            mIsConnecting = false;
             if (mRtcEngine == null)
                 return;
             
@@ -510,6 +577,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             //mRtcEngine.JoinChannelWithUserAccount(mToken, iChannel, lId);
             mRtcEngine.JoinChannelWithUserAccount(mToken, lId, lId);
             mRtcEngine.OnTokenPrivilegeWillExpire = OnTokenPrivilegeWillExpire;
+            mIsConnecting = true;
             Debug.Log("join");
         }
 
