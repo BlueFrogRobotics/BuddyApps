@@ -359,7 +359,6 @@ namespace BuddyApp.DiagnosticProd
 
         public void UnlockWheels()
         {
-            Debug.LogError("UnlockWheels");
             mLastCommandSent = "WHEELS UNLOCKED";
             Buddy.Actuators.Wheels.UnlockWheels();
         }

@@ -25,6 +25,22 @@ namespace BuddyApp.Diagnostic
         private Text NoAngle;
         [SerializeField]
         private Text YesAngle;
+        [SerializeField]
+        private Text LeftCurrent;
+        [SerializeField]
+        private Text RightCurrent;
+        [SerializeField]
+        private Text LeftSpeed;
+        [SerializeField]
+        private Text RightSpeed;
+        [SerializeField]
+        private Text YesCurrent;
+        [SerializeField]
+        private Text YesSpeed;
+        [SerializeField]
+        private Text NoCurrent;
+        [SerializeField]
+        private Text NoSpeed;
 
 
         /// <summary>
@@ -73,14 +89,21 @@ namespace BuddyApp.Diagnostic
         [SerializeField]
         private Slider noHingeAngleSetter;
         [SerializeField]
-        private Slider hingeSpeedSetter;
+        private Slider hingeSpeedYesSetter;
+        [SerializeField]
+        private Slider hingeSpeedNoSetter;
 
         [SerializeField]
         private Text yesAngleBack;
         [SerializeField]
         private Text noAngleBack;
         [SerializeField]
-        private Text hingeSpeedBack;
+        private Text hingeSpeedYesBack;
+        [SerializeField]
+        private Text hingeSpeedNoBack;
+        [SerializeField]
+        private Text LastCommand;
+        
 
         private Wheels mWheels;
         private YesHeadHinge mYesHinge;
@@ -123,18 +146,26 @@ namespace BuddyApp.Diagnostic
 
             yesHingeAngleSetter.wholeNumbers = true;
             yesHingeAngleSetter.value = 0F;
-            yesHingeAngleSetter.minValue = -10F;
-            yesHingeAngleSetter.maxValue = 37F;
+            yesHingeAngleSetter.minValue = Buddy.Actuators.Head.Yes.AngleMin;
+            yesHingeAngleSetter.maxValue = Buddy.Actuators.Head.Yes.AngleMax; ;
 
             noHingeAngleSetter.wholeNumbers = true;
             noHingeAngleSetter.value = 0F;
-            noHingeAngleSetter.minValue = -100F;
-            noHingeAngleSetter.maxValue = 100F;
+            noHingeAngleSetter.minValue = Buddy.Actuators.Head.No.AngleMin;
+            noHingeAngleSetter.maxValue = Buddy.Actuators.Head.No.AngleMax;
 
-            hingeSpeedSetter.wholeNumbers = true;
-            hingeSpeedSetter.value = 0F;
-            hingeSpeedSetter.minValue = 0F;
-            hingeSpeedSetter.maxValue = 100F;
+            hingeSpeedYesSetter.wholeNumbers = true;
+            hingeSpeedYesSetter.value = 15F;
+            hingeSpeedYesSetter.minValue = 5F;
+            hingeSpeedYesSetter.maxValue = 30F;
+
+
+            hingeSpeedNoSetter.wholeNumbers = true;
+            hingeSpeedNoSetter.value = 30F;
+            hingeSpeedNoSetter.minValue = 20F;
+            hingeSpeedNoSetter.maxValue = 80F;
+
+            LastCommand.text = "";
         }
 
         void Update()
@@ -170,17 +201,32 @@ namespace BuddyApp.Diagnostic
             angleBack.text = (mDiagBehaviour.ExpScale(anglePosSetter.value / 360D, 40D, 360D)).ToString("0");
             noAngleBack.text = noHingeAngleSetter.value.ToString();
             yesAngleBack.text = yesHingeAngleSetter.value.ToString();
-            hingeSpeedBack.text = (mDiagBehaviour.ExpScale(hingeSpeedSetter.value / 100D, 10D, 100D)).ToString("0.0");
+            //hingeSpeedBack.text = (mDiagBehaviour.ExpScale(hingeSpeedSetter.value / 80D, 10D, 80D)).ToString("0");
+            hingeSpeedYesBack.text = hingeSpeedYesSetter.value.ToString("0");
+            hingeSpeedNoBack.text = hingeSpeedNoSetter.value.ToString("0");
             NoAngle.text = Buddy.Actuators.Head.No.Angle.ToString("f3") + " °";
             YesAngle.text = Buddy.Actuators.Head.Yes.Angle.ToString("f3") + " °";
             XOdom.text = Buddy.Actuators.Wheels.Odometry.x.ToString("f3") + "m";
             YOdom.text = Buddy.Actuators.Wheels.Odometry.y.ToString("f3") + "m";
             Cap.text = Buddy.Actuators.Wheels.Odometry.z.ToString("f3") + " °";
 
+
+            LeftCurrent.text = Buddy.Actuators.Wheels.LeftCurrent.ToString() + "mA";
+            RightCurrent.text = Buddy.Actuators.Wheels.RightCurrent.ToString() + "mA";
+            LeftSpeed.text = Buddy.Actuators.Wheels.LeftRotationalSpeed.ToString("f1") + "°/s";
+            RightSpeed.text = Buddy.Actuators.Wheels.RightRotationalSpeed.ToString("f1") + "°/s";
+            YesCurrent.text = Buddy.Actuators.Head.Yes.Current.ToString() + "mA";
+            YesSpeed.text = Buddy.Actuators.Head.Yes.Speed.ToString("f1") + "°/s";
+            NoCurrent.text = Buddy.Actuators.Head.No.Current.ToString() + "mA";
+            NoSpeed.text = Buddy.Actuators.Head.No.Speed.ToString("f1") + "°/s";
+
+
         }
 
         public void MoveDistance()
         {
+            LastCommand.text = "MOVE for " + distance.text + "m at " + linearVelocity.text + "m/s";
+
             Buddy.Navigation.Run<DisplacementStrategy>().Move(float.Parse(distance.text), float.Parse(linearVelocity.text), ObstacleAvoidanceType.NONE);
         }
 
@@ -192,6 +238,7 @@ namespace BuddyApp.Diagnostic
 
         private IEnumerator DelayedNav()
         {
+            LastCommand.text = "MOVE for " + TimeMove.value + " at " + linearVelocity.text + "m/s and " + AngularVelocityWheelsText + " °/s";
             yield return new WaitForSeconds(1F);
             Buddy.Actuators.Wheels.SetVelocities(float.Parse(linearVelocity.text), float.Parse(AngularVelocityWheelsText.text));
             float lTime = float.Parse(TimeMove.captionText.text.Remove(1));
@@ -203,24 +250,34 @@ namespace BuddyApp.Diagnostic
 
         public void TurnRelative()
         {
+            LastCommand.text = "Rotate at " + angleBack.text + "° at " + AngularVelocityWheelsSetter.value + " °/s";
             Buddy.Navigation.Run<DisplacementStrategy>().Rotate(float.Parse(angleBack.text), AngularVelocityWheelsSetter.value);
 
         }
 
         public void StopMotors()
         {
+            LastCommand.text = "Stop head and wheels motors";
             Buddy.Actuators.Head.Stop();
             Buddy.Actuators.Wheels.Stop();
         }
 
         public void SetYesPos()
         {
-            mYesHinge.SetPosition(yesHingeAngleSetter.value, float.Parse(hingeSpeedBack.text));
+            LastCommand.text = "Set head YES at " + yesHingeAngleSetter.value + " at " + hingeSpeedYesBack.text;
+            mYesHinge.SetPosition(yesHingeAngleSetter.value, float.Parse(hingeSpeedYesBack.text));
         }
 
         public void SetNoPos()
         {
-            mNoHinge.SetPosition(noHingeAngleSetter.value, float.Parse(hingeSpeedBack.text));
+            LastCommand.text = "Set head NO at " + noHingeAngleSetter.value + " at " + hingeSpeedNoBack.text;
+            mNoHinge.SetPosition(noHingeAngleSetter.value, float.Parse(hingeSpeedNoBack.text));
+        }
+
+        public void UnlockWheels()
+        {
+            LastCommand.text = "Unlock Wheels";
+            Buddy.Actuators.Wheels.UnlockWheels();
         }
 
         private float DoubleToFloat(double iDouble)

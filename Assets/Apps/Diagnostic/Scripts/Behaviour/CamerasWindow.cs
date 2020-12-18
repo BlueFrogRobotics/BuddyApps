@@ -54,7 +54,8 @@ namespace BuddyApp.Diagnostic
             mTimeRefresh += Time.deltaTime;
             if (mTimeRefresh >= DiagnosticBehaviour.REFRESH_TIMER) {
                 BODYTemperature.text = Buddy.Sensors.IMU.Temperature + " °";
-                CPUTemperature.text = File.ReadAllText("/sys/class/thermal/thermal_zone0/temp").Replace("000", "") + " °";
+                //CPUTemperature.text = File.ReadAllText("/sys/class/thermal/thermal_zone0/temp").Replace("000", "") + " °";
+                CPUTemperature.text = Buddy.Boards.Main.Temperature.ToString() + " °";
                 mTimeRefresh = 0F;
             }
         }
