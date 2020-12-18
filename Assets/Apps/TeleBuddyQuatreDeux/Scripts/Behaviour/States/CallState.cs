@@ -285,7 +285,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 Debug.LogError("CALLSTATE TAKE PHOTO WITH TAKEPHOTOGRAPH");
                 //Save image from open camera on the robot
                 Utils.DeleteFile(Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
-                Texture2D iPhotoFromRobot =(Texture2D)GetGameObject(12).GetComponentInChildren<RawImage>().texture;
+                Texture2D iPhotoFromRobot = (Texture2D)GetGameObject(12).GetComponentInChildren<RawImage>().texture;
                 Utils.SaveTextureToFile(iPhotoFromRobot, Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
                 Debug.LogError("CALLSTATE TAKE PHOTO WITH TAKEPHOTOGRAPH PATH : " + Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
                 string iPathPhotoSaved = Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg";
@@ -356,9 +356,11 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
             if (DBManager.Instance.CanEndCourse) {
                 mTimerEndCall += Time.deltaTime;
-                if (!mEndCallDisplay) {
+                if (!mEndCallDisplay)
+                {
                     mEndCallDisplay = true;
-                    Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
+                    Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
+                    {
                         TText lText = iBuilder.CreateWidget<TText>();
                         lText.SetLabel(Buddy.Resources.GetString("eduendcall"));
                     }, null, null);
@@ -366,8 +368,13 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
 
                 if (mTimerEndCall > 8F) {
+
                     Buddy.GUI.Toaster.Hide();
-                    DBManager.Instance.CanEndCourse = false;
+                    if (DBManager.Instance.ListUIDTablet.Count > 1)
+                    {
+                        GetGameObject(21).SetActive(true);
+                    }
+                    ManageGUIClose();
                     Trigger("IDLE");
                 }
             }
@@ -435,6 +442,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            //DBManager.Instance.CanEndCourse = false;
             Buddy.Actuators.Wheels.Stop();
             Buddy.GUI.Toaster.Hide();
             if (mTimeMessage >= 0)

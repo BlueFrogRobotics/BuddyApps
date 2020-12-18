@@ -18,7 +18,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
     public class CheckConnectivity : MonoBehaviour
     {
-        private const float REFRESH_TIME = 3F;
+        private const float REFRESH_TIME = 0.5F;
 
         private Action<bool/*, bool*/> OnRequestConnectionWifiOrMobileNetwork;
         private Action<bool> OnNetworkWorking;
@@ -54,12 +54,16 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             UIDatabaseDisplayed = false;
             mTimerUIDatabase = 0F;
             mRequestDone = false;
-            if (!Buddy.IO.WiFi.CurrentWiFiNetwork.Connected)
-                TeleBuddyQuatreDeuxData.Instance.ConnectivityProblem = ConnectivityProblem.WifiProblem;
+            //if (!Buddy.IO.WiFi.CurrentWiFiNetwork.Connected)
+            //    TeleBuddyQuatreDeuxData.Instance.ConnectivityProblem = ConnectivityProblem.WifiProblem;
+
+            //waiting for the correction of wifi
+            TeleBuddyQuatreDeuxData.Instance.ConnectivityProblem = ConnectivityProblem.LaunchDatabase;
+
             OnRequestConnectionWifiOrMobileNetwork = CheckWifiAndMobileNetwork;
             OnNetworkWorking = CheckNetwork;
             if (OnRequestConnectionWifiOrMobileNetwork != null)
-                OnRequestConnectionWifiOrMobileNetwork(/*Buddy.IO.WiFi.CurrentWiFiNetwork.Connected*/true); // VERSION42
+                OnRequestConnectionWifiOrMobileNetwork(Buddy.IO.WiFi.CurrentWiFiNetwork.Connected/*true*/); // VERSION42
             OnRequestDatabase = CheckDatabase;
             OnLaunchDatabase = LaunchDatabase;
             OnErrorAgoraio = ErrorAgoraio;
@@ -72,8 +76,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mRefreshTime += Time.deltaTime;
             mTimerUIDatabase += Time.deltaTime;
             // VERSION42
-            //if (!Buddy.IO.WiFi.CurrentWiFiNetwork.Connected)
-            //    TeleBuddyQuatreDeuxData.Instance.ConnectivityProblem = ConnectivityProblem.WifiProblem;
+            if (!Buddy.IO.WiFi.CurrentWiFiNetwork.Connected)
+                TeleBuddyQuatreDeuxData.Instance.ConnectivityProblem = ConnectivityProblem.WifiProblem;
 
 
 
@@ -82,16 +86,17 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
             if ((mRefreshTime > REFRESH_TIME || mRequestDone) && TeleBuddyQuatreDeuxData.Instance.ConnectivityProblem != ConnectivityProblem.None)
             {
+                mRefreshTime = 0F;
                 Debug.Log("CHECKCO : UPDATE SWITCH");
                 switch (TeleBuddyQuatreDeuxData.Instance.ConnectivityProblem)
                 {
                     case ConnectivityProblem.WifiProblem:
                         if (OnRequestConnectionWifiOrMobileNetwork != null)
-                            OnRequestConnectionWifiOrMobileNetwork(/*Buddy.IO.WiFi.CurrentWiFiNetwork.Connected/*, */true); // VERSION42
+                            OnRequestConnectionWifiOrMobileNetwork(Buddy.IO.WiFi.CurrentWiFiNetwork.Connected/*false*/); // VERSION42
                         break;
                     case ConnectivityProblem.NetworkProblem:
-                        if(OnNetworkWorking != null)
-                            OnNetworkWorking(Buddy.WebServices.HasInternetAccess);
+                        //if(OnNetworkWorking != null)
+                        //    OnNetworkWorking(Buddy.WebServices.HasInternetAccess);
                         //mRequestDone = false;
                         //StartCoroutine(CheckInternetConnection(/*(isConnected) => { if (isConnected) CoursTelepresenceData.Instance.ConnectedToInternet = true; else CoursTelepresenceData.Instance.ConnectedToInternet = false; }*/));
                         break;
@@ -114,6 +119,12 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             }
         }
 
+        private IEnumerator WaitBeforeHide(float iWaitTime)
+        {
+            yield return new WaitForSeconds(iWaitTime);
+            Buddy.GUI.Toaster.Hide();
+        }
+
         /// <summary>
         /// Hide the UI, need a coroutine because the Invoke("myfunc", float itimer) doesn't work
         /// </summary>
@@ -122,7 +133,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         {
             yield return new WaitForSeconds(iWaitTime);
             Buddy.GUI.Toaster.Hide();
-            TeleBuddyQuatreDeuxData.Instance.ConnectivityProblem = ConnectivityProblem.LaunchDatabase;
+            //TeleBuddyQuatreDeuxData.Instance.ConnectivityProblem = ConnectivityProblem.LaunchDatabase;
         }
 
         /// <summary>
@@ -134,7 +145,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             yield return new WaitForSeconds(iWaitTime);
             if(Buddy.GUI.Toaster.IsBusy)
                 Buddy.GUI.Toaster.Hide();
-            if(!DBManager.Instance.Peering)
+            if(!DBManager.Instance.Peering && DBManager.Instance.AllRequestDone)
             {
                 Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
                     TText lText = iBuilder.CreateWidget<TText>();
@@ -198,7 +209,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 Buddy.GUI.Toaster.Hide();
                 if (!TeleBuddyQuatreDeuxData.Instance.InitializeDone)
                 {
-                    TeleBuddyQuatreDeuxData.Instance.ConnectivityProblem = ConnectivityProblem.DatabaseProblem;
+                    TeleBuddyQuatreDeuxData.Instance.ConnectivityProblem = ConnectivityProblem.LaunchDatabase;
                 }
                 else
                     TeleBuddyQuatreDeuxData.Instance.ConnectivityProblem = ConnectivityProblem.None;
@@ -223,7 +234,6 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             {
                 Debug.LogError("<color=green>CHECK CO : CHECK DB WITH TOASTER</color>");
                 DBManager.Instance.IsRefreshButtonPushed = true;
-                TeleBuddyQuatreDeuxData.Instance.ConnectivityProblem = ConnectivityProblem.LaunchDatabase;
                 TeleBuddyQuatreDeuxData.Instance.InitializeDone = false;
                 DBManager.Instance.StartDBManager();//TODO WALID: commenter ca pour tester si y a toujours l'acces denied
                 Animator.SetTrigger("CONNECTING");

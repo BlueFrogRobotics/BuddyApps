@@ -66,6 +66,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         public bool IsCheckPlanning { get; set; }
         public int IndexPlanning { get; set; }
 
+        public bool AllRequestDone { get; set; }
+
         [SerializeField]
         private Animator Animator;
 
@@ -116,6 +118,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         public void StartDBManager()
         {
             Debug.LogError("DB MANAGER : START DB MANAGER");
+            AllRequestDone = false;
             mDisplayBeforeEnd = false;
             IsCheckPlanning = false;
             LaunchDb = true;
@@ -149,9 +152,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 mDateNow = DateTime.Now;
 
                 mSpan = mPlanningEnd.Subtract(mDateNow);
-                if (mSpan.TotalMinutes < 5F)
-                {
-                    if (!mDisplayBeforeEnd && TeleBuddyQuatreDeuxData.Instance.CurrentState == TeleBuddyQuatreDeuxData.States.CALL_STATE)
+                //if (mSpan.TotalMinutes < 5F)
+                //{
+                    if (!mDisplayBeforeEnd && TeleBuddyQuatreDeuxData.Instance.CurrentState == TeleBuddyQuatreDeuxData.States.CALL_STATE && !CanEndCourse && mSpan.TotalMinutes < 5F && mSpan.TotalMinutes > 0F)
                     {
                         mDisplayBeforeEnd = true;
                         DisplayUIBeforeEnd();
@@ -167,7 +170,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                         CanStartCourse = false;
 
                     }
-                }
+                //}
             }
             if (!CanStartCourse && IsCheckPlanning && TeleBuddyQuatreDeuxData.Instance.AllPlanning.Count > 0)
             {
@@ -376,10 +379,12 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 ListUIDTablet.Clear();
                 if (lRequestDevice.isHttpError || lRequestDevice.isNetworkError)
                 {
+                    TeleBuddyQuatreDeuxData.Instance.ConnectivityProblem = ConnectivityProblem.DatabaseProblem;
                     Debug.LogError("Request from GetInfoForUsers error " + lRequestDevice.error + " " + lRequestDevice.downloadHandler.text);
                 }
                 else
                 {
+                    AllRequestDone = true;
                     string lRes = lRequestDevice.downloadHandler.text;
                     Debug.LogError("Result from GetInfoForUsers : " + lRes);
                     try
