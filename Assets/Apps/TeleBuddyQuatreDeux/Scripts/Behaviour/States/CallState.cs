@@ -442,6 +442,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            mRTMManager.PingReceived = false;
             //DBManager.Instance.CanEndCourse = false;
             Buddy.Actuators.Wheels.Stop();
             Buddy.GUI.Toaster.Hide();

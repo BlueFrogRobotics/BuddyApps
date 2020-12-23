@@ -44,10 +44,13 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         public int IndexTablet { get; set; }
         public string IdConnectionTablet { get { return mIdTablet; } }
 
+        public bool PingReceived { get; set; }
+
 
         // Use this for initialization
         void Start()
         {
+            PingReceived = false;
             mBuddyId = Buddy.Platform.RobotUID;
             mMovingYes = false;
             mMovingNo = false;
@@ -465,7 +468,11 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into an int");
                         } else {
                             if (lIntValue == mPingId && OnPing!=null)
+                            {
+                                Debug.LogError("################### PING ACK CALLED");
                                 OnPing((int)((Time.time - mPingTime) * 1000));
+                                PingReceived = true;
+                            }
                             if(OnPingWithId!=null)
                                 OnPingWithId(lIntValue);
                         }

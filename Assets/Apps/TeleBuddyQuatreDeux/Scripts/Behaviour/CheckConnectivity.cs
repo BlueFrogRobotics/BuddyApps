@@ -3,6 +3,7 @@ using UnityEngine;
 using System;
 using UnityEngine.Networking;
 using BlueQuark;
+using System.Net;
 
 namespace BuddyApp.TeleBuddyQuatreDeux
 {
@@ -67,6 +68,20 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             OnRequestDatabase = CheckDatabase;
             OnLaunchDatabase = LaunchDatabase;
             OnErrorAgoraio = ErrorAgoraio;
+        }
+
+        public static bool CheckForInternetConnection()
+        {
+            try
+            {
+                using (WebClient client = new WebClient())
+                using (client.OpenRead("http://google.com/")) /*generate_204 */
+                    return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         private void Update()

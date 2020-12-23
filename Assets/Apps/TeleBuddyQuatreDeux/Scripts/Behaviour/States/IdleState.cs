@@ -31,10 +31,10 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mChannelId = Buddy.Platform.RobotUID+RandomString(10);
 
             //VOCON
-            //Buddy.Vocal.DefaultInputParameters.Grammars = new string[1] { "grammar" };
-            //Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
-            //Buddy.Vocal.DefaultInputParameters.RecognitionThreshold = 5000;
-            //Buddy.Vocal.OnTrigger.Add((lHotWord) => Buddy.Vocal.Listen("grammar", OnEndListen, SpeechRecognitionMode.GRAMMAR_ONLY));
+            Buddy.Vocal.DefaultInputParameters.Grammars = new string[1] { "grammar" };
+            Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
+            Buddy.Vocal.DefaultInputParameters.RecognitionThreshold = 5000;
+            Buddy.Vocal.OnTrigger.Add((lHotWord) => Buddy.Vocal.Listen("grammar", OnEndListen, SpeechRecognitionMode.GRAMMAR_ONLY));
         }
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -69,7 +69,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
         {
-            if (DBManager.Instance.CanStartCourse && !mAddListenerButtonCall)
+            if (DBManager.Instance.CanStartCourse && !mAddListenerButtonCall && mRTMManager.PingReceived)
             {
                 mAddListenerButtonCall = true;
                 Color lColor;
