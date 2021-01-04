@@ -498,20 +498,20 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                             Buddy.Behaviour.SetMood(lMood);
                             Debug.LogError("***************************** DEBUG MOOD OVER PROFIL 2");
                             // Triggers Callback (needs to hide video canvas)
-                            VideoSurface lVideoSurface = rawVideo.GetComponent<VideoSurface>();
-                            Debug.LogError("***************************** DEBUG MOOD OVER PROFIL 3");
-                            if (lVideoSurface != null)
-                            {
-                                Debug.LogError("***************************** DEBUG MOOD OVER PROFIL 4 ");
-                                lVideoSurface.SetEnable(false);
-                                Debug.LogError("***************************** DEBUG MOOD OVER PROFIL 5");
-                                Destroy(rawVideo.GetComponent<VideoSurface>());
-                                Debug.LogError("***************************** DEBUG MOOD OVER PROFIL 6");
-                            }
+                            //VideoSurface lVideoSurface = rawVideo.GetComponent<VideoSurface>();
+                            //Debug.LogError("***************************** DEBUG MOOD OVER PROFIL 3");
+                            //if (lVideoSurface != null)
+                            //{
+                            //    Debug.LogError("***************************** DEBUG MOOD OVER PROFIL 4 ");
+                            //    lVideoSurface.SetEnable(false);
+                            //    Debug.LogError("***************************** DEBUG MOOD OVER PROFIL 5");
+                            //    Destroy(rawVideo.GetComponent<VideoSurface>());
+                            //    Debug.LogError("***************************** DEBUG MOOD OVER PROFIL 6");
+                            //}
                             Debug.LogError("***************************** DEBUG MOOD OVER PROFIL 7");
                             if (OnMood!=null)
                             {
-                                Debug.LogError("***************************** DEBUG MOOD OVER PROFIL 8"); 
+                                Debug.LogError("***************************** DEBUG MOOD OVER PROFIL 8");  
                                 OnMood(lMood);
 
                             }
