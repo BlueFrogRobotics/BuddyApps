@@ -48,6 +48,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private AudioClip lAudioClip;
         private int idSound = 0;
         private bool mIsConnecting=false;
+        private long id=0;
 
         private void Awake()
         {
@@ -55,15 +56,15 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 Application.runInBackground = true;
         }
 
-        // Use this for initialization
-        void Start()
-        {
-            mIndexImage = 100;
-            Debug.Log("MICRO avant");
-            //lAudioClip = Microphone.Start(null, true, 10, 44100);// Buddy.Sensors.Microphones.SamplingRate);//44100
-            Debug.Log("MICRO apres");
-            //InitRTC();
-        }
+        //// Use this for initialization
+        //void Start()
+        //{
+        //    mIndexImage = 100;
+        //    Debug.Log("MICRO avant");
+        //    lAudioClip = Microphone.Start(Microphone.devices[0], true, 10, 44100);// Buddy.Sensors.Microphones.SamplingRate);//44100
+        //    Debug.Log("MICRO apres");
+        //    //InitRTC();
+        //}
 
         //private void Update()
         //{
@@ -80,13 +81,16 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         //        Debug.Log("MICRO2bis " + diff);
 
         //        if (diff > 0)
-        //        { 
+        //        {
         //            float[] samples = new float[diff * lAudioClip.channels];
-        //            Debug.Log("MICRO3");
+        //            Debug.Log("MICRO3 "+ lAudioClip.channels);
         //            lAudioClip.GetData(samples, lastSample);
         //            audioFrame.buffer = ToByteArray(samples);
-        //            Debug.Log("MICRO4");
+        //            Debug.Log("MICRO4 "+ samples[0]);
         //            audioFrame.channels = 1;
+        //            audioFrame.bytesPerSample = 4;
+        //            audioFrame.renderTimeMs = id;
+        //            id++;
         //            audioFrame.type = AUDIO_FRAME_TYPE.FRAME_TYPE_PCM16;
         //            mRtcEngine.PushAudioFrame(audioFrame);
         //        }
@@ -135,7 +139,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         public void InitNewVersionRTC(string iAppID)
         {
-            Buddy.WebServices.Agoraio.LoadEngine(iAppID);
+            Buddy.WebServices.Agoraio.LoadEngine(iAppID); 
             mRtcEngine = Buddy.WebServices.Agoraio.RtcEngine;
             mRtcEngine.OnStreamMessage = OnStreamMessage;
             mVideoIsEnabled = true;
@@ -193,11 +197,12 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mRtcEngine.OnUserOffline = OnUserOffline;
             VideoEncoderConfiguration videoEncoder=new VideoEncoderConfiguration();
             videoEncoder.orientationMode = ORIENTATION_MODE.ORIENTATION_MODE_FIXED_PORTRAIT;
-            mRtcEngine.SetVideoEncoderConfiguration(videoEncoder);
+            mRtcEngine.SetVideoEncoderConfiguration(videoEncoder); 
             //mRtcEngine.SetAudioProfile(AUDIO_PROFILE_TYPE.AUDIO_PROFILE_MUSIC_HIGH_QUALITY, AUDIO_SCENARIO_TYPE.AUDIO_SCENARIO_DEFAULT);
             mRtcEngine.EnableVideo();
             mRtcEngine.EnableVideoObserver();
-            //mRtcEngine.SetExternalAudioSource(true, Buddy.Sensors.Microphones.SamplingRate, 1);
+            //mRtcEngine.SetExternalAudioSource(true, 44100, 1);
+            mRtcEngine.EnableAudio();
 
             // TODO uncomment to Change camera
             //mRtcEngine.SetExternalVideoSource(true, false);
