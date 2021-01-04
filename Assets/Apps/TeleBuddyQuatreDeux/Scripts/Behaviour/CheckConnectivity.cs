@@ -102,7 +102,6 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             if ((mRefreshTime > REFRESH_TIME || mRequestDone) && TeleBuddyQuatreDeuxData.Instance.ConnectivityProblem != ConnectivityProblem.None)
             {
                 mRefreshTime = 0F;
-                Debug.Log("CHECKCO : UPDATE SWITCH");
                 switch (TeleBuddyQuatreDeuxData.Instance.ConnectivityProblem)
                 {
                     case ConnectivityProblem.WifiProblem:

@@ -281,6 +281,12 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 mRTCManager.SwitchCam();
             };
 
+            mRTMManager.OnMood = (lMood) =>
+            {
+                Debug.LogError("&&&&&&&&&&&&&&&&&&&&& ON MOOD profil set active false");
+                GetGameObject(22).SetActive(false);
+            };
+
             mRTMManager.OnTakePhoto = (lTakePhoto) => {
                 Debug.LogError("CALLSTATE TAKE PHOTO WITH TAKEPHOTOGRAPH");
                 //Save image from open camera on the robot
