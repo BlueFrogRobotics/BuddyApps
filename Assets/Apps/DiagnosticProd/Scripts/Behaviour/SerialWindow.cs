@@ -21,7 +21,7 @@ namespace BuddyApp.DiagnosticProd
         // Start is called before the first frame update
         void Start()
         {
-            mNumeroIMEI = Buddy.IO.MobileData.IMEI;
+            mNumeroIMEI = Buddy.IO.MobileData.IMEI();
             //mNumeroIMEI = "23443654843456547457346556";
             ImeiText.GetComponent<Text>().text = mNumeroIMEI;
             

@@ -610,7 +610,17 @@
         </member>
         <member name="P:BlueQuark.Internal.AHeadHinge`2.TorqueThreshold">
             <summary>
-            Maximal authorized threshold in percent before the motor is stopped by the torque control system.
+            Maximal authorized threshold in mA before the motor is stopped by the torque control system.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.AHeadHinge`2.SecurityTimeThreshold">
+            <summary>
+            Maximal authorized threshold in mA before the motor is stopped by the torque control system.
+            </summary>
+        </member>
+        <member name="P:BlueQuark.Internal.AHeadHinge`2.MoveTimeoutProtection">
+            <summary>
+            If robot doesn't move his head after timeout, command is canceled, in ms
             </summary>
         </member>
         <!-- Commentaire XML incorrect pour le membre "P:BlueQuark.Internal.AHeadHinge`2.EnableTorqueControl" -->
@@ -638,6 +648,13 @@
             Automatically detect and set the zero of the robot's head.
             </summary>
             <param name="iOnSet">Callback called when the set is done.</param>
+        </member>
+        <member name="M:BlueQuark.Internal.AHeadHinge`2.SetTorque(System.Int32,System.Int32)">
+            <summary>
+            Set Max motor current strengh in mA and max time in ms.
+            </summary>
+            <param name="iTorqueThreshold">Max motro current strengh in mA</param>
+            <param name="iSecurityTimeThreshold">Max time for command in ms</param>
         </member>
         <member name="P:BlueQuark.Internal.AHeadHinge`2.LockedByVocal">
             <summary>
@@ -7458,6 +7475,21 @@
             Default Tolerance allowed during control. Value in degrees.
             </summary>
         </member>
+        <member name="F:BlueQuark.NoHeadHinge.DEFAULT_TORQUE_THRESHOLD">
+            <summary>
+            Default tolerated threshold for the torque control system. Value in mA.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.NoHeadHinge.DEFAULT_TIME_THRESHOLD">
+            <summary>
+            Default tolerated threshold for the torque control system. Value in ms.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.NoHeadHinge.DEFAULT_MOTION_TIMEOUT">
+            <summary>
+            Default tolerated time before command is cancelled if no motion. Value in ms.
+            </summary>
+        </member>
         <member name="M:BlueQuark.NoHeadHinge.SetPosition(System.Single)">
             <summary>
             Requests to move the hinge to the wished angle position.
@@ -7544,6 +7576,21 @@
         <member name="F:BlueQuark.YesHeadHinge.DEFAULT_TOLERANCE">
             <summary>
             Default tolerance allowed during control. Value in degrees.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.YesHeadHinge.DEFAULT_TORQUE_THRESHOLD">
+            <summary>
+            Default tolerated threshold for the torque control system. Value in mA.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.YesHeadHinge.DEFAULT_TIME_THRESHOLD">
+            <summary>
+            Default tolerated threshold for the torque control system. Value in ms.
+            </summary>
+        </member>
+        <member name="F:BlueQuark.YesHeadHinge.DEFAULT_MOTION_TIMEOUT">
+            <summary>
+            Default tolerated time before command is cancelled if no motion. Value in ms.
             </summary>
         </member>
         <member name="P:BlueQuark.YesHeadHinge.OnEmergencyStop">
@@ -10676,9 +10723,10 @@
             If sim card is ready.
             </summary>
         </member>
-        <member name="P:BlueQuark.MobileData.IMEI">
+        <member name="M:BlueQuark.MobileData.IMEI(System.Int32)">
             <summary>
             IMEI of the SIM.
+            <paramref name="iSlot">Slot number</paramref>
             </summary>
         </member>
         <member name="M:BlueQuark.MobileData.Connect">
