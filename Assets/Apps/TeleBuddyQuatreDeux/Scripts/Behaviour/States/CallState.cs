@@ -104,13 +104,13 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mRTMManager.OnWheelsMotion = OnWheelsMotion;
             mRTMManager.OnHeadNoAbsolute = (lAngle) => {
                 Debug.LogWarning("head no absolute " + lAngle);
-                float lCoeff = Mathf.Abs(lAngle - Buddy.Actuators.Head.No.Angle) / Buddy.Actuators.Head.No.AngleMax;
-                Buddy.Actuators.Head.No.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.No.Angle, Buddy.Actuators.Head.No.AngleMin, Buddy.Actuators.Head.No.AngleMax), lCoeff * 70F, AccDecMode.SMOOTH);
+                //float lCoeff = Mathf.Abs(lAngle - Buddy.Actuators.Head.No.Angle) / Buddy.Actuators.Head.No.AngleMax;
+                Buddy.Actuators.Head.No.SetPosition(lAngle);//Mathf.Clamp(lAngle + Buddy.Actuators.Head.No.Angle, Buddy.Actuators.Head.No.AngleMin, Buddy.Actuators.Head.No.AngleMax), lCoeff * 70F, AccDecMode.SMOOTH);
             };
             mRTMManager.OnHeadYesAbsolute = (lAngle) => {
                 Debug.LogWarning("head yes absolute " + lAngle);
-                float lCoeff = 1F;// Mathf.Abs(lAngle - Buddy.Actuators.Head.Yes.Angle) / Buddy.Actuators.Head.Yes.AngleMax;
-                Buddy.Actuators.Head.Yes.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax), lCoeff * 20F, AccDecMode.SMOOTH);
+                //float lCoeff = 1F;// Mathf.Abs(lAngle - Buddy.Actuators.Head.Yes.Angle) / Buddy.Actuators.Head.Yes.AngleMax;
+                Buddy.Actuators.Head.Yes.SetPosition(lAngle);// Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax), lCoeff * 20F, AccDecMode.SMOOTH);
             };
             mRTMManager.OnHeadNo = (lAngle) => {
                 if (lAngle * mPreviousAngle < 0) {
@@ -357,7 +357,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         {
 
             if (!Buddy.Actuators.Wheels.Locked && Time.time - mTimeSinceMovement > 0.5F) {
-                Buddy.Actuators.Wheels.SetVelocities(0F, 0F);
+                Buddy.Actuators.Wheels.SetVelocities(0F, 0F, AccDecMode.HIGH);
                 mTimeSinceMovement = Time.time;
             }
 
@@ -438,11 +438,12 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 VideoFeedbackButton.gameObject.SetActive(false);
             }
 
-            if (!mRTMManager.mStaticSteering)
+            if (!mRTMManager.mStaticSteering) {
                 if (Math.Abs(Buddy.Actuators.Head.No.Angle) > 5 && !Buddy.Actuators.Head.IsBusy) {
                     Buddy.Navigation.Run<DisplacementStrategy>().Rotate(Buddy.Actuators.Head.No.Angle, 200F);
                     Buddy.Actuators.Head.No.SetPosition(0F, 200F);
                 }
+            }
 
         }
 
@@ -580,6 +581,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 mRTMManager.SwapSteering(true);
                 mToggleNavigationDynamic.ToggleValue = false;
             } else {
+                Buddy.Actuators.Wheels.UnlockWheels();
                 mRTMManager.SwapSteering(false);
                 mToggleNavigationDynamic.ToggleValue = true;
             }
@@ -588,6 +590,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private void SetNavigationDynamic(bool iValue)
         {
             if (iValue) {
+                Buddy.Actuators.Wheels.UnlockWheels();
                 mRTMManager.SwapSteering(false);
                 mToggleNavigationStatic.ToggleValue = false;
             } else {

@@ -101,6 +101,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             {
                 mRTMManager.SwapSteering(false);
                 mToggleNavigationDynamic.ToggleValue = true;
+
+                Buddy.Actuators.Wheels.UnlockWheels();
             }
         }
 
@@ -110,6 +112,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             {
                 mRTMManager.SwapSteering(false);
                 mToggleNavigationStatic.ToggleValue = false;
+
+                Buddy.Actuators.Wheels.UnlockWheels();
             }
             else
             {

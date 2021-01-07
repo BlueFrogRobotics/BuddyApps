@@ -121,7 +121,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         public void SwapSteering(bool iValue)
         {
             mStaticSteering = iValue;
-            if(!mStaticSteering)
+            if (!mStaticSteering)
                 Buddy.Actuators.Head.No.ResetPosition();
             Buddy.Actuators.Wheels.Locked = mStaticSteering;
             InformStaticSteering();
@@ -257,7 +257,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private void SendYesAngle()
         {
             float lValue = 0F;
-            Debug.LogWarning("angle yes: "+Buddy.Actuators.Head.Yes.Angle);
+            Debug.LogWarning("angle yes: " + Buddy.Actuators.Head.Yes.Angle);
             if (Buddy.Actuators.Head.Yes.Angle > 0)
                 lValue = Buddy.Actuators.Head.Yes.Angle / Buddy.Actuators.Head.Yes.AngleMax;
             else
@@ -288,7 +288,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         {
             SendRTMMessage(Utils.SerializeJSON(new JsonMessage("ping", iIdPing.ToString())), iIdTablet);
         }
-        
+
         //////////////////////////////
         /// Callbacks on reception ///
         //////////////////////////////
@@ -337,7 +337,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             Debug.LogError("INIT - RTMMANAGER");
             Buddy.WebServices.Agoraio.InitRTM(/*TeleBuddyQuatreDeuxBehaviour.APP_ID*/ DBManager.Instance.ListUserStudent[TeleBuddyQuatreDeuxData.Instance.IndexTablet].AppID);//TODO WALID: attendre que la requete zoho soit terminé avant etremplacer par l'app id recu //TODO MC : tout est fait dans connectingstate ButtonClick()
             Buddy.WebServices.Agoraio.OnMessage = OnMessage;
-            
+
             Debug.LogError("INIT fin - RTMMANAGER");
         }
 
@@ -357,8 +357,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private void SendRTMMessage(string iMessage)
         {
-            if(!iMessage.Contains("ping") && !iMessage.Contains("pingAck"))
-                Debug.LogError("SENDRTMMANAGER - RTMMANAGER : message: " + iMessage+" idtablet: "+ mIdTablet);
+            if (!iMessage.Contains("ping") && !iMessage.Contains("pingAck"))
+                Debug.LogError("SENDRTMMANAGER - RTMMANAGER : message: " + iMessage + " idtablet: " + mIdTablet);
             //Debug.LogError("Sent to " + mIdTablet);
             if (string.IsNullOrEmpty(mIdTablet)) {
                 Debug.LogError(" SENDRTMMANAGER - RTMMANAGER :  Can't send a message, no tablet ID");
@@ -371,11 +371,10 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private void SendRTMMessage(string iMessage, string iIdTablet)
         {
-            
+
             Debug.LogError("SENDRTMMANAGER 2 - RTMMANAGER : message: " + iMessage);
             Debug.LogError("Sent to " + iIdTablet);
-            if (string.IsNullOrEmpty(iIdTablet))
-            {
+            if (string.IsNullOrEmpty(iIdTablet)) {
                 Debug.LogError("SENDRTMMANAGER 2 - RTMMANAGER : Can't send a message, no tablet ID");
                 return;
             }
@@ -398,21 +397,21 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             } else if (iMessage.Contains("speed") && !iMessage.Contains("[METARTM]")) {
                 if (mStaticSteering)
                     Debug.LogWarning("Can't move wheels while static steering is on!");
-                else
-                {
+                else {
                     WheelsMessage lMessage = Utils.UnserializeJSON<WheelsMessage>(iMessage);
                     float lSpeed = 0F;
                     float lAngular = 0F;
-                    if (!float.TryParse(lMessage.speed.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out lSpeed))
-                    {
+                    if (!float.TryParse(lMessage.speed.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out lSpeed)) {
                         Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a float");
                     }
-                    if (!float.TryParse(lMessage.angularVelocity.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out lAngular))
-                    {
+                    if (!float.TryParse(lMessage.angularVelocity.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out lAngular)) {
                         Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a float");
                     }
-                    WheelsMotion lMotion = new WheelsMotion(lSpeed, -lAngular); 
-                    if(OnWheelsMotion!=null)
+
+                    Debug.LogWarning("Motion received " + lSpeed + " " + lAngular);
+
+                    WheelsMotion lMotion = new WheelsMotion(lSpeed, -lAngular);
+                    if (OnWheelsMotion != null)
                         OnWheelsMotion(lMotion);
                 }
             } else {
@@ -427,7 +426,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                         if (!Boolean.TryParse(lMessage.propertyValue, out lBoolValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
                         } else {
-                            if(OncallRequestAnswer!=null)
+                            if (OncallRequestAnswer != null)
                                 OncallRequestAnswer(lBoolValue);
                         }
                         break;
@@ -442,19 +441,13 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                         break;
 
                     case "askAvailable":
-                        if (!Boolean.TryParse(lMessage.propertyValue, out lBoolValue))
-                        {
+                        if (!Boolean.TryParse(lMessage.propertyValue, out lBoolValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
-                        }
-                        else
-                        {
+                        } else {
                             bool lAvailable = true;
-                            if (TeleBuddyQuatreDeuxData.Instance.CurrentState == TeleBuddyQuatreDeuxData.States.INCOMMING_CALL_STATE || TeleBuddyQuatreDeuxData.Instance.CurrentState == TeleBuddyQuatreDeuxData.States.CALL_STATE || TeleBuddyQuatreDeuxData.Instance.CurrentState == TeleBuddyQuatreDeuxData.States.CALLING_STATE || TeleBuddyQuatreDeuxData.Instance.CurrentState == TeleBuddyQuatreDeuxData.States.CONNECTING_STATE )
-                            {
+                            if (TeleBuddyQuatreDeuxData.Instance.CurrentState == TeleBuddyQuatreDeuxData.States.INCOMMING_CALL_STATE || TeleBuddyQuatreDeuxData.Instance.CurrentState == TeleBuddyQuatreDeuxData.States.CALL_STATE || TeleBuddyQuatreDeuxData.Instance.CurrentState == TeleBuddyQuatreDeuxData.States.CALLING_STATE || TeleBuddyQuatreDeuxData.Instance.CurrentState == TeleBuddyQuatreDeuxData.States.CONNECTING_STATE) {
                                 lAvailable = false;
-                            }
-                            else if(TeleBuddyQuatreDeuxData.Instance.CurrentState == TeleBuddyQuatreDeuxData.States.IDLE_STATE)
-                            {
+                            } else if (TeleBuddyQuatreDeuxData.Instance.CurrentState == TeleBuddyQuatreDeuxData.States.IDLE_STATE) {
                                 lAvailable = true;
                             }
                             SendRTMMessage(Utils.SerializeJSON(
@@ -467,13 +460,12 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                         if (!int.TryParse(lMessage.propertyValue, NumberStyles.Any, CultureInfo.InvariantCulture, out lIntValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into an int");
                         } else {
-                            if (lIntValue == mPingId && OnPing!=null)
-                            {
+                            if (lIntValue == mPingId && OnPing != null) {
                                 Debug.LogError("################### PING ACK CALLED");
                                 OnPing((int)((Time.time - mPingTime) * 1000));
                                 PingReceived = true;
                             }
-                            if(OnPingWithId!=null)
+                            if (OnPingWithId != null)
                                 OnPingWithId(lIntValue);
                         }
 
@@ -483,7 +475,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                         if (!bool.TryParse(lMessage.propertyValue, out lBoolValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
                         } else {
-                            if(OnFrontalListening!=null)
+                            if (OnFrontalListening != null)
                                 OnFrontalListening(lBoolValue);
                         }
                         break;
@@ -509,9 +501,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                             //    Debug.LogError("***************************** DEBUG MOOD OVER PROFIL 6");
                             //}
                             Debug.LogError("***************************** DEBUG MOOD OVER PROFIL 7");
-                            if (OnMood!=null)
-                            {
-                                Debug.LogError("***************************** DEBUG MOOD OVER PROFIL 8");  
+                            if (OnMood != null) {
+                                Debug.LogError("***************************** DEBUG MOOD OVER PROFIL 8");
                                 OnMood(lMood);
 
                             }
@@ -526,21 +517,17 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                         else
                             lPattern = BehaviourMovementPattern.COMPLETE_FREEDOM;
                         if (!Enum.TryParse(lMessage.propertyValue, true, out lMood)) {
-                            if (lMessage.propertyValue == "CRY")
-                            {
+                            if (lMessage.propertyValue == "CRY") {
                                 lMood = Mood.SAD;
                                 Buddy.Behaviour.Interpreter.RunRandom(lMood.ToString().ToLower());//, lPattern);
-                                if(OnMoodBI != null)
+                                if (OnMoodBI != null)
                                     OnMoodBI(lMood);
-                            }
-                            else if (lMessage.propertyValue == "SLEEP")
-                            {
+                            } else if (lMessage.propertyValue == "SLEEP") {
                                 lMood = Mood.TIRED;
                                 Buddy.Behaviour.Interpreter.RunRandom(lMood.ToString().ToLower());//, lPattern);
                                 if (OnMoodBI != null)
                                     OnMoodBI(lMood);
-                            }
-                            else
+                            } else
                                 Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a mood");
                         } else {
                             Debug.LogWarning("moodBI wheels locked " + Buddy.Actuators.Wheels.Locked);
@@ -566,21 +553,28 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                         if (!float.TryParse(lMessage.propertyValue.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out lFloatValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
                         } else {
-                            if (OnHeadNo!=null)
-                            {
+                            if (OnHeadNo != null) {
                                 mLastCommandTime = Time.time;
                                 OnHeadNo(Mathf.Pow(lFloatValue, 5) * -80F);
                             }
-                        } 
+                        }
                         break;
 
                     case "headYesAbsolute":
                         if (!float.TryParse(lMessage.propertyValue.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out lFloatValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into an int");
-                        } else if(OnHeadYesAbsolute!=null){
+                        } else if (OnHeadYesAbsolute != null) {
                             Debug.LogWarning("Angle Yes received, ask to go " + lFloatValue);
-                            Debug.LogWarning("Angle Yes received, we go at " + Mathf.Lerp(Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax, (lFloatValue + 1.0F) / 2F) + " from " + Buddy.Actuators.Head.Yes );
-                            OnHeadYesAbsolute(Mathf.Lerp(Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax, (lFloatValue + 1.0F) / 2F));
+
+                            float lMaxValue;
+                            if (Buddy.Sensors.HDCamera.Type == HDCameraType.BACK)
+                                lMaxValue = 25F;
+                            else
+                                lMaxValue = 40F;
+
+
+                            Debug.LogWarning("Angle Yes received, we go at " + (Buddy.Actuators.Head.Yes.Angle + lFloatValue * lMaxValue) + " from " + Buddy.Actuators.Head.Yes.Angle); //Mathf.Lerp(Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax, (lFloatValue + 1.0F) / 2F) + " from " + Buddy.Actuators.Head.Yes );
+                            OnHeadYesAbsolute(Buddy.Actuators.Head.Yes.Angle + lFloatValue * lMaxValue); //Mathf.Lerp(Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax, (lFloatValue + 1.0F) / 2F));
                             //if (lFloatValue > 0)
                             //    OnHeadYesAbsolute(lFloatValue * Buddy.Actuators.Head.Yes.AngleMax);
                             //else
@@ -589,13 +583,22 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                         }
                         break;
 
+
                     case "headNoAbsolute":
                         if (!float.TryParse(lMessage.propertyValue.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out lFloatValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
-                        } else if(OnHeadNoAbsolute!=null) {
+                        } else if (OnHeadNoAbsolute != null) {
                             Debug.LogWarning("Angle No received, ask to go " + lFloatValue);
-                            Debug.LogWarning("Angle No received, we go at " + Mathf.Lerp(Buddy.Actuators.Head.No.AngleMin, Buddy.Actuators.Head.No.AngleMax, (lFloatValue + 1.0F) / 2F) + " from " + Buddy.Actuators.Head.No);
-                            OnHeadNoAbsolute(-Mathf.Lerp(Buddy.Actuators.Head.No.AngleMin, Buddy.Actuators.Head.No.AngleMax, (lFloatValue + 1.0F) / 2F));
+
+                            float lMaxValue;
+                            if (Buddy.Sensors.HDCamera.Type == HDCameraType.BACK)
+                                lMaxValue = 40F;
+                            else
+                                lMaxValue = 60F;
+
+
+                            Debug.LogWarning("Angle No received, we go at " + (Buddy.Actuators.Head.No.Angle - lFloatValue * lMaxValue) + " from " + Buddy.Actuators.Head.No.Angle); // Mathf.Lerp(Buddy.Actuators.Head.No.AngleMin, Buddy.Actuators.Head.No.AngleMax, (lFloatValue + 1.0F) / 2F) + " from " + Buddy.Actuators.Head.No);
+                            OnHeadNoAbsolute((Buddy.Actuators.Head.No.Angle - lFloatValue * lMaxValue)); //- Mathf.Lerp(Buddy.Actuators.Head.No.AngleMin, Buddy.Actuators.Head.No.AngleMax, (lFloatValue + 1.0F) / 2F));
                             //OnHeadNoAbsolute(lFloatValue * Buddy.Actuators.Head.No.AngleMin);
                         }
 
@@ -604,7 +607,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     case "raiseHand":
                         if (!Boolean.TryParse(lMessage.propertyValue, out lBoolValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
-                        } else if(OnRaiseHand!=null){
+                        } else if (OnRaiseHand != null) {
                             OnRaiseHand(lBoolValue);
                         }
 
@@ -655,12 +658,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                         }
                         break;
                     case "requestPhoto":
-                        if(!bool.TryParse(lMessage.propertyValue, out lBoolValue))
-                        {
+                        if (!bool.TryParse(lMessage.propertyValue, out lBoolValue)) {
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
-                        }
-                        else
-                        {
+                        } else {
                             OnTakePhoto(lBoolValue);
                         }
                         break;
