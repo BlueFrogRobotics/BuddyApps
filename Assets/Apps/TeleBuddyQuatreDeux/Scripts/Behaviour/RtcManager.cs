@@ -56,13 +56,25 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 Application.runInBackground = true;
         }
 
-        //// Use this for initialization
+        // Use this for initialization
         //void Start()
         //{
-        //    mIndexImage = 100;
+        //    //mIndexImage = 100;
         //    Debug.Log("MICRO avant");
-        //    lAudioClip = Microphone.Start(Microphone.devices[0], true, 10, 44100);// Buddy.Sensors.Microphones.SamplingRate);//44100
+        //    //lAudioClip = Microphone.Start(Microphone.devices[0], true, 10, 44100);// Buddy.Sensors.Microphones.SamplingRate);//44100
+
+        //    AudioRecordingDeviceManager audioRecordingDeviceManager;
+        //    audioRecordingDeviceManager = (AudioRecordingDeviceManager)mRtcEngine.GetAudioRecordingDeviceManager();
         //    Debug.Log("MICRO apres");
+        //    if (audioRecordingDeviceManager.CreateAAudioRecordingDeviceManager())
+        //    {
+        //        int i = audioRecordingDeviceManager.GetAudioRecordingDeviceCount();
+        //        Debug.Log(" MICROGetAudioRecordingDeviceCount = " + i);
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("MICRO probleme GetAudioRecordingDeviceCount ");
+        //    }
         //    //InitRTC();
         //}
 
@@ -145,6 +157,20 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mVideoIsEnabled = true;
             mAudioIsEnabled = true;
             rawVideo.gameObject.SetActive(false);
+            Debug.Log("before sdk version: ");
+            Debug.Log("sdk version: " + IRtcEngine.GetSdkVersion());
+            AudioRecordingDeviceManager audioRecordingDeviceManager;
+            audioRecordingDeviceManager = (AudioRecordingDeviceManager)mRtcEngine.GetAudioRecordingDeviceManager();
+            Debug.Log("MICRO apres");
+            if (audioRecordingDeviceManager.CreateAAudioRecordingDeviceManager())
+            {
+                int i = audioRecordingDeviceManager.GetAudioRecordingDeviceCount();
+                Debug.Log(" MICRO GetAudioRecordingDeviceCount = " + i);
+            }
+            else
+            {
+                Debug.Log("MICRO probleme GetAudioRecordingDeviceCount ");
+            }
             //Debug.Log("NUM OF RECORDING DEVICE: " + mRtcEngine.GetAudioRecordingDeviceManager().GetAudioRecordingDeviceCount());
             //string name = "";
             //string id = "";
