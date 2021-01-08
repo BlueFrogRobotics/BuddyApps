@@ -103,6 +103,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             //Buddy.Vocal.EnableTrigger = false;
             mRTMManager.OncallRequest = null;
             mCallButton.onClick.RemoveAllListeners();
+            Buddy.Vocal.OnTrigger.Clear();
+            Buddy.Vocal.ListenOnTrigger = false;
             ResetTrigger("IDLE");
         }
 

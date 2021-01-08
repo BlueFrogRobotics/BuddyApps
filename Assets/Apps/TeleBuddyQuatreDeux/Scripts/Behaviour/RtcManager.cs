@@ -47,8 +47,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private int lastSample = 0;
         private AudioClip lAudioClip;
         private int idSound = 0;
-        private bool mIsConnecting=false;
-        private long id=0;
+        private bool mIsConnecting = false;
+        private long id = 0;
 
         private void Awake()
         {
@@ -116,8 +116,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             int len = floatArray.Length * 4;
             byte[] byteArray = new byte[len];
             int pos = 0;
-            foreach (float f in floatArray)
-            {
+            foreach (float f in floatArray) {
                 byte[] data = System.BitConverter.GetBytes(f);
                 System.Array.Copy(data, 0, byteArray, pos, 4);
                 pos += 4;
@@ -146,12 +145,12 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mVideoIsEnabled = true;
             mAudioIsEnabled = true;
             rawVideo.gameObject.SetActive(false);
-            
+
         }
 
         public void InitNewVersionRTC(string iAppID)
         {
-            Buddy.WebServices.Agoraio.LoadEngine(iAppID); 
+            Buddy.WebServices.Agoraio.LoadEngine(iAppID);
             mRtcEngine = Buddy.WebServices.Agoraio.RtcEngine;
             mRtcEngine.OnStreamMessage = OnStreamMessage;
             mVideoIsEnabled = true;
@@ -162,13 +161,10 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             AudioRecordingDeviceManager audioRecordingDeviceManager;
             audioRecordingDeviceManager = (AudioRecordingDeviceManager)mRtcEngine.GetAudioRecordingDeviceManager();
             Debug.Log("MICRO apres");
-            if (audioRecordingDeviceManager.CreateAAudioRecordingDeviceManager())
-            {
+            if (audioRecordingDeviceManager.CreateAAudioRecordingDeviceManager()) {
                 int i = audioRecordingDeviceManager.GetAudioRecordingDeviceCount();
                 Debug.Log(" MICRO GetAudioRecordingDeviceCount = " + i);
-            }
-            else
-            {
+            } else {
                 Debug.Log("MICRO probleme GetAudioRecordingDeviceCount ");
             }
             //Debug.Log("NUM OF RECORDING DEVICE: " + mRtcEngine.GetAudioRecordingDeviceManager().GetAudioRecordingDeviceCount());
@@ -221,9 +217,17 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mRtcEngine.OnJoinChannelSuccess = OnJoinChannelSuccess;
             mRtcEngine.OnUserJoined = OnUserJoined;
             mRtcEngine.OnUserOffline = OnUserOffline;
-            VideoEncoderConfiguration videoEncoder=new VideoEncoderConfiguration();
-            videoEncoder.orientationMode = ORIENTATION_MODE.ORIENTATION_MODE_FIXED_PORTRAIT;
-            mRtcEngine.SetVideoEncoderConfiguration(videoEncoder); 
+            VideoEncoderConfiguration videoEncoder = new VideoEncoderConfiguration {
+                degradationPreference = DEGRADATION_PREFERENCE.MAINTAIN_QUALITY,
+                dimensions = new VideoDimensions() {
+                    height = 3136,
+                    width = 4224
+                }
+            };
+
+            //mRtcEngine.SetVideoProfile(VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_4K, false);
+
+            mRtcEngine.SetVideoEncoderConfiguration(videoEncoder);
             //mRtcEngine.SetAudioProfile(AUDIO_PROFILE_TYPE.AUDIO_PROFILE_MUSIC_HIGH_QUALITY, AUDIO_SCENARIO_TYPE.AUDIO_SCENARIO_DEFAULT);
             mRtcEngine.EnableVideo();
             mRtcEngine.EnableVideoObserver();
@@ -240,10 +244,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private void UpdateVideoFrame(HDCameraFrame iCameraFrame)
         {
-            if (!mFrameProcessing)
-            {
-                if (iCameraFrame != null && mVideoIsEnabled)
-                {
+            if (!mFrameProcessing) {
+                if (iCameraFrame != null && mVideoIsEnabled) {
                     mFrameProcessing = true;
 
                     byte[] bytes4 = new byte[iCameraFrame.Texture.GetRawTextureData().Length / 2];
@@ -251,8 +253,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     // Gives enough space for the bytes array.
                     int size = Marshal.SizeOf(bytes4[0]) * bytes4.Length;
                     // Checks whether the IRtcEngine instance is existed.
-                    if (mRtcEngine != null)
-                    {
+                    if (mRtcEngine != null) {
                         // Creates a new external video frame.
                         ExternalVideoFrame externalVideoFrame = new ExternalVideoFrame();
                         // Sets the buffer type of the video frame.
@@ -282,9 +283,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                         // Pushes the external video frame with the frame you create.
                         mRtcEngine.PushVideoFrame(externalVideoFrame);
                         mFrameProcessing = false;
-                    }
-                    else
-                    {
+                    } else {
                         Debug.LogError("No frame on HD camera");
                     }
                 }
@@ -301,10 +300,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             int R, G, B, Y, U, V;
             int index = 0;
 
-            for (int j = 0; j < height; j++)
-            {
-                for (int i = 0; i < width; i++)
-                {
+            for (int j = 0; j < height; j++) {
+                for (int i = 0; i < width; i++) {
 
                     R = rgb[3 * index];
                     G = rgb[3 * index + 1];
@@ -319,8 +316,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     //    meaning for every 4 Y pixels there are 1 V and 1 U.  Note the sampling is every other
                     //    pixel AND every other scanline.
                     yuv420sp[yIndex++] = (byte)((Y < 0) ? 0 : ((Y > 255) ? 255 : Y));
-                    if (j % 2 == 0 && index % 2 == 0)
-                    {
+                    if (j % 2 == 0 && index % 2 == 0) {
                         yuv420sp[uvIndex++] = (byte)((U < 0) ? 0 : ((U > 255) ? 255 : U));
                         yuv420sp[uvIndex++] = (byte)((V < 0) ? 0 : ((V > 255) ? 255 : V));
                     }
@@ -337,7 +333,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mIsConnecting = false;
             if (mRtcEngine == null)
                 return;
-            
+
             mRtcEngine.OnNetworkQuality = null;
             mRtcEngine.LeaveChannel();
 
@@ -376,7 +372,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         public void SendPicture(Texture2D iTexture)
         {
-            int lDataId = mRtcEngine.CreateDataStream(true, true); 
+            int lDataId = mRtcEngine.CreateDataStream(true, true);
             byte[] iDataByte = iTexture.EncodeToPNG();
             string lDataString = System.Text.Encoding.UTF8.GetString(iDataByte, 0, iDataByte.Length);
             mRtcEngine.SendStreamMessage(lDataId, lDataString);
@@ -400,8 +396,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             tex.Apply();
             FlipTextureVertically(tex);
             VideoSurface lVideoSurface = rawVideo.GetComponent<VideoSurface>();
-            if (lVideoSurface != null)
-            {
+            if (lVideoSurface != null) {
                 lVideoSurface.SetEnable(false);
                 Destroy(rawVideo.GetComponent<VideoSurface>());
             }
@@ -414,14 +409,14 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private void OnJoinChannelSuccess(string channelName, uint uid, int elapsed)
         {
             Debug.Log("JoinChannelSuccessHandler: uid = " + uid);
-            if(mRtcEngine.OnNetworkQuality != null)
+            if (mRtcEngine.OnNetworkQuality != null)
                 mRtcEngine.OnNetworkQuality += (ID, TX, RX) => QualityCheck(ID, TX, RX);
             mUid = uid;
         }
 
         private void QualityCheck(uint iID, int iTX, int iRX)
         {
-            
+
             //if((iTX == 6 || iRX == 6) && iID != 0)
             //{
             //    TeleBuddyQuatreDeuxData.Instance.IsQualityNetworkGood = false;
@@ -434,7 +429,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private void OnError(int iIdError, string iMessage)
         {
-            Debug.LogError("ON ERROR RTC MANAGER id + Message : " + iIdError + " - "  + iMessage);
+            Debug.LogError("ON ERROR RTC MANAGER id + Message : " + iIdError + " - " + iMessage);
             CheckConnectivity.Instance.OnErrorAgoraio(iIdError);
         }
 
@@ -456,10 +451,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         {
             // remove video stream
             Debug.Log("[AGORAIO] onUserOffline: uid = " + uid);
-            Debug.LogWarning("[AGORAIO] onUserOffline: uid = " + uid+" reason: "+reason);
-            if (reason == USER_OFFLINE_REASON.QUIT || reason == USER_OFFLINE_REASON.DROPPED)
-            {
-                if(rawVideo.GetComponent<VideoSurface>()!=null)
+            Debug.LogWarning("[AGORAIO] onUserOffline: uid = " + uid + " reason: " + reason);
+            if (reason == USER_OFFLINE_REASON.QUIT || reason == USER_OFFLINE_REASON.DROPPED) {
+                if (rawVideo.GetComponent<VideoSurface>() != null)
                     Destroy(rawVideo.GetComponent<VideoSurface>());
                 rawVideo.texture = null;
                 rawVideo.gameObject.SetActive(false);
@@ -469,32 +463,25 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private void OnRemoteVideoStateChanged(uint uid, REMOTE_VIDEO_STATE state, REMOTE_VIDEO_STATE_REASON reason, int elapsed)
         {
-            Debug.LogError("RTC MANAGER : remote video " + state + " reason "+reason);
+            Debug.LogError("RTC MANAGER : remote video " + state + " reason " + reason);
             if (uid == mUid)
                 return;
             VideoSurface lVideoSurface = rawVideo.GetComponent<VideoSurface>();
-            if (state == REMOTE_VIDEO_STATE.REMOTE_VIDEO_STATE_STOPPED)
-            {
-                if (lVideoSurface != null)
-                {
+            if (state == REMOTE_VIDEO_STATE.REMOTE_VIDEO_STATE_STOPPED) {
+                if (lVideoSurface != null) {
                     lVideoSurface.SetEnable(false);
                     Destroy(rawVideo.GetComponent<VideoSurface>());
                     rawVideo.texture = null;
                     rawVideo.gameObject.SetActive(false);
                 }
-            }
-            else if (state == REMOTE_VIDEO_STATE.REMOTE_VIDEO_STATE_STARTING || state == REMOTE_VIDEO_STATE.REMOTE_VIDEO_STATE_DECODING /*&& reason != REMOTE_VIDEO_STATE_REASON.REMOTE_VIDEO_STATE_REASON_INTERNAL*/)
-            {
+            } else if (state == REMOTE_VIDEO_STATE.REMOTE_VIDEO_STATE_STARTING || state == REMOTE_VIDEO_STATE.REMOTE_VIDEO_STATE_DECODING /*&& reason != REMOTE_VIDEO_STATE_REASON.REMOTE_VIDEO_STATE_REASON_INTERNAL*/) {
                 rawVideo.gameObject.SetActive(true);
-                if (lVideoSurface != null)
-                {
+                if (lVideoSurface != null) {
                     return;
                     lVideoSurface.SetEnable(false);
                     rawVideo.texture = null;
                     Destroy(rawVideo.GetComponent<VideoSurface>());
-                }
-                else if (lVideoSurface == null)
-                {
+                } else if (lVideoSurface == null) {
                     lVideoSurface = rawVideo.gameObject.AddComponent<VideoSurface>();
                     rawVideo.texture = null;
                 }
@@ -510,16 +497,16 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private void OnFirstRemoteVideoFrame(uint uid, int width, int height, int elapsed)
         {
             float lAspectRatio = height / width;
-            Debug.LogError("first remote frame: " + width + " " + height+" "+ lAspectRatio);
+            Debug.LogError("first remote frame: " + width + " " + height + " " + lAspectRatio);
             if (rawVideo.texture == null || uid == mUid)
                 return;
-            rawVideo.rectTransform.sizeDelta = new Vector2(WIDTH, WIDTH * lAspectRatio); 
+            rawVideo.rectTransform.sizeDelta = new Vector2(WIDTH, WIDTH * lAspectRatio);
         }
 
         private void OnFirstLocalVideoFrame(int width, int height, int elapsed)
         {
             float lAspectRatio = height / width;
-            Debug.LogError("first local frame: " + width + " " + height+ " " + lAspectRatio);
+            Debug.LogError("first local frame: " + width + " " + height + " " + lAspectRatio);
             if (rawVideoLocal.texture == null)
                 return;
             rawVideoLocal.rectTransform.sizeDelta = new Vector2(360, 360 * lAspectRatio);
@@ -531,8 +518,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             tex.LoadRawTextureData(System.Text.Encoding.UTF8.GetBytes(data));
             tex.Apply();
             VideoSurface lVideoSurface = rawVideo.GetComponent<VideoSurface>();
-            if (lVideoSurface != null)
-            {
+            if (lVideoSurface != null) {
                 lVideoSurface.SetEnable(false);
                 Destroy(rawVideo.GetComponent<VideoSurface>());
             }
@@ -549,10 +535,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             int width = iTexture.width;
             int rows = iTexture.height;
 
-            for (int x = 0; x < width; x++)
-            {
-                for (int y = 0; y < rows; y++)
-                {
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < rows; y++) {
                     newPixels[x + y * width] = originalPixels[x + (rows - y - 1) * width];
                 }
             }

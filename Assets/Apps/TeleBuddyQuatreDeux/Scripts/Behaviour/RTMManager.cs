@@ -245,9 +245,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             float lValue = 0F;
             Debug.LogWarning("angle no: " + Buddy.Actuators.Head.No.Angle);
             if (Buddy.Actuators.Head.No.Angle > 0)
-                lValue = Mathf.Abs(Buddy.Actuators.Head.No.Angle / Buddy.Actuators.Head.No.AngleMax);
+                lValue = -Mathf.Abs(Buddy.Actuators.Head.No.Angle / Buddy.Actuators.Head.No.AngleMax);
             else
-                lValue = -Mathf.Abs(Buddy.Actuators.Head.No.Angle / Buddy.Actuators.Head.No.AngleMin);
+                lValue = Mathf.Abs(Buddy.Actuators.Head.No.Angle / Buddy.Actuators.Head.No.AngleMin);
 
 
             SendRTMMessage(Utils.SerializeJSON(new JsonMessage("informNoAngle", lValue.ToString())));
@@ -261,7 +261,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             if (Buddy.Actuators.Head.Yes.Angle > 0)
                 lValue = Buddy.Actuators.Head.Yes.Angle / Buddy.Actuators.Head.Yes.AngleMax;
             else
-                lValue = Buddy.Actuators.Head.Yes.Angle / 10F;//YesHeadHinge.MAX_DOWN_ANGLE;
+                lValue = Buddy.Actuators.Head.Yes.Angle / Buddy.Actuators.Head.Yes.AngleMin;//YesHeadHinge.MAX_DOWN_ANGLE;
 
             SendRTMMessage(Utils.SerializeJSON(new JsonMessage("informYesAngle", lValue.ToString())));
             Debug.LogWarning("inform yes: " + lValue.ToString());
