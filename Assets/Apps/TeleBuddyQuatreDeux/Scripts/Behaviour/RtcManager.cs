@@ -49,6 +49,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private int idSound = 0;
         private bool mIsConnecting = false;
         private long id = 0;
+        public bool mCurrentCameraWide;
 
         private void Awake()
         {
@@ -177,6 +178,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         public void SwitchCam()
         {
             Debug.LogError("RTC MANAGER : SWITCH CAMERA");
+            mCurrentCameraWide = !mCurrentCameraWide;
             mRtcEngine.SwitchCamera();
         }
 
@@ -212,7 +214,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             //mCamType = 0;
             //Buddy.Sensors.HDCamera.Open(HDCameraMode.COLOR_640X480_30FPS_RGB, (HDCameraType)mCamType);
             //Buddy.Sensors.HDCamera.OnNewFrame.Add((iFrame) => UpdateVideoFrame(iFrame));
-
+            mCurrentCameraWide = true;
             mRtcEngine.OnRemoteVideoStateChanged = OnRemoteVideoStateChanged;
             mRtcEngine.OnJoinChannelSuccess = OnJoinChannelSuccess;
             mRtcEngine.OnUserJoined = OnUserJoined;
@@ -224,7 +226,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     width = 4224
                 }
             };
-
+            mRtcEngine.AdjustRecordingSignalVolume(400);
             //mRtcEngine.SetVideoProfile(VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_4K, false);
 
             mRtcEngine.SetVideoEncoderConfiguration(videoEncoder);

@@ -259,9 +259,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             float lValue = 0F;
             Debug.LogWarning("angle yes: " + Buddy.Actuators.Head.Yes.Angle);
             if (Buddy.Actuators.Head.Yes.Angle > 0)
-                lValue = Buddy.Actuators.Head.Yes.Angle / Buddy.Actuators.Head.Yes.AngleMax;
+                lValue = Mathf.Abs(Buddy.Actuators.Head.Yes.Angle / Buddy.Actuators.Head.Yes.AngleMax);
             else
-                lValue = Buddy.Actuators.Head.Yes.Angle / Buddy.Actuators.Head.Yes.AngleMin;//YesHeadHinge.MAX_DOWN_ANGLE;
+                lValue = -Mathf.Abs(Buddy.Actuators.Head.Yes.Angle / Buddy.Actuators.Head.Yes.AngleMin);//YesHeadHinge.MAX_DOWN_ANGLE;
 
             SendRTMMessage(Utils.SerializeJSON(new JsonMessage("informYesAngle", lValue.ToString())));
             Debug.LogWarning("inform yes: " + lValue.ToString());
@@ -566,15 +566,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                         } else if (OnHeadYesAbsolute != null) {
                             Debug.LogWarning("Angle Yes received, ask to go " + lFloatValue);
 
-                            float lMaxValue;
-                            if (Buddy.Sensors.HDCamera.Type == HDCameraType.BACK)
-                                lMaxValue = 25F;
-                            else
-                                lMaxValue = 40F;
-
-
-                            Debug.LogWarning("Angle Yes received, we go at " + (Buddy.Actuators.Head.Yes.Angle + lFloatValue * lMaxValue) + " from " + Buddy.Actuators.Head.Yes.Angle); //Mathf.Lerp(Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax, (lFloatValue + 1.0F) / 2F) + " from " + Buddy.Actuators.Head.Yes );
-                            OnHeadYesAbsolute(Buddy.Actuators.Head.Yes.Angle + lFloatValue * lMaxValue); //Mathf.Lerp(Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax, (lFloatValue + 1.0F) / 2F));
+                            OnHeadYesAbsolute(lFloatValue); //Mathf.Lerp(Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax, (lFloatValue + 1.0F) / 2F));
                             //if (lFloatValue > 0)
                             //    OnHeadYesAbsolute(lFloatValue * Buddy.Actuators.Head.Yes.AngleMax);
                             //else
@@ -590,15 +582,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                         } else if (OnHeadNoAbsolute != null) {
                             Debug.LogWarning("Angle No received, ask to go " + lFloatValue);
 
-                            float lMaxValue;
-                            if (Buddy.Sensors.HDCamera.Type == HDCameraType.BACK)
-                                lMaxValue = 40F;
-                            else
-                                lMaxValue = 60F;
-
-
-                            Debug.LogWarning("Angle No received, we go at " + (Buddy.Actuators.Head.No.Angle - lFloatValue * lMaxValue) + " from " + Buddy.Actuators.Head.No.Angle); // Mathf.Lerp(Buddy.Actuators.Head.No.AngleMin, Buddy.Actuators.Head.No.AngleMax, (lFloatValue + 1.0F) / 2F) + " from " + Buddy.Actuators.Head.No);
-                            OnHeadNoAbsolute((Buddy.Actuators.Head.No.Angle - lFloatValue * lMaxValue)); //- Mathf.Lerp(Buddy.Actuators.Head.No.AngleMin, Buddy.Actuators.Head.No.AngleMax, (lFloatValue + 1.0F) / 2F));
+                            OnHeadNoAbsolute(lFloatValue); //- Mathf.Lerp(Buddy.Actuators.Head.No.AngleMin, Buddy.Actuators.Head.No.AngleMax, (lFloatValue + 1.0F) / 2F));
                             //OnHeadNoAbsolute(lFloatValue * Buddy.Actuators.Head.No.AngleMin);
                         }
 

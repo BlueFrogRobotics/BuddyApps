@@ -102,16 +102,32 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             Hangup.onClick.AddListener(OnHangup);
 
             mRTMManager.OnWheelsMotion = OnWheelsMotion;
+
             mRTMManager.OnHeadNoAbsolute = (lAngle) => {
-                Debug.LogWarning("Angle NO absolute " + lAngle);
-                //float lCoeff = Mathf.Abs(lAngle - Buddy.Actuators.Head.No.Angle) / Buddy.Actuators.Head.No.AngleMax;
-                Buddy.Actuators.Head.No.SetPosition(lAngle);//Mathf.Clamp(lAngle + Buddy.Actuators.Head.No.Angle, Buddy.Actuators.Head.No.AngleMin, Buddy.Actuators.Head.No.AngleMax), lCoeff * 70F, AccDecMode.SMOOTH);
+                float lMaxValue;
+                if (!mRTCManager.mCurrentCameraWide)
+                    lMaxValue = 40F;
+                else
+                    lMaxValue = 60F;
+
+
+                Debug.LogWarning("Angle No received, we go at " + (Buddy.Actuators.Head.No.Angle - lAngle * lMaxValue) + " from " + Buddy.Actuators.Head.No.Angle);
+                Buddy.Actuators.Head.No.SetPosition(Buddy.Actuators.Head.No.Angle - lAngle * lMaxValue);
             };
+
             mRTMManager.OnHeadYesAbsolute = (lAngle) => {
-                Debug.LogWarning("Angle YES absolute " + lAngle);
-                //float lCoeff = 1F;// Mathf.Abs(lAngle - Buddy.Actuators.Head.Yes.Angle) / Buddy.Actuators.Head.Yes.AngleMax;
-                Buddy.Actuators.Head.Yes.SetPosition(lAngle);// Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax), lCoeff * 20F, AccDecMode.SMOOTH);
+
+                float lMaxValue;
+                if (!mRTCManager.mCurrentCameraWide)
+                    lMaxValue = 25F;
+                else
+                    lMaxValue = 40F;
+
+                Debug.LogWarning("Angle Yes received, we go at " + (Buddy.Actuators.Head.Yes.Angle + lAngle * lMaxValue) + " from " + Buddy.Actuators.Head.Yes.Angle);
+                Buddy.Actuators.Head.Yes.SetPosition(Buddy.Actuators.Head.Yes.Angle + lAngle * lMaxValue);
+
             };
+
             mRTMManager.OnHeadNo = (lAngle) => {
                 if (lAngle * mPreviousAngle < 0) {
                     // Dirty way to clean the queue. Need new function in OS to do this
@@ -129,6 +145,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     mPreviousNoAngleTime = Time.time;
                 }
             };
+
             mRTMManager.OnHeadYes = (lAngle) => {
                 // If the user changes head direction
                 if (lAngle * mPreviousAngle < 0) {
