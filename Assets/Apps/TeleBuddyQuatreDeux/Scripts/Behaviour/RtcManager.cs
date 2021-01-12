@@ -327,6 +327,24 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             }
         }
 
+        public void MuteVideo(bool iBool)
+        {
+            mRtcEngine.MuteLocalVideoStream(iBool);
+            if(iBool)
+            {
+                mRtcEngine.DisableVideo();
+                mRtcEngine.DisableVideoObserver();
+            }
+            else
+            {
+                mRtcEngine.EnableVideo();
+                mRtcEngine.EnableVideoObserver();
+            }
+
+        }
+
+        
+
         public void Leave()
         {
             //TODO uncomment to change camera

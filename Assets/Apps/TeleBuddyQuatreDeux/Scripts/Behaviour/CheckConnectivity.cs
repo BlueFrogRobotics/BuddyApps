@@ -64,9 +64,15 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             OnRequestConnectionWifiOrMobileNetwork = CheckWifiAndMobileNetwork;
             OnNetworkWorking = CheckNetwork;
             if (OnRequestConnectionWifiOrMobileNetwork != null)
-                OnRequestConnectionWifiOrMobileNetwork(Buddy.IO.WiFi.CurrentWiFiNetwork.Connected/*true*/); // VERSION42
-            OnRequestDatabase = CheckDatabase;
+            {
+                if (Application.internetReachability == NetworkReachability.NotReachable)
+                    OnRequestConnectionWifiOrMobileNetwork(false); // VERSION42            OnRequestDatabase = CheckDatabase;
+                else
+                    OnRequestConnectionWifiOrMobileNetwork(true);
+            }
+                
             OnLaunchDatabase = LaunchDatabase;
+            //OnRequestDatabase = CheckDatabase;
             OnErrorAgoraio = ErrorAgoraio;
         }
 
@@ -88,10 +94,17 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         {
             //Debug.LogError("<color=green>CHECK CO : " + TeleBuddyQuatreDeuxData.Instance.ConnectivityProblem.ToString() +  "</color>");
 
+            //if (Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork)
+            //    Debug.LogError("CHECK CONNECTIVITY  4G");
+            //else if (Application.internetReachability == NetworkReachability.ReachableViaLocalAreaNetwork)
+            //    Debug.LogError("CHECK CONNECTIVITY WIFI");
+            //else if (Application.internetReachability == NetworkReachability.NotReachable)
+            //    Debug.LogError("CHECK CONNECTIVITY NO INTERNET");
+
             mRefreshTime += Time.deltaTime;
             mTimerUIDatabase += Time.deltaTime;
             // VERSION42
-            if (!Buddy.IO.WiFi.CurrentWiFiNetwork.Connected)
+            if (Application.internetReachability == NetworkReachability.NotReachable)
                 TeleBuddyQuatreDeuxData.Instance.ConnectivityProblem = ConnectivityProblem.WifiProblem;
 
 
