@@ -43,11 +43,11 @@ namespace BuddyApp.HumanCounter
             // Hide the default parameter button.
             Buddy.GUI.Header.DisplayParametersButton(false);
             // Initialize texture.
-            mCamView = new Texture2D(Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height);
+            mCamView = new Texture2D(Buddy.Sensors.HDCamera.Width, Buddy.Sensors.HDCamera.Height);
             // Set the RGB Camera
-            Buddy.Sensors.RGBCamera.Open(RGBCameraMode.COLOR_320X240_30FPS_RGB);
+            Buddy.Sensors.HDCamera.Open(HDCameraMode.COLOR_528X392_30FPS_RGB);
             // The matrix is send to OnNewFrame.
-            Buddy.Sensors.RGBCamera.OnNewFrame.Add((iInput) => OnFrameCaptured(iInput));
+            Buddy.Sensors.HDCamera.OnNewFrame.Add((iInput) => OnFrameCaptured(iInput));
             // Show Ui prefab as soon as possible
             StartCoroutine(DisplayCustomUi());
         }
@@ -58,16 +58,22 @@ namespace BuddyApp.HumanCounter
             Buddy.GUI.Header.HideTitle();
             mCustomUiAnim.SetTrigger("Close_WCall");
             StopCoroutine(DisplayCustomUi());
-            Buddy.Sensors.RGBCamera.Close();
+            Buddy.Sensors.HDCamera.Close();
         }
 
         //  -----CALLBACK------  //
 
         // On each frame captured by the camera this function is called, with the matrix of pixel.
-        private void OnFrameCaptured(RGBCameraFrame iInput)
+        private void OnFrameCaptured(HDCameraFrame iInput)
         {
-            // Always clone the input matrix to avoid working with the matrix when the C++ part wants to modify it. It will crash.
+            if (iInput == null)
+                return;
+
+            //mCamView = iInput.Texture;
+            //mCam.texture = mCamView;
+
             Mat lMatSrc = iInput.Mat.clone();
+            // Always clone the input matrix to avoid working with the matrix when the C++ part wants to modify it. It will crash.
             // Flip to avoid mirror effect.
             Core.flip(lMatSrc, lMatSrc, 1);
 

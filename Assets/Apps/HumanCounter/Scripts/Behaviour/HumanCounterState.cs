@@ -129,15 +129,15 @@ namespace BuddyApp.HumanCounter
                 if ((Buddy.Perception.SkeletonDetector.OnDetect.Count == 0 || !WINDOWS))
                 {
                     // Skeleton detection doesn't open the camera by default
-                    Buddy.Sensors.RGBCamera.Open(RGBCameraMode.COLOR_320X240_30FPS_RGB);
+                    Buddy.Sensors.HDCamera.Open(HDCameraMode.COLOR_528X392_30FPS_RGB);
                     Buddy.Perception.SkeletonDetector.OnDetect.AddP(OnSkeletonDetect);
 
                 }
             }
             // Initialize texture.
-            mCamView = new Texture2D(Buddy.Sensors.RGBCamera.Width, Buddy.Sensors.RGBCamera.Height);
+            mCamView = new Texture2D(Buddy.Sensors.HDCamera.Width, Buddy.Sensors.HDCamera.Height);
             // Setting of the callback to use camera data
-            Buddy.Sensors.RGBCamera.OnNewFrame.Add((iInput) => OnFrameCaptured(iInput));
+            Buddy.Sensors.HDCamera.OnNewFrame.Add((iInput) => OnFrameCaptured(iInput));
 
             // Hide the default parameter button.
             Buddy.GUI.Header.DisplayParametersButton(false);
@@ -235,7 +235,7 @@ namespace BuddyApp.HumanCounter
             mHumanDetectEnable = false;
             mFaceDetectEnable = false;
             mSkeletonDetectEnable = false;
-            Buddy.Sensors.RGBCamera.Close();
+            Buddy.Sensors.HDCamera.Close();
             // The removeP function is in work in progress - set WINDOWS to false to run on android.
             if (!WINDOWS)
             {
@@ -251,10 +251,16 @@ namespace BuddyApp.HumanCounter
         //  -----CALLBACK------  //
 
         // On each frame captured by the camera this function is called, with the matrix of pixel.
-        private void OnFrameCaptured(RGBCameraFrame iInput)
+        private void OnFrameCaptured(HDCameraFrame iInput)
         {
+            if (iInput == null)
+                return;
+
+            //mCamView = iInput.Texture;
+
             // Always clone the input matrix, this avoid to working with the original matrix, when the C++ part wants to modify it.
             Mat lMatSrc = iInput.Mat.clone();
+            //Mat lMatSrc = Utils.Texture2DToMat(iInput.Texture, CvType.CV_8U);
 
             // Drawing each box were detect something, on the frame.
             if (HumanCounterData.Instance.DetectionOption == DetectionOption.FACE_DETECT || HumanCounterData.Instance.DetectionOption == DetectionOption.HUMAN_DETECT)
