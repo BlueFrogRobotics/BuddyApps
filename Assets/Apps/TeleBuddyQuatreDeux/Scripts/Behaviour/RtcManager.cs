@@ -226,7 +226,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     width = 4224
                 }
             };
-            mRtcEngine.AdjustRecordingSignalVolume(400);
+            //mRtcEngine.AdjustRecordingSignalVolume(400);
             //mRtcEngine.SetVideoProfile(VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_4K, false);
 
             mRtcEngine.SetVideoEncoderConfiguration(videoEncoder);
@@ -608,7 +608,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private IEnumerator JoinAsync(string iChannel)
         {
             yield return GetToken(iChannel);
-            string lId = TeleBuddyQuatreDeuxBehaviour.EncodeToSHA256(TeleBuddyQuatreDeuxBehaviour.EncodeToMD5(Buddy.Platform.RobotUID));
+            string lId = TeleBuddyQuatreDeuxBehaviour.EncodeToSHA256(TeleBuddyQuatreDeuxBehaviour.EncodeToMD5(/*Buddy.Platform.RobotUID*/Buddy.IO.MobileData.IMEI()));
             //mRtcEngine.JoinChannelWithUserAccount(mToken, iChannel, lId);
             mRtcEngine.JoinChannelWithUserAccount(mToken, lId, lId);
             mRtcEngine.OnTokenPrivilegeWillExpire = OnTokenPrivilegeWillExpire;
@@ -618,7 +618,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private IEnumerator RenewTokenAsync()
         {
-            yield return GetToken(Buddy.Platform.RobotUID);
+            yield return GetToken(/*Buddy.Platform.RobotUID*/Buddy.IO.MobileData.IMEI());
             mRtcEngine.RenewToken(mToken);
             Debug.Log("renew");
         }

@@ -54,10 +54,10 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             else
                 mCallingUserName.text = mRTMManager.mCallRequest.userName;
             //VOCON
-            Buddy.Vocal.StopAndClear();
+            //Buddy.Vocal.StopAndClear();
             Buddy.Actuators.Speakers.Media.Play(mMusic);
             //VOCON
-            Buddy.Vocal.SayAndListen("tu as un appel de " + mCallingUserName.text + " veux-tu décrocher?", null,OnSpeechReco, null);
+            //Buddy.Vocal.SayAndListen("tu as un appel de " + mCallingUserName.text + " veux-tu décrocher?", null,OnSpeechReco, null);
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
@@ -73,8 +73,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         {
             Buddy.GUI.Toaster.Hide();
             //VOCON
-            Buddy.Vocal.OnEndListening.Clear();
-            Buddy.Vocal.StopAndClear();
+            //Buddy.Vocal.OnEndListening.Clear();
+            //Buddy.Vocal.StopAndClear();
             Buddy.Actuators.Speakers.Media.Stop();
         }
 
@@ -101,7 +101,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 if (!Buddy.Actuators.Speakers.Media.IsBusy)
                     Buddy.Actuators.Speakers.Media.Play(mMusic);
                 //VOCON
-                Buddy.Vocal.SayAndListen("tu as un appel de " + mCallingUserName.text + " veux-tu décrocher?", null, OnSpeechReco, null);
+                //Buddy.Vocal.SayAndListen("tu as un appel de " + mCallingUserName.text + " veux-tu décrocher?", null, OnSpeechReco, null);
 
             } else {
                 Buddy.GUI.Notifier.Display<SimpleNotification>().With("Appel manqué en provenance de " + mCallingUserName.text);
@@ -121,8 +121,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             Trigger("IDLE");
             Buddy.GUI.Toaster.Hide();
             //VOCON
-            Buddy.Vocal.OnEndListening.Clear();
-            Buddy.Vocal.StopAndClear();
+            //Buddy.Vocal.OnEndListening.Clear();
+            //Buddy.Vocal.StopAndClear();
             Buddy.Actuators.Speakers.Media.Stop();
             mRTMManager.AnswerCallRequest(false);
         }
@@ -133,8 +133,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
             Buddy.GUI.Toaster.Hide();
             //VOCON
-            Buddy.Vocal.OnEndListening.Clear();
-            Buddy.Vocal.StopAndClear();
+            //Buddy.Vocal.OnEndListening.Clear();
+            //Buddy.Vocal.StopAndClear();
             Buddy.Actuators.Speakers.Media.Stop();
             mRTMManager.AnswerCallRequest(true);
             mRTCManager.Join(mRTMManager.mCallRequest.channelId);

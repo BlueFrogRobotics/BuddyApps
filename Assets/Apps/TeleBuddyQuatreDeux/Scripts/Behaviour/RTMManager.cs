@@ -51,7 +51,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         void Start()
         {
             PingReceived = false;
-            mBuddyId = Buddy.Platform.RobotUID;
+            mBuddyId = /*Buddy.Platform.RobotUID*/ Buddy.IO.MobileData.IMEI();
             mMovingYes = false;
             mMovingNo = false;
             Buddy.Actuators.Wheels.Locked = true;

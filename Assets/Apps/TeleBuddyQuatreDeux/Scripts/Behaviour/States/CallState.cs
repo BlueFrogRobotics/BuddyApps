@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections;
 using UnityEngine;
 using BlueQuark;
 using System;
@@ -311,59 +310,59 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             };
 
             mRTMManager.OnTakePhoto = (lTakePhoto) => {
-                //Debug.LogError("CALLSTATE TAKE PHOTO WITH switchcam ");
-                ////Save image from open camera on the robot
-                //Utils.DeleteFile(Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
-                //Texture2D iPhotoFromRobot = (Texture2D)GetGameObject(12).GetComponentInChildren<RawImage>().texture;
-                //Utils.SaveTextureToFile(iPhotoFromRobot, Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
-                //Debug.LogError("CALLSTATE TAKE PHOTO WITH TAKEPHOTOGRAPH PATH : " + Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
-                //string iPathPhotoSaved = Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg";
-                ////iPathPhotoSaved = mRTCManager.TakePhoto();
-                //Debug.LogError("path photo saved : " + iPathPhotoSaved);
-                ////test
-                ////Buddy.WebServices.Agoraio.SendPicture(DBManager.Instance.ListUIDTablet[TeleBuddyQuatreDeuxData.Instance.IndexTablet],/* Buddy.Resources.AppSpritesPath + "background.jpg"*/iPathPhotoSaved);
-                //Buddy.WebServices.Agoraio.SendPicture(mRTMManager.IdConnectionTablet,/* Buddy.Resources.AppSpritesPath + "background.jpg"*/iPathPhotoSaved);
+                Debug.LogError("CALLSTATE TAKE PHOTO WITH switchcam ");
+                //Save image from open camera on the robot
+                Utils.DeleteFile(Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
+                Texture2D iPhotoFromRobot = (Texture2D)GetGameObject(12).GetComponentInChildren<RawImage>().texture;
+                Utils.SaveTextureToFile(iPhotoFromRobot, Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
+                Debug.LogError("CALLSTATE TAKE PHOTO WITH TAKEPHOTOGRAPH PATH : " + Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
+                string iPathPhotoSaved = Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg";
+                //iPathPhotoSaved = mRTCManager.TakePhoto();
+                Debug.LogError("path photo saved : " + iPathPhotoSaved);
+                //test
+                //Buddy.WebServices.Agoraio.SendPicture(DBManager.Instance.ListUIDTablet[TeleBuddyQuatreDeuxData.Instance.IndexTablet],/* Buddy.Resources.AppSpritesPath + "background.jpg"*/iPathPhotoSaved);
+                Buddy.WebServices.Agoraio.SendPicture(mRTMManager.IdConnectionTablet,/* Buddy.Resources.AppSpritesPath + "background.jpg"*/iPathPhotoSaved);
 
-                //Debug.LogError("CALLSTATE TAKE PHOTO WITH TAKEPHOTOGRAPH WITH PATH BACKGROUND : " + Buddy.Resources.AppSpritesPath + "background.jpg");
+                Debug.LogError("CALLSTATE TAKE PHOTO WITH TAKEPHOTOGRAPH WITH PATH BACKGROUND : " + Buddy.Resources.AppSpritesPath + "background.jpg");
 
 
 
 
 
                 //new test take photo
-                HDCamera mHDCam;
-                mHDCam = Buddy.Sensors.HDCamera;
-                mHDCam.OnNewFrame.Clear();
-                mHDCam.Close();
-                Debug.LogError("*****CALLSTATE TAKE PHOTO WITH test hdcam ");
-                Utils.DeleteFile(Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
-                Debug.LogError("*****CALLSTATE TAKE PHOTO WITH test hdcam 1");
-                mRTCManager.MuteVideo(true);
-                Debug.LogError("*****CALLSTATE TAKE PHOTO WITH test hdcam 4");
-                mHDCam.Open(HDCameraMode.COLOR_4224x3136_30FPS_RGB, HDCameraType.FRONT);
-                Debug.LogError("*****CALLSTATE TAKE PHOTO WITH test hdcam 5");
-                Texture2D iPhotoFromRobotTest;
-                mHDCam.OnNewFrame.Add((iInput) => {
-                    Debug.LogError("*****CALLSTATE TAKE PHOTO WITH test hdcam 6");
-                    if(iInput.Texture != null)
-                    {
-                        Debug.LogError("*****CALLSTATE TAKE PHOTO WITH test hdcam 6 : height " + iInput.Texture.height + " width : " + iInput.Texture.width);
-                        iPhotoFromRobotTest = iInput.Texture;
-                        Debug.LogError("*****CALLSTATE TAKE PHOTO WITH test hdcam 7 : " + Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
-                        Utils.SaveTextureToFile(iPhotoFromRobotTest, Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
+                //HDCamera mHDCam;
+                //mHDCam = Buddy.Sensors.HDCamera;
+                //mHDCam.OnNewFrame.Clear();
+                //mHDCam.Close();
+                //Debug.LogError("*****CALLSTATE TAKE PHOTO WITH test hdcam ");
+                //Utils.DeleteFile(Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
+                //Debug.LogError("*****CALLSTATE TAKE PHOTO WITH test hdcam 1");
+                //mRTCManager.MuteVideo(true);
+                //Debug.LogError("*****CALLSTATE TAKE PHOTO WITH test hdcam 4");
+                //mHDCam.Open(HDCameraMode.COLOR_4224x3136_30FPS_RGB, HDCameraType.FRONT);
+                //Debug.LogError("*****CALLSTATE TAKE PHOTO WITH test hdcam 5");
+                //Texture2D iPhotoFromRobotTest;
+                //mHDCam.OnNewFrame.Add((iInput) => {
+                //    Debug.LogError("*****CALLSTATE TAKE PHOTO WITH test hdcam 6");
+                //    if(iInput.Texture != null)
+                //    {
+                //        Debug.LogError("*****CALLSTATE TAKE PHOTO WITH test hdcam 6 : height " + iInput.Texture.height + " width : " + iInput.Texture.width);
+                //        iPhotoFromRobotTest = iInput.Texture;
+                //        Debug.LogError("*****CALLSTATE TAKE PHOTO WITH test hdcam 7 : " + Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
+                //        Utils.SaveTextureToFile(iPhotoFromRobotTest, Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
 
-                    }
-                    Debug.LogError("*****CALLSTATE TAKE PHOTO WITH test hdcam 8");
-                    string iPathPhotoSavedTest = Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg";
-                    Debug.LogError("*****CALLSTATE TAKE PHOTO WITH test hdcam 9 : " + iPathPhotoSavedTest);
-                    Buddy.WebServices.Agoraio.SendPicture(mRTMManager.IdConnectionTablet, iPathPhotoSavedTest);
-                    Debug.LogError("*****CALLSTATE TAKE PHOTO WITH test hdcam 10");
-                    mHDCam.OnNewFrame.Clear();
-                    mHDCam.Close();
-                    mRTCManager.MuteVideo(false);
-                    Debug.LogError("*****CALLSTATE TAKE PHOTO WITH test hdcam 11");
+                //    }
+                //    Debug.LogError("*****CALLSTATE TAKE PHOTO WITH test hdcam 8");
+                //    string iPathPhotoSavedTest = Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg";
+                //    Debug.LogError("*****CALLSTATE TAKE PHOTO WITH test hdcam 9 : " + iPathPhotoSavedTest);
+                //    Buddy.WebServices.Agoraio.SendPicture(mRTMManager.IdConnectionTablet, iPathPhotoSavedTest);
+                //    Debug.LogError("*****CALLSTATE TAKE PHOTO WITH test hdcam 10");
+                //    mHDCam.OnNewFrame.Clear();
+                //    mHDCam.Close();
+                //    mRTCManager.MuteVideo(false);
+                //    Debug.LogError("*****CALLSTATE TAKE PHOTO WITH test hdcam 11");
 
-                });
+                //});
 
 
             };

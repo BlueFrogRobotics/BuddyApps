@@ -2,13 +2,13 @@
 <AppInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <ID>c122205216411</ID>
     <ShortName>TeleBuddyQuatreDeux</ShortName>
-    <CommercialName>TeleBuddyQuatreDeux</CommercialName>
+    <CommercialName>TeleBuddy</CommercialName>
     <ShortDescription>Telebuddy for the robot 4.2</ShortDescription>
     <MainScene>0</MainScene>
     <Authors>bfr-dev</Authors>
-    <Version>1.1.13.1</Version>
+    <Version>1.1.45.0</Version>
     <VersionStatus>NONE</VersionStatus>
-    <VersionName>TestBuddy test co</VersionName>
+    <VersionName>TestBuddy old takephoto no vocon IMEI</VersionName>
     <Category>COMPANION</Category>
     <Permissions>
         <AppPermission>
@@ -57,6 +57,10 @@
         </AppPermission>
         <AppPermission>
             <Type>DISABLE_LOADING_SCREEN</Type>
+            <IsValid>false</IsValid>
+        </AppPermission>
+        <AppPermission>
+            <Type>AUTOLOAD_SSL_CERTIFICATES</Type>
             <IsValid>false</IsValid>
         </AppPermission>
     </Permissions>

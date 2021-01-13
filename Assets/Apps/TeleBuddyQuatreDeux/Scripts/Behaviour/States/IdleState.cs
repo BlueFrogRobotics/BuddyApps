@@ -27,14 +27,14 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mRTMManager = GetComponent<RTMManager>();
             mRTCManager = GetComponent<RTCManager>();
            
-            mCallButton = GetGameObject(10).GetComponent<Button>();
-            mChannelId = Buddy.Platform.RobotUID+RandomString(10);
+            mCallButton = GetGameObject(10).GetComponent<Button>(); 
+            mChannelId = /*Buddy.Platform.RobotUID*/Buddy.IO.MobileData.IMEI()+RandomString(10);
 
             //VOCON
-            Buddy.Vocal.DefaultInputParameters.Grammars = new string[1] { "grammar" };
-            Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
-            Buddy.Vocal.DefaultInputParameters.RecognitionThreshold = 5000;
-            Buddy.Vocal.OnTrigger.Add((lHotWord) => Buddy.Vocal.Listen("grammar", OnEndListen, SpeechRecognitionMode.GRAMMAR_ONLY));
+            //Buddy.Vocal.DefaultInputParameters.Grammars = new string[1] { "grammar" };
+            //Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
+            //Buddy.Vocal.DefaultInputParameters.RecognitionThreshold = 5000;
+            //Buddy.Vocal.OnTrigger.Add((lHotWord) => Buddy.Vocal.Listen("grammar", OnEndListen, SpeechRecognitionMode.GRAMMAR_ONLY));
         }
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -103,8 +103,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             //Buddy.Vocal.EnableTrigger = false;
             mRTMManager.OncallRequest = null;
             mCallButton.onClick.RemoveAllListeners();
-            Buddy.Vocal.OnTrigger.Clear();
-            Buddy.Vocal.ListenOnTrigger = false;
+            //VOCON
+            //Buddy.Vocal.OnTrigger.Clear();
+            //Buddy.Vocal.ListenOnTrigger = false;
             ResetTrigger("IDLE");
         }
 

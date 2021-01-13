@@ -267,7 +267,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                             //ZOHO V2 voir si on doit envoyer en param le refresh token
                             mAccessToken = mTokenData.Access_Token;
                             Debug.LogError(" ACCESS TOKEN " + mAccessToken);
-                            StartCoroutine(GetUserIdFromUID(Buddy.Platform.RobotUID, mAccessToken));
+                            //StartCoroutine(GetUserIdFromUID(Buddy.Platform.RobotUID, mAccessToken));
+                            StartCoroutine(GetUserIdFromUID(Buddy.IO.MobileData.IMEI(), mAccessToken));
                         }
                     }
                     catch (Exception e)
