@@ -419,6 +419,13 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 mTimeSinceMovement = Time.time;
             }
 
+            if(!mRTMManager.mStaticSteering)
+            {
+                if (OneOrMoreCliff())
+                    Buddy.Actuators.Wheels.UnlockWheels();
+
+            }
+
             if (DBManager.Instance.CanEndCourse) {
                 mTimerEndCall += Time.deltaTime;
                 if (!mEndCallDisplay)
@@ -503,6 +510,24 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 }
             }
 
+        }
+
+        public bool OneOrMoreCliff()
+        {
+            return BackCliff() || FrontCliff();
+        }
+        public bool BackCliff()
+        {
+            return Buddy.Sensors.CliffSensors.BackLeftFreeWheel.Value > 65F ||
+                Buddy.Sensors.CliffSensors.BackRightFreeWheel.Value > 65F ||
+                Buddy.Sensors.CliffSensors.BackLeftWheel.Value > 65F ||
+                Buddy.Sensors.CliffSensors.BackRightWheel.Value > 65F;
+        }
+        public bool FrontCliff()
+        {
+            return Buddy.Sensors.CliffSensors.FrontFreeWheel.Value > 65F ||
+                Buddy.Sensors.CliffSensors.FrontLeftWheel.Value > 65F ||
+                Buddy.Sensors.CliffSensors.FrontRightWheel.Value > 65F;
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

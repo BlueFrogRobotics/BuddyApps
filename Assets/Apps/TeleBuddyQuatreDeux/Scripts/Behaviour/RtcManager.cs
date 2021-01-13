@@ -216,17 +216,17 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             //Buddy.Sensors.HDCamera.OnNewFrame.Add((iFrame) => UpdateVideoFrame(iFrame));
             mCurrentCameraWide = true;
             mRtcEngine.OnRemoteVideoStateChanged = OnRemoteVideoStateChanged;
-            mRtcEngine.OnJoinChannelSuccess = OnJoinChannelSuccess;
+            mRtcEngine.OnJoinChannelSuccess = OnJoinChannelSuccess; 
             mRtcEngine.OnUserJoined = OnUserJoined;
             mRtcEngine.OnUserOffline = OnUserOffline;
             VideoEncoderConfiguration videoEncoder = new VideoEncoderConfiguration {
                 degradationPreference = DEGRADATION_PREFERENCE.MAINTAIN_QUALITY,
                 dimensions = new VideoDimensions() {
-                    height = 3136,
-                    width = 4224
+                    height = 1080,
+                    width = 1920
                 }
             };
-            //mRtcEngine.AdjustRecordingSignalVolume(400);
+            mRtcEngine.AdjustRecordingSignalVolume(200); 
             //mRtcEngine.SetVideoProfile(VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_4K, false);
 
             mRtcEngine.SetVideoEncoderConfiguration(videoEncoder);
