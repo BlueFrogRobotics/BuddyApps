@@ -801,6 +801,7 @@ MonoBehaviour:
   buttonEnableVideo: {fileID: 1791199265}
   buttonEnableAudio: {fileID: 1791199267}
   mVideoIsEnabled: 0
+  mCurrentCameraWide: 0
 --- !u!114 &1669233720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1265,6 +1266,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300068, guid: a788620608ecaa948bb03354003e2f48,
         type: 3}
+    - target: {fileID: 114576460460391028, guid: e587b3a1972a70141899306af99c5aa6,
+        type: 3}
+      propertyPath: m_FlexibleWidth
+      value: 700
+      objectReference: {fileID: 0}
     - target: {fileID: 114584075810938916, guid: e587b3a1972a70141899306af99c5aa6,
         type: 3}
       propertyPath: m_MinWidth
@@ -2544,7 +2550,7 @@ PrefabInstance:
     - target: {fileID: 224444728905710114, guid: e587b3a1972a70141899306af99c5aa6,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 0.000061035156
       objectReference: {fileID: 0}
     - target: {fileID: 224456954894521806, guid: e587b3a1972a70141899306af99c5aa6,
         type: 3}
@@ -3424,12 +3430,12 @@ PrefabInstance:
     - target: {fileID: 224995617803628810, guid: e587b3a1972a70141899306af99c5aa6,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1016.6666
+      value: 997.4074
       objectReference: {fileID: 0}
     - target: {fileID: 224995617803628810, guid: e587b3a1972a70141899306af99c5aa6,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 446.66666
+      value: 485.18518
       objectReference: {fileID: 0}
     - target: {fileID: 224995617803628810, guid: e587b3a1972a70141899306af99c5aa6,
         type: 3}
