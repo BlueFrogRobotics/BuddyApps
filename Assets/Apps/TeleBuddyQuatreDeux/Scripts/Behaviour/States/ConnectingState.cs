@@ -38,7 +38,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Debug.LogError("CONNECTING STATE -----------------------------------");
+            Debug.Log("CONNECTING STATE -----------------------------------");
+            Buddy.Sensors.Microphones.SoundOutputParameters = new SoundOutputParameters(16);
             mRTCManager.Leave();
             TeleBuddyQuatreDeuxData.Instance.CurrentState = TeleBuddyQuatreDeuxData.States.CONNECTING_STATE;
             for (int i = 0; i < mUsers.Count; i++)
@@ -92,7 +93,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             {
                 if (DBManager.Instance.ListUIDTablet.Count == 1)
                 {
-                    Debug.LogError("<color=green>SHOW ONE USER</color>");
+                    Debug.Log("<color=green>SHOW ONE USER</color>");
                     mListDone = true;
                     ButtonClick(0);
                 }
@@ -100,7 +101,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 {
                     if (!mDisplayList)
                     {
-                        Debug.LogError("<color=green>SHOW LIST</color>");
+                        Debug.Log("<color=green>SHOW LIST</color>");
                         mDisplayList = true;
                         GetGameObject(17).SetActive(true);
 

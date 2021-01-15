@@ -313,7 +313,7 @@ namespace BuddyApp.DiagnosticProd
 
         public void MoveYesTop(bool iActivate)
         {
-            Debug.LogError("MOVE YES TOP " + iActivate);
+            Debug.Log("MOVE YES TOP " + iActivate);
             mActivationYesTop = iActivate;
             if (!iActivate)
                 mLastYesAngle = -1000F;
@@ -321,7 +321,7 @@ namespace BuddyApp.DiagnosticProd
 
         public void MoveYesDown(bool iActivate)
         {
-            Debug.LogError("MOVE YES Down " + iActivate);
+            Debug.Log("MOVE YES Down " + iActivate);
             mActivationYesDown = iActivate;
             if (!iActivate)
                 mLastYesAngle = -1000F;
@@ -329,7 +329,7 @@ namespace BuddyApp.DiagnosticProd
 
         public void MoveNoLeft(bool iActivate)
         {
-            Debug.LogError("MOVE no left " + iActivate);
+            Debug.Log("MOVE no left " + iActivate);
             mActivationNoLeft = iActivate;
             if (!iActivate)
                 mLastNoAngle = -1000F;
@@ -337,7 +337,7 @@ namespace BuddyApp.DiagnosticProd
 
         public void MoveNoRight(bool iActivate)
         {
-            Debug.LogError("MOVE no right " + iActivate);
+            Debug.Log("MOVE no right " + iActivate);
             mActivationNoRight = iActivate;
             if (!iActivate)
                 mLastNoAngle = -1000F;

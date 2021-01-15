@@ -128,7 +128,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         public string TakePhoto()
         {
             Utils.DeleteFile(Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
-            Debug.LogError("take photo in rtc maanger");
+            Debug.Log("take photo in rtc maanger");
             string iPathPhoto = "";
             Texture2D iPhotoTaken = (Texture2D)rawVideo.GetComponent<RawImage>().texture;
             Utils.SaveTextureToFile(iPhotoTaken, Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
@@ -177,7 +177,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         public void SwitchCam()
         {
-            Debug.LogError("RTC MANAGER : SWITCH CAMERA");
+            Debug.Log("RTC MANAGER : SWITCH CAMERA");
             mCurrentCameraWide = !mCurrentCameraWide;
             mRtcEngine.SwitchCamera();
         }
@@ -226,7 +226,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     width = 1920
                 }
             };
-            mRtcEngine.AdjustRecordingSignalVolume(200); 
+
+            //mRtcEngine.AdjustRecordingSignalVolume(120);
             //mRtcEngine.SetVideoProfile(VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_4K, false);
 
             mRtcEngine.SetVideoEncoderConfiguration(videoEncoder);
@@ -235,6 +236,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mRtcEngine.EnableVideoObserver();
             //mRtcEngine.SetExternalAudioSource(true, 44100, 1);
             mRtcEngine.EnableAudio();
+            mRtcEngine.SetParameters("{\"che.audio.opensl\":true}");
 
             // TODO uncomment to Change camera
             //mRtcEngine.SetExternalVideoSource(true, false);
@@ -286,7 +288,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                         mRtcEngine.PushVideoFrame(externalVideoFrame);
                         mFrameProcessing = false;
                     } else {
-                        Debug.LogError("No frame on HD camera");
+                        Debug.LogWarning("No frame on HD camera");
                     }
                 }
             }
@@ -366,7 +368,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         public void SwitchVideoState()
         {
-            Debug.LogError("SWITCH VIDEO STATE");
+            Debug.Log("SWITCH VIDEO STATE");
             if (mVideoIsEnabled) {
                 mRtcEngine.MuteLocalVideoStream(true);
                 buttonEnableVideo.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconVideoOff");
@@ -379,7 +381,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         public void SwitchAudioState()
         {
-            Debug.LogError("SWITCH AUDIO STATE");
+            Debug.Log("SWITCH AUDIO STATE");
             if (mAudioIsEnabled) {
                 mRtcEngine.MuteLocalAudioStream(true);
                 buttonEnableAudio.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconMicroOff");
@@ -409,7 +411,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         public void SetProfilePicture(string iData, int iWidth, int iHeight)
         {
-            Debug.LogError("Set profile picture");
+            Debug.Log("Set profile picture");
             byte[] newBytes = Convert.FromBase64String(iData);
             Texture2D tex = new Texture2D(iWidth, iHeight);
             tex.LoadImage(newBytes);
@@ -423,7 +425,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             rawVideo.gameObject.SetActive(true);
             rawVideo.texture = tex;
 
-            Debug.LogError("***********HEIGHT : " + rawVideo.texture.height + " ********WIDTH : " + rawVideo.texture.width);
+            Debug.Log("***********HEIGHT : " + rawVideo.texture.height + " ********WIDTH : " + rawVideo.texture.width);
         }
 
         private void OnJoinChannelSuccess(string channelName, uint uid, int elapsed)
@@ -483,7 +485,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private void OnRemoteVideoStateChanged(uint uid, REMOTE_VIDEO_STATE state, REMOTE_VIDEO_STATE_REASON reason, int elapsed)
         {
-            Debug.LogError("RTC MANAGER : remote video " + state + " reason " + reason);
+            Debug.Log("RTC MANAGER : remote video " + state + " reason " + reason);
             if (uid == mUid)
                 return;
             VideoSurface lVideoSurface = rawVideo.GetComponent<VideoSurface>();
@@ -517,7 +519,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private void OnFirstRemoteVideoFrame(uint uid, int width, int height, int elapsed)
         {
             float lAspectRatio = height / width;
-            Debug.LogError("first remote frame: " + width + " " + height + " " + lAspectRatio);
+            Debug.Log("first remote frame: " + width + " " + height + " " + lAspectRatio);
             if (rawVideo.texture == null || uid == mUid)
                 return;
             rawVideo.rectTransform.sizeDelta = new Vector2(WIDTH, WIDTH * lAspectRatio);
@@ -526,7 +528,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private void OnFirstLocalVideoFrame(int width, int height, int elapsed)
         {
             float lAspectRatio = height / width;
-            Debug.LogError("first local frame: " + width + " " + height + " " + lAspectRatio);
+            Debug.Log("first local frame: " + width + " " + height + " " + lAspectRatio);
             if (rawVideoLocal.texture == null)
                 return;
             rawVideoLocal.rectTransform.sizeDelta = new Vector2(360, 360 * lAspectRatio);
@@ -625,7 +627,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private void OnDestroy()
         {
-            Debug.LogError("ON DESTROY RTC LEAVE");
+            Debug.Log("ON DESTROY RTC LEAVE");
             Leave();
         }
     }

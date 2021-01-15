@@ -250,7 +250,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         {
             if (!Buddy.GUI.Toaster.IsBusy)
             {
-                Debug.LogError("<color=green>CHECK CO : CHECK DB WITHOUT TOASTER</color>");
+                Debug.Log("<color=green>CHECK CO : CHECK DB WITHOUT TOASTER</color>");
                 Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
                     TText lText = iBuilder.CreateWidget<TText>();
                     lText.SetLabel(Buddy.Resources.GetString("edudbproblem"));
@@ -259,7 +259,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             }
             else
             {
-                Debug.LogError("<color=green>CHECK CO : CHECK DB WITH TOASTER</color>");
+                Debug.Log("<color=green>CHECK CO : CHECK DB WITH TOASTER</color>");
                 DBManager.Instance.IsRefreshButtonPushed = true;
                 TeleBuddyQuatreDeuxData.Instance.InitializeDone = false;
                 DBManager.Instance.StartDBManager();//TODO WALID: commenter ca pour tester si y a toujours l'acces denied

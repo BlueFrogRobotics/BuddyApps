@@ -106,9 +106,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mRTMManager.OnHeadNoAbsolute = (lAngle) => {
                 float lMaxValue;
                 if (!mRTCManager.mCurrentCameraWide)
-                    lMaxValue = 40F;
+                    lMaxValue = 30F;
                 else
-                    lMaxValue = 60F;
+                    lMaxValue = 40F;
 
 
                 Debug.LogWarning("Angle No received, we go at " + (Buddy.Actuators.Head.No.Angle - lAngle * lMaxValue) + " from " + Buddy.Actuators.Head.No.Angle);
@@ -119,9 +119,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
                 float lMaxValue;
                 if (!mRTCManager.mCurrentCameraWide)
-                    lMaxValue = 25F;
+                    lMaxValue = 13F;
                 else
-                    lMaxValue = 40F;
+                    lMaxValue = 21F;
 
                 Debug.LogWarning("Angle Yes received, we go at " + (Buddy.Actuators.Head.Yes.Angle + lAngle * lMaxValue) + " from " + Buddy.Actuators.Head.Yes.Angle);
                 Buddy.Actuators.Head.Yes.SetPosition(Buddy.Actuators.Head.Yes.Angle + lAngle * lMaxValue);
@@ -293,8 +293,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 //VOCON
                 float lCallVolume = GetCallVolume();
                 SetCallVolume(0F);
-                Buddy.Vocal.Say(lMessage, (lOutput) =>
-                {
+                Buddy.Vocal.Say(lMessage, (lOutput) => {
                     SetCallVolume(lCallVolume);
                 });
             };
@@ -303,27 +302,26 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 mRTCManager.SwitchCam();
             };
 
-            mRTMManager.OnMood = (lMood) =>
-            {
-                Debug.LogError("ON MOOD profil set active false");
+            mRTMManager.OnMood = (lMood) => {
+                Debug.Log("ON MOOD profil set active false");
                 GetGameObject(22).SetActive(false);
             };
 
             mRTMManager.OnTakePhoto = (lTakePhoto) => {
-                Debug.LogError("CALLSTATE TAKE PHOTO WITH switchcam ");
+                Debug.Log("CALLSTATE TAKE PHOTO WITH switchcam ");
                 //Save image from open camera on the robot
                 Utils.DeleteFile(Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
                 Texture2D iPhotoFromRobot = (Texture2D)GetGameObject(12).GetComponentInChildren<RawImage>().texture;
                 Utils.SaveTextureToFile(iPhotoFromRobot, Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
-                Debug.LogError("CALLSTATE TAKE PHOTO WITH TAKEPHOTOGRAPH PATH : " + Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
+                Debug.Log("CALLSTATE TAKE PHOTO WITH TAKEPHOTOGRAPH PATH : " + Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
                 string iPathPhotoSaved = Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg";
                 //iPathPhotoSaved = mRTCManager.TakePhoto();
-                Debug.LogError("path photo saved : " + iPathPhotoSaved);
+                Debug.Log("path photo saved : " + iPathPhotoSaved);
                 //test
                 //Buddy.WebServices.Agoraio.SendPicture(DBManager.Instance.ListUIDTablet[TeleBuddyQuatreDeuxData.Instance.IndexTablet],/* Buddy.Resources.AppSpritesPath + "background.jpg"*/iPathPhotoSaved);
                 Buddy.WebServices.Agoraio.SendPicture(mRTMManager.IdConnectionTablet,/* Buddy.Resources.AppSpritesPath + "background.jpg"*/iPathPhotoSaved);
 
-                Debug.LogError("CALLSTATE TAKE PHOTO WITH TAKEPHOTOGRAPH WITH PATH BACKGROUND : " + Buddy.Resources.AppSpritesPath + "background.jpg");
+                Debug.Log("CALLSTATE TAKE PHOTO WITH TAKEPHOTOGRAPH WITH PATH BACKGROUND : " + Buddy.Resources.AppSpritesPath + "background.jpg");
 
 
 
@@ -375,14 +373,14 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             VideoFeedbackButton.gameObject.SetActive(true);
             Hangup.gameObject.SetActive(true);
         }
-        
+
         private void OnPhotoTaken(Photograph iMyPhoto)
         {
             if (iMyPhoto == null) {
-                Debug.LogError("OnFinish take photo, iPhoto null");
+                Debug.Log("OnFinish take photo, iPhoto null");
                 return;
             }
-            Debug.LogError("CALL STATE : PHOTO TAKEN");
+            Debug.Log("CALL STATE : PHOTO TAKEN");
             // test to display photo
             Sprite mPhotoSprite = Sprite.Create(iMyPhoto.Image.texture, new UnityEngine.Rect(0, 0, iMyPhoto.Image.texture.width, iMyPhoto.Image.texture.height), new Vector2(0.5F, 0.5F));
             //OU (la deuxième version bugguait à un moment)
@@ -398,7 +396,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         {
             mTimeSinceMovement = Time.time;
             Buddy.Actuators.Wheels.SetVelocities(Wheels.MAX_LIN_VELOCITY * Mathf.Pow(iWheelsMotion.speed, 3),
-                Wheels.MAX_ANG_VELOCITY * Mathf.Pow(iWheelsMotion.angularVelocity, 3));
+                Wheels.MAX_ANG_VELOCITY * Mathf.Pow(iWheelsMotion.angularVelocity, 3), AccDecMode.HIGH);
         }
 
         private bool IsPointerOverUIObject()
@@ -413,26 +411,21 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            if (!mRTMManager.mStaticSteering) {
+                if (!Buddy.Actuators.Wheels.Locked && Time.time - mTimeSinceMovement > 0.3F && mTimeSinceMovement != -1F) {
+                    Buddy.Actuators.Wheels.SetVelocities(0F, 0F, AccDecMode.HIGH);
+                    mTimeSinceMovement = -1F;
+                }
 
-            if (!Buddy.Actuators.Wheels.Locked && Time.time - mTimeSinceMovement > 0.5F) {
-                Buddy.Actuators.Wheels.SetVelocities(0F, 0F, AccDecMode.HIGH);
-                mTimeSinceMovement = Time.time;
-            }
-
-            if(!mRTMManager.mStaticSteering)
-            {
                 if (OneOrMoreCliff())
                     Buddy.Actuators.Wheels.UnlockWheels();
-
             }
 
             if (DBManager.Instance.CanEndCourse) {
                 mTimerEndCall += Time.deltaTime;
-                if (!mEndCallDisplay)
-                {
+                if (!mEndCallDisplay) {
                     mEndCallDisplay = true;
-                    Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
-                    {
+                    Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
                         TText lText = iBuilder.CreateWidget<TText>();
                         lText.SetLabel(Buddy.Resources.GetString("eduendcall"));
                     }, null, null);
@@ -440,10 +433,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
 
                 if (mTimerEndCall > 8F) {
-
                     Buddy.GUI.Toaster.Hide();
-                    if (DBManager.Instance.ListUIDTablet.Count > 1)
-                    {
+                    if (DBManager.Instance.ListUIDTablet.Count > 1) {
                         GetGameObject(21).SetActive(true);
                     }
                     ManageGUIClose();

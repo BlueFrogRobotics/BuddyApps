@@ -334,34 +334,34 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private void InitRTM()
         {
-            Debug.LogError("INIT - RTMMANAGER");
+            Debug.Log("INIT - RTMMANAGER");
             Buddy.WebServices.Agoraio.InitRTM(/*TeleBuddyQuatreDeuxBehaviour.APP_ID*/ DBManager.Instance.ListUserStudent[TeleBuddyQuatreDeuxData.Instance.IndexTablet].AppID);//TODO WALID: attendre que la requete zoho soit terminé avant etremplacer par l'app id recu //TODO MC : tout est fait dans connectingstate ButtonClick()
             Buddy.WebServices.Agoraio.OnMessage = OnMessage;
 
-            Debug.LogError("INIT fin - RTMMANAGER");
+            Debug.Log("INIT fin - RTMMANAGER");
         }
 
         public void Login()
         {
-            Debug.LogError("LOGIN - RTMMANAGER");
+            Debug.Log("LOGIN - RTMMANAGER");
             StartCoroutine(LoginAsync());
-            Debug.LogError("LOGIN fin - RTMMANAGER");
+            Debug.Log("LOGIN fin - RTMMANAGER");
         }
 
         public void Logout()
         {
-            Debug.LogError("LOGOUT - RTMMANAGER");
+            Debug.Log("LOGOUT - RTMMANAGER");
             Buddy.WebServices.Agoraio.Logout();
-            Debug.LogError("LOGOUT fin - RTMMANAGER");
+            Debug.Log("LOGOUT fin - RTMMANAGER");
         }
 
         private void SendRTMMessage(string iMessage)
         {
             if (!iMessage.Contains("ping") && !iMessage.Contains("pingAck"))
-                Debug.LogError("SENDRTMMANAGER - RTMMANAGER : message: " + iMessage + " idtablet: " + mIdTablet);
+                Debug.Log("SENDRTMMANAGER - RTMMANAGER : message: " + iMessage + " idtablet: " + mIdTablet);
             //Debug.LogError("Sent to " + mIdTablet);
             if (string.IsNullOrEmpty(mIdTablet)) {
-                Debug.LogError(" SENDRTMMANAGER - RTMMANAGER :  Can't send a message, no tablet ID");
+                Debug.Log(" SENDRTMMANAGER - RTMMANAGER :  Can't send a message, no tablet ID");
                 return;
             }
             Buddy.WebServices.Agoraio.SendPeerMessage(mIdTablet, iMessage);
@@ -372,14 +372,14 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private void SendRTMMessage(string iMessage, string iIdTablet)
         {
 
-            Debug.LogError("SENDRTMMANAGER 2 - RTMMANAGER : message: " + iMessage);
-            Debug.LogError("Sent to " + iIdTablet);
+            Debug.Log("SENDRTMMANAGER 2 - RTMMANAGER : message: " + iMessage);
+            Debug.Log("Sent to " + iIdTablet);
             if (string.IsNullOrEmpty(iIdTablet)) {
-                Debug.LogError("SENDRTMMANAGER 2 - RTMMANAGER : Can't send a message, no tablet ID");
+                Debug.Log("SENDRTMMANAGER 2 - RTMMANAGER : Can't send a message, no tablet ID");
                 return;
             }
             Buddy.WebServices.Agoraio.SendPeerMessage(iIdTablet, iMessage);
-            Debug.LogError("SENDRTMMANAGER 2 - RTMMANAGER fin");
+            Debug.Log("SENDRTMMANAGER 2 - RTMMANAGER fin");
         }
 
         /// <summary>
@@ -461,7 +461,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into an int");
                         } else {
                             if (lIntValue == mPingId && OnPing != null) {
-                                Debug.LogError("################### PING ACK CALLED");
+                                Debug.Log("################### PING ACK CALLED");
                                 OnPing((int)((Time.time - mPingTime) * 1000));
                                 PingReceived = true;
                             }
@@ -486,9 +486,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a mood");
                         } else {
                             // Set the mood
-                            Debug.LogError("***************************** DEBUG MOOD OVER PROFIL");
+                            Debug.Log("***************************** DEBUG MOOD OVER PROFIL");
                             Buddy.Behaviour.SetMood(lMood);
-                            Debug.LogError("***************************** DEBUG MOOD OVER PROFIL 2");
+                            Debug.Log("***************************** DEBUG MOOD OVER PROFIL 2");
                             // Triggers Callback (needs to hide video canvas)
                             //VideoSurface lVideoSurface = rawVideo.GetComponent<VideoSurface>();
                             //Debug.LogError("***************************** DEBUG MOOD OVER PROFIL 3");
@@ -500,9 +500,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                             //    Destroy(rawVideo.GetComponent<VideoSurface>());
                             //    Debug.LogError("***************************** DEBUG MOOD OVER PROFIL 6");
                             //}
-                            Debug.LogError("***************************** DEBUG MOOD OVER PROFIL 7");
+                            Debug.Log("***************************** DEBUG MOOD OVER PROFIL 7");
                             if (OnMood != null) {
-                                Debug.LogError("***************************** DEBUG MOOD OVER PROFIL 8");
+                                Debug.Log("***************************** DEBUG MOOD OVER PROFIL 8");
                                 OnMood(lMood);
 
                             }
@@ -649,7 +649,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                         }
                         break;
                     case "rawPhotoProfile":
-                        Debug.LogError("photo profiler : " + lMessage.propertyValue);
+                        Debug.Log("photo profiler : " + lMessage.propertyValue);
                         if (string.IsNullOrEmpty(lMessage.propertyValue)) {
                             Debug.LogWarning("picture is empty");
                         } else {
@@ -708,13 +708,13 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         void OnApplicationQuit()
         {
-            Debug.LogError("ON APPLICATION QUIT");
+            Debug.Log("ON APPLICATION QUIT");
             Logout();
         }
 
         private void OnDestroy()
         {
-            Debug.LogError("ON DESTROY LOGOUT RTM");
+            Debug.Log("ON DESTROY LOGOUT RTM");
             Logout();
         }
     }

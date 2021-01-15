@@ -49,7 +49,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             GetGameObject(17).SetActive(false);
             GetGameObject(20).SetActive(true);
             mAddListenerButtonCall = false;
-            Debug.LogError("IDLE STATE : AVANT SETACTIVE BUTTON CALL");
+            Debug.Log("IDLE STATE : AVANT SETACTIVE BUTTON CALL");
             mCallButton.gameObject.SetActive(true);
             Color lColor;
             lColor = mCallButton.GetComponent<Image>().color;
