@@ -102,6 +102,12 @@ namespace BuddyApp.Diagnostic
         [SerializeField]
         private AudioSource ReplayAudioSource;
 
+        [SerializeField]
+        private Slider MicroGainSlider;
+
+        [SerializeField]
+        private Text MicroGainText;
+
         [Header("TAB MANAGE")]
         [SerializeField]
         private Button[] TabButton = new Button[(int)TAB.COUNT];
@@ -211,6 +217,9 @@ namespace BuddyApp.Diagnostic
 
             InitRecordDropDown();
 
+            MicroGainSlider.onValueChanged.RemoveAllListeners();
+            MicroGainSlider.onValueChanged.AddListener((iInput) => OnSliderGainChange(iInput));
+
             TriggerTreshSlider.wholeNumbers = true;
             TriggerTreshSlider.minValue = 0F;
             TriggerTreshSlider.maxValue = 200F;
@@ -241,6 +250,16 @@ namespace BuddyApp.Diagnostic
             mRecordButtonIcon = RecordButton.GetComponentsInChildren<Image>()[1];
 
             TriggerScore.text = "--";
+        }
+
+        private void OnSliderGainChange(float iInput)
+        {
+            MicroGainText.text = iInput.ToString();
+            byte lValue = (byte) iInput; 
+            Buddy.Sensors.Microphones.SoundOutputParameters = new SoundOutputParameters(lValue);
+            Debug.LogWarning("Byte converter " + lValue);
+            if (Buddy.Sensors.Microphones.SoundOutputParameters != null)
+            Debug.LogWarning("Gain is set at " + Buddy.Sensors.Microphones.SoundOutputParameters.Volume.ToString());
         }
 
         private void InitRecordDropDown()
