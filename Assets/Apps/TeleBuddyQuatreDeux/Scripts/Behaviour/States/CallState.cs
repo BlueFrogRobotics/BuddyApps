@@ -382,7 +382,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             }
             Debug.Log("CALL STATE : PHOTO TAKEN");
             // test to display photo
-            Sprite mPhotoSprite = Sprite.Create(iMyPhoto.Image.texture, new UnityEngine.Rect(0, 0, iMyPhoto.Image.texture.width, iMyPhoto.Image.texture.height), new Vector2(0.5F, 0.5F));
+            //Sprite mPhotoSprite = Sprite.Create(iMyPhoto.Image.texture, new UnityEngine.Rect(0, 0, iMyPhoto.Image.texture.width, iMyPhoto.Image.texture.height), new Vector2(0.5F, 0.5F));
             //OU (la deuxième version bugguait à un moment)
             Sprite mPhotoSpriteSecondVersion = iMyPhoto.Image;
             //test pour voir l'image
@@ -390,6 +390,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
             iMyPhoto.Save();
             mPhotoSentPath = iMyPhoto.FullPath;
+            Buddy.WebServices.Agoraio.SendPicture(mRTMManager.IdConnectionTablet, mPhotoSentPath);
         }
 
         private void OnWheelsMotion(WheelsMotion iWheelsMotion)

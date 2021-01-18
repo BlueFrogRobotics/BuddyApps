@@ -31,10 +31,11 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private static string mRefresh_Token;
         private bool mRefreshTokenDownloaded;
 
-        private const string TOKEN_REFRESH = "1000.40941a3170f32aabd46f944f413b29f0.2de9752287fec953a4759ace033704df";
-        private const string CLIENT_ID = "1000.H33KJH9WVF674U3XC87QZXU825YETR";
-        private const string CLIENT_SECRET = "5899144bd40ce6fd7b8be909137050b6f9f93021d7";
-        private string REQUEST_ACCESSTOKEN_WITH_REFRESHTOKEN = "https://accounts.zoho.eu/oauth/v2/token?refresh_token=" + TOKEN_REFRESH + "&client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&grant_type=refresh_token";
+        private  string TOKEN_REFRESH /*= "1000.40941a3170f32aabd46f944f413b29f0.2de9752287fec953a4759ace033704df"*/;
+        private  string CLIENT_ID /* = "1000.H33KJH9WVF674U3XC87QZXU825YETR"*/;
+        private  string CLIENT_SECRET /*= "5899144bd40ce6fd7b8be909137050b6f9f93021d7"*/;
+        private bool IS_API_PROD;
+        private string REQUEST_ACCESSTOKEN_WITH_REFRESHTOKEN;  /*= "https://accounts.zoho.eu/oauth/v2/token?refresh_token=" + TOKEN_REFRESH + "&client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&grant_type=refresh_token";*/
         //private const string REQUEST_ZOHO_REFRESH_TOKEN = "https://accounts.zoho.eu/oauth/v2/token?grant_type=authorization_code&code=" + "CODE SECRET "+ "&client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET;
 
 
@@ -90,6 +91,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         List<string> lAllPlaningList = new List<string>();
         List<string> lPlanningBuffer = new List<string>();
 
+        private TokenProdData mTokenProdData;
+
         private void Awake()
         {
             instance = this;
@@ -99,6 +102,13 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         // Use this for initialization
         void Start()
         {
+            mTokenProdData =  Utils.UnserializeXML<TokenProdData>(Buddy.Resources.AppRawDataPath + "Token/TokenProdData");
+            Debug.LogError("TEST TOKEN PROD : " + mTokenProdData.Client_ID + " 2 : " + mTokenProdData.Client_Secret + " 3 : " + mTokenProdData.Token_Refresh + " 4 : " + mTokenProdData.API_Prod);
+            TOKEN_REFRESH = mTokenProdData.Token_Refresh;
+            CLIENT_ID = mTokenProdData.Client_ID;
+            CLIENT_SECRET = mTokenProdData.Client_Secret;
+            IS_API_PROD = mTokenProdData.API_Prod;
+            REQUEST_ACCESSTOKEN_WITH_REFRESHTOKEN = "https://accounts.zoho.eu/oauth/v2/token?refresh_token=" + TOKEN_REFRESH + "&client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&grant_type=refresh_token";
             mRefreshTokenDownloaded = false;
             mDeviceUserLiaisonList = new List<DeviceUserLiaison>();
             ListUIDTablet = new List<string>();
@@ -289,10 +299,14 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             Debug.LogError("DB MANAGER : FIRST REQUEST");
             yield return new WaitForSeconds(2F);
             mDeviceUserLiaisonList.Clear();
-           // string lRequest = ROOT_LINK_DB + iToken + GET_ALL_LIAISON + '"' + iRobotUID + '"';
+            // string lRequest = ROOT_LINK_DB + iToken + GET_ALL_LIAISON + '"' + iRobotUID + '"';
             //string uidSC = "0743B88DAFFC511AE3BA";
-            string lRequest2 = "https://creator.zoho.eu/api/v2/bluefrogrobotics/flotte/report/all_liaison_device_user?criteria=Device.Uid==" + '"' + iRobotUID/*uidSC*/ + '"';
-
+            //string lRequest2 = "https://creator.zoho.eu/api/v2/bluefrogrobotics/flotte/report/all_liaison_device_user?criteria=Device.Uid==" + '"' + iRobotUID/*uidSC*/ + '"';
+            string lRequest2;
+            if (IS_API_PROD)
+                lRequest2 = "https://creator.zoho.eu/api/v2/teamnetprod/gestion-de-la-flotte-prod/report/all_liaison_device_user?criteria=Device.Uid==" + '"' + iRobotUID/*uidSC*/ + '"';
+            else
+                lRequest2 = "https://creator.zoho.eu/api/v2/bluefrogrobotics/flotte/report/all_liaison_device_user?criteria=Device.Uid==" + '"' + iRobotUID/*uidSC*/ + '"';
             Debug.LogError("Request from GetUserIdFromUID LREREQUEST :" + lRequest2);
             using (UnityWebRequest lRequestDevice = UnityWebRequest.Get(lRequest2))
             {
@@ -313,7 +327,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                         DeviceUserLiaisonList devices = Utils.UnserializeJSON<DeviceUserLiaisonList>(lRes);
                         Debug.LogError("<color=red>GetInfoFromUID 2 : " + devices.data.Length +  "</color>");
                         mRobotName = devices.data[0].DeviceNom;
-
+                        Debug.LogError("<color=red>GetInfoFromUID 2.1 ROBOT NAME : " + mRobotName + "</color>");
                         if (devices != null)
                         {
                             Debug.LogError("<color=red>GetInfoFromUID 3</color>");
@@ -350,8 +364,13 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private IEnumerator GetInfoForUsers(List<DeviceUserLiaison> iListDeviceUserLiaison)
         {
             //string lRequest = GET_USER_TABLET;
-            string lRequest2 = "https://creator.zoho.eu/api/v2/bluefrogrobotics/flotte/report/all_liaison_device_user?criteria=User.idUser==";
-            Debug.LogError(" ACCESS TOKEN GET INFO FOR USER" + mAccessToken);
+            //string lRequest2 = "https://creator.zoho.eu/api/v2/bluefrogrobotics/flotte/report/all_liaison_device_user?criteria=User.idUser==";
+            string lRequest2;
+            if (IS_API_PROD)
+                lRequest2 = "https://creator.zoho.eu/api/v2/teamnetprod/gestion-de-la-flotte-prod/report/all_liaison_device_user?criteria=User.idUser=="; 
+            else
+                lRequest2 = "https://creator.zoho.eu/api/v2/bluefrogrobotics/flotte/report/all_liaison_device_user?criteria=User.idUser==";
+            Debug.LogError(" ACCESS TOKEN GET INFO FOR USER : " + mAccessToken);
             if (iListDeviceUserLiaison.Count == 1)
             {
                 lRequest2 += iListDeviceUserLiaison[0].UserIdUser.ToString();
@@ -413,11 +432,13 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                             Debug.LogError("<color=red>GetInfoForUsers 4</color>");
                             foreach (DeviceUserLiaison lDeviceUserLiaison in mListRobotUser)
                             {
+                                Debug.LogError("<color=red>GetInfoForUsers 4.1 COUNT LISTROBOTUSER: " + mListRobotUser.Count + "</color>");
                                 UserStudent = new User();
                                 UserStudent.Nom = lDeviceUserLiaison.UserNom;
                                 UserStudent.Prenom = lDeviceUserLiaison.UserPrenom;
                                 string[] lOrgaSplit = lDeviceUserLiaison.UserOrganisme.Split('-');
                                 UserStudent.Organisme = lOrgaSplit[1].Trim();
+                                Debug.LogError("<color=red>GetInfoForUsers 4.2 INFO USER : " + UserStudent.Nom + " " + UserStudent.Prenom + " " + UserStudent.Organisme + "</color>");
                                 for (int i = 0; i < lDeviceUserLiaison.PlanningInfos.Count; ++i)
                                 {
                                     if (i == 0)
@@ -426,7 +447,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                                     }
                                     else
                                     {
-                                        UserStudent.Planning += "," + lDeviceUserLiaison.PlanningInfos[i].display_value;
+                                        UserStudent.Planning += "," + lDeviceUserLiaison.PlanningInfos[i].display_value; 
                                     }
                                     Debug.LogError("PLANNING TEST : " + UserStudent.Planning);
 

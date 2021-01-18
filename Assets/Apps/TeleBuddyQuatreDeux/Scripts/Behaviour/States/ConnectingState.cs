@@ -222,6 +222,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 mUsers[iUserId].transform.GetChild(4).GetComponent<Image>().color = new Color(255, 255, 255, 1);
             }
             mWaitPing[iUserId] = 4;
+            Debug.LogError("CONNECTING STATE  UID TABLET : " + DBManager.Instance.ListUIDTablet[iUserId]);
             mRTMManager.Ping(DBManager.Instance.ListUIDTablet[iUserId], iUserId);
             mPingTime[iUserId] = Time.time;
         }

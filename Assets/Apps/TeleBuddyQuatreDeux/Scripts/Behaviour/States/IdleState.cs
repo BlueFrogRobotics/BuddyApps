@@ -69,6 +69,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
         {
+           // Debug.LogError("IDLE STATE CALL BUTTON DISABLED : " + DBManager.Instance.CanStartCourse + " " + mAddListenerButtonCall + " " + mRTMManager.PingReceived);
             if (DBManager.Instance.CanStartCourse && !mAddListenerButtonCall && mRTMManager.PingReceived)
             {
                 mAddListenerButtonCall = true;
