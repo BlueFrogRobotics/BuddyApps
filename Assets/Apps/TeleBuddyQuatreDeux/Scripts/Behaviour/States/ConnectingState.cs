@@ -39,7 +39,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.Log("CONNECTING STATE -----------------------------------");
-            Buddy.Sensors.Microphones.SoundOutputParameters = new SoundOutputParameters(16);
+            Buddy.Sensors.Microphones.SoundOutputParameters = new SoundOutputParameters(5);
             mRTCManager.Leave();
             TeleBuddyQuatreDeuxData.Instance.CurrentState = TeleBuddyQuatreDeuxData.States.CONNECTING_STATE;
             for (int i = 0; i < mUsers.Count; i++)
