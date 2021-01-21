@@ -237,7 +237,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             //mRtcEngine.SetExternalAudioSource(true, 44100, 1);
             mRtcEngine.EnableAudio();
             mRtcEngine.SetParameters("{\"che.audio.opensl\":true}");
-
+            mRtcEngine.SetParameters("{\"che.audio.enable.aec\":false}");
             // TODO uncomment to Change camera
             //mRtcEngine.SetExternalVideoSource(true, false);
             //mRtcEngine.JoinChannel(iChannel, null, 0);

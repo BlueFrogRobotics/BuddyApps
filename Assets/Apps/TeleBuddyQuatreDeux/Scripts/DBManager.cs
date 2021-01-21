@@ -31,10 +31,10 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private static string mRefresh_Token;
         private bool mRefreshTokenDownloaded;
 
-        private  string TOKEN_REFRESH /*= "1000.40941a3170f32aabd46f944f413b29f0.2de9752287fec953a4759ace033704df"*/;
-        private  string CLIENT_ID /* = "1000.H33KJH9WVF674U3XC87QZXU825YETR"*/;
-        private  string CLIENT_SECRET /*= "5899144bd40ce6fd7b8be909137050b6f9f93021d7"*/;
-        private bool IS_API_PROD;
+        private string TOKEN_REFRESH /*= "1000.40941a3170f32aabd46f944f413b29f0.2de9752287fec953a4759ace033704df"*/;
+        private string CLIENT_ID /* = "1000.H33KJH9WVF674U3XC87QZXU825YETR"*/;
+        private string CLIENT_SECRET /*= "5899144bd40ce6fd7b8be909137050b6f9f93021d7"*/;
+        private string URL_REQUEST;
         private string REQUEST_ACCESSTOKEN_WITH_REFRESHTOKEN;  /*= "https://accounts.zoho.eu/oauth/v2/token?refresh_token=" + TOKEN_REFRESH + "&client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&grant_type=refresh_token";*/
         //private const string REQUEST_ZOHO_REFRESH_TOKEN = "https://accounts.zoho.eu/oauth/v2/token?grant_type=authorization_code&code=" + "CODE SECRET "+ "&client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET;
 
@@ -103,11 +103,11 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         void Start()
         {
             mTokenProdData =  Utils.UnserializeXML<TokenProdData>(Buddy.Resources.AppRawDataPath + "Token/TokenProdData");
-            Debug.LogError("TEST TOKEN PROD : " + mTokenProdData.Client_ID + " 2 : " + mTokenProdData.Client_Secret + " 3 : " + mTokenProdData.Token_Refresh + " 4 : " + mTokenProdData.API_Prod);
+            Debug.LogError("TEST TOKEN PROD : " + mTokenProdData.Client_ID + " 2 : " + mTokenProdData.Client_Secret + " 3 : " + mTokenProdData.Token_Refresh + " 4 : " + mTokenProdData.URL_Request);
             TOKEN_REFRESH = mTokenProdData.Token_Refresh;
             CLIENT_ID = mTokenProdData.Client_ID;
             CLIENT_SECRET = mTokenProdData.Client_Secret;
-            IS_API_PROD = mTokenProdData.API_Prod;
+            URL_REQUEST = mTokenProdData.URL_Request;
             REQUEST_ACCESSTOKEN_WITH_REFRESHTOKEN = "https://accounts.zoho.eu/oauth/v2/token?refresh_token=" + TOKEN_REFRESH + "&client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&grant_type=refresh_token";
             mRefreshTokenDownloaded = false;
             mDeviceUserLiaisonList = new List<DeviceUserLiaison>();
@@ -303,10 +303,12 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             //string uidSC = "0743B88DAFFC511AE3BA";
             //string lRequest2 = "https://creator.zoho.eu/api/v2/bluefrogrobotics/flotte/report/all_liaison_device_user?criteria=Device.Uid==" + '"' + iRobotUID/*uidSC*/ + '"';
             string lRequest2;
-            if (IS_API_PROD)
-                lRequest2 = "https://creator.zoho.eu/api/v2/teamnetprod/gestion-de-la-flotte-prod/report/all_liaison_device_user?criteria=Device.Uid==" + '"' + iRobotUID/*uidSC*/ + '"';
-            else
-                lRequest2 = "https://creator.zoho.eu/api/v2/bluefrogrobotics/flotte/report/all_liaison_device_user?criteria=Device.Uid==" + '"' + iRobotUID/*uidSC*/ + '"';
+            //if (IS_API_PROD)
+            //    lRequest2 = "https://creator.zoho.eu/api/v2/teamnetprod/gestion-de-la-flotte-prod/report/all_liaison_device_user?criteria=Device.Uid==" + '"' + iRobotUID/*uidSC*/ + '"';
+            //else
+            //    lRequest2 = "https://creator.zoho.eu/api/v2/bluefrogrobotics/flotte/report/all_liaison_device_user?criteria=Device.Uid==" + '"' + iRobotUID/*uidSC*/ + '"';
+
+            lRequest2 = URL_REQUEST + "/report/all_liaison_device_user?criteria=Device.Uid==" + '"' + iRobotUID/*uidSC*/ + '"';
             Debug.LogError("Request from GetUserIdFromUID LREREQUEST :" + lRequest2);
             using (UnityWebRequest lRequestDevice = UnityWebRequest.Get(lRequest2))
             {
@@ -366,10 +368,12 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             //string lRequest = GET_USER_TABLET;
             //string lRequest2 = "https://creator.zoho.eu/api/v2/bluefrogrobotics/flotte/report/all_liaison_device_user?criteria=User.idUser==";
             string lRequest2;
-            if (IS_API_PROD)
-                lRequest2 = "https://creator.zoho.eu/api/v2/teamnetprod/gestion-de-la-flotte-prod/report/all_liaison_device_user?criteria=User.idUser=="; 
-            else
-                lRequest2 = "https://creator.zoho.eu/api/v2/bluefrogrobotics/flotte/report/all_liaison_device_user?criteria=User.idUser==";
+            //if (IS_API_PROD)
+            //    lRequest2 = "https://creator.zoho.eu/api/v2/teamnetprod/gestion-de-la-flotte-prod/report/all_liaison_device_user?criteria=User.idUser=="; 
+            //else
+            //    lRequest2 = "https://creator.zoho.eu/api/v2/bluefrogrobotics/flotte/report/all_liaison_device_user?criteria=User.idUser==";
+
+            lRequest2 = URL_REQUEST + "/report/all_liaison_device_user?criteria=User.idUser==";
             Debug.LogError(" ACCESS TOKEN GET INFO FOR USER : " + mAccessToken);
             if (iListDeviceUserLiaison.Count == 1)
             {

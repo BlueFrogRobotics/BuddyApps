@@ -12,7 +12,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         public string Token_Refresh { get; set; }
         public string Client_ID { get; set; }
         public string Client_Secret { get; set; }
-        public bool API_Prod { get; set; }
+        public string URL_Request { get; set; }
     }
 }
 

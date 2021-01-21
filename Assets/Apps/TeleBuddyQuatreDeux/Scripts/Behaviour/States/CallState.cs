@@ -48,10 +48,13 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private string mPhotoSentPath;
 
+        private HDCamera mHDCam;
+
         private static AndroidJavaObject audioManager;
         // Use this for initialization
         override public void Start()
         {
+            mPhotoSentPath = "";
             mSliderVolumeEnabled = false;
             mDisplayed = false;
             mEndCallDisplay = false;
@@ -203,9 +206,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             // Just to be sure:
             Buddy.Vocal.OnTrigger.Clear();
             Buddy.Vocal.ListenOnTrigger = false;
-
+            mHDCam = Buddy.Sensors.HDCamera;
             TeleBuddyQuatreDeuxData.Instance.CurrentState = TeleBuddyQuatreDeuxData.States.CALL_STATE;
-
+            mPhotoSentPath = "";
 
             mSliderVolumeEnabled = false;
             mTimer = 0F;
@@ -270,22 +273,28 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 }
             };
 
-            mRTMManager.OnFrontalListening = (lFrontalListening) => {
-                if (lFrontalListening) {
-                    //set microphone 360 to false
-                    Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", false);
-                    //set the front microphone to true
-                    Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", true);
-                    mRTCManager.SetMicrophone("0");
-                    Debug.Log("MICRO ENABLED : " + Buddy.Sensors.Microphones.CurrentMicrophone.Code);
 
-                } else {
+            mRTMManager.OnFrontalListening = (lFrontalListening) => {
+                if (lFrontalListening)
+                {
+                    Buddy.Sensors.Microphones.BeamformingParameters = new BeamformingParameters(Convert.ToByte(6), BeamformingParameters.ALGORITHM_STRONG);
+                    Buddy.Sensors.Microphones.EnableBeamforming = true;
+                    ////set microphone 360 to false
+                    //Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", false);
+                    ////set the front microphone to true
+                    //Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", true);
+                    //mRTCManager.SetMicrophone("0");
+                    //Debug.Log("MICRO ENABLED : " + Buddy.Sensors.Microphones.CurrentMicrophone.Code);
+                }
+                else
+                {
+                    Buddy.Sensors.Microphones.EnableBeamforming = false;
                     //set the front microphone to false
-                    Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", false);
-                    //set microphone 360 to true
-                    Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", true);
-                    mRTCManager.SetMicrophone("1");
-                    Debug.Log("MICRO ENABLED : " + Buddy.Sensors.Microphones.CurrentMicrophone.Code);
+                    //Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", false);
+                    ////set microphone 360 to true
+                    //Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", true);
+                    //mRTCManager.SetMicrophone("1");
+                    //Debug.Log("MICRO ENABLED : " + Buddy.Sensors.Microphones.CurrentMicrophone.Code);
                 }
             };
 
@@ -308,25 +317,38 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             };
 
             mRTMManager.OnTakePhoto = (lTakePhoto) => {
-                Debug.Log("CALLSTATE TAKE PHOTO WITH switchcam ");
-                //Save image from open camera on the robot
-                Utils.DeleteFile(Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
-                Texture2D iPhotoFromRobot = (Texture2D)GetGameObject(12).GetComponentInChildren<RawImage>().texture;
-                Utils.SaveTextureToFile(iPhotoFromRobot, Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
-                Debug.Log("CALLSTATE TAKE PHOTO WITH TAKEPHOTOGRAPH PATH : " + Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
-                string iPathPhotoSaved = Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg";
-                //iPathPhotoSaved = mRTCManager.TakePhoto();
-                Debug.Log("path photo saved : " + iPathPhotoSaved);
-                //test
-                //Buddy.WebServices.Agoraio.SendPicture(DBManager.Instance.ListUIDTablet[TeleBuddyQuatreDeuxData.Instance.IndexTablet],/* Buddy.Resources.AppSpritesPath + "background.jpg"*/iPathPhotoSaved);
-                Buddy.WebServices.Agoraio.SendPicture(mRTMManager.IdConnectionTablet,/* Buddy.Resources.AppSpritesPath + "background.jpg"*/iPathPhotoSaved);
+                Debug.LogError("CALLSTATE TAKE PHOTO");
+                //Delete the last photo taken
+                //Utils.DeleteFile(Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
+                if(!String.IsNullOrEmpty(mPhotoSentPath))
+                    Utils.DeleteFile(mPhotoSentPath);
 
-                Debug.Log("CALLSTATE TAKE PHOTO WITH TAKEPHOTOGRAPH WITH PATH BACKGROUND : " + Buddy.Resources.AppSpritesPath + "background.jpg");
+                
+                Debug.LogError("CALLSTATE TAKE PHOTO MHDCAM");
+                mRTCManager.MuteVideo(true);
+                Debug.LogError("CALLSTATE TAKE PHOTO MUTE VIDEO = TRUE");
+                //mHDCam.Close();
+                Debug.LogError("CALLSTATE TAKE PHOTO CLOSE CAM");
+                //mHDCam.Open(HDCameraMode.COLOR_132X98_15FPS_RGB, HDCameraType.FRONT); 
+                Debug.LogError("CALLSTATE TAKE PHOTO OPEN CAMERA 4224*3136");
+                //mHDCam.OnNewFrame.Clear();
+                Debug.LogError("CALLSTATE TAKE PHOTO CLEAR ON NEW FRAME");
+                mHDCam.TakePhotograph(OnPhotoTaken);
 
 
+                //Texture2D iPhotoFromRobot = (Texture2D)GetGameObject(12).GetComponentInChildren<RawImage>().texture;
+                //Utils.SaveTextureToFile(iPhotoFromRobot, Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
+                //Debug.Log("CALLSTATE TAKE PHOTO WITH TAKEPHOTOGRAPH PATH : " + Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
+                //string iPathPhotoSaved = Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg";
+                ////iPathPhotoSaved = mRTCManager.TakePhoto();
+                //Debug.Log("path photo saved : " + iPathPhotoSaved);
+                ////test
+                ////Buddy.WebServices.Agoraio.SendPicture(DBManager.Instance.ListUIDTablet[TeleBuddyQuatreDeuxData.Instance.IndexTablet],/* Buddy.Resources.AppSpritesPath + "background.jpg"*/iPathPhotoSaved);
+                //Buddy.WebServices.Agoraio.SendPicture(mRTMManager.IdConnectionTablet,/* Buddy.Resources.AppSpritesPath + "background.jpg"*/iPathPhotoSaved);
 
+                //Debug.Log("CALLSTATE TAKE PHOTO WITH TAKEPHOTOGRAPH WITH PATH BACKGROUND : " + Buddy.Resources.AppSpritesPath + "background.jpg");
 
-
+                
                 //new test take photo
                 //HDCamera mHDCam;
                 //mHDCam = Buddy.Sensors.HDCamera;
@@ -380,17 +402,19 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 Debug.Log("OnFinish take photo, iPhoto null");
                 return;
             }
-            Debug.Log("CALL STATE : PHOTO TAKEN");
-            // test to display photo
-            //Sprite mPhotoSprite = Sprite.Create(iMyPhoto.Image.texture, new UnityEngine.Rect(0, 0, iMyPhoto.Image.texture.width, iMyPhoto.Image.texture.height), new Vector2(0.5F, 0.5F));
-            //OU (la deuxième version bugguait à un moment)
-            Sprite mPhotoSpriteSecondVersion = iMyPhoto.Image;
-            //test pour voir l'image
-            //Buddy.GUI.Toaster.Display<PictureToast>().With(iMyPhoto.Image);
+            Debug.LogError("CALL STATE TAKEPHOTOGRAPH");
 
             iMyPhoto.Save();
+            Debug.LogError("CALL STATE TAKEPHOTOGRAPH : SAVE PHOTO");
             mPhotoSentPath = iMyPhoto.FullPath;
             Buddy.WebServices.Agoraio.SendPicture(mRTMManager.IdConnectionTablet, mPhotoSentPath);
+            Debug.LogError("CALL STATE TAKEPHOTOGRAPH : PHOTO SENT");
+            //mHDCam.OnNewFrame.Clear();
+            Debug.LogError("CALL STATE TAKEPHOTOGRAPH : CLEAR ON NEW FRAME");
+            //mHDCam.Close();
+            Debug.LogError("CALL STATE TAKEPHOTOGRAPH : CLOSE HDCAM");
+            mRTCManager.MuteVideo(false);
+            Debug.LogError("CALL STATE TAKEPHOTOGRAPH : MUTEVIDEO = false");
         }
 
         private void OnWheelsMotion(WheelsMotion iWheelsMotion)

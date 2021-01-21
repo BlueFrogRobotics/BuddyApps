@@ -56,6 +56,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             //VOCON
             //Buddy.Vocal.StopAndClear();
             Buddy.Actuators.Speakers.Media.Play(mMusic);
+            Buddy.Actuators.Speakers.Media.Repeat = true;
             //VOCON
             //Buddy.Vocal.SayAndListen("tu as un appel de " + mCallingUserName.text + " veux-tu décrocher?", null,OnSpeechReco, null);
         }
