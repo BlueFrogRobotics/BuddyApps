@@ -258,11 +258,11 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         {
             float lValue = 0F;
             Debug.LogWarning("angle yes: " + Buddy.Actuators.Head.Yes.Angle);
-            if (Buddy.Actuators.Head.Yes.Angle > 0)
-                lValue = Mathf.Abs(Buddy.Actuators.Head.Yes.Angle / Buddy.Actuators.Head.Yes.AngleMax);
-            else
-                lValue = -Mathf.Abs(Buddy.Actuators.Head.Yes.Angle / Buddy.Actuators.Head.Yes.AngleMin);//YesHeadHinge.MAX_DOWN_ANGLE;
-
+            //if (Buddy.Actuators.Head.Yes.Angle > 0)
+            //    lValue = Mathf.Abs(Buddy.Actuators.Head.Yes.Angle / Buddy.Actuators.Head.Yes.AngleMax);
+            //else
+            //    lValue = -Mathf.Abs(Buddy.Actuators.Head.Yes.Angle / Buddy.Actuators.Head.Yes.AngleMin);//YesHeadHinge.MAX_DOWN_ANGLE;
+            lValue = (Mathf.Lerp(Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax, (Buddy.Actuators.Head.Yes.Angle)) * 2F) -1F;
             SendRTMMessage(Utils.SerializeJSON(new JsonMessage("informYesAngle", lValue.ToString())));
             Debug.LogWarning("inform yes: " + lValue.ToString());
         }
