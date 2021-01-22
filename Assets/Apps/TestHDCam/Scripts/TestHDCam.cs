@@ -142,6 +142,9 @@ namespace BuddyApp.TestHDCam
             
             //Buddy.GUI.Toaster.Display<PictureToast>().With(iMyPhoto.Image);
             Debug.LogError("Path photo taken : " + iMyPhoto.FullPath);
+
+            Destroy(iMyPhoto.Image.texture);
+            Destroy(iMyPhoto.Image);
             
             Debug.LogError("TAKE PHOTOGRAPH clear");
             mHDCam.Close();
