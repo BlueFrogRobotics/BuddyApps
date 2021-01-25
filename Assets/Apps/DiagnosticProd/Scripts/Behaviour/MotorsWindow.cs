@@ -227,7 +227,7 @@ namespace BuddyApp.DiagnosticProd
                     if (mActivationYesTop) {
                         mLastYesAngle = mYesHinge.Angle;
                         mLastCommandSent = "MOVE HEAD UP TO " + Mathf.Clamp(mYesHinge.Angle + 5F, Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax) + "°";
-                        if (mYesHinge.Angle + 5 >= Buddy.Actuators.Head.Yes.AngleMin)
+                        if (mYesHinge.Angle + 5 >= Buddy.Actuators.Head.Yes.AngleMax)
                             mLastCommandSent += " (MAX UP)";
                         mYesHinge.SetPosition(mYesHinge.Angle + 5F);
                         mLastMotionTime = Time.time;
