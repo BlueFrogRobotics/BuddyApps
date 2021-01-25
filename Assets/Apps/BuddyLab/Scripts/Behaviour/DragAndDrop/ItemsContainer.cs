@@ -18,7 +18,7 @@ namespace BuddyApp.BuddyLab
 
         public void OnPointerEnter(PointerEventData iEventData)
         {
-            iEventData.useDragThreshold = false;
+            iEventData.useDragThreshold = false; 
 
             if (iEventData.pointerDrag == null)
                 return;
