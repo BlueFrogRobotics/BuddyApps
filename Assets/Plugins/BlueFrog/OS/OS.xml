@@ -2712,6 +2712,7 @@
         <member name="F:BlueQuark.Internal.Licenses.IP_DATA_API_KEY">
             <summary>
             Unique API key for geolocalization from IP adress. More info at https://ipdata.co/index.html.
+            NOT WORKING: "You have either exceeded your quota or that API key does not exist."
             </summary>
         </member>
         <member name="F:BlueQuark.Internal.Licenses.ID3_FACE_REC_API_KEY">
@@ -20017,6 +20018,12 @@
             <param name="iDeviceID">Device name</param>
             <param name="iStateTo">Turn on or off</param>
         </member>
+        <member name="M:BlueQuark.Microphones.GetAudioInputDevices">
+            <summary>
+            Returns AudioInput devices detected
+            </summary>
+            <returns></returns>
+        </member>
         <member name="P:BlueQuark.Microphones.CurrentMicrophone">
             <summary>
             Currently active microphone
@@ -20212,11 +20219,12 @@
             Clear the inner queue.
             </summary>
         </member>
-        <member name="M:BlueQuark.HDCamera.TakePhotograph(System.Action{BlueQuark.Photograph},System.Boolean,System.Boolean,BlueQuark.FlashLightMode)">
+        <member name="M:BlueQuark.HDCamera.TakePhotograph(System.Action{BlueQuark.Photograph},BlueQuark.HDCameraMode,System.Boolean,System.Boolean,BlueQuark.FlashLightMode)">
             <summary>
             Async take photo feature with an high definiton.
             </summary>
             <param name="iOnEndTakePhoto">The callback with the taken photo. The photo is null if the operation was not successful</param>
+            <param name="iMode">Resolution of the photo.</param>
             <param name="iMakeSound">Set as false to make a silent photo. Default to true</param>
             <param name="iMirrored">Does the photograph must be mirrored ?</param>
             <param name="iFlashMode">Set the flash mode. Will be supported on the next version</param>

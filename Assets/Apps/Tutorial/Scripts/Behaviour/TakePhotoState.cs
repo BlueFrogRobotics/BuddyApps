@@ -24,7 +24,7 @@ namespace BuddyApp.Tutorial
 
 			// This following sentence will be spoken by the robot just after the first one
 			Buddy.Vocal.SayKey("tpstatesteptakephoto", oOutput => {
-				Buddy.Sensors.HDCamera.TakePhotograph(OnFinish, true);
+				Buddy.Sensors.HDCamera.TakePhotograph(OnFinish);
 			});
 
             // We open the camera and set the resolution and frame rate.
