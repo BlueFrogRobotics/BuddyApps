@@ -255,11 +255,11 @@ namespace BuddyApp.Diagnostic
         private void OnSliderGainChange(float iInput)
         {
             MicroGainText.text = iInput.ToString();
-            byte lValue = (byte) iInput; 
+            byte lValue = (byte)iInput;
             Buddy.Sensors.Microphones.SoundOutputParameters = new SoundOutputParameters(lValue);
             Debug.LogWarning("Byte converter " + lValue);
             if (Buddy.Sensors.Microphones.SoundOutputParameters != null)
-            Debug.LogWarning("Gain is set at " + Buddy.Sensors.Microphones.SoundOutputParameters.Volume.ToString());
+                Debug.LogWarning("Gain is set at " + Buddy.Sensors.Microphones.SoundOutputParameters.Volume.ToString());
         }
 
         private void InitRecordDropDown()
@@ -397,10 +397,18 @@ namespace BuddyApp.Diagnostic
             UpdateSoundLocalization();
 
             // Ensure consistency with menu OS
-            if (Buddy.Sensors.Microphones.CurrentMicrophone.Code != "DEVICE_IN_USB_DEVICE")
-                SwitchMicrophone.GetComponentsInChildren<Text>()[0].text = "FRONTAL MICROPHONE ACTIVATED";
-            else
-                SwitchMicrophone.GetComponentsInChildren<Text>()[0].text = "MICRO ARRAY ACTIVATED";
+            if (Buddy.Sensors.Microphones.GetAudioInputDevices().Contains("USB-Audio")) {
+                SwitchMicrophone.GetComponentsInChildren<Image>()[1].sprite = Buddy.Resources.Get<Sprite>("os_icon_play_big");
+                SwitchMicrophone.GetComponent<Image>().color = STATUS_ON_COLOR;
+                if (Buddy.Sensors.Microphones.CurrentMicrophone.Code != "DEVICE_IN_USB_DEVICE")
+                    SwitchMicrophone.GetComponentsInChildren<Text>()[0].text = "FRONTAL MICROPHONE ACTIVATED";
+                else
+                    SwitchMicrophone.GetComponentsInChildren<Text>()[0].text = "MICRO ARRAY ACTIVATED";
+            } else {
+                SwitchMicrophone.GetComponentsInChildren<Text>()[0].text = "!!!MICRO ARRAY UNPLUGGED!!!";
+                SwitchMicrophone.GetComponentsInChildren<Image>()[1].sprite = Buddy.Resources.Get<Sprite>("os_icon_cancel_big");
+                SwitchMicrophone.GetComponent<Image>().color = STATUS_OFF_RED_COLOR;
+            }
 
             if (mBIsPlaying) // Playing record
                 if (null == ReplayAudioSource.clip || !ReplayAudioSource.isPlaying)
@@ -630,8 +638,20 @@ namespace BuddyApp.Diagnostic
             PlayRecordButton.GetComponentsInChildren<Text>()[0].text = "PLAY";
 
             //Switch Microphone
-            SwitchMicrophone.GetComponentsInChildren<Text>()[0].text = "SWITCH MICRO TO USB";
-            SwitchMicrophone.GetComponentsInChildren<Image>()[1].sprite = Buddy.Resources.Get<Sprite>("os_icon_play_big");
+
+            if (Buddy.Sensors.Microphones.GetAudioInputDevices().Contains("USB-Audio")) {
+                SwitchMicrophone.GetComponentsInChildren<Image>()[1].sprite = Buddy.Resources.Get<Sprite>("os_icon_play_big");
+                SwitchMicrophone.GetComponent<Image>().color = STATUS_ON_COLOR;
+                if (Buddy.Sensors.Microphones.CurrentMicrophone.Code != "DEVICE_IN_USB_DEVICE")
+                    SwitchMicrophone.GetComponentsInChildren<Text>()[0].text = "FRONTAL MICROPHONE ACTIVATED";
+                else
+                    SwitchMicrophone.GetComponentsInChildren<Text>()[0].text = "MICRO ARRAY ACTIVATED";
+            } else {
+                SwitchMicrophone.GetComponentsInChildren<Text>()[0].text = "!!!MICRO ARRAY UNPLUGGED!!!";
+                SwitchMicrophone.GetComponentsInChildren<Image>()[1].sprite = Buddy.Resources.Get<Sprite>("os_icon_cancel_big");
+                SwitchMicrophone.GetComponent<Image>().color = STATUS_OFF_RED_COLOR;
+            }
+
             SwitchMicrophone.onClick.AddListener(OnSwitchMicrophone);
 
             //Play Music
@@ -733,15 +753,27 @@ namespace BuddyApp.Diagnostic
 
         private void OnSwitchMicrophone()
         {
-            if (Buddy.Sensors.Microphones.CurrentMicrophone.Code == "DEVICE_IN_USB_DEVICE") {
-                Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", false);
-                Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", true);
-                SwitchMicrophone.GetComponentsInChildren<Text>()[0].text = "FRONTAL MICROPHONE ACTIVATED";
+
+
+            if (Buddy.Sensors.Microphones.GetAudioInputDevices().Contains("USB-Audio")) {
+                SwitchMicrophone.GetComponent<Image>().color = STATUS_ON_COLOR;
+                SwitchMicrophone.GetComponentsInChildren<Image>()[1].sprite = Buddy.Resources.Get<Sprite>("os_icon_play_big");
+                if (Buddy.Sensors.Microphones.CurrentMicrophone.Code == "DEVICE_IN_USB_DEVICE") {
+                    Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", false);
+                    Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", true);
+                    SwitchMicrophone.GetComponentsInChildren<Text>()[0].text = "FRONTAL MICROPHONE ACTIVATED";
+                } else {
+                    Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", false);
+                    Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", true);
+                    SwitchMicrophone.GetComponentsInChildren<Text>()[0].text = "MICRO ARRAY ACTIVATED";
+                }
             } else {
-                Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", false);
-                Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", true);
-                SwitchMicrophone.GetComponentsInChildren<Text>()[0].text = "MICRO ARRAY ACTIVATED";
+                SwitchMicrophone.GetComponentsInChildren<Text>()[0].text = "!!!MICRO ARRAY UNPLUGGED!!!";
+                SwitchMicrophone.GetComponentsInChildren<Image>()[1].sprite = Buddy.Resources.Get<Sprite>("os_icon_cancel_big");
+                SwitchMicrophone.GetComponent<Image>().color = STATUS_OFF_RED_COLOR;
             }
+
+            
         }
 
         private void OnPlayMusic()

@@ -238,7 +238,7 @@ namespace BuddyApp.Diagnostic
 
         private IEnumerator DelayedNav()
         {
-            LastCommand.text = "MOVE for " + TimeMove.value + " at " + linearVelocity.text + "m/s and " + AngularVelocityWheelsText + " °/s";
+            LastCommand.text = "MOVE for " + TimeMove.value + "s at " + linearVelocity.text + "m/s and " + AngularVelocityWheelsText + " °/s";
             yield return new WaitForSeconds(1F);
             Buddy.Actuators.Wheels.SetVelocities(float.Parse(linearVelocity.text), float.Parse(AngularVelocityWheelsText.text));
             float lTime = float.Parse(TimeMove.captionText.text.Remove(1));
@@ -264,13 +264,13 @@ namespace BuddyApp.Diagnostic
 
         public void SetYesPos()
         {
-            LastCommand.text = "Set head YES at " + yesHingeAngleSetter.value + " at " + hingeSpeedYesBack.text;
+            LastCommand.text = "Set head YES at " + yesHingeAngleSetter.value + "° at " + hingeSpeedYesBack.text + " °/s";
             mYesHinge.SetPosition(yesHingeAngleSetter.value, float.Parse(hingeSpeedYesBack.text));
         }
 
         public void SetNoPos()
         {
-            LastCommand.text = "Set head NO at " + noHingeAngleSetter.value + " at " + hingeSpeedNoBack.text;
+            LastCommand.text = "Set head NO at " + noHingeAngleSetter.value + "° at " + hingeSpeedNoBack.text + " °/s";
             mNoHinge.SetPosition(noHingeAngleSetter.value, float.Parse(hingeSpeedNoBack.text));
         }
 
