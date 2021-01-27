@@ -324,31 +324,31 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 //Utils.DeleteFile(Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
                 if(!String.IsNullOrEmpty(mPhotoSentPath))
                     Utils.DeleteFile(mPhotoSentPath);
-                Texture2D iPhotoFromRobot = (Texture2D)GetGameObject(12).GetComponentInChildren<RawImage>().texture;
-                Utils.SaveTextureToFile(iPhotoFromRobot, Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
-                Debug.Log("CALLSTATE TAKE PHOTO WITH TAKEPHOTOGRAPH PATH : " + Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
-                string iPathPhotoSaved = Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg";
-                //iPathPhotoSaved = mRTCManager.TakePhoto();
-                Debug.Log("path photo saved : " + iPathPhotoSaved);
-                //test
-                //Buddy.WebServices.Agoraio.SendPicture(DBManager.Instance.ListUIDTablet[TeleBuddyQuatreDeuxData.Instance.IndexTablet],/* Buddy.Resources.AppSpritesPath + "background.jpg"*/iPathPhotoSaved);
-                Buddy.WebServices.Agoraio.SendPicture(mRTMManager.IdConnectionTablet,/* Buddy.Resources.AppSpritesPath + "background.jpg"*/iPathPhotoSaved);
+                //Texture2D iPhotoFromRobot = (Texture2D)GetGameObject(12).GetComponentInChildren<RawImage>().texture;
+                //Utils.SaveTextureToFile(iPhotoFromRobot, Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
+                //Debug.Log("CALLSTATE TAKE PHOTO WITH TAKEPHOTOGRAPH PATH : " + Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
+                //string iPathPhotoSaved = Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg";
+                ////iPathPhotoSaved = mRTCManager.TakePhoto();
+                //Debug.Log("path photo saved : " + iPathPhotoSaved);
+                ////test
+                ////Buddy.WebServices.Agoraio.SendPicture(DBManager.Instance.ListUIDTablet[TeleBuddyQuatreDeuxData.Instance.IndexTablet],/* Buddy.Resources.AppSpritesPath + "background.jpg"*/iPathPhotoSaved);
+                //Buddy.WebServices.Agoraio.SendPicture(mRTMManager.IdConnectionTablet,/* Buddy.Resources.AppSpritesPath + "background.jpg"*/iPathPhotoSaved);
 
-                Debug.Log("CALLSTATE TAKE PHOTO WITH TAKEPHOTOGRAPH WITH PATH BACKGROUND : " + Buddy.Resources.AppSpritesPath + "background.jpg");
+                //Debug.Log("CALLSTATE TAKE PHOTO WITH TAKEPHOTOGRAPH WITH PATH BACKGROUND : " + Buddy.Resources.AppSpritesPath + "background.jpg");
 
 
 
                 //*****TAKEPHOTOGRAPH****
-                //Debug.LogError("CALLSTATE TAKE PHOTO MHDCAM");
-                //mRTCManager.MuteVideo(true);
-                //Debug.LogError("CALLSTATE TAKE PHOTO MUTE VIDEO = TRUE");
-                ////mHDCam.Close();
-                //Debug.LogError("CALLSTATE TAKE PHOTO CLOSE CAM");
-                ////mHDCam.Open(HDCameraMode.COLOR_132X98_15FPS_RGB, HDCameraType.FRONT); 
-                //Debug.LogError("CALLSTATE TAKE PHOTO OPEN CAMERA 4224*3136");
-                ////mHDCam.OnNewFrame.Clear();
-                //Debug.LogError("CALLSTATE TAKE PHOTO CLEAR ON NEW FRAME");
-                //mHDCam.TakePhotograph(OnPhotoTaken);
+                Debug.LogError("CALLSTATE TAKE PHOTO MHDCAM");
+                mRTCManager.MuteVideo(true);
+                Debug.LogError("CALLSTATE TAKE PHOTO MUTE VIDEO = TRUE");
+                mHDCam.Close();
+                Debug.LogError("CALLSTATE TAKE PHOTO CLOSE CAM");
+                mHDCam.Open(HDCameraMode.COLOR_132X98_15FPS_RGB, HDCameraType.FRONT); 
+                Debug.LogError("CALLSTATE TAKE PHOTO OPEN CAMERA 4224*3136");
+                //mHDCam.OnNewFrame.Clear();
+                Debug.LogError("CALLSTATE TAKE PHOTO CLEAR ON NEW FRAME");
+                mHDCam.TakePhotograph(OnPhotoTaken);
 
                 //*****TAKEPHOTOGRAPH****
                 //new test take photo
@@ -413,7 +413,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             Debug.LogError("CALL STATE TAKEPHOTOGRAPH : PHOTO SENT");
             //mHDCam.OnNewFrame.Clear();
             Debug.LogError("CALL STATE TAKEPHOTOGRAPH : CLEAR ON NEW FRAME");
-            //mHDCam.Close();
+            mHDCam.Close();
             Debug.LogError("CALL STATE TAKEPHOTOGRAPH : CLOSE HDCAM");
             mRTCManager.MuteVideo(false);
             Debug.LogError("CALL STATE TAKEPHOTOGRAPH : MUTEVIDEO = false");
