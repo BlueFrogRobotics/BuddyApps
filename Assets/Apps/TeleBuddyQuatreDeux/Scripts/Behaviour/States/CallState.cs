@@ -61,7 +61,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mRTCManager = GetComponent<RTCManager>();
             mRTMManager = GetComponent<RTMManager>();
 
-            if (Buddy.Sensors.Microphones.CurrentMicrophone.Code != "DEVICE_IN_USB_DEVICE") {
+            if (Buddy.Sensors.Microphones.CurrentMicrophone.Code != "DEVICE_IN_USB_DEVICE")
+            {
                 //set microphone 360 to true
                 Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", false);
                 Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", true);
@@ -80,13 +81,15 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             VideoFeedbackImage = GetGameObject(12).GetComponentInChildren<RawImage>().gameObject;
             mRTCManager.InitButtons();
             VolumeScrollbar.onValueChanged.AddListener(
-                (lValue) => {
+                (lValue) =>
+                {
                     SetCallVolume(lValue);
                     mTimeVolume = Time.time;
                 });
 
             Volume.onClick.AddListener(
-                () => {
+                () =>
+                {
                     mSliderVolumeEnabled = true;
                     VolumeScrollbar.value = GetCallVolume();
                     Volume.gameObject.SetActive(false);
@@ -96,7 +99,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 );
 
             VolumeScrollbar.GetComponentInChildren<Button>().onClick.AddListener(
-                () => {
+                () =>
+                {
                     VolumeScrollbar.gameObject.SetActive(false);
                     Volume.gameObject.SetActive(true);
                 });
@@ -106,7 +110,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
             mRTMManager.OnWheelsMotion = OnWheelsMotion;
 
-            mRTMManager.OnHeadNoAbsolute = (lAngle) => {
+            mRTMManager.OnHeadNoAbsolute = (lAngle) =>
+            {
                 float lMaxValue;
                 if (!mRTCManager.mCurrentCameraWide)
                     lMaxValue = 30F;
@@ -118,7 +123,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 Buddy.Actuators.Head.No.SetPosition(Buddy.Actuators.Head.No.Angle - lAngle * lMaxValue);
             };
 
-            mRTMManager.OnHeadYesAbsolute = (lAngle) => {
+            mRTMManager.OnHeadYesAbsolute = (lAngle) =>
+            {
 
                 float lMaxValue;
                 if (!mRTCManager.mCurrentCameraWide)
@@ -131,8 +137,10 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
             };
 
-            mRTMManager.OnHeadNo = (lAngle) => {
-                if (lAngle * mPreviousAngle < 0) {
+            mRTMManager.OnHeadNo = (lAngle) =>
+            {
+                if (lAngle * mPreviousAngle < 0)
+                {
                     // Dirty way to clean the queue. Need new function in OS to do this
                     Buddy.Actuators.Head.No.Stop();
                     Buddy.Actuators.Head.No.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.No.Angle, -80F, 80F), Mathf.Clamp(Math.Abs(lAngle) * 10, 20F, 230F), AccDecMode.HIGH);
@@ -140,7 +148,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
                     Debug.LogWarning("Time between NO sent command " + (Time.time - mPreviousNoAngleTime));
                     mPreviousNoAngleTime = Time.time;
-                } else if (!Buddy.Actuators.Head.No.IsBusy) {
+                }
+                else if (!Buddy.Actuators.Head.No.IsBusy)
+                {
                     Buddy.Actuators.Head.No.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.No.Angle, -80F, 80F), Mathf.Clamp(Math.Abs(lAngle) * 10, 20F, 230F), AccDecMode.SMOOTH);
                     mPreviousAngle = lAngle;
 
@@ -149,9 +159,11 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 }
             };
 
-            mRTMManager.OnHeadYes = (lAngle) => {
+            mRTMManager.OnHeadYes = (lAngle) =>
+            {
                 // If the user changes head direction
-                if (lAngle * mPreviousAngle < 0) {
+                if (lAngle * mPreviousAngle < 0)
+                {
                     // Dirty way to clean the queue. Need new function in OS to do this
                     Buddy.Actuators.Head.Yes.Stop();
                     //Buddy.Actuators.Head.Yes.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, -10F, 37F), Mathf.Clamp(Math.Abs(lAngle) * 4, 5F, 80F), AccDecMode.HIGH);
@@ -159,7 +171,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     Debug.LogWarning("Time between YES sent command " + (Time.time - mPreviousYesAngleTime));
                     mPreviousYesAngleTime = Time.time;
                     mPreviousAngle = lAngle;
-                } else if (!Buddy.Actuators.Head.Yes.IsBusy) {
+                }
+                else if (!Buddy.Actuators.Head.Yes.IsBusy)
+                {
                     //Buddy.Actuators.Head.Yes.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, -10F, 37F), Mathf.Clamp(Math.Abs(lAngle) * 4, 5F, 80F), AccDecMode.SMOOTH);
                     Buddy.Actuators.Head.Yes.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax), Mathf.Clamp(Math.Abs(lAngle) * 4, 5F, 80F), AccDecMode.SMOOTH);
                     mPreviousAngle = lAngle;
@@ -171,11 +185,14 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private void OnFeedBackButtonClick()
         {
-            if (GetGameObject(12).activeInHierarchy) {
+            if (GetGameObject(12).activeInHierarchy)
+            {
                 GetGameObject(12).SetActive(false);
                 VideoFeedbackIcon.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconOpenFeedback");
 
-            } else {
+            }
+            else
+            {
                 GetGameObject(12).SetActive(true);
                 VideoFeedbackIcon.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconCloseFeedback");
             }
@@ -183,18 +200,22 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private void OnHangup()
         {
-            Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
+            Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
+            {
                 TText lText = iBuilder.CreateWidget<TText>();
                 lText.SetLabel("Veux-tu vraiment mettre fin à l'appel?");
             },
-            () => {
+            () =>
+            {
                 Debug.Log("Cancel");
                 Buddy.GUI.Toaster.Hide();
             }, "Cancel",
-            () => {
+            () =>
+            {
                 Debug.Log("OK");
                 Buddy.GUI.Toaster.Hide();
-                if (DBManager.Instance.ListUIDTablet.Count > 1) {
+                if (DBManager.Instance.ListUIDTablet.Count > 1)
+                {
                     GetGameObject(21).SetActive(true);
                 }
                 ManageGUIClose();
@@ -211,6 +232,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mHDCam = Buddy.Sensors.HDCamera;
             TeleBuddyQuatreDeuxData.Instance.CurrentState = TeleBuddyQuatreDeuxData.States.CALL_STATE;
             mPhotoSentPath = "";
+
+            //Enable echo cancellation if not already on
+            Buddy.Sensors.Microphones.EnableEchoCancellation = true;
 
             mSliderVolumeEnabled = false;
             mTimer = 0F;
@@ -235,13 +259,15 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
             mRTCManager.OnEndUserOffline = () => Buddy.GUI.Dialoger.Display<IconToast>("Communication coupée").
             With(Buddy.Resources.Get<Sprite>("os_icon_phoneoff_big"),
-                () => {
+                () =>
+                {
                     ManageGUIClose();
                     Trigger("IDLE");
                     Buddy.GUI.Dialoger.Hide();
                 },
                 () => mHideTime = Time.time,
-                () => {
+                () =>
+                {
                     mRTCManager.Leave();
                     ManageGUIClose();
                     Trigger("IDLE");
@@ -250,7 +276,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
 
 
-            mRTMManager.OnDisplayMessage = (lMessage) => {
+            mRTMManager.OnDisplayMessage = (lMessage) =>
+            {
                 Message.text = lMessage;
                 if (mHandUp)
                     StopRaiseHand();
@@ -260,8 +287,12 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             };
 
 
-            mRTMManager.OnRaiseHand = (lHandUp) => {
-                if (lHandUp) {
+            mRTMManager.OnRaiseHand = (lHandUp) =>
+            {
+                if (lHandUp)
+                {
+
+                    //mRTCManager.SetAEC(true);
                     if (mTimeMessage > 0F)
                         StopMessage();
                     mHandUp = true;
@@ -270,59 +301,75 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     Buddy.Actuators.LEDs.SetBodyPattern(LEDPulsePattern.BASIC_BLINK);
                     TriggerGUI("HANDSUP START");
                     //ResetTrigger("HANDSUP START");
-                } else {
+                }
+                else
+                {
+                    //mRTCManager.SetAEC(false);
                     StopRaiseHand();
                 }
             };
 
 
-            mRTMManager.OnFrontalListening = (lFrontalListening) => {
+            mRTMManager.OnFrontalListening = (lFrontalListening) =>
+            {
                 if (lFrontalListening)
                 {
-                    Buddy.Sensors.Microphones.BeamformingParameters = new BeamformingParameters(Convert.ToByte(6), BeamformingParameters.ALGORITHM_STRONG);
-                    Buddy.Sensors.Microphones.EnableBeamforming = true;
-                    ////set microphone 360 to false
-                    //Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", false);
-                    ////set the front microphone to true
-                    //Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", true);
-                    //mRTCManager.SetMicrophone("0");
-                    //Debug.Log("MICRO ENABLED : " + Buddy.Sensors.Microphones.CurrentMicrophone.Code);
+                    //mRtcEngine.setParameters("{\"che.audio.enable.aec\":false}");
+
+
+
+                    //Buddy.Sensors.Microphones.BeamformingParameters = new BeamformingParameters(Convert.ToByte(6), BeamformingParameters.ALGORITHM_STRONG);
+                    //Buddy.Sensors.Microphones.EnableBeamforming = true;
+                    //set microphone 360 to false
+                    Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", false);
+                    //set the front microphone to true
+                    Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", true);
+                    mRTCManager.SetMicrophone("0");
+                    Debug.Log("MICRO ENABLED : " + Buddy.Sensors.Microphones.CurrentMicrophone.Code);
                 }
                 else
                 {
-                    Buddy.Sensors.Microphones.EnableBeamforming = false;
+                    //Buddy.Sensors.Microphones.EnableEchoCancellation = false;
+
+
+                    //Buddy.Sensors.Microphones.EnableBeamforming = false;
                     //set the front microphone to false
-                    //Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", false);
-                    ////set microphone 360 to true
-                    //Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", true);
-                    //mRTCManager.SetMicrophone("1");
-                    //Debug.Log("MICRO ENABLED : " + Buddy.Sensors.Microphones.CurrentMicrophone.Code);
+                    Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", false);
+                    //set microphone 360 to true
+                    Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", true);
+                    mRTCManager.SetMicrophone("1");
+                    Debug.Log("MICRO ENABLED : " + Buddy.Sensors.Microphones.CurrentMicrophone.Code);
                 }
             };
 
-            mRTMManager.OnSpeechMessage = (lMessage) => {
+            mRTMManager.OnSpeechMessage = (lMessage) =>
+            {
                 //VOCON
                 float lCallVolume = GetCallVolume();
                 SetCallVolume(0F);
-                Buddy.Vocal.Say(lMessage, (lOutput) => {
+                Buddy.Vocal.Say(lMessage, (lOutput) =>
+                {
                     SetCallVolume(lCallVolume);
                 });
             };
 
-            mRTMManager.OnActivateZoom = (lZoom) => {
+            mRTMManager.OnActivateZoom = (lZoom) =>
+            {
                 mRTCManager.SwitchCam();
             };
 
-            mRTMManager.OnMood = (lMood) => {
+            mRTMManager.OnMood = (lMood) =>
+            {
                 Debug.Log("ON MOOD profil set active false");
                 GetGameObject(22).SetActive(false);
             };
 
-            mRTMManager.OnTakePhoto = (lTakePhoto) => {
+            mRTMManager.OnTakePhoto = (lTakePhoto) =>
+            {
                 Debug.LogError("CALLSTATE TAKE PHOTO");
                 //Delete the last photo taken
                 //Utils.DeleteFile(Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
-                if(!String.IsNullOrEmpty(mPhotoSentPath))
+                if (!String.IsNullOrEmpty(mPhotoSentPath))
                     Utils.DeleteFile(mPhotoSentPath);
                 //Texture2D iPhotoFromRobot = (Texture2D)GetGameObject(12).GetComponentInChildren<RawImage>().texture;
                 //Utils.SaveTextureToFile(iPhotoFromRobot, Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
@@ -339,16 +386,16 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
 
                 //*****TAKEPHOTOGRAPH****
-                Debug.LogError("CALLSTATE TAKE PHOTO MHDCAM");
+                Debug.Log("CALLSTATE TAKE PHOTO MHDCAM");
                 mRTCManager.MuteVideo(true);
-                Debug.LogError("CALLSTATE TAKE PHOTO MUTE VIDEO = TRUE");
+                Debug.Log("CALLSTATE TAKE PHOTO MUTE VIDEO = TRUE");
                 mHDCam.Close();
-                Debug.LogError("CALLSTATE TAKE PHOTO CLOSE CAM");
-                mHDCam.Open(HDCameraMode.COLOR_132X98_15FPS_RGB, HDCameraType.FRONT); 
-                Debug.LogError("CALLSTATE TAKE PHOTO OPEN CAMERA 4224*3136");
+                Debug.Log("CALLSTATE TAKE PHOTO CLOSE CAM");
+                mHDCam.Open(HDCameraMode.COLOR_2112x1568_60FPS_RGB, HDCameraType.FRONT);
+                Debug.Log("CALLSTATE TAKE PHOTO OPEN CAMERA COLOR_2112x1568_60FPS_RGB");
                 //mHDCam.OnNewFrame.Clear();
-                Debug.LogError("CALLSTATE TAKE PHOTO CLEAR ON NEW FRAME");
-                mHDCam.TakePhotograph(OnPhotoTaken);
+                Debug.Log("CALLSTATE TAKE PHOTO CLEAR ON NEW FRAME");
+                mHDCam.TakePhotograph(OnPhotoTaken, HDCameraMode.COLOR_2112x1568_60FPS_RGB);
 
                 //*****TAKEPHOTOGRAPH****
                 //new test take photo
@@ -400,7 +447,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private void OnPhotoTaken(Photograph iMyPhoto)
         {
-            if (iMyPhoto == null) {
+            if (iMyPhoto == null)
+            {
                 Debug.Log("OnFinish take photo, iPhoto null");
                 return;
             }
@@ -422,9 +470,22 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private void OnWheelsMotion(WheelsMotion iWheelsMotion)
         {
             mTimeSinceMovement = Time.time;
-            Buddy.Actuators.Wheels.SetVelocities(Wheels.MAX_LIN_VELOCITY * Mathf.Pow(iWheelsMotion.speed, 3),
-                Wheels.MAX_ANG_VELOCITY * Mathf.Pow(iWheelsMotion.angularVelocity, 3), AccDecMode.HIGH);
+            float lTranslation = Wheels.MAX_LIN_VELOCITY * Mathf.Pow(iWheelsMotion.speed, 3);
+            float lRotation = Wheels.MAX_ANG_VELOCITY * Mathf.Pow(iWheelsMotion.angularVelocity, 3);
+
+            Debug.Log("Wheels command received " + iWheelsMotion.speed + " " + iWheelsMotion.angularVelocity);
+            // Go faster than static inertia
+            if (iWheelsMotion.speed > 0.05F || Math.Abs(iWheelsMotion.speed) > Math.Abs(iWheelsMotion.angularVelocity))
+                lTranslation += Math.Sign(lTranslation) * 0.18F;
+            if (iWheelsMotion.angularVelocity > 0.05F || Math.Abs(iWheelsMotion.speed) < Math.Abs(iWheelsMotion.angularVelocity))
+                lRotation += Math.Sign(lRotation) * 33F;
+
+            Buddy.Actuators.Wheels.SetVelocities(lTranslation, lRotation, AccDecMode.HIGH);
+
+
+            Debug.Log("Wheels command send " + lTranslation + " " + lRotation);
         }
+
 
         private bool IsPointerOverUIObject()
         {
@@ -438,30 +499,40 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (!mRTMManager.mStaticSteering) {
-                if (!Buddy.Actuators.Wheels.Locked && Time.time - mTimeSinceMovement > 0.3F && mTimeSinceMovement != -1F) {
+            if (!mRTMManager.mStaticSteering)
+            {
+                if (!Buddy.Actuators.Wheels.Locked && Time.time - mTimeSinceMovement > 0.3F && mTimeSinceMovement != -1F)
+                {
                     Buddy.Actuators.Wheels.SetVelocities(0F, 0F, AccDecMode.HIGH);
                     mTimeSinceMovement = -1F;
                 }
 
                 if (OneOrMoreCliff())
                     Buddy.Actuators.Wheels.UnlockWheels();
-            }
 
-            if (DBManager.Instance.CanEndCourse) {
+            }//else if(Buddy.Actuators.Wheels.IsBusy)
+            // Robot should stop if it is moving from external force
+
+
+            if (DBManager.Instance.CanEndCourse)
+            {
                 mTimerEndCall += Time.deltaTime;
-                if (!mEndCallDisplay) {
+                if (!mEndCallDisplay)
+                {
                     mEndCallDisplay = true;
-                    Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
+                    Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
+                    {
                         TText lText = iBuilder.CreateWidget<TText>();
                         lText.SetLabel(Buddy.Resources.GetString("eduendcall"));
                     }, null, null);
                 }
 
 
-                if (mTimerEndCall > 8F) {
+                if (mTimerEndCall > 8F)
+                {
                     Buddy.GUI.Toaster.Hide();
-                    if (DBManager.Instance.ListUIDTablet.Count > 1) {
+                    if (DBManager.Instance.ListUIDTablet.Count > 1)
+                    {
                         GetGameObject(21).SetActive(true);
                     }
                     ManageGUIClose();
@@ -501,28 +572,35 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             //    }
             //}
 
-            if (mTimeMessage >= 0) {
+            if (mTimeMessage >= 0)
+            {
                 mTimeMessage -= Time.deltaTime;
                 if (mTimeMessage < 0)
                     StopMessage();
             }
 
-            if (VolumeScrollbar.gameObject.activeInHierarchy && Time.time - mTimeVolume > 5.0F) {
+            if (VolumeScrollbar.gameObject.activeInHierarchy && Time.time - mTimeVolume > 5.0F)
+            {
                 VolumeScrollbar.gameObject.SetActive(false);
                 Volume.gameObject.SetActive(true);
             }
 
-            if (mRTCManager.mVideoIsEnabled && !VideoFeedbackButton.gameObject.activeInHierarchy) {
+            if (mRTCManager.mVideoIsEnabled && !VideoFeedbackButton.gameObject.activeInHierarchy)
+            {
                 GetGameObject(12).SetActive(true);
                 VideoFeedbackButton.gameObject.SetActive(true);
                 VideoFeedbackIcon.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_IconCloseFeedback");
-            } else if (!mRTCManager.mVideoIsEnabled && VideoFeedbackButton.gameObject.activeInHierarchy) {
+            }
+            else if (!mRTCManager.mVideoIsEnabled && VideoFeedbackButton.gameObject.activeInHierarchy)
+            {
                 GetGameObject(12).SetActive(false);
                 VideoFeedbackButton.gameObject.SetActive(false);
             }
 
-            if (!mRTMManager.mStaticSteering) {
-                if (Math.Abs(Buddy.Actuators.Head.No.Angle) > 5 && !Buddy.Actuators.Head.IsBusy) {
+            if (!mRTMManager.mStaticSteering)
+            {
+                if (Math.Abs(Buddy.Actuators.Head.No.Angle) > 5 && !Buddy.Actuators.Head.IsBusy)
+                {
                     Buddy.Navigation.Run<DisplacementStrategy>().Rotate(Buddy.Actuators.Head.No.Angle, 200F);
                     Buddy.Actuators.Head.No.SetPosition(0F, 200F);
                 }
@@ -557,7 +635,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             Buddy.GUI.Toaster.Hide();
             if (mTimeMessage >= 0)
                 StopMessage();
-            if (mHandUp) {
+            if (mHandUp)
+            {
                 StopRaiseHand();
             }
             mRTMManager.OnDisplayMessage = null;
@@ -607,7 +686,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         {
             get
             {
-                if (audioManager == null) {
+                if (audioManager == null)
+                {
                     AndroidJavaClass unityPlayerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
                     AndroidJavaObject currentActivity = unityPlayerClass.GetStatic<AndroidJavaObject>("currentActivity");
                     AndroidJavaObject context = currentActivity.Call<AndroidJavaObject>("getApplicationContext");
@@ -650,7 +730,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private void Lauchparameters()
         {
-            Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
+            Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
+            {
                 TText lTextVolume = iBuilder.CreateWidget<TText>();
                 lTextVolume.SetLabel("Réglage du volume");
                 mSliderVolume = iBuilder.CreateWidget<TSlider>();
@@ -678,10 +759,13 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private void SetNavigationStatic(bool iValue)
         {
-            if (iValue) {
+            if (iValue)
+            {
                 mRTMManager.SwapSteering(true);
                 mToggleNavigationDynamic.ToggleValue = false;
-            } else {
+            }
+            else
+            {
                 Buddy.Actuators.Wheels.UnlockWheels();
                 mRTMManager.SwapSteering(false);
                 mToggleNavigationDynamic.ToggleValue = true;
@@ -690,11 +774,14 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private void SetNavigationDynamic(bool iValue)
         {
-            if (iValue) {
+            if (iValue)
+            {
                 Buddy.Actuators.Wheels.UnlockWheels();
                 mRTMManager.SwapSteering(false);
                 mToggleNavigationStatic.ToggleValue = false;
-            } else {
+            }
+            else
+            {
                 mRTMManager.SwapSteering(true);
                 mToggleNavigationStatic.ToggleValue = true;
             }
@@ -710,7 +797,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         public void UpdateVolume(float iValue)
         {
             float lValue = iValue / 100F;
-            if (Mathf.Abs(Buddy.Actuators.Speakers.Volume - lValue) > 0.05) {
+            if (Mathf.Abs(Buddy.Actuators.Speakers.Volume - lValue) > 0.05)
+            {
                 Buddy.Actuators.Speakers.Volume = lValue;
             }
         }
