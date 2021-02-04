@@ -240,7 +240,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             SendRTMMessage(Utils.SerializeJSON(new ObstacleSensors(obstacleRight, obstacleCenter, obstacleLeft)));
         }
 
-        private void SendNoAngle()
+        public void SendNoAngle()
         {
             float lValue = 0F;
             Debug.LogWarning("angle no: " + Buddy.Actuators.Head.No.Angle);
@@ -254,15 +254,15 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             Debug.LogWarning("inform no: " + lValue.ToString());
         }
 
-        private void SendYesAngle()
+        public void SendYesAngle()
         {
             float lValue = 0F;
             Debug.LogWarning("angle yes: " + Buddy.Actuators.Head.Yes.Angle);
-            //if (Buddy.Actuators.Head.Yes.Angle > 0)
-            //    lValue = Mathf.Abs(Buddy.Actuators.Head.Yes.Angle / Buddy.Actuators.Head.Yes.AngleMax);
-            //else
-            //    lValue = -Mathf.Abs(Buddy.Actuators.Head.Yes.Angle / Buddy.Actuators.Head.Yes.AngleMin);//YesHeadHinge.MAX_DOWN_ANGLE;
-            lValue = (Mathf.Lerp(Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax, (Buddy.Actuators.Head.Yes.Angle)) * 2F) -1F;
+            if (Buddy.Actuators.Head.Yes.Angle > 0)
+                lValue = Mathf.Abs(Buddy.Actuators.Head.Yes.Angle / Buddy.Actuators.Head.Yes.AngleMax);
+            else
+                lValue = -Mathf.Abs(Buddy.Actuators.Head.Yes.Angle / Buddy.Actuators.Head.Yes.AngleMin);//YesHeadHinge.MAX_DOWN_ANGLE;
+            //lValue = (Mathf.Lerp(Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax, (Buddy.Actuators.Head.Yes.Angle)) * 2F) -1F;
             SendRTMMessage(Utils.SerializeJSON(new JsonMessage("informYesAngle", lValue.ToString())));
             Debug.LogWarning("inform yes: " + lValue.ToString());
         }
