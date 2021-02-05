@@ -67,7 +67,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 //set microphone 360 to true
                 Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", false);
                 Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", true);
-                mRTCManager.SetMicrophone("1");
+                //mRTCManager.SetMicrophone("1");
             }
             Buddy.WebServices.Agoraio.ImageReceived = (width, height, data) => mRTCManager.SetProfilePicture(data, width, height);
 
@@ -281,7 +281,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     Buddy.Actuators.LEDs.SetBodyPattern(LEDPulsePattern.BASIC_BLINK);
                     TriggerGUI("HANDSUP START");
                     //ResetTrigger("HANDSUP START");
-                } else {
+                } else
+                {
                     //mRTCManager.SetAEC(false);
                     StopRaiseHand();
                 }
@@ -300,7 +301,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", false);
                     //set the front microphone to true
                     Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", true);
-                    mRTCManager.SetMicrophone("0");
+                    //mRTCManager.SetMicrophone("0");
+
+                    mRTCManager.SetVolumeMax(200);
                     Debug.Log("MICRO ENABLED : " + Buddy.Sensors.Microphones.CurrentMicrophone.Code);
                 } else {
                     //Buddy.Sensors.Microphones.EnableEchoCancellation = false;
@@ -311,7 +314,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", false);
                     //set microphone 360 to true
                     Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", true);
-                    mRTCManager.SetMicrophone("1");
+                    mRTCManager.SetVolumeMax(100);
+                    //mRTCManager.SetMicrophone("1");
                     Debug.Log("MICRO ENABLED : " + Buddy.Sensors.Microphones.CurrentMicrophone.Code);
                 }
             };
@@ -369,7 +373,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 Debug.Log("CALLSTATE TAKE PHOTO OPEN CAMERA COLOR_2112x1568_30FPS_RGB");
                 //mHDCam.OnNewFrame.Clear();
                 Debug.Log("CALLSTATE TAKE PHOTO CLEAR ON NEW FRAME");
-                mHDCam.TakePhotograph(OnPhotoTaken, HDCameraMode.COLOR_2112x1568_30FPS_RGB);
+                mHDCam.TakePhotograph(OnPhotoTaken, HDCameraMode.COLOR_2112x1568_30FPS_RGB, false, FlashLightMode.OFF);
+
 
                 //*****TAKEPHOTOGRAPH****
                 //new test take photo

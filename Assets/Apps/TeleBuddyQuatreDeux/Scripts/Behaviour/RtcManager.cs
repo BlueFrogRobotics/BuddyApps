@@ -125,6 +125,11 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             return byteArray;
         }
 
+        internal void SetVolumeMax(int iVolume)
+        {
+            Debug.Log("setting signal volume to " + iVolume + " returns " + mRtcEngine.AdjustRecordingSignalVolume(iVolume));
+        }
+
         public string TakePhoto()
         {
             Utils.DeleteFile(Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
@@ -191,15 +196,15 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         }
 
-        public void SetMicrophone(string iId)
-        {
-            mRtcEngine.GetAudioRecordingDeviceManager().SetAudioRecordingDevice(iId);
-            Debug.Log("NUM OF RECORDING DEVICE: " + mRtcEngine.GetAudioRecordingDeviceManager().GetAudioRecordingDeviceCount());
-            string name = "";
-            string id = "";
-            mRtcEngine.GetAudioRecordingDeviceManager().GetCurrentRecordingDeviceInfo(ref name, ref id);
-            Debug.Log("CURRENT RECORDING DEVICE NAME " + name + " ID: " + id);
-        }
+        //public void SetMicrophone(string iId)
+        //{
+        //    mRtcEngine.GetAudioRecordingDeviceManager().SetAudioRecordingDevice(iId);
+        //    Debug.Log("NUM OF RECORDING DEVICE: " + mRtcEngine.GetAudioRecordingDeviceManager().GetAudioRecordingDeviceCount());
+        //    string name = "";
+        //    string id = "";
+        //    mRtcEngine.GetAudioRecordingDeviceManager().GetCurrentRecordingDeviceInfo(ref name, ref id);
+        //    Debug.Log("CURRENT RECORDING DEVICE NAME " + name + " ID: " + id);
+        //}
 
         public void Join(string iChannel)
         {
@@ -222,8 +227,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             VideoEncoderConfiguration videoEncoder = new VideoEncoderConfiguration {
                 degradationPreference = DEGRADATION_PREFERENCE.MAINTAIN_QUALITY,
                 dimensions = new VideoDimensions() {
-                    height = 1080,
-                    width = 1920
+                    height = 784,
+                    width = 1056
                 }
             };
 
