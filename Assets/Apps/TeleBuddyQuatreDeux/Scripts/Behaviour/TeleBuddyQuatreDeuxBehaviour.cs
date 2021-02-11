@@ -38,6 +38,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mAppData = TeleBuddyQuatreDeuxData.Instance;
         }
 
+
         public static string EncodeToSHA256(string iInput)
         {
             using (System.Security.Cryptography.SHA256 lSha256 = System.Security.Cryptography.SHA256.Create())

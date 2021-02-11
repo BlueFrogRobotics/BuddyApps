@@ -152,13 +152,20 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             };
 
             mRTMManager.OnHeadYes = (lAngle) => {
+                Debug.LogWarning("OnHeadYes " + lAngle);
+
+                // Minimal angle to move robot
+                if (Math.Abs(lAngle) < 2.5F)
+                    lAngle = Math.Sign(lAngle) * 2.5F;
+
                 // If the user changes head direction
                 if (lAngle * mPreviousAngle < 0) {
                     // Dirty way to clean the queue. Need new function in OS to do this
                     Buddy.Actuators.Head.Yes.Stop();
                     //Buddy.Actuators.Head.Yes.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, -10F, 37F), Mathf.Clamp(Math.Abs(lAngle) * 4, 5F, 80F), AccDecMode.HIGH);
-                    Buddy.Actuators.Head.Yes.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax), Mathf.Clamp(Math.Abs(lAngle) * 4, 5F, 80F), AccDecMode.HIGH);
+                    Buddy.Actuators.Head.Yes.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax), Mathf.Clamp(Math.Abs(lAngle) * 4, 10F, 80F), AccDecMode.HIGH);
                     Debug.LogWarning("Time between YES sent command " + (Time.time - mPreviousYesAngleTime));
+                    Debug.LogWarning("OnHeadYes set Position to " + Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax) + " and speed " + Mathf.Clamp(Math.Abs(lAngle) * 4, 10F, 80F));
                     mPreviousYesAngleTime = Time.time;
                     mPreviousAngle = lAngle;
                 } else if (!Buddy.Actuators.Head.Yes.IsBusy) {
@@ -209,6 +216,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         {
             // Just to be sure:
             Buddy.Vocal.OnTrigger.Clear();
+
+
             Buddy.Vocal.ListenOnTrigger = false;
             mHDCam = Buddy.Sensors.HDCamera;
             TeleBuddyQuatreDeuxData.Instance.CurrentState = TeleBuddyQuatreDeuxData.States.CALL_STATE;
@@ -281,8 +290,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     Buddy.Actuators.LEDs.SetBodyPattern(LEDPulsePattern.BASIC_BLINK);
                     TriggerGUI("HANDSUP START");
                     //ResetTrigger("HANDSUP START");
-                } else
-                {
+                } else {
                     //mRTCManager.SetAEC(false);
                     StopRaiseHand();
                 }
@@ -306,7 +314,6 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     mRTCManager.SetVolumeMax(200);
                     Debug.Log("MICRO ENABLED : " + Buddy.Sensors.Microphones.CurrentMicrophone.Code);
                 } else {
-                    //Buddy.Sensors.Microphones.EnableEchoCancellation = false;
 
 
                     //Buddy.Sensors.Microphones.EnableBeamforming = false;
@@ -315,6 +322,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     //set microphone 360 to true
                     Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", true);
                     mRTCManager.SetVolumeMax(100);
+                    Buddy.Sensors.Microphones.EnableEchoCancellation = true;
                     //mRTCManager.SetMicrophone("1");
                     Debug.Log("MICRO ENABLED : " + Buddy.Sensors.Microphones.CurrentMicrophone.Code);
                 }
@@ -326,6 +334,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 SetCallVolume(0F);
                 Buddy.Vocal.Say(lMessage, (lOutput) => {
                     SetCallVolume(lCallVolume);
+                    Buddy.Sensors.Microphones.EnableEchoCancellation = true;
                 });
             };
 
@@ -341,6 +350,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
             mRTMManager.OnTakePhoto = (lTakePhoto) => {
                 Debug.Log("CALLSTATE TAKE PHOTO");
+                ExtLog.I(ExtLogModule.APP, typeof(TeleBuddyQuatreDeuxActivity), LogStatus.START, LogInfo.RUNNING, "CALLSTATE TAKE PHOTO");
                 //Delete the last photo taken
                 //Utils.DeleteFile(Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
                 if (!String.IsNullOrEmpty(mPhotoSentPath))
@@ -360,22 +370,24 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
 
                 //*****TAKEPHOTOGRAPH****
-                Debug.Log("CALLSTATE TAKE PHOTO MHDCAM");
+                mRTCManager.DisplayWaintingForPicture(true);
+                ExtLog.I(ExtLogModule.APP, typeof(TeleBuddyQuatreDeuxActivity), LogStatus.START, LogInfo.RUNNING, "CALLSTATE TAKE PHOTO MHDCAM");
                 mRTCManager.MuteVideo(true);
-                Debug.Log("CALLSTATE TAKE PHOTO MUTE VIDEO = TRUE");
+                ExtLog.I(ExtLogModule.APP, typeof(TeleBuddyQuatreDeuxActivity), LogStatus.START, LogInfo.RUNNING, "CALLSTATE TAKE PHOTO MUTE VIDEO = TRUE");
                 mHDCam.Close();
-                Debug.Log("CALLSTATE TAKE PHOTO CLOSE CAM");
-                if (mZoom)
+                ExtLog.I(ExtLogModule.APP, typeof(TeleBuddyQuatreDeuxActivity), LogStatus.START, LogInfo.RUNNING, "CALLSTATE TAKE PHOTO CLOSE CAM");
+                if (!mZoom)
                     mHDCam.Open(HDCameraMode.COLOR_2112x1568_30FPS_RGB, HDCameraType.FRONT);
                 else
                     mHDCam.Open(HDCameraMode.COLOR_2112x1568_30FPS_RGB, HDCameraType.BACK);
 
-                Debug.Log("CALLSTATE TAKE PHOTO OPEN CAMERA COLOR_2112x1568_30FPS_RGB");
+                ExtLog.I(ExtLogModule.APP, typeof(TeleBuddyQuatreDeuxActivity), LogStatus.START, LogInfo.RUNNING, "CALLSTATE TAKE PHOTO OPEN CAMERA COLOR_2112x1568_30FPS_RGB");
                 //mHDCam.OnNewFrame.Clear();
-                Debug.Log("CALLSTATE TAKE PHOTO CLEAR ON NEW FRAME");
-                mHDCam.TakePhotograph(OnPhotoTaken, HDCameraMode.COLOR_2112x1568_30FPS_RGB, false, FlashLightMode.OFF);
+                ExtLog.I(ExtLogModule.APP, typeof(TeleBuddyQuatreDeuxActivity), LogStatus.START, LogInfo.RUNNING, "CALLSTATE TAKE PHOTO CLEAR ON NEW FRAME");
+                mHDCam.TakePhotograph(OnPhotoTaken, HDCameraMode.COLOR_2112x1568_30FPS_RGB, false, FlashLightMode.ON);
 
 
+                Buddy.Actuators.LEDs.FlashIntensity = 0.03F;
                 //*****TAKEPHOTOGRAPH****
                 //new test take photo
                 //HDCamera mHDCam;
@@ -426,37 +438,54 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private void OnPhotoTaken(Photograph iMyPhoto)
         {
+            //mHDCam.OnNewFrame.Clear();
+            ExtLog.I(ExtLogModule.APP, typeof(TeleBuddyQuatreDeuxActivity), LogStatus.START, LogInfo.RUNNING, "CALL STATE TAKEPHOTOGRAPH : CLEAR ON NEW FRAME");
+            mHDCam.Close();
+            ExtLog.I(ExtLogModule.APP, typeof(TeleBuddyQuatreDeuxActivity), LogStatus.START, LogInfo.RUNNING, "CALL STATE TAKEPHOTOGRAPH : CLOSE HDCAM");
+            mRTCManager.MuteVideo(false);
+            ExtLog.I(ExtLogModule.APP, typeof(TeleBuddyQuatreDeuxActivity), LogStatus.START, LogInfo.RUNNING, "CALL STATE TAKEPHOTOGRAPH : MUTEVIDEO = false");
+
+            Buddy.Actuators.LEDs.FlashIntensity = 0F;
             if (iMyPhoto == null) {
-                Debug.Log("OnFinish take photo, iPhoto null");
+                ExtLog.I(ExtLogModule.APP, typeof(TeleBuddyQuatreDeuxActivity), LogStatus.START, LogInfo.RUNNING, "OnFinish take photo, iPhoto null");
                 return;
             }
-            Debug.Log("CALL STATE TAKEPHOTOGRAPH");
+
+            mRTCManager.DisplayWaintingForPicture(false);
+            ExtLog.I(ExtLogModule.APP, typeof(TeleBuddyQuatreDeuxActivity), LogStatus.START, LogInfo.RUNNING, "CALL STATE TAKEPHOTOGRAPH");
 
             iMyPhoto.Save();
-            Debug.Log("CALL STATE TAKEPHOTOGRAPH : SAVE PHOTO");
+            ExtLog.I(ExtLogModule.APP, typeof(TeleBuddyQuatreDeuxActivity), LogStatus.START, LogInfo.RUNNING, "CALL STATE TAKEPHOTOGRAPH : SAVE PHOTO");
             mPhotoSentPath = iMyPhoto.FullPath;
             Buddy.WebServices.Agoraio.SendPicture(mRTMManager.IdConnectionTablet, mPhotoSentPath);
-            Debug.Log("CALL STATE TAKEPHOTOGRAPH : PHOTO SENT");
-            //mHDCam.OnNewFrame.Clear();
-            Debug.Log("CALL STATE TAKEPHOTOGRAPH : CLEAR ON NEW FRAME");
-            mHDCam.Close();
-            Debug.Log("CALL STATE TAKEPHOTOGRAPH : CLOSE HDCAM");
-            mRTCManager.MuteVideo(false);
-            Debug.Log("CALL STATE TAKEPHOTOGRAPH : MUTEVIDEO = false");
+            ExtLog.I(ExtLogModule.APP, typeof(TeleBuddyQuatreDeuxActivity), LogStatus.START, LogInfo.RUNNING, "CALL STATE TAKEPHOTOGRAPH : PHOTO SENT");
         }
 
         private void OnWheelsMotion(WheelsMotion iWheelsMotion)
         {
             mTimeSinceMovement = Time.time;
             float lTranslation = Wheels.MAX_LIN_VELOCITY * Mathf.Pow(iWheelsMotion.speed, 3);
-            float lRotation = Wheels.MAX_ANG_VELOCITY * Mathf.Pow(iWheelsMotion.angularVelocity, 3);
+            float lRotation = Wheels.MAX_ANG_VELOCITY / 10 * Mathf.Pow(iWheelsMotion.angularVelocity, 3);
 
             Debug.Log("Wheels command received " + iWheelsMotion.speed + " " + iWheelsMotion.angularVelocity);
             // Go faster than static inertia
             if (iWheelsMotion.speed > 0.05F || Math.Abs(iWheelsMotion.speed) > Math.Abs(iWheelsMotion.angularVelocity))
                 lTranslation += Math.Sign(lTranslation) * 0.18F;
             if (iWheelsMotion.angularVelocity > 0.05F || Math.Abs(iWheelsMotion.speed) < Math.Abs(iWheelsMotion.angularVelocity))
-                lRotation += Math.Sign(lRotation) * 33F;
+                if (iWheelsMotion.speed < 0.05F)
+                    lRotation += Math.Sign(lRotation) * 33F;
+                else
+                    lRotation += Math.Sign(lRotation) * 10F;
+
+            // Adapt when moving backward
+            if (lTranslation < - 0.17F) {
+                // inverse angles of rotation
+                lRotation = -lRotation;
+                // Limit vitess wen going backward
+                if (lTranslation < -0.4F)
+                    lTranslation = -0.4F;
+            }
+
 
             Buddy.Actuators.Wheels.SetVelocities(lTranslation, lRotation, AccDecMode.HIGH);
 
@@ -478,7 +507,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             if (!mRTMManager.mStaticSteering) {
-                if (!Buddy.Actuators.Wheels.Locked && Time.time - mTimeSinceMovement > 0.3F && mTimeSinceMovement != -1F) {
+                if (!Buddy.Actuators.Wheels.Locked && Time.time - mTimeSinceMovement > 0.2F && mTimeSinceMovement != -1F) {
                     Buddy.Actuators.Wheels.SetVelocities(0F, 0F, AccDecMode.HIGH);
                     mTimeSinceMovement = -1F;
                 }
@@ -486,7 +515,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 if (OneOrMoreCliff())
                     Buddy.Actuators.Wheels.UnlockWheels();
 
-            } 
+            }
             // Break system not working
             //else if (Buddy.Actuators.Wheels.IsBusy)
             //    // Robot should stop if it is moving from external force
@@ -728,11 +757,13 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private void SetNavigationStatic(bool iValue)
         {
             if (iValue) {
-                mRTMManager.SwapSteering(true);
+                mRTCManager.SetStaticStreamProfile(true);
+                mRTMManager.SetStaticSteering(true);
                 mToggleNavigationDynamic.ToggleValue = false;
             } else {
+                mRTCManager.SetStaticStreamProfile(false);
                 Buddy.Actuators.Wheels.UnlockWheels();
-                mRTMManager.SwapSteering(false);
+                mRTMManager.SetStaticSteering(false);
                 mToggleNavigationDynamic.ToggleValue = true;
             }
         }
@@ -740,11 +771,13 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private void SetNavigationDynamic(bool iValue)
         {
             if (iValue) {
+                mRTCManager.SetStaticStreamProfile(false);
                 Buddy.Actuators.Wheels.UnlockWheels();
-                mRTMManager.SwapSteering(false);
+                mRTMManager.SetStaticSteering(false);
                 mToggleNavigationStatic.ToggleValue = false;
             } else {
-                mRTMManager.SwapSteering(true);
+                mRTCManager.SetStaticStreamProfile(true);
+                mRTMManager.SetStaticSteering(true);
                 mToggleNavigationStatic.ToggleValue = true;
             }
         }

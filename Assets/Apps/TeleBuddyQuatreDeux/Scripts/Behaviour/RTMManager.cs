@@ -16,8 +16,6 @@ namespace BuddyApp.TeleBuddyQuatreDeux
     /// </summary>
     public class RTMManager : MonoBehaviour
     {
-        [SerializeField]
-        private RawImage rawVideo;
 
         // Number of messages per second
         private const float SENSORS_BROADCAST_FREQUENCY = 4;
@@ -118,7 +116,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             InformStaticSteering();
         }
 
-        public void SwapSteering(bool iValue)
+        public void SetStaticSteering(bool iValue)
         {
             mStaticSteering = iValue;
             if (!mStaticSteering)
@@ -542,7 +540,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into an int");
                         } else {
                             if (OnHeadYes != null) {
-                                OnHeadYes(Mathf.Pow(lFloatValue, 5) * 40F);
+                                //OnHeadYes(Mathf.Pow(lFloatValue, 5) * 40F);
+                                OnHeadYes(lFloatValue * 40F);
                                 mLastYesCommandTime = Time.time;
                             }
                         }

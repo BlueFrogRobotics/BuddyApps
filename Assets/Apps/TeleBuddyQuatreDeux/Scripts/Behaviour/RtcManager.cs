@@ -19,6 +19,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private RawImage rawVideo;
 
         [SerializeField]
+        private GameObject WaitingPicture;
+
+        [SerializeField]
         private RawImage rawVideoLocal;
 
         [SerializeField]
@@ -130,6 +133,14 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             Debug.Log("setting signal volume to " + iVolume + " returns " + mRtcEngine.AdjustRecordingSignalVolume(iVolume));
         }
 
+        public void DisplayWaintingForPicture(bool iDisplay)
+        {
+            if (iDisplay && !WaitingPicture.activeSelf)
+                WaitingPicture.SetActive(true);
+            else if(!iDisplay && WaitingPicture.activeSelf)
+                WaitingPicture.SetActive(false);
+        }
+
         public string TakePhoto()
         {
             Utils.DeleteFile(Buddy.Resources.AppRawDataPath + "phototaken" + ".jpg");
@@ -159,6 +170,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             Buddy.WebServices.Agoraio.LoadEngine(iAppID);
             mRtcEngine = Buddy.WebServices.Agoraio.RtcEngine;
             mRtcEngine.OnStreamMessage = OnStreamMessage;
+
             mVideoIsEnabled = true;
             mAudioIsEnabled = true;
             rawVideo.gameObject.SetActive(false);
@@ -221,7 +233,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             //Buddy.Sensors.HDCamera.OnNewFrame.Add((iFrame) => UpdateVideoFrame(iFrame));
             mCurrentCameraWide = true;
             mRtcEngine.OnRemoteVideoStateChanged = OnRemoteVideoStateChanged;
-            mRtcEngine.OnJoinChannelSuccess = OnJoinChannelSuccess; 
+            mRtcEngine.OnJoinChannelSuccess = OnJoinChannelSuccess;
             mRtcEngine.OnUserJoined = OnUserJoined;
             mRtcEngine.OnUserOffline = OnUserOffline;
             VideoEncoderConfiguration videoEncoder = new VideoEncoderConfiguration {
@@ -232,10 +244,15 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 }
             };
 
+
+            mRtcEngine.SetVideoEncoderConfiguration(videoEncoder);
+
+            mRtcEngine.SetCameraCapturerConfiguration(new CameraCapturerConfiguration { cameraDirection = CAMERA_DIRECTION.CAMERA_FRONT, preference = CAPTURER_OUTPUT_PREFERENCE.CAPTURER_OUTPUT_PREFERENCE_PERFORMANCE });
+            mCurrentCameraWide = true;
+
             //mRtcEngine.AdjustRecordingSignalVolume(120);
             //mRtcEngine.SetVideoProfile(VIDEO_PROFILE_TYPE.VIDEO_PROFILE_LANDSCAPE_4K, false);
 
-            mRtcEngine.SetVideoEncoderConfiguration(videoEncoder);
             //mRtcEngine.SetAudioProfile(AUDIO_PROFILE_TYPE.AUDIO_PROFILE_MUSIC_HIGH_QUALITY, AUDIO_SCENARIO_TYPE.AUDIO_SCENARIO_DEFAULT);
             mRtcEngine.EnableVideo();
             mRtcEngine.EnableVideoObserver();
@@ -337,20 +354,17 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         public void MuteVideo(bool iBool)
         {
             mRtcEngine.MuteLocalVideoStream(iBool);
-            if(iBool)
-            {
+            if (iBool) {
                 mRtcEngine.DisableVideo();
                 mRtcEngine.DisableVideoObserver();
-            }
-            else
-            {
+            } else {
                 mRtcEngine.EnableVideo();
                 mRtcEngine.EnableVideoObserver();
             }
 
         }
 
-        
+
 
         public void Leave()
         {
@@ -634,6 +648,34 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         {
             Debug.Log("ON DESTROY RTC LEAVE");
             Leave();
+        }
+
+        internal void SetStaticStreamProfile(bool iStatic)
+        {
+           /* if (iStatic) {
+                VideoEncoderConfiguration videoEncoder = new VideoEncoderConfiguration {
+                    degradationPreference = DEGRADATION_PREFERENCE.MAINTAIN_QUALITY,
+                    dimensions = new VideoDimensions() {
+                        height = 784,
+                        width = 1056
+                    }
+                };
+
+                mRtcEngine.SetVideoEncoderConfiguration(videoEncoder);
+
+            } else {
+
+                VideoEncoderConfiguration videoEncoder = new VideoEncoderConfiguration {
+                    degradationPreference = DEGRADATION_PREFERENCE.MAINTAIN_FRAMERATE,
+                    dimensions = new VideoDimensions() {
+                        height = 784,
+                        width = 1056
+                    }
+                };
+
+                mRtcEngine.SetVideoEncoderConfiguration(videoEncoder);
+            }*/
+
         }
     }
 }

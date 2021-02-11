@@ -94,12 +94,12 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         {
             if (iValue)
             {
-                mRTMManager.SwapSteering(true);
+                mRTMManager.SetStaticSteering(true);
                 mToggleNavigationDynamic.ToggleValue = false;
             }
             else
             {
-                mRTMManager.SwapSteering(false);
+                mRTMManager.SetStaticSteering(false);
                 mToggleNavigationDynamic.ToggleValue = true;
 
                 Buddy.Actuators.Wheels.UnlockWheels();
@@ -110,14 +110,14 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         {
             if (iValue)
             {
-                mRTMManager.SwapSteering(false);
+                mRTMManager.SetStaticSteering(false);
                 mToggleNavigationStatic.ToggleValue = false;
 
                 Buddy.Actuators.Wheels.UnlockWheels();
             }
             else
             {
-                mRTMManager.SwapSteering(true);
+                mRTMManager.SetStaticSteering(true);
                 mToggleNavigationStatic.ToggleValue = true;
             }
         }

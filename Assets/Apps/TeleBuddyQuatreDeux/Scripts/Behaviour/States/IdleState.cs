@@ -55,12 +55,12 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             lColor = mCallButton.GetComponent<Image>().color;
             lColor.a = 0.1F;
             mCallButton.GetComponent<Image>().color = lColor;
-            NameStudent = GetGameObject(14).transform.GetChild(0).GetChild(0).gameObject;
-            FirstNameStudent = GetGameObject(14).transform.GetChild(0).GetChild(1).gameObject;
+            NameStudent = GetGameObject(14).transform.GetChild(0).GetChild(1).gameObject;
+            FirstNameStudent = GetGameObject(14).transform.GetChild(0).GetChild(0).gameObject;
             ClassStudent = GetGameObject(14).transform.GetChild(1).GetChild(0).gameObject;
             int lIndexTab = /*mRTMManager.IndexTablet*/ TeleBuddyQuatreDeuxData.Instance.IndexTablet;
             NameStudent.GetComponent<Text>().text = DBManager.Instance.ListUserStudent[lIndexTab].Nom;
-            FirstNameStudent.GetComponent<Text>().text = DBManager.Instance.ListUserStudent[lIndexTab].Prenom;
+            FirstNameStudent.GetComponent<Text>().text = DBManager.Instance.ListUserStudent[lIndexTab].Prenom + " ";
             ClassStudent.GetComponent<Text>().text = " - " + DBManager.Instance.ListUserStudent[lIndexTab].Organisme;
             mRTMManager.OncallRequest = (CallRequest lCall) => { Trigger("INCOMING CALL"); };
 
