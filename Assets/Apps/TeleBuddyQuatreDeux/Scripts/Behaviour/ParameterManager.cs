@@ -9,8 +9,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
     public class ParameterManager : MonoBehaviour
     {
         private TSlider mSliderVolume;
-        private TToggle mToggleNavigationStatic; 
+        private TToggle mToggleNavigationStatic;
         private TToggle mToggleNavigationDynamic;
+        //private TToggle mToggleTouch;
         private TButton mButtonVerify;
 
         private RTMManager mRTMManager;
@@ -26,11 +27,10 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mRTMManager = GetComponent<RTMManager>();
             mAnimator = GetComponent<Animator>();
         }
-        
+
         public void Lauchparameters()
         {
-            Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) =>
-            {
+            Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
                 TText lTextVolume = iBuilder.CreateWidget<TText>();
                 lTextVolume.SetLabel("Réglage du volume");
                 mSliderVolume = iBuilder.CreateWidget<TSlider>();
@@ -47,17 +47,20 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 mToggleNavigationDynamic.ToggleValue = !mRTMManager.mStaticSteering;
                 mToggleNavigationDynamic.OnToggle.Add(SetNavigationDynamic);
 
+                //mToggleTouch = iBuilder.CreateWidget<TToggle>();
+                //mToggleTouch.SetLabel("Réaction aux caresses");
+                //mToggleTouch.ToggleValue = true;
+                //mToggleTouch.OnToggle.Add(SetTouchToggle);
 
-                if (!mAnimator.GetCurrentAnimatorStateInfo(0).IsName("CALL"))
-                {
+
+                if (!mAnimator.GetCurrentAnimatorStateInfo(0).IsName("CALL")) {
                     TText lText = iBuilder.CreateWidget<TText>();
                     lText.SetLabel("Utilisateur(s) associé(s)");
 
                     mButtonVerify = iBuilder.CreateWidget<TButton>();
                     mButtonVerify.SetLabel("Vérifier");
                     mButtonVerify.SetIcon(Buddy.Resources.Get<Sprite>("Atlas_Education_IconRefresh", Context.APP));
-                    mButtonVerify.OnClick.Add(() =>
-                    {
+                    mButtonVerify.OnClick.Add(() => {
                         DBManager.Instance.StartDBManager();
                         mAnimator.SetTrigger("CONNECTING");
                         if (UIList.activeSelf)
@@ -92,13 +95,10 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private void SetNavigationStatic(bool iValue)
         {
-            if (iValue)
-            {
+            if (iValue) {
                 mRTMManager.SetStaticSteering(true);
                 mToggleNavigationDynamic.ToggleValue = false;
-            }
-            else
-            {
+            } else {
                 mRTMManager.SetStaticSteering(false);
                 mToggleNavigationDynamic.ToggleValue = true;
 
@@ -108,18 +108,21 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private void SetNavigationDynamic(bool iValue)
         {
-            if (iValue)
-            {
+            if (iValue) {
                 mRTMManager.SetStaticSteering(false);
                 mToggleNavigationStatic.ToggleValue = false;
 
                 Buddy.Actuators.Wheels.UnlockWheels();
-            }
-            else
-            {
+            } else {
                 mRTMManager.SetStaticSteering(true);
                 mToggleNavigationStatic.ToggleValue = true;
             }
         }
+
+        //private void SetTouchToggle(bool iSetTouchToggle)
+        //{
+        //    mRTMManager.SetTouch(iSetTouchToggle);
+        //}
+
     }
 }

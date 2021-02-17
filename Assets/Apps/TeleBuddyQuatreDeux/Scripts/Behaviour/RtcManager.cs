@@ -128,9 +128,14 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             return byteArray;
         }
 
-        internal void SetVolumeMax(int iVolume)
+        internal void SetRecordingVolumeMax(int iVolume)
         {
             Debug.Log("setting signal volume to " + iVolume + " returns " + mRtcEngine.AdjustRecordingSignalVolume(iVolume));
+        }
+
+        internal void SetSpeakerVolumeMax(int iVolume)
+        {
+            Debug.Log("setting speaker volume to " + iVolume + " returns " + mRtcEngine.AdjustPlaybackSignalVolume(iVolume));
         }
 
         public void DisplayWaintingForPicture(bool iDisplay)

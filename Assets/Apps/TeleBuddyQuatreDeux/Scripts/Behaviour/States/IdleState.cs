@@ -41,6 +41,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         {
             TeleBuddyQuatreDeuxData.Instance.CurrentState = TeleBuddyQuatreDeuxData.States.IDLE_STATE;
             Buddy.Behaviour.Mood = Mood.NEUTRAL;
+
+            mRTMManager.SetTouch(true);
+
             if (DBManager.Instance.ListUIDTablet.Count > 1)
             {
                 GetGameObject(21).SetActive(true);
@@ -100,6 +103,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             GetGameObject(21).SetActive(false);
             Buddy.GUI.Header.DisplayParametersButton(false);
             mCallButton.gameObject.SetActive(false);
+            mRTMManager.SetTouch(false);
             //VOCON
             //Buddy.Vocal.EnableTrigger = false;
             mRTMManager.OncallRequest = null;

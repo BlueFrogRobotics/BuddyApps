@@ -39,9 +39,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private Text Message;
         private GameObject VideoFeedbackImage;
         private TSlider mSliderVolume;
-        private TToggle mToggleNavigation;
         private TToggle mToggleNavigationStatic;
         private TToggle mToggleNavigationDynamic;
+       // private TToggle mToggleTouch;
 
         private RTCManager mRTCManager;
         private RTMManager mRTMManager;
@@ -62,6 +62,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mEndCallDisplay = false;
             mRTCManager = GetComponent<RTCManager>();
             mRTMManager = GetComponent<RTMManager>();
+
 
             if (Buddy.Sensors.Microphones.CurrentMicrophone.Code != "DEVICE_IN_USB_DEVICE") {
                 //set microphone 360 to true
@@ -227,6 +228,13 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mRTMManager.SendNoAngle();
             mRTMManager.SendYesAngle();
 
+            // Set volume speaker 
+            mRTCManager.SetSpeakerVolumeMax(200);
+
+            // Set volume speaker
+            Buddy.Actuators.Speakers.Gain = AudioGain.MEDIUM;
+
+
             //Enable echo cancellation if not already on
             Buddy.Sensors.Microphones.EnableEchoCancellation = true;
 
@@ -311,7 +319,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", true);
                     //mRTCManager.SetMicrophone("0");
 
-                    mRTCManager.SetVolumeMax(200);
+                    mRTCManager.SetRecordingVolumeMax(200);
                     Debug.Log("MICRO ENABLED : " + Buddy.Sensors.Microphones.CurrentMicrophone.Code);
                 } else {
 
@@ -321,7 +329,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_WIRED_HEADSET", false);
                     //set microphone 360 to true
                     Buddy.Sensors.Microphones.SwitchMicrophone("DEVICE_IN_USB_DEVICE", true);
-                    mRTCManager.SetVolumeMax(100);
+                    mRTCManager.SetRecordingVolumeMax(100);
                     Buddy.Sensors.Microphones.EnableEchoCancellation = true;
                     //mRTCManager.SetMicrophone("1");
                     Debug.Log("MICRO ENABLED : " + Buddy.Sensors.Microphones.CurrentMicrophone.Code);
@@ -478,17 +486,15 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     lRotation += Math.Sign(lRotation) * 10F;
 
             // Adapt when moving backward
-            if (lTranslation < - 0.17F) {
+            if (lTranslation < -0.17F) {
                 // inverse angles of rotation
                 lRotation = -lRotation;
                 // Limit vitess wen going backward
-                if (lTranslation < -0.4F)
-                    lTranslation = -0.4F;
+                if (lTranslation < -0.25F)
+                    lTranslation = -0.25F;
             }
 
-
             Buddy.Actuators.Wheels.SetVelocities(lTranslation, lRotation, AccDecMode.HIGH);
-
 
             Debug.Log("Wheels command send " + lTranslation + " " + lRotation);
         }
@@ -745,6 +751,12 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 mToggleNavigationDynamic.ToggleValue = !mRTMManager.mStaticSteering;
                 mToggleNavigationDynamic.OnToggle.Add(SetNavigationDynamic);
 
+                //mToggleTouch = iBuilder.CreateWidget<TToggle>();
+                //mToggleTouch.SetLabel("Réagir aux caresses");
+                //mToggleTouch.ToggleValue = true;
+                //SetTouchToggle(true);
+                //mToggleTouch.OnToggle.Add(SetTouchToggle);
+
             },
            () => { Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.Get<Sprite>("os_icon_close", Context.OS),
            () => { Buddy.GUI.Toaster.Hide(); }, Buddy.Resources.Get<Sprite>("os_icon_check", Context.OS)
@@ -781,6 +793,12 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 mToggleNavigationStatic.ToggleValue = true;
             }
         }
+
+        //private void SetTouchToggle(bool iValue)
+        //{
+        //    mRTMManager.SetTouch(iValue);
+        //    mToggleTouch.ToggleValue = iValue;
+        //}
 
         private void CloseParameters()
         {

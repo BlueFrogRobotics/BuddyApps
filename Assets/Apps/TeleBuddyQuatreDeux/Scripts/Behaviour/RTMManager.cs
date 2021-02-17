@@ -35,6 +35,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private float mLastCommandTime;
         private float mLastYesCommandTime;
+        private bool mTouchActivated;
         private const string GET_TOKEN_URL = "https://teamnet-bfr.ey.r.appspot.com/rtmToken?account=";
 
         public bool IsInitialised { get; internal set; }
@@ -48,6 +49,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         // Use this for initialization
         void Start()
         {
+            mTouchActivated = true;
             PingReceived = false;
             mBuddyId = /*Buddy.Platform.RobotUID*/ Buddy.IO.MobileData.IMEI();
             mMovingYes = false;
@@ -62,6 +64,19 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
             mCallRequest = new CallRequest("", "");
             //Debug.LogError("robot id: " + Buddy.Platform.RobotUID);
+
+            Buddy.Behaviour.Face.OnTouchSkin.Add(OnSkinClicked);
+            Buddy.Behaviour.Face.OnTouchLeftEye.Add(OnLeftEyeClicked);
+            Buddy.Behaviour.Face.OnTouchRightEye.Add(OnRightEyeClicked);
+            Buddy.Behaviour.Face.OnTouchMouth.Add(OnMouthClicked);
+
+            Buddy.Sensors.TouchSensors.BackHead.OnTouch.Add(OnTouchBackHead);
+            Buddy.Sensors.TouchSensors.LeftHead.OnTouch.Add(OnTouchLeftHead);
+            Buddy.Sensors.TouchSensors.RightHead.OnTouch.Add(OnTouchRightHead);
+            Buddy.Sensors.TouchSensors.LeftShoulder.OnTouch.Add(OnTouchLeftShoulder);
+            Buddy.Sensors.TouchSensors.RightShoulder.OnTouch.Add(OnTouchRightShoulder);
+            Buddy.Sensors.TouchSensors.Heart.OnTouch.Add(OnTouchHeart);
+
         }
 
         // Update is called once per frame
@@ -90,32 +105,13 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 mMovingNo = false;
                 SendNoAngle();
             }
+
         }
 
         /////////////////////
         /// UI Mangament ////
         /////////////////////
-
-
-        /// <summary>
-        /// Swap from boutton
-        /// </summary>
-        /// <param name="iStatic">true if static, false if dynamic</param>
-        public void SwapSteering(Image iImage)
-        {
-            mStaticSteering = !mStaticSteering;
-            Buddy.Actuators.Wheels.Locked = mStaticSteering;
-            if (mStaticSteering) {
-                iImage.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_Toggle_ON");
-                iImage.color = new Color(0F, 0.78F, 0.78F, 1F);
-            } else {
-                Buddy.Actuators.Head.No.ResetPosition();
-                iImage.sprite = Buddy.Resources.Get<Sprite>("Atlas_Education_Toggle_OFF");
-                iImage.color = new Color(0.2F, 0.2F, 0.2F, 1F);
-            }
-            InformStaticSteering();
-        }
-
+        
         public void SetStaticSteering(bool iValue)
         {
             mStaticSteering = iValue;
@@ -123,6 +119,11 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 Buddy.Actuators.Head.No.ResetPosition();
             Buddy.Actuators.Wheels.Locked = mStaticSteering;
             InformStaticSteering();
+        }
+
+        public void SetTouch(bool iValue)
+        {
+            mTouchActivated = iValue;
         }
 
         ////////////////////////
@@ -265,7 +266,11 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             Debug.LogWarning("inform yes: " + lValue.ToString());
         }
 
-
+        private void SendTouchMessage(TouchPart iTouchedPart)
+        {
+            SendRTMMessage(Utils.SerializeJSON(new JsonMessage("informTouch", iTouchedPart.ToString())));
+            Debug.LogWarning("inform touch: " + iTouchedPart.ToString());
+        }
 
 
         /// <summary>
@@ -273,7 +278,6 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         /// </summary>
         private void Ping()
         {
-
             mPingId++;
             mPingId = mPingId % 10000;
             mPingTime = Time.time;
@@ -707,14 +711,123 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         void OnApplicationQuit()
         {
+            Buddy.Behaviour.Face.OnTouchLeftEye.Clear();
+            Buddy.Behaviour.Face.OnTouchRightEye.Clear();
+            Buddy.Behaviour.Face.OnTouchMouth.Clear();
+            Buddy.Sensors.TouchSensors.BackHead.OnTouch.Clear();
+            Buddy.Sensors.TouchSensors.LeftHead.OnTouch.Clear();
+            Buddy.Sensors.TouchSensors.LeftShoulder.OnTouch.Clear();
+            Buddy.Sensors.TouchSensors.RightHead.OnTouch.Clear();
+            Buddy.Sensors.TouchSensors.RightShoulder.OnTouch.Clear();
+            Buddy.Sensors.TouchSensors.Heart.OnTouch.Clear();
             Debug.Log("ON APPLICATION QUIT");
             Logout();
         }
 
         private void OnDestroy()
         {
+            Buddy.Behaviour.Face.OnTouchLeftEye.Clear();
+            Buddy.Behaviour.Face.OnTouchRightEye.Clear();
+            Buddy.Behaviour.Face.OnTouchMouth.Clear();
+            Buddy.Sensors.TouchSensors.BackHead.OnTouch.Clear();
+            Buddy.Sensors.TouchSensors.LeftHead.OnTouch.Clear();
+            Buddy.Sensors.TouchSensors.LeftShoulder.OnTouch.Clear();
+            Buddy.Sensors.TouchSensors.RightHead.OnTouch.Clear();
+            Buddy.Sensors.TouchSensors.RightShoulder.OnTouch.Clear();
+            Buddy.Sensors.TouchSensors.Heart.OnTouch.Clear();
             Debug.Log("ON DESTROY LOGOUT RTM");
             Logout();
         }
+
+        private void OnSkinClicked()
+        {
+            if (mTouchActivated && !Buddy.Behaviour.Interpreter.IsBusy && !Buddy.Behaviour.IsSomethingPending) {
+                Buddy.Behaviour.Interpreter.RunRandom("Happy");
+                TouchPart lPartTouched = TouchPart.SKIN;
+                SendTouchMessage(lPartTouched);
+            }
+        }
+
+        private void OnMouthClicked()
+        {
+            if (mTouchActivated && !Buddy.Behaviour.Interpreter.IsBusy && !Buddy.Behaviour.IsSomethingPending) {
+                Buddy.Behaviour.Interpreter.RunRandom("Love");
+                TouchPart lPartTouched = TouchPart.MOUTH;
+                SendTouchMessage(lPartTouched);
+            }
+        }
+
+        private void OnRightEyeClicked()
+        {
+            if (mTouchActivated && !Buddy.Behaviour.Interpreter.IsBusy && !Buddy.Behaviour.IsSomethingPending) {
+                Buddy.Behaviour.Interpreter.RunRandom("Angry");
+                TouchPart lPartTouched = TouchPart.RIGHT_EYE;
+                SendTouchMessage(lPartTouched);
+            }
+        }
+
+        private void OnLeftEyeClicked()
+        {
+            if (mTouchActivated && !Buddy.Behaviour.Interpreter.IsBusy && !Buddy.Behaviour.IsSomethingPending) {
+                Buddy.Behaviour.Interpreter.RunRandom("Angry");
+                TouchPart lPartTouched = TouchPart.LEFT_EYE;
+                SendTouchMessage(lPartTouched);
+            }
+        }
+
+        private void OnTouchHeart()
+        {
+            if (mTouchActivated && !Buddy.Behaviour.Interpreter.IsBusy && !Buddy.Behaviour.IsSomethingPending) {
+                Buddy.Behaviour.Interpreter.RunRandom("CenterHeart");
+                TouchPart lPartTouched = TouchPart.HEART;
+                SendTouchMessage(lPartTouched);
+            }
+        }
+
+        private void OnTouchRightShoulder()
+        {
+            if (mTouchActivated && !Buddy.Behaviour.Interpreter.IsBusy && !Buddy.Behaviour.IsSomethingPending) {
+                Buddy.Behaviour.Interpreter.RunRandom("RightShoulder");
+                TouchPart lPartTouched = TouchPart.RIGHT_SHOULDER;
+                SendTouchMessage(lPartTouched);
+            }
+        }
+
+        private void OnTouchLeftShoulder()
+        {
+            if (mTouchActivated && !Buddy.Behaviour.Interpreter.IsBusy && !Buddy.Behaviour.IsSomethingPending) {
+                Buddy.Behaviour.Interpreter.RunRandom("LeftShoulder");
+                TouchPart lPartTouched = TouchPart.LEFT_SHOULDER;
+                SendTouchMessage(lPartTouched);
+            }
+        }
+
+        private void OnTouchRightHead()
+        {
+            if (mTouchActivated && !Buddy.Behaviour.Interpreter.IsBusy && !Buddy.Behaviour.IsSomethingPending) {
+                Buddy.Behaviour.Interpreter.RunRandom("RightHead");
+                TouchPart lPartTouched = TouchPart.RIGHT_HEAD;
+                SendTouchMessage(lPartTouched);
+            }
+        }
+
+        private void OnTouchLeftHead()
+        {
+            if (mTouchActivated && !Buddy.Behaviour.Interpreter.IsBusy && !Buddy.Behaviour.IsSomethingPending) {
+                Buddy.Behaviour.Interpreter.RunRandom("LeftHead");
+                TouchPart lPartTouched = TouchPart.LEFT_HEAD;
+                SendTouchMessage(lPartTouched);
+            }
+        }
+
+        private void OnTouchBackHead()
+        {
+            if (mTouchActivated && !Buddy.Behaviour.Interpreter.IsBusy && !Buddy.Behaviour.IsSomethingPending) {
+                Buddy.Behaviour.Interpreter.RunRandom("CenterHead");
+                TouchPart lPartTouched = TouchPart.BACK_HEAD;
+                SendTouchMessage(lPartTouched);
+            }
+        }
+
     }
 }
