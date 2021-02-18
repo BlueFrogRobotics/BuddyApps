@@ -39,6 +39,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private Text Message;
         private GameObject VideoFeedbackImage;
         private TSlider mSliderVolume;
+        private TSlider mSliderVolumeAgora;
         private TToggle mToggleNavigationStatic;
         private TToggle mToggleNavigationDynamic;
        // private TToggle mToggleTouch;
@@ -52,6 +53,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private static AndroidJavaObject audioManager;
         private bool mZoom;
+        private float mLastValue;
 
         // Use this for initialization
         override public void Start()
@@ -60,6 +62,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mSliderVolumeEnabled = false;
             mDisplayed = false;
             mEndCallDisplay = false;
+            mLastValue = 200F;
             mRTCManager = GetComponent<RTCManager>();
             mRTMManager = GetComponent<RTMManager>();
 
@@ -230,6 +233,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
             // Set volume speaker 
             mRTCManager.SetSpeakerVolumeMax(200);
+            mLastValue = 200F;
 
             // Set volume speaker
             Buddy.Actuators.Speakers.Gain = AudioGain.MEDIUM;
@@ -741,6 +745,15 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 mSliderVolume.SlidingValue = Buddy.Actuators.Speakers.Volume * 100F;
                 mSliderVolume.OnSlide.Add(UpdateVolume);
 
+
+                TText lTextVolumeAgora = iBuilder.CreateWidget<TText>();
+                lTextVolumeAgora.SetLabel("Réglage du volume d'appel");
+                mSliderVolumeAgora = iBuilder.CreateWidget<TSlider>();
+                mSliderVolumeAgora.MaxSlidingValue = 400F;
+                mSliderVolumeAgora.MinSlidingValue = 0F;
+                mSliderVolumeAgora.SlidingValue = mLastValue;
+                mSliderVolumeAgora.OnSlide.Add(UpdateVolumeAgora);
+
                 mToggleNavigationStatic = iBuilder.CreateWidget<TToggle>();
                 mToggleNavigationStatic.SetLabel("Navigation Statique");
                 mToggleNavigationStatic.ToggleValue = mRTMManager.mStaticSteering;
@@ -807,12 +820,18 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             Buddy.GUI.Header.OnClickParameters.Add(Lauchparameters);
         }
 
-        public void UpdateVolume(float iValue)
+        private void UpdateVolume(float iValue)
         {
             float lValue = iValue / 100F;
             if (Mathf.Abs(Buddy.Actuators.Speakers.Volume - lValue) > 0.05) {
                 Buddy.Actuators.Speakers.Volume = lValue;
             }
+        }
+
+        private void UpdateVolumeAgora(float iValue)
+        {
+            mRTCManager.SetSpeakerVolumeMax((int)iValue);
+            mLastValue = iValue;
         }
     }
 }

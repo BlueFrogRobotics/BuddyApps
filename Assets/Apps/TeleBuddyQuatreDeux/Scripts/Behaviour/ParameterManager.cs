@@ -9,21 +9,25 @@ namespace BuddyApp.TeleBuddyQuatreDeux
     public class ParameterManager : MonoBehaviour
     {
         private TSlider mSliderVolume;
+        private TSlider mSliderVolumeAgora;
         private TToggle mToggleNavigationStatic;
         private TToggle mToggleNavigationDynamic;
         //private TToggle mToggleTouch;
         private TButton mButtonVerify;
 
+        private RTCManager mRTCManager;
         private RTMManager mRTMManager;
         private Animator mAnimator;
 
         [SerializeField]
         private GameObject UIList;
+        private float mLastValue = 200F;
 
         // Use this for initialization
         void Start()
         {
             Buddy.GUI.Header.OnClickParameters.Add(Lauchparameters);
+            mRTCManager = GetComponent<RTCManager>();
             mRTMManager = GetComponent<RTMManager>();
             mAnimator = GetComponent<Animator>();
         }
@@ -36,6 +40,15 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 mSliderVolume = iBuilder.CreateWidget<TSlider>();
                 mSliderVolume.SlidingValue = Buddy.Actuators.Speakers.Volume * 100F;
                 mSliderVolume.OnSlide.Add(UpdateVolume);
+
+
+                TText lTextVolumeAgora = iBuilder.CreateWidget<TText>();
+                lTextVolumeAgora.SetLabel("Réglage du volume d'appel");
+                mSliderVolumeAgora = iBuilder.CreateWidget<TSlider>();
+                mSliderVolumeAgora.MaxSlidingValue = 400F;
+                mSliderVolumeAgora.MinSlidingValue = 0F;
+                mSliderVolumeAgora.SlidingValue = mLastValue;
+                mSliderVolumeAgora.OnSlide.Add(UpdateVolumeAgora);
 
                 mToggleNavigationStatic = iBuilder.CreateWidget<TToggle>();
                 mToggleNavigationStatic.SetLabel("Navigation Statique");
@@ -87,10 +100,16 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             Buddy.GUI.Header.OnClickParameters.Add(Lauchparameters);
         }
 
-        public void UpdateVolume(float iValue)
+        private void UpdateVolume(float iValue)
         {
             float lValue = iValue / 100F;
             Buddy.Actuators.Speakers.Volume = lValue;
+        }
+
+        private void UpdateVolumeAgora(float iValue)
+        {
+            mRTCManager.SetSpeakerVolumeMax((int) iValue);
+            mLastValue = iValue;
         }
 
         private void SetNavigationStatic(bool iValue)
