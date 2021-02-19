@@ -237,7 +237,7 @@ namespace BuddyApp.CoursTelepresence
             int lDataId = mRtcEngine.CreateDataStream(true, true); 
             byte[] iDataByte = iTexture.EncodeToPNG();
             string lDataString = System.Text.Encoding.UTF8.GetString(iDataByte, 0, iDataByte.Length);
-            mRtcEngine.SendStreamMessage(lDataId, lDataString);
+            mRtcEngine.SendStreamMessage(lDataId, iDataByte);
         }
 
         public void DestroyRTC()
@@ -381,10 +381,10 @@ namespace BuddyApp.CoursTelepresence
             rawVideoLocal.rectTransform.sizeDelta = new Vector2(360, 360 * lAspectRatio);
         }
 
-        private void OnStreamMessage(uint userId, int streamId, string data, int length)
+        private void OnStreamMessage(uint userId, int streamId, byte[] data, int length)
         {
             Texture2D tex = new Texture2D(16, 16, TextureFormat.PVRTC_RGBA4, false);
-            tex.LoadRawTextureData(System.Text.Encoding.UTF8.GetBytes(data));
+            tex.LoadRawTextureData(data);
             tex.Apply();
             VideoSurface lVideoSurface = rawVideo.GetComponent<VideoSurface>();
             if (lVideoSurface != null)

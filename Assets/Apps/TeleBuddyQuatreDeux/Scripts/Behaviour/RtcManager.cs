@@ -236,7 +236,6 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             //mCamType = 0;
             //Buddy.Sensors.HDCamera.Open(HDCameraMode.COLOR_640X480_30FPS_RGB, (HDCameraType)mCamType);
             //Buddy.Sensors.HDCamera.OnNewFrame.Add((iFrame) => UpdateVideoFrame(iFrame));
-            mCurrentCameraWide = true;
             mRtcEngine.OnRemoteVideoStateChanged = OnRemoteVideoStateChanged;
             mRtcEngine.OnJoinChannelSuccess = OnJoinChannelSuccess;
             mRtcEngine.OnUserJoined = OnUserJoined;
@@ -419,9 +418,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         public void SendPicture(Texture2D iTexture)
         {
             int lDataId = mRtcEngine.CreateDataStream(true, true);
-            byte[] iDataByte = iTexture.EncodeToPNG();
-            string lDataString = System.Text.Encoding.UTF8.GetString(iDataByte, 0, iDataByte.Length);
-            mRtcEngine.SendStreamMessage(lDataId, lDataString);
+            //byte[] iDataByte = iTexture.EncodeToPNG();
+            //string lDataString = System.Text.Encoding.UTF8.GetString(iDataByte, 0, iDataByte.Length);
+            mRtcEngine.SendStreamMessage(lDataId, iTexture.EncodeToPNG());
         }
 
         public void DestroyRTC()
@@ -509,7 +508,6 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private void OnRemoteVideoStateChanged(uint uid, REMOTE_VIDEO_STATE state, REMOTE_VIDEO_STATE_REASON reason, int elapsed)
         {
-            Debug.Log("RTC MANAGER : remote video " + state + " reason " + reason);
             if (uid == mUid)
                 return;
             VideoSurface lVideoSurface = rawVideo.GetComponent<VideoSurface>();
@@ -558,10 +556,10 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             rawVideoLocal.rectTransform.sizeDelta = new Vector2(360, 360 * lAspectRatio);
         }
 
-        private void OnStreamMessage(uint userId, int streamId, string data, int length)
+        private void OnStreamMessage(uint userId, int streamId, byte[] data, int length)
         {
             Texture2D tex = new Texture2D(16, 16, TextureFormat.PVRTC_RGBA4, false);
-            tex.LoadRawTextureData(System.Text.Encoding.UTF8.GetBytes(data));
+            tex.LoadRawTextureData(data);
             tex.Apply();
             VideoSurface lVideoSurface = rawVideo.GetComponent<VideoSurface>();
             if (lVideoSurface != null) {
