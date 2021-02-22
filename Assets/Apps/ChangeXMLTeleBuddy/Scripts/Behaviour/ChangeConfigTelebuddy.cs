@@ -28,9 +28,9 @@ namespace BuddyApp.ChangeXMLTeleBuddy
         // Start is called before the first frame update
         void Start()
         {
-            mPathTelebuddyXML = @"\TeleBuddyQuatreDeux\Resources\Raw\Token";
+            mPathTelebuddyXML = @"/c122205216411/Raw/Token";
             DirectoryInfo mDirectoryInfoRoot = new DirectoryInfo(Buddy.Resources.AppRawDataPath);
-            mTest = mDirectoryInfoRoot.Parent.Parent.Parent;
+            mTest = mDirectoryInfoRoot.Parent.Parent; 
             Debug.LogError("path telebuddy APP  : " + mTest.FullName + mPathTelebuddyXML);
 
             mGetFile = Directory.GetFiles(mTest.FullName + mPathTelebuddyXML);
@@ -71,7 +71,7 @@ namespace BuddyApp.ChangeXMLTeleBuddy
         private void ReplaceXML(TokenProdData iTokenProdData, string iPath)
         {
             Debug.LogError("PATH : " + iPath + " TKEN PROD DATA URL : " + iTokenProdData.URL_Request);
-            Utils.SerializeXML<TokenProdData>(iTokenProdData, iPath + @"\TokenProdData");
+            Utils.SerializeXML<TokenProdData>(iTokenProdData, iPath + @"/TokenProdData");
         }
 
         public void OnDisable()
