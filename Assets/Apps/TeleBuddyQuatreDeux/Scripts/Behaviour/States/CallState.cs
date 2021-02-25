@@ -398,8 +398,10 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 ExtLog.I(ExtLogModule.APP, typeof(TeleBuddyQuatreDeuxActivity), LogStatus.START, LogInfo.RUNNING, "CALLSTATE TAKE PHOTO CLEAR ON NEW FRAME");
                 mHDCam.TakePhotograph(OnPhotoTaken, HDCameraMode.COLOR_2112x1568_30FPS_RGB, false, FlashLightMode.ON);
 
+                //Demande Q45
+                //Buddy.Actuators.LEDs.FlashIntensity = 0.03F;
 
-                Buddy.Actuators.LEDs.FlashIntensity = 0.03F;
+
                 //*****TAKEPHOTOGRAPH****
                 //new test take photo
                 //HDCamera mHDCam;
