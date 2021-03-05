@@ -51,14 +51,16 @@ namespace BuddyApp.ChangeXMLTeleBuddy
             Debug.LogError("Button Cliked value : " + DropDownConfig.options[DropDownConfig.value].text); 
             switch(DropDownConfig.options[DropDownConfig.value].text)
             {
-                case "CONFIG_TEST_BFR":
+                //case "CONFIG_TEST_BFR":
+                case "Plateforme Blue Frog Robotics":
                     mTokenProdDataToCopy = Utils.UnserializeXML<TokenProdData>(Buddy.Resources.AppRawDataPath + "Config/TokenProdDataBFR");
 
                     ReplaceXML(mTokenProdDataToCopy, mTest.FullName + mPathTelebuddyXML);
 
                     TextValidate.text = "Config mis à jour avec le fichier XML BFR avec l'url : " + mTokenProdDataToCopy.URL_Request;
                     break;
-                case "CONFIG_EDU_NATIONALE":
+                //case "CONFIG_EDU_NATIONALE":
+                case "Plateforme Education Nationale":
                     mTokenProdDataToCopy = Utils.UnserializeXML<TokenProdData>(Buddy.Resources.AppRawDataPath + "Config/TokenProdDataEDU");
 
                     ReplaceXML(mTokenProdDataToCopy, mTest.FullName + mPathTelebuddyXML);

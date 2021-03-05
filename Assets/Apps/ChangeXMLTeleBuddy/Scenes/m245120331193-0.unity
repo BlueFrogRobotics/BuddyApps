@@ -179,11 +179,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 41
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
-    m_MaxSize: 40
+    m_MaxSize: 41
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -335,7 +335,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 31.5, y: -177.36}
+  m_AnchoredPosition: {x: 31.5, y: -243}
   m_SizeDelta: {x: 1122.9019, y: 173.66226}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &658668456
@@ -417,7 +417,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 13, y: 219}
+  m_AnchoredPosition: {x: 13, y: 294}
   m_SizeDelta: {x: 602.71564, y: 106.13}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &675868101
@@ -468,9 +468,9 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: CONFIG_TEST_BFR
+    - m_Text: Plateforme Blue Frog Robotics
       m_Image: {fileID: 0}
-    - m_Text: CONFIG_EDU_NATIONALE
+    - m_Text: Plateforme Education Nationale
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1210,7 +1210,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: CONFIG_TEST_BFR
+  m_Text: Plateforme Blue Frog Robotics
 --- !u!222 &1698713674
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1292,7 +1292,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -3, y: -33.6}
-  m_SizeDelta: {x: 315.47363, y: 59.151306}
+  m_SizeDelta: {x: 328.78, y: 181}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1801755607
 MonoBehaviour:
@@ -1350,7 +1350,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 1, b: 0.08628178, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
