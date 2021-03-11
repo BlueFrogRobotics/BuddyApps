@@ -234,10 +234,10 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         /// </summary>
         private void SensorsBroadcastRTM()
         {
-            float obstacleRight = Buddy.Sensors.UltrasonicSensors.Right.FilteredValue;
+            float obstacleRight = Buddy.Sensors.UltrasonicSensors.Right.Value;
             // TODO add when available
             float obstacleCenter = 0F; // Buddy.Sensors.UltrasonicSensors.Center.FilteredValue;
-            float obstacleLeft = Buddy.Sensors.UltrasonicSensors.Left.FilteredValue;
+            float obstacleLeft = Buddy.Sensors.UltrasonicSensors.Left.Value;
             SendRTMMessage(Utils.SerializeJSON(new ObstacleSensors(obstacleRight, obstacleCenter, obstacleLeft)));
         }
 

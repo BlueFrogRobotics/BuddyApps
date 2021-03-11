@@ -69,7 +69,7 @@ namespace BuddyApp.RemoteControl
             float[] lSensorsDistance = new float[4];
 
             lSensorsDistance[0] = mTOFSensors.Left.Value;
-            lSensorsDistance[1] = mTOFSensors.Front.Value;
+            lSensorsDistance[1] = mTOFSensors.Center.Value;
             lSensorsDistance[2] = mTOFSensors.Right.Value;
             lSensorsDistance[3] = mTOFSensors.Back.Value;
 

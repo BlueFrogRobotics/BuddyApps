@@ -106,17 +106,17 @@ namespace BuddyApp.Korian
             if (Buddy.Sensors.UltrasonicSensors.Right.Value < 700)
                 lScore++;
 
-            if (Buddy.Sensors.TimeOfFlightSensors.Front.Value < 700)
+            if (Buddy.Sensors.TimeOfFlightSensors.Center.Value < 700)
                 lScore++;
             if (Buddy.Sensors.TimeOfFlightSensors.Right.Value < 600)
                 lScore++;
             if (Buddy.Sensors.TimeOfFlightSensors.Left.Value < 600)
                 lScore++;
 
-            if (Buddy.Sensors.TimeOfFlightSensors.Forehead.Value < 850)
+            if (Buddy.Sensors.TimeOfFlightSensors.Head.Value < 850)
                 lScore++;
-            if (Buddy.Sensors.TimeOfFlightSensors.Chin.Value < 700)
-                lScore++;
+            //if (Buddy.Sensors.TimeOfFlightSensors.Chin.Value < 700)
+            //    lScore++;
             return ((float)lScore / 7F);
         }
 

@@ -67,9 +67,9 @@ namespace BuddyApp.TestDepthNav
                 mSign = Math.Sign(1 - ((float)lRight / lLeft));
 
                 float lCoeff = 1.0F;
-                if ( (Buddy.Sensors.UltrasonicSensors.Left.FilteredValue < 1000F && Buddy.Sensors.UltrasonicSensors.Left.Error == 0) ||
-                        (Buddy.Sensors.UltrasonicSensors.Right.FilteredValue < 1000F && Buddy.Sensors.UltrasonicSensors.Right.Error == 0) )
-                    lCoeff = Math.Min(Buddy.Sensors.UltrasonicSensors.Left.FilteredValue, Buddy.Sensors.UltrasonicSensors.Right.FilteredValue) / 1000F;
+                if ( (Buddy.Sensors.UltrasonicSensors.Left.Value < 1000F && Buddy.Sensors.UltrasonicSensors.Left.Error == 0) ||
+                        (Buddy.Sensors.UltrasonicSensors.Right.Value < 1000F && Buddy.Sensors.UltrasonicSensors.Right.Error == 0) )
+                    lCoeff = Math.Min(Buddy.Sensors.UltrasonicSensors.Left.Value, Buddy.Sensors.UltrasonicSensors.Right.Value) / 1000F;
              
 
                 Buddy.Actuators.Wheels.SetVelocities(lCoeff, 45F * (1 - ((float)lRight / lLeft)) / 2);
@@ -82,8 +82,8 @@ namespace BuddyApp.TestDepthNav
         void Update()
         {
             if (mCanMove && ObstacleDetected()) {
-                Debug.LogWarning("there is an US obstacle " + Buddy.Sensors.UltrasonicSensors.Left.FilteredValue
-                    + " " + Buddy.Sensors.UltrasonicSensors.Right.FilteredValue);
+                Debug.LogWarning("there is an US obstacle " + Buddy.Sensors.UltrasonicSensors.Left.Value
+                    + " " + Buddy.Sensors.UltrasonicSensors.Right.Value);
 
                 Debug.LogWarning("set velocity with " + 0F + " " + mSign * 30F);
                 Buddy.Actuators.Wheels.SetVelocities(0F, mSign * 30F);
@@ -107,11 +107,11 @@ namespace BuddyApp.TestDepthNav
 
             // Don't consider very small values, (Sometimes sensors go to zero instead of 8 meters)
 
-            lMeasure = Buddy.Sensors.UltrasonicSensors.Left.FilteredValue;
+            lMeasure = Buddy.Sensors.UltrasonicSensors.Left.Value;
 
             if (lMeasure < 330F && Buddy.Sensors.UltrasonicSensors.Left.Error == 0)
                 return true;
-            lMeasure = Buddy.Sensors.UltrasonicSensors.Right.FilteredValue;
+            lMeasure = Buddy.Sensors.UltrasonicSensors.Right.Value;
 
             if (lMeasure < 330F && Buddy.Sensors.UltrasonicSensors.Right.Error == 0)
                 return true;
@@ -124,12 +124,12 @@ namespace BuddyApp.TestDepthNav
         {
             float lMeasure = 0F;
 
-            lMeasure = Buddy.Sensors.UltrasonicSensors.Left.FilteredValue;
+            lMeasure = Buddy.Sensors.UltrasonicSensors.Left.Value;
             if (lMeasure < 360F /*|| lMeasure < lMinimumThreshold*/) {
                 return false;
             }
 
-            lMeasure = Buddy.Sensors.UltrasonicSensors.Right.FilteredValue;
+            lMeasure = Buddy.Sensors.UltrasonicSensors.Right.Value;
             if (lMeasure < 360F /*|| lMeasure < lMinimumThreshold*/) {
                 return false;
             }

@@ -372,8 +372,8 @@ namespace BuddyApp.Diagnostic
 
         private void UpdateSoundLocalization()
         {
-            AmbiantSoundLevelText.text = Buddy.Sensors.Microphones.AmbiantSound + " db";
-            AmbiantSoundLevelSlider.value = Buddy.Sensors.Microphones.AmbiantSound;
+            AmbiantSoundLevelText.text = Buddy.Sensors.Microphones.AmbientSound + " db";
+            AmbiantSoundLevelSlider.value = Buddy.Sensors.Microphones.AmbientSound;
             mSoundLocAngle = Buddy.Sensors.Microphones.SoundLocalization;
             // Done only for positive angles (as SLOC output angles)
             if (mSoundLocAngle != Microphones.NO_SOUND_LOCALIZATION) {

@@ -500,7 +500,7 @@ namespace BuddyApp.AudioBehavior
                 Debug.LogWarning("New SoundLoc threshold: " + lThresh);
             } else if (Time.time - mLastTime > 1F) {
                 mLastTime = Time.time;
-                mAverageAmbiant.Add(Buddy.Sensors.Microphones.AmbiantSound);
+                mAverageAmbiant.Add(Buddy.Sensors.Microphones.AmbientSound);
                 //Debug.LogWarning("last ambiant " + Buddy.Sensors.Microphones.AmbiantSound);                
             }
 
