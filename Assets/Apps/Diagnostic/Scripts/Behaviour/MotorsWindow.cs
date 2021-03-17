@@ -265,13 +265,15 @@ namespace BuddyApp.Diagnostic
         public void SetYesPos()
         {
             LastCommand.text = "Set head YES at " + yesHingeAngleSetter.value + "° at " + hingeSpeedYesBack.text + " °/s";
-            mYesHinge.SetPosition(yesHingeAngleSetter.value, float.Parse(hingeSpeedYesBack.text));
+            //mYesHinge.SetPosition(yesHingeAngleSetter.value, float.Parse(hingeSpeedYesBack.text));
+            Buddy.Actuators.Head.MoveYes(yesHingeAngleSetter.value, 90F);
         }
 
         public void SetNoPos()
         {
             LastCommand.text = "Set head NO at " + noHingeAngleSetter.value + "° at " + hingeSpeedNoBack.text + " °/s";
-            mNoHinge.SetPosition(noHingeAngleSetter.value, float.Parse(hingeSpeedNoBack.text));
+            //mNoHinge.SetPosition(noHingeAngleSetter.value, float.Parse(hingeSpeedNoBack.text));
+            Buddy.Actuators.Head.MoveNo(noHingeAngleSetter.value, 90F);
         }
 
         public void UnlockWheels()
