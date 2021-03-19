@@ -323,7 +323,9 @@ namespace BuddyApp.Diagnostic
             if (mTimerRefresh > DiagnosticBehaviour.REFRESH_TIMER) {
                 mTimerRefresh = 0F;
                 if (BT_TOF.isOn) {
+                    Debug.LogWarning("DIAG VERSION4.3 ");
 
+                    Debug.LogWarning("DIAG VERSION4.3 : back value " + mBackTOFSensor.Value);
                     //TOF SENSOR FORE HEAD
                     TOF_Error_00.text = mForeHeadTOFSensor.Error.ToString();
                     if (mFilteredValue)
@@ -394,7 +396,7 @@ namespace BuddyApp.Diagnostic
                         US_Text_00.text = (mRightUSSensor.Value / 1000) + "m";
                     else
                         US_Text_00.text = (mRightUSSensor.Value / 1000) + "m";
-                    US_OK_00.color = BuddyBlue;
+                    US_OK_00.color = mRightUSSensor.Error == 0 ? BuddyBlue : Red;
                     US_Error_00.text = mRightUSSensor.Error.ToString();
 
                     //US RECEPTEUR LEFT
@@ -402,7 +404,7 @@ namespace BuddyApp.Diagnostic
                         US_Text_01.text = (mLeftUSSensor.Value / 1000) + "m";
                     else
                         US_Text_01.text = (mLeftUSSensor.Value / 1000) + "m";
-                    US_OK_01.color = BuddyBlue;
+                    US_OK_01.color = mLeftUSSensor.Error == 0 ? BuddyBlue : Red;
                     US_Error_01.text = mLeftUSSensor.Error.ToString();
                 }
 
