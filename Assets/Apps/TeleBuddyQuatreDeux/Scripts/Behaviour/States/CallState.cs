@@ -121,7 +121,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
 
                 Debug.LogWarning("Angle No received, we go at " + (Buddy.Actuators.Head.No.Angle - lAngle * lMaxValue) + " from " + Buddy.Actuators.Head.No.Angle);
-                Buddy.Actuators.Head.No.SetPosition(Buddy.Actuators.Head.No.Angle - lAngle * lMaxValue);
+                //Buddy.Actuators.Head.No.SetPosition(Buddy.Actuators.Head.No.Angle - lAngle * lMaxValue);
+                //FONCTION MOVE 4.3
+                Buddy.Actuators.Head.MoveNo(50F, Buddy.Actuators.Head.No.Angle - lAngle * lMaxValue);
             };
 
             mRTMManager.OnHeadYesAbsolute = (lAngle) => {
@@ -133,7 +135,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     lMaxValue = 21F;
 
                 Debug.LogWarning("Angle Yes received, we go at " + (Buddy.Actuators.Head.Yes.Angle + lAngle * lMaxValue) + " from " + Buddy.Actuators.Head.Yes.Angle);
-                Buddy.Actuators.Head.Yes.SetPosition(Buddy.Actuators.Head.Yes.Angle + lAngle * lMaxValue);
+                //Buddy.Actuators.Head.Yes.SetPosition(Buddy.Actuators.Head.Yes.Angle + lAngle * lMaxValue);
+                //FONCTION MOVE 4.3
+                Buddy.Actuators.Head.MoveYes(50F, Buddy.Actuators.Head.Yes.Angle + lAngle * lMaxValue);
 
             };
 
@@ -141,13 +145,17 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 if (lAngle * mPreviousAngle < 0) {
                     // Dirty way to clean the queue. Need new function in OS to do this
                     Buddy.Actuators.Head.No.Stop();
-                    Buddy.Actuators.Head.No.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.No.Angle, -80F, 80F), Mathf.Clamp(Math.Abs(lAngle) * 10, 20F, 230F), AccDecMode.HIGH);
+                    //Buddy.Actuators.Head.No.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.No.Angle, -80F, 80F), Mathf.Clamp(Math.Abs(lAngle) * 10, 20F, 230F), AccDecMode.HIGH);
+                    //FONCTION MOVE 4.3
+                    Buddy.Actuators.Head.MoveNo(Mathf.Clamp(Math.Abs(lAngle) * 10, 20F, 230F), Mathf.Clamp(lAngle + Buddy.Actuators.Head.No.Angle, -80F, 80F));
                     mPreviousAngle = lAngle;
 
                     Debug.LogWarning("Time between NO sent command " + (Time.time - mPreviousNoAngleTime));
                     mPreviousNoAngleTime = Time.time;
                 } else if (!Buddy.Actuators.Head.No.IsBusy) {
-                    Buddy.Actuators.Head.No.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.No.Angle, -80F, 80F), Mathf.Clamp(Math.Abs(lAngle) * 10, 20F, 230F), AccDecMode.SMOOTH);
+                    //Buddy.Actuators.Head.No.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.No.Angle, -80F, 80F), Mathf.Clamp(Math.Abs(lAngle) * 10, 20F, 230F), AccDecMode.SMOOTH);
+                    //FONCTION MOVE 4.3
+                    Buddy.Actuators.Head.MoveNo(Mathf.Clamp(Math.Abs(lAngle) * 10, 20F, 230F), Mathf.Clamp(lAngle + Buddy.Actuators.Head.No.Angle, -80F, 80F));
                     mPreviousAngle = lAngle;
 
                     Debug.LogWarning("Time between NO sent command " + (Time.time - mPreviousNoAngleTime));
@@ -167,14 +175,18 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     // Dirty way to clean the queue. Need new function in OS to do this
                     Buddy.Actuators.Head.Yes.Stop();
                     //Buddy.Actuators.Head.Yes.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, -10F, 37F), Mathf.Clamp(Math.Abs(lAngle) * 4, 5F, 80F), AccDecMode.HIGH);
-                    Buddy.Actuators.Head.Yes.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax), Mathf.Clamp(Math.Abs(lAngle) * 4, 10F, 80F), AccDecMode.HIGH);
+                    //Buddy.Actuators.Head.Yes.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax), Mathf.Clamp(Math.Abs(lAngle) * 4, 10F, 80F), AccDecMode.HIGH);
+                    //FONCTION MOVE 4.3
+                    Buddy.Actuators.Head.MoveYes(Mathf.Clamp(Math.Abs(lAngle) * 4, 10F, 80F), Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax));
                     Debug.LogWarning("Time between YES sent command " + (Time.time - mPreviousYesAngleTime));
                     Debug.LogWarning("OnHeadYes set Position to " + Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax) + " and speed " + Mathf.Clamp(Math.Abs(lAngle) * 4, 10F, 80F));
                     mPreviousYesAngleTime = Time.time;
                     mPreviousAngle = lAngle;
                 } else if (!Buddy.Actuators.Head.Yes.IsBusy) {
                     //Buddy.Actuators.Head.Yes.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, -10F, 37F), Mathf.Clamp(Math.Abs(lAngle) * 4, 5F, 80F), AccDecMode.SMOOTH);
-                    Buddy.Actuators.Head.Yes.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax), Mathf.Clamp(Math.Abs(lAngle) * 4, 5F, 80F), AccDecMode.SMOOTH);
+                    //Buddy.Actuators.Head.Yes.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax), Mathf.Clamp(Math.Abs(lAngle) * 4, 5F, 80F), AccDecMode.SMOOTH);
+                    //FONCTION MOVE 4.3
+                    Buddy.Actuators.Head.MoveYes(Mathf.Clamp(Math.Abs(lAngle) * 4, 5F, 80F), Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax));
                     mPreviousAngle = lAngle;
                     Debug.LogWarning("Time between YES sent command " + (Time.time - mPreviousYesAngleTime));
                     mPreviousYesAngleTime = Time.time;
@@ -487,7 +499,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 lTranslation += Math.Sign(lTranslation) * 0.18F;
             if (iWheelsMotion.angularVelocity > 0.05F || Math.Abs(iWheelsMotion.speed) < Math.Abs(iWheelsMotion.angularVelocity))
                 if (iWheelsMotion.speed < 0.05F)
-                    lRotation += Math.Sign(lRotation) * 33F;
+                    lRotation += Math.Sign(lRotation) * 33F; 
                 else
                     lRotation += Math.Sign(lRotation) * 10F;
 
