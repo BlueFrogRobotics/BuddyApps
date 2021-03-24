@@ -394,6 +394,17 @@ namespace BuddyApp.Diagnostic
 
         public void Update()
         {
+            if (Microphone.devices.Length > 0)
+            {
+                Debug.Log("Diagnostic test vocal");
+                foreach (var device in Microphone.devices)
+                {
+                    Debug.Log(" Test vocal Name: " + device);
+                }
+            }
+            else if (Microphone.devices == null || Microphone.devices.Length == 0)
+                Debug.Log("Diagnostic test vocal, device array null ou égal à 0");
+
             UpdateSoundLocalization();
 
             // Ensure consistency with menu OS
