@@ -109,7 +109,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
 
 
-            //if(Buddy.IO.WiFi.CurrentWiFiNetwork.Connected && !Buddy.WebServices.HasInternetAccess)
+            //if(Buddy.IO.WiFi.CurrentWiFiNetwork.Connected && !Buddy.WebServices.HasInternetAccess)    
             //    CoursTelepresenceData.Instance.ConnectivityProblem = ConnectivityProblem.NetworkProblem;
 
             if ((mRefreshTime > REFRESH_TIME || mRequestDone) && TeleBuddyQuatreDeuxData.Instance.ConnectivityProblem != ConnectivityProblem.None)
@@ -118,8 +118,12 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 switch (TeleBuddyQuatreDeuxData.Instance.ConnectivityProblem)
                 {
                     case ConnectivityProblem.WifiProblem:
-                        if (OnRequestConnectionWifiOrMobileNetwork != null)
-                            OnRequestConnectionWifiOrMobileNetwork(Buddy.IO.WiFi.CurrentWiFiNetwork.Connected/*false*/); // VERSION42
+                        //if (OnRequestConnectionWifiOrMobileNetwork != null)
+                        //    OnRequestConnectionWifiOrMobileNetwork(Buddy.IO.WiFi.CurrentWiFiNetwork.Connected/*false*/); // VERSION42
+                        if (Application.internetReachability == NetworkReachability.NotReachable)
+                            OnRequestConnectionWifiOrMobileNetwork(false); // VERSION42            OnRequestDatabase = CheckDatabase;
+                        else
+                            OnRequestConnectionWifiOrMobileNetwork(true);
                         break;
                     case ConnectivityProblem.NetworkProblem:
                         //if(OnNetworkWorking != null)
@@ -199,10 +203,11 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         /// <param name="iConnected"></param>
         private void CheckWifiAndMobileNetwork(bool iConnected)
         {
-            if(!Buddy.GUI.Toaster.IsBusy && !iConnected)
+            WaitBeforeHide(2F);  
+            if (!Buddy.GUI.Toaster.IsBusy && !iConnected && Application.internetReachability == NetworkReachability.NotReachable)
             {
                 Buddy.GUI.Toaster.Display<ParameterToast>().With((iBuilder) => {
-                    TText lText = iBuilder.CreateWidget<TText>();
+                    TText lText = iBuilder.CreateWidget<TText>(); 
                     lText.SetLabel(Buddy.Resources.GetString("eduwifi"));
                 });
             }
