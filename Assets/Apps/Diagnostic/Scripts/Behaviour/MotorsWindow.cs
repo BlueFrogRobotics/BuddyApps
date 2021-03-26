@@ -268,7 +268,7 @@ namespace BuddyApp.Diagnostic
             LastCommand.text = "Set head YES at " + yesHingeAngleSetter.value + "° at " + hingeSpeedYesBack.text + " °/s";
             //mYesHinge.SetPosition(yesHingeAngleSetter.value, float.Parse(hingeSpeedYesBack.text));
             //Buddy.Actuators.Head.MoveYes(yesHingeAngleSetter.value, 90F);
-            Buddy.Actuators.Head.Yes.MoveYes(yesHingeAngleSetter.value, 90F, () => { LastCommand.text = "MoveYes command finished"; });
+            Buddy.Actuators.Head.Yes.MoveYes(50F, yesHingeAngleSetter.value, () => { LastCommand.text = "MoveYes command finished"; });
 
         }
 
@@ -277,7 +277,7 @@ namespace BuddyApp.Diagnostic
             LastCommand.text = "Set head NO at " + noHingeAngleSetter.value + "° at " + hingeSpeedNoBack.text + " °/s";
             //mNoHinge.SetPosition(noHingeAngleSetter.value, float.Parse(hingeSpeedNoBack.text));
             //Buddy.Actuators.Head.MoveNo(noHingeAngleSetter.value, 90F);
-            Buddy.Actuators.Head.No.MoveNo(noHingeAngleSetter.value, 90F, ()=> { LastCommand.text = "MoveNo command finished"; });
+            Buddy.Actuators.Head.No.MoveNo(50F, noHingeAngleSetter.value, ()=> { LastCommand.text = "MoveNo command finished"; });
         }
 
         public void UnlockWheels()
