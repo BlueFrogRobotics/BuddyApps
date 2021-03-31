@@ -120,7 +120,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     lMaxValue = 40F;
 
 
-                Debug.LogWarning("Angle No received, we go at " + (Buddy.Actuators.Head.No.Angle - lAngle * lMaxValue) + " from " + Buddy.Actuators.Head.No.Angle);
+                Debug.LogError("Angle No received, we go at " + (Buddy.Actuators.Head.No.Angle - lAngle * lMaxValue) + " from " + Buddy.Actuators.Head.No.Angle);
                 //Buddy.Actuators.Head.No.SetPosition(Buddy.Actuators.Head.No.Angle - lAngle * lMaxValue);
                 //FONCTION MOVE 4.3
                 Buddy.Actuators.Head.MoveNo(50F, Buddy.Actuators.Head.No.Angle - lAngle * lMaxValue);
@@ -134,7 +134,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 else
                     lMaxValue = 21F;
 
-                Debug.LogWarning("Angle Yes received, we go at " + (Buddy.Actuators.Head.Yes.Angle + lAngle * lMaxValue) + " from " + Buddy.Actuators.Head.Yes.Angle);
+                Debug.LogError("Angle Yes received, we go at " + (Buddy.Actuators.Head.Yes.Angle + lAngle * lMaxValue) + " from " + Buddy.Actuators.Head.Yes.Angle);
                 //Buddy.Actuators.Head.Yes.SetPosition(Buddy.Actuators.Head.Yes.Angle + lAngle * lMaxValue);
                 //FONCTION MOVE 4.3
                 Buddy.Actuators.Head.MoveYes(50F, Buddy.Actuators.Head.Yes.Angle + lAngle * lMaxValue);
@@ -147,24 +147,24 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     Buddy.Actuators.Head.No.Stop();
                     //Buddy.Actuators.Head.No.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.No.Angle, -80F, 80F), Mathf.Clamp(Math.Abs(lAngle) * 10, 20F, 230F), AccDecMode.HIGH);
                     //FONCTION MOVE 4.3
-                    Buddy.Actuators.Head.MoveNo(Mathf.Clamp(Math.Abs(lAngle) * 10, 20F, 230F), Mathf.Clamp(lAngle + Buddy.Actuators.Head.No.Angle, -80F, 80F));
+                    Buddy.Actuators.Head.MoveNo(Mathf.Clamp(Math.Abs(lAngle) * 10, 20F, 230F), Mathf.Clamp(lAngle + Buddy.Actuators.Head.No.Angle, Buddy.Actuators.Head.No.AngleMin, Buddy.Actuators.Head.No.AngleMax));
                     mPreviousAngle = lAngle;
 
-                    Debug.LogWarning("Time between NO sent command " + (Time.time - mPreviousNoAngleTime));
+                    Debug.LogError("Time between NO sent command " + (Time.time - mPreviousNoAngleTime));
                     mPreviousNoAngleTime = Time.time;
                 } else if (!Buddy.Actuators.Head.No.IsBusy) {
                     //Buddy.Actuators.Head.No.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.No.Angle, -80F, 80F), Mathf.Clamp(Math.Abs(lAngle) * 10, 20F, 230F), AccDecMode.SMOOTH);
                     //FONCTION MOVE 4.3
-                    Buddy.Actuators.Head.MoveNo(Mathf.Clamp(Math.Abs(lAngle) * 10, 20F, 230F), Mathf.Clamp(lAngle + Buddy.Actuators.Head.No.Angle, -80F, 80F));
+                    Buddy.Actuators.Head.MoveNo(Mathf.Clamp(Math.Abs(lAngle) * 10, 20F, 230F), Mathf.Clamp(lAngle + Buddy.Actuators.Head.No.Angle, Buddy.Actuators.Head.No.AngleMin, Buddy.Actuators.Head.No.AngleMax));
                     mPreviousAngle = lAngle;
 
-                    Debug.LogWarning("Time between NO sent command " + (Time.time - mPreviousNoAngleTime));
+                    Debug.LogError("Time between NO sent command " + (Time.time - mPreviousNoAngleTime));
                     mPreviousNoAngleTime = Time.time;
                 }
             };
 
             mRTMManager.OnHeadYes = (lAngle) => {
-                Debug.LogWarning("OnHeadYes " + lAngle);
+                Debug.LogError("OnHeadYes " + lAngle);
 
                 // Minimal angle to move robot
                 if (Math.Abs(lAngle) < 2.5F)
@@ -178,8 +178,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     //Buddy.Actuators.Head.Yes.SetPosition(Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax), Mathf.Clamp(Math.Abs(lAngle) * 4, 10F, 80F), AccDecMode.HIGH);
                     //FONCTION MOVE 4.3
                     Buddy.Actuators.Head.MoveYes(Mathf.Clamp(Math.Abs(lAngle) * 4, 10F, 80F), Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax));
-                    Debug.LogWarning("Time between YES sent command " + (Time.time - mPreviousYesAngleTime));
-                    Debug.LogWarning("OnHeadYes set Position to " + Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax) + " and speed " + Mathf.Clamp(Math.Abs(lAngle) * 4, 10F, 80F));
+                    Debug.LogError("Time between YES sent command " + (Time.time - mPreviousYesAngleTime));
+                    Debug.LogError("OnHeadYes set Position to " + Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax) + " and speed " + Mathf.Clamp(Math.Abs(lAngle) * 4, 10F, 80F));
                     mPreviousYesAngleTime = Time.time;
                     mPreviousAngle = lAngle;
                 } else if (!Buddy.Actuators.Head.Yes.IsBusy) {
@@ -188,7 +188,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     //FONCTION MOVE 4.3
                     Buddy.Actuators.Head.MoveYes(Mathf.Clamp(Math.Abs(lAngle) * 4, 5F, 80F), Mathf.Clamp(lAngle + Buddy.Actuators.Head.Yes.Angle, Buddy.Actuators.Head.Yes.AngleMin, Buddy.Actuators.Head.Yes.AngleMax));
                     mPreviousAngle = lAngle;
-                    Debug.LogWarning("Time between YES sent command " + (Time.time - mPreviousYesAngleTime));
+                    Debug.LogError("Time between YES sent command " + (Time.time - mPreviousYesAngleTime));
                     mPreviousYesAngleTime = Time.time;
                 }
             };
@@ -493,7 +493,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             float lTranslation = Wheels.MAX_LIN_VELOCITY * Mathf.Pow(iWheelsMotion.speed, 3);
             float lRotation = Wheels.MAX_ANG_VELOCITY / 10 * Mathf.Pow(iWheelsMotion.angularVelocity, 3);
 
-            Debug.Log("Wheels command received " + iWheelsMotion.speed + " " + iWheelsMotion.angularVelocity);
+            Debug.LogError("Wheels command received " + iWheelsMotion.speed + " " + iWheelsMotion.angularVelocity);
             // Go faster than static inertia
             if (iWheelsMotion.speed > 0.05F || Math.Abs(iWheelsMotion.speed) > Math.Abs(iWheelsMotion.angularVelocity))
                 lTranslation += Math.Sign(lTranslation) * 0.18F;
@@ -514,7 +514,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
             Buddy.Actuators.Wheels.SetVelocities(lTranslation, lRotation, AccDecMode.HIGH);
 
-            Debug.Log("Wheels command send " + lTranslation + " " + lRotation);
+            Debug.LogError("Wheels command send " + lTranslation + " " + lRotation);
         }
 
 
@@ -624,10 +624,10 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             }
 
             if (!mRTMManager.mStaticSteering) {
-                if (Math.Abs(Buddy.Actuators.Head.No.Angle) > 5 && !Buddy.Actuators.Head.IsBusy) {
-                    Buddy.Navigation.Run<DisplacementStrategy>().Rotate(Buddy.Actuators.Head.No.Angle, 200F);
-                    Buddy.Actuators.Head.No.SetPosition(0F, 200F);
-                }
+                //if (Math.Abs(Buddy.Actuators.Head.No.Angle) > 5 && !Buddy.Actuators.Head.IsBusy) {
+                //    Buddy.Navigation.Run<DisplacementStrategy>().Rotate(Buddy.Actuators.Head.No.Angle, 200F);
+                //    Buddy.Actuators.Head.No.SetPosition(0F, 200F);
+                //}
             }
 
         }

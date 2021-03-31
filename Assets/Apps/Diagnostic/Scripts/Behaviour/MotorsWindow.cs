@@ -225,10 +225,11 @@ namespace BuddyApp.Diagnostic
 
         public void MoveDistance()
         {
-            LastCommand.text = "MOVE for " + distance.text + "m at " + linearVelocity.text + "m/s";
 
             //Buddy.Navigation.Run<DisplacementStrategy>().Move(float.Parse(distance.text), float.Parse(linearVelocity.text), ObstacleAvoidanceType.NONE);
-            Buddy.Actuators.Wheels.SetDistance(int.Parse(linearVelocity.text)*10, 0, float.Parse(distance.text)*100F, ()=> { LastCommand.text = "SetDistance command finished"; });
+            float speed = float.Parse(linearVelocity.text)*100F;
+            Buddy.Actuators.Wheels.SetDistance(Convert.ToInt32(speed), 0, float.Parse(distance.text)*100F, ()=> { LastCommand.text = "SetDistance command finished"; });
+            LastCommand.text = "MOVE for " + float.Parse(distance.text) * 100F + " m at " + Convert.ToInt32(speed) + " m/s";
         }
 
         public void DelayedMoveDistance()
