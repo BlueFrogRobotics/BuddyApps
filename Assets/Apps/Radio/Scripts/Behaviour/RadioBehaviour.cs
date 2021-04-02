@@ -86,18 +86,18 @@ namespace BuddyApp.Radio
         {
             if (!string.IsNullOrEmpty(iSpeechInput.Utterance))
             {
-                if (iSpeechInput.Rule.EndsWith("quit"))
+                if ((iSpeechInput.Rule != null && iSpeechInput.Rule.EndsWith("quit")) || iSpeechInput.Utterance == "quit")
                 {
                     AAppActivity.QuitApp();
                     return;
                 }
-                else if (iSpeechInput.Rule.EndsWith("radio"))
+                else if ((iSpeechInput.Rule != null && iSpeechInput.Rule.EndsWith("radio")) || iSpeechInput.Utterance.Contains("radio"))
                 {
                     mRadioService.StopRadio();
                     RadioData.Instance.SetRadio(iSpeechInput.Utterance);
                     mRadioService.PlayRadio();
                 }
-                else if (iSpeechInput.Rule.EndsWith("volumeup"))
+                else if ((iSpeechInput.Rule != null && iSpeechInput.Rule.EndsWith("volumeup")) || iSpeechInput.Utterance == "volume up")
                 {
                     float delta_volume = GetDeltaVolume(iSpeechInput.Utterance) / 100F;
                     if ((Buddy.Actuators.Speakers.Volume + delta_volume) > 1)
@@ -105,7 +105,7 @@ namespace BuddyApp.Radio
                     else
                         Buddy.Actuators.Speakers.Volume += delta_volume;
                 }
-                else if (iSpeechInput.Rule.EndsWith("volumedown"))
+                else if ((iSpeechInput.Rule != null && iSpeechInput.Rule.EndsWith("volumedown")) || iSpeechInput.Utterance == "volume down")
                 {
                     float delta_volume = GetDeltaVolume(iSpeechInput.Utterance) / 100F;
                     if ((Buddy.Actuators.Speakers.Volume - delta_volume) < 0)

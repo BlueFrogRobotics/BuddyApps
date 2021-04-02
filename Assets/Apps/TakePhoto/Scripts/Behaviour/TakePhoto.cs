@@ -5,6 +5,7 @@ using BlueQuark;
 using System.Collections.Generic;
 using OpenCVUnity;
 using System.IO;
+using UnityEngine.Animations;
 
 namespace BuddyApp.TakePhoto
 {
@@ -34,18 +35,23 @@ namespace BuddyApp.TakePhoto
 
         private Publish mWhereToPublish;
 
-        private OpenCVUnity.Rect mDetectedBox;
+        //private OpenCVUnity.Rect mDetectedBox;
 
-        private const int MAXLISTENNINGITER = 3;
+        private const int MAXLISTEN = 3;
         private int mNumberListen;
-        private float mTimeHumanDetected;
+        //private float mTimeHumanDetected;
 
-        private bool mStartTracking;
+        //private bool mStartTracking;
+
+        private HDCamera mCam;
+        private HDCameraMode mCamMode = HDCameraMode.COLOR_528X392_30FPS_RGB;
+        private HDCameraType mCamType = HDCameraType.BACK;
+        private bool mIsCamOn = false;
 
         public override void Start()
-		{
-            mStartTracking = false;
-            mDetectedBox = new OpenCVUnity.Rect();
+        {
+            //mStartTracking = false;
+            //mDetectedBox = new OpenCVUnity.Rect();
             mNumberListen = 0;
             mIsFrameCaptured = false;
             mVideo = GetComponentInGameObject<RawImage>(0);
@@ -64,6 +70,8 @@ namespace BuddyApp.TakePhoto
             mMatSrc = new Mat();
             mMat = new Mat();
 
+            mCam = Buddy.Sensors.HDCamera;
+
         }
 
 
@@ -71,8 +79,8 @@ namespace BuddyApp.TakePhoto
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
 
-            Buddy.Navigation.Run<HumanTrackStrategy>().StaticTracking((x) => { return true; }, OnHumanDetected,
-                BehaviourMovementPattern.BODY_ROTATION /*| BehaviourMovementPattern.EYES*/ | BehaviourMovementPattern.HEAD);
+            //Buddy.Navigation.Run<HumanTrackStrategy>().StaticTracking((x) => { return true; }, OnHumanDetected,
+            //    BehaviourMovementPattern.BODY_ROTATION /*| BehaviourMovementPattern.EYES*/ | BehaviourMovementPattern.HEAD);
 
             //Init 
             ToastRender = false;
@@ -94,51 +102,61 @@ namespace BuddyApp.TakePhoto
             mOverlayTexture = lOverlaySprite.texture;
             mOverlay.texture = mOverlayTexture;
 
+            OpenCamera(mCamMode, mCamType, OnFrameCaptured);
             //Check if we can open the RGBCamera.
-            if (Buddy.Sensors.RGBCamera.IsBusy) {
-                Buddy.Sensors.RGBCamera.Close();
-            }
-            Buddy.Sensors.RGBCamera.OnNewFrame.Add((iInput) => OnFrameCaptured(iInput));
-            if (!Buddy.Sensors.RGBCamera.IsOpen) {
-                Buddy.Sensors.RGBCamera.Open(RGBCameraMode.COLOR_320X240_15FPS_RGB);
+            //if (Buddy.Sensors.RGBCamera.IsBusy) {
+            //    Buddy.Sensors.RGBCamera.Close();
+            //}
+            //Buddy.Sensors.RGBCamera.OnNewFrame.Add((iInput) => OnFrameCaptured(iInput));
+            //if (!Buddy.Sensors.RGBCamera.IsOpen) {
+            //    Buddy.Sensors.RGBCamera.Open(RGBCameraMode.COLOR_320X240_15FPS_RGB);
 
-            }
+            //}
 
             //We don't use Toaster to display video because we want to display on the full screen and we can't with toaster right now.
             mVideo.gameObject.SetActive(true);
             if (TakePhotoData.Instance.Overlay)
                 mOverlay.gameObject.SetActive(true);
             Buddy.Vocal.SayKey("takephoto", true);
+            Buddy.Vocal.OnEndListening.Add(OnEndListening);
         }
 
-        private void OnHumanDetected(HumanEntity iHumans)
+        public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable controller)
         {
-            // Display
-            // We update box , to display it later in OnNewFrame
-            mTimeHumanDetected = Time.time;
-            mDetectedBox = new OpenCVUnity.Rect(iHumans.BoundingBox.tl(), iHumans.BoundingBox.br());
+            base.OnStateExit(animator, stateInfo, layerIndex, controller);
+
+            Buddy.Vocal.OnEndListening.Remove(OnEndListening);
         }
+
+        //private void OnHumanDetected(HumanEntity iHumans)
+        //{
+        //    // Display
+        //    // We update box , to display it later in OnNewFrame
+        //    mTimeHumanDetected = Time.time;
+        //    mDetectedBox = new OpenCVUnity.Rect(iHumans.BoundingBox.tl(), iHumans.BoundingBox.br());
+        //}
 
         /// <summary>
         /// Callback called at every new valid frame.
         /// </summary>
         /// <param name="iFrame">Frame delivered by the RGBCamera</param>
-        private void OnFrameCaptured(RGBCameraFrame iFrame)
+        private void OnFrameCaptured(HDCameraFrame iFrame)
         {
-            Mat lMatSrc = iFrame.Mat.clone();
+            //Mat lMatSrc = iFrame.Mat.clone();
 
-            if ((Time.time - mTimeHumanDetected) < 0.2F) {
-                // Clear all old box, from the last detection
-                Imgproc.rectangle(lMatSrc, mDetectedBox.tl(), mDetectedBox.br(), new Scalar(new Color(255, 0, 0)), 3);
-            }
+            //if ((Time.time - mTimeHumanDetected) < 0.2F) {
+            //    // Clear all old box, from the last detection
+            //    Imgproc.rectangle(lMatSrc, mDetectedBox.tl(), mDetectedBox.br(), new Scalar(new Color(255, 0, 0)), 3);
+            //}
 
-            // Flip to avoid mirror effect.
-            Core.flip(lMatSrc, lMatSrc, 1);
-            // Use matrice format, to scale the texture.
-            mVideo.texture = Utils.ScaleTexture2DFromMat(lMatSrc, (Texture2D)mVideo.texture);
-            // Use matrice to fill the texture.
-            Utils.MatToTexture2D(lMatSrc, (Texture2D)mVideo.texture);
-            //mVideo.texture = iFrame.MirroredTexture;
+            //// Flip to avoid mirror effect.
+            //Core.flip(lMatSrc, lMatSrc, 1);
+            //// Use matrice format, to scale the texture.
+            //mVideo.texture = Utils.ScaleTexture2DFromMat(lMatSrc, (Texture2D)mVideo.texture);
+            //// Use matrice to fill the texture.
+            //Utils.MatToTexture2D(lMatSrc, (Texture2D)mVideo.texture);
+            ////mVideo.texture = iFrame.MirroredTexture;
+            mVideo.texture = iFrame.Texture;
             mIsFrameCaptured = true;
         }
 
@@ -152,23 +170,26 @@ namespace BuddyApp.TakePhoto
                     //TODO : add a timer so even if the vocal bugs we can do the next step.
                     if (mTimer > 0.5F)
                         if (mSpeechId < 3) {
-                            if (!mStartTracking) {
-                                mStartTracking = true;
-                                Buddy.Navigation.Run<HumanTrackStrategy>().StaticTracking(tracking => true, null, BehaviourMovementPattern.EYES | BehaviourMovementPattern.HEAD);
-                            }
+                            //if (!mStartTracking) {
+                            //    mStartTracking = true;
+                            //    Buddy.Navigation.Run<HumanTrackStrategy>().StaticTracking(tracking => true, null, BehaviourMovementPattern.EYES | BehaviourMovementPattern.HEAD);
+                            //}
                             Buddy.Vocal.Say((3 - mSpeechId).ToString(), true);
                             if (mSpeechId == 2) {
-                                Buddy.Vocal.SayKey("cheese", (iOutput) => Buddy.Sensors.RGBCamera.TakePhotograph(OnFinish, true, true), true);
+                                Buddy.Vocal.SayKey("cheese", (iOutput) => {
+                                    Buddy.Sensors.HDCamera.TakePhotograph(OnFinish, mCamMode, true);
+                                    mPhotoTaken = true;
+                                }, true);
                             }
                             mSpeechId++;
                             mTimer = 0F;
                         } else if (!mPhotoTaken) {
                             //Take the picture.
-                            if (Buddy.Sensors.RGBCamera.Width > 0) {
-                                mStartTracking = false;
+                            if (Buddy.Sensors.HDCamera.Width > 0) {
+                                //mStartTracking = false;
                                 //Buddy.Navigation.Stop();
                                 //mPictureSound.Play();
-                                Buddy.Sensors.RGBCamera.TakePhotograph(OnFinish, true, true);
+                                Buddy.Sensors.HDCamera.TakePhotograph(OnFinish, mCamMode, true);
                                 mPhotoTaken = true;
                             } else {
                                 ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.INFO, LogInfo.NULL_VALUE, "RGBCam is Null or there is a problem with TakePhotograph");
@@ -187,10 +208,10 @@ namespace BuddyApp.TakePhoto
             //mPictureSound.Play();
             Buddy.Navigation.Stop();
 
-            Buddy.Sensors.RGBCamera.Close();
-            
+            CloseCamera(OnFrameCaptured);
+
             mVideo.gameObject.SetActive(false);
-			mOverlay.gameObject.SetActive(false);
+            mOverlay.gameObject.SetActive(false);
 
 
             Buddy.Navigation.Stop();
@@ -221,12 +242,13 @@ namespace BuddyApp.TakePhoto
             else
             {
                 Debug.LogWarning("<color= red>+++++++++++++++++++NO          OVERLAY+++++++++++++++</color>");
-                mPhotoSprite = iMyPhoto.Image; 
+                mPhotoSprite = iMyPhoto.Image;
             }
             iMyPhoto.Save();
             TakePhotoData.Instance.PhotoPath = iMyPhoto.FullPath;
             mIsFrameCaptured = false;
-            Buddy.Vocal.SayAndListen(Buddy.Resources.GetRandomString("redoorshare"), null, "redoorshare", OnEndListening, null);
+            //Buddy.Vocal.SayAndListen(Buddy.Resources.GetRandomString("redoorshare"), null, "redoorshare", OnEndListening, null);
+            Buddy.Vocal.Say(Buddy.Resources.GetRandomString("redoorshare"), iOutput => { StartListenForCommand(); });
 
             //UI : display the photo taken with two buttons on the footer to share or redo a photo.
             Buddy.GUI.Toaster.Display<PictureToast>().With(mPhotoSprite);
@@ -244,36 +266,42 @@ namespace BuddyApp.TakePhoto
             mIsFrameCaptured = false;
         }
 
+        private void StartListenForCommand()
+        {
+
+            mNumberListen++;
+
+            if (mNumberListen < MAXLISTEN)
+            {
+                Buddy.Vocal.Listen(new SpeechInputParameters()
+                {
+                    Grammars = new[] { "redoorshare" },
+                    RecognitionThreshold = 4500
+                });
+            } else
+            {
+                ClearAndQuit();
+            }
+        }
 
         //Callback called at the end of the listening.
         private void OnEndListening(SpeechInput iInput)
         {
-            if (iInput.IsInterrupted) {
-                return;
-            }
+            if (!iInput.IsInterrupted && (!string.IsNullOrEmpty(iInput.Rule) || !string.IsNullOrEmpty(iInput.Utterance))) {
+                Debug.Log("I HEARD: " + iInput.Utterance);
 
-            if (!string.IsNullOrEmpty(iInput.Rule)) {
-                if (iInput.Rule.EndsWith("share")) {
+                if ((iInput.Rule != null && iInput.Rule.EndsWith("share")) || iInput.Utterance.Contains("share")) {
                     ClearAndTrigger("Tweet");
-                } else if (iInput.Rule.EndsWith("redo")) {
+                } else if ((iInput.Rule != null && iInput.Rule.EndsWith("redo")) || iInput.Utterance.Contains("redo")) {
                     ClearAndTrigger("RedoPhoto");
-                } else if (iInput.Rule.EndsWith("quit")) {
+                } else if ((iInput.Rule != null && iInput.Rule.EndsWith("quit")) || iInput.Utterance.Contains("quit")) {
                     ClearAndQuit();
                 }
                 return;
             }
-            if (mNumberListen < MAXLISTENNINGITER) {
-                // if the human answer is outside of planned sentences, we increment the
-                // number of listen and we listen again.
-                mNumberListen++;
-                Buddy.Vocal.Listen(
-                    iInputRec => { OnEndListening(iInputRec); }
-                    );
-            } else {
-                // If we launch the listen too many times, it's like a timeout and
-                // we get back to the menu
-                ClearAndQuit();
-            }
+
+
+            StartListenForCommand();
         }
 
         private void OnButtonShare()
@@ -302,6 +330,20 @@ namespace BuddyApp.TakePhoto
             Buddy.GUI.Toaster.Hide();
             Buddy.GUI.Footer.Hide();
             QuitApp();
+        }
+
+        private void OpenCamera(HDCameraMode iMode, HDCameraType iType, Action<HDCameraFrame> iOnFrame)
+        {
+            mCam.Open(iMode, iType);
+            mCam.OnNewFrame.Add(iOnFrame);
+            mIsCamOn = true;
+        }
+
+        private void CloseCamera(Action<HDCameraFrame> iOnFrame)
+        {
+            mCam.OnNewFrame.Remove(iOnFrame);
+            mCam.Close();
+            mIsCamOn = false;
         }
     }
 }

@@ -4,10 +4,10 @@
     <ShortName>TakePhoto</ShortName>
     <CommercialName>TakePhoto</CommercialName>
     <MainScene>0</MainScene>
-    <Authors>bfr-core</Authors>
-    <Version>1.2.2.30</Version>
+    <Authors>bfr-dev</Authors>
+    <Version>1.2.5.13</Version>
     <VersionStatus>NONE</VersionStatus>
-    <VersionName>TestNL</VersionName>
+    <VersionName>New version</VersionName>
     <Category>COMPANION</Category>
     <Permissions>
         <AppPermission>
@@ -36,7 +36,7 @@
         </AppPermission>
         <AppPermission>
             <Type>USERS_DATA_WRITE</Type>
-            <IsValid>false</IsValid>
+            <IsValid>true</IsValid>
         </AppPermission>
         <AppPermission>
             <Type>USERS_MEDIA_DATA_READ</Type>
@@ -44,7 +44,7 @@
         </AppPermission>
         <AppPermission>
             <Type>USERS_MEDIA_DATA_WRITE</Type>
-            <IsValid>false</IsValid>
+            <IsValid>true</IsValid>
         </AppPermission>
         <AppPermission>
             <Type>LOCKABLE_SCREEN</Type>
@@ -59,12 +59,8 @@
             <IsValid>true</IsValid>
         </AppPermission>
         <AppPermission>
-            <Type>USERS_MEDIA_DATA_WRITE</Type>
-            <IsValid>true</IsValid>
-        </AppPermission>
-        <AppPermission>
-            <Type>USERS_DATA_WRITE</Type>
-            <IsValid>true</IsValid>
+            <Type>AUTOLOAD_SSL_CERTIFICATES</Type>
+            <IsValid>false</IsValid>
         </AppPermission>
     </Permissions>
     <ActivityClassName>TakePhoto.TakePhotoActivity</ActivityClassName>

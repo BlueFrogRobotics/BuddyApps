@@ -5,7 +5,7 @@
     <CommercialName>Reminder</CommercialName>
     <MainScene>0</MainScene>
     <Authors>bfr-dev</Authors>
-    <Version>1.0.8.1</Version>
+    <Version>1.2.3.2</Version>
     <VersionStatus>NONE</VersionStatus>
     <VersionName>developv0.2</VersionName>
     <Category>UTILITY</Category>
@@ -59,40 +59,8 @@
             <IsValid>false</IsValid>
         </AppPermission>
         <AppPermission>
-            <Type>CAMERA_API_ACCESS</Type>
-            <IsValid>true</IsValid>
-        </AppPermission>
-        <AppPermission>
-            <Type>MOVE_API_ACCESS</Type>
-            <IsValid>true</IsValid>
-        </AppPermission>
-        <AppPermission>
-            <Type>VISUAL_API_ACCESS</Type>
-            <IsValid>true</IsValid>
-        </AppPermission>
-        <AppPermission>
-            <Type>AUDIO_API_ACCESS</Type>
-            <IsValid>true</IsValid>
-        </AppPermission>
-        <AppPermission>
-            <Type>USERS_DATA_ACCESS</Type>
-            <IsValid>true</IsValid>
-        </AppPermission>
-        <AppPermission>
-            <Type>USERS_MEDIA_DATA_ACCESS</Type>
-            <IsValid>true</IsValid>
-        </AppPermission>
-        <AppPermission>
-            <Type>PROCEDURAL_MEMORY</Type>
-            <IsValid>true</IsValid>
-        </AppPermission>
-        <AppPermission>
-            <Type>SEMANTIC_MEMORY</Type>
-            <IsValid>true</IsValid>
-        </AppPermission>
-        <AppPermission>
-            <Type>DECLARATIVE_MEMORY</Type>
-            <IsValid>true</IsValid>
+            <Type>AUTOLOAD_SSL_CERTIFICATES</Type>
+            <IsValid>false</IsValid>
         </AppPermission>
     </Permissions>
     <ActivityClassName>Reminder.ReminderActivity</ActivityClassName>

@@ -70,30 +70,31 @@ namespace BuddyApp.Reminder
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            Debug.Log("REMINDER: DC 0");
             DebugColor("State Enter Date", "blue");
 
             ReminderDateManager.GetInstance().AppState = ReminderDateManager.E_REMINDER_STATE.E_DATE_CHOICE;
 
             mDateModify = DateModify.DAY;
             mBUIBlocked = false;
-
+            Debug.Log("REMINDER: DC 1 ");
             // Set the time out quit event.
             mTimeOut = new Timer(QUIT_TIMEOUT);
             mTimeOut.Elapsed += delegate { mTimerState = TimerState.TIMEOUT; };
             mTimeOut.Enabled = true;
             mTimeOut.Stop();
-
+            Debug.Log("REMINDER: DC 2");
             // When touching the screen
             Buddy.GUI.Screen.OnTouch.Clear();
             Buddy.GUI.Screen.OnTouch.Add((iInput) => { mTimeOut.Interval = QUIT_TIMEOUT; });
             Buddy.GUI.Screen.OnTouch.Add((iInput) => { Buddy.Vocal.StopListening(); });
-
+            Debug.Log("REMINDER: DC 3");
             // Header setting
             Buddy.GUI.Header.DisplayParametersButton(false);
             Font lHeaderFont = Buddy.Resources.Get<Font>("os_awesome");
             lHeaderFont.material.color = new Color(0, 0, 0);
             Buddy.GUI.Header.SetCustomLightTitle(lHeaderFont);
-
+            Debug.Log("REMINDER: DC 4");
             // Setting of Vocon param
             Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
             Buddy.Vocal.DefaultInputParameters.Grammars = new string[] { "date", "timespan", "common" };
@@ -103,12 +104,14 @@ namespace BuddyApp.Reminder
             // If a date has been already choose, just display Date entry with this date on caroussel
             if (DateStatus.E_UI_DISPLAY == mDateStatus)
             {
+                Debug.Log("REMINDER: DC VOCAL IF 1");
                 Buddy.Vocal.StopAndClear();
                 Buddy.Vocal.SayAndListen(Buddy.Resources.GetString(ReminderDateManager.STR_WHEN));
                 DisplayDateEntry();
             }
             else
             {
+                Debug.Log("REMINDER: DC VOCAL IF 2");
                 Buddy.Vocal.SayKeyAndListen(ReminderDateManager.STR_WHEN);
             }
 
