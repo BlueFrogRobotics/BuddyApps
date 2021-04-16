@@ -108,7 +108,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             CLIENT_ID = mTokenProdData.Client_ID;
             CLIENT_SECRET = mTokenProdData.Client_Secret;
             URL_REQUEST = mTokenProdData.URL_Request;
-            REQUEST_ACCESSTOKEN_WITH_REFRESHTOKEN = "https://accounts.zoho.eu/oauth/v2/token?refresh_token=" + TOKEN_REFRESH + "&client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&grant_type=refresh_token";
+            REQUEST_ACCESSTOKEN_WITH_REFRESHTOKEN = "https://teamnet-bfr.ey.r.appspot.com/getAccessToken?refresh_token=" + TOKEN_REFRESH + "&client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&grant_type=refresh_token";
             mRefreshTokenDownloaded = false;
             mDeviceUserLiaisonList = new List<DeviceUserLiaison>();
             ListUIDTablet = new List<string>();

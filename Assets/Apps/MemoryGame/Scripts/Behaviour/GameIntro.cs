@@ -14,8 +14,9 @@ namespace BuddyApp.MemoryGame
 		// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 		public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Buddy.Actuators.Head.Yes.SetPosition(15);
-            Buddy.Actuators.Head.No.SetPosition(0);
+			//PROBLEM ROBOT MOTOR
+            //Buddy.Actuators.Head.Yes.SetPosition(15);
+            //Buddy.Actuators.Head.No.SetPosition(0);
 
             Buddy.GUI.Header.DisplayParametersButton(true);
             Buddy.Vocal.Say(Buddy.Resources.GetRandomString("intro"), iOutput =>
