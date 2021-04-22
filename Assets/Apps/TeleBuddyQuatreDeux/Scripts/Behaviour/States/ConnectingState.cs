@@ -3,6 +3,7 @@ using UnityEngine;
 using BlueQuark;
 using System;
 using UnityEngine.UI;
+using System.Collections;
 
 namespace BuddyApp.TeleBuddyQuatreDeux
 {
@@ -23,6 +24,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private bool mIsTimerStarted;
         private float mPingStarted;
+        private int mIndex;
 
         override public void Start()
         {
@@ -39,7 +41,16 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Debug.Log("CONNECTING STATE -----------------------------------");
-            Buddy.Sensors.Microphones.SoundOutputParameters = new SoundOutputParameters(1);
+            mIndex = 0;
+            mRTMManager.OncallRequest = (CallRequest lCall, string lId) => {
+                Debug.Log("appel recu1");
+                mRTMManager.HasBeenCalled = true;
+                int num = NumUser(lId);
+                ButtonClick(num);
+                //Trigger("IDLE");
+            };
+            mRTMManager.HasBeenCalled = false;
+            Buddy.Sensors.Microphones.SoundOutputParameters = new SoundOutputParameters(1); 
             mRTCManager.Leave();
             TeleBuddyQuatreDeuxData.Instance.CurrentState = TeleBuddyQuatreDeuxData.States.CONNECTING_STATE;
             for (int i = 0; i < mUsers.Count; i++)
@@ -91,14 +102,21 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mTimerRefreshPing += Time.deltaTime;
             if (((DBManager.Instance.Peering && DBManager.Instance.InfoRequestedDone && !string.IsNullOrEmpty(DBManager.Instance.mRobotTokenRTM)) || DBManager.Instance.CanStartCourse) && TeleBuddyQuatreDeuxData.Instance.InitializeDone && !mListDone )
             {
+                mRTMManager.InitRTM(DBManager.Instance.ListUserStudent[0].AppID);
+                mRTMManager.Login();
+                //StartCoroutine(ConnectRTM());
                 if (DBManager.Instance.ListUIDTablet.Count == 1)
                 {
                     Debug.Log("<color=green>SHOW ONE USER</color>");
                     mListDone = true;
+                    //mRTMManager.SetTabletId(DBManager.Instance.RobotConnexionId + DBManager.Instance.ListUserStudent[0].ID);
+                    //mRTMManager.Login();
                     ButtonClick(0);
                 }
                 else
                 {
+                    //mRTMManager.SetTabletId(DBManager.Instance.RobotConnexionId + DBManager.Instance.ListUserStudent[1].ID);
+                    //mRTMManager.Login();
                     if (!mDisplayList)
                     {
                         Debug.Log("<color=green>SHOW LIST</color>");
@@ -113,6 +131,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                         GetGameObject(16).transform.GetChild(i).GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<Text>().text = DBManager.Instance.ListUserStudent[i].Nom + " - " + DBManager.Instance.ListUserStudent[i].Prenom;
                         GetGameObject(16).transform.GetChild(i).GetChild(1).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<Text>().text = DBManager.Instance.ListUserStudent[i].Organisme;
                         int lIndex = i;
+                        Debug.Log("userdb "+ DBManager.Instance.ListUserStudent[i].Nom+" appid: "+ DBManager.Instance.ListUserStudent[i].AppID);
                         lButtonUser.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => { ButtonClick(lIndex); });
                         mUsers.Add(lButtonUser);
                         lButtonUser.transform.GetChild(3).GetComponent<Text>().text = "";
@@ -178,13 +197,56 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             DBManager.Instance.FillPlanningStart(DBManager.Instance.ListUserStudent[iIndexList].Nom, DBManager.Instance.ListUserStudent[iIndexList].Prenom);
             //mRTMManager.SetTabletId(DBManager.Instance.ListUIDTablet[iIndexList]);
             mRTMManager.SetTabletId(DBManager.Instance.RobotConnexionId + DBManager.Instance.ListUserStudent[iIndexList].ID);
+            //mRTMManager.Login();
             //mRTMManager.IndexTablet = iIndexList;
             DBManager.Instance.IndexPlanning = iIndexList;
             DBManager.Instance.IsCheckPlanning = true;
             GetGameObject(17).SetActive(false);
             mRTCManager.InitNewVersionRTC(DBManager.Instance.ListUserStudent[iIndexList].AppID);
-            mRTMManager.Login();
+            
             Trigger("IDLE");
+        }
+
+        private int NumUser(string iId)
+        {
+            int lId = 0;
+            for(int i=0; i< DBManager.Instance.ListUIDTablet.Count; i++)
+            {
+                string lIdPreHash = DBManager.Instance.RobotConnexionId + DBManager.Instance.ListUserStudent[i].ID;
+                string lIdTablet = TeleBuddyQuatreDeuxBehaviour.EncodeToSHA256(TeleBuddyQuatreDeuxBehaviour.EncodeToMD5(lIdPreHash));
+                if (lIdTablet == iId)
+                    lId = i;
+            }
+            return lId;
+        }
+
+        private IEnumerator ConnectRTM()
+        {
+            while (!mRTMManager.HasBeenCalled)
+            {
+                for (int i = 0; i < DBManager.Instance.ListUIDTablet.Count; ++i)
+                {
+                    if (!mRTMManager.HasBeenCalled)
+                    {
+                        if(mRTMManager.IsInitialised)
+                            mRTMManager.Logout();
+                        yield return null;
+                        mRTMManager.SetTabletId(DBManager.Instance.RobotConnexionId + DBManager.Instance.ListUserStudent[i].ID);
+                        mRTMManager.Login();
+                        yield return new WaitForSeconds(2F);
+                    }
+                    else
+                    {
+                        if (mRTMManager.IsInitialised)
+                            mRTMManager.Logout();
+                        mIndex = i - 1;
+                        ButtonClick(mIndex);
+                        break;
+                    }
+                }
+            }
+            if (mRTMManager.IsInitialised)
+                mRTMManager.Logout();
         }
 
         private void OnPingId(int iId)

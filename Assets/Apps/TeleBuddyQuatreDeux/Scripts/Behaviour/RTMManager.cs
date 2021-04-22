@@ -45,7 +45,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         public string IdConnectionTablet { get { return mIdTablet; } }
 
         public bool PingReceived { get; set; }
-
+        public bool HasBeenCalled { get; set; }
 
         // Use this for initialization
         void Start()
@@ -63,7 +63,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mStaticSteering = true;
             OnAskSteering = InformStaticSteering;
             OnActivateObstacle = SensorsBroadcast;
-
+            HasBeenCalled = false;
             mCallRequest = new CallRequest("", "");
             //Debug.LogError("robot id: " + Buddy.Platform.RobotUID);
 
@@ -314,7 +314,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         public Action<string> OnDisplayMessage { get; set; }
         public Action<string> OnSpeechMessage { get; set; }
         public Action<string> OnPictureReceived { get; set; }
-        public Action<CallRequest> OncallRequest { get; set; }
+        public Action<CallRequest, string> OncallRequest { get; set; }
         public Action<WheelsMotion> OnWheelsMotion { get; set; }
         public Action<bool> OnTakePhoto { get; set; }
 
@@ -334,6 +334,15 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             string lIdTablet = TeleBuddyQuatreDeuxBehaviour.EncodeToSHA256(TeleBuddyQuatreDeuxBehaviour.EncodeToMD5(iIdTablet));
             Debug.LogWarning("New tablet ID: " + lIdTablet);
             mIdTablet = lIdTablet;
+        }
+
+        public void InitRTM(string iAppId)
+        {
+            Debug.Log("INIT - RTMMANAGER");
+            Buddy.WebServices.Agoraio.InitRTM(/*TeleBuddyQuatreDeuxBehaviour.APP_ID*/ iAppId);//TODO WALID: attendre que la requete zoho soit terminé avant etremplacer par l'app id recu //TODO MC : tout est fait dans connectingstate ButtonClick()
+            Buddy.WebServices.Agoraio.OnMessage = OnMessage;
+
+            Debug.Log("INIT fin - RTMMANAGER");
         }
 
         private void InitRTM()
@@ -390,14 +399,14 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         /// This is call when a message is received from the tablet
         /// </summary>
         /// <param name="iMessage"></param>
-        private void OnMessage(string iMessage)
+        private void OnMessage(string iId, string iMessage)
         {
             //iMessage = iMessage.Replace("," + mIdTablet, "");
             Debug.LogWarning("message received content " + iMessage);
 
             if (iMessage.Contains("userName") && !iMessage.Contains("[METARTM]")) {
                 mCallRequest = Utils.UnserializeJSON<CallRequest>(iMessage);
-                OncallRequest(mCallRequest);
+                OncallRequest(mCallRequest, iId);
             } else if (iMessage.Contains("speed") && !iMessage.Contains("[METARTM]")) {
                 if (mStaticSteering)
                     Debug.LogWarning("Can't move wheels while static steering is on!");
@@ -440,7 +449,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into an int");
                         } else {
                             SendRTMMessage(Utils.SerializeJSON(
-                                new JsonMessage("pingAck", lMessage.propertyValue)));
+                                new JsonMessage("pingAck", lMessage.propertyValue)), iId);
                         }
                         break;
 
@@ -449,13 +458,13 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                             Debug.LogWarning(lMessage.propertyName + "value can't be parsed into a bool");
                         } else {
                             bool lAvailable = true;
-                            if (TeleBuddyQuatreDeuxData.Instance.CurrentState == TeleBuddyQuatreDeuxData.States.INCOMMING_CALL_STATE || TeleBuddyQuatreDeuxData.Instance.CurrentState == TeleBuddyQuatreDeuxData.States.CALL_STATE || TeleBuddyQuatreDeuxData.Instance.CurrentState == TeleBuddyQuatreDeuxData.States.CALLING_STATE || TeleBuddyQuatreDeuxData.Instance.CurrentState == TeleBuddyQuatreDeuxData.States.CONNECTING_STATE) {
+                            if (TeleBuddyQuatreDeuxData.Instance.CurrentState == TeleBuddyQuatreDeuxData.States.INCOMMING_CALL_STATE || TeleBuddyQuatreDeuxData.Instance.CurrentState == TeleBuddyQuatreDeuxData.States.CALL_STATE || TeleBuddyQuatreDeuxData.Instance.CurrentState == TeleBuddyQuatreDeuxData.States.CALLING_STATE ) {
                                 lAvailable = false;
-                            } else if (TeleBuddyQuatreDeuxData.Instance.CurrentState == TeleBuddyQuatreDeuxData.States.IDLE_STATE) {
+                            } else if (TeleBuddyQuatreDeuxData.Instance.CurrentState == TeleBuddyQuatreDeuxData.States.IDLE_STATE || TeleBuddyQuatreDeuxData.Instance.CurrentState == TeleBuddyQuatreDeuxData.States.CONNECTING_STATE) {
                                 lAvailable = true;
                             }
                             SendRTMMessage(Utils.SerializeJSON(
-                                new JsonMessage("informAvailable", lAvailable.ToString())));
+                                new JsonMessage("informAvailable", lAvailable.ToString())), iId);
                         }
 
                         break;
@@ -635,7 +644,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                     case "displayMessage":
                         if (lMessage.propertyValue.Contains("[METARTM]")) {
                             Debug.LogWarning("Meta RTM detected");
-                            OnMessage(lMessage.propertyValue.Replace("[METARTM]", ""));
+                            OnMessage("", lMessage.propertyValue.Replace("[METARTM]", ""));
                         } else
                             OnDisplayMessage(lMessage.propertyValue);
                         break;
@@ -692,7 +701,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private IEnumerator LoginAsync()
         {
-            InitRTM();
+            //InitRTM();
             yield return GetToken(mBuddyId);
             //WAIT WALID
             string lId = TeleBuddyQuatreDeuxBehaviour.EncodeToSHA256(TeleBuddyQuatreDeuxBehaviour.EncodeToMD5(mBuddyId));

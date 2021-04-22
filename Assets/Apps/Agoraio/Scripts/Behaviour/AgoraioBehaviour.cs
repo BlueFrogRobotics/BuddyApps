@@ -88,7 +88,7 @@ namespace BuddyApp.Agoraio
             text.text = "logout";
         }
 
-        private void OnMessage(string iMessage)
+        private void OnMessage(string lId, string iMessage)
         {
             string timestamp = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture);
            // text.text +=  timestamp+" : "+iMessage+"\n";

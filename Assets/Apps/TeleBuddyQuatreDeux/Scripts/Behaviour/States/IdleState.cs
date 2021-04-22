@@ -21,6 +21,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private GameObject NameStudent;
         private GameObject FirstNameStudent;
         private GameObject ClassStudent;
+        private float mTime;
 
         override public void Start()
         {
@@ -41,7 +42,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         {
             TeleBuddyQuatreDeuxData.Instance.CurrentState = TeleBuddyQuatreDeuxData.States.IDLE_STATE;
             Buddy.Behaviour.Mood = Mood.NEUTRAL;
-
+            mTime = 0.0F;
             mRTMManager.SetTouch(true);
 
             if (DBManager.Instance.ListUIDTablet.Count > 1)
@@ -65,13 +66,14 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             NameStudent.GetComponent<Text>().text = DBManager.Instance.ListUserStudent[lIndexTab].Nom;
             FirstNameStudent.GetComponent<Text>().text = DBManager.Instance.ListUserStudent[lIndexTab].Prenom + " ";
             ClassStudent.GetComponent<Text>().text = " - " + DBManager.Instance.ListUserStudent[lIndexTab].Organisme;
-            mRTMManager.OncallRequest = (CallRequest lCall) => { Trigger("INCOMING CALL"); };
+            mRTMManager.OncallRequest = (CallRequest lCall, string lId) => { Debug.Log("appel recu2"); Trigger("INCOMING CALL"); };
 
             Buddy.Vocal.EnableTrigger = true;
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
         {
+            mTime += Time.deltaTime;
            // Debug.LogError("IDLE STATE CALL BUTTON DISABLED : " + DBManager.Instance.CanStartCourse + " " + mAddListenerButtonCall + " " + mRTMManager.PingReceived);
             if (DBManager.Instance.CanStartCourse && !mAddListenerButtonCall && mRTMManager.PingReceived)
             {
@@ -81,6 +83,12 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 lColor.a = 1F;
                 mCallButton.GetComponent<Image>().color = lColor;
                 mCallButton.onClick.AddListener(LaunchCall);
+            }
+            if(mAddListenerButtonCall && mRTMManager.HasBeenCalled && mTime>5.0F)
+            {
+                Debug.Log("appel en cours");
+                mRTMManager.HasBeenCalled = false;
+                Trigger("INCOMING CALL");
             }
         }
 

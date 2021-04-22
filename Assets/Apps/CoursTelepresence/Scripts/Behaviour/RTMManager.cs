@@ -377,7 +377,7 @@ namespace BuddyApp.CoursTelepresence
         /// This is call when a message is received from the tablet
         /// </summary>
         /// <param name="iMessage"></param>
-        private void OnMessage(string iMessage)
+        private void OnMessage(string iMessage, string lId)
         {
             //iMessage = iMessage.Replace("," + mIdTablet, "");
             Debug.LogWarning("message received content " + iMessage);
@@ -592,7 +592,7 @@ namespace BuddyApp.CoursTelepresence
                     case "displayMessage":
                         if (lMessage.propertyValue.Contains("[METARTM]")) {
                             Debug.LogWarning("Meta RTM detected");
-                            OnMessage(lMessage.propertyValue.Replace("[METARTM]", ""));
+                            OnMessage("", lMessage.propertyValue.Replace("[METARTM]", ""));
                         } else
                             OnDisplayMessage(lMessage.propertyValue);
                         break;
