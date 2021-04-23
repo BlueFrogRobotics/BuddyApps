@@ -76,6 +76,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             //VOCON
             //Buddy.Vocal.OnEndListening.Clear();
             //Buddy.Vocal.StopAndClear();
+            ResetTriggerAnim("INCOMING CALL"); 
             Buddy.Actuators.Speakers.Media.Stop();
         }
 
@@ -130,8 +131,6 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         private void AcceptCall()
         {
-            Trigger("CALL");
-
             Buddy.GUI.Toaster.Hide();
             //VOCON
             //Buddy.Vocal.OnEndListening.Clear();
@@ -139,6 +138,10 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             Buddy.Actuators.Speakers.Media.Stop();
             mRTMManager.AnswerCallRequest(true);
             mRTCManager.Join(mRTMManager.mCallRequest.channelId);
+
+            ResetTriggerAnim("INCOMING CALL");
+            Trigger("CALL");
+
         }
     }
 }
