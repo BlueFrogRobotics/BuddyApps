@@ -8,7 +8,7 @@ namespace BuddyApp.Gallery
         /*
          * Data getters / setters
          */
-        public int MyValue { get; set; }
+        public string mailshare { get; set; }
 
         /*
          * Data singleton access

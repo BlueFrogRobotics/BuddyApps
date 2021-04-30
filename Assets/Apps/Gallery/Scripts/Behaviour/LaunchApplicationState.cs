@@ -5,6 +5,7 @@ using UnityEngine;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 namespace BuddyApp.Gallery
 {
@@ -32,7 +33,54 @@ namespace BuddyApp.Gallery
             
             Trigger("TRIGGER_GALLERY_UPLOADED");
         }
-        
+
+        private void DisplaySettingsToaster()
+        {
+            //Debug.LogWarning("Enter settings");
+            // Store previous email adress to share
+            string lPreviousValue = string.Empty;
+            // Enqueue en ParameterToast request that will be display after all previous queued toasts
+            Buddy.GUI.Dialoger.Display<ParameterToast>().With((iBuilder) => { // This callback will be called on Toast display
+                TText lText = iBuilder.CreateWidget<TText>(); // Create a new text widget
+                lText.SetLabel(Buddy.Resources.GetString("emailtoshare")); // Set the content of the widget
+                /*TToggle lToggle = iBuilder.CreateWidget<TToggle>(); // Create a new toggle
+                lToggle.SetLabel("my toggle"); // You can labeled it
+                lToggle.ToggleValue = true; // The default value
+                lToggle.OnToggle.Add((iVal) => { // Callback on each modification
+                    Debug.Log("Toggle : " + iVal);
+                });*/
+                TTextField lField = iBuilder.CreateWidget<TTextField>(); // Create an input field
+
+                lPreviousValue = GalleryData.Instance.mailshare;
+
+                // if the adresse mail is already saved in the user params
+                if (string.IsNullOrEmpty(GalleryData.Instance.mailshare))
+                {
+                    lField.SetPlaceHolder(Buddy.Resources.GetString("defaultemail"));
+                }
+                else
+                {
+                    lField.SetPlaceHolder(GalleryData.Instance.mailshare);
+                }
+                
+                lField.OnChangeValue.Add((iVal) => { // Callback on each modification
+                    //Debug.Log("Text field : " + iVal);
+                    GalleryData.Instance.mailshare = iVal;
+                });
+            }, () => { // Callback on the left lateral button click
+                //Debug.Log("Cancel");
+
+                // set to previous value
+                GalleryData.Instance.mailshare = lPreviousValue;
+                Buddy.GUI.Dialoger.Hide(); // You must hide manually the Toaster
+            }, "Cancel",
+            () => { // Callback on the right lateral button click
+                 //Debug.Log("OK");
+                Buddy.GUI.Dialoger.Hide(); // You must hide manually the Toaster
+             }, "OK");
+
+        }
+
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
@@ -41,7 +89,9 @@ namespace BuddyApp.Gallery
         
         private void InitializeHeader()
         {
-            Buddy.GUI.Header.DisplayParametersButton(false);
+            // Show settings button
+            Buddy.GUI.Header.DisplayParametersButton(true);
+            Buddy.GUI.Header.OnClickParameters.Add(DisplaySettingsToaster);
         }
 
         private void InitializeSlides()

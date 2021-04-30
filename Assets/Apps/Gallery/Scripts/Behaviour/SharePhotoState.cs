@@ -21,14 +21,24 @@ namespace BuddyApp.Gallery
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "On State Enter...");
+            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "[GALLERY APP] Sharing On State Enter...");
 
             mXMLData = Utils.UnserializeXML<XMLData>(Buddy.Platform.Application.PersistentDataPath + "Shared/config.xml");
             
             if (null == mXMLData)
             {
-                ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.FAILURE, LogInfo.NULL_VALUE, "Failed to read configuration file.");
-                Buddy.Vocal.SayKey(STR_TWITTER_ERROR, false);
+                ExtLog.E(ExtLogModule.APP, GetType(), LogStatus.FAILURE, LogInfo.NULL_VALUE, "[GALLERY APP] Failed to read configuration file.");
+                // if user mail saved in settings
+                if(string.IsNullOrEmpty(GalleryData.Instance.mailshare))
+                {
+                    Buddy.Vocal.SayKey(STR_TWITTER_ERROR, false);
+                }
+                else
+                {
+                    ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "[GALLERY APP] Sharing On State Enter...");
+                    SendMail();
+                }
+                
                 Trigger("TRIGGER_PHOTO_SHARED");
                 return;
             }
@@ -89,13 +99,61 @@ namespace BuddyApp.Gallery
 
         private void SendMail()
         {
+            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "[GALLERY APP] Start sending mail...");
+
             EMail lMail = new EMail();
             lMail.Addresses.Clear();
-            lMail.Addresses.Add(mXMLData.AdressMailReceiver);
-            lMail.Subject = string.IsNullOrEmpty(mXMLData.SubjectMail) ? Buddy.Resources.GetRandomString(STR_MAIL_SUBJECT) : mXMLData.SubjectMail;
-            lMail.Body = string.IsNullOrEmpty(mXMLData.BodyMail) ? Buddy.Resources.GetRandomString(STR_MAIL_TEXT) : mXMLData.BodyMail;
+            // if no user mail from settings
+            if(string.IsNullOrEmpty(GalleryData.Instance.mailshare))
+            {
+                ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "[GALLERY APP] mail adress from xml");
+                lMail.Addresses.Add(mXMLData.AdressMailReceiver);
+            }
+            else
+            {
+                ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "[GALLERY APP] mail adress from settings");
+                lMail.Addresses.Add(GalleryData.Instance.mailshare);
+            }
+
+            // checking xml file
+            if (mXMLData == null)
+            {
+                ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "[GALLERY APP] mail subject xml null");
+                lMail.Subject = Buddy.Resources.GetRandomString(STR_MAIL_SUBJECT);
+                ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "[GALLERY APP] mail body xml null");
+                lMail.Body = Buddy.Resources.GetRandomString(STR_MAIL_TEXT);
+            }
+            else
+            {
+                ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "[GALLERY APP] mail subject");
+                lMail.Subject = string.IsNullOrEmpty(mXMLData.SubjectMail) ? Buddy.Resources.GetRandomString(STR_MAIL_SUBJECT) : mXMLData.SubjectMail;
+                ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "[GALLERY APP] mail body");
+                lMail.Body = string.IsNullOrEmpty(mXMLData.BodyMail) ? Buddy.Resources.GetRandomString(STR_MAIL_TEXT) : mXMLData.BodyMail;
+            }
+            
+            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "[GALLERY APP] Adding file" + PhotoManager.GetInstance().GetCurrentPhoto().GetPhotoFullpath());
             lMail.AddFile(PhotoManager.GetInstance().GetCurrentPhoto().GetPhotoFullpath());
-            Buddy.WebServices.EMailSender.Send(mXMLData.AdressMailSender, mXMLData.PasswordMail, SMTP.GMAIL, lMail, OnPostEmail);
+
+            // if the robot has not a configured mail address
+            if (mXMLData != null)
+            {
+                if (string.IsNullOrEmpty(mXMLData.AdressMailSender) || string.IsNullOrEmpty(mXMLData.PasswordMail))
+                {
+                    ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "[GALLERY APP] sending mail from demo@buddytherobot.com");
+                    Buddy.WebServices.EMailSender.Send("demo@buddytherobot.com", "DemoBuddy", SMTP.BFR, lMail, OnPostEmail);
+                }
+                else
+                {
+                    ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "[GALLERY APP] sending mail from " + mXMLData.AdressMailSender);
+                    Buddy.WebServices.EMailSender.Send(mXMLData.AdressMailSender, mXMLData.PasswordMail, SMTP.GMAIL, lMail, OnPostEmail);
+                }
+            }
+            else
+            {
+                ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "[GALLERY APP] sending mail from demo@buddytherobot.com with null xml");
+                Buddy.WebServices.EMailSender.Send("demo@buddytherobot.com", "DemoBuddy", SMTP.BFR, lMail, OnPostEmail);
+            }
+
         }
 
         private void OnPostTweet(bool iBSuccess)
