@@ -12,6 +12,10 @@ namespace BuddyApp.TakePhoto
         private string mPhotoPath;
         public string PhotoPath { get { return mPhotoPath; } set { mPhotoPath = value; } }
 
+        // mail adress to send picture to
+        private string mmailtoshare;
+        public string mailtoshare { get { return mmailtoshare; } set { mmailtoshare = value; } }
+
         /*
          * Data singleton access
          */

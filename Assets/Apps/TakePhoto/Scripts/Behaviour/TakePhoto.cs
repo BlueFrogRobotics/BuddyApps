@@ -52,7 +52,6 @@ namespace BuddyApp.TakePhoto
         {
             //mStartTracking = false;
             //mDetectedBox = new OpenCVUnity.Rect();
-            mNumberListen = 0;
             mIsFrameCaptured = false;
             mVideo = GetComponentInGameObject<RawImage>(0);
             mPictureSound = GetComponentInGameObject<AudioSource>(1);
@@ -74,6 +73,53 @@ namespace BuddyApp.TakePhoto
 
         }
 
+        private void DisplaySettingsToaster()
+        {
+            //Debug.LogWarning("Enter settings");
+            // Store previous email adress to share
+            string lPreviousValue = string.Empty;
+            // Enqueue en ParameterToast request that will be display after all previous queued toasts
+            Buddy.GUI.Dialoger.Display<ParameterToast>().With((iBuilder) => { // This callback will be called on Toast display
+                TText lText = iBuilder.CreateWidget<TText>(); // Create a new text widget
+                lText.SetLabel(Buddy.Resources.GetString("emailtoshare")); // Set the content of the widget
+                /*TToggle lToggle = iBuilder.CreateWidget<TToggle>(); // Create a new toggle
+                lToggle.SetLabel("my toggle"); // You can labeled it
+                lToggle.ToggleValue = true; // The default value
+                lToggle.OnToggle.Add((iVal) => { // Callback on each modification
+                    Debug.Log("Toggle : " + iVal);
+                });*/
+                TTextField lField = iBuilder.CreateWidget<TTextField>(); // Create an input field
+
+                lPreviousValue = TakePhotoData.Instance.mailtoshare;
+
+                // if the adresse mail is already saved in the user params
+                if (string.IsNullOrEmpty(TakePhotoData.Instance.mailtoshare))
+                {
+                    lField.SetPlaceHolder(Buddy.Resources.GetString("defaultemail"));
+                }
+                else
+                {
+                    lField.SetPlaceHolder(TakePhotoData.Instance.mailtoshare);
+                }
+
+                lField.OnChangeValue.Add((iVal) => { // Callback on each modification
+                    //Debug.Log("Text field : " + iVal);
+                    TakePhotoData.Instance.mailtoshare = iVal;
+                });
+            }, () => { // Callback on the left lateral button click
+                //Debug.Log("Cancel");
+
+                // set to previous value
+                TakePhotoData.Instance.mailtoshare = lPreviousValue;
+                Buddy.GUI.Dialoger.Hide(); // You must hide manually the Toaster
+            }, "Cancel",
+            () => { // Callback on the right lateral button click
+                    //Debug.Log("OK");
+                Buddy.GUI.Dialoger.Hide(); // You must hide manually the Toaster
+            }, "OK");
+
+        }
+
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
@@ -87,6 +133,7 @@ namespace BuddyApp.TakePhoto
             mPhotoTaken = false;
             mTimer = 0;
             mSpeechId = 0;
+            mNumberListen = 0;
 
             // Just for security
             Buddy.Vocal.StopAndClear();
@@ -102,6 +149,10 @@ namespace BuddyApp.TakePhoto
             mOverlayTexture = lOverlaySprite.texture;
             mOverlay.texture = mOverlayTexture;
 
+            // Show settings button
+            Buddy.GUI.Header.DisplayParametersButton(true);
+            Buddy.GUI.Header.OnClickParameters.Add(DisplaySettingsToaster);
+
             OpenCamera(mCamMode, mCamType, OnFrameCaptured);
             //Check if we can open the RGBCamera.
             //if (Buddy.Sensors.RGBCamera.IsBusy) {
@@ -112,6 +163,7 @@ namespace BuddyApp.TakePhoto
             //    Buddy.Sensors.RGBCamera.Open(RGBCameraMode.COLOR_320X240_15FPS_RGB);
 
             //}
+
 
             //We don't use Toaster to display video because we want to display on the full screen and we can't with toaster right now.
             mVideo.gameObject.SetActive(true);
@@ -246,6 +298,7 @@ namespace BuddyApp.TakePhoto
             }
             iMyPhoto.Save();
             TakePhotoData.Instance.PhotoPath = iMyPhoto.FullPath;
+            Debug.LogWarning("[TAKEPHOTO APP] Photo saved " + TakePhotoData.Instance.PhotoPath);
             mIsFrameCaptured = false;
             //Buddy.Vocal.SayAndListen(Buddy.Resources.GetRandomString("redoorshare"), null, "redoorshare", OnEndListening, null);
             Buddy.Vocal.Say(Buddy.Resources.GetRandomString("redoorshare"), iOutput => { StartListenForCommand(); });
@@ -268,19 +321,29 @@ namespace BuddyApp.TakePhoto
 
         private void StartListenForCommand()
         {
+            ExtLog.I(ExtLogModule.APP, GetType(), LogStatus.START, LogInfo.LOADING, "[TAKEPHOTO APP] Start listening: Redo or Share " 
+                + mNumberListen.ToString() +"/" + MAXLISTEN.ToString() + " times");
 
-            mNumberListen++;
-
-            if (mNumberListen < MAXLISTEN)
+            try
             {
-                Buddy.Vocal.Listen(new SpeechInputParameters()
+                mNumberListen++;
+
+                if (mNumberListen < MAXLISTEN)
                 {
-                    Grammars = new[] { "redoorshare" },
-                    RecognitionThreshold = 4500
-                });
-            } else
+                    Buddy.Vocal.Listen(new SpeechInputParameters()
+                    {
+                        Grammars = new[] { "redoorshare" },
+                        RecognitionThreshold = 4500
+                    });
+                }
+                else
+                {
+                    ClearAndQuit();
+                }
+            }
+            catch (System.Exception ex)
             {
-                ClearAndQuit();
+                Debug.Log("[TAKEPHOTO APP] Caught exception " + ex.ToString());
             }
         }
 
