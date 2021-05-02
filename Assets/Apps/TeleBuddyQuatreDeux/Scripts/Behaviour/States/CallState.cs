@@ -54,6 +54,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private static AndroidJavaObject audioManager;
         private bool mZoom;
         private float mLastValue;
+        private bool mHasFliped;
 
         // Use this for initialization
         override public void Start()
@@ -65,6 +66,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mLastValue = 200F;
             mRTCManager = GetComponent<RTCManager>();
             mRTMManager = GetComponent<RTMManager>();
+            mHasFliped = false;
 
 
             if (Buddy.Sensors.Microphones.CurrentMicrophone.Code != "DEVICE_IN_USB_DEVICE") {
@@ -255,7 +257,11 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             lVideoSurface.SetEnable(true);
             lVideoSurface.SetVideoSurfaceType(AgoraVideoSurfaceType.RawImage);
             lVideoSurface.SetGameFps(30);
-            lVideoSurface.EnableFilpTextureApply(false, true);
+            if(!mHasFliped)
+            {
+                lVideoSurface.EnableFilpTextureApply(false, true);
+                mHasFliped = true;
+            }
 
             GetGameObject(12).SetActive(true);
             GetGameObject(18).SetActive(true);
@@ -641,6 +647,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            Debug.Log("CALLSTATE exit1");
             mRTMManager.PingReceived = false;
             //DBManager.Instance.CanEndCourse = false;
             Buddy.Actuators.Wheels.Stop();
@@ -663,6 +670,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             GetGameObject(12).SetActive(false);
             Hangup.gameObject.SetActive(false);
             GetGameObject(18).SetActive(false);
+            Debug.Log("CALLSTATE exit2");
         }
 
         private void StopRaiseHand()

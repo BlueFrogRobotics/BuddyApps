@@ -45,25 +45,35 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            TeleBuddyQuatreDeuxData.Instance.CurrentState = TeleBuddyQuatreDeuxData.States.INCOMMING_CALL_STATE;
-            mHasExited = false;
+            if (mRTMManager.IdFromLaunch == "")
+            {
+                TeleBuddyQuatreDeuxData.Instance.CurrentState = TeleBuddyQuatreDeuxData.States.INCOMMING_CALL_STATE;
+                mHasExited = false;
 
-            mTimeRepeated = Time.time;
-            if (mRTMManager.mCallRequest == null || string.IsNullOrWhiteSpace(mRTMManager.mCallRequest.userName))
-                mCallingUserName.text = "Inconnu";
+                mTimeRepeated = Time.time;
+                if (mRTMManager.mCallRequest == null || string.IsNullOrWhiteSpace(mRTMManager.mCallRequest.userName))
+                    mCallingUserName.text = "Inconnu";
+                else
+                    mCallingUserName.text = mRTMManager.mCallRequest.userName;
+                //VOCON
+                //Buddy.Vocal.StopAndClear();
+                Buddy.Actuators.Speakers.Media.Play(mMusic);
+                Buddy.Actuators.Speakers.Media.Repeat = true;
+                //VOCON
+                //Buddy.Vocal.SayAndListen("tu as un appel de " + mCallingUserName.text + " veux-tu décrocher?", null,OnSpeechReco, null);
+            }
             else
-                mCallingUserName.text = mRTMManager.mCallRequest.userName;
-            //VOCON
-            //Buddy.Vocal.StopAndClear();
-            Buddy.Actuators.Speakers.Media.Play(mMusic);
-            Buddy.Actuators.Speakers.Media.Repeat = true;
-            //VOCON
-            //Buddy.Vocal.SayAndListen("tu as un appel de " + mCallingUserName.text + " veux-tu décrocher?", null,OnSpeechReco, null);
+            {
+                Trigger("CALL");
+                mRTMManager.AnswerCallRequest(true);
+                Debug.Log("INCOMING " + mRTMManager.mCallRequest.channelId);
+                mRTCManager.Join(mRTMManager.mCallRequest.channelId);
+            }
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
         {
-            if (!mHasExited && Time.time - mTimeRepeated > REPEAT_TIME)
+            if (mRTMManager.IdFromLaunch != "" && !mHasExited && Time.time - mTimeRepeated > REPEAT_TIME)
             {
                 RejectCall();
                 mHasExited = true;
@@ -72,7 +82,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Buddy.GUI.Toaster.Hide();
+            if (mRTMManager.IdFromLaunch != "")
+                Buddy.GUI.Toaster.Hide();
+            mRTMManager.IdFromLaunch = "";
             //VOCON
             //Buddy.Vocal.OnEndListening.Clear();
             //Buddy.Vocal.StopAndClear();
@@ -138,6 +150,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             //Buddy.Vocal.StopAndClear();
             Buddy.Actuators.Speakers.Media.Stop();
             mRTMManager.AnswerCallRequest(true);
+            Debug.Log("INCOMING ACCEPT " + mRTMManager.mCallRequest.channelId);
             mRTCManager.Join(mRTMManager.mCallRequest.channelId);
         }
     }

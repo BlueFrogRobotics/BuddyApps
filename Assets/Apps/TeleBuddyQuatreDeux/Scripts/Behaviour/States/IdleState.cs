@@ -23,6 +23,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private GameObject ClassStudent;
         private float mTime;
 
+        private GameObject BottomSection;
+
         override public void Start()
         {
             mRTMManager = GetComponent<RTMManager>();
@@ -31,6 +33,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mCallButton = GetGameObject(10).GetComponent<Button>(); 
             mChannelId = /*Buddy.Platform.RobotUID*/Buddy.IO.MobileData.IMEI()+RandomString(10);
 
+            BottomSection = GetGameObject(23);
             //VOCON
             //Buddy.Vocal.DefaultInputParameters.Grammars = new string[1] { "grammar" };
             //Buddy.Vocal.DefaultInputParameters.RecognitionMode = SpeechRecognitionMode.GRAMMAR_ONLY;
@@ -84,11 +87,22 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 mCallButton.GetComponent<Image>().color = lColor;
                 mCallButton.onClick.AddListener(LaunchCall);
             }
-            if(mAddListenerButtonCall && mRTMManager.HasBeenCalled && mTime>5.0F)
+            if(mAddListenerButtonCall && mRTMManager.HasBeenCalled && mRTMManager.IdFromLaunch == "" && BottomSection.GetComponent<CanvasGroup>().alpha==1)//mTime>5.0F)
             {
                 Debug.Log("appel en cours");
                 mRTMManager.HasBeenCalled = false;
                 Trigger("INCOMING CALL");
+            }
+            else if(mRTMManager.HasBeenCalled && mRTMManager.IdFromLaunch!="" && BottomSection.GetComponent<CanvasGroup>().alpha == 1)
+            {
+                mRTMManager.HasBeenCalled = false;
+                Debug.Log("IDLE STATE id: " + mRTMManager.IdFromLaunch);
+                Trigger("CALL");
+                mRTMManager.AnswerCallRequest(true, mRTMManager.IdFromLaunch);
+                mRTMManager.IdFromLaunch = "";
+                //Debug.Log("IDLE STATE channel id: " + mRTMManager.mCallRequest.channelId);
+                Debug.Log("IDLE STATE channel id: " + mRTMManager.ChannelIdFromLaunch);
+                mRTCManager.Join(mRTMManager.ChannelIdFromLaunch);
             }
         }
 

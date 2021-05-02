@@ -79,13 +79,29 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             mInputFilter.onValueChanged.AddListener(delegate { OnInputChanged(); });
             Buddy.GUI.Header.DisplayParametersButton(true);
             
-            mRTMManager.OnPingWithId = (lId) =>
+            //mRTMManager.OnPingWithId = (lId) =>
+            //{
+            //    if (mTimerRefreshPing > 5F)
+            //    {
+            //        UpdateListUsers(lId);
+            //        mTimerRefreshPing = 0F;
+            //    }
+            //};
+            mRTMManager.OnPingFromUser = (lId, lIdUser) =>
             {
-                if (mTimerRefreshPing > 5F)
-                {
-                    UpdateListUsers(lId);
+                Debug.Log("ping de " + lIdUser + " value: " + lId);
+               // if (mTimerRefreshPing > 5F)
+               // {
+                    int lNumUser = 0;
+                    for(int i=0; i< DBManager.Instance.ListUIDTablet.Count; i++)
+                    {
+                        if (lIdUser == TabletId(i))
+                            lNumUser = i;
+                    }
+                Debug.Log("num user: " + lNumUser);
+                    UpdateListUsers(lNumUser, lId);
                     mTimerRefreshPing = 0F;
-                }
+               // }
             };
 
             if (Buddy.Behaviour.Mood != Mood.NEUTRAL)
@@ -105,13 +121,21 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 mRTMManager.InitRTM(DBManager.Instance.ListUserStudent[0].AppID);
                 mRTMManager.Login();
                 //StartCoroutine(ConnectRTM());
-                if (DBManager.Instance.ListUIDTablet.Count == 1)
+                if (DBManager.Instance.ListUIDTablet.Count == 1 && mRTMManager.IdFromLaunch=="")
                 {
                     Debug.Log("<color=green>SHOW ONE USER</color>");
                     mListDone = true;
                     //mRTMManager.SetTabletId(DBManager.Instance.RobotConnexionId + DBManager.Instance.ListUserStudent[0].ID);
                     //mRTMManager.Login();
                     ButtonClick(0);
+                }
+                else if(mRTMManager.IdFromLaunch != "")
+                {
+                    mListDone = true;
+                    Debug.Log("appel recu3");
+                    mRTMManager.HasBeenCalled = true;
+                    int num = NumUser(mRTMManager.IdFromLaunch);
+                    ButtonClick(num);
                 }
                 else
                 {
@@ -139,6 +163,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                         lButtonUser.transform.GetChild(2).GetComponent<Image>().color = new Color(200, 0, 0);
                         lButtonUser.transform.GetChild(4).GetComponent<Image>().color = new Color(255, 255, 255, 0);
                         //mRTMManager.Ping(DBManager.Instance.ListUIDTablet[i], i);
+                        mRTMManager.Ping(TabletId(i), 0);
                         mPingTime.Add(Time.time);
                         mWaitPing.Add(0);
                     }
@@ -154,7 +179,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                         
                     if (lTime > 5F)
                     {
-                   // mRTMManager.Ping(DBManager.Instance.ListUIDTablet[i], i);
+                        // mRTMManager.Ping(DBManager.Instance.ListUIDTablet[i], i);
+                        mRTMManager.Ping(TabletId(i), 0);
                         mPingTime[i] = Time.time;
                         if (mPingStarted > 6F)
                         {
@@ -220,6 +246,13 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             return lId;
         }
 
+        private string TabletId(int idUser)
+        {
+            string lIdPreHash = DBManager.Instance.RobotConnexionId + DBManager.Instance.ListUserStudent[idUser].ID;
+            string lIdTablet = TeleBuddyQuatreDeuxBehaviour.EncodeToSHA256(TeleBuddyQuatreDeuxBehaviour.EncodeToMD5(lIdPreHash));
+            return lIdTablet;
+        }
+
         private IEnumerator ConnectRTM()
         {
             while (!mRTMManager.HasBeenCalled)
@@ -254,22 +287,24 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             Debug.LogWarning("PING WITH " + iId);
         }
 
-        private void UpdateListUsers(int iUserId)
+        private void UpdateListUsers(int iUserId, int iInc)
         {
+            Debug.Log("list update avec " + iUserId);
             mPingStarted = 0F;
             mIsTimerStarted = true;
             if (mPingTime == null || mUsers == null || mUsers.Count <= iUserId)
                 return;
             float lTime = (Time.time - mPingTime[iUserId])*1000F;
             mUsers[iUserId].transform.GetChild(4).GetComponent<Image>().sprite = SpriteNetwork((int)lTime);
-            if(lTime == 0)
-            {
-                mUsers[iUserId].transform.GetChild(3).GetComponent<Text>().text = "";
-                mUsers[iUserId].transform.GetChild(0).GetChild(2).GetComponent<Image>().color = new Color(200, 0, 0);
-                mUsers[iUserId].transform.GetChild(2).GetComponent<Image>().color = new Color(200, 0, 0);
-                mUsers[iUserId].transform.GetChild(4).GetComponent<Image>().color = new Color(255, 255, 255, 0);
-            }
-            else if (lTime >= 500)
+            Debug.Log("time du ping: " + lTime);
+            //if (lTime == 0)
+            //{
+            //    //mUsers[iUserId].transform.GetChild(3).GetComponent<Text>().text = "";
+            //    mUsers[iUserId].transform.GetChild(0).GetChild(2).GetComponent<Image>().color = new Color(200, 0, 0);
+            //    mUsers[iUserId].transform.GetChild(2).GetComponent<Image>().color = new Color(200, 0, 0);
+            //    mUsers[iUserId].transform.GetChild(4).GetComponent<Image>().color = new Color(255, 255, 255, 0);
+            //}
+            /*else */if (lTime >= 500)
             {
                 mUsers[iUserId].transform.GetChild(3).GetComponent<Text>().text = "";
                 mUsers[iUserId].transform.GetChild(0).GetChild(2).GetComponent<Image>().color = new Color(200, 0, 0);
@@ -278,14 +313,17 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             }
             else
             {
-                mUsers[iUserId].transform.GetChild(3).GetComponent<Text>().text = "" + (int)lTime + "ms";
+                if(lTime!=0)
+                    mUsers[iUserId].transform.GetChild(3).GetComponent<Text>().text = "" + (int)lTime + "ms";
                 mUsers[iUserId].transform.GetChild(0).GetChild(2).GetComponent<Image>().color = new Color(0, 200, 200);
                 mUsers[iUserId].transform.GetChild(2).GetComponent<Image>().color = new Color(0, 200, 200);
-                mUsers[iUserId].transform.GetChild(4).GetComponent<Image>().color = new Color(255, 255, 255, 1);
+                mUsers[iUserId].transform.GetChild(4).GetComponent<Image>().color = new Color(255, 255, 255, 0);
             }
             mWaitPing[iUserId] = 4;
             Debug.LogError("CONNECTING STATE  UID TABLET : " + DBManager.Instance.ListUIDTablet[iUserId]);
-            mRTMManager.Ping(DBManager.Instance.ListUIDTablet[iUserId], iUserId);
+            //mRTMManager.Ping(DBManager.Instance.ListUIDTablet[iUserId], iUserId);
+            //mRTMManager.Ping(TabletId(iUserId), iUserId);
+            mRTMManager.Ping(TabletId(iUserId), iInc+1);
             mPingTime[iUserId] = Time.time;
         }
 

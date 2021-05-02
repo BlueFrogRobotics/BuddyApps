@@ -14,13 +14,34 @@ namespace BuddyApp.TeleBuddyQuatreDeux
     {
         private RTMManager mRTMManager;
         private RTCManager mRTCManager;
+        private string lId;
+        private string lChannelId;
+
         public override void OnAwake()
         {
             Debug.Log("TELEBUDDY AWAKE");
             mRTMManager = (RTMManager)Objects[0];
             mRTCManager = (RTCManager)Objects[1];
+            mRTMManager.IdFromLaunch = lId;
+            mRTMManager.ChannelIdFromLaunch = lChannelId;
             ExtLog.I(ExtLogModule.APP, typeof(TeleBuddyQuatreDeuxActivity), LogStatus.START, LogInfo.RUNNING, "On awake...");
             Debug.Log("TELEBUDDY FIN AWAKE");
+        }
+
+        public override void OnLoading(object[] iArgs)
+        {
+            Debug.LogError("TELEBUDDY parametre on loading");
+            if (iArgs.Length > 1)
+            {
+                Debug.LogError("TELEBUDDY parametre charge: " + (string)iArgs[0] + " channel " + (string)iArgs[1]);
+                lId = (string)iArgs[0];
+                lChannelId = (string)iArgs[1];
+            }
+            else
+            {
+                lId = "";
+                lChannelId = "";
+            }
         }
 
         /*
@@ -28,7 +49,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
 		*/
         public override void OnStart()
         {
-            ExtLog.I(ExtLogModule.APP, typeof(TeleBuddyQuatreDeuxActivity), LogStatus.SUCCESS, LogInfo.LOADING, "On start...");
+            ExtLog.I(ExtLogModule.APP, typeof(TeleBuddyQuatreDeuxActivity), LogStatus.SUCCESS, LogInfo.LOADING, "TELEBUDDY On start...");
 
         }
 

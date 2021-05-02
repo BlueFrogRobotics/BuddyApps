@@ -47,6 +47,9 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         public bool PingReceived { get; set; }
         public bool HasBeenCalled { get; set; }
 
+        public string IdFromLaunch { get; set; }
+        public string ChannelIdFromLaunch { get; set; }
+
         // Use this for initialization
         void Start()
         {
@@ -152,6 +155,14 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             SendRTMMessage(Utils.SerializeJSON(new JsonMessage("callRequestAnswer", iAnswer.ToString())));
         }
 
+        /// <summary>
+        /// Sending answer to an incoming call
+        /// </summary>
+        /// <param name="iAnswer">Positive or negative answer</param>
+        public void AnswerCallRequest(bool iAnswer, string iId)
+        {
+            SendRTMMessage(Utils.SerializeJSON(new JsonMessage("callRequestAnswer", iAnswer.ToString())), iId);
+        }
 
         /// <summary>
         /// Sending Obstacle detection values every 0.5 seconds
@@ -307,6 +318,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         public Action<float> OnHeadYesAbsolute { get; set; }
         public Action<float> OnHeadNoAbsolute { get; set; }
         public Action<int> OnPing { get; set; }
+        public Action<int, string> OnPingFromUser { get; set; }
         public Action<int> OnPingWithId { get; set; }
         public Action<Mood> OnMoodBI { get; set; }
         public Action<Mood> OnMood { get; set; }
@@ -480,6 +492,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                             }
                             if (OnPingWithId != null)
                                 OnPingWithId(lIntValue);
+                            if (OnPingFromUser != null)
+                                OnPingFromUser(lIntValue, iId);
                         }
 
                         break;
