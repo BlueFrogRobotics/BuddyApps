@@ -50,6 +50,8 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         public string IdFromLaunch { get; set; }
         public string ChannelIdFromLaunch { get; set; }
 
+        public bool SystemListeningState { get; set; }
+
         // Use this for initialization
         void Start()
         {
@@ -782,7 +784,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             Buddy.Sensors.TouchSensors.RightShoulder.OnTouch.Clear();
             Buddy.Sensors.TouchSensors.Heart.OnTouch.Clear();
             Debug.Log("ON DESTROY LOGOUT RTM");
-            Logout();
+            //Logout();
         }
 
         private void OnSkinClicked()
