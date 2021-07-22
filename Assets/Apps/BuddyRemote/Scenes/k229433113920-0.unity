@@ -228,7 +228,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1320076629}
-  - component: {fileID: 1320076632}
   - component: {fileID: 1320076631}
   - component: {fileID: 1320076630}
   m_Layer: 5
@@ -294,19 +293,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1320076628}
   m_CullTransparentMesh: 0
---- !u!114 &1320076632
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1320076628}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1640217388, guid: 3f63fdeab64562e4da57bcb665b127c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mVideo: {fileID: 0}
 --- !u!1 &1669233715
 GameObject:
   m_ObjectHideFlags: 0
@@ -333,7 +319,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1669233715}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1640217388, guid: 3f63fdeab64562e4da57bcb665b127c3, type: 3}
+  m_Script: {fileID: -412716410, guid: 354c8c4b4bee0b14cadf1886fef524ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mVideo: {fileID: 0}

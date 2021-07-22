@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <AppInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <ID>u732435093182</ID>
+    <ID>k229433113920</ID>
     <ShortName>BuddyRemote</ShortName>
     <CommercialName>BuddyRemote</CommercialName>
-    <ShortDescription>Control Buddy Remotely from your PC with screencopy installed</ShortDescription>
+    <ShortDescription>App to control Buddy from a keyboard</ShortDescription>
     <MainScene>0</MainScene>
     <Authors>bfr-dev</Authors>
-    <Version>1.0.0.0</Version>
+    <Version>1.0.0.4</Version>
     <VersionStatus>NONE</VersionStatus>
     <VersionName />
     <Category>UTILITY</Category>
@@ -33,19 +33,19 @@
         </AppPermission>
         <AppPermission>
             <Type>USERS_DATA_READ</Type>
-            <IsValid>true</IsValid>
+            <IsValid>false</IsValid>
         </AppPermission>
         <AppPermission>
             <Type>USERS_DATA_WRITE</Type>
-            <IsValid>true</IsValid>
+            <IsValid>false</IsValid>
         </AppPermission>
         <AppPermission>
             <Type>USERS_MEDIA_DATA_READ</Type>
-            <IsValid>true</IsValid>
+            <IsValid>false</IsValid>
         </AppPermission>
         <AppPermission>
             <Type>USERS_MEDIA_DATA_WRITE</Type>
-            <IsValid>true</IsValid>
+            <IsValid>false</IsValid>
         </AppPermission>
         <AppPermission>
             <Type>LOCKABLE_SCREEN</Type>

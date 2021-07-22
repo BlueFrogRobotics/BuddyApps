@@ -50,16 +50,17 @@ namespace BuddyApp.BuddyRemote
                 Buddy.Sensors.HDCamera.Close();
             }
 
-            Buddy.Sensors.HDCamera.Open(HDCameraMode.COLOR_1056X784_30FPS_RGB, HDCameraType.FRONT);
+            //Buddy.Sensors.HDCamera.Open(HDCameraMode.COLOR_1056X784_30FPS_RGB, HDCameraType.FRONT);
 
-            mVideo.gameObject.SetActive(true);
-            Buddy.Sensors.HDCamera.OnNewFrame.Add((iInput) => { mVideo.texture = iInput.Texture; });
+            //mVideo.gameObject.SetActive(true);
+            //Buddy.Sensors.HDCamera.OnNewFrame.Add((iInput) => { mVideo.texture = iInput.Texture; });
 
-            mCoef = 0.5F; ;
+            mCoef = 0.9F; ;
         }
 
         void Update()
         {
+            //Debug.Log("[BuddyRemote] Update");
 
             bool lNewMotion = false;
 
@@ -70,17 +71,16 @@ namespace BuddyApp.BuddyRemote
                 Buddy.GUI.Header.Hide();
             }
             if (Input.GetKeyDown("j"))
-            {   
+            {
                 //display icons
                 Buddy.GUI.Header.Display();
             }
 
             //Camera feedback
-            if (Input.GetKeyDown("k"))
+            /*if (Input.GetKeyDown("k"))
             {
                 mVideo.gameObject.SetActive(!mVideo.gameObject.activeSelf);
-         
-            }
+            }*/
 
             if (Input.GetKeyDown("left shift"))
             {
@@ -89,23 +89,6 @@ namespace BuddyApp.BuddyRemote
             else if (Input.GetKeyUp("left shift"))
             {
                 mLeftShift = false;
-            }
-
-            //Flash
-            if (Input.GetKeyDown("f"))
-            {
-                if (Buddy.Actuators.LEDs.FlashIntensity != 0F)
-                    Buddy.Actuators.LEDs.Flash = false;
-                else if (mLeftShift)
-                {
-                    Debug.Log("Big flash");
-                    Buddy.Actuators.LEDs.FlashIntensity = 0.5F;
-                }
-                else
-                {
-                    Debug.Log("small flash");
-                    Buddy.Actuators.LEDs.FlashIntensity = 0.03F;
-                }
             }
 
 
@@ -194,7 +177,7 @@ namespace BuddyApp.BuddyRemote
 
             ///////////////////////////////////////////////////////////////
             //Move Head
-            if (Input.GetKeyDown("z"))
+            /*if (Input.GetKeyDown("z"))
                 Buddy.Actuators.Head.Yes.SetPosition(Buddy.Actuators.Head.Yes.Angle + (15F * mCoef));
 
             if (Input.GetKeyDown("s"))
@@ -207,78 +190,103 @@ namespace BuddyApp.BuddyRemote
 
             if (Input.GetKeyDown("d"))
                 Buddy.Actuators.Head.No.SetPosition(Buddy.Actuators.Head.No.Angle - (15F * mCoef));
-
+            */
 
 
 
             ////////////////////////////////////////////////////////////
             //BI
+            if (Input.GetKeyDown(KeyCode.Alpha0))
+            {
+                //Buddy.Behaviour.Interpreter.RunRandom(Mood.HAPPY)
+                Buddy.Behaviour.Interpreter.Run("Sequence00");
+            }
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 //Buddy.Behaviour.Interpreter.RunRandom(Mood.HAPPY);
                 Buddy.Behaviour.Interpreter.Run("Sequence01");
             }
             if (Input.GetKeyDown(KeyCode.Alpha2))
-                Buddy.Behaviour.Interpreter.RunRandom(Mood.ANGRY);
+                //Buddy.Behaviour.Interpreter.RunRandom(Mood.ANGRY);
+                Buddy.Behaviour.Interpreter.Run("Sequence02");
             if (Input.GetKeyDown(KeyCode.Alpha3))
-                Buddy.Behaviour.Interpreter.RunRandom(Mood.NEUTRAL);
+                //Buddy.Behaviour.Interpreter.RunRandom(Mood.NEUTRAL);
+                Buddy.Behaviour.Interpreter.Run("Sequence03");
             if (Input.GetKeyDown(KeyCode.Alpha4))
-                Buddy.Behaviour.Interpreter.RunRandom(Mood.SAD);
+                Buddy.Behaviour.Interpreter.Run("Speak00");
+            //Buddy.Behaviour.Interpreter.RunRandom(Mood.SAD);
             if (Input.GetKeyDown(KeyCode.Alpha5))
-                Buddy.Behaviour.Interpreter.RunRandom(Mood.LOVE);
+                Buddy.Behaviour.Interpreter.Run("Speak01");
+            //Buddy.Behaviour.Interpreter.RunRandom(Mood.LOVE);
             if (Input.GetKeyDown(KeyCode.Alpha6))
-                Buddy.Behaviour.Interpreter.RunRandom(Mood.SCARED);
+                //Buddy.Behaviour.Interpreter.RunRandom(Mood.SCARED);
+                Buddy.Behaviour.Interpreter.Run("Speak02");
             if (Input.GetKeyDown(KeyCode.Alpha7))
-                Buddy.Behaviour.Interpreter.RunRandom(Mood.SICK);
+                //Buddy.Behaviour.Interpreter.RunRandom(Mood.SICK);
+                Buddy.Behaviour.Interpreter.Run("Speak03");
             if (Input.GetKeyDown(KeyCode.Alpha8))
-                Buddy.Behaviour.Interpreter.RunRandom(Mood.SURPRISED);
+                //Buddy.Behaviour.Interpreter.RunRandom(Mood.SURPRISED);
+                Buddy.Behaviour.Interpreter.Run("Speak04");
             if (Input.GetKeyDown(KeyCode.Alpha9))
-                Buddy.Behaviour.Interpreter.RunRandom(Mood.TIRED);
-
-
-            ///////////////////////////////////////////
-            ///Leds
+                //Buddy.Behaviour.Interpreter.RunRandom(Mood.TIRED);
+                Buddy.Behaviour.Interpreter.Run("Speak05");
+            
+           // if (Input.GetKeyDown("°"))
+           //     Buddy.Behaviour.Interpreter.Run("SetBack");
+            if (Input.GetKeyDown("p"))
+                Buddy.Behaviour.Interpreter.Run("SetBack");
+            //if (Input.GetKeyDown("`"))
+            //    Buddy.Behaviour.Interpreter.Run("SetBack");
+            //if (Input.GetKeyDown("²"))
+            //    Buddy.Behaviour.Interpreter.Run("SetBack");
+            //if (Input.GetKeyDown("#"))
+            //    Buddy.Behaviour.Interpreter.Run("SetBack");
+            if (Input.GetKeyDown("q"))
+                Buddy.Behaviour.Interpreter.Run("Sequence01-01");
+            if (Input.GetKeyDown("a"))
+                Buddy.Behaviour.Interpreter.Run("Sequence01-01");
             if (Input.GetKeyDown("w"))
+                Buddy.Behaviour.Interpreter.Run("Sequence01-02");
+            if (Input.GetKeyDown("z"))
+                Buddy.Behaviour.Interpreter.Run("Sequence01-02");
+            if (Input.GetKeyDown("e"))
+                Buddy.Behaviour.Interpreter.Run("Sequence01-03");
+            if (Input.GetKeyDown("r"))
+                Buddy.Behaviour.Interpreter.Run("Sequence01-04");
+            if (Input.GetKeyDown("t"))
+                Buddy.Behaviour.Interpreter.Run("Sequence01-05");
+
+
+            /*if (Input.GetKeyDown("1"))
             {
-                Debug.Log("numpad f1");
-                Buddy.Actuators.LEDs.SetBodyLights(60, 100, 93);
-                Buddy.Actuators.LEDs.SetBodyPattern(LEDPulsePattern.BASIC_BLINK);
+                //Buddy.Behaviour.Interpreter.RunRandom(Mood.HAPPY);
+                Buddy.Behaviour.Interpreter.Run("Sequence00");
             }
-            else if (Input.GetKeyDown("x"))
-            {
-                Buddy.Actuators.LEDs.SetBodyLights(20, 150, 250);
-                Buddy.Actuators.LEDs.SetBodyPattern(LEDPulsePattern.BREATHING);
-            }
-            else if (Input.GetKeyDown("c"))
-            {
-                Buddy.Actuators.LEDs.SetBodyLights(300, 250, 3);
-                Buddy.Actuators.LEDs.SetBodyPattern(LEDPulsePattern.DYNAMIC);
-            }
-            else if (Input.GetKeyDown("v"))
-            {
-                Buddy.Actuators.LEDs.SetBodyLights(120, 150, 240);
-                Buddy.Actuators.LEDs.SetBodyPattern(LEDPulsePattern.HEART_BEAT);
-            }
-            else if (Input.GetKeyDown("b"))
-            {
-                Buddy.Actuators.LEDs.SetBodyLights(90, 10, 140);
-                Buddy.Actuators.LEDs.SetBodyPattern(LEDPulsePattern.LISTENING);
-            }
-            else if (Input.GetKeyDown("n"))
-            {
-                Buddy.Actuators.LEDs.SetBodyLights(1, 100, 250);
-                Buddy.Actuators.LEDs.SetBodyPattern(LEDPulsePattern.NOBLINK);
-            }
-            else if (Input.GetKeyDown(KeyCode.Comma))
-            {
-                Buddy.Actuators.LEDs.SetBodyLights(60, 100, 93);
-                Buddy.Actuators.LEDs.SetBodyPattern(LEDPulsePattern.PEACEFUL);
-            }
-            else if (Input.GetKeyDown(KeyCode.Semicolon))
-            {
-                Buddy.Actuators.LEDs.SetBodyLights(60, 100, 250);
-                Buddy.Actuators.LEDs.SetBodyPattern(LEDPulsePattern.RECHARGE);
-            }
+            if (Input.GetKeyDown("2"))
+                //Buddy.Behaviour.Interpreter.RunRandom(Mood.ANGRY);
+                Buddy.Behaviour.Interpreter.Run("Sequence01");
+            if (Input.GetKeyDown("3"))
+                //Buddy.Behaviour.Interpreter.RunRandom(Mood.NEUTRAL);
+                Buddy.Behaviour.Interpreter.Run("Sequence02");
+            if (Input.GetKeyDown("4"))
+                Buddy.Behaviour.Interpreter.Run("Sequence03");
+            //Buddy.Behaviour.Interpreter.RunRandom(Mood.SAD);
+            if (Input.GetKeyDown("5"))
+                Buddy.Behaviour.Interpreter.Run("Speak00");
+            //Buddy.Behaviour.Interpreter.RunRandom(Mood.LOVE);
+            if (Input.GetKeyDown("6"))
+                //Buddy.Behaviour.Interpreter.RunRandom(Mood.SCARED);
+                Buddy.Behaviour.Interpreter.Run("Speak01");
+            if (Input.GetKeyDown("7"))
+                //Buddy.Behaviour.Interpreter.RunRandom(Mood.SICK);
+                Buddy.Behaviour.Interpreter.Run("Speak02");
+            if (Input.GetKeyDown("8"))
+                //Buddy.Behaviour.Interpreter.RunRandom(Mood.SURPRISED);
+                Buddy.Behaviour.Interpreter.Run("Speak03");
+            if (Input.GetKeyDown("9"))
+                //Buddy.Behaviour.Interpreter.RunRandom(Mood.TIRED);
+                Buddy.Behaviour.Interpreter.Run("Speak04");*/
+
 
             if (OneOrMoreCliff())
                 Buddy.Actuators.Wheels.UnlockWheels();
