@@ -75,6 +75,16 @@ namespace BuddyApp.TakePhoto
 
         private void DisplaySettingsToaster()
         {
+            /*
+            Buddy.Vocal.Say("Option et Paramètres");
+
+            Debug.LogWarning("[TAKEPHOTO APP] Click on settings button ");
+            // test : just trigger the transition to "Settings" state and display the toaster there
+            Trigger("OpenSettings");
+            */
+
+            
+             
             //Debug.LogWarning("Enter settings");
             // Store previous email adress to share
             string lPreviousValue = string.Empty;
@@ -88,6 +98,8 @@ namespace BuddyApp.TakePhoto
                 lToggle.OnToggle.Add((iVal) => { // Callback on each modification
                     Debug.Log("Toggle : " + iVal);
                 });*/
+
+                
                 TTextField lField = iBuilder.CreateWidget<TTextField>(); // Create an input field
 
                 lPreviousValue = TakePhotoData.Instance.mailtoshare;
@@ -117,6 +129,8 @@ namespace BuddyApp.TakePhoto
                     //Debug.Log("OK");
                 Buddy.GUI.Dialoger.Hide(); // You must hide manually the Toaster
             }, "OK");
+
+            
 
         }
 

@@ -26,15 +26,6 @@ namespace BuddyApp.TakePhoto
         /// <summary>
         /// Trigger the named trigger in the current animator
         /// </summary>
-        /// <param name="iPlayName">Trigger name</param>
-        protected void Play(string iPlayName)
-        {
-            mAnimator.Play(iPlayName);
-        }
-
-        /// <summary>
-        /// Trigger the named trigger in the current animator
-        /// </summary>
         /// <param name="iTriggerName">Trigger name</param>
         protected void Trigger(string iTriggerName)
         {

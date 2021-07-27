@@ -202,7 +202,7 @@ namespace BuddyApp.TakePhoto
                             // check password
                             if (!string.IsNullOrEmpty(mXMLData.PasswordMail))
                             {
-                                mail_sender = mXMLData.PasswordMail;
+                                mail_password = mXMLData.PasswordMail;
                                 mail_smtp = SMTP.GMAIL;
                             }
                             else // if password NOK, take the default address to send the mail
