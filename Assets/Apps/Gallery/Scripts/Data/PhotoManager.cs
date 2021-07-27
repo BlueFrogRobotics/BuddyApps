@@ -12,7 +12,7 @@ namespace BuddyApp.Gallery
     public sealed class PhotoManager
     {
         public static readonly string STR_GALLERY_DIRECTORY = "Images";
-        public static readonly string[] ALLOWED_EXTENSION_LIST = { "*.psd", "*.tiff", "*.jpg", "*.tga", "*.png", "*.gif", "*.bmp", "*.iff", "*.pict"};
+        public static readonly string[] ALLOWED_EXTENSION_LIST = { "*.psd", "*.tiff", "*.jpg", "*.jpeg","*.tga", "*.png", "*.gif", "*.bmp", "*.iff", "*.pict"};
         
         // Singleton design pattern
         private static readonly PhotoManager mPhotoManagerInstance = new PhotoManager();
