@@ -86,6 +86,7 @@ namespace BuddyApp.Radio
         {
             if (!string.IsNullOrEmpty(iSpeechInput.Utterance))
             {
+
                 if ((iSpeechInput.Rule != null && iSpeechInput.Rule.EndsWith("quit")) || iSpeechInput.Utterance == "quit")
                 {
                     AAppActivity.QuitApp();
@@ -112,6 +113,16 @@ namespace BuddyApp.Radio
                         Buddy.Actuators.Speakers.Volume = 0;
                     else
                         Buddy.Actuators.Speakers.Volume -= delta_volume;
+                }
+                // Wandering (Ballade aleatoire) with radio
+                else if ((iSpeechInput.Rule != null && iSpeechInput.Rule.EndsWith("wander")) || iSpeechInput.Utterance == "wander")
+                {
+                    Buddy.Navigation.Run<RoamStrategy>().While((x) => { return true; }, Mood.HAPPY, /*lRoamSpeed*/ RoamSpeed.LOW, ObstacleAvoidanceType.TURN);
+                }
+                // Stop Wandering
+                else if ((iSpeechInput.Rule != null && iSpeechInput.Rule.EndsWith("dontmove")) || iSpeechInput.Utterance == "dontmove")
+                {
+                    Buddy.Navigation.Stop();
                 }
             }
             StartListen();
