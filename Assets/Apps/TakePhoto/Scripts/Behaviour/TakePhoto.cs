@@ -377,7 +377,6 @@ namespace BuddyApp.TakePhoto
                 return;
             }
 
-
             StartListenForCommand();
         }
 

@@ -12,8 +12,8 @@ namespace BuddyApp.TakePhoto
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
             mTimer = 0F;
-
-            Buddy.Perception.HumanDetector.OnDetect.Add(HumanDetected);
+			// inhibit looking for someone (does not work)
+            // Buddy.Perception.HumanDetector.OnDetect.Add(HumanDetected);
         }
 
         private void HumanDetected(HumanEntity[] iHumanEntities)

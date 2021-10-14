@@ -9,7 +9,8 @@ namespace BuddyApp.TakePhoto
 
         public override void OnStateEnter(Animator iAnimator, AnimatorStateInfo iStateInfo, int iLayerIndex)
         {
-            Buddy.Actuators.Head.SetPosition(15F, 0F);
+			// Inhibit head movement, as Looking for someone doesn't work
+            //Buddy.Actuators.Head.SetPosition(15F, 0F);
 
             //Set the recognition threshold for the app
             Buddy.Vocal.DefaultInputParameters = new SpeechInputParameters();
