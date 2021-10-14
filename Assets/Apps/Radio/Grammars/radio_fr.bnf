@@ -5,10 +5,14 @@
 !start <volumedown>;
 !start <volumeup>;
 !import <numbers#nb>;
+!start <wander>;
+!start <dontmove>;
 
-<quit> : quitter | annuler | arrêter | sortir | terminer | annule | quitte | ferme | arrête | arrêt | stop;
+<quit> : (quitter | annuler | arrêter | sortir | terminer | annule | quitte | ferme | arrête | arrêt | stop ) [la radio];
 <volumedown> : ((descend | diminue | baisse | baisser | diminuer | descendre) [le] (volume | son)) [de <numbers#nb>] | (mets [le] (volume | son) moins fort) | (parle moins fort);
 <volumeup> : ((augmenter | augmente | monte | monter) [le] (volume | son)) [de <numbers#nb>] | (mets [le] (volume | son) plus fort) | (parle plus fort);
 <radioname> : RTL2 | France Maghreb 2 | Virgin Radio | RMC | Radio Nova | Radio Meuh | Fun Radio | Tropiques FM | FIP | Jazz Radio | Europe 1 | Djam Radio | Chérie FM | Hotmixradio 80 | RTL | Rire et Chansons | Latina | Radio Public Santé | franceinfo | Chante France | Skyrock | La Grosse Radio | Beur FM | RFM | NRJ | Africa numéro 1 | Alouette | Sud Radio | OUI FM | M Radio | Radio Orient | Nostalgie | RADIO FG | BFM Business | France Culture | Voltage | France Bleu Paris | France Inter | Radio Classique | France Musique;
 <radio> : [lance | mets | démarre] ([la] radio [<radioname>] | <radioname>);
+<wander> : [va te] (balader | promener) | va t'en | (balade | promène) [toi];
+<dontmove> : [ne] bouge (plus | pas) | arrête-toi | arrête de bouger;
 
