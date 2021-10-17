@@ -68,12 +68,12 @@ namespace BuddyApp.BuddyRemote
             if (Input.GetKeyDown("h"))
             {
                 //hide icons
-                Buddy.GUI.Header.Hide();
+               // Buddy.GUI.Header.Hide();
             }
             if (Input.GetKeyDown("j"))
             {
                 //display icons
-                Buddy.GUI.Header.Display();
+               // Buddy.GUI.Header.Display();
             }
 
             //Camera feedback

@@ -25,6 +25,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private string mToken;
         private bool mSensorsBroadcast;
         public bool mStaticSteering;
+        public bool mAllowPhoto;
         private float mLastBroadcastTime;
 
         public CallRequest mCallRequest;
@@ -61,6 +62,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
             //Login();
             mPingId = 0;
             mStaticSteering = true;
+            mAllowPhoto = true;
             OnAskSteering = InformStaticSteering;
             OnActivateObstacle = SensorsBroadcast;
 
@@ -131,7 +133,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         ////////////////////////
         /// SENDING COMMANDS ///
         //////////////////////// 
-
+        
         /// <summary>
         /// Send a message to the tablet to connect
         /// </summary>
@@ -217,6 +219,11 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         public void AskAvailable(string iId)
         {
             SendRTMMessage(Utils.SerializeJSON(new JsonMessage("askAvailable", true.ToString())), iId);
+        }
+
+        public void InformPhotoAllowed()
+        {
+            SendRTMMessage(Utils.SerializeJSON(new JsonMessage("informPhotoAllowed", mAllowPhoto.ToString())));
         }
 
 

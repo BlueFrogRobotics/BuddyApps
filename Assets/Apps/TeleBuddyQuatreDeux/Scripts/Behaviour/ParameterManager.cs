@@ -12,6 +12,7 @@ namespace BuddyApp.TeleBuddyQuatreDeux
         private TSlider mSliderVolumeAgora;
         private TToggle mToggleNavigationStatic;
         private TToggle mToggleNavigationDynamic;
+        private TToggle mToggleAllowPhoto;
         //private TToggle mToggleTouch;
         private TButton mButtonVerify;
 
@@ -59,6 +60,11 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 mToggleNavigationDynamic.SetLabel("Navigation Dynamique");
                 mToggleNavigationDynamic.ToggleValue = !mRTMManager.mStaticSteering;
                 mToggleNavigationDynamic.OnToggle.Add(SetNavigationDynamic);
+
+                mToggleAllowPhoto = iBuilder.CreateWidget<TToggle>();
+                mToggleAllowPhoto.SetLabel("Autoriser la prise de photo");
+                mToggleAllowPhoto.ToggleValue = !mRTMManager.mAllowPhoto;
+                mToggleAllowPhoto.OnToggle.Add(InformAllowPhoto);
 
                 //mToggleTouch = iBuilder.CreateWidget<TToggle>();
                 //mToggleTouch.SetLabel("Réaction aux caresses");
@@ -136,6 +142,11 @@ namespace BuddyApp.TeleBuddyQuatreDeux
                 mRTMManager.SetStaticSteering(true);
                 mToggleNavigationStatic.ToggleValue = true;
             }
+        }
+
+        private void InformAllowPhoto(bool iValue)
+        {
+            mRTMManager.InformPhotoAllowed();
         }
 
         //private void SetTouchToggle(bool iSetTouchToggle)
